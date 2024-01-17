@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vicare/utils/appcolors.dart';
 import 'package:vicare/routes.dart';
 import 'package:vicare/view/dashboard_screens/dashboard_screen.dart';
-import 'package:vicare/view/dashboard_screens/manage_patients_screen.dart';
 import 'package:vicare/view/forgot_password_screen.dart';
 import 'package:vicare/view/dashboard_screens/home_screen.dart';
 import 'package:vicare/view/login_screen.dart';
