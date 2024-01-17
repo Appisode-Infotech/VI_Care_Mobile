@@ -1,12 +1,13 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
+import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -21,26 +22,31 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   List onBoardingTiles = [
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"1. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "1. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"2. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "2. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"3. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "3. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"4. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "4. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +57,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           children: [
             Expanded(
                 child: SizedBox(
-                  width: screenSize!.width,
-                  child: Stack(
-                    children: [
+              width: screenSize!.width,
+              child: Stack(
+                children: [
                   Positioned(
                     bottom: 0,
                     child: SizedBox(
@@ -85,8 +91,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             int pageViewIndex) {
                           return Container(
                               width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Image(image: AssetImage(onBoardingTiles[itemIndex]['image']),));
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Image(
+                                image: AssetImage(
+                                    onBoardingTiles[itemIndex]['image']),
+                              ));
                         },
                       ),
                     ),
@@ -106,7 +116,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                      right: 20,
+                      top: 20,
+                      child: GestureDetector(
+                          onTap: () async {
+                            await showLanguageBottomSheet(context,onLanguageChange);
+                          },
+                          child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  border: Border.all(
+                                      color: AppColors.primaryColor)),
+                              child: Icon(Icons.g_translate)))),
                 ],
               ),
             )),
@@ -146,10 +172,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 15),
-                      child:  getPrimaryAppButton(context, "Login to get started",
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.loginRoute);
-                          }),
+                      child: getPrimaryAppButton(
+                          context, AppLocale.getStartedBtnTitle.getString(context), onPressed: () {
+                        Navigator.pushNamed(context, Routes.loginRoute);
+                      }),
                     ),
                     const SizedBox(
                       height: 15,
@@ -184,5 +210,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ),
       ),
     );
+  }
+  onLanguageChange(String languageCode) {
+    localization.translate(languageCode);
   }
 }
