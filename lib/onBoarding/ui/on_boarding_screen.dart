@@ -9,17 +9,17 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../utils/routes.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndexPage = 0;
 
-  List onboardingTiles = [
+  List onBoardingTiles = [
     {
       "image":"assets/images/phone_case.png",
       "heading":"1. Connect, Measure \nand Thrive!",
@@ -80,13 +80,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             });
                           },
                         ),
-                        itemCount: onboardingTiles.length,
+                        itemCount: onBoardingTiles.length,
                         itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) {
                           return Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Image(image: AssetImage(onboardingTiles[itemIndex]['image']),));
+                              child: Image(image: AssetImage(onBoardingTiles[itemIndex]['image']),));
                         },
                       ),
                     ),
@@ -96,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       child: DotsIndicator(
-                        dotsCount: onboardingTiles.length,
+                        dotsCount: onBoardingTiles.length,
                         position: currentIndexPage,
                         decorator: DotsDecorator(
                           size: const Size.square(9.0),
@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      onboardingTiles[currentIndexPage]['heading'],
+                      onBoardingTiles[currentIndexPage]['heading'],
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -134,7 +134,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       height: 15,
                     ),
                     Text(
-                      onboardingTiles[currentIndexPage]['description'],
+                      onBoardingTiles[currentIndexPage]['description'],
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,

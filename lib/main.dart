@@ -10,7 +10,7 @@ import 'auth/ui/forgot_password_screen.dart';
 import 'auth/ui/login_screen.dart';
 import 'auth/ui/register_screen.dart';
 import 'auth/ui/reset_password_screen.dart';
-import 'onboarding/ui/onboarding_screen.dart';
+import 'onboarding/ui/on_boarding_screen.dart';
 import 'onboarding/ui/splash_screen.dart';
 
 void main() {
