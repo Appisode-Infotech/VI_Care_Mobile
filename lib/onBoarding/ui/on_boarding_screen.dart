@@ -1,46 +1,52 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
+import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndexPage = 0;
 
-  List onboardingTiles = [
+  List onBoardingTiles = [
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"1. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "1. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"2. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "2. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"3. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "3. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
     {
-      "image":"assets/images/phone_case.png",
-      "heading":"4. Connect, Measure \nand Thrive!",
-      "description":"Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
+      "image": "assets/images/phone_case.png",
+      "heading": "4. Connect, Measure \nand Thrive!",
+      "description":
+          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +57,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Expanded(
                 child: SizedBox(
-                  width: screenSize!.width,
-                  child: Stack(
-                    children: [
+              width: screenSize!.width,
+              child: Stack(
+                children: [
                   Positioned(
                     bottom: 0,
                     child: SizedBox(
@@ -80,13 +86,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             });
                           },
                         ),
-                        itemCount: onboardingTiles.length,
+                        itemCount: onBoardingTiles.length,
                         itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) {
                           return Container(
                               width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Image(image: AssetImage(onboardingTiles[itemIndex]['image']),));
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Image(
+                                image: AssetImage(
+                                    onBoardingTiles[itemIndex]['image']),
+                              ));
                         },
                       ),
                     ),
@@ -96,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       child: DotsIndicator(
-                        dotsCount: onboardingTiles.length,
+                        dotsCount: onBoardingTiles.length,
                         position: currentIndexPage,
                         decorator: DotsDecorator(
                           size: const Size.square(9.0),
@@ -106,7 +116,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                      right: 20,
+                      top: 20,
+                      child: GestureDetector(
+                          onTap: () async {
+                            await showLanguageBottomSheet(context,onLanguageChange);
+                          },
+                          child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  border: Border.all(
+                                      color: AppColors.primaryColor)),
+                              child: Icon(Icons.g_translate)))),
                 ],
               ),
             )),
@@ -123,7 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      onboardingTiles[currentIndexPage]['heading'],
+                      onBoardingTiles[currentIndexPage]['heading'],
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -134,7 +160,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       height: 15,
                     ),
                     Text(
-                      onboardingTiles[currentIndexPage]['description'],
+                      onBoardingTiles[currentIndexPage]['description'],
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
@@ -146,10 +172,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 15),
-                      child:  getPrimaryAppButton(context, "Login to get started",
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.loginRoute);
-                          }),
+                      child: getPrimaryAppButton(
+                          context, AppLocale.getStartedBtnTitle.getString(context), onPressed: () {
+                        Navigator.pushNamed(context, Routes.loginRoute);
+                      }),
                     ),
                     const SizedBox(
                       height: 15,
@@ -184,5 +210,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
       ),
     );
+  }
+  onLanguageChange(String languageCode) {
+    localization.translate(languageCode);
   }
 }

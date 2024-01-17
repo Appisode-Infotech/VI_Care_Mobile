@@ -41,7 +41,6 @@ dependencies:
   dots_indicator: ^3.0.0
   flutter_snake_navigationbar: ^0.6.1
   flutter_localization: ^0.2.0
-  easy_localization: ^3.0.3
   dotted_border: ^2.1.0
   webview_flutter: ^4.4.4
 
