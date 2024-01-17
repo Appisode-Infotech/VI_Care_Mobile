@@ -1,12 +1,13 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:vicare/utils/appcolors.dart';
-import 'package:vicare/routes.dart';
+import 'package:vicare/utils/appColors.dart';
 
-import '../main.dart';
-import '../utils/app_buttons.dart';
+import '../../main.dart';
+import '../../utils/app_buttons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../../utils/routes.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -150,7 +151,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Navigator.pushNamed(context, Routes.loginRoute);
                           }),
                     ),
-
                     const SizedBox(
                       height: 15,
                     ),

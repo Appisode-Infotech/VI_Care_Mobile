@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:vicare/utils/appcolors.dart';
-import 'package:vicare/routes.dart';
+import 'package:vicare/utils/appColors.dart';
 
-import '../main.dart';
-import '../utils/app_buttons.dart';
+import '../../main.dart';
+import '../../utils/app_buttons.dart';
+import '../../utils/routes.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -31,6 +31,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 200,
+        padding: const EdgeInsets.all(20),
+        alignment: Alignment.bottomCenter,
+        width: screenSize!.width,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              currentStep!=1?getPrimaryAppButton(context, "Previous", onPressed: (){
+                setState(() {
+                  currentStep=currentStep-1;
+                });
+              }):const SizedBox.shrink(),
+              const SizedBox(height: 20,),
+              (currentStep==1 || currentStep==2)?getPrimaryAppButton(context, "Next",
+                  onPressed: () {
+                    setState(() {
+                      currentStep = currentStep+1;
+                    });
+                  }):getPrimaryAppButton(context, "Proceed to signup",
+                  onPressed: () {
+                   Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardRoute, (route) => false);
+                  }),
+            ],
+          ),
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -46,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.onboardingRoute);
+                        Navigator.pushNamed(context, Routes.onBoardingRoute);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
@@ -61,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(color: AppColors.fontShadeColor)),
                     const SizedBox(height: 20,),
                      StepProgressIndicator(
-                      roundedEdges: Radius.circular(20),
+                      roundedEdges: const Radius.circular(20),
                       size: 7,
                       totalSteps: 3,
                       currentStep: currentStep,
@@ -69,10 +97,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       unselectedColor: Colors.grey,
                     ),
                     const SizedBox(height: 30,),
-                    emailPassword(screenSize!),
-                    otpScreen(screenSize!),
-                    personalDetails(screenSize!)
-
+                    currentStep == 1?emailPassword(screenSize!):const SizedBox.shrink(),
+                    currentStep == 2?otpScreen(screenSize!):const SizedBox.shrink(),
+                    currentStep == 3?personalDetails(screenSize!):const SizedBox.shrink(),
                   ],
                 ),
               ],
@@ -86,7 +113,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   emailPassword( Size screenSize) {
     return Column(
       children: [
-        if (currentStep == 1)
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,8 +166,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           print(isShowPassword);
                         });
                       },
-                      child: const Icon(
-                        Icons.visibility,
+                      child: Icon(
+                        !isShowPassword?Icons.visibility:Icons.visibility_off,
                         color: Colors.grey,
                       ),
                     ),
@@ -169,6 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 dropdownColor: Colors.white,
                 value: registerAs,
+                hint: const Text("Please select a role"),
                 onChanged: (String? value) {
                   setState(() {
                     registerAs = value!;
@@ -182,16 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: screenSize.height/7,),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: getPrimaryAppButton(context, "Next",
-                      onPressed: () {
-                        setState(() {
-                          currentStep = 2;
-                        });
-                }),
-                ),
+              // SizedBox(height: screenSize.height/7,),
             ],
           ),
       ],
@@ -201,7 +219,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   otpScreen(Size screenSize) {
     return Column(
       children: [
-        if (currentStep == 2)
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,27 +245,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30,),
-              Align(
-                alignment:Alignment.bottomCenter,
-                child: getPrimaryAppButton(context, "Previous",
-                  onPressed: () {
-                    setState(() {
-                      currentStep = 1;
-                    });
-                  }),
-              ),
-              const SizedBox(height: 20,),
+              // const SizedBox(height: 30,),
 
-              Align(
-                alignment:Alignment.bottomCenter,
-                child: getPrimaryAppButton(context, "Next",
-                    onPressed: () {
-                      setState(() {
-                        currentStep = 3;
-                      });
-                    }),
-              ),
             ],
           ),
       ],
@@ -258,7 +256,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   personalDetails(Size screenSize) {
     return Column(
       children: [
-        if (currentStep == 3)
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,6 +323,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   focusColor: Colors.transparent,
                 ),
                 dropdownColor: Colors.white,
+                hint: Text("Select gender"),
                 value: registerAs,
                 onChanged: (String? value) {
                   setState(() {
@@ -478,27 +476,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
 
-              const SizedBox(height: 30,),
-              Align(
-                alignment:Alignment.bottomCenter,
-                child: getPrimaryAppButton(context, "Proceed to Sign Up",
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushNamed(context, Routes.dashboardRoute);
-                      });
-                    }),
-              ),
-
-              const SizedBox(height: 20,),
-              Align(
-                alignment:Alignment.bottomCenter,
-                child: getPrimaryAppButton(context, "Previous",
-                    onPressed: () {
-                      setState(() {
-                        currentStep = 2;
-                      });
-                    }),
-              ),
+              // const SizedBox(height: 30,),
+              // Align(
+              //   alignment:Alignment.bottomCenter,
+              //   child: getPrimaryAppButton(context, "Proceed to Sign Up",
+              //       onPressed: () {
+              //         setState(() {
+              //           Navigator.pushNamed(context, Routes.dashboardRoute);
+              //         });
+              //       }),
+              // ),
+              //
+              // const SizedBox(height: 20,),
+              // Align(
+              //   alignment:Alignment.bottomCenter,
+              //   child: getPrimaryAppButton(context, "Previous",
+              //       onPressed: () {
+              //         setState(() {
+              //           currentStep = 2;
+              //         });
+              //       }),
+              // ),
             ],
           ),
       ],

@@ -43,6 +43,7 @@ dependencies:
   flutter_localization: ^0.2.0
   easy_localization: ^3.0.3
   dotted_border: ^2.1.0
+  webview_flutter: ^4.4.4
 
 dev_dependencies:
   flutter_test:

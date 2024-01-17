@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../main.dart';
-import '../routes.dart';
-import '../utils/app_buttons.dart';
-import '../utils/appcolors.dart';
+import '../../main.dart';
+import '../../utils/routes.dart';
+import '../../utils/app_buttons.dart';
+import '../../utils/appColors.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -21,7 +21,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 200,
+        padding: const EdgeInsets.all(20),
+        alignment: Alignment.bottomCenter,
+        width: screenSize!.width,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              getPrimaryAppButton(context, "Submit", onPressed: (){
+                Navigator.pushNamed(context, Routes.resetPasswordRoute);
+              })
+            ],
+          ),
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -32,7 +49,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(onTap: () {
-                  Navigator.pushNamed(context, Routes.onboardingRoute);
+                  Navigator.pushNamed(context, Routes.onBoardingRoute);
                 },
                   child: const Icon(Icons.arrow_back_ios, size: 25, weight: 45,),
                 ),
@@ -141,15 +158,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: screenSize!.height/7,),
-
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child:getPrimaryAppButton(context, "Submit",
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.loginRoute);
-                      }),
-                )
               ],
             ),
           ),

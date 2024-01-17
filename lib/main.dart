@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vicare/utils/appcolors.dart';
-import 'package:vicare/routes.dart';
-import 'package:vicare/view/dashboard_screens/dashboard_screen.dart';
-import 'package:vicare/view/forgot_password_screen.dart';
-import 'package:vicare/view/dashboard_screens/home_screen.dart';
-import 'package:vicare/view/login_screen.dart';
-import 'package:vicare/view/onboarding_screen.dart';
-import 'package:vicare/view/register_screen.dart';
-import 'package:vicare/view/reset_password_screen.dart';
-import 'package:vicare/view/splash_screen.dart';
+import 'package:vicare/utils/appColors.dart';
+import 'package:vicare/utils/routes.dart';
+import 'package:vicare/dashboard/dashboard_screen.dart';
+import 'package:vicare/dashboard/ui/home_screen.dart';
+
+import 'WebViewScreen.dart';
+import 'auth/ui/forgot_password_screen.dart';
+import 'auth/ui/login_screen.dart';
+import 'auth/ui/register_screen.dart';
+import 'auth/ui/reset_password_screen.dart';
+import 'onboarding/ui/onboarding_screen.dart';
+import 'onboarding/ui/splash_screen.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -59,13 +61,14 @@ class MyApp extends StatelessWidget {
 
         routes: <String, WidgetBuilder>{
           Routes.splashRoute: (context) => const SplashScreen(),
-          Routes.onboardingRoute: (context) => const OnboardingScreen(),
+          Routes.onBoardingRoute: (context) => const OnboardingScreen(),
           Routes.dashboardRoute: (context) => const DashboardScreen(),
           Routes.loginRoute: (context) => const LoginScreen(),
           Routes.registerRoute: (context) => const RegisterScreen(),
           Routes.forgotPasswordRoute: (context) => const ForgotPasswordScreen(),
           Routes.resetPasswordRoute: (context) => const ResetPasswordScreen(),
           Routes.homeRoute: (context) => const HomeScreen(),
+          Routes.webViewRoute: (context) => const WebViewScreen(),
           // Routes.managePatientsRoute: (context) => const ManagePatients(),
         }
     );

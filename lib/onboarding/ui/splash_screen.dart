@@ -2,7 +2,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:vicare/routes.dart';
+
+import '../../utils/routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   moveToNextPage(BuildContext context){
     Timer(const Duration(seconds: 3),(){
-      Navigator.pushNamedAndRemoveUntil(context, Routes.onboardingRoute, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, Routes.onBoardingRoute, (route) => false);
     }
     );
   }

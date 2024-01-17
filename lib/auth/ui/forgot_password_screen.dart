@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../main.dart';
-import '../utils/app_buttons.dart';
-import '../utils/appcolors.dart';
-import '../routes.dart';
+import '../../main.dart';
+import '../../utils/app_buttons.dart';
+import '../../utils/appColors.dart';
+import '../../utils/routes.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -20,6 +20,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 200,
+        padding: const EdgeInsets.all(20),
+        alignment: Alignment.bottomCenter,
+        width: screenSize!.width,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              getPrimaryAppButton(context, "Send otp", onPressed: (){
+                Navigator.pushNamed(context, Routes.resetPasswordRoute);
+              })
+            ],
+          ),
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -29,7 +45,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(onTap: () {
-                Navigator.pushNamed(context, Routes.onboardingRoute);
+                Navigator.pushNamed(context, Routes.onBoardingRoute);
               },
                 child: const Icon(Icons.arrow_back_ios, size: 25, weight: 45,),
               ),
@@ -69,15 +85,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: screenSize!.height/7,),
-
-              Align(
-                alignment: Alignment.bottomCenter,
-              child:getPrimaryAppButton(context, "Send Otp",
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.resetPasswordRoute);
-                  }),
-              )
             ],
           ),
         ),

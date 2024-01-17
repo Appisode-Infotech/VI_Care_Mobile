@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/utils/appcolors.dart';
+import 'package:vicare/utils/appColors.dart';
 
 getPrimaryAppButton(BuildContext context, String label, {required Null Function() onPressed}){
   return GestureDetector(
