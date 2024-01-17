@@ -24,6 +24,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   int currentStep = 1;
 
+  Color getIndicatorColor(int step) {
+    return currentStep >= step ? AppColors.primaryColor : Colors.grey;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,11 +60,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const Text("Please fill in the details to sign up and continue using the application",
                         style: TextStyle(color: AppColors.fontShadeColor)),
                     const SizedBox(height: 20,),
-                    const StepProgressIndicator(
+                     StepProgressIndicator(
                       roundedEdges: Radius.circular(20),
                       size: 7,
                       totalSteps: 3,
-                      currentStep: 1,
+                      currentStep: currentStep,
                       selectedColor: AppColors.primaryColor,
                       unselectedColor: Colors.grey,
                     ),
@@ -224,7 +228,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30,),
               Align(
                 alignment:Alignment.bottomCenter,
@@ -481,7 +484,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: getPrimaryAppButton(context, "Proceed to Sign Up",
                     onPressed: () {
                       setState(() {
-                        Navigator.pushNamed(context, Routes.homeRoute);
+                        Navigator.pushNamed(context, Routes.dashboardRoute);
                       });
                     }),
               ),

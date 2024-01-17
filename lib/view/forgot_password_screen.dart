@@ -16,6 +16,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +47,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 unselectedColor: Colors.grey,
               ),
 
-              const SizedBox(height:20),
+              const SizedBox(height:30),
               const Text("Email", style: TextStyle(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 10,),
+              const SizedBox(height: 15,),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 decoration: BoxDecoration(

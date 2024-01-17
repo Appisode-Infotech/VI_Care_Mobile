@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:vicare/view/dashboard_screens/all_reports_screen.dart';
 import 'package:vicare/view/dashboard_screens/home_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -24,7 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     screens = [
       const HomeScreen(),
-      const Scaffold(),
+      const ReportScreen(),
       const Scaffold(),
       const Scaffold(),
       const Scaffold(),

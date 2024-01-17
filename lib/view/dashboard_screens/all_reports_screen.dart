@@ -199,7 +199,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                 Row(
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage: patientReports[index]["images"],
+                                      backgroundImage: AssetImage(patientReports[index]["image"]),
                                       radius: 30,
                                     ),
                                   ],

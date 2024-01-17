@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
           Routes.forgotPasswordRoute: (context) => const ForgotPasswordScreen(),
           Routes.resetPasswordRoute: (context) => const ResetPasswordScreen(),
           Routes.homeRoute: (context) => const HomeScreen(),
-          Routes.myPatientsRoute: (context) => const ManagePatients(),
+          // Routes.managePatientsRoute: (context) => const ManagePatients(),
         }
     );
   }

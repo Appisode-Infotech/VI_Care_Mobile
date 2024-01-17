@@ -45,13 +45,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   roundedEdges: Radius.circular(20),
                   size: 7,
                   totalSteps: 2,
-                  currentStep: 1,
+                  currentStep: 2,
                   selectedColor: AppColors.primaryColor,
                   unselectedColor: Colors.grey,
                 ),
-                const SizedBox(height:20),
+                const SizedBox(height:30),
                 const Text("Enter OTP sent to your email", style: TextStyle(fontWeight: FontWeight.w600)),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 15,),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   decoration: BoxDecoration(
