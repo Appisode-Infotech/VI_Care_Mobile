@@ -1,5 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:dotted_border/dotted_border.dart';
+// import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/main.dart';
@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             margin: const EdgeInsets.only(right: 10),
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
+                                BorderRadius.all(Radius.circular(12)),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,92 +246,92 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Container(
                                   child: (patientReports[index]
-                                              ["receivedReport"] ==
-                                          true)
+                                  ["receivedReport"] ==
+                                      true)
                                       ? Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: Stack(
                                           children: [
-                                            SizedBox(
-                                              width: 50,
-                                              height: 50,
-                                              child: Stack(
-                                                children: [
-                                                  CircularStepProgressIndicator(
-                                                    totalSteps: 200,
-                                                    currentStep: int.parse(
-                                                        patientReports[index]
-                                                            ["repData"]["bpm"]),
-                                                    stepSize: 5,
-                                                    selectedColor:
-                                                        patientReports[index]
-                                                                ["repData"]
-                                                            ["color"],
-                                                    unselectedColor:
-                                                        Colors.grey[200],
-                                                    padding: 0,
-                                                    selectedStepSize: 6,
-                                                    roundedCap: (_, __) => true,
-                                                  ),
-                                                  Center(
-                                                    child: Text(
-                                                      patientReports[index]
-                                                          ["repData"]["bpm"],
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 10,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              patientReports[index]["repData"]
-                                                  ["status"],
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: patientReports[index]
-                                                      ["repData"]["color"]),
-                                            )
-                                          ],
-                                        )
-                                      : Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  5,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(20)),
-                                                color: patientReports[index]
-                                                    ['repData']["color"],
-                                              ),
-                                              child: Center(
-                                                child: Text(
+                                            CircularStepProgressIndicator(
+                                              totalSteps: 200,
+                                              currentStep: int.parse(
                                                   patientReports[index]
-                                                      ["reportStatus"],
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                  ["repData"]["bpm"]),
+                                              stepSize: 5,
+                                              selectedColor:
+                                              patientReports[index]
+                                              ["repData"]
+                                              ["color"],
+                                              unselectedColor:
+                                              Colors.grey[200],
+                                              padding: 0,
+                                              selectedStepSize: 6,
+                                              roundedCap: (_, __) => true,
+                                            ),
+                                            Center(
+                                              child: Text(
+                                                patientReports[index]
+                                                ["repData"]["bpm"],
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                  FontWeight.bold,
+                                                  fontSize: 10,
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        patientReports[index]["repData"]
+                                        ["status"],
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: patientReports[index]
+                                            ["repData"]["color"]),
+                                      )
+                                    ],
+                                  )
+                                      : Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width /
+                                            5,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          const BorderRadius.all(
+                                              Radius.circular(20)),
+                                          color: patientReports[index]
+                                          ['repData']["color"],
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            patientReports[index]
+                                            ["reportStatus"],
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -410,60 +410,61 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(12)),
                             color: Colors.white,
                           ),
-                          child: DottedBorder(
-                            dashPattern: const [6, 3, 2, 3],
-                            color: Colors.black,
-                            borderType: BorderType.RRect,
-                            radius: const Radius.circular(12),
-                            strokeWidth: 1,
-                            child: const Center(
-                                child: Text(
-                              "Add New \nPatient",
-                              style: TextStyle(color: Colors.black, fontSize: 12),
-                            )),
-                          ))
+                      //     child: DottedBorder(
+                      //       dashPattern: const [6, 3, 2, 3],
+                      //       color: Colors.black,
+                      //       borderType: BorderType.RRect,
+                      //       radius: const Radius.circular(12),
+                      //       strokeWidth: 1,
+                      //       child: const Center(
+                      //           child: Text(
+                      //         "Add New \nPatient",
+                      //         style: TextStyle(color: Colors.black, fontSize: 12),
+                      //       )),
+                      // )
+                  )
                       : Container(
-                          padding: const EdgeInsets.all(12),
-                          height: 100,
-                          width: 100,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: AppColors.primaryColor,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                // backgroundColor: Colors.grey,
-                                backgroundImage:
-                                    AssetImage(patientData[index]['image']),
-                                radius: 20,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                patientData[index]['patientName']!,
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Colors.white),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                patientData[index]['age']!,
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        );
+                    padding: const EdgeInsets.all(12),
+                    height: 100,
+                    width: 100,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: AppColors.primaryColor,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          // backgroundColor: Colors.grey,
+                          backgroundImage:
+                          AssetImage(patientData[index]['image']),
+                          radius: 20,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          patientData[index]['patientName']!,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          patientData[index]['age']!,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  );
                 }),
             const SizedBox(
               height: 20,

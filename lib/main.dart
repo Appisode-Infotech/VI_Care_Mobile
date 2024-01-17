@@ -24,7 +24,7 @@ void main() {
     //   fallbackLocale: Locale('en'),
     //   startLocale: await initializeDeviceLocale(),
     //   child:
-      const MyApp(),
+    const MyApp(),
     // ),
   );
 }
@@ -48,8 +48,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
             bodyMedium: GoogleFonts.poppins(textStyle: textTheme.bodyMedium),
-        ),
-        primaryColor: AppColors.primaryColor,
+          ),
+          primaryColor: AppColors.primaryColor,
           scaffoldBackgroundColor: AppColors.scaffoldColor,
         ),
         title: "Vi Care",

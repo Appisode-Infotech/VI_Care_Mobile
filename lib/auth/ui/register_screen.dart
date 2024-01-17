@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/utils/app_colors.dart';
@@ -119,61 +120,83 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const Text("Email", style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    color: const Color(0xffD3D3D3),
+              TextFormField(
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter valid email';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'Email',
+                  counterText: "",
+                  isCollapsed: true,
+                  errorStyle: const TextStyle(
+                      color: Colors.red),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    counterText: "",
-                    isCollapsed: true,
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 15, horizontal: 10),
                 ),
               ),
               const SizedBox(height: 20,),
               const Text("Password", style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    color: const Color(0xffD3D3D3),
-                  ),
-                ),
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  obscureText: isShowPassword,
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    counterText: "",
-                    isCollapsed: true,
-                    suffixIcon: CupertinoButton(
-                      onPressed: () {
-                        setState(() {
-                          isShowPassword = !isShowPassword;
-                          print(isShowPassword);
-                        });
-                      },
-                      child: Icon(
-                        !isShowPassword?Icons.visibility:Icons.visibility_off,
-                        color: Colors.grey,
-                      ),
+
+              TextFormField(
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter valid Password';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'Password',
+                  suffixIcon: CupertinoButton(
+                    onPressed: () {
+                      setState(() {
+                        isShowPassword = !isShowPassword;
+                        print(isShowPassword);
+                      });
+                    },
+                    child: Icon(
+                      !isShowPassword?Icons.visibility:Icons.visibility_off,
+                      color: Colors.grey,
                     ),
                   ),
+                  counterText: "",
+                  isCollapsed: true,
+                  errorStyle: const TextStyle(
+                      color: Colors.red),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 15, horizontal: 10),
                 ),
               ),
+
               const SizedBox(height: 20,),
               const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -225,27 +248,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const Text("Enter OTP sent to your email", style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    color: const Color(0xffD3D3D3),
+              TextFormField(
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter valid OTP';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'OTP',
+                  counterText: "",
+                  isCollapsed: true,
+                  errorStyle: const TextStyle(
+                      color: Colors.red),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    counterText: "",
-                    isCollapsed: true,
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 15, horizontal: 10),
                 ),
               ),
-              // const SizedBox(height: 30,),
 
             ],
           ),
@@ -262,49 +294,71 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const Text("First Name", style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    color: const Color(0xffD3D3D3),
+              TextFormField(
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter valid First Name';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'First Name',
+                  counterText: "",
+                  isCollapsed: true,
+                  errorStyle: const TextStyle(
+                      color: Colors.red),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    counterText: "",
-                    isCollapsed: true,
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 15, horizontal: 10),
                 ),
               ),
+
               const SizedBox(height: 20,),
               const Text("Last Name", style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                    color: const Color(0xffD3D3D3),
+              TextFormField(
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter valid Last Name';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'Last Name',
+                  counterText: "",
+                  isCollapsed: true,
+                  errorStyle: const TextStyle(
+                      color: Colors.red),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    counterText: "",
-                    isCollapsed: true,
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 15, horizontal: 10),
                 ),
               ),
+
 
               const SizedBox(height: 20,),
               const Text("Gender", style: TextStyle(fontWeight: FontWeight.w600)),
@@ -436,10 +490,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(width: 20),
                   SizedBox(
                     width: screenSize.width/1.5,
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'By clicking on proceed, you agree \nto our ',
                             style: TextStyle(
                               color: AppColors.fontShadeColor,
@@ -448,13 +502,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: 'Terms and conditions ',
-                            style: TextStyle(
-                              fontSize: 14,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushNamed(
+                                    context, Routes.webViewRoute,
+                                    arguments: {
+                                      'url': "https://www.google.com",
+                                      'title': "Terms and conditions",
+                                    });
+                              },
+                            text: " Terms And Conditions ",
+                            style: const TextStyle(
                               color: AppColors.primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: 'and \n',
                             style: TextStyle(
                               color: AppColors.fontShadeColor,
@@ -463,8 +527,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushNamed(
+                                    context, Routes.webViewRoute,
+                                    arguments: {
+                                      'url': "https://www.google.com",
+                                      'title': "Privacy Policy",
+                                    });
+                              },
                             text: 'Privacy Policy',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 14,
                                 color: AppColors.primaryColor
                             ),
