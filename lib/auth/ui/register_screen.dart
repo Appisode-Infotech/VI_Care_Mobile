@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:vicare/utils/appColors.dart';
+import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
@@ -323,7 +323,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   focusColor: Colors.transparent,
                 ),
                 dropdownColor: Colors.white,
-                hint: Text("Select gender"),
+                hint: const Text("Select gender"),
                 value: registerAs,
                 onChanged: (String? value) {
                   setState(() {

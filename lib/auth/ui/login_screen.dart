@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/app_buttons.dart';
-import '../../utils/appColors.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       textAlign: TextAlign.center,
                       TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: "By loging in to Vi Care app, You agree\nto our",
                               style: TextStyle(
                                 color: AppColors.fontShadeColor,
@@ -164,13 +164,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       });
                                 },
                               text: " Terms And Conditions \n",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.primaryColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: "and ",
                               style: TextStyle(
                                 color: AppColors.fontShadeColor,
@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       });
                                 },
                               text: "Privacy Policy",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.primaryColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,

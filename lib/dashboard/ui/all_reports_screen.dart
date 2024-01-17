@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:vicare/utils/appColors.dart';
+import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 

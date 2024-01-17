@@ -1,7 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vicare/utils/appColors.dart';
+import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 import 'package:vicare/dashboard/dashboard_screen.dart';
 import 'package:vicare/dashboard/ui/home_screen.dart';

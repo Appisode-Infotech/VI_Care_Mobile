@@ -5,7 +5,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../main.dart';
 import '../../utils/routes.dart';
 import '../../utils/app_buttons.dart';
-import '../../utils/appColors.dart';
+import '../../utils/app_colors.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});

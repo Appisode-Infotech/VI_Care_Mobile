@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:vicare/utils/appColors.dart';
+import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';

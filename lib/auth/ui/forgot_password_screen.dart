@@ -3,7 +3,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
-import '../../utils/appColors.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
