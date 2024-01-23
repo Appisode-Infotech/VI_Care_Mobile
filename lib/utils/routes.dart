@@ -3,8 +3,7 @@ class Routes{
   static const String splashRoute="/splash";
   static const String loginRoute="/login";
   static const String onBoardingRoute="/onBoarding";
-  static const String forgotPasswordRoute="/forgotPassword";
-  static const String resetPasswordRoute="/resetPassword";
+  static const String forgotResetPasswordRoute="/forgotResetPassword";
   static const String homeRoute="/home";
   static const String reportsRoute="/reports";
   static const String myPatientsRoute="/patients";
@@ -13,4 +12,7 @@ class Routes{
   static const String dashboardRoute="/dashboard";
   static const String managePatientsRoute="/managePatients";
   static const String webViewRoute="/webView";
+  static const String patientDetailsRoute="/patientDetails";
+  static const String summaryRoute="summary";
+  static const String takeTestRoute="takeTest";
 }

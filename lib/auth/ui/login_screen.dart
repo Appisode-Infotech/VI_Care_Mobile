@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,18 +39,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Image(image: AssetImage("assets/images/logo.png"),width: 150,),
                       const SizedBox(height: 20,),
-                      const Text("Welcome to ",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
-                      const Text("VI Care ",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
+                       Text(AppLocale.welcomeTo.getString(context) ,style: const TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
+                       Text(AppLocale.viCare.getString(context),style: const TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
                       const SizedBox(height: 10,),
-                      const Text("Enter your email address and password to use the application",style: TextStyle(color: AppColors.fontShadeColor),),
+                       Text(AppLocale.enterEmailAndPasswordTitle.getString(context),style: const TextStyle(color: AppColors.fontShadeColor),),
                       const SizedBox(height: 20,),
-                      const Text("Email",style: TextStyle(fontWeight: FontWeight.w600),),
+                       Text(AppLocale.email.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
                       const SizedBox(height: 15,),
                       TextFormField(
-                        // autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter valid email';
+                            return AppLocale.validEmail.getString(context);
                           }
                           return null;
                         },
@@ -55,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
-                          hintText: 'Email',
+                          hintText: AppLocale.email.getString(context),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle: const TextStyle(
@@ -75,21 +77,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
 
                       const SizedBox(height: 20,),
-                      const Text("Password",style: TextStyle(fontWeight: FontWeight.w600),),
+                       Text(AppLocale.password.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
                       const SizedBox(height: 15,),
                       TextFormField(
-                        // autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter valid password';
+                            return AppLocale.validPassword.getString(context);
                           }
                           return null;
                         },
                         keyboardType: TextInputType.visiblePassword,
+                        obscureText: isShowPassword,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
-                          hintText: 'Password',
+                          hintText: AppLocale.password.getString(context),
+                          suffixIcon: CupertinoButton(
+                            onPressed: () {
+                              setState(() {
+                                isShowPassword = !isShowPassword;
+                              });
+                            },
+                            child: Icon(
+                              isShowPassword ? Icons.visibility_off : Icons.visibility,
+                              color: Colors.grey,
+                            ),
+                          ),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle: const TextStyle(
@@ -112,12 +125,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: InkWell(
                             onTap: (){
-                              Navigator.pushNamed(context, Routes.forgotPasswordRoute);
+                              Navigator.pushNamed(context, Routes.forgotResetPasswordRoute);
                             },
-                            child: const Text("Forget Password?",style: TextStyle(fontSize: 13),)),
+                            child: Text(AppLocale.forgotPassword.getString(context),style: const TextStyle(fontSize: 13),)),
                       ),
                       const SizedBox(height: 20,),
-                      getPrimaryAppButton(context, "Sign in",
+                      getPrimaryAppButton(context, AppLocale.signIn.getString(context),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               Navigator.pushNamed(context, Routes.dashboardRoute);
@@ -131,12 +144,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account? ",style: TextStyle(color: AppColors.fontShadeColor),),
+                     Text(AppLocale.dntHaveAnAccount.getString(context),style: const TextStyle(color: AppColors.fontShadeColor),),
                     InkWell(
                         onTap: (){
                           Navigator.pushNamed(context, Routes.registerRoute);
                         },
-                        child: const Text("Register Now",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),))
+                        child: Text(AppLocale.registerNow.getString(context),style: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),))
                   ],
                 ),
                 const SizedBox(height: 20,),
@@ -145,9 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       textAlign: TextAlign.center,
                       TextSpan(
                           children: [
-                            const TextSpan(
-                              text: "By loging in to Vi Care app, You agree\nto our",
-                              style: TextStyle(
+                            TextSpan(
+                              text: AppLocale.agreeToLogin.getString(context),
+                              style: const TextStyle(
                                 color: AppColors.fontShadeColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -160,19 +173,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context, Routes.webViewRoute,
                                       arguments: {
                                         'url': "https://www.google.com",
-                                        'title': "Terms and conditions",
+                                        'title': AppLocale.termsAndConditions.getString(context),
                                       });
                                 },
-                              text: " Terms And Conditions \n",
+                              text: AppLocale.termsAndConditions.getString(context),
                               style: const TextStyle(
                                 color: AppColors.primaryColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const TextSpan(
-                              text: "and ",
-                              style: TextStyle(
+                             TextSpan(
+                              text: AppLocale.and.getString(context) ,
+                              style: const TextStyle(
                                 color: AppColors.fontShadeColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -185,10 +198,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context, Routes.webViewRoute,
                                       arguments: {
                                         'url': "https://www.google.com",
-                                        'title': "Privacy Policy",
+                                        'title': AppLocale.privacyPolicy.getString(context),
                                       });
                                 },
-                              text: "Privacy Policy",
+                              text: AppLocale.privacyPolicy.getString(context),
                               style: const TextStyle(
                                 color: AppColors.primaryColor,
                                 fontSize: 14,

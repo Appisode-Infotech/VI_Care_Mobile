@@ -43,6 +43,12 @@ dependencies:
   flutter_localization: ^0.2.0
   dotted_border: ^2.1.0
   webview_flutter: ^4.4.4
+  image_picker: ^1.0.4
+  fl_chart: ^0.66.0
+  syncfusion_flutter_charts: ^24.1.46+1
+  syncfusion_flutter_gauges: ^24.1.45
+  percent_indicator: ^4.2.3
+
 
 dev_dependencies:
   flutter_test:

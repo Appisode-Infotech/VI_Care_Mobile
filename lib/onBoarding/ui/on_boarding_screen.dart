@@ -20,33 +20,6 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndexPage = 0;
 
-  List onBoardingTiles = [
-    {
-      "image": "assets/images/phone_case.png",
-      "heading": "1. Connect, Measure \nand Thrive!",
-      "description":
-          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
-    },
-    {
-      "image": "assets/images/phone_case.png",
-      "heading": "2. Connect, Measure \nand Thrive!",
-      "description":
-          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
-    },
-    {
-      "image": "assets/images/phone_case.png",
-      "heading": "3. Connect, Measure \nand Thrive!",
-      "description":
-          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
-    },
-    {
-      "image": "assets/images/phone_case.png",
-      "heading": "4. Connect, Measure \nand Thrive!",
-      "description":
-          "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!"
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,16 +59,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             });
                           },
                         ),
-                        itemCount: onBoardingTiles.length,
+                        itemCount: 4,
                         itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) {
                           return Container(
                               width: MediaQuery.of(context).size.width,
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Image(
+                              child: const Image(
                                 image: AssetImage(
-                                    onBoardingTiles[itemIndex]['image']),
+                                    "assets/images/phone_case.png"),
                               ));
                         },
                       ),
@@ -106,7 +79,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       child: DotsIndicator(
-                        dotsCount: onBoardingTiles.length,
+                        dotsCount: 4,
                         position: currentIndexPage,
                         decorator: DotsDecorator(
                           size: const Size.square(9.0),
@@ -125,14 +98,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             await showLanguageBottomSheet(context,onLanguageChange);
                           },
                           child: Container(
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(8),
                                   ),
                                   border: Border.all(
                                       color: AppColors.primaryColor)),
-                              child: Icon(Icons.g_translate)))),
+                              child: const Icon(Icons.g_translate)))),
                 ],
               ),
             )),
@@ -148,8 +121,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      onBoardingTiles[currentIndexPage]['heading'],
+                     Text(
+                      AppLocale.connectMeasure.getString(context),
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -159,8 +132,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Text(
-                      onBoardingTiles[currentIndexPage]['description'],
+                     Text(
+                      AppLocale.joinHruday.getString(context),
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
@@ -181,9 +154,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       height: 15,
                     ),
                     Text.rich(TextSpan(children: [
-                      const TextSpan(
-                        text: "Don't have an account ?",
-                        style: TextStyle(
+                       TextSpan(
+                        text:  AppLocale.dntHaveAnAccount.getString(context) ,
+                        style: const TextStyle(
                           color: AppColors.fontShadeColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -194,7 +167,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           ..onTap = () {
                             Navigator.pushNamed(context, Routes.registerRoute);
                           },
-                        text: " Sign Up Now",
+                        text: AppLocale.signUpNow.getString(context),
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 14,
@@ -211,6 +184,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
     );
   }
+
   onLanguageChange(String languageCode) {
     localization.translate(languageCode);
   }

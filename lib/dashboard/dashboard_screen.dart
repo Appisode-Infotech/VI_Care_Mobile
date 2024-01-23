@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vicare/dashboard/ui/all_reports_screen.dart';
 import 'package:vicare/dashboard/ui/home_screen.dart';
+import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
+import 'package:vicare/dashboard/ui/profile_screen.dart';
+
+import 'ui/take_test_screen.dart';
+import '../utils/app_colors.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -21,9 +26,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     screens = [
       const HomeScreen(),
       const ReportScreen(),
-      const Scaffold(),
-      const Scaffold(),
-      const Scaffold(),
+      const TakeTestScreen(),
+      const ManagePatientsScreen(),
+      const ProfileScreen(),
     ];
   }
 
@@ -42,7 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.white,
             elevation: 0,
-            selectedItemColor: Colors.blue,
+            selectedItemColor: AppColors.primaryColor,
             unselectedItemColor: Colors.black,
             showUnselectedLabels: true,
             showSelectedLabels: true,
@@ -58,11 +63,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 label: 'Reports',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.data_thresholding_outlined),
-                label: 'Live Scan',
+                icon: Icon(Icons.monitor_heart_outlined,size: 30,),
+                label: 'Take test',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_pin),
+                icon: Icon(Icons.airline_seat_recline_extra_outlined),
                 label: 'Patients',
               ),
               BottomNavigationBarItem(
@@ -70,7 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 label: 'Profile',
               ),
             ],
-            selectedLabelStyle: const TextStyle(fontSize: 14),
+            selectedLabelStyle: const TextStyle(fontSize: 10),
             unselectedLabelStyle: const TextStyle(fontSize: 10),
           ),
         ),
