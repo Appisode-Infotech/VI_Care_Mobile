@@ -45,36 +45,6 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-          color: Colors.white,
-        height: 150,
-        padding: const EdgeInsets.all(20),
-        alignment: Alignment.bottomCenter,
-        width: screenSize!.width,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
-                setState(() {
-                  currentStep=currentStep-1;
-                });
-              }):const SizedBox.shrink(),
-              const SizedBox(height: 10,),
-              (currentStep==1 || currentStep==2)?getPrimaryAppButton(context, AppLocale.next.getString(context),
-                  onPressed: () {
-                    setState(() {
-                      currentStep = currentStep+1;
-                    });
-                  }):getPrimaryAppButton(context, AppLocale.submit.getString(context),
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.patientDetailsRoute);
-                  }),
-            ],
-          ),
-        ),
-      ),
-
       appBar: AppBar(
         title: Text(AppLocale.addPatients.getString(context), style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
@@ -100,6 +70,32 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 currentStep == 1?patientDetails(screenSize!):const SizedBox.shrink(),
                 currentStep == 2?firstQuestion(screenSize!):const SizedBox.shrink(),
                 currentStep == 3?secondQuestion(screenSize!):const SizedBox.shrink(),
+                const SizedBox(height:10),
+                Container(
+                  color: Colors.white,
+                  width: screenSize!.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
+                        setState(() {
+                          currentStep=currentStep-1;
+                        });
+                      }):const SizedBox.shrink(),
+                      const SizedBox(height: 10,),
+                      (currentStep==1 || currentStep==2)?getPrimaryAppButton(context, AppLocale.next.getString(context),
+                          onPressed: () {
+                            setState(() {
+                              currentStep = currentStep+1;
+                            });
+                          }):getPrimaryAppButton(context, AppLocale.submit.getString(context),
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.patientDetailsRoute);
+                          }),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
