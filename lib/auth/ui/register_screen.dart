@@ -24,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController dobController = TextEditingController();
 
   String? registerAs;
+  String? gender;
 
   int currentStep = 1;
 
@@ -166,21 +167,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: isShowPassword,
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
                   hintText: AppLocale.password.getString(context),
-                  suffixIcon: CupertinoButton(onPressed: () {
-                    setState(() {
-                      isShowPassword = !isShowPassword;
-                      print(isShowPassword);
-                    });
-                  },
-                    child: isShowPassword?const Icon(
-                      Icons.visibility_off, color: Colors.grey,
-                    ):const Icon(
-                      Icons.visibility, color: Colors.grey,
+                  suffixIcon: CupertinoButton(
+                    onPressed: () {
+                      setState(() {
+                        isShowPassword = !isShowPassword;
+                      });
+                    },
+                    child: Icon(
+                      isShowPassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
                     ),
                   ),
                   counterText: "",
@@ -363,34 +364,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Text(AppLocale.gender.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10,),
                         DropdownButtonFormField<String>(
-           decoration: InputDecoration(
-             filled: true,
-             fillColor: Colors.white,
-             border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10.0),
-               borderSide: const BorderSide(
-                 color: Color(0xffD3D3D3),
-               ),
-             ),
-             contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-             focusColor: Colors.transparent,
-           ),
-           dropdownColor: Colors.white,
-           hint:  Text(AppLocale.selectGender.getString(context)),
-           value: registerAs,
-           onChanged: (String? value) {
-             setState(() {
-               registerAs = value!;
-             });
-           },
-           style: const TextStyle(color: Colors.black),
-           items: <String>[AppLocale.male.getString(context), AppLocale.female.getString(context)].map<DropdownMenuItem<String>>((String value) {
-             return DropdownMenuItem<String>(
-               value: value,
-               child: Text(value),
-             );
-           }).toList(),
-                        ),
+                           decoration: InputDecoration(
+                             filled: true,
+                             fillColor: Colors.white,
+                             border: OutlineInputBorder(
+                               borderRadius: BorderRadius.circular(10.0),
+                               borderSide: const BorderSide(
+                                 color: Color(0xffD3D3D3),
+                               ),
+                             ),
+                             contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                             focusColor: Colors.transparent,
+                           ),
+                           dropdownColor: Colors.white,
+                           hint:  Text(AppLocale.selectGender.getString(context)),
+                           value: gender,
+                           onChanged: (String? value) {
+                             setState(() {
+                               gender = value!;
+                             });
+                           },
+                           style: const TextStyle(color: Colors.black),
+                           items: <String>[AppLocale.male.getString(context), AppLocale.female.getString(context)].map<DropdownMenuItem<String>>((String value) {
+                             return DropdownMenuItem<String>(
+                               value: value,
+                               child: Text(value),
+                             );
+                           }).toList(),
+                                        ),
 
                         const SizedBox(height: 20,),
            Row(

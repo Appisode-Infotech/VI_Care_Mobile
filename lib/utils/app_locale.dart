@@ -242,7 +242,7 @@ mixin AppLocale {
   };
 
 
-  static const Map<String, dynamic> KN = {
+  static const Map<String, dynamic> KN ={
     getStartedBtnTitle: 'ಪ್ರಾರಂಭಿಸಲು ಲಾಗಿನ್ ಮಾಡಿ',
     dntHaveAnAccount: 'ಖಾತೆ ಇಲ್ಲವೇ ?',
     signUpNow: ' ಈಗ ಸೈನ್ ಅಪ್ ಮಾಡಿ',
@@ -365,8 +365,125 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> HI = {
+    getStartedBtnTitle: 'लॉगिन करें',
+    dntHaveAnAccount: 'खाता नहीं है?',
+    signUpNow: 'अब साइन अप करें',
+    signIn: 'साइन इन करें',
+    welcomeTo: 'स्वागत है',
+    viCare: 'वाई केयर',
+    enterEmailAndPasswordTitle: 'एप्लिकेशन का उपयोग करने के लिए अपना ईमेल और पासवर्ड दर्ज करें',
+    email: 'ईमेल',
+    password: 'पासवर्ड',
+    validPassword: 'कृपया मान्य पासवर्ड दर्ज करें',
+    validEmail: 'कृपया मान्य ईमेल दर्ज करें',
+    forgotPassword: 'पासवर्ड भूल गए हैं?',
+    registerNow: 'अब रजिस्टर करें',
+    agreeToLogin: 'VI Care एप्लिकेशन में लॉगिन करके, आप हमारे\nसे सहमत हैं',
+    termsAndConditions: 'नियम और शर्तें \n',
+    privacyPolicy: 'गोपनीयता नीति',
+    connectMeasure: 'जुड़ें, मापें \nऔर विकास करें!',
+    joinHruday: 'हृदय के साथ दिलचस्प यात्रा के लिए हृदय में शामिल हों। \nअपने साधन को संपर्क करें, अपने हृदय बीट को मापें और \nव्यक्तिगत दृष्टिकोणों के साथ विकास करें!',
 
+    previous: 'पिछला',
+    next: 'आगे',
+    and: 'और ',
+    proceedToSignUp: 'साइन अप करने के लिए आगे बढ़ें',
+    createAccount: 'खाता बनाएं',
+    pleaseFillToRegister: 'साइन अप करने और एप्लिकेशन का उपयोग करने के लिए कृपया विवरण भरें',
+    registerAs: 'इस प्रकार से रजिस्टर करें',
+    role: 'भूमिका',
+    doctor: 'डॉक्टर',
+    member: 'सदस्य',
+    enterOtp: 'आपके ईमेल पर भेजा गया OTP दर्ज करें',
+    validOtp: 'कृपया मान्य OTP दर्ज करें',
+    otp: 'OTP',
+    firstName: 'पहला नाम',
+    lastName: 'अंतिम नाम',
+    validFirstName: 'कृपया मान्य पहला नाम दर्ज करें',
+    validLastName: 'कृपया मान्य अंतिम नाम दर्ज करें',
+    gender: 'लिंग',
+    selectGender: 'लिंग चुनें',
+    male: 'पुरुष',
+    female: 'महिला',
+    dateOfBirth: 'जन्म तिथि',
+
+    sendOtp: 'Otp भेजें',
+    emailToResetPassword: 'कृपया अपना रजिस्टर किया गया ईमेल दर्ज करें, हम आपको एक ओटीपी भेजेंगे जिससे आप अपना पासवर्ड रीसेट कर सकते हैं',
+
+    submit: 'सबमिट करें',
+    resetPassword: 'पासवर्ड रीसेट करें?',
+    enterOtpForNewPswd: 'कृपया अपने ईमेल पर भेजे गए OTP दर्ज करें और \nअपना नया पासवर्ड दर्ज करें।',
+    newPassword: 'नया पासवर्ड',
+    confirmPassword: 'नया पासवर्ड पुनः पुष्टि करें',
+
+    hi: 'नमस्ते',
+    name: "आल्बर्ट राज",
+    letsUnlock: "अपने हृदय स्वास्थ्य का सफलतापूर्वक अनलॉक करें",
+    recentReports: 'हाल की रिपोर्टें',
+    patients: 'रोगी',
+    viewAll: 'सभी देखें',
+    newPatient: 'नया रोगी\nजोड़ें',
+    allReports: 'सभी रिपोर्टें',
+
+    allTime: 'सभी समय',
+    yesterday: 'कल',
+    today: 'आज',
+    moderate: 'मध्यम',
+    normal: 'सामान्य',
+
+    managePatients: 'रोगियों का प्रबंधन करें',
+
+    addPatients: 'नए रोगी जोड़ें',
+    fillNewPatients: 'रोगी/सदस्य जोड़ने और सेवाओं का उपयोग करने के लिए कृपया विवरण भरें',
+    mobile: 'मोबाइल',
+    patientDetails: 'रोगी विवरण',
+    validPhone: 'कृपया मान्य मोबाइल नंबर दर्ज करें',
+    address: 'पता',
+    validAddress: 'कृपया मान्य पता दर्ज करें',
+    questionarie1: 'प्रश्नपत्र 1',
+    questionarie2: 'प्रश्नपत्र 2',
+
+    viewCompleteDetails: 'पूर्ण विवरण देखें >',
+    viewSummary: 'संक्षेप देखें',
+    lastTested: 'अंतिम परीक्षण',
+    totalTested: 'कुल परीक्षण',
+    reports: 'रिपोर्टें',
+
+    deviceSetup: 'आपने अभी तक उपकरण सेटअप नहीं किया है। इसे सेटअप करने के लिए अब शुरू करें',
+    setup: 'सेटअप',
+    deviceConnect: 'आपका "Faros" उपकरण कॉन्फ़िगर हो गया है। इसे संपर्क करें और परीक्षण लेने का प्रारंभ करें',
+    connect: 'संपर्क करें',
+    deviceStart: '"Faros" उपकरण से संपर्क कर रहा है! आप अब परीक्षण शुरू कर सकते हैं।',
+    start: 'शुरू करें',
+
+    summary: "संक्षेप",
+    readiness: "तैयारी अंक",
+    resting: "विश्राम हृदय दर",
+    low: "कम",
+    high: "अधिक",
+    oneWeek: "1 सप्ताह",
+    oneMonth: "1 महीना",
+    sixMonth: "6 महीने",
+    oneYear: "1 साल",
+    takeTest: "परीक्षण लें",
+    stop: "रुकना",
+
+    offlineTests: "ऑफ़लाइन परीक्षण",
+    retryUpload: "पुन: प्रयास करें",
+    delete: "हटाएं",
+
+    profile: 'प्रोफाइल',
+    scanSettings: 'सेटिंग्स स्कैन करें',
+    offlineSaved: 'ऑफ़लाइन सहेजी गई परीक्षणें',
+    editProfile: 'प्रोफाइल संपादित करें',
+    changePassword: 'पासवर्ड बदलें',
+    changeLanguage: 'भाषा बदलें',
+    termsConditions: 'नियम और शर्तें',
+    newsBlog: 'समाचार और ब्लॉग',
+    support: 'समर्थन',
+    logOut: 'लॉग आउट',
+
+    thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
 
-
-  }
+}

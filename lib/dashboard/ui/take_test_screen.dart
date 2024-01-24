@@ -53,7 +53,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   Widget build(BuildContext context) {
     int minutes = (_secondsRemaining % 240) ~/ 60;
     int seconds = _secondsRemaining % 60;
-
     double percentFilled = (240 - _secondsRemaining) / 240.0;
 
     return Scaffold(
