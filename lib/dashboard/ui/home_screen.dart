@@ -10,7 +10,9 @@ import 'package:vicare/utils/routes.dart';
 import '../../utils/app_locale.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Function(int) changeScreen;
+
+  const HomeScreen({super.key, required this.changeScreen});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -389,7 +391,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                      InkWell(
                        onTap: (){
-                         Navigator.pushNamed(context, Routes.managePatientsRoute);
+                         widget.changeScreen(3);
+                         // Navigator.pushNamed(context, Routes.managePatientsRoute);
                        },
                        child: Row(
                         children: [
@@ -511,7 +514,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                    InkWell(
                      onTap: (){
-                       Navigator.pushNamed(context, Routes.reportsRoute);
+                       widget.changeScreen(1);
+                       // Navigator.pushNamed(context, Routes.reportsRoute);
                      },
                      child: Row(
                       children: [

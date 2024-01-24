@@ -24,7 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     screens = [
-      const HomeScreen(),
+      HomeScreen(changeScreen:changeScreen),
       const ReportScreen(),
       const TakeTestScreen(),
       const ManagePatientsScreen(),
@@ -81,6 +81,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  void changeScreen(int index) {
+    setState(() {
+      selectedItemPosition = index;
+    });
   }
 }
 
