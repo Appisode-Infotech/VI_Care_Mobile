@@ -132,13 +132,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                     Text(
-                      AppLocale.joinHruday.getString(context),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Text(
+                        AppLocale.joinHruday.getString(context),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(
                       height: 15,

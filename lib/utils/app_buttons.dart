@@ -3,15 +3,16 @@ import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 getPrimaryAppButton(BuildContext context, String label,
-    {required Null Function() onPressed}) {
+    {required Null Function() onPressed, Color? buttonColor}) {
+
   return GestureDetector(
     onTap: onPressed,
     child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 3),
+      // margin: const EdgeInsets.symmetric(horizontal: 2),
       width: screenSize!.width,
       height: 50,
-      decoration: const BoxDecoration(
-          color: AppColors.primaryColor,
+      decoration: BoxDecoration(
+          color: buttonColor ??AppColors.primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Center(
           child: Text(

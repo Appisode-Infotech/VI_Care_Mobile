@@ -10,11 +10,11 @@ class LiveChartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Live Chart'),
+        title: const Text('Live Chart'),
       ),
       body: Center(
         child: SfCartesianChart(
-          primaryXAxis: NumericAxis(
+          primaryXAxis: const NumericAxis(
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             interval: 10, // adjust interval based on your requirement
             title: AxisTitle(text: 'Seconds'),

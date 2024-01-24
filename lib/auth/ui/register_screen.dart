@@ -35,84 +35,102 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        decoration:const BoxDecoration(
-        color: Colors.white,
-        ),
-        height: 150,
-        padding: const EdgeInsets.all(20),
-        alignment: Alignment.bottomCenter,
-        width: screenSize!.width,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
-                setState(() {
-                  currentStep=currentStep-1;
-                });
-              }):const SizedBox.shrink(),
-              const SizedBox(height: 10,),
-              (currentStep==1 || currentStep==2)?getPrimaryAppButton(context, AppLocale.next.getString(context),
-                  onPressed: () {
-                    setState(() {
-                      currentStep = currentStep+1;
-                    });
-                  }):getPrimaryAppButton(context, AppLocale.proceedToSignUp.getString(context),
-                  onPressed: () {
-                   Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardRoute, (route) => false);
-                  }),
-            ],
-          ),
-        ),
-      ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
+      body: Column(
+        children: [
+          // Non-scrollable part
+          Padding(
+            padding: const EdgeInsets.only(top: 80, left: 20, right: 20,bottom: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.onBoardingRoute);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 25,
-                        weight: 45,
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Text(AppLocale.createAccount.getString(context), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 10,),
-                     Text(AppLocale.pleaseFillToRegister.getString(context),
-                        style: const TextStyle(color: AppColors.fontShadeColor)),
-                    const SizedBox(height: 20,),
-                     StepProgressIndicator(
-                      roundedEdges: const Radius.circular(20),
-                      size: 7,
-                      totalSteps: 3,
-                      currentStep: currentStep,
-                      selectedColor: AppColors.primaryColor,
-                      unselectedColor: Colors.grey,
-                    ),
-                    const SizedBox(height: 30,),
-                    currentStep == 1?emailPassword(screenSize!):const SizedBox.shrink(),
-                    currentStep == 2?otpScreen(screenSize!):const SizedBox.shrink(),
-                    currentStep == 3?personalDetails(screenSize!):const SizedBox.shrink(),
-                  ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.onBoardingRoute);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 25,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  AppLocale.createAccount.getString(context),
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  AppLocale.pleaseFillToRegister.getString(context),
+                  style: const TextStyle(color: AppColors.fontShadeColor),
+                ),
+                const SizedBox(height: 10),
+                StepProgressIndicator(
+                  roundedEdges: const Radius.circular(20),
+                  size: 7,
+                  totalSteps: 3,
+                  currentStep: currentStep,
+                  selectedColor: AppColors.primaryColor,
+                  unselectedColor: Colors.grey,
                 ),
               ],
             ),
           ),
-        ),
+
+          // Scrollable part
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Column(
+                  children: [
+                    currentStep == 1 ? emailPassword(screenSize!) : const SizedBox.shrink(),
+                    currentStep == 2 ? otpScreen(screenSize!) : const SizedBox.shrink(),
+                    currentStep == 3 ? personalDetails(screenSize!) : const SizedBox.shrink(),
+                    const SizedBox(height: 20,),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          currentStep != 1
+                              ? getPrimaryAppButton(
+                            context,
+                            AppLocale.previous.getString(context),
+                            onPressed: () {
+                              setState(() {
+                                currentStep = currentStep - 1;
+                              });
+                            },
+                            buttonColor: Colors.red.shade500,
+                          )
+                              : const SizedBox.shrink(),
+                          const SizedBox(height: 10,),
+                          currentStep == 1 || currentStep == 2
+                              ? getPrimaryAppButton(
+                            context,
+                            AppLocale.next.getString(context),
+                            onPressed: () {
+                              setState(() {
+                                currentStep = currentStep + 1;
+                              });
+                            },
+                          )
+                              : getPrimaryAppButton(
+                            context,
+                            AppLocale.proceedToSignUp.getString(context),
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardRoute, (route) => false);
+                            },
+                          ),
+                          const SizedBox(height: 10,),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -127,7 +145,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
               TextFormField(
-                // autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return AppLocale.validEmail.getString(context);
@@ -156,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       vertical: 15, horizontal: 10),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 10,),
                Text(AppLocale.password.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
 
@@ -202,11 +219,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20,),
-               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(AppLocale.registerAs.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-              ),
+              const SizedBox(height: 10,),
+               Text(AppLocale.registerAs.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -326,7 +340,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
            ),
                         ),
 
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 10,),
           Text(AppLocale.lastName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10,),
                         TextFormField(
@@ -360,7 +374,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
 
 
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 10,),
                         Text(AppLocale.gender.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10,),
                         DropdownButtonFormField<String>(
@@ -393,7 +407,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                            }).toList(),
                                         ),
 
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 10,),
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              crossAxisAlignment: CrossAxisAlignment.start,
@@ -492,7 +506,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                  ),
                ),
              ),
-             const SizedBox(width: 20),
+             const SizedBox(width: 10),
              SizedBox(
                width: screenSize.width/1.5,
                child: Text.rich(
@@ -543,8 +557,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                          },
                        text: AppLocale.privacyPolicy.getString(context),
                        style: const TextStyle(
-                           fontSize: 14,
-                           color: AppColors.primaryColor
+                         color: AppColors.primaryColor,
+                         fontSize: 14,
+                         fontWeight: FontWeight.bold,
                        ),
                      ),
                    ],

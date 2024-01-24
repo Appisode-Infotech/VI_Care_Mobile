@@ -33,35 +33,6 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
 
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        color:Colors.white,
-        height: 150,
-        padding: const EdgeInsets.all(20),
-        alignment: Alignment.bottomCenter,
-        width: screenSize!.width,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
-                setState(() {
-                  currentStep=currentStep-1;
-                });
-              }):const SizedBox.shrink(),
-              const SizedBox(height: 10,),
-              (currentStep==1)?getPrimaryAppButton(context, AppLocale.next.getString(context),
-                  onPressed: () {
-                    setState(() {
-                      currentStep = currentStep+1;
-                    });
-                  }):getPrimaryAppButton(context, AppLocale.next.getString(context),
-                  onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
-                  }),
-            ],
-          ),
-        ),
-      ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -116,6 +87,29 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                     const SizedBox(height: 30,),
                     currentStep == 1?forgotPassword(screenSize!):const SizedBox.shrink(),
                     currentStep == 2?resetPassword(screenSize!):const SizedBox.shrink(),
+                    const SizedBox(height:30),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
+                          setState(() {
+                            currentStep=currentStep-1;
+                          });
+                        },
+                          buttonColor: Colors.red.shade500,
+                        ):const SizedBox.shrink(),
+                        const SizedBox(height: 10,),
+                        (currentStep==1)?getPrimaryAppButton(context, AppLocale.next.getString(context),
+                            onPressed: () {
+                              setState(() {
+                                currentStep = currentStep+1;
+                              });
+                            }):getPrimaryAppButton(context, AppLocale.next.getString(context),
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+                            }),
+                      ],
+                    ),
                   ],
                 ),
               ],

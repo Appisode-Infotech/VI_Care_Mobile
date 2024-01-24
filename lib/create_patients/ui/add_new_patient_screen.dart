@@ -82,7 +82,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         setState(() {
                           currentStep=currentStep-1;
                         });
-                      }):const SizedBox.shrink(),
+                      },
+                        buttonColor: Colors.red.shade500,
+                      ):const SizedBox.shrink(),
                       const SizedBox(height: 10,),
                       (currentStep==1 || currentStep==2)?getPrimaryAppButton(context, AppLocale.next.getString(context),
                           onPressed: () {
@@ -109,7 +111,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Text(AppLocale.fillNewPatients.getString(context),style: TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
+         Text(AppLocale.fillNewPatients.getString(context),style: const TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
         const SizedBox(height: 12,),
         GestureDetector(
           onTap: _getImageFromGallery,
@@ -144,7 +146,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height:10),
-         Text(AppLocale.mobile.getString(context), style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.mobile.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10,),
         TextFormField(
           validator: (value) {
@@ -176,7 +178,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
 
-        const SizedBox(height: 20,),
+        const SizedBox(height: 10,),
         Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10,),
         TextFormField(
@@ -208,7 +210,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 vertical: 15, horizontal: 10),
           ),
         ),
-        const SizedBox(height: 20,),
+        const SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +270,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ],
         ),
 
-        const SizedBox(height: 20,),
+        const SizedBox(height: 10,),
 
         Text(AppLocale.firstName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10,),
@@ -302,7 +304,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
 
-        const SizedBox(height: 20,),
+        const SizedBox(height: 10,),
         Text(AppLocale.lastName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10,),
         TextFormField(
@@ -335,8 +337,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
 
-
-        const SizedBox(height: 20,),
+        const SizedBox(height:10,),
         Text(AppLocale.gender.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10,),
         DropdownButtonFormField<String>(
@@ -375,7 +376,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
 
         const SizedBox(height:20),
-         Text(AppLocale.address.getString(context), style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.address.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height:10),
         TextFormField(
           validator: (value) {
@@ -412,10 +413,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   }
 
   firstQuestion(Size size) {
-    return Text(AppLocale.questionarie1.getString(context),style: TextStyle(fontWeight: FontWeight.w600),);
+    return Text(AppLocale.questionarie1.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),);
   }
 
   secondQuestion(Size size) {
-    return Text(AppLocale.questionarie2.getString(context),style: TextStyle(fontWeight: FontWeight.w600),);
+    return Text(AppLocale.questionarie2.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),);
   }
 }
