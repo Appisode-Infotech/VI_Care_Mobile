@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vicare/auth/ui/forgot_reset_password.dart';
+import 'package:vicare/create_patients/ui/change_password_screen.dart';
+import 'package:vicare/create_patients/ui/edit_patient_screen.dart';
 import 'package:vicare/dashboard/dashboard_screen.dart';
 import 'package:vicare/create_patients/ui/patient_details_screen.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
+import 'package:vicare/dashboard/ui/profile_screen.dart';
 import 'package:vicare/dashboard/ui/take_test_screen.dart';
 import 'package:vicare/dashboard/ui/offline_test_screen.dart';
 import 'package:vicare/utils/app_colors.dart';
@@ -15,6 +18,7 @@ import 'WebViewScreen.dart';
 import 'create_patients/ui/add_new_patient_screen.dart';
 import 'auth/ui/login_screen.dart';
 import 'auth/ui/register_screen.dart';
+import 'create_patients/ui/edit_profile_screen.dart';
 import 'create_patients/ui/summary_screen.dart';
 import 'dashboard/ui/all_reports_screen.dart';
 import 'onboarding/ui/on_boarding_screen.dart';
@@ -104,6 +108,10 @@ class _MyAppState extends State<MyApp> {
           Routes.summaryRoute: (context) => const SummaryScreen(),
           Routes.takeTestRoute: (context) => const TakeTestScreen(),
           Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
+          Routes.editPatientsRoute: (context) => const EditPatientScreen(),
+          Routes.editProfileRoute: (context) => const EditProfileScreen(),
+          Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
+          Routes.profileRoute: (context) => const ProfileScreen(),
         });
   }
 }

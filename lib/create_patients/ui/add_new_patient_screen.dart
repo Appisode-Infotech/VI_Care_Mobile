@@ -31,14 +31,47 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
 
   File? _selectedImage;
 
-  Future<void> _getImageFromGallery() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
-    }
+  void _showImageSourceDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text("Choose Image Source"),
+          children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () async {
+                Navigator.pop(context);
+                final image = await ImagePicker().pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  setState(() {
+                    _selectedImage = File(image.path);
+                  });
+                }
+              },
+              child: const ListTile(
+                leading: Icon(Icons.camera),
+                title: Text("Camera"),
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () async {
+                Navigator.pop(context);
+                final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  setState(() {
+                    _selectedImage = File(image.path);
+                  });
+                }
+              },
+              child: const ListTile(
+                leading: Icon(Icons.image),
+                title: Text("Gallery"),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
 
@@ -112,9 +145,11 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
          Text(AppLocale.fillNewPatients.getString(context),style: const TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
-        const SizedBox(height: 12,),
+        const SizedBox(height: 10,),
         GestureDetector(
-          onTap: _getImageFromGallery,
+          onTap: (){
+            _showImageSourceDialog(context);
+          },
           child: Center(
             child: Stack(
               children: [
@@ -135,7 +170,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         radius: 15,
                         backgroundColor: AppColors.primaryColor,
                         child: IconButton(
-                            onPressed: _getImageFromGallery,
+                            onPressed: (){ _showImageSourceDialog(context);},
                             icon: const Icon(
                               Icons.edit_outlined,
                               size: 15,
@@ -375,9 +410,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           }).toList(),
         ),
 
-        const SizedBox(height:20),
+        const SizedBox(height: 10,),
          Text(AppLocale.address.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height:10),
+        const SizedBox(height: 10,),
         TextFormField(
           validator: (value) {
             if (value!.isEmpty) {

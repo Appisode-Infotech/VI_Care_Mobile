@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                        Text(AppLocale.enterEmailAndPasswordTitle.getString(context),style: const TextStyle(color: AppColors.fontShadeColor),),
                       const SizedBox(height: 20,),
                        Text(AppLocale.email.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-                      const SizedBox(height: 15,),
+                      const SizedBox(height: 10,),
                       TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -76,9 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
 
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 10,),
                        Text(AppLocale.password.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-                      const SizedBox(height: 15,),
+                      const SizedBox(height: 10,),
                       TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {

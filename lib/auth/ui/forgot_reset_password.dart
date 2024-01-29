@@ -30,8 +30,6 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: Form(
         key: formKey,
@@ -39,77 +37,71 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+             mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment:CrossAxisAlignment.start,
               children: [
-                Column(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment:CrossAxisAlignment.start,
+                InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context,Routes.loginRoute);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 25,
+                    weight: 45,
+                  ),
+                ),
+                currentStep==1?Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: (){
-                        Navigator.pushNamed(context,Routes.loginRoute);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 25,
-                        weight: 45,
-                      ),
-                    ),
-                    currentStep==1?Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                      Text(AppLocale.forgotPassword.getString(context),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-                      const SizedBox(height: 10,),
-                      Text(AppLocale.emailToResetPassword.getString(context),style: const TextStyle(fontSize: 12,color: AppColors.fontShadeColor),),
-                      const SizedBox(height: 20,),
-                      ],
-                    ):Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(AppLocale.resetPassword.getString(context),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-                        const SizedBox(height: 10,),
-                        Text(AppLocale.enterOtpForNewPswd.getString(context),style: const TextStyle(fontSize: 12,color: AppColors.fontShadeColor),),
-                        const SizedBox(height: 20,),
-                      ],
-                    ),
+                  Text(AppLocale.forgotPassword.getString(context),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                  const SizedBox(height: 10,),
+                  Text(AppLocale.emailToResetPassword.getString(context),style: const TextStyle(fontSize: 12,color: AppColors.fontShadeColor),),
+                  const SizedBox(height: 20,),
+                  ],
+                ):Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(AppLocale.resetPassword.getString(context),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    const SizedBox(height: 10,),
+                    Text(AppLocale.enterOtpForNewPswd.getString(context),style: const TextStyle(fontSize: 12,color: AppColors.fontShadeColor),),
+                    const SizedBox(height: 20,),
+                  ],
+                ),
 
-                    StepProgressIndicator(
-                      roundedEdges: const Radius.circular(20),
-                      size: 7,
-                      totalSteps: 2,
-                      currentStep: currentStep,
-                      selectedColor: AppColors.primaryColor,
-                      unselectedColor: Colors.grey,
-                    ),
-                    const SizedBox(height: 30,),
-                    currentStep == 1?forgotPassword(screenSize!):const SizedBox.shrink(),
-                    currentStep == 2?resetPassword(screenSize!):const SizedBox.shrink(),
-                    const SizedBox(height:30),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
+                StepProgressIndicator(
+                  roundedEdges: const Radius.circular(20),
+                  size: 7,
+                  totalSteps: 2,
+                  currentStep: currentStep,
+                  selectedColor: AppColors.primaryColor,
+                  unselectedColor: Colors.grey,
+                ),
+                const SizedBox(height: 30,),
+                currentStep == 1?forgotPassword(screenSize!):const SizedBox.shrink(),
+                currentStep == 2?resetPassword(screenSize!):const SizedBox.shrink(),
+                const SizedBox(height:30),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
+                      setState(() {
+                        currentStep=currentStep-1;
+                      });
+                    },
+                      buttonColor: Colors.red.shade500,
+                    ):const SizedBox.shrink(),
+                    const SizedBox(height: 10,),
+                    (currentStep==1)?getPrimaryAppButton(context, AppLocale.next.getString(context),
+                        onPressed: () {
                           setState(() {
-                            currentStep=currentStep-1;
+                            currentStep = currentStep+1;
                           });
-                        },
-                          buttonColor: Colors.red.shade500,
-                        ):const SizedBox.shrink(),
-                        const SizedBox(height: 10,),
-                        (currentStep==1)?getPrimaryAppButton(context, AppLocale.next.getString(context),
-                            onPressed: () {
-                              setState(() {
-                                currentStep = currentStep+1;
-                              });
-                            }):getPrimaryAppButton(context, AppLocale.next.getString(context),
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
-                            }),
-                      ],
-                    ),
+                        }):getPrimaryAppButton(context, AppLocale.next.getString(context),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+                        }),
                   ],
                 ),
               ],
@@ -127,7 +119,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 15,),
+          const SizedBox(height: 10,),
           TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
@@ -167,7 +159,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppLocale.enterOtp.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 15,),
+          const SizedBox(height: 10,),
           TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
@@ -197,10 +189,10 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                   vertical: 15, horizontal: 10),
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(height: 10,),
 
           Text(AppLocale.newPassword.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-          const SizedBox(height: 15,),
+          const SizedBox(height: 10,),
           TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
@@ -243,9 +235,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             ),
           ),
 
-          const SizedBox(height: 20,),
+          const SizedBox(height: 10,),
           Text(AppLocale.confirmPassword.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-          const SizedBox(height: 15,),
+          const SizedBox(height: 10,),
           TextFormField(
             validator: (value) {
               if (value!.isEmpty) {

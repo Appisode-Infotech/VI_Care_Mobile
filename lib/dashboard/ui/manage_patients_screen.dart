@@ -88,76 +88,76 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     onTap: () {
                       Navigator.pushNamed(context, Routes.addNewPatientRoute);
                     },
+                    child:DottedBorder(
+                    dashPattern: const [2,2],
+                    color: Colors.black,
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(12),
+                    strokeWidth: 1,
                     child: Container(
+                      color: Colors.white,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.add),
+                            Text(
+                              AppLocale.newPatient.getString(context),
+                              style: const TextStyle(color: Colors.black, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  );
+                } else {
+                  final dataIndex = index - 1;
+                  return InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, Routes.patientDetailsRoute);
+                      },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
                       height: 100,
                       width: 100,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: Colors.white,
+                        color: AppColors.primaryColor,
                       ),
-                      child: DottedBorder(
-                        dashPattern: const [2, 2],
-                        color: Colors.black,
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(12),
-                        strokeWidth: 1,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.add),
-                              Text(
-                                AppLocale.newPatient.getString(context),
-                                style: const TextStyle(color: Colors.black, fontSize: 12),
-                              ),
-                            ],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            // backgroundColor: Colors.grey,
+                            backgroundImage: AssetImage(patientData[dataIndex]['image']),
+                            radius: 20,
                           ),
-                        ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            patientData[dataIndex]['patientName']!,
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            patientData[dataIndex]['age']!,
+                            style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ],
                       ),
-                    ),
-                  );
-                } else {
-                  final dataIndex = index - 1;
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: AppColors.primaryColor,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          // backgroundColor: Colors.grey,
-                          backgroundImage: AssetImage(patientData[dataIndex]['image']),
-                          radius: 20,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          patientData[dataIndex]['patientName']!,
-                          style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          patientData[dataIndex]['age']!,
-                          style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ],
                     ),
                   );
                 }

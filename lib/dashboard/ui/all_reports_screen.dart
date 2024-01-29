@@ -183,9 +183,9 @@ class _ReportScreenState extends State<ReportScreen> {
                         decoration: const BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                blurRadius: 5,
+                                blurRadius: 2,
                                 color: Colors.grey,
-                                offset: Offset(2, 2),
+                                offset: Offset(1, 1),
                               ),
                             ],
                             borderRadius:

@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
+import 'package:badges/badges.dart' as badges;
 
 import '../../utils/app_locale.dart';
 
@@ -151,16 +153,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         actions: [
-          Container(
+           Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
-                  color: Color(0xFFD9D9D9),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                color: Color(0xFFD9D9D9),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
               padding: const EdgeInsets.all(10),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ))
+              child:   badges.Badge(
+                badgeContent: const Text('3',style: TextStyle(fontSize: 8,color: Colors.white)),
+                position: BadgePosition.topEnd(top: -7, end: -4),
+                child: const Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                ),
+              ),
+            ),
         ],
       ),
       body: SingleChildScrollView(
@@ -392,7 +400,6 @@ class _HomeScreenState extends State<HomeScreen> {
                      InkWell(
                        onTap: (){
                          widget.changeScreen(3);
-                         // Navigator.pushNamed(context, Routes.managePatientsRoute);
                        },
                        child: Row(
                         children: [
@@ -403,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           const Icon(Icons.navigate_next)
                         ],
-                                           ),
+                       ),
                      ),
                 ],
               ),
@@ -427,77 +434,75 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: (){
                       Navigator.pushNamed(context, Routes.addNewPatientRoute);
                     },
-                        child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                              color: Colors.white,
-                            ),
-                            child: DottedBorder(
-                              dashPattern: const [2,2],
-                              color: Colors.black,
-                              borderType: BorderType.RRect,
-                              radius: const Radius.circular(12),
-                              strokeWidth: 1,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.add),
-                                    Text(
-                                      AppLocale.newPatient.getString(context),
-                                      style: const TextStyle(color: Colors.black, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
+                        child: DottedBorder(
+                          dashPattern: const [2,2],
+                          color: Colors.black,
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(12),
+                          strokeWidth: 1,
+                          child: Container(
+                            color: Colors.white,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.add),
+                                  Text(
+                                    AppLocale.newPatient.getString(context),
+                                    style: const TextStyle(color: Colors.black, fontSize: 12),
+                                  ),
+                                ],
                               ),
-                        )
+                            ),
+                          ),
                         ),
                       )
-                      : Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: AppColors.primaryColor,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          // backgroundColor: Colors.grey,
-                          backgroundImage:
-                          AssetImage(patientData[index]['image']),
-                          radius: 20,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          patientData[index]['patientName']!,
-                          style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          patientData[index]['age']!,
-                          style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  );
+                      : InkWell(
+                    onTap: (){Navigator.pushNamed(context, Routes.patientDetailsRoute);},
+                        child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                                            height: 100,
+                                            width: 100,
+                                            decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: AppColors.primaryColor,
+                                            ),
+                                            child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            // backgroundColor: Colors.grey,
+                            backgroundImage:
+                            AssetImage(patientData[index]['image']),
+                            radius: 20,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            patientData[index]['patientName']!,
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            patientData[index]['age']!,
+                            style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ],
+                                            ),
+                                          ),
+                      );
                 }),
             const SizedBox(
               height: 20,
@@ -526,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Icon(Icons.navigate_next)
                       ],
-                                       ),
+                     ),
                    ),
                 ],
               ),
@@ -536,157 +541,160 @@ class _HomeScreenState extends State<HomeScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15, vertical: 10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 5,
-                          color: Colors.grey,
-                          offset: Offset(2, 2),
-                        ),
-                      ],
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(12)),
-                      color: Colors.white),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage(
-                                patientReports[index]["image"]),
-                            radius: 30,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                patientReports[index]["patientName"],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                patientReports[index]["age"],
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 12),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                patientReports[index]["description"],
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 12),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                "created: ${patientReports[index]["created"]}",
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 12),
-                              ),
-                            ],
+                return InkWell(
+                  onTap: (){Navigator.pushNamed(context, Routes.patientDetailsRoute);},
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 2,
+                            color: Colors.grey,
+                            offset: Offset(1, 1),
                           ),
                         ],
-                      ),
-                      Container(
-                        child: (patientReports[index]
-                        ["receivedReport"] ==
-                            true)
-                            ? Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(12)),
+                        color: Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
                           children: [
-                            SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Stack(
-                                children: [
-                                  CircularStepProgressIndicator(
-                                    totalSteps: 200,
-                                    currentStep: int.parse(
-                                        patientReports[index]
-                                        ["repData"]["bpm"]),
-                                    stepSize: 5,
-                                    selectedColor:
-                                    patientReports[index]
-                                    ["repData"]
-                                    ["color"],
-                                    unselectedColor:
-                                    Colors.grey[200],
-                                    padding: 0,
-                                    selectedStepSize: 6,
-                                    roundedCap: (_, __) => true,
-                                  ),
-                                  Center(
-                                    child: Text(
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  patientReports[index]["image"]),
+                              radius: 30,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  patientReports[index]["patientName"],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  patientReports[index]["age"],
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  patientReports[index]["description"],
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  "created: ${patientReports[index]["created"]}",
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Container(
+                          child: (patientReports[index]
+                          ["receivedReport"] ==
+                              true)
+                              ? Column(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Stack(
+                                  children: [
+                                    CircularStepProgressIndicator(
+                                      totalSteps: 200,
+                                      currentStep: int.parse(
+                                          patientReports[index]
+                                          ["repData"]["bpm"]),
+                                      stepSize: 5,
+                                      selectedColor:
                                       patientReports[index]
-                                      ["repData"]["bpm"],
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight:
-                                        FontWeight.bold,
-                                        fontSize: 10,
+                                      ["repData"]
+                                      ["color"],
+                                      unselectedColor:
+                                      Colors.grey[200],
+                                      padding: 0,
+                                      selectedStepSize: 6,
+                                      roundedCap: (_, __) => true,
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        patientReports[index]
+                                        ["repData"]["bpm"],
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                          fontSize: 10,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              patientReports[index]["repData"]
-                              ["status"],
-                              style: TextStyle(
-                                  fontSize: 12,
+                              const SizedBox(height: 10),
+                              Text(
+                                patientReports[index]["repData"]
+                                ["status"],
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: patientReports[index]
+                                    ["repData"]["color"]),
+                              )
+                            ],
+                          )
+                              : Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.center,
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context)
+                                    .size
+                                    .width /
+                                    5,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  const BorderRadius.all(
+                                      Radius.circular(20)),
                                   color: patientReports[index]
-                                  ["repData"]["color"]),
-                            )
-                          ],
-                        )
-                            : Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context)
-                                  .size
-                                  .width /
-                                  5,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                const BorderRadius.all(
-                                    Radius.circular(20)),
-                                color: patientReports[index]
-                                ['repData']["color"],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  patientReports[index]
-                                  ["reportStatus"],
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
+                                  ['repData']["color"],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    patientReports[index]
+                                    ["reportStatus"],
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },

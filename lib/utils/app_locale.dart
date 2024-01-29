@@ -68,6 +68,7 @@ mixin AppLocale {
 
   static const String addPatients  = 'addPatients';
   static const String fillNewPatients  = 'fillNewPatients';
+  static const String editPatientsDetails  = 'editPatientsDetails';
   static const String mobile  = 'mobile';
   static const String patientDetails  = 'patientDetails';
   static const String validPhone  = 'validPhone';
@@ -104,6 +105,7 @@ mixin AppLocale {
   static const String offlineTests  = 'offlineTests';
   static const String retryUpload  = 'retryUpload';
   static const String delete  = 'delete';
+  static const String editPatients  = 'editPatients';
 
   static const String profile  = 'profile';
   static const String scanSettings  = 'scanSettings';
@@ -190,6 +192,7 @@ mixin AppLocale {
 
     addPatients: 'Add new patients',
     fillNewPatients: 'Please fill in the details to add a patient/member and use the services',
+    editPatientsDetails: 'Please fill in the details to edit a patient/member and use the services',
     mobile: 'Mobile',
     patientDetails: 'Patient details',
     validPhone: 'Please Enter valid Phone Number',
@@ -226,11 +229,14 @@ mixin AppLocale {
     offlineTests:"Offline Tests",
     retryUpload:"Retry Upload",
     delete:"Delete",
+    editPatients:"Edit Patients",
 
     profile: 'Profile',
     scanSettings: 'Scan settings',
     offlineSaved: 'Offline saved tests',
+
     editProfile: 'Edit Profile',
+
     changePassword: 'Change Password',
     changeLanguage: 'Change Language',
     termsConditions: 'Terms & Conditions',
@@ -268,6 +274,7 @@ mixin AppLocale {
     proceedToSignUp: 'ಸೈನ್ ಅಪ್ ಮಾಡಲು ಮುಂದುವರಿಯಿರಿ',
     createAccount: 'ಖಾತೆ ತೆರೆ',
     pleaseFillToRegister: 'ಸೈನ್ ಅಪ್ ಮಾಡಲು ಮತ್ತು ಅಪ್ಲಿಕೇಶನ್ ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ದಯವಿಟ್ಟು ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ',
+    editPatientsDetails: 'ರೋಗಿಯ/ಸದಸ್ಯರನ್ನು ಸಂಪಾದಿಸಲು ಮತ್ತು ಸೇವೆಗಳನ್ನು ಬಳಸಲು ದಯವಿಟ್ಟು ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ',
     registerAs: 'ನಂತೆ ನೋಂದಾಯಿಸಿ',
     role: 'ಪಾತ್ರ',
     doctor: 'ಡಾಕ್ಟರ್',
@@ -350,10 +357,13 @@ mixin AppLocale {
     retryUpload:"ಮರುಪ್ರಯತ್ನಿಸಿ",
     delete:"ಅಳಿಸಿ",
 
+    editProfile: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸು',
+    editPatients:"ರೋಗಿಗಳನ್ನು ಸಂಪಾದಿಸಿ",
+
+
     profile: 'ಪ್ರೊಫೈಲ್',
     scanSettings: 'ಸೆಟ್ಟಿಂಗ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ',
     offlineSaved: 'ಆಫ್‌ಲೈನ್ ಉಳಿಸಿದ ಪರೀಕ್ಷೆಗಳು',
-    editProfile: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸು',
     changePassword: 'ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ',
     changeLanguage: 'ಭಾಷೆ ಬದಲಾಯಿಸಿ',
     termsConditions: 'ನಿಯಮ ಮತ್ತು ಶರತ್ತುಗಳು',
@@ -374,6 +384,7 @@ mixin AppLocale {
     enterEmailAndPasswordTitle: 'एप्लिकेशन का उपयोग करने के लिए अपना ईमेल और पासवर्ड दर्ज करें',
     email: 'ईमेल',
     password: 'पासवर्ड',
+    editPatients:"मरीजों को संपादित करें",
     validPassword: 'कृपया मान्य पासवर्ड दर्ज करें',
     validEmail: 'कृपया मान्य ईमेल दर्ज करें',
     forgotPassword: 'पासवर्ड भूल गए हैं?',
@@ -390,6 +401,7 @@ mixin AppLocale {
     proceedToSignUp: 'साइन अप करने के लिए आगे बढ़ें',
     createAccount: 'खाता बनाएं',
     pleaseFillToRegister: 'साइन अप करने और एप्लिकेशन का उपयोग करने के लिए कृपया विवरण भरें',
+    editPatientsDetails: 'कृपया किसी मरीज़/सदस्य को संपादित करने और सेवाओं का उपयोग करने के लिए विवरण भरें',
     registerAs: 'इस प्रकार से रजिस्टर करें',
     role: 'भूमिका',
     doctor: 'डॉक्टर',
@@ -472,10 +484,10 @@ mixin AppLocale {
     retryUpload: "पुन: प्रयास करें",
     delete: "हटाएं",
 
+
     profile: 'प्रोफाइल',
     scanSettings: 'सेटिंग्स स्कैन करें',
     offlineSaved: 'ऑफ़लाइन सहेजी गई परीक्षणें',
-    editProfile: 'प्रोफाइल संपादित करें',
     changePassword: 'पासवर्ड बदलें',
     changeLanguage: 'भाषा बदलें',
     termsConditions: 'नियम और शर्तें',

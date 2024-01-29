@@ -15,4 +15,8 @@ class Routes{
   static const String patientDetailsRoute="/patientDetails";
   static const String summaryRoute="summary";
   static const String takeTestRoute="takeTest";
+  static const String editPatientsRoute="editPatients";
+  static const String editProfileRoute="editProfile";
+  static const String changePasswordRoute="changePassword";
+  static const String profileRoute="profile";
 }

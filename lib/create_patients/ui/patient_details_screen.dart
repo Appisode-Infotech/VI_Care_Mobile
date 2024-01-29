@@ -42,17 +42,22 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
         toolbarHeight: 75,
         automaticallyImplyLeading: false,
         actions: [
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: const BoxDecoration(
-                  color: Color(0xFFD9D9D9),
-                  borderRadius: BorderRadius.all(Radius.circular(40))),
-              padding: const EdgeInsets.all(5),
-              child: const Icon(
-                Icons.edit_outlined,
-                color: AppColors.primaryColor,
-                size:20,
-              ))
+          InkWell(
+            onTap: (){
+              Navigator.pushNamed(context, AppLocale.editPatients);
+            },
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: const BoxDecoration(
+                    color: Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.all(Radius.circular(40))),
+                padding: const EdgeInsets.all(5),
+                child: const Icon(
+                  Icons.edit_outlined,
+                  color: AppColors.primaryColor,
+                  size:20,
+                )),
+          )
         ],
       ),
 
@@ -62,7 +67,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
               width: screenSize!.width,
-              height: screenSize!.height / 2.3,
+              height: screenSize!.height / 2.4,
               color: AppColors.primaryColor,
               child:  Column(
                 children: [
@@ -103,26 +108,34 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     ],
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: Colors.white,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(left: 15,right: 10,top: 10,bottom: 10),
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                color: Colors.white,
+                              ),
+                              height: 100,
+                              width: screenSize!.width / 4,
+                              child: const Center(
+                                child: Text(
+                                  '7 Mar 2023',
+                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                                ),
+                              ),
                             ),
-                            height: 100,
-                            width: screenSize!.width/4,
-                            child: const Center(child: Text('7 Mar 2023',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),)),
-                          ),
-                          const SizedBox(height: 5,),
-                           Text(AppLocale.lastTested.getString(context),style: const TextStyle(color: Colors.white,fontSize: 15,overflow: TextOverflow.ellipsis),)
-                        ],
-                      ),
-                      const SizedBox(width: 10,),
+                            const SizedBox(height: 5,),
+                            Text(
+                              AppLocale.lastTested.getString(context),
+                              style: const TextStyle(color: Colors.white, fontSize: 15, overflow: TextOverflow.ellipsis),
+                            )
+                          ],
+                        ),
+                    const SizedBox(width: 10,),
                       Column(
                         children: [
                           Container(
@@ -274,9 +287,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         decoration: const BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                blurRadius: 5,
+                                blurRadius: 2,
                                 color: Colors.grey,
-                                offset: Offset(2, 2),
+                                offset: Offset(1, 1),
                               ),
                             ],
                             borderRadius:

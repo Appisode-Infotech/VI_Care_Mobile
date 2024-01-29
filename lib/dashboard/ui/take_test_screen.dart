@@ -63,7 +63,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        automaticallyImplyLeading: false,
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
