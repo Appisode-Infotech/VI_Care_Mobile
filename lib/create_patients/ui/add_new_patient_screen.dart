@@ -74,7 +74,6 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +81,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         title: Text(AppLocale.addPatients.getString(context), style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        automaticallyImplyLeading: false,
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
       ),
       body:  Form(
         key: formKey,

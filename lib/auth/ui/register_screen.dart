@@ -35,102 +35,105 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Non-scrollable part
-          Padding(
-            padding: const EdgeInsets.only(top: 80, left: 20, right: 20,bottom: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.onBoardingRoute);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    size: 25,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  AppLocale.createAccount.getString(context),
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  AppLocale.pleaseFillToRegister.getString(context),
-                  style: const TextStyle(color: AppColors.fontShadeColor),
-                ),
-                const SizedBox(height: 10),
-                StepProgressIndicator(
-                  roundedEdges: const Radius.circular(20),
-                  size: 7,
-                  totalSteps: 3,
-                  currentStep: currentStep,
-                  selectedColor: AppColors.primaryColor,
-                  unselectedColor: Colors.grey,
-                ),
-              ],
-            ),
-          ),
-
-          // Scrollable part
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Column(
-                  children: [
-                    currentStep == 1 ? emailPassword(screenSize!) : const SizedBox.shrink(),
-                    currentStep == 2 ? otpScreen(screenSize!) : const SizedBox.shrink(),
-                    currentStep == 3 ? personalDetails(screenSize!) : const SizedBox.shrink(),
-                    const SizedBox(height: 20,),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          currentStep != 1
-                              ? getPrimaryAppButton(
-                            context,
-                            AppLocale.previous.getString(context),
-                            onPressed: () {
-                              setState(() {
-                                currentStep = currentStep - 1;
-                              });
-                            },
-                            buttonColor: Colors.red.shade500,
-                          )
-                              : const SizedBox.shrink(),
-                          const SizedBox(height: 10,),
-                          currentStep == 1 || currentStep == 2
-                              ? getPrimaryAppButton(
-                            context,
-                            AppLocale.next.getString(context),
-                            onPressed: () {
-                              setState(() {
-                                currentStep = currentStep + 1;
-                              });
-                            },
-                          )
-                              : getPrimaryAppButton(
-                            context,
-                            AppLocale.proceedToSignUp.getString(context),
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardRoute, (route) => false);
-                            },
-                          ),
-                          const SizedBox(height: 10,),
-                        ],
-                      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            // Non-scrollable part
+            Padding(
+              padding: const EdgeInsets.only(top: 80, left: 20, right: 20,bottom: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.onBoardingRoute);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 25,
                     ),
-                  ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    AppLocale.createAccount.getString(context),
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    AppLocale.pleaseFillToRegister.getString(context),
+                    style: const TextStyle(color: AppColors.fontShadeColor),
+                  ),
+                  const SizedBox(height: 10),
+                  StepProgressIndicator(
+                    roundedEdges: const Radius.circular(20),
+                    size: 7,
+                    totalSteps: 3,
+                    currentStep: currentStep,
+                    selectedColor: AppColors.primaryColor,
+                    unselectedColor: Colors.grey,
+                  ),
+                ],
+              ),
+            ),
+
+            // Scrollable part
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    children: [
+                      currentStep == 1 ? emailPassword(screenSize!) : const SizedBox.shrink(),
+                      currentStep == 2 ? otpScreen(screenSize!) : const SizedBox.shrink(),
+                      currentStep == 3 ? personalDetails(screenSize!) : const SizedBox.shrink(),
+                      const SizedBox(height: 20,),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            currentStep != 1
+                                ? getPrimaryAppButton(
+                              context,
+                              AppLocale.previous.getString(context),
+                              onPressed: () {
+                                setState(() {
+                                  currentStep = currentStep - 1;
+                                });
+                              },
+                              buttonColor: Colors.red.shade500,
+                            )
+                                : const SizedBox.shrink(),
+                            const SizedBox(height: 10,),
+                            currentStep == 1 || currentStep == 2
+                                ? getPrimaryAppButton(
+                              context,
+                              AppLocale.next.getString(context),
+                              onPressed: () {
+                                setState(() {
+                                  currentStep = currentStep + 1;
+                                });
+                              },
+                            )
+                                : getPrimaryAppButton(
+                              context,
+                              AppLocale.proceedToSignUp.getString(context),
+                              onPressed: () {
+                                Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardRoute, (route) => false);
+                              },
+                            ),
+                            const SizedBox(height: 10,),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -405,10 +408,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                child: Text(value),
                              );
                            }).toList(),
-                                        ),
+                        ),
 
                         const SizedBox(height: 10,),
-           Row(
+        Row(
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
@@ -438,7 +441,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                vertical: 15, horizontal: 10),
                            enabledBorder: OutlineInputBorder(
                              borderRadius: BorderRadius.circular(10),
-                             borderSide: BorderSide(color: const Color(0xffD3D3D3)),
+                             borderSide: const BorderSide(color: Color(0xffD3D3D3)),
                            ),
                            focusedBorder: OutlineInputBorder(
                              borderSide: const BorderSide(color: AppColors.primaryColor),

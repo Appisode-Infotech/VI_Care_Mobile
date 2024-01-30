@@ -399,7 +399,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                      InkWell(
                        onTap: (){
-                         widget.changeScreen(3);
+                         widget.changeScreen(2);
                        },
                        child: Row(
                         children: [

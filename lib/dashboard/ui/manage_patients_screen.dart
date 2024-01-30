@@ -67,6 +67,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
         automaticallyImplyLeading: false,
+
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 20),

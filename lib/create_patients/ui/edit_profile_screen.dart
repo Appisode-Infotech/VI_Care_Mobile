@@ -29,7 +29,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         title: Text(AppLocale.editProfile.getString(context), style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        automaticallyImplyLeading: false,
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
       ),
       body: Form(
         key: _formKey,

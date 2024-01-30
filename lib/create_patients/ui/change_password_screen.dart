@@ -28,7 +28,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         title: Text(AppLocale.changePassword.getString(context), style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        automaticallyImplyLeading: false,
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
       ),
       body: Form(
         key:formKey,

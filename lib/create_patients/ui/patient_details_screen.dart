@@ -40,7 +40,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
         title: Text(AppLocale.patientDetails.getString(context), style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        automaticallyImplyLeading: false,
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
         actions: [
           InkWell(
             onTap: (){
