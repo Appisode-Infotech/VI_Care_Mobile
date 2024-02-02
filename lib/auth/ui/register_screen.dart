@@ -9,6 +9,7 @@ import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
+import '../controller/auth_controller.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,7 +22,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isShowPassword = true;
   bool rememberMe = false;
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController dobController = TextEditingController();
+  AuthController authController=AuthController();
 
   String? registerAs;
   String? gender;
@@ -34,6 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -111,17 +119,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               context,
                               AppLocale.next.getString(context),
                               onPressed: () {
-                                setState(() {
-                                  currentStep = currentStep + 1;
-                                });
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    currentStep = currentStep + 1;
+                                  });
+                                }
                               },
                             )
                                 : getPrimaryAppButton(
                               context,
                               AppLocale.proceedToSignUp.getString(context),
                               onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardRoute, (route) => false);
-                              },
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.pushNamed(context, Routes.dashboardRoute);
+                                }
+                                },
                             ),
                             const SizedBox(height: 10,),
                           ],
@@ -148,9 +160,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
               TextFormField(
+                controller: emailController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return AppLocale.validEmail.getString(context);
+                  }
+                  if (authController.isNotValidEmail(value)) {
+                    return "Please enter valid name";
                   }
                   return null;
                 },
@@ -181,6 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 10,),
 
               TextFormField(
+                controller: passwordController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return AppLocale.validPassword.getString(context);
@@ -226,6 +243,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                Text(AppLocale.registerAs.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 10,),
               DropdownButtonFormField<String>(
+                validator: (value) {
+                  if (value==null||value.isEmpty) {
+                    return "Please select the role";
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -237,6 +260,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
                   focusColor: Colors.transparent,
+                  errorStyle:  TextStyle(
+                      color: Colors.red.shade400),
                 ),
                 dropdownColor: Colors.white,
                 value: registerAs,
@@ -263,45 +288,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   otpScreen(Size screenSize) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-               Text(AppLocale.enterOtp.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 10,),
-              TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return AppLocale.validOtp.getString(context);
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  hintText: AppLocale.otp.getString(context),
-                  counterText: "",
-                  isCollapsed: true,
-                  errorStyle: const TextStyle(
-                      color: Colors.red),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: AppColors.primaryColor),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Colors.black, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 15, horizontal: 10),
-                ),
-              ),
-
-            ],
+         Text(AppLocale.enterOtp.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(height: 10,),
+        TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validOtp.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.otp.getString(context),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(
+                color: Colors.red),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 15, horizontal: 10),
           ),
+        ),
+
       ],
     );
   }
@@ -318,6 +339,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
              if (value!.isEmpty) {
                return AppLocale.validFirstName.getString(context);
              }
+             if(authController.isNotValidName(value)){
+               return AppLocale.validFirstName.getString(context);
+             }
              return null;
            },
            keyboardType: TextInputType.text,
@@ -325,6 +349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
              fillColor: Colors.white,
              filled: true,
              hintText: AppLocale.firstName.getString(context),
+             hintStyle: const TextStyle(fontSize: 15,color: Colors.grey),
              counterText: "",
              isCollapsed: true,
              errorStyle: const TextStyle(
@@ -351,6 +376,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
              if (value!.isEmpty) {
                return AppLocale.validLastName.getString(context);
              }
+             if(authController.isNotValidName(value)){
+               return AppLocale.validFirstName.getString(context);
+             }
              return null;
            },
            keyboardType: TextInputType.text,
@@ -358,6 +386,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
              fillColor: Colors.white,
              filled: true,
              hintText: AppLocale.lastName.getString(context),
+             hintStyle: const TextStyle(fontSize: 15,color: Colors.grey),
              counterText: "",
              isCollapsed: true,
              errorStyle: const TextStyle(
@@ -381,6 +410,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Text(AppLocale.gender.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10,),
                         DropdownButtonFormField<String>(
+                          validator: (value) {
+                            if (value==null||value.isEmpty) {
+                              return "Please select the gender";
+                            }
+                            return null;
+                          },
                            decoration: InputDecoration(
                              filled: true,
                              fillColor: Colors.white,
@@ -392,6 +427,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                              ),
                              contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
                              focusColor: Colors.transparent,
+                             errorStyle:  TextStyle(
+                                 color: Colors.red.shade400),
                            ),
                            dropdownColor: Colors.white,
                            hint:  Text(AppLocale.selectGender.getString(context)),
@@ -434,6 +471,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                          });
                        },
                        child: TextFormField(
+                         validator: (value) {
+                           if (value!.isEmpty) {
+                             return "Please enter valid Date";
+                           }
+                           return null;
+                         },
                          enabled: false,
                          style: const TextStyle(color: Colors.black),
                          decoration: InputDecoration(
@@ -569,8 +612,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                  ),
                ),
              ),
-           ],
-                        ),
+           ],),
       ],
     );
   }
