@@ -25,21 +25,27 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocale.changePassword.getString(context), style: const TextStyle(color: Colors.white),),
+        title: Text(AppLocale.changePassword.getString(context),
+          style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white,),
+          onPressed: () {
+            Navigator.pop(context);
+          },),
       ),
       body: Form(
-        key:formKey,
+        key: formKey,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppLocale.newPassword.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
+                Text(AppLocale.newPassword.getString(context),
+                  style: const TextStyle(fontWeight: FontWeight.w600),),
                 const SizedBox(height: 10,),
                 TextFormField(
                   validator: (value) {
@@ -61,7 +67,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         });
                       },
                       child: Icon(
-                        isShowPassword ? Icons.visibility_off : Icons.visibility,
+                        isShowPassword ? Icons.visibility_off : Icons
+                            .visibility,
                         color: Colors.grey,
                       ),
                     ),
@@ -70,7 +77,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     errorStyle: const TextStyle(
                         color: Colors.red),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: AppColors.primaryColor),
+                      borderSide: const BorderSide(
+                          color: AppColors.primaryColor),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     border: OutlineInputBorder(
@@ -84,7 +92,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
 
                 const SizedBox(height: 10,),
-                Text(AppLocale.confirmPassword.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
+                Text(AppLocale.confirmPassword.getString(context),
+                  style: const TextStyle(fontWeight: FontWeight.w600),),
                 const SizedBox(height: 10,),
                 TextFormField(
                   validator: (value) {
@@ -106,7 +115,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         });
                       },
                       child: Icon(
-                        isConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                        isConfirmPassword ? Icons.visibility_off : Icons
+                            .visibility,
                         color: Colors.grey,
                       ),
                     ),
@@ -115,7 +125,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     errorStyle: const TextStyle(
                         color: Colors.red),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: AppColors.primaryColor),
+                      borderSide: const BorderSide(
+                          color: AppColors.primaryColor),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     border: OutlineInputBorder(
@@ -128,7 +139,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                getPrimaryAppButton(context, AppLocale.submit.getString(context),
+                getPrimaryAppButton(
+                    context, AppLocale.submit.getString(context),
                     onPressed: () {
                       Navigator.pushNamed(context, Routes.profileRoute);
                     }),

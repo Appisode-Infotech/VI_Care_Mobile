@@ -7,6 +7,7 @@ import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
+import '../controller/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isShowPassword = true;
   bool rememberMe = false;
+  TextEditingController emailController = TextEditingController();
+  AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +50,13 @@ class _LoginScreenState extends State<LoginScreen> {
                        Text(AppLocale.email.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        controller: emailController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validEmail.getString(context);
+                          }
+                          if (authController.isNotValidEmail(value)) {
+                            return "Please enter valid email";
                           }
                           return null;
                         },

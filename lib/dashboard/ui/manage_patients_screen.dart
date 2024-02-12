@@ -14,7 +14,6 @@ class ManagePatientsScreen extends StatefulWidget {
 }
 
 class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
-
   List patientData = [
     {
       "patientName": "Tom Luke",
@@ -58,19 +57,20 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
     },
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocale.managePatients.getString(context), style: const TextStyle(color: Colors.white),),
+        title: Text(
+          AppLocale.managePatients.getString(context),
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
         automaticallyImplyLeading: false,
-
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
         child: Column(
           children: [
             GridView.builder(
@@ -89,38 +89,40 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     onTap: () {
                       Navigator.pushNamed(context, Routes.addNewPatientRoute);
                     },
-                    child:DottedBorder(
-                    dashPattern: const [2,2],
-                    color: Colors.black,
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(12),
-                    strokeWidth: 1,
-                    child: Container(
-                      color: Colors.white,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.add),
-                            Text(
-                              AppLocale.newPatient.getString(context),
-                              style: const TextStyle(color: Colors.black, fontSize: 12),
-                            ),
-                          ],
+                    child: DottedBorder(
+                      dashPattern: const [2, 2],
+                      color: Colors.black,
+                      borderType: BorderType.RRect,
+                      radius: const Radius.circular(12),
+                      strokeWidth: 1,
+                      child: Container(
+                        color: Colors.white,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.add),
+                              Text(
+                                AppLocale.newPatient.getString(context),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   );
                 } else {
                   final dataIndex = index - 1;
                   return InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.pushNamed(context, Routes.patientDetailsRoute);
-                      },
+                    },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
                       height: 100,
                       width: 100,
                       decoration: const BoxDecoration(
@@ -133,7 +135,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                         children: [
                           CircleAvatar(
                             // backgroundColor: Colors.grey,
-                            backgroundImage: AssetImage(patientData[dataIndex]['image']),
+                            backgroundImage:
+                                AssetImage(patientData[dataIndex]['image']),
                             radius: 20,
                           ),
                           const SizedBox(

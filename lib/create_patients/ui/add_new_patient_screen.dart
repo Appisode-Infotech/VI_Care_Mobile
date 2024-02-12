@@ -18,11 +18,17 @@ class AddNewPatientScreen extends StatefulWidget {
 }
 
 class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
-
   final formKey = GlobalKey<FormState>();
 
   int currentStep = 1;
   TextEditingController dobController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
   String? gender;
 
   Color getIndicatorColor(int step) {
@@ -41,7 +47,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.pop(context);
-                final image = await ImagePicker().pickImage(source: ImageSource.camera);
+                final image =
+                    await ImagePicker().pickImage(source: ImageSource.camera);
                 if (image != null) {
                   setState(() {
                     _selectedImage = File(image.path);
@@ -56,7 +63,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.pop(context);
-                final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                final image =
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
                   setState(() {
                     _selectedImage = File(image.path);
@@ -78,16 +86,27 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocale.addPatients.getString(context), style: const TextStyle(color: Colors.white),),
+        title: Text(
+          AppLocale.addPatients.getString(context),
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body:  Form(
+      body: Form(
         key: formKey,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Column(
               children: [
                 StepProgressIndicator(
@@ -98,11 +117,19 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                   selectedColor: AppColors.primaryColor,
                   unselectedColor: Colors.grey,
                 ),
-                const SizedBox(height: 20,),
-                currentStep == 1?patientDetails(screenSize!):const SizedBox.shrink(),
-                currentStep == 2?firstQuestion(screenSize!):const SizedBox.shrink(),
-                currentStep == 3?secondQuestion(screenSize!):const SizedBox.shrink(),
-                const SizedBox(height:10),
+                const SizedBox(
+                  height: 20,
+                ),
+                currentStep == 1
+                    ? patientDetails(screenSize!)
+                    : const SizedBox.shrink(),
+                currentStep == 2
+                    ? firstQuestion(screenSize!)
+                    : const SizedBox.shrink(),
+                currentStep == 3
+                    ? secondQuestion(screenSize!)
+                    : const SizedBox.shrink(),
+                const SizedBox(height: 10),
                 Container(
                   color: Colors.white,
                   width: screenSize!.width,
@@ -110,23 +137,43 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
-                        setState(() {
-                          currentStep=currentStep-1;
-                        });
-                      },
-                        buttonColor: Colors.red.shade500,
-                      ):const SizedBox.shrink(),
-                      const SizedBox(height: 10,),
-                      (currentStep==1 || currentStep==2)?getPrimaryAppButton(context, AppLocale.next.getString(context),
-                          onPressed: () {
-                            setState(() {
-                              currentStep = currentStep+1;
-                            });
-                          }):getPrimaryAppButton(context, AppLocale.submit.getString(context),
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.patientDetailsRoute);
-                          }),
+                      currentStep != 1
+                          ? getPrimaryAppButton(
+                              context,
+                              AppLocale.previous.getString(context),
+                              onPressed: () {
+                                setState(() {
+                                  currentStep = currentStep - 1;
+                                });
+                              },
+                              buttonColor: Colors.red.shade500,
+                            )
+                          : const SizedBox.shrink(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      currentStep == 1 || currentStep == 2
+                          ? getPrimaryAppButton(
+                              context,
+                              AppLocale.next.getString(context),
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  setState(() {
+                                    currentStep = currentStep + 1;
+                                  });
+                                }
+                              },
+                            )
+                          : getPrimaryAppButton(
+                              context,
+                              AppLocale.submit.getString(context),
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  Navigator.pushNamed(
+                                      context, Routes.patientDetailsRoute);
+                                }
+                              },
+                            ),
                     ],
                   ),
                 )
@@ -143,10 +190,15 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Text(AppLocale.fillNewPatients.getString(context),style: const TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
-        const SizedBox(height: 10,),
+        Text(
+          AppLocale.fillNewPatients.getString(context),
+          style: const TextStyle(color: AppColors.fontShadeColor, fontSize: 13),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         GestureDetector(
-          onTap: (){
+          onTap: () {
             _showImageSourceDialog(context);
           },
           child: Center(
@@ -169,7 +221,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         radius: 15,
                         backgroundColor: AppColors.primaryColor,
                         child: IconButton(
-                            onPressed: (){ _showImageSourceDialog(context);},
+                            onPressed: () {
+                              _showImageSourceDialog(context);
+                            },
                             icon: const Icon(
                               Icons.edit_outlined,
                               size: 15,
@@ -179,10 +233,14 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             ),
           ),
         ),
-        const SizedBox(height:10),
-         Text(AppLocale.mobile.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10,),
+        const SizedBox(height: 10),
+        Text(AppLocale.mobile.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
+          controller: mobileController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validPhone.getString(context);
@@ -196,26 +254,29 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             hintText: AppLocale.mobile.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(
-                color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-
-        const SizedBox(height: 10,),
-        Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.email.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
+          controller: emailController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validEmail.getString(context);
@@ -229,22 +290,22 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             hintText: AppLocale.email.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(
-                color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,8 +314,11 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(AppLocale.dateOfBirth.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 10,),
+                  Text(AppLocale.dateOfBirth.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   GestureDetector(
                     onTap: () async {
                       final DateTime? picked = await showDatePicker(
@@ -264,26 +328,36 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         lastDate: DateTime.now(),
                       );
                       setState(() {
-                        dobController.text = "${picked!.day} / ${picked.month} / ${picked.year}";
+                        dobController.text =
+                            "${picked!.day} / ${picked.month} / ${picked.year}";
                       });
                     },
                     child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter valid Date";
+                        }
+                        return null;
+                      },
                       enabled: false,
                       style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 10),
+                        errorStyle: const TextStyle(color: Colors.red),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Color(0xffD3D3D3)),
+                          borderSide:
+                              const BorderSide(color: Color(0xffD3D3D3)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: AppColors.primaryColor),
+                          borderSide:
+                              const BorderSide(color: AppColors.primaryColor),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colors.black, width: 2),
+                          borderSide:
+                              const BorderSide(color: Colors.black, width: 2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         suffixIcon: IconButton(
@@ -303,12 +377,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             ),
           ],
         ),
-
-        const SizedBox(height: 10,),
-
-        Text(AppLocale.firstName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.firstName.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
+          controller: firstNameController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validFirstName.getString(context);
@@ -322,26 +400,29 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             hintText: AppLocale.firstName.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(
-                color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-
-        const SizedBox(height: 10,),
-        Text(AppLocale.lastName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.lastName.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
+          controller: lastNameController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validLastName.getString(context);
@@ -355,26 +436,34 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             hintText: AppLocale.lastName.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(
-                color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-
-        const SizedBox(height:10,),
-        Text(AppLocale.gender.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.gender.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
         DropdownButtonFormField<String>(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please select the gender";
+            }
+            return null;
+          },
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -384,7 +473,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 color: Colors.green,
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            errorStyle: TextStyle(color: Colors.red.shade400),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: const BorderSide(
@@ -393,7 +484,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             ),
           ),
           dropdownColor: Colors.white,
-          hint:  Text(AppLocale.selectGender.getString(context)),
+          hint: Text(AppLocale.selectGender.getString(context)),
           value: gender,
           onChanged: (String? value) {
             setState(() {
@@ -401,18 +492,26 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>[AppLocale.male.getString(context), AppLocale.female.getString(context)].map<DropdownMenuItem<String>>((String value) {
+          items: <String>[
+            AppLocale.male.getString(context),
+            AppLocale.female.getString(context)
+          ].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
             );
           }).toList(),
         ),
-
-        const SizedBox(height: 10,),
-         Text(AppLocale.address.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.address.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
+          controller: addressController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validAddress.getString(context);
@@ -427,19 +526,17 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             hintText: AppLocale.address.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(
-                color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
       ],
@@ -447,10 +544,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   }
 
   firstQuestion(Size size) {
-    return Text(AppLocale.questionarie1.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),);
+    return Text(
+      AppLocale.questionarie1.getString(context),
+      style: const TextStyle(fontWeight: FontWeight.w600),
+    );
   }
 
   secondQuestion(Size size) {
-    return Text(AppLocale.questionarie2.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),);
+    return Text(
+      AppLocale.questionarie2.getString(context),
+      style: const TextStyle(fontWeight: FontWeight.w600),
+    );
   }
 }

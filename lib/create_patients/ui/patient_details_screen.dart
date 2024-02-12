@@ -17,33 +17,38 @@ class PatientDetailsScreen extends StatefulWidget {
 class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
 
   List patientReports = [
-  {
-  "image": "assets/images/img.png",
-  "patientName": "Tom Robinson",
-  "age": "25 years",
-  "description": "Some data goes here",
-  "created": "12 Mar 2024",
-  "receivedReport": true,
-  "repData": {
-  "status": "Normal",
-  "bpm": "117",
-  "color":Colors.green,
-  },
-  "reportStatus": "pending"
-},
-    ];
+    {
+      "image": "assets/images/img.png",
+      "patientName": "Tom Robinson",
+      "age": "25 years",
+      "description": "Some data goes here",
+      "created": "12 Mar 2024",
+      "receivedReport": true,
+      "repData": {
+        "status": "Normal",
+        "bpm": "117",
+        "color": Colors.green,
+      },
+      "reportStatus": "pending"
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocale.patientDetails.getString(context), style: const TextStyle(color: Colors.white),),
+        title: Text(AppLocale.patientDetails.getString(context),
+          style: const TextStyle(color: Colors.white),),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white,),
+          onPressed: () {
+            Navigator.pop(context);
+          },),
         actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.pushNamed(context, AppLocale.editPatients);
             },
             child: Container(
@@ -55,7 +60,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                 child: const Icon(
                   Icons.edit_outlined,
                   color: AppColors.primaryColor,
-                  size:20,
+                  size: 20,
                 )),
           )
         ],
@@ -65,11 +70,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               width: screenSize!.width,
               height: screenSize!.height / 2.4,
               color: AppColors.primaryColor,
-              child:  Column(
+              child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -81,26 +86,46 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                       ),
                       const SizedBox(width: 20,),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushNamed(context, Routes.summaryRoute,);
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Prasanth K",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 20),),
-                            const Text("28 Years",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18),),
-                            const Text("Male",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18),),
-                             const SizedBox(height: 5,),
-                             Text(AppLocale.viewCompleteDetails.getString(context),style: const TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 12,decoration: TextDecoration.underline,decorationColor: Colors.white),),
-                            const SizedBox(height:10),
+                            const Text("Prasanth K", style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20),),
+                            const Text("28 Years", style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18),),
+                            const Text("Male", style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18),),
+                            const SizedBox(height: 5,),
+                            Text(AppLocale.viewCompleteDetails.getString(
+                                context), style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white),),
+                            const SizedBox(height: 10),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 12),
-                              decoration: const BoxDecoration(
-                                color: Color(0xffdbeeee),
-                                borderRadius: BorderRadius.all(Radius.circular(10))
-                              ),
-                                child: Text(AppLocale.viewSummary.getString(context),style: const TextStyle(fontSize: 13,fontWeight: FontWeight.w600),)),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18, vertical: 12),
+                                decoration: const BoxDecoration(
+                                    color: Color(0xffdbeeee),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10))
+                                ),
+                                child: Text(
+                                  AppLocale.viewSummary.getString(context),
+                                  style: const TextStyle(fontSize: 13,
+                                      fontWeight: FontWeight.w600),)),
                             const SizedBox(height: 20,),
                           ],
                         ),
@@ -108,48 +133,38 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     ],
                   ),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 15,right: 10,top: 10,bottom: 10),
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
-                                color: Colors.white,
-                              ),
-                              height: 100,
-                              width: screenSize!.width / 4,
-                              child: const Center(
-                                child: Text(
-                                  '7 Mar 2023',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 5,),
-                            Text(
-                              AppLocale.lastTested.getString(context),
-                              style: const TextStyle(color: Colors.white, fontSize: 15, overflow: TextOverflow.ellipsis),
-                            )
-                          ],
-                        ),
-                    const SizedBox(width: 10,),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Column(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.only(left: 15,
+                                right: 10,
+                                top: 10,
+                                bottom: 10),
                             decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(12)),
                               color: Colors.white,
                             ),
                             height: 100,
-                            width: screenSize!.width/4,
-                            child: const Center(child: Text('10',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),)),
+                            width: screenSize!.width / 4,
+                            child: const Center(
+                              child: Text(
+                                '7 Mar 2023',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 5,),
-                           Text(AppLocale.totalTested.getString(context),style: const TextStyle(color: Colors.white,fontSize: 15,overflow: TextOverflow.ellipsis),)
+                          Text(
+                            AppLocale.lastTested.getString(context),
+                            style: const TextStyle(color: Colors.white,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),
+                          )
                         ],
                       ),
                       const SizedBox(width: 10,),
@@ -158,15 +173,44 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(12)),
                               color: Colors.white,
                             ),
                             height: 100,
-                            width: screenSize!.width/4,
-                            child: const Center(child: Text('9',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),)),
+                            width: screenSize!.width / 4,
+                            child: const Center(child: Text('10',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600),)),
                           ),
                           const SizedBox(height: 5,),
-                           Text(AppLocale.reports.getString(context),style: const TextStyle(color: Colors.white,fontSize: 15,overflow: TextOverflow.ellipsis),)
+                          Text(AppLocale.totalTested.getString(context),
+                            style: const TextStyle(color: Colors.white,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),)
+                        ],
+                      ),
+                      const SizedBox(width: 10,),
+                      Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(12)),
+                              color: Colors.white,
+                            ),
+                            height: 100,
+                            width: screenSize!.width / 4,
+                            child: const Center(child: Text('9',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600),)),
+                          ),
+                          const SizedBox(height: 5,),
+                          Text(AppLocale.reports.getString(context),
+                            style: const TextStyle(color: Colors.white,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),)
                         ],
                       ),
                     ],
@@ -175,33 +219,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                    color: AppColors.primaryColor,
-                      ),
-                    width: screenSize!.width,
-                    height: 100,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                            width: screenSize!.width*0.6,
-                            child: Text(AppLocale.deviceSetup.getString(context),style: const TextStyle(color: Colors.white),)),
-                        const SizedBox(width:5),
-                        Container(
-                            padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)),
-                          color: Colors.white),
-                          child: Text(AppLocale.setup.getString(context),style: const TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w600),))
-                      ],
-                    )
-                  ),
-                  const SizedBox(height: 10,),
                   Container(
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
@@ -214,14 +234,21 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                              width: screenSize!.width*0.6,
-                              child: Text(AppLocale.deviceConnect.getString(context),style: const TextStyle(color: Colors.white),)),
-                          const SizedBox(width:5),
+                              width: screenSize!.width * 0.6,
+                              child: Text(AppLocale.deviceSetup.getString(
+                                  context), style: const TextStyle(
+                                  color: Colors.white),)),
+                          const SizedBox(width: 5),
                           Container(
                               padding: const EdgeInsets.all(12),
-                              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)),
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(12)),
                                   color: Colors.white),
-                              child: Text(AppLocale.connect.getString(context),style: const TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w600),))
+                              child: Text(AppLocale.setup.getString(context),
+                                style: const TextStyle(color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600),))
                         ],
                       )
                   ),
@@ -238,14 +265,52 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                              width: screenSize!.width*0.6,
-                              child: Text(AppLocale.deviceStart.getString(context),style: const TextStyle(color: Colors.white),)),
-                          const SizedBox(width:5),
+                              width: screenSize!.width * 0.6,
+                              child: Text(AppLocale.deviceConnect.getString(
+                                  context), style: const TextStyle(
+                                  color: Colors.white),)),
+                          const SizedBox(width: 5),
+                          Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(12)),
+                                  color: Colors.white),
+                              child: Text(AppLocale.connect.getString(context),
+                                style: const TextStyle(color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600),))
+                        ],
+                      )
+                  ),
+                  const SizedBox(height: 10,),
+                  Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: AppColors.primaryColor,
+                      ),
+                      width: screenSize!.width,
+                      height: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                              width: screenSize!.width * 0.6,
+                              child: Text(AppLocale.deviceStart.getString(
+                                  context), style: const TextStyle(
+                                  color: Colors.white),)),
+                          const SizedBox(width: 5),
                           Container(
                               padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)),
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(12)),
                                   color: Colors.white),
-                              child: Text(AppLocale.start.getString(context),style: const TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w600),))
+                              child: Text(AppLocale.start.getString(context),
+                                style: const TextStyle(color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600),))
                         ],
                       )
                   ),
@@ -256,10 +321,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     children: [
                       Text(
                         AppLocale.reports.getString(context),
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushNamed(context, Routes.reportsRoute);
                         },
                         child: Row(
@@ -403,7 +469,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                 MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context)
+                                    width: MediaQuery
+                                        .of(context)
                                         .size
                                         .width /
                                         5,

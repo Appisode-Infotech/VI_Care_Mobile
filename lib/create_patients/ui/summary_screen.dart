@@ -20,7 +20,8 @@ class SummaryScreen extends StatefulWidget {
   State<SummaryScreen> createState() => _SummaryScreenState();
 }
 
-class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProviderStateMixin {
+class _SummaryScreenState extends State<SummaryScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -59,18 +60,19 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
             Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all((Radius.circular(12))),
-              color: Color(0xffD9D9D9),
+                color: Color(0xffD9D9D9),
               ),
               child: TabBar(
                 controller: _tabController,
-                indicator:  BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: AppColors.primaryColor,
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.primaryColor,
                 ),
-                indicatorPadding: const EdgeInsets.symmetric(horizontal: -10,vertical: 5),
+                indicatorPadding: const EdgeInsets.symmetric(
+                    horizontal: -10, vertical: 5),
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.black,
-                tabs:  [
+                tabs: [
                   Tab(text: AppLocale.oneWeek.getString(context)),
                   Tab(text: AppLocale.oneMonth.getString(context)),
                   Tab(text: AppLocale.sixMonth.getString(context)),
@@ -89,9 +91,10 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text(
+                        Text(
                           AppLocale.readiness.getString(context),
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight
+                              .w700),
                         ),
                         const SizedBox(height: 10,),
                         Container(
@@ -105,16 +108,22 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
                                 Color(0xFF0094FF),
                                 Color(0xFF0BC612),
                               ],
-                              stops: [0.0,0.2, 0.76, 1.0],
+                              stops: [0.0, 0.2, 0.76, 1.0],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
                           ),
-                          child:  Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(AppLocale.low.getString(context),style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 15),),
-                              Text(AppLocale.high.getString(context),style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 15),),
+                              Text(AppLocale.low.getString(context),
+                                style: TextStyle(color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),),
+                              Text(AppLocale.high.getString(context),
+                                style: TextStyle(color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),),
                             ],
                           ),
                         ),
@@ -137,7 +146,8 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
                               ],
                               xValueMapper: (ScatterPoint point, _) => point.x,
                               yValueMapper: (ScatterPoint point, _) => point.y,
-                              pointColorMapper: (ScatterPoint point, _) => point.y < 15 ? Colors.yellow : Colors.green,
+                              pointColorMapper: (ScatterPoint point, _) =>
+                              point.y < 15 ? Colors.yellow : Colors.green,
                               markerSettings: const MarkerSettings(
                               ),
                             ),
@@ -145,9 +155,10 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
                         ),
 
                         const SizedBox(height: 10,),
-                         Text(
+                        Text(
                           AppLocale.resting.getString(context),
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight
+                              .w700),
                         ),
                         const SizedBox(height: 10,),
                         Container(
@@ -161,16 +172,22 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
                                 Color(0xFF0094FF),
                                 Color(0xFF0BC612),
                               ],
-                              stops: [0.0,0.2, 0.76, 1.0],
+                              stops: [0.0, 0.2, 0.76, 1.0],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
                           ),
-                          child:  Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(AppLocale.low.getString(context),style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 15),),
-                              Text(AppLocale.high.getString(context),style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 15),),
+                              Text(AppLocale.low.getString(context),
+                                style: TextStyle(color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),),
+                              Text(AppLocale.high.getString(context),
+                                style: TextStyle(color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),),
                             ],
                           ),
                         ),
@@ -193,7 +210,8 @@ class _SummaryScreenState extends State<SummaryScreen> with SingleTickerProvider
                               ],
                               xValueMapper: (ScatterPoint point, _) => point.x,
                               yValueMapper: (ScatterPoint point, _) => point.y,
-                              pointColorMapper: (ScatterPoint point, _) => point.y < 15 ? Colors.yellow : Colors.green,
+                              pointColorMapper: (ScatterPoint point, _) =>
+                              point.y < 15 ? Colors.yellow : Colors.green,
                               markerSettings: const MarkerSettings(
                               ),
                             ),
