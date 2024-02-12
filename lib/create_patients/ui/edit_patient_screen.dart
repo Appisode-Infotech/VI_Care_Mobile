@@ -19,11 +19,15 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController dobController = TextEditingController();
-  TextEditingController mobileController = TextEditingController(text: '8765432345');
-  TextEditingController emailController = TextEditingController(text: 'smitha@email.com');
-  TextEditingController firstNameController = TextEditingController(text: 'smitha');
+  TextEditingController mobileController = TextEditingController(
+      text: '8765432345');
+  TextEditingController emailController = TextEditingController(
+      text: 'smitha@email.com');
+  TextEditingController firstNameController = TextEditingController(
+      text: 'smitha');
   TextEditingController lastNameController = TextEditingController(text: 'raj');
-  TextEditingController addressController = TextEditingController(text: '123 Street, peenya,banglore');
+  TextEditingController addressController = TextEditingController(
+      text: '123 Street, peenya,banglore');
 
   File? _selectedImage;
 
@@ -39,7 +43,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.pop(context);
-                final image = await ImagePicker().pickImage(source: ImageSource.camera);
+                final image = await ImagePicker().pickImage(
+                    source: ImageSource.camera);
                 if (image != null) {
                   setState(() {
                     _selectedImage = File(image.path);
@@ -54,7 +59,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.pop(context);
-                final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                final image = await ImagePicker().pickImage(
+                    source: ImageSource.gallery);
                 if (image != null) {
                   setState(() {
                     _selectedImage = File(image.path);
@@ -76,24 +82,31 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocale.editPatients.getString(context), style: const TextStyle(color: Colors.white),),
+          title: Text(AppLocale.editPatients.getString(context),
+            style: const TextStyle(color: Colors.white),),
           backgroundColor: AppColors.primaryColor,
           toolbarHeight: 75,
-          leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white,),
+            onPressed: () {
+              Navigator.pop(context);
+            },),
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: Form(
               key: formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(AppLocale.editPatientsDetails.getString(context),style: const TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
+                  Text(AppLocale.editPatientsDetails.getString(context),
+                    style: const TextStyle(
+                        color: AppColors.fontShadeColor, fontSize: 13),),
                   const SizedBox(height: 10,),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       _showImageSourceDialog(context);
                     },
                     child: Center(
@@ -116,7 +129,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   radius: 15,
                                   backgroundColor: AppColors.primaryColor,
                                   child: IconButton(
-                                      onPressed: (){ _showImageSourceDialog(context);},
+                                      onPressed: () {
+                                        _showImageSourceDialog(context);
+                                      },
                                       icon: const Icon(
                                         Icons.edit_outlined,
                                         size: 15,
@@ -126,8 +141,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height:10),
-                  Text(AppLocale.mobile.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 10),
+                  Text(AppLocale.mobile.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10,),
                   TextFormField(
                     validator: (value) {
@@ -147,7 +163,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       errorStyle: const TextStyle(
                           color: Colors.red),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: AppColors.primaryColor),
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryColor),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       border: OutlineInputBorder(
@@ -159,9 +176,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           vertical: 15, horizontal: 10),
                     ),
                   ),
-            
+
                   const SizedBox(height: 10,),
-                  Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Text(AppLocale.email.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10,),
                   TextFormField(
                     validator: (value) {
@@ -170,7 +188,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       }
                       return null;
                     },
-                    controller:emailController, 
+                    controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
@@ -181,7 +199,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       errorStyle: const TextStyle(
                           color: Colors.red),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: AppColors.primaryColor),
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryColor),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       border: OutlineInputBorder(
@@ -202,7 +221,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(AppLocale.dateOfBirth.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+                            Text(AppLocale.dateOfBirth.getString(context),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600)),
                             const SizedBox(height: 10,),
                             GestureDetector(
                               onTap: () async {
@@ -213,7 +234,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   lastDate: DateTime.now(),
                                 );
                                 setState(() {
-                                  dobController.text = "${picked!.day} / ${picked.month} / ${picked.year}";
+                                  dobController.text =
+                                  "${picked!.day} / ${picked.month} / ${picked
+                                      .year}";
                                 });
                               },
                               child: TextFormField(
@@ -224,10 +247,12 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       vertical: 15, horizontal: 10),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(color: Color(0xffD3D3D3)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xffD3D3D3)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   border: OutlineInputBorder(
@@ -240,7 +265,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     onPressed: () {},
                                   ),
                                   filled: true,
-                                  hintText: AppLocale.dateOfBirth.getString(context),
+                                  hintText: AppLocale.dateOfBirth.getString(
+                                      context),
                                   fillColor: Colors.white,
                                 ),
                                 controller: dobController,
@@ -252,10 +278,11 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       ),
                     ],
                   ),
-            
+
                   const SizedBox(height: 10,),
-            
-                  Text(AppLocale.firstName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+
+                  Text(AppLocale.firstName.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10,),
                   TextFormField(
                     validator: (value) {
@@ -275,7 +302,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       errorStyle: const TextStyle(
                           color: Colors.red),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: AppColors.primaryColor),
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryColor),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       border: OutlineInputBorder(
@@ -287,9 +315,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           vertical: 15, horizontal: 10),
                     ),
                   ),
-            
+
                   const SizedBox(height: 10,),
-                  Text(AppLocale.lastName.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Text(AppLocale.lastName.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10,),
                   TextFormField(
                     validator: (value) {
@@ -309,7 +338,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       errorStyle: const TextStyle(
                           color: Colors.red),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: AppColors.primaryColor),
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryColor),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       border: OutlineInputBorder(
@@ -321,9 +351,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           vertical: 15, horizontal: 10),
                     ),
                   ),
-            
-                  const SizedBox(height:10,),
-                  Text(AppLocale.gender.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+
+                  const SizedBox(height: 10,),
+                  Text(AppLocale.gender.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10,),
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
@@ -335,7 +366,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           color: Colors.green,
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 16),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: const BorderSide(
@@ -344,7 +376,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       ),
                     ),
                     dropdownColor: Colors.white,
-                    hint:  Text(AppLocale.selectGender.getString(context)),
+                    hint: Text(AppLocale.selectGender.getString(context)),
                     value: gender,
                     onChanged: (String? value) {
                       setState(() {
@@ -352,16 +384,20 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       });
                     },
                     style: const TextStyle(color: Colors.black),
-                    items: <String>[AppLocale.male.getString(context), AppLocale.female.getString(context)].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>[
+                      AppLocale.male.getString(context),
+                      AppLocale.female.getString(context)
+                    ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
                       );
                     }).toList(),
                   ),
-            
+
                   const SizedBox(height: 10,),
-                  Text(AppLocale.address.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Text(AppLocale.address.getString(context),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10,),
                   TextFormField(
                     validator: (value) {
@@ -382,7 +418,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       errorStyle: const TextStyle(
                           color: Colors.red),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: AppColors.primaryColor),
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryColor),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       border: OutlineInputBorder(
@@ -395,9 +432,11 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                     ),
                   ),
                   const SizedBox(height: 20,),
-                  getPrimaryAppButton(context, AppLocale.submit.getString(context),
+                  getPrimaryAppButton(
+                      context, AppLocale.submit.getString(context),
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.patientDetailsRoute);
+                        Navigator.pushNamed(
+                            context, Routes.patientDetailsRoute);
                       }),
                 ],
               ),

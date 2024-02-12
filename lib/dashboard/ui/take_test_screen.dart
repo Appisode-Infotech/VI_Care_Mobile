@@ -63,7 +63,15 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.white,), onPressed: () { Navigator.pop(context); },),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -97,14 +105,18 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             GestureDetector(
               onTap: _handleStartButtonClick,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   color: Colors.blue.shade300,
                 ),
                 child: Text(
-                  _isTimerRunning ? AppLocale.stop.getString(context) : AppLocale.start.getString(context),
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                  _isTimerRunning
+                      ? AppLocale.stop.getString(context)
+                      : AppLocale.start.getString(context),
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w600),
                 ),
               ),
             ),

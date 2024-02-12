@@ -17,16 +17,15 @@ class ForgotResetPassword extends StatefulWidget {
 }
 
 class _ForgotResetPasswordState extends State<ForgotResetPassword> {
+  final formKey = GlobalKey<FormState>();
 
-    final formKey = GlobalKey<FormState>();
+  bool isShowPassword = true;
+  bool isConfirmPassword = true;
+  int currentStep = 1;
 
-    bool isShowPassword = true;
-    bool isConfirmPassword = true;
-    int currentStep = 1;
-
-    Color getIndicatorColor(int step) {
-      return currentStep >= step ? AppColors.primaryColor : Colors.grey;
-    }
+  Color getIndicatorColor(int step) {
+    return currentStep >= step ? AppColors.primaryColor : Colors.grey;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +36,12 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
             child: Column(
-             mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment:CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: (){
-                    Navigator.pushNamed(context,Routes.loginRoute);
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.loginRoute);
                   },
                   child: const Icon(
                     Icons.arrow_back_ios,
@@ -50,26 +49,51 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                     weight: 45,
                   ),
                 ),
-                currentStep==1?Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  Text(AppLocale.forgotPassword.getString(context),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-                  const SizedBox(height: 10,),
-                  Text(AppLocale.emailToResetPassword.getString(context),style: const TextStyle(fontSize: 12,color: AppColors.fontShadeColor),),
-                  const SizedBox(height: 20,),
-                  ],
-                ):Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(AppLocale.resetPassword.getString(context),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-                    const SizedBox(height: 10,),
-                    Text(AppLocale.enterOtpForNewPswd.getString(context),style: const TextStyle(fontSize: 12,color: AppColors.fontShadeColor),),
-                    const SizedBox(height: 20,),
-                  ],
-                ),
-
+                currentStep == 1
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocale.forgotPassword.getString(context),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            AppLocale.emailToResetPassword.getString(context),
+                            style: const TextStyle(
+                                fontSize: 12, color: AppColors.fontShadeColor),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocale.resetPassword.getString(context),
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            AppLocale.enterOtpForNewPswd.getString(context),
+                            style: const TextStyle(
+                                fontSize: 12, color: AppColors.fontShadeColor),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
                 StepProgressIndicator(
                   roundedEdges: const Radius.circular(20),
                   size: 7,
@@ -78,30 +102,48 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                   selectedColor: AppColors.primaryColor,
                   unselectedColor: Colors.grey,
                 ),
-                const SizedBox(height: 30,),
-                currentStep == 1?forgotPassword(screenSize!):const SizedBox.shrink(),
-                currentStep == 2?resetPassword(screenSize!):const SizedBox.shrink(),
-                const SizedBox(height:30),
+                const SizedBox(
+                  height: 30,
+                ),
+                currentStep == 1
+                    ? forgotPassword(screenSize!)
+                    : const SizedBox.shrink(),
+                currentStep == 2
+                    ? resetPassword(screenSize!)
+                    : const SizedBox.shrink(),
+                const SizedBox(height: 30),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    currentStep!=1?getPrimaryAppButton(context, AppLocale.previous.getString(context), onPressed: (){
-                      setState(() {
-                        currentStep=currentStep-1;
-                      });
-                    },
-                      buttonColor: Colors.red.shade500,
-                    ):const SizedBox.shrink(),
-                    const SizedBox(height: 10,),
-                    (currentStep==1)?getPrimaryAppButton(context, AppLocale.next.getString(context),
-                        onPressed: () {
-                          setState(() {
-                            currentStep = currentStep+1;
-                          });
-                        }):getPrimaryAppButton(context, AppLocale.next.getString(context),
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
-                        }),
+                    currentStep != 1
+                        ? getPrimaryAppButton(
+                            context,
+                            AppLocale.previous.getString(context),
+                            onPressed: () {
+                              setState(() {
+                                currentStep = currentStep - 1;
+                              });
+                            },
+                            buttonColor: Colors.red.shade500,
+                          )
+                        : const SizedBox.shrink(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    (currentStep == 1)
+                        ? getPrimaryAppButton(
+                            context, AppLocale.next.getString(context),
+                            onPressed: () {
+                            setState(() {
+                              currentStep = currentStep + 1;
+                            });
+                          })
+                        : getPrimaryAppButton(
+                            context, AppLocale.next.getString(context),
+                            onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, Routes.loginRoute, (route) => false);
+                          }),
                   ],
                 ),
               ],
@@ -109,177 +151,186 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           ),
         ),
       ),
-
     );
   }
 
-    Widget forgotPassword(Size size) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppLocale.email.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 10,),
-          TextFormField(
-            validator: (value) {
-              if (value!.isEmpty) {
-                return AppLocale.validEmail.getString(context);
-              }
-              return null;
-            },
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              hintText: AppLocale.email.getString(context),
-              counterText: "",
-              isCollapsed: true,
-              errorStyle: const TextStyle(
-                  color: Colors.red),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.primaryColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 15, horizontal: 10),
+  Widget forgotPassword(Size size) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(AppLocale.email.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validEmail.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.email.getString(context),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
             ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
+  }
 
-    Widget resetPassword(Size size) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppLocale.enterOtp.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 10,),
-          TextFormField(
-            validator: (value) {
-              if (value!.isEmpty) {
-                return AppLocale.validEmail.getString(context);
-              }
-              return null;
-            },
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              hintText: AppLocale.otp.getString(context),
-              counterText: "",
-              isCollapsed: true,
-              errorStyle: const TextStyle(
-                  color: Colors.red),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.primaryColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 15, horizontal: 10),
+  Widget resetPassword(Size size) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(AppLocale.enterOtp.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validEmail.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.otp.getString(context),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
             ),
-          ),
-          const SizedBox(height: 10,),
-
-          Text(AppLocale.newPassword.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-          const SizedBox(height: 10,),
-          TextFormField(
-            validator: (value) {
-              if (value!.isEmpty) {
-                return AppLocale.validPassword.getString(context);
-              }
-              return null;
-            },
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: isShowPassword,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              hintText: AppLocale.password.getString(context),
-              suffixIcon: CupertinoButton(
-                onPressed: () {
-                  setState(() {
-                    isShowPassword = !isShowPassword;
-                  });
-                },
-                child: Icon(
-                  isShowPassword ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
-                ),
-              ),
-              counterText: "",
-              isCollapsed: true,
-              errorStyle: const TextStyle(
-                  color: Colors.red),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.primaryColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 15, horizontal: 10),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
             ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
-
-          const SizedBox(height: 10,),
-          Text(AppLocale.confirmPassword.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-          const SizedBox(height: 10,),
-          TextFormField(
-            validator: (value) {
-              if (value!.isEmpty) {
-                return AppLocale.validPassword.getString(context);
-              }
-              return null;
-            },
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: isConfirmPassword,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              hintText: AppLocale.password.getString(context),
-              suffixIcon: CupertinoButton(
-                onPressed: () {
-                  setState(() {
-                    isConfirmPassword = !isConfirmPassword;
-                  });
-                },
-                child: Icon(
-                  isConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
-                ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          AppLocale.newPassword.getString(context),
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validPassword.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.visiblePassword,
+          obscureText: isShowPassword,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.password.getString(context),
+            suffixIcon: CupertinoButton(
+              onPressed: () {
+                setState(() {
+                  isShowPassword = !isShowPassword;
+                });
+              },
+              child: Icon(
+                isShowPassword ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey,
               ),
-              counterText: "",
-              isCollapsed: true,
-              errorStyle: const TextStyle(
-                  color: Colors.red),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.primaryColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 15, horizontal: 10),
             ),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
-        ],
-      );
-    }
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          AppLocale.confirmPassword.getString(context),
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validPassword.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.visiblePassword,
+          obscureText: isConfirmPassword,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.password.getString(context),
+            suffixIcon: CupertinoButton(
+              onPressed: () {
+                setState(() {
+                  isConfirmPassword = !isConfirmPassword;
+                });
+              },
+              child: Icon(
+                isConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey,
+              ),
+            ),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+      ],
+    );
+  }
 }

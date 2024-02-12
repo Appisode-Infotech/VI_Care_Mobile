@@ -4,7 +4,6 @@ import 'package:vicare/dashboard/ui/home_screen.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
 import 'package:vicare/utils/routes.dart';
-import 'ui/take_test_screen.dart';
 import '../utils/app_colors.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -99,13 +98,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         height: 50.0,
         child: FloatingActionButton(
           onPressed: () {
-Navigator.pushNamed(context, Routes.takeTestRoute);            //
+            Navigator.pushNamed(context, Routes.takeTestRoute); //
             // setState(() {
             //   selectedItemPosition = 2;
             // });
           },
           backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.monitor_heart_outlined, color: Colors.white, size: 28),
+          child: const Icon(Icons.monitor_heart_outlined,
+              color: Colors.white, size: 28),
         ),
       ),
     );

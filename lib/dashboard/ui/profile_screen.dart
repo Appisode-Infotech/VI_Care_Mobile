@@ -19,14 +19,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(AppLocale.profile.getString(context), style: const TextStyle(color: Colors.white),),
+        title: Text(
+          AppLocale.profile.getString(context),
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
             children: [
               const Row(
@@ -35,35 +38,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     backgroundImage: AssetImage("assets/images/img_1.png"),
                     radius: 40,
                   ),
-                  SizedBox(width: 10,),
-                  Text("Dr. Albert Raj",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20),)
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Dr. Albert Raj",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                  )
                 ],
               ),
-               const SizedBox(height:10),
-               Divider(color: Colors.grey.shade200,),
-              const SizedBox(height:10),
+              const SizedBox(height: 10),
+              Divider(
+                color: Colors.grey.shade200,
+              ),
+              const SizedBox(height: 10),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       Container(
-                          padding: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: Colors.teal.shade100,
-                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
                         ),
-                        child: const Icon(Icons.settings_outlined,color: AppColors.primaryColor,),),
+                        child: const Icon(
+                          Icons.settings_outlined,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
                       const SizedBox(width: 10),
-                       Text(AppLocale.scanSettings.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                      Text(
+                        AppLocale.scanSettings.getString(context),
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward,color: Colors.grey,)
+                  const Icon(
+                    Icons.arrow_forward,
+                    color: Colors.grey,
+                  )
                 ],
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, Routes.offlineTestRoute);
                 },
                 child: Row(
@@ -75,20 +99,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.teal.shade100,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: const Icon(Icons.cloud_off,color: AppColors.primaryColor,),),
+                          child: const Icon(
+                            Icons.cloud_off,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                         Text(AppLocale.offlineSaved.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                        Text(
+                          AppLocale.offlineSaved.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
-                    const Icon(Icons.arrow_forward,color: Colors.grey,)
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, Routes.editProfileRoute);
                 },
                 child: Row(
@@ -100,20 +138,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.teal.shade100,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: const Icon(Icons.edit_outlined,color: AppColors.primaryColor,),),
+                          child: const Icon(
+                            Icons.edit_outlined,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                         Text(AppLocale.editProfile.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                        Text(
+                          AppLocale.editProfile.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
-                    const Icon(Icons.arrow_forward,color: Colors.grey,)
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               InkWell(
-                onTap: (){Navigator.pushNamed(context, Routes.changePasswordRoute);},
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.changePasswordRoute);
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -123,21 +177,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.teal.shade100,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: const Icon(Icons.lock_outline,color: AppColors.primaryColor,),),
+                          child: const Icon(
+                            Icons.lock_outline,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                         Text(AppLocale.changePassword.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                        Text(
+                          AppLocale.changePassword.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
-                    const Icon(Icons.arrow_forward,color: Colors.grey,)
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               GestureDetector(
                 onTap: () async {
-                  await showLanguageBottomSheet(context,onLanguageChange);
+                  await showLanguageBottomSheet(context, onLanguageChange);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,28 +216,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.teal.shade100,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: const Icon(Icons.language,color: AppColors.primaryColor,),),
+                          child: const Icon(
+                            Icons.language,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                        Text(AppLocale.changeLanguage.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                        Text(
+                          AppLocale.changeLanguage.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
-                    const Icon(Icons.arrow_forward,color: Colors.grey,)
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height:10),
-              Divider(color: Colors.grey.shade200,),
-              const SizedBox(height:10),
+              const SizedBox(height: 10),
+              Divider(
+                color: Colors.grey.shade200,
+              ),
+              const SizedBox(height: 10),
               InkWell(
-                onTap: (){
-                  Navigator.pushNamed(
-                      context, Routes.webViewRoute,
-                      arguments: {
-                        'url': "https://www.google.com",
-                        'title': AppLocale.termsAndConditions.getString(context),
-                      });
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.webViewRoute, arguments: {
+                    'url': "https://www.google.com",
+                    'title': AppLocale.termsAndConditions.getString(context),
+                  });
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,26 +260,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.teal.shade100,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: const Icon(Icons.description_outlined,color: AppColors.primaryColor,),),
+                          child: const Icon(
+                            Icons.description_outlined,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                         Text(AppLocale.termsConditions.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                        Text(
+                          AppLocale.termsConditions.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
-                    const Icon(Icons.call_made,color: Colors.grey,)
+                    const Icon(
+                      Icons.call_made,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               InkWell(
-                onTap: (){
-                  Navigator.pushNamed(
-                      context, Routes.webViewRoute,
-                      arguments: {
-                        'url': "https://www.google.com",
-                        'title': AppLocale.newsBlog.getString(context),
-                      });
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.webViewRoute, arguments: {
+                    'url': "https://www.google.com",
+                    'title': AppLocale.newsBlog.getString(context),
+                  });
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,18 +302,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.teal.shade100,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: const Icon(Icons.newspaper,color: AppColors.primaryColor,),),
+                          child: const Icon(
+                            Icons.newspaper,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                         Text(AppLocale.newsBlog.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                        Text(
+                          AppLocale.newsBlog.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
                       ],
                     ),
-                    const Icon(Icons.call_made,color: Colors.grey,)
+                    const Icon(
+                      Icons.call_made,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -231,19 +337,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: Colors.teal.shade100,
-                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
                         ),
-                        child: const Icon(Icons.headset_mic_outlined,color: AppColors.primaryColor,),),
+                        child: const Icon(
+                          Icons.headset_mic_outlined,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
                       const SizedBox(width: 10),
-                       Text(AppLocale.support.getString(context),style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                      Text(
+                        AppLocale.support.getString(context),
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
                     ],
                   ),
-                  const Icon(Icons.call_made,color: Colors.grey,)
+                  const Icon(
+                    Icons.call_made,
+                    color: Colors.grey,
+                  )
                 ],
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               InkWell(
-                onTap: (){Navigator.pushNamed(context, Routes.loginRoute);},
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.loginRoute);
+                },
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 3),
                     width: screenSize!.width,
@@ -259,7 +381,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    child:  Center(child: Text(AppLocale.logOut.getString(context),style: const TextStyle(color: Colors.red,fontWeight: FontWeight.w600),))),
+                    child: Center(
+                        child: Text(
+                      AppLocale.logOut.getString(context),
+                      style: const TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.w600),
+                    ))),
               ),
             ],
           ),

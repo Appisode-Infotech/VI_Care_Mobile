@@ -136,39 +136,45 @@ class _HomeScreenState extends State<HomeScreen> {
         toolbarHeight: 70,
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.primaryColor,
-        title:  Column(
+        title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Text(AppLocale.hi.getString(context), style: const TextStyle(color: Colors.white)),
-                const SizedBox(width: 10,),
+                Text(AppLocale.hi.getString(context),
+                    style: const TextStyle(color: Colors.white)),
+                const SizedBox(
+                  width: 10,
+                ),
                 const Text("Albert Raj", style: TextStyle(color: Colors.white)),
               ],
             ),
-             const SizedBox(height: 5,),
-             Text(AppLocale.letsUnlock.getString(context),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(AppLocale.letsUnlock.getString(context),
                 style: const TextStyle(color: Colors.white, fontSize: 12)),
           ],
         ),
         actions: [
-           Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: const BoxDecoration(
-                color: Color(0xFFD9D9D9),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              padding: const EdgeInsets.all(10),
-              child:   badges.Badge(
-                badgeContent: const Text('3',style: TextStyle(fontSize: 8,color: Colors.white)),
-                position: BadgePosition.topEnd(top: -7, end: -4),
-                child: const Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: const BoxDecoration(
+              color: Color(0xFFD9D9D9),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: badges.Badge(
+              badgeContent: const Text('3',
+                  style: TextStyle(fontSize: 8, color: Colors.white)),
+              position: BadgePosition.topEnd(top: -7, end: -4),
+              child: const Icon(
+                Icons.notifications,
+                color: Colors.white,
               ),
             ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -188,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                     Text(
+                    Text(
                       AppLocale.recentReports.getString(context),
                       style: const TextStyle(
                           color: Colors.white,
@@ -218,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             margin: const EdgeInsets.only(right: 10),
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(12)),
+                                    BorderRadius.all(Radius.circular(12)),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -235,8 +241,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: 20,
                                     ),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           patientReports[index]["patientName"],
@@ -248,19 +256,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           patientReports[index]["age"],
                                           style: const TextStyle(
-                                              color: Colors.black, fontSize: 12),
+                                              color: Colors.black,
+                                              fontSize: 12),
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
                                           patientReports[index]["description"],
                                           style: const TextStyle(
-                                              color: Colors.black, fontSize: 10),
+                                              color: Colors.black,
+                                              fontSize: 10),
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
                                           "created: ${patientReports[index]["created"]}",
                                           style: const TextStyle(
-                                              color: Colors.black, fontSize: 10),
+                                              color: Colors.black,
+                                              fontSize: 10),
                                         ),
                                       ],
                                     ),
@@ -268,92 +279,92 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Container(
                                   child: (patientReports[index]
-                                  ["receivedReport"] ==
-                                      true)
+                                              ["receivedReport"] ==
+                                          true)
                                       ? Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 50,
-                                        height: 50,
-                                        child: Stack(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            CircularStepProgressIndicator(
-                                              totalSteps: 200,
-                                              currentStep: int.parse(
-                                                  patientReports[index]
-                                                  ["repData"]["bpm"]),
-                                              stepSize: 5,
-                                              selectedColor:
-                                              patientReports[index]
-                                              ["repData"]
-                                              ["color"],
-                                              unselectedColor:
-                                              Colors.grey[200],
-                                              padding: 0,
-                                              selectedStepSize: 6,
-                                              roundedCap: (_, __) => true,
+                                            SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: Stack(
+                                                children: [
+                                                  CircularStepProgressIndicator(
+                                                    totalSteps: 200,
+                                                    currentStep: int.parse(
+                                                        patientReports[index]
+                                                            ["repData"]["bpm"]),
+                                                    stepSize: 5,
+                                                    selectedColor:
+                                                        patientReports[index]
+                                                                ["repData"]
+                                                            ["color"],
+                                                    unselectedColor:
+                                                        Colors.grey[200],
+                                                    padding: 0,
+                                                    selectedStepSize: 6,
+                                                    roundedCap: (_, __) => true,
+                                                  ),
+                                                  Center(
+                                                    child: Text(
+                                                      patientReports[index]
+                                                          ["repData"]["bpm"],
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 10,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                            Center(
-                                              child: Text(
-                                                patientReports[index]
-                                                ["repData"]["bpm"],
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontSize: 10,
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              patientReports[index]["repData"]
+                                                  ["status"],
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: patientReports[index]
+                                                      ["repData"]["color"]),
+                                            )
+                                          ],
+                                        )
+                                      : Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  5,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(20)),
+                                                color: patientReports[index]
+                                                    ['repData']["color"],
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  patientReports[index]
+                                                      ["reportStatus"],
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        patientReports[index]["repData"]
-                                        ["status"],
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: patientReports[index]
-                                            ["repData"]["color"]),
-                                      )
-                                    ],
-                                  )
-                                      : Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            5,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          const BorderRadius.all(
-                                              Radius.circular(20)),
-                                          color: patientReports[index]
-                                          ['repData']["color"],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            patientReports[index]
-                                            ["reportStatus"],
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
                               ],
                             ),
@@ -389,29 +400,30 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 18),
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     AppLocale.patients.getString(context),
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w700),
                   ),
-                     InkWell(
-                       onTap: (){
-                         widget.changeScreen(2);
-                       },
-                       child: Row(
-                        children: [
-                           Text(
-                              AppLocale.viewAll.getString(context),
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                          const Icon(Icons.navigate_next)
-                        ],
-                       ),
-                     ),
+                  InkWell(
+                    onTap: () {
+                      widget.changeScreen(2);
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          AppLocale.viewAll.getString(context),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        const Icon(Icons.navigate_next)
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -431,98 +443,106 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return (index + 1) == patientData.length
                       ? InkWell(
-                    onTap: (){
-                      Navigator.pushNamed(context, Routes.addNewPatientRoute);
-                    },
-                        child: DottedBorder(
-                          dashPattern: const [2,2],
-                          color: Colors.black,
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(12),
-                          strokeWidth: 1,
-                          child: Container(
-                            color: Colors.white,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.add),
-                                  Text(
-                                    AppLocale.newPatient.getString(context),
-                                    style: const TextStyle(color: Colors.black, fontSize: 12),
-                                  ),
-                                ],
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Routes.addNewPatientRoute);
+                          },
+                          child: DottedBorder(
+                            dashPattern: const [2, 2],
+                            color: Colors.black,
+                            borderType: BorderType.RRect,
+                            radius: const Radius.circular(12),
+                            strokeWidth: 1,
+                            child: Container(
+                              color: Colors.white,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.add),
+                                    Text(
+                                      AppLocale.newPatient.getString(context),
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
+                        )
                       : InkWell(
-                    onTap: (){Navigator.pushNamed(context, Routes.patientDetailsRoute);},
-                        child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                                            height: 100,
-                                            width: 100,
-                                            decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: AppColors.primaryColor,
-                                            ),
-                                            child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            // backgroundColor: Colors.grey,
-                            backgroundImage:
-                            AssetImage(patientData[index]['image']),
-                            radius: 20,
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Routes.patientDetailsRoute);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            height: 100,
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              color: AppColors.primaryColor,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  // backgroundColor: Colors.grey,
+                                  backgroundImage:
+                                      AssetImage(patientData[index]['image']),
+                                  radius: 20,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  patientData[index]['patientName']!,
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  patientData[index]['age']!,
+                                  style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            patientData[index]['patientName']!,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.white),
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            patientData[index]['age']!,
-                            style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ],
-                                            ),
-                                          ),
-                      );
+                        );
                 }),
             const SizedBox(
               height: 20,
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 18),
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     AppLocale.allReports.getString(context),
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w700),
                   ),
-                   InkWell(
-                     onTap: (){
-                       widget.changeScreen(1);
-                       // Navigator.pushNamed(context, Routes.reportsRoute);
-                     },
-                     child: Row(
+                  InkWell(
+                    onTap: () {
+                      widget.changeScreen(1);
+                      // Navigator.pushNamed(context, Routes.reportsRoute);
+                    },
+                    child: Row(
                       children: [
                         Text(
                           AppLocale.viewAll.getString(context),
@@ -531,8 +551,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Icon(Icons.navigate_next)
                       ],
-                     ),
-                   ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -542,7 +562,9 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                  onTap: (){Navigator.pushNamed(context, Routes.patientDetailsRoute);},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.patientDetailsRoute);
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
@@ -555,8 +577,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             offset: Offset(1, 1),
                           ),
                         ],
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(12)),
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
                         color: Colors.white),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -565,8 +586,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  patientReports[index]["image"]),
+                              backgroundImage:
+                                  AssetImage(patientReports[index]["image"]),
                               radius: 30,
                             ),
                             const SizedBox(
@@ -605,93 +626,81 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         Container(
-                          child: (patientReports[index]
-                          ["receivedReport"] ==
-                              true)
+                          child: (patientReports[index]["receivedReport"] ==
+                                  true)
                               ? Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: Stack(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    CircularStepProgressIndicator(
-                                      totalSteps: 200,
-                                      currentStep: int.parse(
-                                          patientReports[index]
-                                          ["repData"]["bpm"]),
-                                      stepSize: 5,
-                                      selectedColor:
-                                      patientReports[index]
-                                      ["repData"]
-                                      ["color"],
-                                      unselectedColor:
-                                      Colors.grey[200],
-                                      padding: 0,
-                                      selectedStepSize: 6,
-                                      roundedCap: (_, __) => true,
+                                    SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                      child: Stack(
+                                        children: [
+                                          CircularStepProgressIndicator(
+                                            totalSteps: 200,
+                                            currentStep: int.parse(
+                                                patientReports[index]["repData"]
+                                                    ["bpm"]),
+                                            stepSize: 5,
+                                            selectedColor: patientReports[index]
+                                                ["repData"]["color"],
+                                            unselectedColor: Colors.grey[200],
+                                            padding: 0,
+                                            selectedStepSize: 6,
+                                            roundedCap: (_, __) => true,
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              patientReports[index]["repData"]
+                                                  ["bpm"],
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Center(
-                                      child: Text(
-                                        patientReports[index]
-                                        ["repData"]["bpm"],
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontSize: 10,
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      patientReports[index]["repData"]
+                                          ["status"],
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: patientReports[index]
+                                              ["repData"]["color"]),
+                                    )
+                                  ],
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 5,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        color: patientReports[index]['repData']
+                                            ["color"],
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          patientReports[index]["reportStatus"],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                patientReports[index]["repData"]
-                                ["status"],
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: patientReports[index]
-                                    ["repData"]["color"]),
-                              )
-                            ],
-                          )
-                              : Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context)
-                                    .size
-                                    .width /
-                                    5,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  const BorderRadius.all(
-                                      Radius.circular(20)),
-                                  color: patientReports[index]
-                                  ['repData']["color"],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    patientReports[index]
-                                    ["reportStatus"],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                       ],
                     ),
