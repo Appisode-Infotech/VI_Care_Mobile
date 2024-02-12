@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:vicare/auth/auth_provider.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
@@ -17,10 +19,7 @@ class ForgotResetPassword extends StatefulWidget {
 }
 
 class _ForgotResetPasswordState extends State<ForgotResetPassword> {
-  final formKey = GlobalKey<FormState>();
 
-  bool isShowPassword = true;
-  bool isConfirmPassword = true;
   int currentStep = 1;
 
   Color getIndicatorColor(int step) {
@@ -29,132 +28,137 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.loginRoute);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    size: 25,
-                    weight: 45,
-                  ),
-                ),
-                currentStep == 1
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocale.forgotPassword.getString(context),
-                            style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            AppLocale.emailToResetPassword.getString(context),
-                            style: const TextStyle(
-                                fontSize: 12, color: AppColors.fontShadeColor),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocale.resetPassword.getString(context),
-                            style: const TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            AppLocale.enterOtpForNewPswd.getString(context),
-                            style: const TextStyle(
-                                fontSize: 12, color: AppColors.fontShadeColor),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                StepProgressIndicator(
-                  roundedEdges: const Radius.circular(20),
-                  size: 7,
-                  totalSteps: 2,
-                  currentStep: currentStep,
-                  selectedColor: AppColors.primaryColor,
-                  unselectedColor: Colors.grey,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                currentStep == 1
-                    ? forgotPassword(screenSize!)
-                    : const SizedBox.shrink(),
-                currentStep == 2
-                    ? resetPassword(screenSize!)
-                    : const SizedBox.shrink(),
-                const SizedBox(height: 30),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+    return Consumer(
+      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.forgotPageContext = context;
+        return Scaffold(
+          body: Form(
+            key: authProvider.forgotPasswordFormKey,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    currentStep != 1
-                        ? getPrimaryAppButton(
-                            context,
-                            AppLocale.previous.getString(context),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.loginRoute);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 25,
+                        weight: 45,
+                      ),
+                    ),
+                    currentStep == 1
+                        ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocale.forgotPassword.getString(context),
+                          style: const TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          AppLocale.emailToResetPassword.getString(context),
+                          style: const TextStyle(
+                              fontSize: 12, color: AppColors.fontShadeColor),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    )
+                        : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocale.resetPassword.getString(context),
+                          style: const TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          AppLocale.enterOtpForNewPswd.getString(context),
+                          style: const TextStyle(
+                              fontSize: 12, color: AppColors.fontShadeColor),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                    StepProgressIndicator(
+                      roundedEdges: const Radius.circular(20),
+                      size: 7,
+                      totalSteps: 2,
+                      currentStep: currentStep,
+                      selectedColor: AppColors.primaryColor,
+                      unselectedColor: Colors.grey,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    currentStep == 1
+                        ? forgotPassword(authProvider)
+                        : const SizedBox.shrink(),
+                    currentStep == 2
+                        ? resetPassword(screenSize!,authProvider)
+                        : const SizedBox.shrink(),
+                    const SizedBox(height: 30),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        currentStep != 1
+                            ? getPrimaryAppButton(
+                          context,
+                          AppLocale.previous.getString(context),
+                          onPressed: () {
+                            setState(() {
+                              currentStep = currentStep - 1;
+                            });
+                          },
+                          buttonColor: Colors.red.shade500,
+                        )
+                            : const SizedBox.shrink(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        (currentStep == 1)
+                            ? getPrimaryAppButton(
+                            context, AppLocale.next.getString(context),
                             onPressed: () {
                               setState(() {
-                                currentStep = currentStep - 1;
+                                currentStep = currentStep + 1;
                               });
-                            },
-                            buttonColor: Colors.red.shade500,
-                          )
-                        : const SizedBox.shrink(),
-                    const SizedBox(
-                      height: 10,
+                            })
+                            : getPrimaryAppButton(
+                            context, AppLocale.next.getString(context),
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, Routes.loginRoute, (route) => false);
+                            }),
+                      ],
                     ),
-                    (currentStep == 1)
-                        ? getPrimaryAppButton(
-                            context, AppLocale.next.getString(context),
-                            onPressed: () {
-                            setState(() {
-                              currentStep = currentStep + 1;
-                            });
-                          })
-                        : getPrimaryAppButton(
-                            context, AppLocale.next.getString(context),
-                            onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, Routes.loginRoute, (route) => false);
-                          }),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget forgotPassword(Size size) {
+  Widget forgotPassword(AuthProvider authProvider) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,6 +169,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.forgotPasswordEmailController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validEmail.getString(context);
@@ -195,7 +200,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
     );
   }
 
-  Widget resetPassword(Size size) {
+  Widget resetPassword(Size size, AuthProvider authProvider) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,6 +211,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.forgotPasswordOtpController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validEmail.getString(context);
@@ -243,6 +249,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.forgotPasswordNewPasswordController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
@@ -250,7 +257,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
-          obscureText: isShowPassword,
+          obscureText: authProvider.forgotPasswordIsShowPassword,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -258,11 +265,11 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             suffixIcon: CupertinoButton(
               onPressed: () {
                 setState(() {
-                  isShowPassword = !isShowPassword;
+                  authProvider.forgotPasswordIsShowPassword = !authProvider.forgotPasswordIsShowPassword;
                 });
               },
               child: Icon(
-                isShowPassword ? Icons.visibility_off : Icons.visibility,
+                authProvider.forgotPasswordIsShowPassword ? Icons.visibility_off : Icons.visibility,
                 color: Colors.grey,
               ),
             ),
@@ -292,6 +299,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.forgotPasswordConfirmPasswordController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
@@ -299,7 +307,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
-          obscureText: isConfirmPassword,
+          obscureText: authProvider.forgotPasswordIsConfirmPassword,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -307,11 +315,11 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             suffixIcon: CupertinoButton(
               onPressed: () {
                 setState(() {
-                  isConfirmPassword = !isConfirmPassword;
+                  authProvider.forgotPasswordIsConfirmPassword = !authProvider.forgotPasswordIsConfirmPassword;
                 });
               },
               child: Icon(
-                isConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                authProvider.forgotPasswordIsConfirmPassword ? Icons.visibility_off : Icons.visibility,
                 color: Colors.grey,
               ),
             ),

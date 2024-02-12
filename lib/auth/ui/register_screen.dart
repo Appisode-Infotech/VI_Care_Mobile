@@ -5,14 +5,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:vicare/auth/auth_provider.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
-import '../controller/auth_controller.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -22,199 +23,149 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
-  bool isShowPassword = true;
-  bool rememberMe = false;
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
-  AuthController authController = AuthController();
-
-  String? registerAs;
-  String? gender;
-
   int currentStep = 1;
 
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
   }
-  File? _selectedImage;
 
-  void _showImageSourceDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: const Text("Choose Image Source"),
-          children: <Widget>[
-            SimpleDialogOption(
-              onPressed: () async {
-                Navigator.pop(context);
-                final image =
-                await ImagePicker().pickImage(source: ImageSource.camera);
-                if (image != null) {
-                  setState(() {
-                    _selectedImage = File(image.path);
-                  });
-                }
-              },
-              child: const ListTile(
-                leading: Icon(Icons.camera),
-                title: Text("Camera"),
-              ),
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.registerPageContext = context;
+        return Scaffold(
+          body: Form(
+            key: authProvider.registerFormKey,
+            child: Column(
+              children: [
+                // Non-scrollable part
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 80, left: 20, right: 20, bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          size: 25,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        AppLocale.createAccount.getString(context),
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        AppLocale.pleaseFillToRegister.getString(context),
+                        style: const TextStyle(color: AppColors.fontShadeColor),
+                      ),
+                      const SizedBox(height: 10),
+                      StepProgressIndicator(
+                        roundedEdges: const Radius.circular(20),
+                        size: 7,
+                        totalSteps: 3,
+                        currentStep: currentStep,
+                        selectedColor: AppColors.primaryColor,
+                        unselectedColor: Colors.grey,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Scrollable part
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Column(
+                        children: [
+                          currentStep == 1
+                              ? emailPassword(authProvider)
+                              : const SizedBox.shrink(),
+                          currentStep == 2
+                              ? otpScreen(screenSize!)
+                              : const SizedBox.shrink(),
+                          currentStep == 3
+                              ? personalDetails(authProvider)
+                              : const SizedBox.shrink(),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                currentStep != 1
+                                    ? getPrimaryAppButton(
+                                        context,
+                                        AppLocale.previous.getString(context),
+                                        onPressed: () {
+                                          setState(() {
+                                            currentStep = currentStep - 1;
+                                          });
+                                        },
+                                        buttonColor: Colors.red.shade500,
+                                      )
+                                    : const SizedBox.shrink(),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                currentStep == 1 || currentStep == 2
+                                    ? getPrimaryAppButton(
+                                        context,
+                                        AppLocale.next.getString(context),
+                                        onPressed: () {
+                                          if (authProvider
+                                              .registerFormKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              currentStep = currentStep + 1;
+                                            });
+                                          }
+                                        },
+                                      )
+                                    : getPrimaryAppButton(
+                                        context,
+                                        AppLocale.proceedToSignUp
+                                            .getString(context),
+                                        onPressed: () {
+                                          if (authProvider
+                                              .registerFormKey.currentState!
+                                              .validate()) {
+                                            authProvider.register();
+                                          }
+                                        },
+                                      ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SimpleDialogOption(
-              onPressed: () async {
-                Navigator.pop(context);
-                final image =
-                await ImagePicker().pickImage(source: ImageSource.gallery);
-                if (image != null) {
-                  setState(() {
-                    _selectedImage = File(image.path);
-                  });
-                }
-              },
-              child: const ListTile(
-                leading: Icon(Icons.image),
-                title: Text("Gallery"),
-              ),
-            ),
-          ],
+          ),
         );
       },
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            // Non-scrollable part
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 80, left: 20, right: 20, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.onBoardingRoute);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      size: 25,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppLocale.createAccount.getString(context),
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppLocale.pleaseFillToRegister.getString(context),
-                    style: const TextStyle(color: AppColors.fontShadeColor),
-                  ),
-                  const SizedBox(height: 10),
-                  StepProgressIndicator(
-                    roundedEdges: const Radius.circular(20),
-                    size: 7,
-                    totalSteps: 3,
-                    currentStep: currentStep,
-                    selectedColor: AppColors.primaryColor,
-                    unselectedColor: Colors.grey,
-                  ),
-                ],
-              ),
-            ),
-
-            // Scrollable part
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Column(
-                    children: [
-                      currentStep == 1
-                          ? emailPassword(screenSize!)
-                          : const SizedBox.shrink(),
-                      currentStep == 2
-                          ? otpScreen(screenSize!)
-                          : const SizedBox.shrink(),
-                      currentStep == 3
-                          ? personalDetails(screenSize!)
-                          : const SizedBox.shrink(),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            currentStep != 1
-                                ? getPrimaryAppButton(
-                                    context,
-                                    AppLocale.previous.getString(context),
-                                    onPressed: () {
-                                      setState(() {
-                                        currentStep = currentStep - 1;
-                                      });
-                                    },
-                                    buttonColor: Colors.red.shade500,
-                                  )
-                                : const SizedBox.shrink(),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            currentStep == 1 || currentStep == 2
-                                ? getPrimaryAppButton(
-                                    context,
-                                    AppLocale.next.getString(context),
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        setState(() {
-                                          currentStep = currentStep + 1;
-                                        });
-                                      }
-                                    },
-                                  )
-                                : getPrimaryAppButton(
-                                    context,
-                                    AppLocale.proceedToSignUp
-                                        .getString(context),
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        Navigator.pushNamed(
-                                            context, Routes.patientDetailsRoute);
-                                      }
-                                    },
-                                  ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  emailPassword(Size screenSize) {
+  emailPassword(AuthProvider authProvider) {
     return Column(
       children: [
         Column(
@@ -227,14 +178,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               height: 10,
             ),
             TextFormField(
-              controller: emailController,
+              controller: authProvider.registerEmailController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocale.validEmail.getString(context);
                 }
-                if (authController.isNotValidEmail(value)) {
-                  return "Please enter valid email";
-                }
+                // if (authController.isNotValidEmail(value)) {
+                //   return "Please enter valid email";
+                // }
                 return null;
               },
               keyboardType: TextInputType.emailAddress,
@@ -267,7 +218,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
 
             TextFormField(
-              controller: passwordController,
+              controller: authProvider.registerPasswordController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocale.validPassword.getString(context);
@@ -275,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return null;
               },
               keyboardType: TextInputType.visiblePassword,
-              obscureText: isShowPassword,
+              obscureText: authProvider.registerIsShowPassword,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
@@ -283,11 +234,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 suffixIcon: CupertinoButton(
                   onPressed: () {
                     setState(() {
-                      isShowPassword = !isShowPassword;
+                      authProvider.registerIsShowPassword =
+                          !authProvider.registerIsShowPassword;
                     });
                   },
                   child: Icon(
-                    isShowPassword ? Icons.visibility_off : Icons.visibility,
+                    authProvider.registerIsShowPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     color: Colors.grey,
                   ),
                 ),
@@ -337,11 +291,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 errorStyle: TextStyle(color: Colors.red.shade400),
               ),
               dropdownColor: Colors.white,
-              value: registerAs,
+              value: authProvider.registerAs,
               hint: Text(AppLocale.role.getString(context)),
               onChanged: (String? value) {
                 setState(() {
-                  registerAs = value!;
+                  authProvider.registerAs = value!;
                 });
               },
               style: const TextStyle(color: Colors.black),
@@ -403,14 +357,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  personalDetails(Size screenSize) {
+  personalDetails(AuthProvider authProvider) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: () {
-            _showImageSourceDialog(context);
+            showImageSourceDialog(context, onOptionSelected: (value) async {
+              if (value == 'Camera') {
+                final image =
+                    await ImagePicker().pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  setState(() {
+                    authProvider.registerSelectedImage = File(image.path);
+                  });
+                }
+              } else if (value == 'Gallery') {
+                final image =
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  setState(() {
+                    authProvider.registerSelectedImage = File(image.path);
+                  });
+                }
+              }
+            });
           },
           child: Center(
             child: Stack(
@@ -418,8 +390,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.grey.shade300,
-                  backgroundImage: _selectedImage != null
-                      ? FileImage(_selectedImage!)
+                  backgroundImage: authProvider.registerSelectedImage != null
+                      ? FileImage(authProvider.registerSelectedImage!)
                       : null,
                 ),
                 const SizedBox(
@@ -433,7 +405,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: AppColors.primaryColor,
                         child: IconButton(
                             onPressed: () {
-                              _showImageSourceDialog(context);
+                              showImageSourceDialog(context,
+                                  onOptionSelected: (value) async {
+                                if (value == 'Camera') {
+                                  final image = await ImagePicker()
+                                      .pickImage(source: ImageSource.camera);
+                                  if (image != null) {
+                                    setState(() {
+                                      authProvider.registerSelectedImage =
+                                          File(image.path);
+                                    });
+                                  }
+                                } else if (value == 'Gallery') {
+                                  final image = await ImagePicker()
+                                      .pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    setState(() {
+                                      authProvider.registerSelectedImage =
+                                          File(image.path);
+                                    });
+                                  }
+                                }
+                              });
                             },
                             icon: const Icon(
                               Icons.edit_outlined,
@@ -444,7 +437,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
-        const SizedBox(height:10),
+        const SizedBox(height: 10),
         Text(AppLocale.firstName.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
@@ -455,9 +448,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (value!.isEmpty) {
               return AppLocale.validFirstName.getString(context);
             }
-            if (authController.isNotValidName(value)) {
-              return AppLocale.validFirstName.getString(context);
-            }
+            // if (authController.isNotValidName(value)) {
+            //   return AppLocale.validFirstName.getString(context);
+            // }
             return null;
           },
           keyboardType: TextInputType.text,
@@ -494,9 +487,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (value!.isEmpty) {
               return AppLocale.validLastName.getString(context);
             }
-            if (authController.isNotValidName(value)) {
-              return AppLocale.validFirstName.getString(context);
-            }
+            // if (authController.isNotValidName(value)) {
+            //   return AppLocale.validFirstName.getString(context);
+            // }
             return null;
           },
           keyboardType: TextInputType.text,
@@ -551,10 +544,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           dropdownColor: Colors.white,
           hint: Text(AppLocale.selectGender.getString(context)),
-          value: gender,
+          value: authProvider.gender,
           onChanged: (String? value) {
             setState(() {
-              gender = value!;
+              authProvider.gender = value!;
             });
           },
           style: const TextStyle(color: Colors.black),
@@ -593,7 +586,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         lastDate: DateTime.now(),
                       );
                       setState(() {
-                        dobController.text =
+                        authProvider.registerDobController.text =
                             "${picked!.day} / ${picked.month} / ${picked.year}";
                       });
                     },
@@ -633,7 +626,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: AppLocale.dateOfBirth.getString(context),
                         fillColor: Colors.white,
                       ),
-                      controller: dobController,
+                      controller: authProvider.registerDobController,
                       textInputAction: TextInputAction.done,
                     ),
                   ),
@@ -649,43 +642,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  rememberMe = !rememberMe;
-                });
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    // color: Colors.blue,
-                    width: 2,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(0.6),
-                  child: rememberMe
-                      ? const Icon(
-                          Icons.check,
-                          size: 10,
-                        )
-                      : Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
+            // GestureDetector(
+            //   onTap: () {
+            //     setState(() {
+            //       rememberMe = !rememberMe;
+            //     });
+            //   },
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       shape: BoxShape.rectangle,
+            //       border: Border.all(
+            //         // color: Colors.blue,
+            //         width: 2,
+            //       ),
+            //     ),
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(0.6),
+            //       child: rememberMe
+            //           ? const Icon(
+            //               Icons.check,
+            //               size: 10,
+            //             )
+            //           : Container(
+            //               width: 10,
+            //               height: 10,
+            //               decoration: BoxDecoration(
+            //                 shape: BoxShape.circle,
+            //                 border: Border.all(
+            //                   color: Colors.transparent,
+            //                 ),
+            //               ),
+            //             ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(width: 10),
             SizedBox(
-              width: screenSize.width / 1.5,
+              width: screenSize!.width / 1.5,
               child: Text.rich(
                 TextSpan(
                   children: [

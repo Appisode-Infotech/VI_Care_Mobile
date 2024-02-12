@@ -82,7 +82,37 @@ showLanguageBottomSheet(BuildContext context, Function(String languageCode) onLa
           ),
         );
       });
+}
 
-
-
+void showImageSourceDialog(BuildContext context, {required Future<Null> Function(dynamic value) onOptionSelected}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text("Choose Image Source"),
+        children: <Widget>[
+          SimpleDialogOption(
+            onPressed: () async {
+              onOptionSelected('Camera');
+              Navigator.pop(context);
+            },
+            child: const ListTile(
+              leading: Icon(Icons.camera),
+              title: Text("Camera"),
+            ),
+          ),
+          SimpleDialogOption(
+            onPressed: () async {
+              onOptionSelected('Gallery');
+              Navigator.pop(context);
+              },
+            child: const ListTile(
+              leading: Icon(Icons.image),
+              title: Text("Gallery"),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

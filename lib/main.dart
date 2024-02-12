@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:vicare/auth/ui/forgot_reset_password.dart';
 import 'package:vicare/create_patients/ui/change_password_screen.dart';
 import 'package:vicare/create_patients/ui/edit_patient_screen.dart';
@@ -15,6 +16,7 @@ import 'package:vicare/utils/app_locale.dart';
 import 'package:vicare/utils/routes.dart';
 
 import 'WebViewScreen.dart';
+import 'auth/auth_provider.dart';
 import 'create_patients/ui/add_new_patient_screen.dart';
 import 'auth/ui/login_screen.dart';
 import 'auth/ui/register_screen.dart';
@@ -80,38 +82,43 @@ class _MyAppState extends State<MyApp> {
     screenSize = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
 
-    return MaterialApp(
-        supportedLocales: localization.supportedLocales,
-        localizationsDelegates: localization.localizationsDelegates,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
-            bodyMedium: GoogleFonts.poppins(textStyle: textTheme.bodyMedium),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: MaterialApp(
+          supportedLocales: localization.supportedLocales,
+          localizationsDelegates: localization.localizationsDelegates,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
+              bodyMedium: GoogleFonts.poppins(textStyle: textTheme.bodyMedium),
+            ),
+            primaryColor: AppColors.primaryColor,
+            scaffoldBackgroundColor: AppColors.scaffoldColor,
           ),
-          primaryColor: AppColors.primaryColor,
-          scaffoldBackgroundColor: AppColors.scaffoldColor,
-        ),
-        title: "Vi Care",
-        initialRoute: Routes.splashRoute,
-        routes: <String, WidgetBuilder>{
-          Routes.splashRoute: (context) => const SplashScreen(),
-          Routes.onBoardingRoute: (context) => const OnBoardingScreen(),
-          Routes.dashboardRoute: (context) => const DashboardScreen(),
-          Routes.loginRoute: (context) => const LoginScreen(),
-          Routes.registerRoute: (context) => const RegisterScreen(),
-          Routes.webViewRoute: (context) => const WebViewScreen(),
-          Routes.addNewPatientRoute: (context) => const AddNewPatientScreen(),
-          Routes.managePatientsRoute: (context) => const ManagePatientsScreen(),
-          Routes.reportsRoute: (context) => const ReportScreen(),
-          Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
-          Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
-          Routes.summaryRoute: (context) => const SummaryScreen(),
-          Routes.takeTestRoute: (context) => const TakeTestScreen(),
-          Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
-          Routes.editPatientsRoute: (context) => const EditPatientScreen(),
-          Routes.editProfileRoute: (context) => const EditProfileScreen(),
-          Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
-          Routes.profileRoute: (context) => const ProfileScreen(),
-        });
+          title: "Vi Care",
+          initialRoute: Routes.splashRoute,
+          routes: <String, WidgetBuilder>{
+            Routes.splashRoute: (context) => const SplashScreen(),
+            Routes.onBoardingRoute: (context) => const OnBoardingScreen(),
+            Routes.dashboardRoute: (context) => const DashboardScreen(),
+            Routes.loginRoute: (context) => const LoginScreen(),
+            Routes.registerRoute: (context) => const RegisterScreen(),
+            Routes.webViewRoute: (context) => const WebViewScreen(),
+            Routes.addNewPatientRoute: (context) => const AddNewPatientScreen(),
+            Routes.managePatientsRoute: (context) => const ManagePatientsScreen(),
+            Routes.reportsRoute: (context) => const ReportScreen(),
+            Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
+            Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
+            Routes.summaryRoute: (context) => const SummaryScreen(),
+            Routes.takeTestRoute: (context) => const TakeTestScreen(),
+            Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
+            Routes.editPatientsRoute: (context) => const EditPatientScreen(),
+            Routes.editProfileRoute: (context) => const EditProfileScreen(),
+            Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
+            Routes.profileRoute: (context) => const ProfileScreen(),
+          }),
+    );
   }
 }
