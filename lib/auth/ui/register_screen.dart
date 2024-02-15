@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/auth/auth_provider.dart';
+import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
@@ -92,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ? emailPassword(authProvider)
                               : const SizedBox.shrink(),
                           currentStep == 2
-                              ? otpScreen(screenSize!)
+                              ? otpScreen(authProvider)
                               : const SizedBox.shrink(),
                           currentStep == 3
                               ? personalDetails(authProvider)
@@ -109,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ? getPrimaryAppButton(
                                         context,
                                         AppLocale.previous.getString(context),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           setState(() {
                                             currentStep = currentStep - 1;
                                           });
@@ -124,13 +125,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ? getPrimaryAppButton(
                                         context,
                                         AppLocale.next.getString(context),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (authProvider
                                               .registerFormKey.currentState!
                                               .validate()) {
-                                            setState(() {
-                                              currentStep = currentStep + 1;
-                                            });
+                                            if (currentStep == 1) {
+                                              SendOtpResponseModel response =
+                                                  await authProvider.sendOtp();
+                                              authProvider.otpReceived =
+                                                  response.result!.otp;
+                                              authProvider.registerOtpController
+                                                  .clear();
+                                              setState(() {
+                                                currentStep = currentStep + 1;
+                                              });
+                                            } else if (currentStep == 2) {
+                                              if (authProvider.otpReceived ==
+                                                  authProvider
+                                                      .registerOtpController
+                                                      .text) {
+                                                setState(() {
+                                                  currentStep = currentStep + 1;
+                                                });
+                                              } else {
+                                                // show error toast invalid otp
+                                              }
+                                            }
                                           }
                                         },
                                       )
@@ -138,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         context,
                                         AppLocale.proceedToSignUp
                                             .getString(context),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (authProvider
                                               .registerFormKey.currentState!
                                               .validate()) {
@@ -183,9 +203,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if (value!.isEmpty) {
                   return AppLocale.validEmail.getString(context);
                 }
-                // if (authController.isNotValidEmail(value)) {
-                //   return "Please enter valid email";
-                // }
+                if (authProvider.isNotValidEmail(value)) {
+                  return "Please enter valid email";
+                }
                 return null;
               },
               keyboardType: TextInputType.emailAddress,
@@ -222,6 +242,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocale.validPassword.getString(context);
+                }
+                if (!authProvider.isStrongPassword(value)) {
+                  return AppLocale.strongPassword.getString(context);
                 }
                 return null;
               },
@@ -294,14 +317,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
               value: authProvider.registerAs,
               hint: Text(AppLocale.role.getString(context)),
               onChanged: (String? value) {
+                for (var role in authProvider.masterRolesResponse!.result!) {
+                  if (role.name == value) {
+                    authProvider.selectedRoleId = role.id;
+                    break;
+                  }
+                }
+
                 setState(() {
                   authProvider.registerAs = value!;
                 });
               },
               style: const TextStyle(color: Colors.black),
               items: <String>[
-                AppLocale.doctor.getString(context),
-                AppLocale.member.getString(context)
+                for (int i = 0;
+                    i < authProvider.masterRolesResponse!.result!.length;
+                    i++)
+                  authProvider.masterRolesResponse!.result![i].name!,
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -316,7 +348,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  otpScreen(Size screenSize) {
+  otpScreen(AuthProvider authProvider) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -327,6 +359,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.registerOtpController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
@@ -444,6 +477,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.registerFirstName,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validFirstName.getString(context);
@@ -483,6 +517,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          controller: authProvider.registerLastName,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validLastName.getString(context);
@@ -512,6 +547,93 @@ class _RegisterScreenState extends State<RegisterScreen> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.contactNumber.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          controller: authProvider.registerContactNumberController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validContact.getString(context);
+            }
+            if (authProvider.isNotValidContactNumber(value)) {
+              return AppLocale.validContact.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.number,
+          maxLength: 10,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.contactNumber.getString(context),
+            hintStyle: const TextStyle(fontSize: 15, color: Colors.grey),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.bloodGroup.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField<String>(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return AppLocale.validBloodGroup.getString(context);
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                color: Color(0xffD3D3D3),
+              ),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            focusColor: Colors.transparent,
+            errorStyle: TextStyle(color: Colors.red.shade400),
+          ),
+          dropdownColor: Colors.white,
+          hint: Text(AppLocale.bloodGroup.getString(context)),
+          value: authProvider.registerBloodGroup,
+          onChanged: (String? value) {
+            setState(() {
+              authProvider.registerBloodGroup = value!;
+            });
+          },
+          style: const TextStyle(color: Colors.black),
+          items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         ),
         const SizedBox(
           height: 10,
@@ -547,13 +669,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           value: authProvider.gender,
           onChanged: (String? value) {
             setState(() {
+              authProvider.selectedGender = value=="Male"?1:value=="Female"?2:value=="Do not wish to specify"?3:0;
               authProvider.gender = value!;
             });
           },
           style: const TextStyle(color: Colors.black),
           items: <String>[
-            AppLocale.male.getString(context),
-            AppLocale.female.getString(context)
+            "Male",
+            "Female",
+            "Do not wish to specify"
+            // AppLocale.male.getString(context),
+            // AppLocale.female.getString(context)
           ].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -587,7 +713,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       );
                       setState(() {
                         authProvider.registerDobController.text =
-                            "${picked!.day} / ${picked.month} / ${picked.year}";
+                            "${picked!.year}-${picked.month}-${picked.day}";
                       });
                     },
                     child: TextFormField(
@@ -639,8 +765,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 30,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // GestureDetector(
             //   onTap: () {
@@ -677,8 +803,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             //   ),
             // ),
             // const SizedBox(width: 10),
-            SizedBox(
-              width: screenSize!.width / 1.5,
+            Container(
+              width: screenSize!.width - 40,
               child: Text.rich(
                 TextSpan(
                   children: [

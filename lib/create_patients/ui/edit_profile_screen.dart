@@ -303,7 +303,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             const SizedBox(height: 30,),
                             getPrimaryAppButton(context, AppLocale.submit
                                 .getString(context),
-                                onPressed: () {
+                                onPressed: ()async {
                                   Navigator.pushNamed(
                                       context, Routes.profileRoute);
                                 }),

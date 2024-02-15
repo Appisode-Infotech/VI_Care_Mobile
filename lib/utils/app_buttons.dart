@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 
-getPrimaryAppButton(BuildContext context, String label,
-    {required Null Function() onPressed, Color? buttonColor}) {
+getPrimaryAppButton(BuildContext context, String label, {required Future<Null> Function() onPressed, Color? buttonColor}) {
 
   return GestureDetector(
     onTap: onPressed,

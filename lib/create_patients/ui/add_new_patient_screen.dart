@@ -141,7 +141,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                           ? getPrimaryAppButton(
                               context,
                               AppLocale.previous.getString(context),
-                              onPressed: () {
+                              onPressed: () async{
                                 setState(() {
                                   currentStep = currentStep - 1;
                                 });
@@ -156,7 +156,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                           ? getPrimaryAppButton(
                               context,
                               AppLocale.next.getString(context),
-                              onPressed: () {
+                              onPressed: () async{
                                 if (formKey.currentState!.validate()) {
                                   setState(() {
                                     currentStep = currentStep + 1;
@@ -167,7 +167,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                           : getPrimaryAppButton(
                               context,
                               AppLocale.submit.getString(context),
-                              onPressed: () {
+                              onPressed: () async{
                                 if (formKey.currentState!.validate()) {
                                   Navigator.pushNamed(
                                       context, Routes.patientDetailsRoute);

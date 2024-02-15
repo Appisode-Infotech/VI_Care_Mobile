@@ -121,7 +121,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                             ? getPrimaryAppButton(
                           context,
                           AppLocale.previous.getString(context),
-                          onPressed: () {
+                          onPressed: () async{
                             setState(() {
                               currentStep = currentStep - 1;
                             });
@@ -135,14 +135,14 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         (currentStep == 1)
                             ? getPrimaryAppButton(
                             context, AppLocale.next.getString(context),
-                            onPressed: () {
+                            onPressed: () async{
                               setState(() {
                                 currentStep = currentStep + 1;
                               });
                             })
                             : getPrimaryAppButton(
                             context, AppLocale.next.getString(context),
-                            onPressed: () {
+                            onPressed: () async{
                               Navigator.pushNamedAndRemoveUntil(
                                   context, Routes.loginRoute, (route) => false);
                             }),

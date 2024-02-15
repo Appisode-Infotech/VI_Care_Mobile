@@ -14,6 +14,11 @@ mixin AppLocale {
   static const String termsAndConditions  = 'termsAndConditions';
   static const String privacyPolicy  = 'privacyPolicy';
   static const String validPassword  = 'validPassword';
+  static const String contactNumber  = 'contactNumber';
+  static const String validContact  = 'validContact';
+  static const String bloodGroup  = 'bloodGroup';
+  static const String validBloodGroup  = 'validBloodGroup';
+  static const String strongPassword  = 'strongPassword';
   static const String validEmail  = 'validEmail';
   static const String joinHruday  = 'joinHruday';
   static const String connectMeasure  = 'connectMeasure';
@@ -134,10 +139,11 @@ mixin AppLocale {
     email: 'Email',
     password: 'Password',
     validPassword: 'Please enter valid password',
+    strongPassword: 'Password should min be 8 characters, should contain 1 Capital, 1 number, 1special character',
     validEmail: 'Please enter valid email',
     forgotPassword: 'Forgot Password?',
     registerNow: ' Register Now',
-    agreeToLogin: 'By loging in to Vi Care app, You agree\nto our ',
+    agreeToLogin: 'By loging in to Vi Care app, You agree to our \n',
     termsAndConditions: 'Terms And Conditions ',
     privacyPolicy: 'Privacy Policy',
 
@@ -156,6 +162,10 @@ mixin AppLocale {
     otp: 'OTP',
     firstName: 'First Name',
     lastName: 'Last Name',
+    contactNumber: 'Contact Number',
+    validContact: 'Please enter valid Contact',
+    bloodGroup: 'Blood Group',
+    validBloodGroup: 'Please select valid BloodGroup',
     validFirstName: 'Please enter valid First Name',
     validLastName: 'Please enter valid Last Name',
     gender: 'Gender',
@@ -259,6 +269,7 @@ mixin AppLocale {
     email: 'ಇಮೇಲ್',
     password: 'ಗುಪ್ತಪದ',
     validPassword: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ',
+    strongPassword: 'ಪಾಸ್ವರ್ಡ್ ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳಾಗಿರಬೇಕು, 1 ಕ್ಯಾಪಿಟಲ್, 1 ಸಂಖ್ಯೆ, 1 ವಿಶೇಷ ಅಕ್ಷರವನ್ನು ಒಳಗೊಂಡಿರಬೇಕು',
     validEmail: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಇಮೇಲ್ ಅನ್ನು ನಮೂದಿಸಿ',
     forgotPassword: 'ಪಾಸ್ವರ್ಡ್ ಮರೆತಿರುವಿರಾ?',
     registerNow: ' ಈಗ ನೋಂದಣಿ ಮಾಡಿ',
@@ -284,6 +295,10 @@ mixin AppLocale {
     otp: 'OTP',
     firstName: 'ಮೊದಲ ಹೆಸರು',
     lastName: 'ಕೊನೆಯ ಹೆಸರು',
+    contactNumber: 'ಸಂಪರ್ಕ ಸಂಖ್ಯೆ',
+    validContact: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಸಂಪರ್ಕವನ್ನು ನಮೂದಿಸಿ',
+    bloodGroup: 'ರಕ್ತದ ಗುಂಪು',
+    validBloodGroup: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ BloodGroup ಅನ್ನು ನಮೂದಿಸಿ',
     validFirstName: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಮೊದಲ ಹೆಸರನ್ನು ನಮೂದಿಸಿ',
     validLastName: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಕೊನೆಯ ಹೆಸರನ್ನು ನಮೂದಿಸಿ',
     gender: 'ಲಿಂಗ',
@@ -386,10 +401,14 @@ mixin AppLocale {
     password: 'पासवर्ड',
     editPatients:"मरीजों को संपादित करें",
     validPassword: 'कृपया मान्य पासवर्ड दर्ज करें',
+    strongPassword: 'पासवर्ड न्यूनतम 8 अक्षर का होना चाहिए, इसमें 1 बड़ा अक्षर, 1 अंक, 1 विशेष अक्षर होना चाहिए',
     validEmail: 'कृपया मान्य ईमेल दर्ज करें',
     forgotPassword: 'पासवर्ड भूल गए हैं?',
     registerNow: ' अब रजिस्टर करें',
     agreeToLogin: 'VI Care एप्लिकेशन में लॉगिन करके, आप हमारे\nसे सहमत हैं ',
+    validContact: 'कृपया एक वैध संपर्क दर्ज करें',
+    bloodGroup: 'ब्लड ग्रुप',
+    validBloodGroup: 'कृपया वैध ब्लडग्रुप दर्ज करें',
     termsAndConditions: ' नियम और शर्तें ',
     privacyPolicy: 'गोपनीयता नीति',
     connectMeasure: 'जुड़ें, मापें \nऔर विकास करें!',
@@ -411,6 +430,7 @@ mixin AppLocale {
     otp: 'OTP',
     firstName: 'पहला नाम',
     lastName: 'अंतिम नाम',
+    contactNumber: 'संपर्क संख्या',
     validFirstName: 'कृपया मान्य पहला नाम दर्ज करें',
     validLastName: 'कृपया मान्य अंतिम नाम दर्ज करें',
     gender: 'लिंग',

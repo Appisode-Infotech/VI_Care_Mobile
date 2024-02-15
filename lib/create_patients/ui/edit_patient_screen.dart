@@ -434,7 +434,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                   const SizedBox(height: 20,),
                   getPrimaryAppButton(
                       context, AppLocale.submit.getString(context),
-                      onPressed: () {
+                      onPressed: ()async {
                         Navigator.pushNamed(
                             context, Routes.patientDetailsRoute);
                       }),

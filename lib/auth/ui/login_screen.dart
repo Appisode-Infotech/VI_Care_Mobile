@@ -54,9 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value!.isEmpty) {
                                 return AppLocale.validEmail.getString(context);
                               }
-                              // if (authController.isNotValidEmail(value)) {
-                              //   return "Please enter valid email";
-                              // }
+                              if (authProvider.isNotValidEmail(value.trim())) {
+                                return "Please enter valid email";
+                              }
                               return null;
                             },
                             keyboardType: TextInputType.emailAddress,
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           const SizedBox(height: 20,),
                           getPrimaryAppButton(context, AppLocale.signIn.getString(context),
-                              onPressed: () {
+                              onPressed: ()async {
                                 if (authProvider.loginFormKey.currentState!.validate()) {
                                   authProvider.login();
                                 }
@@ -155,8 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(AppLocale.dntHaveAnAccount.getString(context),style: const TextStyle(color: AppColors.fontShadeColor),),
                         InkWell(
                             onTap: (){
-                              authProvider.clearRegisterForm();
-                              Navigator.pushNamed(context, Routes.registerRoute);
+                              authProvider.getRoleMasters(context);
                             },
                             child: Text(AppLocale.registerNow.getString(context),style: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),))
                       ],
