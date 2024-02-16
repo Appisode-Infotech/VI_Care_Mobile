@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/auth/model/role_master_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
+import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/network/api_calls.dart';
 
+import '../utils/app_buttons.dart';
 import '../utils/routes.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -112,11 +114,22 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void login() {
-    Navigator.pushNamed(loginPageContext!, Routes.dashboardRoute);
+  Future<void> login() async {
+    showLoaderDialog(loginPageContext!);
+    RegisterResponseModel response = await apiCalls.loginUser(loginEmailController.text,loginPasswordController.text,loginPageContext!);
+    if(response.result!=null){
+      prefModel.userData = response.result;
+      AppPref.setPref(prefModel);
+      Navigator.pop(loginPageContext!);
+      Navigator.pushNamed(loginPageContext!, Routes.dashboardRoute);
+    }else{
+      Navigator.pop(loginPageContext!);
+      showErrorToast(loginPageContext!, response.message!);
+    }
   }
 
   Future<void> register() async {
+    showLoaderDialog(registerPageContext!);
     RegisterResponseModel response = await apiCalls.registerNewUser(
         profilePic: registerSelectedImage,
         dob: registerDobController.text,
@@ -127,27 +140,45 @@ class AuthProvider extends ChangeNotifier {
         roleId: selectedRoleId,
         bloodGroup: registerBloodGroup,
         contact: registerContactNumberController.text,
-        password: registerPasswordController.text);
-    if (response.isSuccess!) {
+        password: registerPasswordController.text,
+        context:registerPageContext!
+    );
+    if (response.result!=null) {
+      prefModel.userData = response.result;
+      AppPref.setPref(prefModel);
+      Navigator.pop(registerPageContext!);
       Navigator.pushNamed(registerPageContext!, Routes.dashboardRoute);
+      showSuccessToast(registerPageContext!, response.message!);
     }else{
-      // show error toast
+      Navigator.pop(registerPageContext!);
+      showErrorToast(registerPageContext!, response.message!);
     }
   }
 
-  Future<SendOtpResponseModel> sendOtp() {
-    return apiCalls.sendOtpToRegister(registerEmailController.text);
+  Future<SendOtpResponseModel> sendOtp() async {
+    showLoaderDialog(registerPageContext!);
+    SendOtpResponseModel response = await apiCalls.sendOtpToRegister(registerEmailController.text,registerPageContext!);
+    Navigator.pop(registerPageContext!);
+    if(response.result==null){
+      showErrorToast(registerPageContext!, response.message!);
+    }else{
+      showSuccessToast(registerPageContext!, response.message!);
+    }
+    return response;
   }
 
   Future<void> getRoleMasters(BuildContext relContext) async {
-    masterRolesResponse = await apiCalls.getMasterRoles();
+    showLoaderDialog(relContext);
+    masterRolesResponse = await apiCalls.getMasterRoles(relContext);
     if (masterRolesResponse!.result!.isNotEmpty) {
+      Navigator.pop(relContext);
       clearRegisterForm();
       if (relContext.mounted) {
         Navigator.pushNamed(relContext, Routes.registerRoute);
       }
     } else {
-      // show toast
+      Navigator.pop(relContext);
+      showErrorToast(relContext, masterRolesResponse!.message!);
     }
   }
 }

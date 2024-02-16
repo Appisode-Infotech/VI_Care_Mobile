@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
+import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
@@ -12,11 +14,11 @@ import '../database/app_pref.dart';
 import '../database/models/pref_model.dart';
 import '../utils/url_constants.dart';
 
+String platform = Platform.isIOS ? "IOS" : "Android";
+
+PrefModel prefModel = AppPref.getPref();
+
 class ApiCalls {
-  String platform = Platform.isIOS ? "IOS" : "Android";
-
-  PrefModel prefModel = AppPref.getPref();
-
   Future<http.Response> hitApiPost(
       bool requiresAuth, String url, String body) async {
     return await http.post(
@@ -46,36 +48,43 @@ class ApiCalls {
     return headers;
   }
 
-  Future<SendOtpResponseModel> sendOtpToRegister(String email) async {
+  Future<SendOtpResponseModel> sendOtpToRegister(
+      String email, BuildContext? context) async {
     http.Response response = await hitApiPost(false,
         UrlConstants.sendOtpToRegister + email, jsonEncode({"email": email}));
     if (response.statusCode == 200) {
       return SendOtpResponseModel.fromJson(json.decode(response.body));
     } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
       throw "could not register${response.statusCode}";
     }
   }
 
-  Future<RoleMasterResponseModel> getMasterRoles() async {
+  Future<RoleMasterResponseModel> getMasterRoles(BuildContext? context) async {
     http.Response response = await hitApiGet(false, UrlConstants.getRoleMaster);
     if (response.statusCode == 200) {
       return RoleMasterResponseModel.fromJson(json.decode(response.body));
     } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
       throw "could not register${response.statusCode}";
     }
   }
 
-  Future<RegisterResponseModel> registerNewUser(
-      {File? profilePic,
-      required String dob,
-      required String fName,
-      required String lName,
-      required String email,
-      int? gender,
-      int? roleId,
-      String? bloodGroup,
-      required String contact,
-      required String password}) async {
+  Future<RegisterResponseModel> registerNewUser({
+    File? profilePic,
+    required String dob,
+    required String fName,
+    required String lName,
+    required String email,
+    int? gender,
+    int? roleId,
+    String? bloodGroup,
+    required String contact,
+    required String password,
+    BuildContext? context,
+  }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
     request.fields['Contact.Dob'] = dob;
@@ -84,7 +93,7 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['RoleId'] = roleId.toString();
-    request.fields['Contact.BloodGroup'] = bloodGroup!;
+    request.fields['Contact.BloodGroup'] = bloodGroup ?? '';
     request.fields['Contact.ContactNumber'] = contact;
     request.fields['Password'] = password;
     if (profilePic != null) {
@@ -101,14 +110,36 @@ class ApiCalls {
     }
     print(request.fields);
     var response = await request.send();
-    // if(response.statusCode==200){
+    if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
       log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
-    // }else{
-    //   // show toast
-    //   throw "could not register${response.statusCode}";
-    // }
+    } else if (response.statusCode == 204) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Email or phone may exist.");
+      throw "could not register ${response.statusCode}";
+    } else if (response.statusCode == 400) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Invalid data please check.");
+      throw "could not register ${response.statusCode}";
+    } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
+      throw "could not register ${response.statusCode}";
+    }
+  }
+
+  Future<RegisterResponseModel> loginUser(
+      String email, String password, BuildContext buildContext) async {
+    http.Response response = await hitApiPost(false, UrlConstants.loginUser,
+        jsonEncode({"email": email, 'password': password}));
+    if (response.statusCode == 200) {
+      return RegisterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(buildContext);
+      showErrorToast(buildContext, "Something went wrong");
+      throw "could not register${response.statusCode}";
+    }
   }
 }

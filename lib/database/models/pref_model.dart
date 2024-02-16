@@ -1,6 +1,7 @@
 
 
-import 'package:vicare/auth/model/login_response_model.dart';
+
+import '../../auth/model/register_response_model.dart';
 
 class PrefModel {
   UserData? userData;

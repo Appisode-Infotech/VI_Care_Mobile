@@ -130,12 +130,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .registerFormKey.currentState!
                                               .validate()) {
                                             if (currentStep == 1) {
-                                              SendOtpResponseModel response =
-                                                  await authProvider.sendOtp();
-                                              authProvider.otpReceived =
-                                                  response.result!.otp;
-                                              authProvider.registerOtpController
-                                                  .clear();
+                                              SendOtpResponseModel response = await authProvider.sendOtp();
+                                              authProvider.otpReceived = response.result!.otp;
+                                              authProvider.registerOtpController.clear();
                                               setState(() {
                                                 currentStep = currentStep + 1;
                                               });
@@ -144,10 +141,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   authProvider
                                                       .registerOtpController
                                                       .text) {
+                                                showSuccessToast(context, "Otp verified successfully");
                                                 setState(() {
                                                   currentStep = currentStep + 1;
                                                 });
                                               } else {
+                                                showErrorToast(context, "Invalid Otp");
                                                 // show error toast invalid otp
                                               }
                                             }
@@ -398,9 +397,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         GestureDetector(
           onTap: () {
             showImageSourceDialog(context, onOptionSelected: (value) async {
+              showLoaderDialog(context);
               if (value == 'Camera') {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.camera);
+                Navigator.pop(context);
                 if (image != null) {
                   setState(() {
                     authProvider.registerSelectedImage = File(image.path);
@@ -409,6 +410,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               } else if (value == 'Gallery') {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.gallery);
+                Navigator.pop(context);
                 if (image != null) {
                   setState(() {
                     authProvider.registerSelectedImage = File(image.path);

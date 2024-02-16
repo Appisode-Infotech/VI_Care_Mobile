@@ -12,7 +12,7 @@ class RegisterResponseModel {
   String? message;
   bool? isSuccess;
   PageResult? pageResult;
-  Result? result;
+  UserData? result;
   List<String>? errors;
 
   RegisterResponseModel({
@@ -27,7 +27,7 @@ class RegisterResponseModel {
     message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"] == null ? null : PageResult.fromJson(json["pageResult"]),
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
+    result: json["result"] == null ? null : UserData.fromJson(json["result"]),
     errors: json["errors"] == null ? [] : List<String>.from(json["errors"]!.map((x) => x)),
   );
 
@@ -84,7 +84,7 @@ class PageResult {
   };
 }
 
-class Result {
+class UserData {
   int? id;
   String? uniqueGuid;
   String? email;
@@ -106,7 +106,7 @@ class Result {
   int? enterpriseUserId;
   ResultEnterpriseUser? enterpriseUser;
 
-  Result({
+  UserData({
     this.id,
     this.uniqueGuid,
     this.email,
@@ -129,7 +129,7 @@ class Result {
     this.enterpriseUser,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
     id: json["id"],
     uniqueGuid: json["uniqueGuid"],
     email: json["email"],

@@ -23,10 +23,13 @@ import 'auth/ui/register_screen.dart';
 import 'create_patients/ui/edit_profile_screen.dart';
 import 'create_patients/ui/summary_screen.dart';
 import 'dashboard/ui/all_reports_screen.dart';
+import 'database/app_pref.dart';
 import 'onboarding/ui/on_boarding_screen.dart';
 import 'onboarding/ui/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppPref.getInstance();
   runApp(
     const MyApp(),
   );

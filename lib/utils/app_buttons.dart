@@ -1,9 +1,13 @@
+import 'package:delightful_toast/delight_toast.dart';
+import 'package:delightful_toast/toast/components/toast_card.dart';
+import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 
-getPrimaryAppButton(BuildContext context, String label, {required Future<Null> Function() onPressed, Color? buttonColor}) {
-
+getPrimaryAppButton(BuildContext context, String label,
+    {required Future<Null> Function() onPressed, Color? buttonColor}) {
   return GestureDetector(
     onTap: onPressed,
     child: Container(
@@ -11,8 +15,8 @@ getPrimaryAppButton(BuildContext context, String label, {required Future<Null> F
       width: screenSize!.width,
       height: 50,
       decoration: BoxDecoration(
-          color: buttonColor ??AppColors.primaryColor,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          color: buttonColor ?? AppColors.primaryColor,
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Center(
           child: Text(
         label,
@@ -23,7 +27,8 @@ getPrimaryAppButton(BuildContext context, String label, {required Future<Null> F
   );
 }
 
-showLanguageBottomSheet(BuildContext context, Function(String languageCode) onLanguageChange) {
+showLanguageBottomSheet(
+    BuildContext context, Function(String languageCode) onLanguageChange) {
   showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -39,7 +44,7 @@ showLanguageBottomSheet(BuildContext context, Function(String languageCode) onLa
               ),
               const Text(
                 "Select Language",
-                style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
@@ -49,8 +54,9 @@ showLanguageBottomSheet(BuildContext context, Function(String languageCode) onLa
                   itemCount: localization.supportedLanguageCodes.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: (){
-                        onLanguageChange(localization.supportedLanguageCodes[index]);
+                      onTap: () {
+                        onLanguageChange(
+                            localization.supportedLanguageCodes[index]);
                         Navigator.pop(context);
                       },
                       child: Container(
@@ -83,7 +89,8 @@ showLanguageBottomSheet(BuildContext context, Function(String languageCode) onLa
       });
 }
 
-void showImageSourceDialog(BuildContext context, {required Future<Null> Function(dynamic value) onOptionSelected}) {
+void showImageSourceDialog(BuildContext context,
+    {required Future<Null> Function(dynamic value) onOptionSelected}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -104,7 +111,7 @@ void showImageSourceDialog(BuildContext context, {required Future<Null> Function
             onPressed: () async {
               onOptionSelected('Gallery');
               Navigator.pop(context);
-              },
+            },
             child: const ListTile(
               leading: Icon(Icons.image),
               title: Text("Gallery"),
@@ -114,4 +121,79 @@ void showImageSourceDialog(BuildContext context, {required Future<Null> Function
       );
     },
   );
+}
+
+void showSuccessToast(BuildContext context, String content) {
+  return DelightToastBar(
+    position: DelightSnackbarPosition.top,
+    autoDismiss: true,
+    animationDuration: const Duration(seconds: 1),
+    snackbarDuration: const Duration(seconds: 3),
+    builder: (context) => ToastCard(
+      color: Colors.green,
+      leading: const Icon(
+        Icons.check_circle,
+        size: 28,
+        color: Colors.white,
+      ),
+      title: Text(
+        content,
+        style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+            color: Colors.white
+        ),
+      ),
+    ),
+  ).show(context);
+}
+
+void showErrorToast(BuildContext context, String content) {
+  return DelightToastBar(
+    position: DelightSnackbarPosition.top,
+    autoDismiss: true,
+    animationDuration: const Duration(seconds: 1),
+    snackbarDuration: const Duration(seconds: 3),
+    builder: (context) => ToastCard(
+      color: Colors.red,
+      leading: const Icon(
+        Icons.error,
+        size: 28,
+        color: Colors.white,
+      ),
+      title: Text(
+        content,
+        style: const TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+          color: Colors.white
+        ),
+      ),
+    ),
+  ).show(context);
+}
+
+showLoaderDialog(BuildContext context) {
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Lottie.asset('assets/lottie/loading.json', height: 150),
+              const Text(
+                "Loading...",
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+        );
+      });
 }

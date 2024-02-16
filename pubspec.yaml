@@ -51,6 +51,8 @@ dependencies:
   shared_preferences: ^2.2.2
   provider: ^6.1.1
   http_parser: ^4.0.2
+  delightful_toast: ^1.1.0
+  lottie: ^3.0.0
 
 
 dev_dependencies:
@@ -71,6 +73,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/lottie/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
