@@ -237,6 +237,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
 
             TextFormField(
+              textCapitalization: TextCapitalization.sentences,
               controller: authProvider.registerPasswordController,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -479,6 +480,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerFirstName,
           validator: (value) {
             if (value!.isEmpty) {
@@ -519,6 +521,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerLastName,
           validator: (value) {
             if (value!.isEmpty) {

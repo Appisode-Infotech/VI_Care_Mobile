@@ -59,8 +59,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerDobController = TextEditingController();
   TextEditingController registerOtpController = TextEditingController();
-  TextEditingController registerContactNumberController =
-      TextEditingController();
+  TextEditingController registerContactNumberController = TextEditingController();
   String? registerBloodGroup;
   String? otpReceived;
   int? selectedRoleId;
