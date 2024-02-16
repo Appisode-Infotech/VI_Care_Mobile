@@ -98,14 +98,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
         height: 50.0,
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, Routes.takeTestRoute); //
+Navigator.pushNamed(context, Routes.takeTestRoute);            //
             // setState(() {
             //   selectedItemPosition = 2;
             // });
           },
           backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.monitor_heart_outlined,
-              color: Colors.white, size: 28),
+          child: const Icon(Icons.monitor_heart_outlined, color: Colors.white, size: 28),
         ),
       ),
     );
