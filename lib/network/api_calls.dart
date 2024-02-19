@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
+import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
@@ -158,17 +159,76 @@ class ApiCalls {
     }
   }
 
-  // resetPassword(String email, String password, BuildContext buildContext) async {
-  //   http.Response response = await hitApiPost(
-  //       false,
-  //       UrlConstants.resetPassword,
-  //       jsonEncode({"email": email}));
-  //   if (response.statusCode == 200) {
-  //     return SendOtpResponseModel.fromJson(json.decode(response.body));
-  //   } else {
-  //     Navigator.pop(buildContext!);
-  //     showErrorToast(buildContext, "Something went wrong");
-  //     throw "could not register${response.statusCode}";
-  //   }
-  // }
+  Future<AddIndividualProfileResponseModel> addIndividualProfile(
+      String dob,
+      String mobile,
+      String email,
+      String fName,
+      String lName,
+      String address,
+      String gender,
+      File? selectedImage,
+      BuildContext? context) async {
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.addIndividualProfile));
+    request.fields['Contact.Dob'] = dob;
+    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.Email'] = email;
+    request.fields['Contact.Gender'] = gender.toString();
+    request.fields['Contact.LastName'] = lName;
+    request.fields['Contact.ContactNumber'] = mobile;
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'uploadedFile',
+        picStream,
+        length,
+        filename: selectedImage.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    request.headers.addAll({
+      "Authorization": "Bearer ${prefModel.userData!.token}",
+    });
+    print(request.fields);
+
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    if (response.statusCode == 200) {
+      log(responseJson.toString());
+      return AddIndividualProfileResponseModel.fromJson(responseJson);
+    } else if (response.statusCode == 401) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Unauthorized");
+      throw "could not register ${response.statusCode}";
+    }else if (response.statusCode == 204) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Email or phone may exist.");
+      throw "could not register ${response.statusCode}";
+    } else if (response.statusCode == 400) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Invalid data please check.");
+      throw "could not register ${response.statusCode}";
+    } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
+      throw "could not register ${response.statusCode}";
+    }
+  }
+
+// resetPassword(String email, String password, BuildContext buildContext) async {
+//   http.Response response = await hitApiPost(
+//       false,
+//       UrlConstants.resetPassword,
+//       jsonEncode({"email": email}));
+//   if (response.statusCode == 200) {
+//     return SendOtpResponseModel.fromJson(json.decode(response.body));
+//   } else {
+//     Navigator.pop(buildContext!);
+//     showErrorToast(buildContext, "Something went wrong");
+//     throw "could not register${response.statusCode}";
+//   }
+// }
 }

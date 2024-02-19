@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
+import 'package:vicare/utils/app_buttons.dart';
 
 import '../../network/api_calls.dart';
 
@@ -12,12 +14,15 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController addNewPatientDobController = TextEditingController();
   TextEditingController addNewPatientMobileController = TextEditingController();
   TextEditingController addNewPatientEmailController = TextEditingController();
-  TextEditingController addNewPatientFirstNameController = TextEditingController();
-  TextEditingController addNewPatientLastNameController = TextEditingController();
-  TextEditingController addNewPatientAddressController = TextEditingController();
+  TextEditingController addNewPatientFirstNameController =
+      TextEditingController();
+  TextEditingController addNewPatientLastNameController =
+      TextEditingController();
+  TextEditingController addNewPatientAddressController =
+      TextEditingController();
   String? addNewPatientGender;
   File? addPatientSelectedImage;
-  BuildContext? addNewPageContext;
+  BuildContext? addNewPatientContext;
 
   clearAddPatientForm() {
     addNewPatientDobController.clear();
@@ -37,7 +42,8 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController editPatientDobController = TextEditingController();
   TextEditingController editPatientMobileController = TextEditingController();
   TextEditingController editPatientEmailController = TextEditingController();
-  TextEditingController editPatientFirstNameController = TextEditingController();
+  TextEditingController editPatientFirstNameController =
+      TextEditingController();
   TextEditingController editPatientLastNameController = TextEditingController();
   TextEditingController editPatientAddressController = TextEditingController();
   String? editPatientGender;
@@ -51,22 +57,44 @@ class PatientProvider extends ChangeNotifier {
     editPatientFirstNameController.clear();
     editPatientLastNameController.clear();
     editPatientAddressController.clear();
-    editPatientGender=null;
-    editPatientSelectedImage=null;
+    editPatientGender = null;
+    editPatientSelectedImage = null;
     notifyListeners();
   }
-  //
-  // void prefillEditPatientDetails() {
-  //   editPatientDobController.text = addNewPatientDobController.text;
-  //   editPatientMobileController.text = addNewPatientMobileController.text;
-  //   editPatientEmailController.text = addNewPatientEmailController.text;
-  //   editPatientFirstNameController.text = addNewPatientFirstNameController.text;
-  //   editPatientLastNameController.text = addNewPatientLastNameController.text;
-  //   editPatientAddressController.text = addNewPatientAddressController.text;
-  //   editPatientGender = addNewPatientGender;
-  //   editPatientSelectedImage = addPatientSelectedImage;
-  //   notifyListeners();
-  // }
+  addNewPatient() async {
+    showLoaderDialog(addNewPatientContext!);
+    if (prefModel.userData!.roleId == 2) {
+      AddIndividualProfileResponseModel response =
+          await apiCalls.addIndividualProfile(
+              addNewPatientDobController.text,
+              addNewPatientMobileController.text,
+              addNewPatientEmailController.text,
+              addNewPatientFirstNameController.text,
+              addNewPatientLastNameController.text,
+              addNewPatientAddressController.text,
+              addNewPatientGender!,
+              addPatientSelectedImage,
+              addNewPatientContext!);
+      if(response.result!=null){
+        showSuccessToast(addNewPatientContext!, response.message!);
+        Navigator.pop(addNewPatientContext!);
+        Navigator.pop(addNewPatientContext!);
+      }
+    } else {
+      // add enterprise profile
+    }
+  }
 
-
+//
+// void prefillEditPatientDetails() {
+//   editPatientDobController.text = addNewPatientDobController.text;
+//   editPatientMobileController.text = addNewPatientMobileController.text;
+//   editPatientEmailController.text = addNewPatientEmailController.text;
+//   editPatientFirstNameController.text = addNewPatientFirstNameController.text;
+//   editPatientLastNameController.text = addNewPatientLastNameController.text;
+//   editPatientAddressController.text = addNewPatientAddressController.text;
+//   editPatientGender = addNewPatientGender;
+//   editPatientSelectedImage = addPatientSelectedImage;
+//   notifyListeners();
+// }
 }

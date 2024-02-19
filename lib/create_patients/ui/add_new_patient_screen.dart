@@ -9,7 +9,6 @@ import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
-import 'package:vicare/utils/routes.dart';
 
 import '../provider/patient_provider.dart';
 
@@ -30,7 +29,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   Widget build(BuildContext context) {
     return Consumer
       (builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
-      patientProvider.addNewPageContext= context;
+      patientProvider.addNewPatientContext= context;
       return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -116,8 +115,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                           AppLocale.submit.getString(context),
                           onPressed: () async{
                             if (patientProvider.addPatientFormKey.currentState!.validate()) {
-                              Navigator.pushNamed(
-                                  context, Routes.patientDetailsRoute);
+                              patientProvider.addNewPatient();
+                              // Navigator.pushNamed(
+                              //     context, Routes.patientDetailsRoute);
                             }
                           },
                         ),
@@ -332,7 +332,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                       );
                       setState(() {
                         patientProvider.addNewPatientDobController.text =
-                            "${picked!.year} - ${picked.month} - ${picked.day}";
+                            "${picked!.year}-${picked.month}-${picked.day}";
                       });
                     },
                     child: TextFormField(
