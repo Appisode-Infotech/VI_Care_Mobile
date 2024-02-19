@@ -14,6 +14,7 @@ mixin AppLocale {
   static const String termsAndConditions  = 'termsAndConditions';
   static const String privacyPolicy  = 'privacyPolicy';
   static const String validPassword  = 'validPassword';
+  static const String passwordsDoNotMatch  = 'passwordsDoNotMatch';
   static const String contactNumber  = 'contactNumber';
   static const String validContact  = 'validContact';
   static const String bloodGroup  = 'bloodGroup';
@@ -139,6 +140,7 @@ mixin AppLocale {
     email: 'Email',
     password: 'Password',
     validPassword: 'Please enter valid password',
+    passwordsDoNotMatch: 'Passwords do not match',
     strongPassword: 'Password should min be 8 characters, should contain 1 Capital, 1 number, 1special character',
     validEmail: 'Please enter valid email',
     forgotPassword: 'Forgot Password?',
@@ -269,6 +271,7 @@ mixin AppLocale {
     email: 'ಇಮೇಲ್',
     password: 'ಗುಪ್ತಪದ',
     validPassword: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ',
+    passwordsDoNotMatch: 'ಗುಪ್ತಪದಗಳುತಾಳೆಯಾಗುತ್ತಿಲ್ಲ',
     strongPassword: 'ಪಾಸ್ವರ್ಡ್ ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳಾಗಿರಬೇಕು, 1 ಕ್ಯಾಪಿಟಲ್, 1 ಸಂಖ್ಯೆ, 1 ವಿಶೇಷ ಅಕ್ಷರವನ್ನು ಒಳಗೊಂಡಿರಬೇಕು',
     validEmail: 'ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಇಮೇಲ್ ಅನ್ನು ನಮೂದಿಸಿ',
     forgotPassword: 'ಪಾಸ್ವರ್ಡ್ ಮರೆತಿರುವಿರಾ?',
@@ -401,6 +404,7 @@ mixin AppLocale {
     password: 'पासवर्ड',
     editPatients:"मरीजों को संपादित करें",
     validPassword: 'कृपया मान्य पासवर्ड दर्ज करें',
+    passwordsDoNotMatch: 'सांकेतिक शब्द मेल नहीं खाते',
     strongPassword: 'पासवर्ड न्यूनतम 8 अक्षर का होना चाहिए, इसमें 1 बड़ा अक्षर, 1 अंक, 1 विशेष अक्षर होना चाहिए',
     validEmail: 'कृपया मान्य ईमेल दर्ज करें',
     forgotPassword: 'पासवर्ड भूल गए हैं?',
