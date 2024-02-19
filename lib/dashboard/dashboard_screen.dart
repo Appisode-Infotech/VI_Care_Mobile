@@ -47,7 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildBottomNavigationBar() {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: BottomNavigationBar(
         elevation: 0,
         type: BottomNavigationBarType.fixed,

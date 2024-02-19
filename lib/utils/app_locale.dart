@@ -181,7 +181,7 @@ mixin AppLocale {
 
     submit: 'Submit',
     resetPassword: 'Reset password ?',
-    enterOtpForNewPswd: 'Please enter the otp sent to your mail and \nenter your new password.',
+    enterOtpForNewPswd: 'Please enter the otp sent to your mail and enter your new password.',
     newPassword: 'New Password',
     confirmPassword: 'Confirm New Password',
 
@@ -315,7 +315,7 @@ mixin AppLocale {
 
     submit: 'ಸಲ್ಲಿಸು',
     resetPassword: 'ಪಾಸ್ವರ್ಡ್ ಮರುಹೊಂದಿಸುವುದೇ?',
-    enterOtpForNewPswd: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ಮೇಲ್‌ಗೆ ಕಳುಹಿಸಲಾದ ಒಟಿಪಿಯನ್ನು ನಮೂದಿಸಿ ಮತ್ತು \nನಿಮ್ಮ ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನಮೂದಿಸಿ.',
+    enterOtpForNewPswd: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ಮೇಲ್‌ಗೆ ಕಳುಹಿಸಲಾದ ಒಟಿಪಿಯನ್ನು ನಮೂದಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನಮೂದಿಸಿ.',
     newPassword: 'ಹೊಸ ಪಾಸ್ವರ್ಡ್',
     confirmPassword: 'ಹೊಸ ಗುಪ್ತಪದವನ್ನು ಖಚಿತಪಡಿಸಿ',
 
@@ -448,7 +448,7 @@ mixin AppLocale {
 
     submit: 'सबमिट करें',
     resetPassword: 'पासवर्ड रीसेट करें?',
-    enterOtpForNewPswd: 'कृपया अपने ईमेल पर भेजे गए OTP दर्ज करें और \nअपना नया पासवर्ड दर्ज करें।',
+    enterOtpForNewPswd: 'कृपया अपने ईमेल पर भेजे गए OTP दर्ज करें और अपना नया पासवर्ड दर्ज करें।',
     newPassword: 'नया पासवर्ड',
     confirmPassword: 'नया पासवर्ड पुनः पुष्टि करें',
 
