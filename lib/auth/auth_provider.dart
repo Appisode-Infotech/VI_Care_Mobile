@@ -59,7 +59,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerDobController = TextEditingController();
   TextEditingController registerOtpController = TextEditingController();
-  TextEditingController registerContactNumberController = TextEditingController();
+  TextEditingController registerContactNumberController =
+      TextEditingController();
   String? registerBloodGroup;
   String? otpReceived;
   int? selectedRoleId;
@@ -81,6 +82,7 @@ class AuthProvider extends ChangeNotifier {
       TextEditingController();
   TextEditingController forgotPasswordOtpController = TextEditingController();
   TextEditingController forgotPasswordEmailController = TextEditingController();
+  String? forgotPassOtp;
 
   clearLoginForm() {
     loginEmailController.clear();
@@ -115,13 +117,17 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> login() async {
     showLoaderDialog(loginPageContext!);
-    RegisterResponseModel response = await apiCalls.loginUser(loginEmailController.text,loginPasswordController.text,loginPageContext!);
-    if(response.result!=null){
+    RegisterResponseModel response = await apiCalls.loginUser(
+        loginEmailController.text,
+        loginPasswordController.text,
+        loginPageContext!);
+    if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(loginPageContext!);
       Navigator.pushNamed(loginPageContext!, Routes.dashboardRoute);
-    }else{
+      clearLoginForm();
+    } else {
       Navigator.pop(loginPageContext!);
       showErrorToast(loginPageContext!, response.message!);
     }
@@ -140,15 +146,15 @@ class AuthProvider extends ChangeNotifier {
         bloodGroup: registerBloodGroup,
         contact: registerContactNumberController.text,
         password: registerPasswordController.text,
-        context:registerPageContext!
-    );
-    if (response.result!=null) {
+        context: registerPageContext!);
+    if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(registerPageContext!);
       Navigator.pushNamed(registerPageContext!, Routes.dashboardRoute);
       showSuccessToast(registerPageContext!, response.message!);
-    }else{
+      clearRegisterForm();
+    } else {
       Navigator.pop(registerPageContext!);
       showErrorToast(registerPageContext!, response.message!);
     }
@@ -156,11 +162,12 @@ class AuthProvider extends ChangeNotifier {
 
   Future<SendOtpResponseModel> sendOtp() async {
     showLoaderDialog(registerPageContext!);
-    SendOtpResponseModel response = await apiCalls.sendOtpToRegister(registerEmailController.text,registerPageContext!);
+    SendOtpResponseModel response = await apiCalls.sendOtpToRegister(
+        registerEmailController.text, registerPageContext!);
     Navigator.pop(registerPageContext!);
-    if(response.result==null){
+    if (response.result == null) {
       showErrorToast(registerPageContext!, response.message!);
-    }else{
+    } else {
       showSuccessToast(registerPageContext!, response.message!);
     }
     return response;
@@ -180,4 +187,31 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(relContext, masterRolesResponse!.message!);
     }
   }
+
+  Future<SendOtpResponseModel> sendOtpForResetPassword() async {
+    showLoaderDialog(forgotPageContext!);
+    SendOtpResponseModel response = await apiCalls.sendOtpToResetPassword(
+        forgotPasswordEmailController.text, forgotPageContext!);
+    Navigator.pop(forgotPageContext!);
+    if (response.result == null) {
+      showErrorToast(forgotPageContext!, response.message!);
+    } else {
+      showSuccessToast(forgotPageContext!, response.message!);
+    }
+    return response;
+  }
+
+  // Future<ResetPasswordResponseModel> resetPassword() async {
+  //   showLoaderDialog(forgotPageContext!);
+  //   ResetPasswordResponseModel response = await apiCalls.resetPassword(forgotPasswordEmailController.text,forgotPasswordNewPasswordController.text,forgotPageContext!);
+  //   if(response.result!){
+  //     Navigator.pop(forgotPageContext!);
+  //     showSuccessToast(forgotPageContext!, response.message!);
+  //     Navigator.pop(forgotPageContext!);
+  //   }else{
+  //     Navigator.pop(forgotPageContext!);
+  //     showErrorToast(forgotPageContext!, response.message!);
+  //   }
+  //   return response;
+  // }
 }

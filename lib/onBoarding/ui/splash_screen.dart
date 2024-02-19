@@ -14,18 +14,23 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  @override
-  Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 3), () {
+  moveToCorrespondingScreen(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 2), () async {
       if (prefModel.userData == null) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, Routes.onBoardingRoute, (route) => false);
+        if (context.mounted) {
+          Navigator.pushReplacementNamed(context, Routes.onBoardingRoute);
+        }
       } else {
         if (context.mounted) {
           Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
         }
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    moveToCorrespondingScreen(context);
     return const Scaffold(
       body: Center(
         child: Image(

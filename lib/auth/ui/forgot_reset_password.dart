@@ -9,7 +9,7 @@ import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
+import '../model/send_otp_response_model.dart';
 
 class ForgotResetPassword extends StatefulWidget {
   const ForgotResetPassword({super.key});
@@ -19,7 +19,6 @@ class ForgotResetPassword extends StatefulWidget {
 }
 
 class _ForgotResetPasswordState extends State<ForgotResetPassword> {
-
   int currentStep = 1;
 
   Color getIndicatorColor(int step) {
@@ -29,21 +28,23 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.forgotPageContext = context;
         return Scaffold(
           body: Form(
             key: authProvider.forgotPasswordFormKey,
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
+                padding:
+                const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.loginRoute);
+                        Navigator.pop(context);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
@@ -65,9 +66,11 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                           height: 10,
                         ),
                         Text(
-                          AppLocale.emailToResetPassword.getString(context),
+                          AppLocale.emailToResetPassword
+                              .getString(context),
                           style: const TextStyle(
-                              fontSize: 12, color: AppColors.fontShadeColor),
+                              fontSize: 12,
+                              color: AppColors.fontShadeColor),
                         ),
                         const SizedBox(
                           height: 20,
@@ -89,7 +92,8 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         Text(
                           AppLocale.enterOtpForNewPswd.getString(context),
                           style: const TextStyle(
-                              fontSize: 12, color: AppColors.fontShadeColor),
+                              fontSize: 12,
+                              color: AppColors.fontShadeColor),
                         ),
                         const SizedBox(
                           height: 20,
@@ -111,7 +115,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         ? forgotPassword(authProvider)
                         : const SizedBox.shrink(),
                     currentStep == 2
-                        ? resetPassword(screenSize!,authProvider)
+                        ? resetPassword(screenSize!, authProvider)
                         : const SizedBox.shrink(),
                     const SizedBox(height: 30),
                     Column(
@@ -121,7 +125,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                             ? getPrimaryAppButton(
                           context,
                           AppLocale.previous.getString(context),
-                          onPressed: () async{
+                          onPressed: () async {
                             setState(() {
                               currentStep = currentStep - 1;
                             });
@@ -135,16 +139,22 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         (currentStep == 1)
                             ? getPrimaryAppButton(
                             context, AppLocale.next.getString(context),
-                            onPressed: () async{
-                              setState(() {
-                                currentStep = currentStep + 1;
-                              });
+                            onPressed: () async {
+                              if (authProvider
+                                  .forgotPasswordFormKey.currentState!
+                                  .validate()) {
+                                SendOtpResponseModel response = await authProvider
+                                    .sendOtpForResetPassword();
+                                authProvider.forgotPassOtp = response.result!.otp!;
+                                setState(() {
+                                  currentStep = currentStep + 1;
+                                });
+                              }
                             })
                             : getPrimaryAppButton(
                             context, AppLocale.next.getString(context),
-                            onPressed: () async{
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, Routes.loginRoute, (route) => false);
+                            onPressed: () async {
+                              // authProvider.resetPassword();
                             }),
                       ],
                     ),
@@ -193,7 +203,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
       ],
@@ -235,7 +245,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
@@ -265,11 +275,14 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             suffixIcon: CupertinoButton(
               onPressed: () {
                 setState(() {
-                  authProvider.forgotPasswordIsShowPassword = !authProvider.forgotPasswordIsShowPassword;
+                  authProvider.forgotPasswordIsShowPassword =
+                  !authProvider.forgotPasswordIsShowPassword;
                 });
               },
               child: Icon(
-                authProvider.forgotPasswordIsShowPassword ? Icons.visibility_off : Icons.visibility,
+                authProvider.forgotPasswordIsShowPassword
+                    ? Icons.visibility_off
+                    : Icons.visibility,
                 color: Colors.grey,
               ),
             ),
@@ -285,7 +298,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
@@ -304,6 +317,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
             }
+            if(value!=authProvider.forgotPasswordNewPasswordController.text){
+              return AppLocale.passwordsDoNotMatch.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
@@ -315,11 +331,14 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             suffixIcon: CupertinoButton(
               onPressed: () {
                 setState(() {
-                  authProvider.forgotPasswordIsConfirmPassword = !authProvider.forgotPasswordIsConfirmPassword;
+                  authProvider.forgotPasswordIsConfirmPassword =
+                  !authProvider.forgotPasswordIsConfirmPassword;
                 });
               },
               child: Icon(
-                authProvider.forgotPasswordIsConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                authProvider.forgotPasswordIsConfirmPassword
+                    ? Icons.visibility_off
+                    : Icons.visibility,
                 color: Colors.grey,
               ),
             ),
@@ -335,7 +354,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
       ],

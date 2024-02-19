@@ -142,4 +142,33 @@ class ApiCalls {
       throw "could not register${response.statusCode}";
     }
   }
+
+  Future<SendOtpResponseModel> sendOtpToResetPassword(
+      String email, BuildContext buildContext) async {
+    http.Response response = await hitApiPost(
+        false,
+        UrlConstants.sendOtpToResetPassword + email,
+        jsonEncode({"email": email}));
+    if (response.statusCode == 200) {
+      return SendOtpResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(buildContext);
+      showErrorToast(buildContext, "Something went wrong");
+      throw "could not register${response.statusCode}";
+    }
+  }
+
+  // resetPassword(String email, String password, BuildContext buildContext) async {
+  //   http.Response response = await hitApiPost(
+  //       false,
+  //       UrlConstants.resetPassword,
+  //       jsonEncode({"email": email}));
+  //   if (response.statusCode == 200) {
+  //     return SendOtpResponseModel.fromJson(json.decode(response.body));
+  //   } else {
+  //     Navigator.pop(buildContext!);
+  //     showErrorToast(buildContext, "Something went wrong");
+  //     throw "could not register${response.statusCode}";
+  //   }
+  // }
 }
