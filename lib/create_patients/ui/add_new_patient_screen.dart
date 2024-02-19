@@ -116,8 +116,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                           AppLocale.submit.getString(context),
                           onPressed: () async{
                             if (patientProvider.addPatientFormKey.currentState!.validate()) {
-                              Navigator.pushNamed(
-                                  context, Routes.patientDetailsRoute);
+                              Navigator.pushNamed(context, Routes.patientDetailsRoute);
                             }
                           },
                         ),

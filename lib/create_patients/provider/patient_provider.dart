@@ -55,18 +55,5 @@ class PatientProvider extends ChangeNotifier {
     editPatientSelectedImage=null;
     notifyListeners();
   }
-  //
-  // void prefillEditPatientDetails() {
-  //   editPatientDobController.text = addNewPatientDobController.text;
-  //   editPatientMobileController.text = addNewPatientMobileController.text;
-  //   editPatientEmailController.text = addNewPatientEmailController.text;
-  //   editPatientFirstNameController.text = addNewPatientFirstNameController.text;
-  //   editPatientLastNameController.text = addNewPatientLastNameController.text;
-  //   editPatientAddressController.text = addNewPatientAddressController.text;
-  //   editPatientGender = addNewPatientGender;
-  //   editPatientSelectedImage = addPatientSelectedImage;
-  //   notifyListeners();
-  // }
-
 
 }
