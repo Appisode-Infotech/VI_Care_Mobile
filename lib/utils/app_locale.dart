@@ -113,6 +113,19 @@ mixin AppLocale {
   static const String delete  = 'delete';
   static const String editPatients  = 'editPatients';
 
+  static const String player  = 'player';
+  static const String newPlayer  = 'newPlayer';
+  static const String newMember  = 'newMember';
+  static const String managePlayers  = 'managePlayers';
+  static const String manageMembers  = 'manageMembers';
+  static const String addPlayer  = 'addPlayer';
+  static const String playerDetails  = 'playerDetails';
+  static const String addMember  = 'addMember';
+  static const String memberDetails  = 'memberDetails';
+  static const String editPlayers  = 'editPlayers';
+  static const String editMembers  = 'editMembers';
+  static const String members  = 'members';
+
   static const String profile  = 'profile';
   static const String scanSettings  = 'scanSettings';
   static const String offlineSaved  = 'offlineSaved';
@@ -194,6 +207,19 @@ mixin AppLocale {
     newPatient: 'Add New\nPatient',
     allReports: 'All reports',
 
+    player:'Players',
+    members: 'Members',
+    newPlayer: 'Add New\nPlayer',
+    newMember: 'Add New\nMember',
+    managePlayers: 'Manage Players',
+    manageMembers: 'Manage Members',
+    addPlayer: 'Add new player',
+    addMember: 'Add new member',
+    playerDetails: 'Player details',
+    memberDetails: 'Member details',
+    editPlayers:"Edit Players",
+    editMembers:"Edit Members",
+
     allTime: 'All Time',
     yesterday: 'Yesterday',
     today: 'Today',
@@ -203,8 +229,8 @@ mixin AppLocale {
     managePatients: 'Manage Patients',
 
     addPatients: 'Add new patients',
-    fillNewPatients: 'Please fill in the details to add a patient/member and use the services',
-    editPatientsDetails: 'Please fill in the details to edit a patient/member and use the services',
+    fillNewPatients: 'Please fill in the details to add a patient/member/player and use the services',
+    editPatientsDetails: 'Please fill in the details to edit a patient/member/player and use the services',
     mobile: 'Mobile',
     patientDetails: 'Patient details',
     validPhone: 'Please Enter valid Phone Number',
@@ -333,6 +359,19 @@ mixin AppLocale {
     today: 'ಇಂದು',
     moderate: 'ಮಧ್ಯಮ',
     normal: 'ಸಾಮಾನ್ಯ',
+
+    player: 'ಆಟಗಾರ',
+    members: 'ಸದಸ್ಯರು',
+    newPlayer: 'ಹೊಸ ಆಟಗಾರ ಸೇರಿಸಿ',
+    newMember: 'ಹೊಸ ಸದಸ್ಯ ಸೇರಿಸಿ',
+    managePlayers: 'ಆಟಗಾರರ ನಿರ್ವಹಣೆ',
+    manageMembers: 'ಸದಸ್ಯರ ನಿರ್ವಹಣೆ',
+    addPlayer: 'ಹೊಸ ಆಟಗಾರ ಸೇರಿಸಿ',
+    addMember: 'ಹೊಸ ಸದಸ್ಯ ಸೇರಿಸಿ',
+    playerDetails: 'ಆಟಗಾರರ ವಿವರಗಳು',
+    memberDetails: 'ಸದಸ್ಯರ ವಿವರಗಳು',
+    editPlayers: 'ಆಟಗಾರರ ಸಂಪಾದನೆ',
+    editMembers: 'ಸದಸ್ಯರ ಸಂಪಾದನೆ',
 
     managePatients: 'ರೋಗಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
 
@@ -467,6 +506,19 @@ mixin AppLocale {
     moderate: 'मध्यम',
     normal: 'सामान्य',
 
+    player: 'खिलाड़ी',
+    members: 'सदस्य',
+    newPlayer: 'नया खिलाड़ी जोड़ें',
+    newMember: 'नया सदस्य जोड़ें',
+    managePlayers: 'खिलाड़ियों का प्रबंधन',
+    manageMembers: 'सदस्यों का प्रबंधन',
+    addPlayer: 'नया खिलाड़ी जोड़ें',
+    addMember: 'नया सदस्य जोड़ें',
+    playerDetails: 'खिलाड़ी का विवरण',
+    memberDetails: 'सदस्य का विवरण',
+    editPlayers: 'खिलाड़ी का संपादन',
+    editMembers: 'सदस्य का संपादन',
+
     managePatients: 'रोगियों का प्रबंधन करें',
 
     addPatients: 'नए रोगी जोड़ें',
@@ -593,6 +645,19 @@ mixin AppLocale {
     today: 'Heute',
     moderate: 'Mäßig',
     normal: 'Normal',
+
+    player: 'Spieler',
+    members: 'Mitglieder',
+    newPlayer: 'Neuen Spieler hinzufügen',
+    newMember: 'Neues Mitglied hinzufügen',
+    managePlayers: 'Spieler verwalten',
+    manageMembers: 'Mitglieder verwalten',
+    addPlayer: 'Neuen Spieler hinzufügen',
+    addMember: 'Neues Mitglied hinzufügen',
+    playerDetails: 'Spielerdetails',
+    memberDetails: 'Mitgliederdetails',
+    editPlayers: 'Spieler bearbeiten',
+    editMembers: 'Mitglieder bearbeiten',
 
     managePatients: 'Patienten verwalten',
 

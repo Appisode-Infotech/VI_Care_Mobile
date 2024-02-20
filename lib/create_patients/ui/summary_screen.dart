@@ -93,7 +93,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                       children: [
                         Text(
                           AppLocale.readiness.getString(context),
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight
                               .w700),
                         ),
                         const SizedBox(height: 10,),
@@ -117,11 +117,11 @@ class _SummaryScreenState extends State<SummaryScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(AppLocale.low.getString(context),
-                                style: TextStyle(color: Colors.white,
+                                style: const TextStyle(color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15),),
                               Text(AppLocale.high.getString(context),
-                                style: TextStyle(color: Colors.white,
+                                style: const TextStyle(color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15),),
                             ],
@@ -157,7 +157,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                         const SizedBox(height: 10,),
                         Text(
                           AppLocale.resting.getString(context),
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight
                               .w700),
                         ),
                         const SizedBox(height: 10,),
@@ -181,11 +181,11 @@ class _SummaryScreenState extends State<SummaryScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(AppLocale.low.getString(context),
-                                style: TextStyle(color: Colors.white,
+                                style: const TextStyle(color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15),),
                               Text(AppLocale.high.getString(context),
-                                style: TextStyle(color: Colors.white,
+                                style: const TextStyle(color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15),),
                             ],

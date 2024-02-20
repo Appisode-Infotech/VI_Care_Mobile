@@ -148,6 +148,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 10,
                       ),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: profileProvider.editProfileFirstNameController,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
@@ -187,6 +188,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 10,
                       ),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
@@ -217,15 +219,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               vertical: 15, horizontal: 10),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10,),
                       Text(AppLocale.contactNumber.getString(context),
                           style: const TextStyle(fontWeight: FontWeight.w600)),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: profileProvider.editProfileContactNumberController,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -304,14 +303,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           );
                         }).toList(),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10,),
                       Text(AppLocale.gender.getString(context),
                           style: const TextStyle(fontWeight: FontWeight.w600)),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10,),
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           filled: true,
@@ -378,6 +373,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     });
                                   },
                                   child: TextFormField(
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(

@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(AppLocale.email.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
                           const SizedBox(height: 10,),
                           TextFormField(
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             controller: authProvider.loginEmailController,
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -86,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(AppLocale.password.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
                           const SizedBox(height: 10,),
                           TextFormField(
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             controller: authProvider.loginPasswordController,
                             validator: (value) {
                               if (value!.isEmpty) {

@@ -11,6 +11,7 @@ import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 
 import '../../create_patients/provider/patient_provider.dart';
+import '../../network/api_calls.dart';
 import '../../utils/app_locale.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -407,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    AppLocale.patients.getString(context),
+                    prefModel.userData!.roleId == 2?AppLocale.members.getString(context):prefModel.userData!.roleId == 3?AppLocale.patients.getString(context):prefModel.userData!.roleId == 4?AppLocale.player.getString(context):"",
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.w700),
                   ),
@@ -471,8 +472,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: [
                                         const Icon(Icons.add),
                                         Text(
-                                          AppLocale.newPatient
-                                              .getString(context),
+                                          prefModel.userData!.roleId == 2?AppLocale.newMember.getString(context):prefModel.userData!.roleId == 3?AppLocale.newPatient.getString(context):prefModel.userData!.roleId == 4?AppLocale.newPlayer.getString(context):"",
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 12),

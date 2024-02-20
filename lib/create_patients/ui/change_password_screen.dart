@@ -150,6 +150,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           // controller:changepasswordOtpController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -194,6 +195,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
@@ -248,6 +250,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);

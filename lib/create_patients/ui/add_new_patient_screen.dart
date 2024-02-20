@@ -10,6 +10,7 @@ import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 
+import '../../network/api_calls.dart';
 import '../provider/patient_provider.dart';
 
 class AddNewPatientScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            AppLocale.addPatients.getString(context),
+            prefModel.userData!.roleId == 2?AppLocale.addMember.getString(context):prefModel.userData!.roleId == 3?AppLocale.addPatients.getString(context):prefModel.userData!.roleId == 4?AppLocale.addPlayer.getString(context):"",
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppColors.primaryColor,
@@ -243,6 +244,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: patientProvider.addNewPatientMobileController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -279,6 +281,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: patientProvider.addNewPatientEmailController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -336,6 +339,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                       });
                     },
                     child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter valid Date";
@@ -389,6 +393,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientFirstNameController,
           validator: (value) {
@@ -426,6 +431,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientLastNameController,
           validator: (value) {
@@ -517,6 +523,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientAddressController,
           validator: (value) {
