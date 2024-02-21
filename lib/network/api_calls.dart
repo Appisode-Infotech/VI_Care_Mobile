@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
@@ -150,6 +151,9 @@ class ApiCalls {
         false,
         UrlConstants.sendOtpToResetPassword + email,
         jsonEncode({"email": email}));
+    print("==============");
+    print(response.body);
+    print(UrlConstants.sendOtpToResetPassword + email);
     if (response.statusCode == 200) {
       return SendOtpResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -218,17 +222,19 @@ class ApiCalls {
     }
   }
 
-// resetPassword(String email, String password, BuildContext buildContext) async {
-//   http.Response response = await hitApiPost(
-//       false,
-//       UrlConstants.resetPassword,
-//       jsonEncode({"email": email}));
-//   if (response.statusCode == 200) {
-//     return SendOtpResponseModel.fromJson(json.decode(response.body));
-//   } else {
-//     Navigator.pop(buildContext!);
-//     showErrorToast(buildContext, "Something went wrong");
-//     throw "could not register${response.statusCode}";
-//   }
-// }
+
+resetPassword(String email, String password, BuildContext buildContext) async {
+  http.Response response = await hitApiPost(
+      false,
+      UrlConstants.resetPassword+email+"/"+password,
+      jsonEncode({"email": email,
+      "newPassword":password}));
+  if (response.statusCode == 200) {
+    return ResetPasswordResponseModel.fromJson(json.decode(response.body));
+  } else {
+    Navigator.pop(buildContext);
+    showErrorToast(buildContext, "Something went wrong");
+    throw "could not register${response.statusCode}";
+  }
+}
 }

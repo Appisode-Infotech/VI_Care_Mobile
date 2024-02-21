@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:vicare/auth/model/register_response_model.dart';
+import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/role_master_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/database/app_pref.dart';
@@ -193,25 +194,22 @@ class AuthProvider extends ChangeNotifier {
     SendOtpResponseModel response = await apiCalls.sendOtpToResetPassword(
         forgotPasswordEmailController.text, forgotPageContext!);
     Navigator.pop(forgotPageContext!);
-    if (response.result == null) {
-      showErrorToast(forgotPageContext!, response.message!);
-    } else {
-      showSuccessToast(forgotPageContext!, response.message!);
-    }
     return response;
   }
 
-  // Future<ResetPasswordResponseModel> resetPassword() async {
-  //   showLoaderDialog(forgotPageContext!);
-  //   ResetPasswordResponseModel response = await apiCalls.resetPassword(forgotPasswordEmailController.text,forgotPasswordNewPasswordController.text,forgotPageContext!);
-  //   if(response.result!){
-  //     Navigator.pop(forgotPageContext!);
-  //     showSuccessToast(forgotPageContext!, response.message!);
-  //     Navigator.pop(forgotPageContext!);
-  //   }else{
-  //     Navigator.pop(forgotPageContext!);
-  //     showErrorToast(forgotPageContext!, response.message!);
-  //   }
-  //   return response;
-  // }
+  Future<void> resetPassword() async {
+    showLoaderDialog(forgotPageContext!);
+    ResetPasswordResponseModel response = await apiCalls.resetPassword(
+        forgotPasswordEmailController.text,
+        forgotPasswordNewPasswordController.text,
+        forgotPageContext!);
+    if (response.result != null && response.result == true) {
+      Navigator.pop(forgotPageContext!);
+      showSuccessToast(forgotPageContext!, response.message!);
+      Navigator.pushNamedAndRemoveUntil(
+          forgotPageContext!, Routes.loginRoute, (route) => false);
+    } else {
+      showErrorToast(forgotPageContext!, response.message!);
+    }
+  }
 }

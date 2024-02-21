@@ -9,7 +9,7 @@ import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
+import '../model/send_otp_response_model.dart';
 
 class ForgotResetPassword extends StatefulWidget {
   const ForgotResetPassword({super.key});
@@ -20,6 +20,8 @@ class ForgotResetPassword extends StatefulWidget {
 
 class _ForgotResetPasswordState extends State<ForgotResetPassword> {
   int currentStep = 1;
+
+  String? resetPasswordOtp;
 
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
@@ -52,6 +54,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         weight: 45,
                       ),
                     ),
+                    const SizedBox(height: 10,),
                     currentStep == 1
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -140,15 +143,39 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                             ? getPrimaryAppButton(
                                 context, AppLocale.next.getString(context),
                                 onPressed: () async {
-                                setState(() {
-                                  currentStep = currentStep + 1;
-                                });
+                                if (authProvider
+                                    .forgotPasswordFormKey.currentState!
+                                    .validate()) {
+                                  SendOtpResponseModel response =
+                                      await authProvider
+                                          .sendOtpForResetPassword();
+                                  if (response.result != null) {
+                                    showSuccessToast(
+                                        context, response.message!);
+                                    resetPasswordOtp = response.result!.otp;
+                                    setState(() {
+                                      currentStep = currentStep + 1;
+                                    });
+                                  } else {
+                                    showErrorToast(context, response.message!);
+                                  }
+                                }
                               })
                             : getPrimaryAppButton(
                                 context, AppLocale.next.getString(context),
                                 onPressed: () async {
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    Routes.loginRoute, (route) => false);
+                                if (authProvider
+                                    .forgotPasswordFormKey.currentState!
+                                    .validate()) {
+                                  if (resetPasswordOtp ==
+                                      authProvider
+                                          .forgotPasswordOtpController.text) {
+                                    authProvider.resetPassword();
+                                  } else {
+                                    showErrorToast(
+                                        context, "Please enter valid Otp");
+                                  }
+                                }
                               }),
                       ],
                     ),
@@ -176,6 +203,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           controller: authProvider.forgotPasswordEmailController,
           validator: (value) {
             if (value!.isEmpty) {
+              return AppLocale.validEmail.getString(context);
+            }
+            if (authProvider.isNotValidEmail(value)) {
               return AppLocale.validEmail.getString(context);
             }
             return null;
@@ -218,7 +248,10 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           controller: authProvider.forgotPasswordOtpController,
           validator: (value) {
             if (value!.isEmpty) {
-              return AppLocale.validEmail.getString(context);
+              return AppLocale.validOtp.getString(context);
+            }
+            if (value!=resetPasswordOtp) {
+              return AppLocale.validOtp.getString(context);
             }
             return null;
           },
@@ -258,11 +291,15 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
             }
+            if (!authProvider.isStrongPassword(value)) {
+              return AppLocale.strongPassword.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
           obscureText: authProvider.forgotPasswordIsShowPassword,
           decoration: InputDecoration(
+            errorMaxLines: 2,
             fillColor: Colors.white,
             filled: true,
             hintText: AppLocale.password.getString(context),
@@ -311,11 +348,17 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
             }
+
+            if (value !=
+                authProvider.forgotPasswordNewPasswordController.text) {
+              return AppLocale.passwordsDoNotMatch.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
           obscureText: authProvider.forgotPasswordIsConfirmPassword,
           decoration: InputDecoration(
+            errorMaxLines: 2,
             fillColor: Colors.white,
             filled: true,
             hintText: AppLocale.password.getString(context),
