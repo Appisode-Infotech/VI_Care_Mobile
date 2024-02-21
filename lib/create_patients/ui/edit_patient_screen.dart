@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import '../../network/api_calls.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
@@ -26,7 +27,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
         patientProvider.editPatientPageContext= context;
         return Scaffold(
             appBar: AppBar(
-              title: Text(AppLocale.editPatients.getString(context),
+              title: Text(
+                prefModel.userData!.roleId == 2?AppLocale.editMembers.getString(context):prefModel.userData!.roleId == 3?AppLocale.editPatients.getString(context):prefModel.userData!.roleId == 4?AppLocale.editPlayers.getString(context):"",
                 style: const TextStyle(color: Colors.white),),
               backgroundColor: AppColors.primaryColor,
               toolbarHeight: 75,
@@ -143,6 +145,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validPhone.getString(context);
@@ -179,6 +182,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validEmail.getString(context);
@@ -237,6 +241,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     });
                                   },
                                   child: TextFormField(
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
@@ -282,6 +287,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -319,6 +325,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -399,6 +406,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {

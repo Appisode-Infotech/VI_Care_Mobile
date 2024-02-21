@@ -200,6 +200,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.forgotPasswordEmailController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -245,6 +246,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.forgotPasswordOtpController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -286,6 +288,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.forgotPasswordNewPasswordController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -343,6 +346,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.forgotPasswordConfirmPasswordController,
           validator: (value) {
             if (value!.isEmpty) {

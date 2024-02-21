@@ -4,6 +4,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
 
+import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
@@ -66,7 +67,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              AppLocale.managePatients.getString(context),
+              prefModel.userData!.roleId == 2?AppLocale.manageMembers.getString(context):prefModel.userData!.roleId == 3?AppLocale.managePatients.getString(context):prefModel.userData!.roleId == 4?AppLocale.managePlayers.getString(context):"",
               style: const TextStyle(color: Colors.white),
             ),
             backgroundColor: AppColors.primaryColor,
@@ -109,7 +110,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                 children: [
                                   const Icon(Icons.add),
                                   Text(
-                                    AppLocale.newPatient.getString(context),
+                                    prefModel.userData!.roleId == 2?AppLocale.newMember.getString(context):prefModel.userData!.roleId == 3?AppLocale.newPatient.getString(context):prefModel.userData!.roleId == 4?AppLocale.newPlayer.getString(context):"",
                                     style: const TextStyle(
                                         color: Colors.black, fontSize: 12),
                                   ),

@@ -197,6 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               height: 10,
             ),
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: authProvider.registerEmailController,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -237,6 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
 
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               textCapitalization: TextCapitalization.sentences,
               controller: authProvider.registerPasswordController,
               validator: (value) {
@@ -359,6 +361,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerOtpController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -480,6 +483,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerFirstName,
           validator: (value) {
@@ -521,6 +525,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerLastName,
           validator: (value) {
@@ -562,6 +567,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerContactNumberController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -722,6 +728,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       });
                     },
                     child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter valid Date";

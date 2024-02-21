@@ -113,6 +113,19 @@ mixin AppLocale {
   static const String delete  = 'delete';
   static const String editPatients  = 'editPatients';
 
+  static const String player  = 'player';
+  static const String newPlayer  = 'newPlayer';
+  static const String newMember  = 'newMember';
+  static const String managePlayers  = 'managePlayers';
+  static const String manageMembers  = 'manageMembers';
+  static const String addPlayer  = 'addPlayer';
+  static const String playerDetails  = 'playerDetails';
+  static const String addMember  = 'addMember';
+  static const String memberDetails  = 'memberDetails';
+  static const String editPlayers  = 'editPlayers';
+  static const String editMembers  = 'editMembers';
+  static const String members  = 'members';
+
   static const String profile  = 'profile';
   static const String scanSettings  = 'scanSettings';
   static const String offlineSaved  = 'offlineSaved';
@@ -194,6 +207,19 @@ mixin AppLocale {
     newPatient: 'Add New\nPatient',
     allReports: 'All reports',
 
+    player:'Players',
+    members: 'Members',
+    newPlayer: 'Add New\nPlayer',
+    newMember: 'Add New\nMember',
+    managePlayers: 'Manage Players',
+    manageMembers: 'Manage Members',
+    addPlayer: 'Add new player',
+    addMember: 'Add new member',
+    playerDetails: 'Player details',
+    memberDetails: 'Member details',
+    editPlayers:"Edit Players",
+    editMembers:"Edit Members",
+
     allTime: 'All Time',
     yesterday: 'Yesterday',
     today: 'Today',
@@ -203,8 +229,8 @@ mixin AppLocale {
     managePatients: 'Manage Patients',
 
     addPatients: 'Add new patients',
-    fillNewPatients: 'Please fill in the details to add a patient/member and use the services',
-    editPatientsDetails: 'Please fill in the details to edit a patient/member and use the services',
+    fillNewPatients: 'Please fill in the details to add a patient/member/player and use the services',
+    editPatientsDetails: 'Please fill in the details to edit a patient/member/player and use the services',
     mobile: 'Mobile',
     patientDetails: 'Patient details',
     validPhone: 'Please Enter valid Phone Number',
@@ -333,6 +359,19 @@ mixin AppLocale {
     today: 'ಇಂದು',
     moderate: 'ಮಧ್ಯಮ',
     normal: 'ಸಾಮಾನ್ಯ',
+
+    player: 'ಆಟಗಾರ',
+    members: 'ಸದಸ್ಯರು',
+    newPlayer: 'ಹೊಸ ಆಟಗಾರ ಸೇರಿಸಿ',
+    newMember: 'ಹೊಸ ಸದಸ್ಯ ಸೇರಿಸಿ',
+    managePlayers: 'ಆಟಗಾರರ ನಿರ್ವಹಣೆ',
+    manageMembers: 'ಸದಸ್ಯರ ನಿರ್ವಹಣೆ',
+    addPlayer: 'ಹೊಸ ಆಟಗಾರ ಸೇರಿಸಿ',
+    addMember: 'ಹೊಸ ಸದಸ್ಯ ಸೇರಿಸಿ',
+    playerDetails: 'ಆಟಗಾರರ ವಿವರಗಳು',
+    memberDetails: 'ಸದಸ್ಯರ ವಿವರಗಳು',
+    editPlayers: 'ಆಟಗಾರರ ಸಂಪಾದನೆ',
+    editMembers: 'ಸದಸ್ಯರ ಸಂಪಾದನೆ',
 
     managePatients: 'ರೋಗಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
 
@@ -467,6 +506,19 @@ mixin AppLocale {
     moderate: 'मध्यम',
     normal: 'सामान्य',
 
+    player: 'खिलाड़ी',
+    members: 'सदस्य',
+    newPlayer: 'नया खिलाड़ी जोड़ें',
+    newMember: 'नया सदस्य जोड़ें',
+    managePlayers: 'खिलाड़ियों का प्रबंधन',
+    manageMembers: 'सदस्यों का प्रबंधन',
+    addPlayer: 'नया खिलाड़ी जोड़ें',
+    addMember: 'नया सदस्य जोड़ें',
+    playerDetails: 'खिलाड़ी का विवरण',
+    memberDetails: 'सदस्य का विवरण',
+    editPlayers: 'खिलाड़ी का संपादन',
+    editMembers: 'सदस्य का संपादन',
+
     managePatients: 'रोगियों का प्रबंधन करें',
 
     addPatients: 'नए रोगी जोड़ें',
@@ -522,4 +574,146 @@ mixin AppLocale {
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
 
-}
+  static const Map<String, dynamic> de = {
+    getStartedBtnTitle: 'Einloggen, um zu beginnen',
+    connectMeasure: 'Verbinden, Messen \nund Erfolg haben!',
+    joinHruday:"Treten Sie Hrudayin für eine herzgesunde Reise bei. \nVerbinden Sie Ihr Gerät, messen Sie Ihren \nHerzfrequenz und gedeihen Sie mit \npersonalisierten Einblicken!",
+    dntHaveAnAccount: 'Sie haben noch kein Konto? ',
+    signUpNow: ' Jetzt registrieren',
+    signIn: 'Einloggen',
+    welcomeTo: 'Willkommen bei ',
+    viCare: 'VI Care ',
+    enterEmailAndPasswordTitle: 'Geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein, um die Anwendung zu verwenden',
+    email: 'E-Mail',
+    password: 'Passwort',
+    validPassword: 'Bitte geben Sie ein gültiges Passwort ein',
+    strongPassword: 'Das Passwort muss mindestens 8 Zeichen lang sein und 1 Großbuchstaben, 1 Zahl, 1 Sonderzeichen enthalten',
+    validEmail: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+    forgotPassword: 'Passwort vergessen?',
+    registerNow: ' Jetzt registrieren',
+    agreeToLogin: 'Durch das Einloggen in die Vi Care App stimmen Sie unseren \n',
+    termsAndConditions: 'Nutzungsbedingungen ',
+    privacyPolicy: 'Datenschutzrichtlinien',
+
+    previous: 'Zurück',
+    next: 'Weiter',
+    and: 'und \n',
+    proceedToSignUp: 'Weiter zur Anmeldung',
+    createAccount: 'Konto erstellen',
+    pleaseFillToRegister: 'Bitte füllen Sie die Details aus, um sich anzumelden und die Anwendung weiter zu verwenden',
+    registerAs: 'Registrieren als',
+    role: 'Rolle',
+    doctor: 'Arzt',
+    member: 'Mitglied',
+    enterOtp: 'Geben Sie den OTP ein, der an Ihre E-Mail gesendet wurde',
+    validOtp: 'Bitte geben Sie einen gültigen OTP ein',
+    otp: 'OTP',
+    firstName: 'Vorname',
+    lastName: ' Nachname',
+    contactNumber: 'Kontakt Nummer',
+    validContact: 'Bitte geben Sie eine gültige Kontakt Nummer ein',
+    bloodGroup: 'Blutgruppe',
+    validBloodGroup: 'Bitte wählen Sie eine gültige Blutgruppe aus',
+    validFirstName: 'Bitte geben Sie einen gültigen Vornamen ein',
+    validLastName: 'Bitte geben Sie einen gültigen Nachnamen ein',
+    gender: 'Geschlecht',
+    selectGender: 'Geschlecht wählen',
+    male: 'Männlich',
+    female: 'Weiblich',
+    dateOfBirth: 'Geburtsdatum',
+
+    sendOtp: 'OTP senden',
+    emailToResetPassword: 'Bitte geben Sie Ihre registrierte E-Mail-Adresse ein. Wir senden Ihnen einen OTP an Ihre E-Mail, um Ihr Passwort zurückzusetzen',
+
+    submit: 'Einreichen',
+    resetPassword: 'Passwort zurücksetzen?',
+    enterOtpForNewPswd: 'Bitte geben Sie den OTP ein, der an Ihre E-Mail gesendet wurde, und geben Sie Ihr neues Passwort ein.',
+    newPassword: 'Neues Passwort',
+    confirmPassword: 'Neues Passwort bestätigen',
+
+    hi: 'Hallo',
+    name:"Albert Raj",
+    letsUnlock: "Lassen Sie uns Ihre Herzgesundheitsreise freischalten",
+    recentReports: 'Letzte Berichte',
+    patients: 'Patienten',
+    viewAll: 'Alle anzeigen',
+    newPatient: 'Neuen\nPatienten hinzufügen',
+    allReports: 'Alle Berichte',
+
+    allTime: 'Immer',
+    yesterday: 'Gestern',
+    today: 'Heute',
+    moderate: 'Mäßig',
+    normal: 'Normal',
+
+    player: 'Spieler',
+    members: 'Mitglieder',
+    newPlayer: 'Neuen Spieler hinzufügen',
+    newMember: 'Neues Mitglied hinzufügen',
+    managePlayers: 'Spieler verwalten',
+    manageMembers: 'Mitglieder verwalten',
+    addPlayer: 'Neuen Spieler hinzufügen',
+    addMember: 'Neues Mitglied hinzufügen',
+    playerDetails: 'Spielerdetails',
+    memberDetails: 'Mitgliederdetails',
+    editPlayers: 'Spieler bearbeiten',
+    editMembers: 'Mitglieder bearbeiten',
+
+    managePatients: 'Patienten verwalten',
+
+    addPatients: 'Neue Patienten hinzufügen',
+    fillNewPatients: 'Bitte füllen Sie die Details aus, um einen Patienten/Mitglied hinzuzufügen und die Dienste zu nutzen',
+    editPatientsDetails: 'Bitte füllen Sie die Details aus, um einen Patienten/Mitglied zu bearbeiten und die Dienste zu nutzen',
+    mobile: 'Handy',
+    patientDetails: 'Patientendetails',
+    validPhone: 'Bitte geben Sie eine gültige Telefonnummer ein',
+    address: 'Adresse',
+    validAddress: 'Bitte geben Sie eine gültige Adresse ein',
+    questionarie1: 'Fragebogen 1',
+    questionarie2: 'Fragebogen 2',
+
+    viewCompleteDetails: 'Vollständige Details anzeigen >',
+    viewSummary: 'Zusammenfassung anzeigen',
+    lastTested: 'Zuletzt getestet',
+    totalTested: 'Insgesamt getestet',
+    reports: 'Berichte',
+
+    deviceSetup: 'Es sieht so aus, als hätten Sie das Gerät noch nicht eingerichtet. Richten Sie es jetzt ein, um mit den Tests zu beginnen',
+    setup: 'Aufstellen',
+    deviceConnect: 'Ihr "Faros" Gerät ist konfiguriert. Verbinden Sie es und beginnen Sie mit den Tests',
+    connect: 'Verbinden',
+    deviceStart: 'Das "Faros" Gerät ist verbunden! Sie können jetzt einen Test starten.',
+    start: 'Start',
+
+    summary:"Zusammenfassung",
+    readiness:"Bereitschaftswerte",
+    resting:"Ruheherzfrequenz",
+    low:"Niedrig",
+    high:"Hoch",
+    oneWeek:"1 Woche",
+    oneMonth:"1 Monat",
+    sixMonth:"6 Monate",
+    oneYear:"1 Jahr",
+    takeTest:"Test durchführen",
+    stop:"Stop",
+
+    offlineTests:"Offline-Tests",
+    retryUpload:"Erneut versuchen hochzuladen",
+    delete:"Löschen",
+    editPatients:"Patienten bearbeiten",
+
+    profile: 'Profil',
+    scanSettings: 'Scan-Einstellungen',
+    offlineSaved: 'Offline gespeicherte Tests',
+
+    editProfile: 'Profil bearbeiten',
+
+    changePassword: 'Passwort ändern',
+    changeLanguage: 'Sprache ändern',
+    termsConditions: 'Nutzungsbedingungen',
+    newsBlog: 'Nachrichten & Blogs',
+    support: 'Unterstützung',
+    logOut: 'Ausloggen',
+  };
+
+  }
