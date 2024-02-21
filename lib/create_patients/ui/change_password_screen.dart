@@ -282,6 +282,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide:
               const BorderSide(color: AppColors.primaryColor),

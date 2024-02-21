@@ -260,6 +260,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -291,6 +292,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           },
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
+            errorMaxLines: 2,
             fillColor: Colors.white,
             filled: true,
             hintText: AppLocale.email.getString(context),
@@ -352,6 +354,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 10),
                         errorStyle: const TextStyle(color: Colors.red),
+                        errorMaxLines: 2,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
@@ -410,6 +413,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -448,6 +452,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -476,6 +481,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           decoration: InputDecoration(
+            errorMaxLines: 2,
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
@@ -541,6 +547,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),

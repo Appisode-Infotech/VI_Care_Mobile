@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               isCollapsed: true,
                               errorStyle: const TextStyle(
                                   color: Colors.red),
+                              errorMaxLines: 2,
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),
@@ -116,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               isCollapsed: true,
                               errorStyle: const TextStyle(
                                   color: Colors.red),
+                              errorMaxLines: 2,
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),

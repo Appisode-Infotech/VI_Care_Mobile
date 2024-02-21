@@ -159,6 +159,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.firstName.getString(context),
@@ -199,6 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.lastName.getString(context),
@@ -238,6 +240,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         keyboardType: TextInputType.number,
                         maxLength: 10,
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.contactNumber.getString(context),
@@ -273,6 +276,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -309,6 +313,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(height: 10,),
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -377,6 +382,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      errorMaxLines: 2,
                                       contentPadding:
                                           const EdgeInsets.symmetric(
                                               vertical: 15, horizontal: 10),

@@ -162,6 +162,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           isCollapsed: true,
                           errorStyle: const TextStyle(
                               color: Colors.red),
+                          errorMaxLines: 2,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                                 color: AppColors.primaryColor),
@@ -199,6 +200,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           isCollapsed: true,
                           errorStyle: const TextStyle(
                               color: Colors.red),
+                          errorMaxLines: 2,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                                 color: AppColors.primaryColor),
@@ -245,10 +247,12 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      errorMaxLines: 2,
                                       contentPadding: const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 10),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
+
                                         borderSide: const BorderSide(
                                             color: Color(0xffD3D3D3)),
                                       ),
@@ -305,6 +309,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           isCollapsed: true,
                           errorStyle: const TextStyle(
                               color: Colors.red),
+                          errorMaxLines: 2,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                                 color: AppColors.primaryColor),
@@ -343,6 +348,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                           isCollapsed: true,
                           errorStyle: const TextStyle(
                               color: Colors.red),
+                          errorMaxLines: 2,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                                 color: AppColors.primaryColor),
@@ -364,6 +370,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                       const SizedBox(height: 10,),
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -418,6 +425,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                         keyboardType: TextInputType.streetAddress,
                         maxLines: 3,
                         decoration: InputDecoration(
+                          errorMaxLines: 2,
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.address.getString(context),

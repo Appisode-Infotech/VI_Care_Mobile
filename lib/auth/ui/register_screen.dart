@@ -216,6 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 counterText: "",
                 isCollapsed: true,
                 errorStyle: const TextStyle(color: Colors.red),
+                errorMaxLines: 2,
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: AppColors.primaryColor),
                   borderRadius: BorderRadius.circular(8),
@@ -272,6 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 counterText: "",
                 isCollapsed: true,
+                errorMaxLines: 2,
                 errorStyle: const TextStyle(color: Colors.red),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: AppColors.primaryColor),
@@ -377,6 +379,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -504,6 +507,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -546,6 +550,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -588,6 +593,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -763,6 +769,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         filled: true,
                         hintText: AppLocale.dateOfBirth.getString(context),
                         fillColor: Colors.white,
+                        errorMaxLines: 2,
                       ),
                       controller: authProvider.registerDobController,
                       textInputAction: TextInputAction.done,

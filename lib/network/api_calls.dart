@@ -59,7 +59,7 @@ class ApiCalls {
     } else {
       Navigator.pop(context!);
       showErrorToast(context, "Something went wrong");
-      throw "could not register${response.statusCode}";
+      throw "could not send otp ${response.statusCode}";
     }
   }
 
@@ -70,7 +70,7 @@ class ApiCalls {
     } else {
       Navigator.pop(context!);
       showErrorToast(context, "Something went wrong");
-      throw "could not register${response.statusCode}";
+      throw "could not get the roles ${response.statusCode}";
     }
   }
 
@@ -141,7 +141,7 @@ class ApiCalls {
     } else {
       Navigator.pop(buildContext);
       showErrorToast(buildContext, "Something went wrong");
-      throw "could not register${response.statusCode}";
+      throw "could not login ${response.statusCode}";
     }
   }
 
@@ -159,7 +159,7 @@ class ApiCalls {
     } else {
       Navigator.pop(buildContext);
       showErrorToast(buildContext, "Something went wrong");
-      throw "could not register${response.statusCode}";
+      throw "could not sent otp ${response.statusCode}";
     }
   }
 
@@ -206,19 +206,19 @@ class ApiCalls {
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
       showErrorToast(context, "Unauthorized");
-      throw "could not register ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
       showErrorToast(context, "Email or phone may exist.");
-      throw "could not register ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     } else if (response.statusCode == 400) {
       Navigator.pop(context!);
       showErrorToast(context, "Invalid data please check.");
-      throw "could not register ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     } else {
       Navigator.pop(context!);
       showErrorToast(context, "Something went wrong");
-      throw "could not register ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     }
   }
 
@@ -235,7 +235,7 @@ class ApiCalls {
     } else {
       Navigator.pop(buildContext);
       showErrorToast(buildContext, "Something went wrong");
-      throw "could not register${response.statusCode}";
+      throw "could not reset password${response.statusCode}";
     }
   }
 }
