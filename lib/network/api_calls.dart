@@ -135,7 +135,7 @@ class ApiCalls {
   Future<RegisterResponseModel> loginUser(
       String email, String password, BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
-        jsonEncode({"email": email, 'password': password}));
+        jsonEncode({"email": email.trim(), 'password': password}));
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -173,7 +173,8 @@ class ApiCalls {
       String gender,
       File? selectedImage,
       BuildContext? context) async {
-    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.addIndividualProfile));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(UrlConstants.addIndividualProfile));
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.Firstname'] = fName;
     request.fields['Contact.Email'] = email;
@@ -206,7 +207,7 @@ class ApiCalls {
       Navigator.pop(context!);
       showErrorToast(context, "Unauthorized");
       throw "could not register ${response.statusCode}";
-    }else if (response.statusCode == 204) {
+    } else if (response.statusCode == 204) {
       Navigator.pop(context!);
       showErrorToast(context, "Email or phone may exist.");
       throw "could not register ${response.statusCode}";
@@ -221,19 +222,20 @@ class ApiCalls {
     }
   }
 
-
-resetPassword(String email, String password, BuildContext buildContext) async {
-  http.Response response = await hitApiPost(
-      false,
-      UrlConstants.resetPassword+email+"/"+password,
-      jsonEncode({"email": email,
-      "newPassword":password}));
-  if (response.statusCode == 200) {
-    return ResetPasswordResponseModel.fromJson(json.decode(response.body));
-  } else {
-    Navigator.pop(buildContext);
-    showErrorToast(buildContext, "Something went wrong");
-    throw "could not register${response.statusCode}";
+  resetPassword(
+      String email, String password, BuildContext buildContext) async {
+    http.Response response = await hitApiPost(
+        false,
+        "${UrlConstants.resetPassword}$email/$password",
+        jsonEncode({"email": email, "newPassword": password}));
+    print("${UrlConstants.resetPassword}$email/$password");
+    print({"email": email, "newPassword": password});
+    if (response.statusCode == 200) {
+      return ResetPasswordResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(buildContext);
+      showErrorToast(buildContext, "Something went wrong");
+      throw "could not register${response.statusCode}";
+    }
   }
-}
 }
