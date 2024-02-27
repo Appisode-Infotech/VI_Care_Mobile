@@ -130,8 +130,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .registerFormKey.currentState!
                                               .validate()) {
                                             if (currentStep == 1) {
-                                              SendOtpResponseModel response = await authProvider.sendOtp();
-                                              authProvider.otpReceived = response.result!.otp;
+                                              SendOtpResponseModel response= await authProvider.sendOtp();
+                                              authProvider.otpReceived=response.result!.otp;
                                               authProvider.registerOtpController.clear();
                                               setState(() {
                                                 currentStep = currentStep + 1;

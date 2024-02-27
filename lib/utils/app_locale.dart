@@ -217,8 +217,8 @@ mixin AppLocale {
     addMember: 'Add new member',
     playerDetails: 'Player details',
     memberDetails: 'Member details',
-    editPlayers:"Edit Players",
-    editMembers:"Edit Members",
+    editPlayers:"Edit Player",
+    editMembers:"Edit Member",
 
     allTime: 'All Time',
     yesterday: 'Yesterday',
@@ -228,7 +228,7 @@ mixin AppLocale {
 
     managePatients: 'Manage Patients',
 
-    addPatients: 'Add new patients',
+    addPatients: 'Add new patient',
     fillNewPatients: 'Please fill in the details to add a patient/member/player and use the services',
     editPatientsDetails: 'Please fill in the details to edit a patient/member/player and use the services',
     mobile: 'Mobile',
@@ -267,7 +267,7 @@ mixin AppLocale {
     offlineTests:"Offline Tests",
     retryUpload:"Retry Upload",
     delete:"Delete",
-    editPatients:"Edit Patients",
+    editPatients:"Edit Patient",
 
     profile: 'Profile',
     scanSettings: 'Scan settings',

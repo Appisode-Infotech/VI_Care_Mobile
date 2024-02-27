@@ -21,8 +21,8 @@ String platform = Platform.isIOS ? "IOS" : "Android";
 PrefModel prefModel = AppPref.getPref();
 
 class ApiCalls {
-  Future<http.Response> hitApiPost(
-      bool requiresAuth, String url, String body) async {
+  Future<http.Response> hitApiPost(bool requiresAuth, String url,
+      String body) async {
     return await http.post(
       Uri.parse(url),
       headers: getHeaders(requiresAuth),
@@ -31,6 +31,13 @@ class ApiCalls {
   }
 
   Future<http.Response> hitApiGet(bool requiresAuth, String url) async {
+    return await http.get(
+      Uri.parse(url),
+      headers: getHeaders(requiresAuth),
+    );
+  }
+
+  Future<http.Response> hitApiPut(bool requiresAuth, String url) async {
     return await http.get(
       Uri.parse(url),
       headers: getHeaders(requiresAuth),
@@ -50,8 +57,8 @@ class ApiCalls {
     return headers;
   }
 
-  Future<SendOtpResponseModel> sendOtpToRegister(
-      String email, BuildContext? context) async {
+  Future<SendOtpResponseModel> sendOtpToRegister(String email,
+      BuildContext? context) async {
     http.Response response = await hitApiPost(false,
         UrlConstants.sendOtpToRegister + email, jsonEncode({"email": email}));
     if (response.statusCode == 200) {
@@ -88,7 +95,7 @@ class ApiCalls {
     BuildContext? context,
   }) async {
     var request =
-        http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
+    http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.Firstname'] = fName;
     request.fields['Contact.Email'] = email;
@@ -105,7 +112,9 @@ class ApiCalls {
         'profilePic',
         picStream,
         length,
-        filename: profilePic.path.split('/').last,
+        filename: profilePic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -132,8 +141,8 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel> loginUser(
-      String email, String password, BuildContext buildContext) async {
+  Future<RegisterResponseModel> loginUser(String email, String password,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
         jsonEncode({"email": email.trim(), 'password': password}));
     if (response.statusCode == 200) {
@@ -145,8 +154,8 @@ class ApiCalls {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtpToResetPassword(
-      String email, BuildContext buildContext) async {
+  Future<SendOtpResponseModel> sendOtpToResetPassword(String email,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(
         false,
         UrlConstants.sendOtpToResetPassword + email,
@@ -163,8 +172,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> addIndividualProfile(
-      String dob,
+  Future<AddIndividualProfileResponseModel> addIndividualProfile(String dob,
       String mobile,
       String email,
       String fName,
@@ -188,7 +196,69 @@ class ApiCalls {
         'uploadedFile',
         picStream,
         length,
-        filename: selectedImage.path.split('/').last,
+        filename: selectedImage.path
+            .split('/')
+            .last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    request.headers.addAll({
+      "Authorization": "Bearer ${prefModel.userData!.token}",
+    });
+    print(request.fields);
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      var responseData = await response.stream.toBytes();
+      var responseJson = json.decode(utf8.decode(responseData));
+      log(responseJson.toString());
+      return AddIndividualProfileResponseModel.fromJson(responseJson);
+    } else if (response.statusCode == 401) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Unauthorized");
+      throw "could not add the profile ${response.statusCode}";
+    } else if (response.statusCode == 204) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Email or phone may exist.");
+      throw "could not add the profile ${response.statusCode}";
+    } else if (response.statusCode == 400) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Invalid data please check.");
+      throw "could not add the profile ${response.statusCode}";
+    } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
+      throw "could not add the profile ${response.statusCode}";
+    }
+  }
+
+  Future<AddIndividualProfileResponseModel> addEnterpriseProfile(String dob,
+      String mobile,
+      String email,
+      String fName,
+      String lName,
+      String address,
+      String gender,
+      File? selectedImage,
+      BuildContext? context) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
+    request.fields['Contact.Dob'] = dob;
+    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.Email'] = email;
+    request.fields['Contact.Gender'] = gender.toString();
+    request.fields['Contact.LastName'] = lName;
+    request.fields['Contact.ContactNumber'] = mobile;
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'uploadedFile',
+        picStream,
+        length,
+        filename: selectedImage.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -222,8 +292,8 @@ class ApiCalls {
     }
   }
 
-  resetPassword(
-      String email, String password, BuildContext buildContext) async {
+  resetPassword(String email, String password,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(
         false,
         "${UrlConstants.resetPassword}$email/$password",
@@ -238,4 +308,112 @@ class ApiCalls {
       throw "could not reset password${response.statusCode}";
     }
   }
+
+  Future<AddIndividualProfileResponseModel> editPatient(String email,
+      String fName, String lName, String dob, String address, String mobile,
+      String gender, File? patientPic, BuildContext? context) async {
+    var request = http.MultipartRequest(
+        'PUT', Uri.parse(UrlConstants.addIndividualProfile));
+    request.fields['Contact.Dob'] = dob;
+    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.Email'] = email;
+    request.fields['Contact.Gender'] = gender.toString();
+    request.fields['Contact.LastName'] = lName;
+    request.fields['Contact.ContactNumber'] = mobile;
+    if (patientPic != null) {
+      var picStream = http.ByteStream(patientPic.openRead());
+      var length = await patientPic.length();
+      var multipartFile = http.MultipartFile(
+        'uploadedFile',
+        picStream,
+        length,
+        filename: patientPic.path
+            .split('/')
+            .last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    request.headers.addAll({
+      "Authorization": "Bearer ${prefModel.userData!.token}",
+    });
+    print(request.fields);
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    if (response.statusCode == 200) {
+      log(responseJson.toString());
+      return AddIndividualProfileResponseModel.fromJson(responseJson);
+    } else if (response.statusCode == 401) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Unauthorized");
+      throw "could not add the profile ${response.statusCode}";
+    } else if (response.statusCode == 204) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Email or phone may exist.");
+      throw "could not add the profile ${response.statusCode}";
+    } else if (response.statusCode == 405) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Invalid data please check.");
+      throw "could not add the profile ${response.statusCode}";
+    } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
+      throw "could not add the profile ${response.statusCode}";
+    }
+  }
+
+  Future<AddIndividualProfileResponseModel> editEnterprise(String email,
+      String fName, String lName, String dob, String address, String mobile,
+      String gender, File? patientPic, BuildContext? context)  async {
+    var request = http.MultipartRequest('PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
+    request.fields['Contact.Dob'] = dob;
+    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.Email'] = email;
+    request.fields['Contact.Gender'] = gender.toString();
+    request.fields['Contact.LastName'] = lName;
+    request.fields['Contact.ContactNumber'] = mobile;
+    if (patientPic != null) {
+      var picStream = http.ByteStream(patientPic.openRead());
+      var length = await patientPic.length();
+      var multipartFile = http.MultipartFile(
+        'uploadedFile',
+        picStream,
+        length,
+        filename: patientPic.path
+            .split('/')
+            .last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    request.headers.addAll({
+      "Authorization": "Bearer ${prefModel.userData!.token}",
+    });
+    print(request.fields);
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    if (response.statusCode == 200) {
+      log(responseJson.toString());
+      return AddIndividualProfileResponseModel.fromJson(responseJson);
+    } else if (response.statusCode == 401) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Unauthorized");
+      throw "could not add the profile ${response.statusCode}";
+    } else if (response.statusCode == 204) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Email or phone may exist.");
+      throw "could not add the profile ${response.statusCode}";
+    } else if (response.statusCode == 405) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Invalid data please check.");
+      throw "could not add the profile ${response.statusCode}";
+    } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
+      throw "could not add the profile ${response.statusCode}";
+    }
+  }
+
 }

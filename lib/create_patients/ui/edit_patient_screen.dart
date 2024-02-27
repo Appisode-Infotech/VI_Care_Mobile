@@ -8,7 +8,6 @@ import '../../network/api_calls.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
 import '../provider/patient_provider.dart';
 
 class EditPatientScreen extends StatefulWidget {
@@ -393,13 +392,15 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                         value: patientProvider.editPatientGender,
                         onChanged: (String? value) {
                           setState(() {
+                            patientProvider.selectedGender = value=="Male"?1:value=="Female"?2:value=="Do not wish to specify"?3:0;
                             patientProvider.editPatientGender = value!;
                           });
                         },
                         style: const TextStyle(color: Colors.black),
                         items: <String>[
-                          AppLocale.male.getString(context),
-                          AppLocale.female.getString(context)
+                          "Male",
+                          "Female",
+                          "Do not wish to specify"
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -447,13 +448,19 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               vertical: 15, horizontal: 10),
                         ),
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 20),
                       getPrimaryAppButton(
                           context, AppLocale.submit.getString(context),
                           onPressed: ()async {
-                            Navigator.pushNamed(
-                                context, Routes.patientDetailsRoute);
-                          }),
+                            if(patientProvider.editPatientFormKey.currentState!.validate()){
+                              patientProvider.editPatient();
+                              if(patientProvider.addPatientSelectedImage!=null){
+                                showErrorToast(context, "Please select an image");
+                                return;
+                              }
+                            }
+                          }
+                      ),
                     ],
                   ),
                 ),

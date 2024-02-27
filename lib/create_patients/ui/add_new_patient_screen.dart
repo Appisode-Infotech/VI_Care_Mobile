@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,20 +104,23 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                           AppLocale.next.getString(context),
                           onPressed: () async{
                             if (patientProvider.addPatientFormKey.currentState!.validate()) {
+                              if(currentStep==1){
+                                if(patientProvider.addPatientSelectedImage==null){
+                                  showErrorToast(context, "Please select an image");
+                                  return;
+                                }
+                              }
                               setState(() {
                                 currentStep = currentStep + 1;
                               });
                             }
                           },
-                        )
-                            : getPrimaryAppButton(
+                        ) : getPrimaryAppButton(
                           context,
                           AppLocale.submit.getString(context),
                           onPressed: () async{
                             if (patientProvider.addPatientFormKey.currentState!.validate()) {
                               patientProvider.addNewPatient();
-                              // Navigator.pushNamed(
-                              //     context, Routes.patientDetailsRoute);
                             }
                           },
                         ),
@@ -131,8 +133,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
       );
-
-    },
+      },
     );
   }
 
@@ -357,12 +358,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         errorMaxLines: 2,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Color(0xffD3D3D3)),
+                          borderSide: const BorderSide(color: Color(0xffD3D3D3)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: AppColors.primaryColor),
+                          borderSide: const BorderSide(color: AppColors.primaryColor),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         border: OutlineInputBorder(

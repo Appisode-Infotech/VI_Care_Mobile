@@ -67,7 +67,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     StepProgressIndicator(
                       roundedEdges: const Radius.circular(20),
                       size: 7,
-                      totalSteps: 3,
+                      totalSteps: 2,
                       currentStep: currentStep,
                       selectedColor: AppColors.primaryColor,
                       unselectedColor: Colors.grey,

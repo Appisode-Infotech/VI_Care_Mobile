@@ -1,6 +1,7 @@
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vicare/main.dart';
@@ -121,6 +122,35 @@ void showImageSourceDialog(BuildContext context,
       );
     },
   );
+}
+
+void showSuccessNotification(BuildContext context, String content, String title) {
+  return ElegantNotification(
+    title: Text(title),
+    description: Text(content,style: const TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        color: Colors.white),),
+    icon: const Icon(Icons.check_circle, color: Colors.white),
+    background: Colors.grey.shade50,
+   progressIndicatorColor: Colors.green,
+    animationDuration: const Duration(seconds: 3),
+  ).show(context);
+}
+
+void showErrorNotification(BuildContext context, String content, String title) {
+   return ElegantNotification(
+    title: Text(title),
+    description: Text(content,style: const TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        color: Colors.white
+    ),),
+    icon: const Icon(Icons.check_circle, color: Colors.white),
+    background: Colors.grey.shade50,
+    progressIndicatorColor: Colors.red,
+    animationDuration: const Duration(seconds: 3),
+  ).show(context);
 }
 
 void showSuccessToast(BuildContext context, String content) {

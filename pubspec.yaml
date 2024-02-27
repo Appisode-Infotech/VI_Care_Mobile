@@ -53,6 +53,7 @@ dependencies:
   http_parser: ^4.0.2
   delightful_toast: ^1.1.0
   lottie: ^3.0.0
+  elegant_notification: ^1.13.0
 
 
 dev_dependencies:

@@ -391,7 +391,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppLocale.logOut.getString(context),
                       style: const TextStyle(
                           color: Colors.red, fontWeight: FontWeight.w600),
-                    ))),
+                        )
+                    )
+                ),
               ),
             ],
           ),

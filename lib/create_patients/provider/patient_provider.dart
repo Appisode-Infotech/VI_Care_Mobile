@@ -15,11 +15,11 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController addNewPatientMobileController = TextEditingController();
   TextEditingController addNewPatientEmailController = TextEditingController();
   TextEditingController addNewPatientFirstNameController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController addNewPatientLastNameController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController addNewPatientAddressController =
-      TextEditingController();
+  TextEditingController();
   String? addNewPatientGender;
   File? addPatientSelectedImage;
   BuildContext? addNewPatientContext;
@@ -43,10 +43,11 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController editPatientMobileController = TextEditingController();
   TextEditingController editPatientEmailController = TextEditingController();
   TextEditingController editPatientFirstNameController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController editPatientLastNameController = TextEditingController();
   TextEditingController editPatientAddressController = TextEditingController();
   String? editPatientGender;
+  int? selectedGender;
   File? editPatientSelectedImage;
   BuildContext? editPatientPageContext;
 
@@ -61,31 +62,85 @@ class PatientProvider extends ChangeNotifier {
     editPatientSelectedImage = null;
     notifyListeners();
   }
+
   addNewPatient() async {
     showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response =
-          await apiCalls.addIndividualProfile(
-              addNewPatientDobController.text,
-              addNewPatientMobileController.text,
-              addNewPatientEmailController.text,
-              addNewPatientFirstNameController.text,
-              addNewPatientLastNameController.text,
-              addNewPatientAddressController.text,
-              addNewPatientGender!,
-              addPatientSelectedImage,
-              addNewPatientContext!);
-      if(response.result!=null){
+      await apiCalls.addIndividualProfile(
+          addNewPatientDobController.text,
+          addNewPatientMobileController.text,
+          addNewPatientEmailController.text,
+          addNewPatientFirstNameController.text,
+          addNewPatientLastNameController.text,
+          addNewPatientAddressController.text,
+          addNewPatientGender!,
+          addPatientSelectedImage,
+          addNewPatientContext!);
+      if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
       }
     } else {
-      // add enterprise profile
+      AddIndividualProfileResponseModel response =
+      await apiCalls.addEnterpriseProfile(
+          addNewPatientDobController.text,
+          addNewPatientMobileController.text,
+          addNewPatientEmailController.text,
+          addNewPatientFirstNameController.text,
+          addNewPatientLastNameController.text,
+          addNewPatientAddressController.text,
+          addNewPatientGender!,
+          addPatientSelectedImage,
+          addNewPatientContext!);
+      if (response.result != null) {
+        showSuccessToast(addNewPatientContext!, response.message!);
+        Navigator.pop(addNewPatientContext!);
+        Navigator.pop(addNewPatientContext!);
+      }
     }
   }
 
-//
+  editPatient() async {
+    showLoaderDialog(editPatientPageContext!);
+    if (prefModel.userData!.roleId == 2) {
+      AddIndividualProfileResponseModel response = await apiCalls.editPatient(
+          editPatientEmailController.text,
+          editPatientFirstNameController.text,
+          editPatientLastNameController.text,
+          editPatientDobController.text,
+          editPatientAddressController.text,
+          editPatientMobileController.text,
+          editPatientGender!,
+          editPatientSelectedImage!,
+          editPatientPageContext!);
+      if (response.result != null) {
+        showSuccessToast(editPatientPageContext!, response.message!);
+        Navigator.pop(editPatientPageContext!);
+        Navigator.pop(editPatientPageContext!);
+      }
+    }else {
+        AddIndividualProfileResponseModel response = await apiCalls
+            .editEnterprise(
+            editPatientEmailController.text,
+            editPatientFirstNameController.text,
+            editPatientLastNameController.text,
+            editPatientDobController.text,
+            editPatientAddressController.text,
+            editPatientMobileController.text,
+            editPatientGender!,
+            editPatientSelectedImage!,
+            editPatientPageContext!);
+        if (response.result != null) {
+          showSuccessToast(editPatientPageContext!, response.message!);
+          Navigator.pop(editPatientPageContext!);
+          Navigator.pop(editPatientPageContext!);
+        }
+      }
+  }
+}
+
 // void prefillEditPatientDetails() {
 //   editPatientDobController.text = addNewPatientDobController.text;
 //   editPatientMobileController.text = addNewPatientMobileController.text;
@@ -97,4 +152,4 @@ class PatientProvider extends ChangeNotifier {
 //   editPatientSelectedImage = addPatientSelectedImage;
 //   notifyListeners();
 // }
-}
+

@@ -7,4 +7,5 @@ class UrlConstants{
   static const String sendOtpToResetPassword = "${apiBaseUrl}Account/ForgotPasword/";
   static const String resetPassword = "${apiBaseUrl}Account/ResetPassword/";
   static const String addIndividualProfile = "${apiBaseUrl}IndividualProfile";
+  static const String addEnterpriseProfile = "${apiBaseUrl}EnterpriseProfile";
 }
