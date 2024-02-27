@@ -8,10 +8,12 @@ import 'package:http_parser/http_parser.dart';
 import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
+import 'package:vicare/create_patients/model/all_patients_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
+import '../create_patients/model/all_enterprise_users_response_model.dart';
 import '../database/app_pref.dart';
 import '../database/models/pref_model.dart';
 import '../utils/url_constants.dart';
@@ -48,7 +50,7 @@ class ApiCalls {
     var headers = <String, String>{};
     if (isAuthEnabled) {
       headers.addAll({
-        "x-access-token": "${prefModel.userData!.token}",
+        "Authorization": "Bearer ${prefModel.userData!.token}",
         "Content-Type": "application/json"
       });
     } else {
@@ -183,12 +185,14 @@ class ApiCalls {
       BuildContext? context) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addIndividualProfile));
+    request.fields['IsSelf'] = false.toString();
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.Firstname'] = fName;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
+    request.fields['UserId'] = prefModel.userData!.id.toString();
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -206,7 +210,6 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
@@ -249,6 +252,7 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
+    request.fields['EnterpriseUserId'] = prefModel.userData!.id.toString();
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -309,6 +313,7 @@ class ApiCalls {
     }
   }
 
+
   Future<AddIndividualProfileResponseModel> editPatient(String email,
       String fName, String lName, String dob, String address, String mobile,
       String gender, File? patientPic, BuildContext? context) async {
@@ -320,6 +325,8 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
+    request.fields['UserId'] = prefModel.userData!.id.toString();
+
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -373,6 +380,8 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
+    request.fields['UserId'] = prefModel.userData!.id.toString();
+
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -413,6 +422,39 @@ class ApiCalls {
       Navigator.pop(context!);
       showErrorToast(context, "Something went wrong");
       throw "could not add the profile ${response.statusCode}";
+    }
+  }
+
+  Future<AllPatientsResponseModel> getMyIndividualUsers(BuildContext context) async {
+    http.Response response = await hitApiGet(true, UrlConstants.getIndividualProfiles+"/GetAllByUserId"+prefModel.userData!.id!.toString());
+    if (response.statusCode == 200) {
+      return AllPatientsResponseModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not login ${response.statusCode}";
+    }
+  }
+
+  Future<AllEnterpriseUsersResponseModel> getMyEnterpriseUsers(BuildContext context) async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.id}");
+    print(response.body);
+    if (response.statusCode == 200) {
+      return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not login ${response.statusCode}";
+    }
+  }
+
+  getIndividualUserData(String? uniqueGuid, BuildContext context) async {
+    print("${UrlConstants.getIndividualProfiles}/GetByGuid/${uniqueGuid}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/GetByGuid/${uniqueGuid}");
+    print(response.body);
+    if (response.statusCode == 200) {
+      return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not login ${response.statusCode}";
     }
   }
 

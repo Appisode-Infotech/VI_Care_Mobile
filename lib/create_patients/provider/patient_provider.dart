@@ -5,6 +5,8 @@ import 'package:vicare/create_patients/model/add_individual_profile_response_mod
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../network/api_calls.dart';
+import '../model/all_enterprise_users_response_model.dart';
+import '../model/all_patients_response_model.dart';
 
 class PatientProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
@@ -139,6 +141,19 @@ class PatientProvider extends ChangeNotifier {
         }
       }
   }
+
+
+  Future<AllPatientsResponseModel> getMyPatients(BuildContext context){
+    return apiCalls.getMyIndividualUsers(context);
+  }
+  Future<AllEnterpriseUsersResponseModel> getEnterpriseProfiles(BuildContext context){
+    return apiCalls.getMyEnterpriseUsers(context);
+  }
+
+  getIndividualUserData(String? uniqueGuid, BuildContext context) {
+    return apiCalls.getIndividualUserData(uniqueGuid,context);
+  }
+
 }
 
 // void prefillEditPatientDetails() {
