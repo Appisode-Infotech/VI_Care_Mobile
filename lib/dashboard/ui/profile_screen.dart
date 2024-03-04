@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/network/api_calls.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
@@ -411,9 +410,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-                  prefModel.userData = null;
-                  AppPref.setPref(prefModel);
-                  Navigator.pushNamed(context, Routes.loginRoute);
+                  AppPref.clearPref();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.loginRoute, (route) => false);
                   showSuccessToast(context, "Logout successful");
                 },
                 child: Container(
