@@ -227,3 +227,29 @@ showLoaderDialog(BuildContext context) {
         );
       });
 }
+
+
+
+Future<bool>showStopTestWarningDialog(BuildContext context) async {
+  bool result = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("Are you sure to abort the test?"),
+          backgroundColor: Colors.white,
+          content: Text("Aborting in middle of the test will result in loss of recorded data for this test"),
+          actions: [
+            TextButton(onPressed: () {
+              Navigator.pop(context,true);
+            },
+            child: Text("Yes Abort now",style: TextStyle(color: Colors.red))),
+            TextButton(onPressed: () {
+              Navigator.pop(context,false);
+            },
+            child:Text("No Continue test",style: TextStyle(color: Colors.green)))
+          ],
+        );
+      });
+  return result; // Default to false if result is null
+}

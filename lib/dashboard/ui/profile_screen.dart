@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
+import 'package:vicare/network/api_calls.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
@@ -410,7 +410,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-                  AppPref.clearPref();
+                  prefModel.userData=null;
+                  prefModel.selectedDuration=null;
+                  AppPref.setPref(prefModel);
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       Routes.loginRoute, (route) => false);
                   showSuccessToast(context, "Logout successful");
@@ -438,6 +440,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                     )
                 ),
+              ),
+              const SizedBox(
+                height: 30,
               ),
             ],
           ),

@@ -131,6 +131,8 @@ mixin AppLocale {
   static const String offlineSaved  = 'offlineSaved';
   static const String devices  = 'devices';
   static const String duration  = 'duration';
+  static const String chooseDuration  = 'chooseDuration';
+  static const String chooseDurationMessage  = 'Please choose a duration to take test.';
   static const String editProfile  = 'editProfile';
   static const String changePassword  = 'changePassword';
   static const String changeLanguage  = 'changeLanguage';
@@ -276,6 +278,8 @@ mixin AppLocale {
     offlineSaved: 'Offline saved tests',
     devices: 'Device Management',
     duration: 'Duration',
+    chooseDuration: 'Choose Duration',
+    chooseDurationMessage: 'Please choose a duration to take test.',
 
     editProfile: 'Edit Profile',
 
@@ -427,6 +431,8 @@ mixin AppLocale {
     offlineSaved: 'ಆಫ್‌ಲೈನ್ ಉಳಿಸಿದ ಪರೀಕ್ಷೆಗಳು',
     devices: "ಸಾಧನ ನಿರ್ವಹಣೆ",
     duration: 'ಅವಧಿ',
+    chooseDuration: 'ಆಯ್ಕೆ ಅವಧಿ',
+    chooseDurationMessage: 'ಪರೀಕ್ಷೆಯನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ದಯವಿಟ್ಟು ಅವಧಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
 
     changePassword: 'ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ',
     changeLanguage: 'ಭಾಷೆ ಬದಲಾಯಿಸಿ',
@@ -572,6 +578,8 @@ mixin AppLocale {
     scanSettings: 'सेटिंग्स स्कैन करें',
     devices: "उपकरण प्रबंधन",
     duration: "अवधि",
+    chooseDuration: "अवधि चुनें",
+    chooseDurationMessage: "कृपया परीक्षा देने के लिए एक अवधि चुनें।",
     offlineSaved: 'ऑफ़लाइन सहेजी गई परीक्षणें',
     changePassword: 'पासवर्ड बदलें',
     changeLanguage: 'भाषा बदलें',
@@ -716,6 +724,8 @@ mixin AppLocale {
     offlineSaved: 'Offline gespeicherte Tests',
     devices: "'Geräteverwaltung",
     duration: "Dauer",
+    chooseDuration: "Wählen SieDauer",
+    chooseDurationMessage: "Bitte wählen Sie eine Dauer für den Test aus.",
 
     editProfile: 'Profil bearbeiten',
 
