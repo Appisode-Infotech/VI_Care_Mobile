@@ -12,9 +12,8 @@ import '../../utils/app_locale.dart';
 import '../model/duration_response_model.dart';
 
 class DurationScreen extends StatefulWidget {
-  final Function(String) onDurationSelected;
 
-  const DurationScreen({super.key, required this.onDurationSelected});
+  const DurationScreen({super.key});
 
   @override
   State<DurationScreen> createState() => _DurationScreenState();
@@ -102,7 +101,6 @@ class _DurationScreenState extends State<DurationScreen> {
                           setState(() {
                             prefModel.selectedDuration = snapshot.data!.result![index];
                             AppPref.setPref(prefModel);
-                            widget.onDurationSelected(snapshot.data!.result![index].durationInMinutes.toString());
                           });
                         },
                         child: Container(

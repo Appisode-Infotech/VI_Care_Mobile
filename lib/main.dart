@@ -51,7 +51,6 @@ class MyApp extends StatefulWidget {
 final FlutterLocalization localization = FlutterLocalization.instance;
 
 class _MyAppState extends State<MyApp> {
-  String selectedDuration = '3';
 
 
   @override
@@ -133,17 +132,15 @@ class _MyAppState extends State<MyApp> {
           Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
           Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
           Routes.summaryRoute: (context) => const SummaryScreen(),
-          Routes.takeTestRoute: (context) =>  TakeTestScreen(duration: selectedDuration),
+          Routes.takeTestRoute: (context) =>  const TakeTestScreen(),
           Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
           Routes.editPatientsRoute: (context) => const EditPatientScreen(),
           Routes.editProfileRoute: (context) => const EditProfileScreen(),
           Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
           Routes.devicesRoute: (context) => const DeviceScreen(),
           Routes.profileRoute: (context) => const ProfileScreen(),
-          Routes.durationsRoute: (context) =>  DurationScreen( onDurationSelected: (duration) {
-    setState(() {
-    selectedDuration = duration;});
-        }),})
+          Routes.durationsRoute: (context) =>  const DurationScreen()
+        })
     );
   }
 }

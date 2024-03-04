@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../utils/app_locale.dart';
 
 class TakeTestScreen extends StatefulWidget {
-  final String duration;
 
-  const TakeTestScreen({Key? key, required this.duration}) : super(key: key);
+  const TakeTestScreen({super.key});
 
   @override
   State<TakeTestScreen> createState() => _TakeTestScreenState();
@@ -17,7 +17,7 @@ class TakeTestScreen extends StatefulWidget {
 
 class _TakeTestScreenState extends State<TakeTestScreen> {
   late Timer timer;
-  int secondsRemaining = 480;
+  int secondsRemaining = 0;
   bool isTimerRunning = false;
 
   void startTimer() {
@@ -48,10 +48,12 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   @override
   void initState() {
     super.initState();
-    int minutes = int.parse(widget.duration);
-    secondsRemaining = minutes * 60;
+    if(prefModel.selectedDuration!=null){
+      secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!)*60;
+    }
   }
 
+  @override
   void dispose() {
     timer.cancel();
     super.dispose();
@@ -59,9 +61,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int minutes = (secondsRemaining % 480) ~/ 60;
-    int seconds = secondsRemaining % 60;
-    double percentFilled = (480 - secondsRemaining) / 480.0;
+    double percentFilled = ((prefModel.selectedDuration!.durationInMinutes!*60) - secondsRemaining) / 480.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -93,7 +93,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                 lineWidth: 15.0,
                 percent: percentFilled,
                 center: Text(
-                  '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
+                  '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
                   style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
