@@ -24,7 +24,10 @@ import 'auth/ui/login_screen.dart';
 import 'auth/ui/register_screen.dart';
 import 'create_patients/ui/edit_profile_screen.dart';
 import 'create_patients/ui/summary_screen.dart';
+import 'dashboard/provider/devices_provider.dart';
 import 'dashboard/ui/all_reports_screen.dart';
+import 'dashboard/ui/devices_screen.dart';
+import 'dashboard/ui/duration_screen.dart';
 import 'database/app_pref.dart';
 import 'onboarding/ui/on_boarding_screen.dart';
 import 'onboarding/ui/splash_screen.dart';
@@ -48,6 +51,8 @@ class MyApp extends StatefulWidget {
 final FlutterLocalization localization = FlutterLocalization.instance;
 
 class _MyAppState extends State<MyApp> {
+  String selectedDuration = '3';
+
 
   @override
   void initState() {
@@ -90,6 +95,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     screenSize = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
 
@@ -98,6 +104,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => PatientProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => DeviceProvider()),
     ],
     child: MaterialApp(
         supportedLocales: localization.supportedLocales,
@@ -113,6 +120,7 @@ class _MyAppState extends State<MyApp> {
         title: "Vi Care",
         initialRoute: Routes.splashRoute,
         routes: <String, WidgetBuilder>{
+
           Routes.splashRoute: (context) => const SplashScreen(),
           Routes.onBoardingRoute: (context) => const OnBoardingScreen(),
           Routes.dashboardRoute: (context) => const DashboardScreen(),
@@ -125,13 +133,17 @@ class _MyAppState extends State<MyApp> {
           Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
           Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
           Routes.summaryRoute: (context) => const SummaryScreen(),
-          Routes.takeTestRoute: (context) => const TakeTestScreen(),
+          Routes.takeTestRoute: (context) =>  TakeTestScreen(duration: selectedDuration),
           Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
           Routes.editPatientsRoute: (context) => const EditPatientScreen(),
           Routes.editProfileRoute: (context) => const EditProfileScreen(),
           Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
+          Routes.devicesRoute: (context) => const DeviceScreen(),
           Routes.profileRoute: (context) => const ProfileScreen(),
-        }),
+          Routes.durationsRoute: (context) =>  DurationScreen( onDurationSelected: (duration) {
+    setState(() {
+    selectedDuration = duration;});
+        }),})
     );
   }
 }

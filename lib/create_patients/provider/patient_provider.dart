@@ -68,8 +68,7 @@ class PatientProvider extends ChangeNotifier {
   addNewPatient() async {
     showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {
-      AddIndividualProfileResponseModel response =
-      await apiCalls.addIndividualProfile(
+      AddIndividualProfileResponseModel response = await apiCalls.addIndividualProfile(
           addNewPatientDobController.text,
           addNewPatientMobileController.text,
           addNewPatientEmailController.text,
@@ -152,6 +151,11 @@ class PatientProvider extends ChangeNotifier {
 
   getIndividualUserData(String? uniqueGuid, BuildContext context) {
     return apiCalls.getIndividualUserData(uniqueGuid,context);
+  }
+
+  getEnterpriseUserData(String? uniqueGuid, BuildContext context) {
+    return apiCalls.getEnterpriseUserData(uniqueGuid,context);
+
   }
 
 }

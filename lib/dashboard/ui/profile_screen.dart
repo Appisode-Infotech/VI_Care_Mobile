@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/database/app_pref.dart';
@@ -54,36 +55,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Colors.grey.shade200,
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.teal.shade100,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, Routes.durationsRoute);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.teal.shade100,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: const Icon(
+                            Icons.settings_outlined,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.settings_outlined,
-                          color: AppColors.primaryColor,
+                        const SizedBox(width: 10),
+                        Text(
+                          AppLocale.scanSettings.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        AppLocale.scanSettings.getString(context),
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  const Icon(
-                    Icons.arrow_forward,
-                    color: Colors.grey,
-                  )
-                ],
+                      ],
+                    ),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.devicesRoute);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.teal.shade100,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: const Icon(
+                            Icons.device_hub_outlined,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          AppLocale.devices.getString(context),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 30,
@@ -366,7 +411,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-                  prefModel.userData=null;
+                  prefModel.userData = null;
                   AppPref.setPref(prefModel);
                   Navigator.pushNamed(context, Routes.loginRoute);
                   showSuccessToast(context, "Logout successful");

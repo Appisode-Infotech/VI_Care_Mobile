@@ -9,11 +9,13 @@ import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/create_patients/model/all_patients_response_model.dart';
+import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
+import '../dashboard/model/duration_response_model.dart';
 import '../database/app_pref.dart';
 import '../database/models/pref_model.dart';
 import '../utils/url_constants.dart';
@@ -252,7 +254,8 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
-    request.fields['EnterpriseUserId'] = prefModel.userData!.id.toString();
+    request.fields['EnterpriseUserId'] = prefModel.userData!.enterpriseUserId.toString();
+    print(prefModel.userData!.enterpriseUserId.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -427,6 +430,7 @@ class ApiCalls {
 
   Future<AllPatientsResponseModel> getMyIndividualUsers(BuildContext context) async {
     http.Response response = await hitApiGet(true, UrlConstants.getIndividualProfiles+"/GetAllByUserId"+prefModel.userData!.id!.toString());
+    print(response.body);
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -458,4 +462,49 @@ class ApiCalls {
     }
   }
 
+  getEnterpriseUserData(String? uniqueGuid, BuildContext context) async {
+    print("${UrlConstants.getEnterpriseProfiles}/GetByGuid/${uniqueGuid}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/GetByGuid/${uniqueGuid}");
+    print(response.body);
+    if (response.statusCode == 200) {
+      return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not login ${response.statusCode}";
+    }
+  }
+
+  Future<AddDeviceResponseModel> addDevice(String type, String serialNo, BuildContext context) async {
+    http.Response response = await hitApiPost(true, "${UrlConstants.userAndDevice}",jsonEncode(
+        {
+          "type":type,
+          "deviceSerialNo":serialNo,
+          "roleId": prefModel.userData!.roleId,
+          "userId":prefModel.userData!.id
+        }));
+    print(response.body);
+    print(response.statusCode);
+    if(response.statusCode==200){
+      return AddDeviceResponseModel.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 401) {
+      Navigator.pop(context);
+      showErrorToast(context, "Unauthorized");
+      throw "could not add the device ${response.statusCode}";
+    }else{
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
+      throw "could not add the device ${response.statusCode}";
+    }
+
+  }
+
+  Future<DurationResponseModel>getAllDurations() async {
+    http.Response response = await hitApiGet(true, UrlConstants.getAllDurations);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return DurationResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw "could not get the roles ${response.statusCode}";
+    }
+  }
 }

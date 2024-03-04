@@ -11,4 +11,6 @@ class UrlConstants{
   static const String addEnterpriseProfile = "${apiBaseUrl}EnterpriseProfile";
   static const String getIndividualProfiles = "${apiBaseUrl}IndividualProfile";
   static const String getEnterpriseProfiles = "${apiBaseUrl}EnterpriseProfile";
+  static const String userAndDevice = "${apiBaseUrl}UserAndDevice";
+  static const String getAllDurations = "${apiBaseUrl}Duration";
 }

@@ -222,14 +222,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                                   .toString(),
                                           errorBuilder:
                                               (context, error, stackTrace) {
-                                            // Provide a placeholder image when the network image fails to load
                                             return const CircleAvatar(
                                               radius: 20,
                                               backgroundColor: Colors.grey,
-                                              // Placeholder background color
                                               child: Icon(
                                                 Icons.person,
-                                                // You can use any icon or placeholder widget here
                                                 color: Colors.white,
                                               ),
                                             );
@@ -281,18 +278,42 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                         AsyncSnapshot<AllEnterpriseUsersResponseModel>
                             snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return SizedBox(
+                            width: screenSize!.width,
+                            child: Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.grey.shade100,
+                                enabled: true,
+                                child: GridView.builder(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  itemCount: 9,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                  ),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      width: 100,
+                                      height: 100,
+                                      color: Colors.grey.shade300,
+                                    );
+                                  },
+                                )));
                       }
+
                       if (snapshot.hasData) {
                         return GridView.builder(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           itemCount: snapshot.data!.result!.length + 1,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -348,9 +369,10 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                             } else {
                               index = index - 1;
                               return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.patientDetailsRoute);
+                                onTap: () async {
+                                  showLoaderDialog(context);
+                                  await patientProvider.getEnterpriseUserData(snapshot.data!.result![index].uniqueGuid,context);
+                                  // Navigator.pushNamed(context, Routes.patientDetailsRoute);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -429,9 +451,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                         );
                       } else {
                         return const Center(child: Text("loading"));
-                      }
-                    },
-                  ),
+                      }},
+            ),
           ),
         );
       },

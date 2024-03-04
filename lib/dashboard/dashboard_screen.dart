@@ -98,7 +98,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         height: 50.0,
         child: FloatingActionButton(
           onPressed: () {
-Navigator.pushNamed(context, Routes.takeTestRoute);            //
+Navigator.pushNamed(context, Routes.takeTestRoute);
             // setState(() {
             //   selectedItemPosition = 2;
             // });

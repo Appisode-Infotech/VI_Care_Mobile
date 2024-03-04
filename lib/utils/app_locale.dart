@@ -129,6 +129,8 @@ mixin AppLocale {
   static const String profile  = 'profile';
   static const String scanSettings  = 'scanSettings';
   static const String offlineSaved  = 'offlineSaved';
+  static const String devices  = 'devices';
+  static const String duration  = 'duration';
   static const String editProfile  = 'editProfile';
   static const String changePassword  = 'changePassword';
   static const String changeLanguage  = 'changeLanguage';
@@ -272,6 +274,8 @@ mixin AppLocale {
     profile: 'Profile',
     scanSettings: 'Scan settings',
     offlineSaved: 'Offline saved tests',
+    devices: 'Device Management',
+    duration: 'Duration',
 
     editProfile: 'Edit Profile',
 
@@ -421,6 +425,9 @@ mixin AppLocale {
     profile: 'ಪ್ರೊಫೈಲ್',
     scanSettings: 'ಸೆಟ್ಟಿಂಗ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ',
     offlineSaved: 'ಆಫ್‌ಲೈನ್ ಉಳಿಸಿದ ಪರೀಕ್ಷೆಗಳು',
+    devices: "ಸಾಧನ ನಿರ್ವಹಣೆ",
+    duration: 'ಅವಧಿ',
+
     changePassword: 'ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ',
     changeLanguage: 'ಭಾಷೆ ಬದಲಾಯಿಸಿ',
     termsConditions: 'ನಿಯಮ ಮತ್ತು ಶರತ್ತುಗಳು',
@@ -563,6 +570,8 @@ mixin AppLocale {
 
     profile: 'प्रोफाइल',
     scanSettings: 'सेटिंग्स स्कैन करें',
+    devices: "उपकरण प्रबंधन",
+    duration: "अवधि",
     offlineSaved: 'ऑफ़लाइन सहेजी गई परीक्षणें',
     changePassword: 'पासवर्ड बदलें',
     changeLanguage: 'भाषा बदलें',
@@ -705,6 +714,8 @@ mixin AppLocale {
     profile: 'Profil',
     scanSettings: 'Scan-Einstellungen',
     offlineSaved: 'Offline gespeicherte Tests',
+    devices: "'Geräteverwaltung",
+    duration: "Dauer",
 
     editProfile: 'Profil bearbeiten',
 

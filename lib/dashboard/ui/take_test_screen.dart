@@ -7,53 +7,61 @@ import 'package:vicare/utils/app_colors.dart';
 import '../../utils/app_locale.dart';
 
 class TakeTestScreen extends StatefulWidget {
-  const TakeTestScreen({Key? key}) : super(key: key);
+  final String duration;
+
+  const TakeTestScreen({Key? key, required this.duration}) : super(key: key);
 
   @override
   State<TakeTestScreen> createState() => _TakeTestScreenState();
 }
 
 class _TakeTestScreenState extends State<TakeTestScreen> {
-  late Timer _timer;
-  int _secondsRemaining = 240;
-  bool _isTimerRunning = false;
+  late Timer timer;
+  int secondsRemaining = 480;
+  bool isTimerRunning = false;
 
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        if (_secondsRemaining > 0) {
-          _secondsRemaining--;
+        if (secondsRemaining > 0) {
+          secondsRemaining--;
         } else {
-          _timer.cancel();
-          _isTimerRunning = false;
+          timer.cancel();
+          isTimerRunning = false;
         }
       });
     });
   }
 
-  void _handleStartButtonClick() {
+  void handleStartButtonClick() {
     setState(() {
-      if (!_isTimerRunning) {
-        _isTimerRunning = true;
-        _startTimer();
+      if (!isTimerRunning) {
+        isTimerRunning = true;
+        startTimer();
       } else {
-        _timer.cancel();
-        _isTimerRunning = false;
+        timer.cancel();
+        isTimerRunning = false;
       }
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    int minutes = int.parse(widget.duration);
+    secondsRemaining = minutes * 60;
+  }
+
   void dispose() {
-    _timer.cancel();
+    timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    int minutes = (_secondsRemaining % 240) ~/ 60;
-    int seconds = _secondsRemaining % 60;
-    double percentFilled = (240 - _secondsRemaining) / 240.0;
+    int minutes = (secondsRemaining % 480) ~/ 60;
+    int seconds = secondsRemaining % 60;
+    double percentFilled = (480 - secondsRemaining) / 480.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -103,7 +111,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             ),
             const SizedBox(height: 20),
             GestureDetector(
-              onTap: _handleStartButtonClick,
+              onTap: handleStartButtonClick,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
@@ -112,7 +120,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   color: Colors.blue.shade300,
                 ),
                 child: Text(
-                  _isTimerRunning
+                  isTimerRunning
                       ? AppLocale.stop.getString(context)
                       : AppLocale.start.getString(context),
                   style: const TextStyle(
