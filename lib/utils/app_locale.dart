@@ -1060,6 +1060,7 @@ mixin AppLocale {
       chooseDurationMessage: 'சோதனையை எடுத்துக் கொள்ள ஒரு காலத்தைத் தேர்வு செய்யவும்.',
 
       editProfile: 'சுயவிவரத்தை திருத்து',
+
       changePassword: 'கடவுச்சொல்லை மாற்று',
       changeLanguage: 'மொழியை மாற்று',
       termsConditions: 'விதிமுறைகள் & நடப்புப் பலன்கள்',
