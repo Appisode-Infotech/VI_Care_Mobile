@@ -81,6 +81,24 @@ class _MyAppState extends State<MyApp> {
           countryCode: 'US',
           fontFamily: 'Font de',
         ),
+        const MapLocale(
+          'te',
+          AppLocale.TE,
+          countryCode: 'US',
+          fontFamily: 'Font te',
+        ),
+        const MapLocale(
+          'ta',
+          AppLocale.TA,
+          countryCode: 'US',
+          fontFamily: 'Font ta',
+        ),
+        const MapLocale(
+          'ml',
+          AppLocale.ML,
+          countryCode: 'US',
+          fontFamily: 'Font ml',
+        ),
       ],
       initLanguageCode: 'en',
     );

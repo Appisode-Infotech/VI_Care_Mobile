@@ -161,28 +161,30 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        Text.rich(TextSpan(children: [
-                          TextSpan(
-                            text:  AppLocale.dntHaveAnAccount.getString(context) ,
-                            style: const TextStyle(
-                              color: AppColors.fontShadeColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                        Center(
+                          child: Text.rich(TextSpan(children: [
+                            TextSpan(
+                              text:  AppLocale.dntHaveAnAccount.getString(context) ,
+                              style: const TextStyle(
+                                color: AppColors.fontShadeColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                authProvider.getRoleMasters(context);
-                              },
-                            text: AppLocale.signUpNow.getString(context),
-                            style: const TextStyle(
-                              color: AppColors.primaryColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ]))
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  authProvider.getRoleMasters(context);
+                                },
+                              text: AppLocale.signUpNow.getString(context),
+                              style: const TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ])),
+                        )
                       ],
                     ),
                   ),

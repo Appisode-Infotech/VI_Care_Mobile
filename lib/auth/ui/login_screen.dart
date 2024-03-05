@@ -11,7 +11,7 @@ import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(AppLocale.dntHaveAnAccount.getString(context),style: const TextStyle(color: AppColors.fontShadeColor),),
+                        Text(AppLocale.dntHaveAnAccount.getString(context),style: const TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
                         InkWell(
                             onTap: (){
                               authProvider.getRoleMasters(context);
