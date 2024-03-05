@@ -117,7 +117,7 @@ class _DurationScreenState extends State<DurationScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(snapshot.data!.result![index].name!,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
-                              Text("${snapshot.data!.result![index].durationInMinutes!} Minutes",style: const TextStyle(fontWeight: FontWeight.normal,fontSize: 16,color: AppColors.primaryColor),),
+                              Text("${snapshot.data!.result![index].durationInMinutes!} ${AppLocale.minutes.getString(context)}",style: const TextStyle(fontWeight: FontWeight.normal,fontSize: 16,color: AppColors.primaryColor),),
                             ],
                           ),
                         ),

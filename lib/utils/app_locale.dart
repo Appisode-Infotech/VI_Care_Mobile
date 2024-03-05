@@ -125,6 +125,12 @@ mixin AppLocale {
   static const String editPlayers  = 'editPlayers';
   static const String editMembers  = 'editMembers';
   static const String members  = 'members';
+  static const String minutes  = 'minutes';
+
+  static const String abort  = 'abort';
+  static const String continueTest  = 'continueTest';
+  static const String abortMessage  = 'abortMessage';
+  static const String abortConfirm  = 'abortConfirm';
 
   static const String profile  = 'profile';
   static const String scanSettings  = 'scanSettings';
@@ -232,6 +238,11 @@ mixin AppLocale {
 
     managePatients: 'Manage Patients',
 
+    abort: "No Continue test",
+    continueTest: 'Manage Patients',
+    abortMessage: 'Aborting in middle of the test will result in loss of recorded data for this test',
+    abortConfirm: 'Are you sure to abort the test?',
+
     addPatients: 'Add new patient',
     fillNewPatients: 'Please fill in the details to add a patient/member/player and use the services',
     editPatientsDetails: 'Please fill in the details to edit a patient/member/player and use the services',
@@ -248,6 +259,7 @@ mixin AppLocale {
     lastTested: 'Last tested',
     totalTested: 'Total tests',
     reports: 'Reports',
+    minutes:"Minutes",
 
     deviceSetup: 'Looks like you have not setup the device yet. Setup now to start taking tests',
     setup: 'Setup',
@@ -382,6 +394,10 @@ mixin AppLocale {
     editMembers: 'ಸದಸ್ಯರ ಸಂಪಾದನೆ',
 
     managePatients: 'ರೋಗಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
+    abort: "ಟೆಸ್ಟ್ ಮುಂದುವರಿಸದೆ ನಿಲ್ಲು",
+    continueTest: 'ರೋಗಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
+    abortMessage: 'ಟೆಸ್ಟ್‌ನ ನಡುವೆ ನಿಲ್ಲುವುದು ಈ ಟೆಸ್ಟ್‌ಗೆ ದಾಖಲಿತ ಡೇಟಾದ ಕಳನ್ನುಂಟು ಮಾಡಬಹುದು',
+    abortConfirm: 'ನೀವು ಟೆಸ್ಟ್ ನಿಲ್ಲುವುದು ಖಚಿತವಾಗಿದ್ದೀರಾ?',
 
     addPatients: 'ಹೊಸ ರೋಗಿಗಳನ್ನು ಸೇರಿಸಿ',
     fillNewPatients: 'ರೋಗಿಯನ್ನು/ಸದಸ್ಯರನ್ನು ಸೇರಿಸಲು ಮತ್ತು ಸೇವೆಗಳನ್ನು ಬಳಸಲು ದಯವಿಟ್ಟು ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ',
@@ -424,7 +440,7 @@ mixin AppLocale {
 
     editProfile: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸು',
     editPatients:"ರೋಗಿಗಳನ್ನು ಸಂಪಾದಿಸಿ",
-
+    minutes:"ನಿಮಿಷಗಳು",
 
     profile: 'ಪ್ರೊಫೈಲ್',
     scanSettings: 'ಸೆಟ್ಟಿಂಗ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ',
@@ -533,6 +549,10 @@ mixin AppLocale {
     editMembers: 'सदस्य का संपादन',
 
     managePatients: 'रोगियों का प्रबंधन करें',
+    abort: "टेस्ट जारी नहीं रखें",
+    continueTest: 'रोगी प्रबंधित करें',
+    abortMessage: 'टेस्ट के बीच में रोकने से इस टेस्ट के लिए रिकॉर्ड किए गए डेटा का नुकसान हो सकता है',
+    abortConfirm: 'क्या आप टेस्ट को रोकने के लिए पक्का हैं?',
 
     addPatients: 'नए रोगी जोड़ें',
     fillNewPatients: 'रोगी/सदस्य जोड़ने और सेवाओं का उपयोग करने के लिए कृपया विवरण भरें',
@@ -549,6 +569,7 @@ mixin AppLocale {
     lastTested: 'अंतिम परीक्षण',
     totalTested: 'कुल परीक्षण',
     reports: 'रिपोर्टें',
+    minutes:"मिनट",
 
     deviceSetup: 'आपने अभी तक उपकरण सेटअप नहीं किया है। इसे सेटअप करने के लिए अब शुरू करें',
     setup: 'सेटअप',
@@ -677,6 +698,10 @@ mixin AppLocale {
     editMembers: 'Mitglieder bearbeiten',
 
     managePatients: 'Patienten verwalten',
+    abort: "Test abbrechen",
+    continueTest: 'Patienten verwalten',
+    abortMessage: 'Das Abbrechen des Tests in der Mitte führt zum Verlust der aufgezeichneten Daten für diesen Test',
+    abortConfirm: 'Sind Sie sicher, den Test abzubrechen?',
 
     addPatients: 'Neue Patienten hinzufügen',
     fillNewPatients: 'Bitte füllen Sie die Details aus, um einen Patienten/Mitglied hinzuzufügen und die Dienste zu nutzen',
@@ -694,6 +719,7 @@ mixin AppLocale {
     lastTested: 'Zuletzt getestet',
     totalTested: 'Insgesamt getestet',
     reports: 'Berichte',
+    minutes: " Minuten",
 
     deviceSetup: 'Es sieht so aus, als hätten Sie das Gerät noch nicht eingerichtet. Richten Sie es jetzt ein, um mit den Tests zu beginnen',
     setup: 'Aufstellen',

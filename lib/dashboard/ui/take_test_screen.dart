@@ -8,7 +8,6 @@ import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
-
 import '../../utils/app_locale.dart';
 
 class TakeTestScreen extends StatefulWidget {
@@ -172,10 +171,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   children: [
                     SizedBox(
                         width: screenSize!.width / 1.6,
-                        child: const Text(
-                          "Please choose a duration to take test.",
+                        child:  Text(
+                          AppLocale.chooseDurationMessage.getString(context),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 16),
                         )),
                     const SizedBox(

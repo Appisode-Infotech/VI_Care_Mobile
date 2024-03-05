@@ -3,9 +3,11 @@ import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
+import 'package:vicare/utils/app_locale.dart';
 
 getPrimaryAppButton(BuildContext context, String label,
     {required Future<Null> Function() onPressed, Color? buttonColor}) {
@@ -236,18 +238,18 @@ Future<bool>showStopTestWarningDialog(BuildContext context) async {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text("Are you sure to abort the test?"),
+          title: Text(AppLocale.abortConfirm.getString(context)),
           backgroundColor: Colors.white,
-          content: Text("Aborting in middle of the test will result in loss of recorded data for this test"),
+          content: Text(AppLocale.abortMessage.getString(context)),
           actions: [
             TextButton(onPressed: () {
               Navigator.pop(context,true);
             },
-            child: Text("Yes Abort now",style: TextStyle(color: Colors.red))),
+            child: Text(AppLocale.abort.getString(context),style: TextStyle(color: Colors.red))),
             TextButton(onPressed: () {
               Navigator.pop(context,false);
             },
-            child:Text("No Continue test",style: TextStyle(color: Colors.green)))
+            child:Text(AppLocale.continueTest.getString(context),style: TextStyle(color: Colors.green)))
           ],
         );
       });
