@@ -43,7 +43,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
       bool userWantsToAbort = await showStopTestWarningDialog(context);
       if (userWantsToAbort) {
         timer.cancel();
-        secondsRemaining=(prefModel.selectedDuration!.durationInMinutes!) * 60;
+        secondsRemaining =
+            (prefModel.selectedDuration!.durationInMinutes!) * 60;
         isTimerRunning = false;
         setState(() {});
       }
@@ -112,20 +113,30 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(width: 8,),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           GestureDetector(
-                              onTap:(){
+                              onTap: () {
                                 setState(() {
-                                  Navigator.pushNamed(context, Routes.durationsRoute)
+                                  Navigator.pushNamed(
+                                          context, Routes.durationsRoute)
                                       .then((value) {
                                     setState(() {
                                       if (prefModel.selectedDuration != null) {
-                                        secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+                                        secondsRemaining = (prefModel
+                                                .selectedDuration!
+                                                .durationInMinutes!) *
+                                            60;
                                       }
                                     });
                                   });
                                 });
-                              },child: const Icon(Icons.timer_outlined,color: AppColors.primaryColor,))
+                              },
+                              child: const Icon(
+                                Icons.timer_outlined,
+                                color: AppColors.primaryColor,
+                              ))
                         ],
                       ),
                       circularStrokeCap: CircularStrokeCap.round,
@@ -139,7 +150,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       handleStartButtonClick(context);
                     },
                     child: Container(
@@ -171,7 +182,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   children: [
                     SizedBox(
                         width: screenSize!.width / 1.6,
-                        child:  Text(
+                        child: Text(
                           AppLocale.chooseDurationMessage.getString(context),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
@@ -189,7 +200,9 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                               .then((value) {
                             setState(() {
                               if (prefModel.selectedDuration != null) {
-                                secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+                                secondsRemaining = (prefModel
+                                        .selectedDuration!.durationInMinutes!) *
+                                    60;
                               }
                             });
                           });

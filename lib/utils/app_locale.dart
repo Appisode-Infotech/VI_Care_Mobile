@@ -510,7 +510,6 @@ mixin AppLocale {
     male: 'पुरुष',
     female: 'महिला',
     dateOfBirth: 'जन्म तिथि',
-
     sendOtp: 'Otp भेजें',
     emailToResetPassword: 'कृपया अपना रजिस्टर किया गया ईमेल दर्ज करें, हम आपको एक ओटीपी भेजेंगे जिससे आप अपना पासवर्ड रीसेट कर सकते हैं',
 

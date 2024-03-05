@@ -334,6 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
+
                   Navigator.pushNamed(context, Routes.webViewRoute, arguments: {
                     'url': "https://www.google.com",
                     'title': AppLocale.newsBlog.getString(context),

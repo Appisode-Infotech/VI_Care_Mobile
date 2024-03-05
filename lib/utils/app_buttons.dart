@@ -126,28 +126,30 @@ void showImageSourceDialog(BuildContext context,
   );
 }
 
-void showSuccessNotification(BuildContext context, String content, String title) {
+void showSuccessNotification(
+    BuildContext context, String content, String title) {
   return ElegantNotification(
     title: Text(title),
-    description: Text(content,style: const TextStyle(
-        fontWeight: FontWeight.w700,
-        fontSize: 14,
-        color: Colors.white),),
+    description: Text(
+      content,
+      style: const TextStyle(
+          fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
+    ),
     icon: const Icon(Icons.check_circle, color: Colors.white),
     background: Colors.grey.shade50,
-   progressIndicatorColor: Colors.green,
+    progressIndicatorColor: Colors.green,
     animationDuration: const Duration(seconds: 3),
   ).show(context);
 }
 
 void showErrorNotification(BuildContext context, String content, String title) {
-   return ElegantNotification(
+  return ElegantNotification(
     title: Text(title),
-    description: Text(content,style: const TextStyle(
-        fontWeight: FontWeight.w700,
-        fontSize: 14,
-        color: Colors.white
-    ),),
+    description: Text(
+      content,
+      style: const TextStyle(
+          fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
+    ),
     icon: const Icon(Icons.check_circle, color: Colors.white),
     background: Colors.grey.shade50,
     progressIndicatorColor: Colors.red,
@@ -171,10 +173,7 @@ void showSuccessToast(BuildContext context, String content) {
       title: Text(
         content,
         style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 14,
-            color: Colors.white
-        ),
+            fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
       ),
     ),
   ).show(context);
@@ -196,10 +195,7 @@ void showErrorToast(BuildContext context, String content) {
       title: Text(
         content,
         style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 14,
-          color: Colors.white
-        ),
+            fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
       ),
     ),
   ).show(context);
@@ -220,9 +216,7 @@ showLoaderDialog(BuildContext context) {
               Lottie.asset('assets/lottie/loading.json', height: 150),
               const Text(
                 "Loading...",
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -230,9 +224,7 @@ showLoaderDialog(BuildContext context) {
       });
 }
 
-
-
-Future<bool>showStopTestWarningDialog(BuildContext context) async {
+Future<bool> showStopTestWarningDialog(BuildContext context) async {
   bool result = await showDialog(
       barrierDismissible: false,
       context: context,
@@ -242,14 +234,18 @@ Future<bool>showStopTestWarningDialog(BuildContext context) async {
           backgroundColor: Colors.white,
           content: Text(AppLocale.abortMessage.getString(context)),
           actions: [
-            TextButton(onPressed: () {
-              Navigator.pop(context,true);
-            },
-            child: Text(AppLocale.abort.getString(context),style: TextStyle(color: Colors.red))),
-            TextButton(onPressed: () {
-              Navigator.pop(context,false);
-            },
-            child:Text(AppLocale.continueTest.getString(context),style: TextStyle(color: Colors.green)))
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Text(AppLocale.abort.getString(context),
+                    style: TextStyle(color: Colors.red))),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: Text(AppLocale.continueTest.getString(context),
+                    style: TextStyle(color: Colors.green)))
           ],
         );
       });
