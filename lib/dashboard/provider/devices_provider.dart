@@ -20,7 +20,7 @@ class DeviceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
- addDevice() async {
+  addDevice() async {
     AddDeviceResponseModel response = await apiCalls.addDevice(
         deviceType!, serialNumberController.text, devicePageContext!);
     if (response.result != null) {
@@ -32,7 +32,7 @@ class DeviceProvider extends ChangeNotifier {
 
   //duration page declarations
 
-  Future<DurationResponseModel>getAllDuration() async {
+  Future<DurationResponseModel> getAllDuration() async {
     return await apiCalls.getAllDurations();
   }
 }

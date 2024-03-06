@@ -1,5 +1,3 @@
-import 'package:badges/badges.dart' as badges;
-import 'package:badges/badges.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -166,23 +164,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         actions: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              color: Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            padding: const EdgeInsets.all(10),
-            child: badges.Badge(
-              badgeContent: const Text('3',
-                  style: TextStyle(fontSize: 8, color: Colors.white)),
-              position: BadgePosition.topEnd(top: -7, end: -4),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.symmetric(horizontal: 10),
+          //   decoration: const BoxDecoration(
+          //     color: Color(0xFFD9D9D9),
+          //     borderRadius: BorderRadius.all(Radius.circular(10)),
+          //   ),
+          //   padding: const EdgeInsets.all(10),
+          //   child: badges.Badge(
+          //     badgeContent: const Text('3',
+          //         style: TextStyle(fontSize: 8, color: Colors.white)),
+          //     position: BadgePosition.topEnd(top: -7, end: -4),
+          //     child: const Icon(
+          //       Icons.notifications,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       body: SingleChildScrollView(
