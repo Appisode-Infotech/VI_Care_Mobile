@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
+
 import '../../utils/app_locale.dart';
 
 class TakeTestScreen extends StatefulWidget {
@@ -67,150 +70,186 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocale.takeTest.getString(context),
-          style: const TextStyle(color: Colors.white),
-        ),
-        backgroundColor: AppColors.primaryColor,
-        toolbarHeight: 75,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: prefModel.selectedDuration != null
-          ? Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: CircularPercentIndicator(
-                      radius: 100.0,
-                      lineWidth: 15.0,
-                      percent:
-                          ((prefModel.selectedDuration!.durationInMinutes! *
-                                      60) -
-                                  secondsRemaining) /
-                              480.0,
-                      center: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  Navigator.pushNamed(
-                                          context, Routes.durationsRoute)
-                                      .then((value) {
-                                    setState(() {
-                                      if (prefModel.selectedDuration != null) {
-                                        secondsRemaining = (prefModel
-                                                .selectedDuration!
-                                                .durationInMinutes!) *
-                                            60;
-                                      }
-                                    });
-                                  });
-                                });
-                              },
-                              child: const Icon(
-                                Icons.timer_outlined,
-                                color: AppColors.primaryColor,
-                              ))
-                        ],
-                      ),
-                      circularStrokeCap: CircularStrokeCap.round,
-                      progressColor: AppColors.primaryColor,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "- Bpm",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      handleStartButtonClick(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: Colors.blue.shade300,
-                      ),
-                      child: Text(
-                        isTimerRunning
-                            ? AppLocale.stop.getString(context)
-                            : AppLocale.start.getString(context),
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        width: screenSize!.width / 1.6,
-                        child: Text(
-                          AppLocale.chooseDurationMessage.getString(context),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
-                        )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                        width: screenSize!.width / 1.6,
-                        child: getPrimaryAppButton(context,
-                            AppLocale.chooseDuration.getString(context),
-                            onPressed: () async {
-                          Navigator.pushNamed(context, Routes.durationsRoute)
-                              .then((value) {
-                            setState(() {
-                              if (prefModel.selectedDuration != null) {
-                                secondsRemaining = (prefModel
-                                        .selectedDuration!.durationInMinutes!) *
-                                    60;
-                              }
-                            });
-                          });
-                        })),
-                  ],
-                ),
-              ),
+    return Consumer(
+      builder: (BuildContext context, TakeTestProvider takeTestProvider,
+          Widget? child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              AppLocale.takeTest.getString(context),
+              style: const TextStyle(color: Colors.white),
             ),
+            backgroundColor: AppColors.primaryColor,
+            toolbarHeight: 75,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          body: FutureBuilder(
+            future: takeTestProvider.checkTestPreRequests(),
+            builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+              if (snapshot.data!['status'] == true) {
+                return Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: CircularPercentIndicator(
+                          radius: 100.0,
+                          lineWidth: 15.0,
+                          percent:
+                              ((prefModel.selectedDuration!.durationInMinutes! *
+                                          60) -
+                                      secondsRemaining) /
+                                  480.0,
+                          center: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
+                                style: const TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      Navigator.pushNamed(
+                                              context, Routes.durationsRoute)
+                                          .then((value) {
+                                        setState(() {
+                                          if (prefModel.selectedDuration !=
+                                              null) {
+                                            secondsRemaining = (prefModel
+                                                    .selectedDuration!
+                                                    .durationInMinutes!) *
+                                                60;
+                                          }
+                                        });
+                                      });
+                                    });
+                                  },
+                                  child: const Icon(
+                                    Icons.timer_outlined,
+                                    color: AppColors.primaryColor,
+                                  ))
+                            ],
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: AppColors.primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "- Bpm",
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          handleStartButtonClick(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            color: Colors.blue.shade300,
+                          ),
+                          child: Text(
+                            isTimerRunning
+                                ? AppLocale.stop.getString(context)
+                                : AppLocale.start.getString(context),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: snapshot.data!["stage"]==1?Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: screenSize!.width / 1.6,
+                            child: Text(
+                              snapshot.data!['stage'].toString(),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 16),
+                            )),
+                        SizedBox(
+                            width: screenSize!.width / 1.6,
+                            child: Text(
+                              "No connected Device",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 16),
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            width: screenSize!.width / 1.6,
+                            child: getPrimaryAppButton(context,
+                                "Connect now",
+                                onPressed: () async {
+                                  Navigator.pushNamed(
+                                      context, Routes.bluetoothScanRoute)
+                                      .then((value) {
+                                    setState(() {});
+                                  });
+                                })),
+                        // SizedBox(
+                        //     width: screenSize!.width / 1.6,
+                        //     child: getPrimaryAppButton(context,
+                        //         AppLocale.chooseDuration.getString(context),
+                        //         onPressed: () async {
+                        //       Navigator.pushNamed(
+                        //               context, Routes.durationsRoute)
+                        //           .then((value) {
+                        //         setState(() {
+                        //           if (prefModel.selectedDuration != null) {
+                        //             secondsRemaining = (prefModel
+                        //                     .selectedDuration!
+                        //                     .durationInMinutes!) *
+                        //                 60;
+                        //           }
+                        //         });
+                        //       });
+                        //     })),
+                      ],
+                    ):snapshot.data!['stage']==2?const SizedBox():const SizedBox()
+                  ),
+                );
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }

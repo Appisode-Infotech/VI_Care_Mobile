@@ -7,6 +7,7 @@ import 'package:vicare/create_patients/ui/change_password_screen.dart';
 import 'package:vicare/create_patients/ui/edit_patient_screen.dart';
 import 'package:vicare/dashboard/dashboard_screen.dart';
 import 'package:vicare/create_patients/ui/patient_details_screen.dart';
+import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
 import 'package:vicare/dashboard/ui/take_test_screen.dart';
@@ -26,6 +27,7 @@ import 'create_patients/ui/edit_profile_screen.dart';
 import 'create_patients/ui/summary_screen.dart';
 import 'dashboard/provider/devices_provider.dart';
 import 'dashboard/ui/all_reports_screen.dart';
+import 'dashboard/ui/bluetooth_scan_page.dart';
 import 'dashboard/ui/devices_screen.dart';
 import 'dashboard/ui/duration_screen.dart';
 import 'database/app_pref.dart';
@@ -122,6 +124,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => PatientProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => DeviceProvider()),
+        ChangeNotifierProvider(create: (context) => TakeTestProvider()),
     ],
     child: MaterialApp(
         supportedLocales: localization.supportedLocales,
@@ -157,7 +160,8 @@ class _MyAppState extends State<MyApp> {
           Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
           Routes.devicesRoute: (context) => const DeviceScreen(),
           Routes.profileRoute: (context) => const ProfileScreen(),
-          Routes.durationsRoute: (context) =>  const DurationScreen()
+          Routes.durationsRoute: (context) =>  const DurationScreen(),
+          Routes.bluetoothScanRoute: (context) =>  const BluetoothScanPage()
         })
     );
   }
