@@ -118,47 +118,47 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
         providers: [
-        ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => PatientProvider()),
-        ChangeNotifierProvider(create: (context) => ProfileProvider()),
-        ChangeNotifierProvider(create: (context) => DeviceProvider()),
-    ],
-    child: MaterialApp(
-        supportedLocales: localization.supportedLocales,
-        localizationsDelegates: localization.localizationsDelegates,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
-            bodyMedium: GoogleFonts.poppins(textStyle: textTheme.bodyMedium),
-          ),
-          primaryColor: AppColors.primaryColor,
-          scaffoldBackgroundColor: AppColors.scaffoldColor,
-        ),
-        title: "Vi Care",
-        initialRoute: Routes.splashRoute,
-        routes: <String, WidgetBuilder>{
+          ChangeNotifierProvider(create: (context) => AuthProvider()),
+          ChangeNotifierProvider(create: (context) => PatientProvider()),
+          ChangeNotifierProvider(create: (context) => ProfileProvider()),
+          ChangeNotifierProvider(create: (context) => DeviceProvider()),
+        ],
+        child: MaterialApp(
+            supportedLocales: localization.supportedLocales,
+            localizationsDelegates: localization.localizationsDelegates,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
+                bodyMedium: GoogleFonts.poppins(textStyle: textTheme.bodyMedium),
+              ),
+              primaryColor: AppColors.primaryColor,
+              scaffoldBackgroundColor: AppColors.scaffoldColor,
+            ),
+            title: "Vi Care",
+            initialRoute: Routes.splashRoute,
+            routes: <String, WidgetBuilder>{
 
-          Routes.splashRoute: (context) => const SplashScreen(),
-          Routes.onBoardingRoute: (context) => const OnBoardingScreen(),
-          Routes.dashboardRoute: (context) => const DashboardScreen(),
-          Routes.loginRoute: (context) => const LoginScreen(),
-          Routes.registerRoute: (context) => const RegisterScreen(),
-          Routes.webViewRoute: (context) => const WebViewScreen(),
-          Routes.addNewPatientRoute: (context) => const AddNewPatientScreen(),
-          Routes.managePatientsRoute: (context) => const ManagePatientsScreen(),
-          Routes.reportsRoute: (context) => const ReportScreen(),
-          Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
-          Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
-          Routes.summaryRoute: (context) => const SummaryScreen(),
-          Routes.takeTestRoute: (context) =>  const TakeTestScreen(),
-          Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
-          Routes.editPatientsRoute: (context) => const EditPatientScreen(),
-          Routes.editProfileRoute: (context) => const EditProfileScreen(),
-          Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
-          Routes.devicesRoute: (context) => const DeviceScreen(),
-          Routes.profileRoute: (context) => const ProfileScreen(),
-          Routes.durationsRoute: (context) =>  const DurationScreen()
-        })
+              Routes.splashRoute: (context) => const SplashScreen(),
+              Routes.onBoardingRoute: (context) => const OnBoardingScreen(),
+              Routes.dashboardRoute: (context) => const DashboardScreen(),
+              Routes.loginRoute: (context) => const LoginScreen(),
+              Routes.registerRoute: (context) => const RegisterScreen(),
+              Routes.webViewRoute: (context) => const WebViewScreen(),
+              Routes.addNewPatientRoute: (context) => const AddNewPatientScreen(),
+              Routes.managePatientsRoute: (context) => const ManagePatientsScreen(),
+              Routes.reportsRoute: (context) => const ReportScreen(),
+              Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
+              Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
+              Routes.summaryRoute: (context) => const SummaryScreen(),
+              Routes.takeTestRoute: (context) =>  const TakeTestScreen(),
+              Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
+              Routes.editPatientsRoute: (context) => const EditPatientScreen(),
+              Routes.editProfileRoute: (context) => const EditProfileScreen(),
+              Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
+              Routes.devicesRoute: (context) => const DeviceScreen(),
+              Routes.profileRoute: (context) => const ProfileScreen(),
+              Routes.durationsRoute: (context) =>  const DurationScreen()
+            })
     );
   }
 }
