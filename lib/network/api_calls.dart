@@ -329,7 +329,6 @@ class ApiCalls {
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['UserId'] = prefModel.userData!.id.toString();
-
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -384,7 +383,6 @@ class ApiCalls {
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['UserId'] = prefModel.userData!.id.toString();
-
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -429,43 +427,43 @@ class ApiCalls {
   }
 
   Future<AllPatientsResponseModel> getMyIndividualUsers(BuildContext context) async {
-    http.Response response = await hitApiGet(true, UrlConstants.getIndividualProfiles+"/GetAllByUserId"+prefModel.userData!.id!.toString());
+    http.Response response = await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/GetAllByUserId${prefModel.userData!.id}");
+    log(response.body);
+    if (response.statusCode == 200) {
+      return AllPatientsResponseModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not fetch data ${response.statusCode}";
+    }
+  }
+
+  Future<AllEnterpriseUsersResponseModel> getMyEnterpriseUsers(BuildContext context) async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.enterpriseUserId}");
+    log(response.body);
+    if (response.statusCode == 200) {
+      return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not fetch EnterPrise ${response.statusCode}";
+    }
+  }
+
+  getIndividualUserData(String? uniqueGuid, BuildContext context) async {
+    print("${UrlConstants.getIndividualProfiles}/${uniqueGuid}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${uniqueGuid}");
     print(response.body);
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
     } else {
       showErrorToast(context, "Something went wrong");
-      throw "could not login ${response.statusCode}";
+      throw "could not fetch Data ${response.statusCode}";
     }
   }
 
-  Future<AllEnterpriseUsersResponseModel> getMyEnterpriseUsers(BuildContext context) async {
-    http.Response response = await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.id}");
-    print(response.body);
-    if (response.statusCode == 200) {
-      return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
-    } else {
-      showErrorToast(context, "Something went wrong");
-      throw "could not login ${response.statusCode}";
-    }
-  }
-
-  getIndividualUserData(String? uniqueGuid, BuildContext context) async {
-    print("${UrlConstants.getIndividualProfiles}/GetByGuid/${uniqueGuid}");
-    http.Response response = await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/GetByGuid/${uniqueGuid}");
-    print(response.body);
-    if (response.statusCode == 200) {
-      return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
-    } else {
-      showErrorToast(context, "Something went wrong");
-      throw "could not login ${response.statusCode}";
-    }
-  }
-
-  getEnterpriseUserData(String? uniqueGuid, BuildContext context) async {
-    print("${UrlConstants.getEnterpriseProfiles}/GetByGuid/${uniqueGuid}");
-    http.Response response = await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/GetByGuid/${uniqueGuid}");
-    print(response.body);
+  getEnterpriseUserData(String? uniqueGuid, BuildContext context)  async {
+    print("${UrlConstants.getEnterpriseProfiles}/${uniqueGuid}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/${prefModel.userData!.enterpriseUserId}");
+    log(response.body);
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -482,8 +480,8 @@ class ApiCalls {
           "roleId": prefModel.userData!.roleId,
           "userId":prefModel.userData!.id
         }));
-    print(response.body);
     print(response.statusCode);
+    print(response.body);
     if(response.statusCode==200){
       return AddDeviceResponseModel.fromJson(json.decode(response.body));
     } else if (response.statusCode == 401) {

@@ -34,18 +34,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
             children: [
-              const Row(
+              Row(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/img_1.png"),
-                    radius: 40,
-                  ),
-                  SizedBox(
-                    width: 10,
+                  prefModel.userData!.profilePicture!.url != null
+                      ? CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.grey,
+                          backgroundImage: NetworkImage(prefModel
+                              .userData!.profilePicture!.url
+                              .toString()),
+                        )
+                      : const CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.grey,
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+                        ),
+                  const SizedBox(
+                    width: 20,
                   ),
                   Text(
-                    "Dr. Albert Raj",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                    "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}",
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                   )
                 ],
               ),
@@ -55,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 10),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, Routes.durationsRoute);
                 },
                 child: Row(
@@ -334,7 +346,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-
                   Navigator.pushNamed(context, Routes.webViewRoute, arguments: {
                     'url': "https://www.google.com",
                     'title': AppLocale.newsBlog.getString(context),
@@ -411,8 +422,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-                  prefModel.userData=null;
-                  prefModel.selectedDuration=null;
+                  prefModel.userData = null;
+                  prefModel.selectedDuration = null;
                   AppPref.setPref(prefModel);
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       Routes.loginRoute, (route) => false);
@@ -438,9 +449,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppLocale.logOut.getString(context),
                       style: const TextStyle(
                           color: Colors.red, fontWeight: FontWeight.w600),
-                        )
-                    )
-                ),
+                    ))),
               ),
               const SizedBox(
                 height: 30,

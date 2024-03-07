@@ -72,6 +72,17 @@ mixin AppLocale {
   static const String normal  = 'normal';
   static const String managePatients  = 'managePatients';
 
+  static const String noConnectedDevice  = 'noConnectedDevice';
+  static const String connectNow  = 'connectNow';
+  static const String scanDevices  = 'scanDevices';
+  static const String bluetoothLe  = 'bluetoothLe';
+  static const String bluetoothClassic = 'bluetoothClassic';
+  static const String noDevicesFound = 'noDevicesFound';
+  static const String addDevice = 'addDevice';
+  static const String type = 'type';
+  static const String serialNumber = 'serialNumber';
+  static const String cancel = 'cancel';
+
   static const String addPatients  = 'addPatients';
   static const String fillNewPatients  = 'fillNewPatients';
   static const String editPatientsDetails  = 'editPatientsDetails';
@@ -261,6 +272,17 @@ mixin AppLocale {
     reports: 'Reports',
     minutes:"Minutes",
 
+    noConnectedDevice:"No connected Device",
+    connectNow:"Connect now",
+    scanDevices: "Scan devices",
+    bluetoothClassic: "Bluetooth Classic",
+    bluetoothLe: "Bluetooth LE",
+    noDevicesFound: "No Devices Found",
+    addDevice: "Add Device",
+    type: "Type",
+    serialNumber: "Serial Number",
+    cancel: "Cancel",
+
     deviceSetup: 'Looks like you have not setup the device yet. Setup now to start taking tests',
     setup: 'Setup',
     deviceConnect: 'Your “Faros” device is configured. Connect it and start taking test',
@@ -438,6 +460,17 @@ mixin AppLocale {
     retryUpload:"ಮರುಪ್ರಯತ್ನಿಸಿ",
     delete:"ಅಳಿಸಿ",
 
+    noConnectedDevice: "ಯಾವುದೇ ಸಂಪರ್ಕಿತ ಸಾಧನವಿಲ್ಲ",
+    connectNow: "ಈಗ ಸಂಪರ್ಕಿಸಿ",
+    scanDevices: "ಸಾಧನಗಳನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+    bluetoothClassic: "ಬ್ಲೂಟೂತ್ ಕ್ಲಾಸಿಕ್",
+    bluetoothLe: "ಬ್ಲೂಟೂತ್ LE",
+    noDevicesFound: "ಯಾವುದೇ ಸಾಧನಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    addDevice: "ಸಾಧನವನ್ನು ಸೇರಿಸಿ",
+    type: "ರೀತಿ",
+    serialNumber: "ಸೀರಿಯಲ್ ಸಂಖ್ಯೆ",
+    cancel: "ರದ್ದು ಮಾಡಿ",
+
     editProfile: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸು',
     editPatients:"ರೋಗಿಗಳನ್ನು ಸಂಪಾದಿಸಿ",
     minutes:"ನಿಮಿಷಗಳು",
@@ -533,6 +566,17 @@ mixin AppLocale {
     today: 'आज',
     moderate: 'मध्यम',
     normal: 'सामान्य',
+
+    noConnectedDevice: "कोई कनेक्टेड डिवाइस नहीं",
+    connectNow: "अब कनेक्ट करें",
+    scanDevices: "डिवाइसों को स्कैन करें",
+    bluetoothClassic: "ब्लूटूथ क्लासिक",
+    bluetoothLe: "ब्लूटूथ एलई",
+    noDevicesFound: "कोई डिवाइस नहीं मिली",
+    addDevice: "डिवाइस जोड़ें",
+    type: "प्रकार",
+    serialNumber: "सीरियल नंबर",
+    cancel: "रद्द करें",
 
     player: 'खिलाड़ी',
     members: 'सदस्य',
@@ -682,6 +726,17 @@ mixin AppLocale {
     today: 'Heute',
     moderate: 'Mäßig',
     normal: 'Normal',
+
+    noConnectedDevice: "Kein verbundenes Gerät",
+    connectNow: "Jetzt verbinden",
+    scanDevices: "Geräte scannen",
+    bluetoothClassic: "Bluetooth-Klassik",
+    bluetoothLe: "Bluetooth LE",
+    noDevicesFound: "Keine Geräte gefunden",
+    addDevice: "Gerät hinzufügen",
+    type: "Typ",
+    serialNumber: "Seriennummer",
+    cancel: "Abbrechen",
 
     player: 'Spieler',
     members: 'Mitglieder',
@@ -849,6 +904,16 @@ mixin AppLocale {
     normal: 'సాధారణ',
 
     managePatients: 'రోగులను నిర్వహించండి',
+    noConnectedDevice: "సంకలిత ఉపకరణం లేదు",
+    connectNow: "ఇప్పుడు కనెక్ట్ చేయండి",
+    scanDevices: "ఉపకరణాలను స్కాన్ చేయండి",
+    bluetoothClassic: "బ్లూటూత్ క్లాసిక్",
+    bluetoothLe: "బ్లూటూత్ ఎల్‌ఇ",
+    noDevicesFound: "ఏ ఉపకరణాలు కనుగొనబడలేదు",
+    addDevice: "ఉపకరణం జోడించండి",
+    type: "రకం",
+    serialNumber: "వర్షాంకవారం",
+    cancel: "రద్దు చేయండి",
 
     abort: "కొంతకాలం కంటిన్యూ టెస్ట్ లేదు",
     continueTest: 'రోగులను నిర్వహించు',
@@ -1051,6 +1116,17 @@ mixin AppLocale {
       delete:"நீக்கு",
       editPatients:"நோயாளி திருத்து",
 
+      noConnectedDevice: "இணைக்கப்பட்ட சாதனம் இல்லை",
+      connectNow: "இப்போது இணைக்கவும்",
+      scanDevices: "சாதனங்களை உடனடியாக தேடு",
+      bluetoothClassic: "பிளூடூத்து கிளாசிக்",
+      bluetoothLe: "பிளூடூத்து LE",
+      noDevicesFound: "சாதனங்கள் கண்டுபிடிக்கப்படவில்லை",
+      addDevice: "சாதனத்தை சேர்க்க",
+      type: "வகை",
+      serialNumber: "வரிசை எண்",
+      cancel: "ரத்து செய்க",
+
       profile: 'சுயவிவரம்',
       scanSettings: 'ஸ்கேன் அமைப்புகள்',
       offlineSaved: 'ஆஃப்லைன் சேமிக்கப்பட்ட சோதனைகள்',
@@ -1158,6 +1234,16 @@ mixin AppLocale {
     normal: 'സാധാരണം',
 
     managePatients: 'രോഗികളെ നിയന്ത്രിക്കുക',
+    noConnectedDevice: "ഒരു ബന്ധിപ്പിച്ച ഉപകരണം ഇല്ല",
+    connectNow: "ഇപ്പോൾ ബന്ധിപ്പിക്കുക",
+    scanDevices: "ഉപകരണങ്ങൾ സ്കാൻ ചെയ്യുക",
+    bluetoothClassic: "ബ്ലൂടൂത്ത് ക്ലാസിക്",
+    bluetoothLe: "ബ്ലൂടൂത്ത് LE",
+    noDevicesFound: "ഉപകരണങ്ങൾ കണ്ടെത്തിയില്ല",
+    addDevice: "ഉപകരണം ചേർക്കുക",
+    type: "തരം",
+    serialNumber: "സീരിയൽ നമ്പർ",
+    cancel: "റദ്ദാക്കുക",
 
     abort: "കോടതിച്ചു",
     continueTest: 'രോഗികൾ നിയന്ത്രിക്കുക',

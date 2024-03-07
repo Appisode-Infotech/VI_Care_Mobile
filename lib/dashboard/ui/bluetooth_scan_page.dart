@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:vicare/utils/app_locale.dart';
 
-import '../provider/take_test_provider.dart';
 import 'bluetooth_classic_scan.dart';
 import 'bluetooth_serial_scan.dart';
 
@@ -17,9 +17,9 @@ class _BluetoothScanPageState extends State<BluetoothScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Scan devices"),
+        title: Text(AppLocale.scanDevices.getString(context)),
       ),
-      body: const Column(
+      body:  Column(
         children: [
           DefaultTabController(
             length: 2,
@@ -28,12 +28,12 @@ class _BluetoothScanPageState extends State<BluetoothScanPage> {
                 children: [
                   TabBar(
                     tabs: [
-                      Tab(text: "Bluetooth LE"),
-                      Tab(text: "Bluetooth Classic"),
+                      Tab(text: AppLocale.bluetoothLe.getString(context)),
+                      Tab(text: AppLocale.bluetoothClassic.getString(context)),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Expanded(
+                  const SizedBox(height: 10),
+                  const Expanded(
                     child: TabBarView(
                       children: [
                         Center(

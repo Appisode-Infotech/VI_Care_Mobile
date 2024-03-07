@@ -38,10 +38,10 @@ class _DeviceScreenState extends State<DeviceScreen> {
               },
             ),
           ),
-          body: const Center(
+          body:  Center(
             child: Text(
-              'No Devices Found',
-              style: TextStyle(fontSize: 18,color: AppColors.fontShadeColor),
+              AppLocale.noDevicesFound.getString(context),
+              style: const TextStyle(fontSize: 18,color: AppColors.fontShadeColor),
             ),
           ),
           floatingActionButton: FloatingActionButton(
@@ -63,11 +63,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Add Device"),
+          title:  Text(AppLocale.addDevice.getString(context)),
           content:  SingleChildScrollView(
             child: ListBody(
               children:[
-                const Text("Type"),
+                 Text(AppLocale.type.getString(context)),
                 const SizedBox(height: 10),
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
@@ -90,7 +90,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     ),
                   ),
                   dropdownColor: Colors.white,
-                  hint: const Text("Type"),
+                  hint:  Text(AppLocale.type.getString(context)),
                   value: deviceProvider.deviceType,
                   onChanged: (String? value) {
                     setState(() {
@@ -110,7 +110,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 ),
 
                 const SizedBox(height: 10,),
-                const Text("Serial Number"),
+                 Text(AppLocale.serialNumber.getString(context)),
                 const SizedBox(height: 10),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -119,7 +119,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
-                    hintText: "Serial Number",
+                    hintText: AppLocale.serialNumber.getString(context),
                     hintStyle: const TextStyle(fontSize: 15, color: Colors.grey),
                     counterText: "",
                     isCollapsed: true,
@@ -146,14 +146,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel',style: TextStyle(color: Colors.teal),),
+              child:  Text(AppLocale.cancel.getString(context),style: const TextStyle(color: Colors.teal),),
             ),
             TextButton(
               onPressed: () {
                   deviceProvider.addDevice();
                   // Navigator.of(context).pop();
               },
-              child: const Text('Connect',style: TextStyle(color: Colors.teal),),
+              child:  Text(AppLocale.connect.getString(context),style: const TextStyle(color: Colors.teal),),
             ),
           ],
           backgroundColor: Colors.white,

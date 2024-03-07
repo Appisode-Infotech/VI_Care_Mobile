@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
+import 'package:vicare/utils/app_locale.dart';
 
 class BluetoothSerialScan extends StatefulWidget {
   const BluetoothSerialScan({super.key});
@@ -24,7 +26,7 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
           body: RefreshIndicator(
             onRefresh: () => scanLeDevices(takeTestProvider),
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: 4,horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 16),
               itemCount: takeTestProvider.leDevices.length,
               itemBuilder: (BuildContext context, int index) {
                 return Row(
@@ -41,7 +43,7 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                     ),
                     TextButton(onPressed: (){
                       takeTestProvider.connectToDevice(takeTestProvider.leDevices[index],context);
-                    }, child: const Text("connect",style: TextStyle(fontSize: 16),))
+                    }, child:  Text(AppLocale.connect.getString(context),style: TextStyle(fontSize: 16),))
                   ],
                 );
               },

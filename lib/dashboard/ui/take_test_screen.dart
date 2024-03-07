@@ -204,7 +204,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                         SizedBox(
                             width: screenSize!.width / 1.6,
                             child: Text(
-                              "No connected Device",
+                              AppLocale.noConnectedDevice.getString(context),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 16),
@@ -215,7 +215,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                         SizedBox(
                             width: screenSize!.width / 1.6,
                             child: getPrimaryAppButton(context,
-                                "Connect now",
+                              AppLocale.connectNow.getString(context),
                                 onPressed: () async {
                                   Navigator.pushNamed(
                                       context, Routes.bluetoothScanRoute)

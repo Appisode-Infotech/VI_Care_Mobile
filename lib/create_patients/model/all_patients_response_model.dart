@@ -46,11 +46,11 @@ class Result {
   String? email;
   bool? isSelf;
   int? contactId;
-  dynamic contact;
+  Contact? contact;
   int? userId;
   User? user;
   int? profilePictureId;
-  dynamic profilePicture;
+  ProfilePicture? profilePicture;
   String? uniqueGuid;
   int? id;
 
@@ -75,11 +75,11 @@ class Result {
     email: json["email"],
     isSelf: json["isSelf"],
     contactId: json["contactId"],
-    contact: json["contact"],
+    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     userId: json["userId"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
     profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"],
+    profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -90,11 +90,135 @@ class Result {
     "email": email,
     "isSelf": isSelf,
     "contactId": contactId,
-    "contact": contact,
+    "contact": contact?.toJson(),
     "userId": userId,
     "user": user?.toJson(),
     "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture,
+    "profilePicture": profilePicture?.toJson(),
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
+class Contact {
+  String? firstname;
+  String? lastName;
+  String? email;
+  String? contactNumber;
+  DateTime? doB;
+  int? gender;
+  String? bloodGroup;
+  dynamic addressId;
+  dynamic address;
+  String? uniqueGuid;
+  int? id;
+
+  Contact({
+    this.firstname,
+    this.lastName,
+    this.email,
+    this.contactNumber,
+    this.doB,
+    this.gender,
+    this.bloodGroup,
+    this.addressId,
+    this.address,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+    firstname: json["firstname"],
+    lastName: json["lastName"],
+    email: json["email"],
+    contactNumber: json["contactNumber"],
+    doB: json["doB"] == null ? null : DateTime.parse(json["doB"]),
+    gender: json["gender"],
+    bloodGroup: json["bloodGroup"],
+    addressId: json["addressId"],
+    address: json["address"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "firstname": firstname,
+    "lastName": lastName,
+    "email": email,
+    "contactNumber": contactNumber,
+    "doB": doB?.toIso8601String(),
+    "gender": gender,
+    "bloodGroup": bloodGroup,
+    "addressId": addressId,
+    "address": address,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
+class ProfilePicture {
+  String? name;
+  dynamic type;
+  String? path;
+  dynamic tags;
+  int? length;
+  String? savedFileName;
+  String? actualFileName;
+  int? fileType;
+  String? sthreeKey;
+  String? url;
+  dynamic deviceId;
+  dynamic device;
+  String? uniqueGuid;
+  int? id;
+
+  ProfilePicture({
+    this.name,
+    this.type,
+    this.path,
+    this.tags,
+    this.length,
+    this.savedFileName,
+    this.actualFileName,
+    this.fileType,
+    this.sthreeKey,
+    this.url,
+    this.deviceId,
+    this.device,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory ProfilePicture.fromJson(Map<String, dynamic> json) => ProfilePicture(
+    name: json["name"],
+    type: json["type"],
+    path: json["path"],
+    tags: json["tags"],
+    length: json["length"],
+    savedFileName: json["savedFileName"],
+    actualFileName: json["actualFileName"],
+    fileType: json["fileType"],
+    sthreeKey: json["sthreeKey"],
+    url: json["url"],
+    deviceId: json["deviceId"],
+    device: json["device"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "type": type,
+    "path": path,
+    "tags": tags,
+    "length": length,
+    "savedFileName": savedFileName,
+    "actualFileName": actualFileName,
+    "fileType": fileType,
+    "sthreeKey": sthreeKey,
+    "url": url,
+    "deviceId": deviceId,
+    "device": device,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };
@@ -110,15 +234,16 @@ class User {
   dynamic remarks;
   dynamic token;
   int? contactId;
-  dynamic contact;
+  Contact? contact;
   int? roleId;
   dynamic role;
   int? profilePictureId;
-  dynamic profilePicture;
+  ProfilePicture? profilePicture;
   dynamic enterpriseId;
   dynamic enterprise;
   dynamic enterpriseUserId;
   dynamic enterpriseUser;
+  dynamic individualProfileId;
   String? uniqueGuid;
   int? id;
 
@@ -141,6 +266,7 @@ class User {
     this.enterprise,
     this.enterpriseUserId,
     this.enterpriseUser,
+    this.individualProfileId,
     this.uniqueGuid,
     this.id,
   });
@@ -155,15 +281,16 @@ class User {
     remarks: json["remarks"],
     token: json["token"],
     contactId: json["contactId"],
-    contact: json["contact"],
+    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     roleId: json["roleId"],
     role: json["role"],
     profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"],
+    profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
     enterpriseId: json["enterpriseId"],
     enterprise: json["enterprise"],
     enterpriseUserId: json["enterpriseUserId"],
     enterpriseUser: json["enterpriseUser"],
+    individualProfileId: json["individualProfileId"],
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -178,15 +305,16 @@ class User {
     "remarks": remarks,
     "token": token,
     "contactId": contactId,
-    "contact": contact,
+    "contact": contact?.toJson(),
     "roleId": roleId,
     "role": role,
     "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture,
+    "profilePicture": profilePicture?.toJson(),
     "enterpriseId": enterpriseId,
     "enterprise": enterprise,
     "enterpriseUserId": enterpriseUserId,
     "enterpriseUser": enterpriseUser,
+    "individualProfileId": individualProfileId,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };

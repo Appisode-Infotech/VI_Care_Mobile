@@ -65,6 +65,14 @@ class PatientProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int calculateAge(String dateOfBirthString) {
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
+    DateTime currentDate = DateTime.now();
+    Duration difference = currentDate.difference(dateOfBirth);
+    int ageInYears = (difference.inDays / 365).floor();
+    return ageInYears;
+  }
+
   addNewPatient() async {
     showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {

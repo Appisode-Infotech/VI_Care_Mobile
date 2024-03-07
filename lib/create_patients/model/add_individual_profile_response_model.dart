@@ -211,7 +211,7 @@ class Address {
   String? longitude;
   String? latitude;
   int? stateId;
-  State? state;
+  States? state;
 
   Address({
     this.id,
@@ -238,7 +238,7 @@ class Address {
     longitude: json["longitude"],
     latitude: json["latitude"],
     stateId: json["stateId"],
-    state: json["state"] == null ? null : State.fromJson(json["state"]),
+    state: json["state"] == null ? null : States.fromJson(json["state"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -256,7 +256,7 @@ class Address {
   };
 }
 
-class State {
+class States {
   int? id;
   String? uniqueGuid;
   String? name;
@@ -265,7 +265,7 @@ class State {
   int? countryId;
   Country? country;
 
-  State({
+  States({
     this.id,
     this.uniqueGuid,
     this.name,
@@ -275,7 +275,7 @@ class State {
     this.country,
   });
 
-  factory State.fromJson(Map<String, dynamic> json) => State(
+  factory States.fromJson(Map<String, dynamic> json) => States(
     id: json["id"],
     uniqueGuid: json["uniqueGuid"],
     name: json["name"],

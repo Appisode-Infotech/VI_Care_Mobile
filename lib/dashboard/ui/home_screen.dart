@@ -5,17 +5,16 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:vicare/create_patients/model/all_enterprise_users_response_model.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 
-import '../../create_patients/model/all_enterprise_users_response_model.dart';
 import '../../create_patients/model/all_patients_response_model.dart';
 import '../../create_patients/provider/patient_provider.dart';
 import '../../network/api_calls.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/url_constants.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(int) changeScreen;
@@ -28,39 +27,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndexPage = 1;
-
-  List patientData = [
-    {
-      "patientName": "Tom Luke",
-      "age": "25 years",
-      "image": "assets/images/img.png"
-    },
-    {
-      "patientName": "Rhea",
-      "age": "25 years",
-      "image": "assets/images/img_1.png"
-    },
-    {
-      "patientName": "Don dhalim",
-      "age": "25 years",
-      "image": "assets/images/img.png"
-    },
-    {
-      "patientName": "Kiran deva",
-      "age": "25 years",
-      "image": "assets/images/img_1.png"
-    },
-    {
-      "patientName": "Smitha",
-      "age": "25 years",
-      "image": "assets/images/img_1.png"
-    },
-    {
-      "patientName": "Don dhalim",
-      "age": "25 years",
-      "image": "assets/images/img.png"
-    },
-  ];
 
   List patientReports = [
     {
@@ -449,7 +415,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       future: patientProvider.getMyPatients(context),
                       builder: (BuildContext context,
                           AsyncSnapshot<AllPatientsResponseModel> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
                             child: Shimmer.fromColors(
@@ -568,49 +535,45 @@ class _HomeScreenState extends State<HomeScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage: NetworkImage(
-                                            UrlConstants.imageBaseUrl +
-                                                snapshot.data!.result![index]
-                                                    .user!.profilePicture
-                                                    .toString(),
-                                          ),
-                                          child: Image.network(
-                                            UrlConstants.imageBaseUrl +
-                                                snapshot.data!.result![index]
-                                                    .user!.profilePicture
-                                                    .toString(),
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return const CircleAvatar(
-                                                radius: 20,
+                                        snapshot.data!.result![index]
+                                                    .profilePicture !=
+                                                null
+                                            ? CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                backgroundImage: NetworkImage(
+                                                  snapshot.data!.result![index]
+                                                      .profilePicture!.url
+                                                      .toString(),
+                                                ),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 22,
                                                 backgroundColor: Colors.grey,
                                                 child: Icon(
                                                   Icons.person,
                                                   color: Colors.white,
                                                 ),
-                                              );
-                                            },
-                                          ),
-                                        ),
+                                              ),
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
-                                          maxLines: 2,
-                                          "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                          style: const TextStyle(
-                                              overflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                              color: Colors.white),
+                                        FittedBox(
+                                          child: Text(
+                                            maxLines: 1,
+                                            "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 3,
                                         ),
                                         Text(
-                                          "${snapshot.data!.result![index].id!} Years",
+                                          "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
                                           style: const TextStyle(
                                               fontSize: 10,
                                               fontWeight: FontWeight.bold,
@@ -734,13 +697,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else {
                                 return InkWell(
-                                  onTap: () async {
+                                  onTap: () {
                                     showLoaderDialog(context);
-                                    await patientProvider.getEnterpriseUserData(
+                                     patientProvider.getEnterpriseUserData(
                                         snapshot
                                             .data!.result![index].uniqueGuid,
                                         context);
-                                    // Navigator.pushNamed(context, Routes.patientDetailsRoute);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -758,49 +720,45 @@ class _HomeScreenState extends State<HomeScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 20,
+                                        snapshot.data!.result![index]
+                                            .profilePicture !=
+                                            null
+                                            ? CircleAvatar(
+                                          radius: 22,
+                                          backgroundColor: Colors.grey,
                                           backgroundImage: NetworkImage(
-                                            UrlConstants.imageBaseUrl +
-                                                snapshot.data!.result![index]
-                                                    .profilePicture
-                                                    .toString(),
+                                            snapshot.data!.result![index]
+                                                .profilePicture!.url
+                                                .toString(),
                                           ),
-                                          child: Image.network(
-                                            UrlConstants.imageBaseUrl +
-                                                snapshot.data!.result![index]
-                                                    .profilePicture
-                                                    .toString(),
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return const CircleAvatar(
-                                                radius: 20,
-                                                backgroundColor: Colors.grey,
-                                                child: Icon(
-                                                  Icons.person,
-                                                  color: Colors.white,
-                                                ),
-                                              );
-                                            },
+                                        )
+                                            : const CircleAvatar(
+                                          radius: 22,
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Colors.white,
                                           ),
                                         ),
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
-                                          maxLines: 2,
-                                          "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                          style: const TextStyle(
-                                              overflow: TextOverflow.ellipsis,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                              color: Colors.white),
+                                        FittedBox(
+                                          child: Text(
+                                            maxLines: 1,
+                                            "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 3,
                                         ),
                                         Text(
-                                          "${snapshot.data!.result![index].id!} Years",
+                                            "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
                                           style: const TextStyle(
                                               fontSize: 10,
                                               fontWeight: FontWeight.bold,
@@ -1015,4 +973,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 }
+
