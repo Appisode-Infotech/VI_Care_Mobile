@@ -7,7 +7,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/create_patients/model/all_enterprise_users_response_model.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 
@@ -117,9 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(AppLocale.hi.getString(context),
                     style: const TextStyle(color: Colors.white)),
                 const SizedBox(
-                  width: 10,
+                  width: 8,
                 ),
-                const Text("Albert Raj", style: TextStyle(color: Colors.white)),
+                 Text( "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}", style: TextStyle(color: Colors.white)),
               ],
             ),
             const SizedBox(
@@ -510,14 +509,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else {
                                 return InkWell(
-                                  onTap: () async {
-                                    showLoaderDialog(context);
-                                    await patientProvider.getIndividualUserData(
-                                        snapshot.data!.result![index].user!
-                                            .uniqueGuid,
+                                  onTap: () {
+                                     patientProvider.getIndividualUserData(
+                                        snapshot.data!.result![index].id.toString(),
                                         context);
-                                    // Navigator.pushNamed(
-                                    //     context, Routes.patientDetailsRoute);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -698,10 +693,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    showLoaderDialog(context);
                                      patientProvider.getEnterpriseUserData(
-                                        snapshot
-                                            .data!.result![index].uniqueGuid,
+                                        snapshot.data!.result![index].id.toString(),
                                         context);
                                   },
                                   child: Container(

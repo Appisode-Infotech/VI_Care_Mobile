@@ -6,7 +6,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:vicare/create_patients/model/all_patients_response_model.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/utils/app_buttons.dart';
 
 import '../../create_patients/model/all_enterprise_users_response_model.dart';
 import '../../network/api_calls.dart';
@@ -142,11 +141,9 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                             } else {
                               index = index - 1;
                               return InkWell(
-                                onTap: () async {
-                                  showLoaderDialog(context);
-                                  await patientProvider.getIndividualUserData(
-                                      snapshot.data!.result![index].user!
-                                          .uniqueGuid,
+                                onTap: ()  {
+                                  patientProvider.getIndividualUserData(
+                                      snapshot.data!.result![index].id.toString(),
                                       context);
                                 },
                                 child: Container(
@@ -322,11 +319,9 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               index = index - 1;
                               return InkWell(
                                 onTap: () async {
-                                  showLoaderDialog(context);
-                                  await patientProvider.getEnterpriseUserData(
-                                      snapshot.data!.result![index].uniqueGuid.toString(),
+                                  patientProvider.getEnterpriseUserData(
+                                      snapshot.data!.result![index].id.toString(),
                                       context);
-                                  Navigator.pushNamed(context, AppLocale.patientDetails);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(

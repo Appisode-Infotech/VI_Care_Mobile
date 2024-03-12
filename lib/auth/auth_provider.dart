@@ -126,7 +126,7 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(loginPageContext!);
-      Navigator.pushNamed(loginPageContext!, Routes.dashboardRoute);
+      Navigator.pushNamedAndRemoveUntil(loginPageContext!, Routes.dashboardRoute, (route) => false);
       clearLoginForm();
     } else {
       Navigator.pop(loginPageContext!);

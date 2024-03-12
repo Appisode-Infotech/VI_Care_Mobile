@@ -2,14 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
+import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../network/api_calls.dart';
+import '../../utils/routes.dart';
 import '../model/all_enterprise_users_response_model.dart';
 import '../model/all_patients_response_model.dart';
+import '../model/enterprise_response_model.dart';
 
 class PatientProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
+  IndividualResponseModel? individualPatientData;
+  EnterpriseResponseModel? enterpriseUserData;
 
   //add New Patient Page declarations
   final addPatientFormKey = GlobalKey<FormState>();
@@ -17,11 +22,11 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController addNewPatientMobileController = TextEditingController();
   TextEditingController addNewPatientEmailController = TextEditingController();
   TextEditingController addNewPatientFirstNameController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController addNewPatientLastNameController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController addNewPatientAddressController =
-  TextEditingController();
+      TextEditingController();
   String? addNewPatientGender;
   File? addPatientSelectedImage;
   BuildContext? addNewPatientContext;
@@ -39,13 +44,12 @@ class PatientProvider extends ChangeNotifier {
   }
 
   //edit patient page declarations
-
   final editPatientFormKey = GlobalKey<FormState>();
   TextEditingController editPatientDobController = TextEditingController();
   TextEditingController editPatientMobileController = TextEditingController();
   TextEditingController editPatientEmailController = TextEditingController();
   TextEditingController editPatientFirstNameController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController editPatientLastNameController = TextEditingController();
   TextEditingController editPatientAddressController = TextEditingController();
   String? editPatientGender;
@@ -76,16 +80,17 @@ class PatientProvider extends ChangeNotifier {
   addNewPatient() async {
     showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {
-      AddIndividualProfileResponseModel response = await apiCalls.addIndividualProfile(
-          addNewPatientDobController.text,
-          addNewPatientMobileController.text,
-          addNewPatientEmailController.text,
-          addNewPatientFirstNameController.text,
-          addNewPatientLastNameController.text,
-          addNewPatientAddressController.text,
-          addNewPatientGender!,
-          addPatientSelectedImage,
-          addNewPatientContext!);
+      AddIndividualProfileResponseModel response =
+          await apiCalls.addIndividualProfile(
+              addNewPatientDobController.text,
+              addNewPatientMobileController.text,
+              addNewPatientEmailController.text,
+              addNewPatientFirstNameController.text,
+              addNewPatientLastNameController.text,
+              addNewPatientAddressController.text,
+              addNewPatientGender!,
+              addPatientSelectedImage,
+              addNewPatientContext!);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -93,16 +98,16 @@ class PatientProvider extends ChangeNotifier {
       }
     } else {
       AddIndividualProfileResponseModel response =
-      await apiCalls.addEnterpriseProfile(
-          addNewPatientDobController.text,
-          addNewPatientMobileController.text,
-          addNewPatientEmailController.text,
-          addNewPatientFirstNameController.text,
-          addNewPatientLastNameController.text,
-          addNewPatientAddressController.text,
-          addNewPatientGender!,
-          addPatientSelectedImage,
-          addNewPatientContext!);
+          await apiCalls.addEnterpriseProfile(
+              addNewPatientDobController.text,
+              addNewPatientMobileController.text,
+              addNewPatientEmailController.text,
+              addNewPatientFirstNameController.text,
+              addNewPatientLastNameController.text,
+              addNewPatientAddressController.text,
+              addNewPatientGender!,
+              addPatientSelectedImage,
+              addNewPatientContext!);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -111,72 +116,108 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> prefillEditPatientDetails(BuildContext context) async {
+    showLoaderDialog(context);
+    editPatientSelectedImage=null;
+    if(prefModel.userData!.roleId==2){
+      editPatientDobController.text = "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData!.result!.contact!.doB!.month}-${individualPatientData!.result!.contact!.doB!.day}";
+      editPatientMobileController.text = individualPatientData!.result!.contact!.contactNumber!;
+      editPatientEmailController.text = individualPatientData!.result!.email!;
+      editPatientFirstNameController.text = individualPatientData!.result!.firstName!;
+      editPatientLastNameController.text = individualPatientData!.result!.lastName!;
+      editPatientAddressController.text = individualPatientData!.result!.contact!.address.toString();
+      editPatientGender = individualPatientData!.result!.contact!.gender==1?"Male":individualPatientData!.result!.contact!.gender==2?"Female":"Do not wish to specify";
+      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData!.result!.profilePicture!.url!);
+      notifyListeners();
+      Navigator.pop(context);
+      Navigator.pushNamed(context, Routes.editPatientsRoute);
+    }else{
+      editPatientDobController.text = enterpriseUserData!.result!.contact!.doB.toString();
+      editPatientMobileController.text = enterpriseUserData!.result!.contact!.contactNumber!;
+      editPatientEmailController.text = enterpriseUserData!.result!.emailId!;
+      editPatientFirstNameController.text = enterpriseUserData!.result!.firstName!;
+      editPatientLastNameController.text = enterpriseUserData!.result!.lastName!;
+      editPatientAddressController.text = enterpriseUserData!.result!.contact!.address;
+      editPatientGender = enterpriseUserData!.result!.contact!.gender.toString();
+      editPatientSelectedImage = addPatientSelectedImage;
+      notifyListeners();
+      Navigator.pop(context);
+      Navigator.pushNamed(context, Routes.editPatientsRoute);
+    }
+  }
+
   editPatient() async {
-    showLoaderDialog(editPatientPageContext!);
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response = await apiCalls.editPatient(
+          editPatientDobController.text,
+          editPatientMobileController.text,
           editPatientEmailController.text,
           editPatientFirstNameController.text,
           editPatientLastNameController.text,
-          editPatientDobController.text,
           editPatientAddressController.text,
-          editPatientMobileController.text,
           editPatientGender!,
           editPatientSelectedImage!,
-          editPatientPageContext!);
+          editPatientPageContext!,
+        individualPatientData!.result!.id.toString(),
+        individualPatientData!.result!.contact!.id.toString(),
+        individualPatientData!.result!.id.toString(),
+        individualPatientData!.result!.contact!.bloodGroup,
+      );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);
         Navigator.pop(editPatientPageContext!);
       }
-    }else {
-        AddIndividualProfileResponseModel response = await apiCalls
-            .editEnterprise(
-            editPatientEmailController.text,
-            editPatientFirstNameController.text,
-            editPatientLastNameController.text,
-            editPatientDobController.text,
-            editPatientAddressController.text,
-            editPatientMobileController.text,
-            editPatientGender!,
-            editPatientSelectedImage!,
-            editPatientPageContext!);
-        if (response.result != null) {
-          showSuccessToast(editPatientPageContext!, response.message!);
-          Navigator.pop(editPatientPageContext!);
-          Navigator.pop(editPatientPageContext!);
-        }
+    } else {
+      AddIndividualProfileResponseModel response =
+          await apiCalls.editEnterprise(
+              editPatientEmailController.text,
+              editPatientFirstNameController.text,
+              editPatientLastNameController.text,
+              editPatientDobController.text,
+              editPatientAddressController.text,
+              editPatientMobileController.text,
+              editPatientGender!,
+              editPatientSelectedImage!,
+              editPatientPageContext!);
+      if (response.result != null) {
+        showSuccessToast(editPatientPageContext!, response.message!);
+        Navigator.pop(editPatientPageContext!);
+        Navigator.pop(editPatientPageContext!);
       }
+    }
   }
 
-
-  Future<AllPatientsResponseModel> getMyPatients(BuildContext context){
+  Future<AllPatientsResponseModel> getMyPatients(BuildContext context) {
     return apiCalls.getMyIndividualUsers(context);
   }
-  Future<AllEnterpriseUsersResponseModel> getEnterpriseProfiles(BuildContext context){
+
+  Future<AllEnterpriseUsersResponseModel> getEnterpriseProfiles(
+      BuildContext context) {
     return apiCalls.getMyEnterpriseUsers(context);
   }
 
-  getIndividualUserData(String? uniqueGuid, BuildContext context) {
-    return apiCalls.getIndividualUserData(uniqueGuid,context);
+  getIndividualUserData(String? pId, BuildContext context) async {
+    showLoaderDialog(context);
+    individualPatientData = await apiCalls.getIndividualUserData(pId, context);
+    if (individualPatientData!.result != null) {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, Routes.patientDetailsRoute);
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, individualPatientData!.message!);
+    }
   }
 
-  getEnterpriseUserData(String? uniqueGuid, BuildContext context) {
-    return apiCalls.getEnterpriseUserData(uniqueGuid,context);
-
+  getEnterpriseUserData(String? eId, BuildContext context) async {
+    showLoaderDialog(context);
+    enterpriseUserData = await apiCalls.getEnterpriseUserData(eId, context);
+    if (enterpriseUserData!.result != null) {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, Routes.patientDetailsRoute);
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, enterpriseUserData!.message!);
+    }
   }
-
 }
-
-// void prefillEditPatientDetails() {
-//   editPatientDobController.text = addNewPatientDobController.text;
-//   editPatientMobileController.text = addNewPatientMobileController.text;
-//   editPatientEmailController.text = addNewPatientEmailController.text;
-//   editPatientFirstNameController.text = addNewPatientFirstNameController.text;
-//   editPatientLastNameController.text = addNewPatientLastNameController.text;
-//   editPatientAddressController.text = addNewPatientAddressController.text;
-//   editPatientGender = addNewPatientGender;
-//   editPatientSelectedImage = addPatientSelectedImage;
-//   notifyListeners();
-// }
-

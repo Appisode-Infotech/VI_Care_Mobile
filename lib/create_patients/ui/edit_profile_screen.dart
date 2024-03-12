@@ -8,7 +8,6 @@ import 'package:vicare/create_patients/provider/profile_provider.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -331,12 +330,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         value: profileProvider.editProfileGender,
                         onChanged: (String? value) {
                           setState(() {
+                            profileProvider.selectedGender= value ==
+                                "Male" ? 1 : value == "Female" ? 2 : value == "Do not wish to specify" ? 3 :0;
                             profileProvider.editProfileGender = value!;
                           });
                         },
                         style: const TextStyle(color: Colors.black),
                         items: <String>[
-                          "Male",
+                         "Male",
                           "Female",
                           "Do not wish to specify"
                         ].map<DropdownMenuItem<String>>((String value) {
@@ -420,8 +421,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
-                                  Navigator.pushNamed(
-                                      context, Routes.profileRoute);
+                                  profileProvider.editProfile();
+                                  // Navigator.pushNamed(
+                                  //     context, Routes.profileRoute);
                                 }),
                               ],
                             ),
