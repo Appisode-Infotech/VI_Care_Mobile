@@ -28,8 +28,8 @@ String platform = Platform.isIOS ? "IOS" : "Android";
 PrefModel prefModel = AppPref.getPref();
 
 class ApiCalls {
-  Future<http.Response> hitApiPost(
-      bool requiresAuth, String url, String body) async {
+  Future<http.Response> hitApiPost(bool requiresAuth, String url,
+      String body) async {
     return await http.post(
       Uri.parse(url),
       headers: getHeaders(requiresAuth),
@@ -64,8 +64,8 @@ class ApiCalls {
     return headers;
   }
 
-  Future<SendOtpResponseModel> sendOtpToRegister(
-      String email, BuildContext? context) async {
+  Future<SendOtpResponseModel> sendOtpToRegister(String email,
+      BuildContext? context) async {
     http.Response response = await hitApiPost(false,
         UrlConstants.sendOtpToRegister + email, jsonEncode({"email": email}));
     if (response.statusCode == 200) {
@@ -102,7 +102,7 @@ class ApiCalls {
     BuildContext? context,
   }) async {
     var request =
-        http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
+    http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.Firstname'] = fName;
     request.fields['Contact.Email'] = email;
@@ -119,7 +119,9 @@ class ApiCalls {
         'profilePic',
         picStream,
         length,
-        filename: profilePic.path.split('/').last,
+        filename: profilePic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -146,8 +148,8 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel> loginUser(
-      String email, String password, BuildContext buildContext) async {
+  Future<RegisterResponseModel> loginUser(String email, String password,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
         jsonEncode({"email": email.trim(), 'password': password}));
     if (response.statusCode == 200) {
@@ -159,8 +161,8 @@ class ApiCalls {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtpToResetPassword(
-      String email, BuildContext buildContext) async {
+  Future<SendOtpResponseModel> sendOtpToResetPassword(String email,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(
         false,
         UrlConstants.sendOtpToResetPassword + email,
@@ -177,8 +179,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> addIndividualProfile(
-      String dob,
+  Future<AddIndividualProfileResponseModel> addIndividualProfile(String dob,
       String mobile,
       String email,
       String fName,
@@ -186,7 +187,7 @@ class ApiCalls {
       String address,
       String gender,
       File? selectedImage,
-      BuildContext? context) async {
+      BuildContext? context, String bloodGroup) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addIndividualProfile));
     request.fields['IsSelf'] = false.toString();
@@ -196,6 +197,7 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
+    request.fields['Contact.BloodGroup'] = bloodGroup.toString();
     request.fields['UserId'] = prefModel.userData!.id.toString();
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
@@ -204,7 +206,9 @@ class ApiCalls {
         'uploadedFile',
         picStream,
         length,
-        filename: selectedImage.path.split('/').last,
+        filename: selectedImage.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -237,8 +241,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> addEnterpriseProfile(
-      String dob,
+  Future<AddIndividualProfileResponseModel> addEnterpriseProfile(String dob,
       String mobile,
       String email,
       String fName,
@@ -265,7 +268,9 @@ class ApiCalls {
         'uploadedFile',
         picStream,
         length,
-        filename: selectedImage.path.split('/').last,
+        filename: selectedImage.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -299,8 +304,8 @@ class ApiCalls {
     }
   }
 
-  resetPassword(
-      String email, String password, BuildContext buildContext) async {
+  resetPassword(String email, String password,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(
         false,
         "${UrlConstants.resetPassword}$email/$password",
@@ -316,8 +321,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> editPatient(
-      String dob,
+  Future<AddIndividualProfileResponseModel> editPatient(String dob,
       String mobile,
       String email,
       String fName,
@@ -326,22 +330,22 @@ class ApiCalls {
       String gender,
       File? patientPic,
       BuildContext? context,
-      String pId,
-      String id,
-      String contactId,
-      String? bloodGroup) async {
-    var request = http.MultipartRequest(
+      String bloodGroup, String userID, String contactId, String id,
+      ) async {
+        var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addIndividualProfile));
+    print("case1");
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Firstname'] = fName;
     request.fields['Contact.LastName'] = lName;
-    request.fields['Contact.Gender'] = gender.toString();
-    request.fields['UserId'] = pId;
+    request.fields['Contact.Gender'] = gender;
+    request.fields['UserId'] = userID;
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;
-    request.fields['Contact.BloodGroup'] = bloodGroup.toString();
+    request.fields['Contact.BloodGroup'] = bloodGroup;
+    print("case2");
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -349,7 +353,9 @@ class ApiCalls {
         'uploadedFile',
         picStream,
         length,
-        filename: patientPic.path.split('/').last,
+        filename: patientPic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -357,12 +363,16 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
+    print("case3");
     print(request.fields);
     var response = await request.send();
+    print("case4");
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
       log(responseJson.toString());
+      print("case5");
+      print(response.statusCode);
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -383,8 +393,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> editEnterprise(
-      String email,
+  Future<AddIndividualProfileResponseModel> editEnterprise(String email,
       String fName,
       String lName,
       String dob,
@@ -392,7 +401,7 @@ class ApiCalls {
       String mobile,
       String gender,
       File? patientPic,
-      BuildContext? context) async {
+      BuildContext? context, String bloodGroup, String eUserId,String id, String contactId) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -401,8 +410,10 @@ class ApiCalls {
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
-    request.fields['EnterpriseUserId'] =
-        prefModel.userData!.enterpriseUserId.toString();
+    request.fields['EnterpriseUserId'] =eUserId;
+    request.fields['Contact.BloodGroup'] =bloodGroup;
+    request.fields['Id'] =id;
+    request.fields['Contact.Id'] =contactId;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -410,7 +421,9 @@ class ApiCalls {
         'uploadedFile',
         picStream,
         length,
-        filename: patientPic.path.split('/').last,
+        filename: patientPic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -447,7 +460,8 @@ class ApiCalls {
   Future<AllPatientsResponseModel> getMyIndividualUsers(
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
-        "${UrlConstants.getIndividualProfiles}/GetAllByUserId${prefModel.userData!.id}");
+        "${UrlConstants.getIndividualProfiles}/GetAllByUserId${prefModel
+            .userData!.id}");
     log(response.body);
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
@@ -460,7 +474,8 @@ class ApiCalls {
   Future<AllEnterpriseUsersResponseModel> getMyEnterpriseUsers(
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
-        "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.enterpriseUserId}");
+        "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel
+            .userData!.enterpriseUserId}");
     log(response.body);
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
@@ -471,11 +486,11 @@ class ApiCalls {
     }
   }
 
-  Future<IndividualResponseModel> getIndividualUserData(
-      String? pId, BuildContext context) async {
+  Future<IndividualResponseModel> getIndividualUserData(String? pId,
+      BuildContext context) async {
     print("${UrlConstants.getIndividualProfiles}/${pId}");
     http.Response response =
-        await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
+    await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
     log(response.body);
     if (response.statusCode == 200) {
       return IndividualResponseModel.fromJson(json.decode(response.body));
@@ -486,11 +501,11 @@ class ApiCalls {
     }
   }
 
-  Future<EnterpriseResponseModel> getEnterpriseUserData(
-      String? eId, BuildContext context) async {
+  Future<EnterpriseResponseModel> getEnterpriseUserData(String? eId,
+      BuildContext context) async {
     print("${UrlConstants.getEnterpriseProfiles}/${eId}");
     http.Response response =
-        await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/${eId}");
+    await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/${eId}");
     log(response.body);
     if (response.statusCode == 200) {
       return EnterpriseResponseModel.fromJson(json.decode(response.body));
@@ -501,8 +516,8 @@ class ApiCalls {
     }
   }
 
-  Future<AddDeviceResponseModel> addDevice(
-      String type, String serialNo, BuildContext context) async {
+  Future<AddDeviceResponseModel> addDevice(String type, String serialNo,
+      BuildContext context) async {
     http.Response response = await hitApiPost(
         true,
         "${UrlConstants.userAndDevice}",
@@ -529,7 +544,7 @@ class ApiCalls {
 
   Future<DurationResponseModel> getAllDurations() async {
     http.Response response =
-        await hitApiGet(true, UrlConstants.getAllDurations);
+    await hitApiGet(true, UrlConstants.getAllDurations);
     print(response.body);
     if (response.statusCode == 200) {
       return DurationResponseModel.fromJson(json.decode(response.body));
@@ -546,7 +561,9 @@ class ApiCalls {
       if (response.statusCode == 200) {
         // Create a temporary file
         File tempFile = File(
-            '${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+            '${Directory.systemTemp.path}/temp_image_${DateTime
+                .now()
+                .millisecondsSinceEpoch}.jpg');
 
         // Write the image data to the temporary file
         await tempFile.writeAsBytes(response.bodyBytes);
@@ -563,8 +580,7 @@ class ApiCalls {
     }
   }
 
-  Future<EditProfileResponseModel> editIndividualProfile(
-      String fName,
+  Future<EditProfileResponseModel> editIndividualProfile(String fName,
       String lName,
       String mobile,
       String bloodGroup,
@@ -588,7 +604,9 @@ class ApiCalls {
         'profilePic',
         picStream,
         length,
-        filename: profilePic.path.split('/').last,
+        filename: profilePic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -620,5 +638,23 @@ class ApiCalls {
       showErrorToast(context, "Something went wrong");
       throw "could not add the profile ${response.statusCode}";
     }
+  }
+
+  Future<SendOtpResponseModel> sendOtpToChangePassword(String? email,
+      BuildContext context) async {
+    http.Response response = await hitApiPost(
+        false, UrlConstants.sendOtpToRegister + email!,
+        jsonEncode({"email": email}));
+    print("==============");
+    print(response.body);
+    print(UrlConstants.sendOtpToRegister + email);
+    if (response.statusCode == 200) {
+      return SendOtpResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
+      throw "could not sent otp ${response.statusCode}";
+    }
+
   }
 }

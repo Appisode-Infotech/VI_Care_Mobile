@@ -28,8 +28,10 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController addNewPatientAddressController =
       TextEditingController();
   String? addNewPatientGender;
+  String? addPatientBloodGroup;
   File? addPatientSelectedImage;
   BuildContext? addNewPatientContext;
+
 
   clearAddPatientForm() {
     addNewPatientDobController.clear();
@@ -39,6 +41,7 @@ class PatientProvider extends ChangeNotifier {
     addNewPatientLastNameController.clear();
     addNewPatientAddressController.clear();
     addNewPatientGender = null;
+    addPatientBloodGroup = null;
     addPatientSelectedImage = null;
     notifyListeners();
   }
@@ -53,6 +56,7 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController editPatientLastNameController = TextEditingController();
   TextEditingController editPatientAddressController = TextEditingController();
   String? editPatientGender;
+  String? editPatientBloodGroup;
   int? selectedGender;
   File? editPatientSelectedImage;
   BuildContext? editPatientPageContext;
@@ -65,6 +69,7 @@ class PatientProvider extends ChangeNotifier {
     editPatientLastNameController.clear();
     editPatientAddressController.clear();
     editPatientGender = null;
+    editPatientBloodGroup = null;
     editPatientSelectedImage = null;
     notifyListeners();
   }
@@ -90,7 +95,8 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientAddressController.text,
               addNewPatientGender!,
               addPatientSelectedImage,
-              addNewPatientContext!);
+              addNewPatientContext!,
+              addPatientBloodGroup!);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -126,7 +132,9 @@ class PatientProvider extends ChangeNotifier {
       editPatientFirstNameController.text = individualPatientData!.result!.firstName!;
       editPatientLastNameController.text = individualPatientData!.result!.lastName!;
       editPatientAddressController.text = individualPatientData!.result!.contact!.address.toString();
+      editPatientAddressController.text = individualPatientData!.result!.contact!.address.toString();
       editPatientGender = individualPatientData!.result!.contact!.gender==1?"Male":individualPatientData!.result!.contact!.gender==2?"Female":"Do not wish to specify";
+      editPatientBloodGroup = individualPatientData!.result!.contact!.bloodGroup;
       editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData!.result!.profilePicture!.url!);
       notifyListeners();
       Navigator.pop(context);
@@ -139,6 +147,7 @@ class PatientProvider extends ChangeNotifier {
       editPatientLastNameController.text = enterpriseUserData!.result!.lastName!;
       editPatientAddressController.text = enterpriseUserData!.result!.contact!.address;
       editPatientGender = enterpriseUserData!.result!.contact!.gender.toString();
+      editPatientBloodGroup = individualPatientData!.result!.contact!.bloodGroup;
       editPatientSelectedImage = addPatientSelectedImage;
       notifyListeners();
       Navigator.pop(context);
@@ -156,14 +165,14 @@ class PatientProvider extends ChangeNotifier {
           editPatientLastNameController.text,
           editPatientAddressController.text,
           editPatientGender!,
-          editPatientSelectedImage!,
+        editPatientSelectedImage!,
           editPatientPageContext!,
-        individualPatientData!.result!.id.toString(),
-        individualPatientData!.result!.contact!.id.toString(),
-        individualPatientData!.result!.id.toString(),
-        individualPatientData!.result!.contact!.bloodGroup,
+        editPatientBloodGroup!,
+        individualPatientData!.result!.userId.toString(),
+        individualPatientData!.result!.contactId.toString(),
+        individualPatientData!.result!.id.toString()
       );
-      if (response.result != null) {
+    if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);
         Navigator.pop(editPatientPageContext!);
@@ -179,7 +188,12 @@ class PatientProvider extends ChangeNotifier {
               editPatientMobileController.text,
               editPatientGender!,
               editPatientSelectedImage!,
-              editPatientPageContext!);
+              editPatientPageContext!,
+            editPatientBloodGroup!,
+              enterpriseUserData!.result!.enterpriseUserId.toString(),
+            enterpriseUserData!.result!.id.toString(),
+            enterpriseUserData!.result!.contactId.toString()
+          );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);

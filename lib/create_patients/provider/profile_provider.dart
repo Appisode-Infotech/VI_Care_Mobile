@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:vicare/utils/app_buttons.dart';
-
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
 
@@ -77,19 +77,32 @@ class ProfileProvider extends ChangeNotifier {
 
 
   void editProfile() {
-    apiCalls.editIndividualProfile(
+    if(prefModel.userData!.roleId==2) {
+      apiCalls.editIndividualProfile(
         editProfileFirstNameController.text,
-      editProfileLastNameController.text,
-      editProfileContactNumberController.text,
-      editProfileBloodGroup!,
-      editProfileGender!,
-      editProfileDobController.text,
-      editProfileSelectedImage!,
-      editProfilePageContext!,
-      prefModel.userData!.id,
-      prefModel.userData!.contactId,
-
-    );
+        editProfileLastNameController.text,
+        editProfileContactNumberController.text,
+        editProfileBloodGroup!,
+        editProfileGender!,
+        editProfileDobController.text,
+        editProfileSelectedImage!,
+        editProfilePageContext!,
+        prefModel.userData!.id,
+        prefModel.userData!.contactId,
+      );
+    }else{
+      // apiCalls.editEnterpriseProfile(
+      //     editProfileFirstNameController.text,
+      //     editProfileLastNameController.text,
+      //     editProfileContactNumberController.text,
+      //     editProfileBloodGroup!,
+      //     editProfileGender!,
+      //     editProfileDobController.text,
+      //     editProfileSelectedImage!,
+      //     editProfilePageContext!,
+      //     prefModel.userData!.id,
+      //     prefModel.userData!.contactId
+      // );
+      }
   }
-
 }

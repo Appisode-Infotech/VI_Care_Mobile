@@ -523,6 +523,52 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
+        Text(AppLocale.bloodGroup.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField<String>(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return AppLocale.validBloodGroup.getString(context);
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                color: Color(0xffD3D3D3),
+              ),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            focusColor: Colors.transparent,
+            errorStyle: TextStyle(color: Colors.red.shade400),
+          ),
+          dropdownColor: Colors.white,
+          hint: Text(AppLocale.bloodGroup.getString(context)),
+          value: patientProvider.addPatientBloodGroup,
+          onChanged: (String? value) {
+            setState(() {
+              patientProvider.addPatientBloodGroup = value!;
+            });
+          },
+          style: const TextStyle(color: Colors.black),
+          items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         Text(AppLocale.address.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
