@@ -121,7 +121,7 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<void> resetNewPassword(BuildContext context) async {
     ResetPasswordResponseModel response = await apiCalls.resetNewPassword(
-      changePasswordIsShowPassword,changePasswordIsConfirmPassword,prefModel.userData!.email,context
+      changePasswordIsShowPassword,prefModel.userData!.email,context
     );
     if (response.result != null && response.result == true) {
       Navigator.pop(changePasswordPageContext!);

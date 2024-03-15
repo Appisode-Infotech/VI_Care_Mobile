@@ -151,25 +151,28 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
         GestureDetector(
           onTap: () {
-            showImageSourceDialog(context,
-                onOptionSelected: (value) async {
-                  if (value == 'Camera') {
-                    final image = await ImagePicker()
-                        .pickImage(source: ImageSource.camera);
-                    if (image != null) {
-                      setState(() {
-                        patientProvider.addPatientSelectedImage =
-                            File(image.path);
-                      });
-                    }
-                  } else if (value == 'Gallery') {
-                    final image = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    if (image != null) {
-                      setState(() {
-                        patientProvider.addPatientSelectedImage =
-                            File(image.path);
-                      });
+            showImageSourceDialog(context, onOptionSelected: (value) async {
+              if (value == 'Camera') {
+                final image =
+                await ImagePicker().pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  File? croppedImage = await cropImage(image.path);
+                  if (croppedImage != null) {
+                    setState(() {
+                      patientProvider.addPatientSelectedImage = croppedImage;
+                    });
+                  }
+                }
+              } else if (value == 'Gallery') {
+                final image =
+                await ImagePicker().pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  File? croppedImage = await cropImage(image.path);
+                  if (croppedImage != null) {
+                    setState(() {
+                      patientProvider.addPatientSelectedImage = croppedImage;
+                    });
+                  }
                     }
                   }
                 });
@@ -197,34 +200,28 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         backgroundColor: AppColors.primaryColor,
                         child: IconButton(
                             onPressed: () {
-                              showImageSourceDialog(context,
-                                  onOptionSelected:
-                                      (value) async {
-                                    if (value == 'Camera') {
-                                      final image =
-                                      await ImagePicker()
-                                          .pickImage(
-                                          source: ImageSource
-                                              .camera);
-                                      if (image != null) {
-                                        setState(() {
-                                          patientProvider
-                                              .addPatientSelectedImage =
-                                              File(image.path);
-                                        });
-                                      }
-                                    } else if (value == 'Gallery') {
-                                      final image =
-                                      await ImagePicker()
-                                          .pickImage(
-                                          source: ImageSource
-                                              .gallery);
-                                      if (image != null) {
-                                        setState(() {
-                                          patientProvider
-                                              .addPatientSelectedImage =
-                                              File(image.path);
-                                        });
+                              showImageSourceDialog(context, onOptionSelected: (value) async {
+                                if (value == 'Camera') {
+                                  final image =
+                                  await ImagePicker().pickImage(source: ImageSource.camera);
+                                  if (image != null) {
+                                    File? croppedImage = await cropImage(image.path);
+                                    if (croppedImage != null) {
+                                      setState(() {
+                                        patientProvider.addPatientSelectedImage = croppedImage;
+                                      });
+                                    }
+                                  }
+                                } else if (value == 'Gallery') {
+                                  final image =
+                                  await ImagePicker().pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    File? croppedImage = await cropImage(image.path);
+                                    if (croppedImage != null) {
+                                      setState(() {
+                                        patientProvider.addPatientSelectedImage = croppedImage;
+                                      });
+                                    }
                                       }
                                     }
                                   });

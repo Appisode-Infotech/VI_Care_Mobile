@@ -17,11 +17,11 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, ProfileProvider profileProvider, Widget? child) {
+      builder: (BuildContext context, ProfileProvider profileProvider,
+          Widget? child) {
         profileProvider.editProfilePageContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -59,19 +59,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               final image = await ImagePicker()
                                   .pickImage(source: ImageSource.camera);
                               if (image != null) {
-                                setState(() {
-                                  profileProvider.editProfileSelectedImage =
-                                      File(image.path);
-                                });
+                                File? croppedImage =
+                                    await cropImage(image.path);
+                                if (croppedImage != null) {
+                                  setState(() {
+                                    profileProvider.editProfileSelectedImage =
+                                        croppedImage;
+                                  });
+                                }
                               }
                             } else if (value == 'Gallery') {
                               final image = await ImagePicker()
                                   .pickImage(source: ImageSource.gallery);
                               if (image != null) {
-                                setState(() {
-                                  profileProvider.editProfileSelectedImage =
-                                      File(image.path);
-                                });
+                                File? croppedImage =
+                                    await cropImage(image.path);
+                                if (croppedImage != null) {
+                                  setState(() {
+                                    profileProvider.editProfileSelectedImage =
+                                        croppedImage;
+                                  });
+                                }
                               }
                             }
                           });
@@ -83,9 +91,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 radius: 50,
                                 backgroundColor: Colors.grey.shade300,
                                 backgroundImage:
-                                profileProvider.editProfileSelectedImage != null
-                                        ? FileImage(
-                                    profileProvider.editProfileSelectedImage!)
+                                    profileProvider.editProfileSelectedImage !=
+                                            null
+                                        ? FileImage(profileProvider
+                                            .editProfileSelectedImage!)
                                         : null,
                               ),
                               const SizedBox(
@@ -109,11 +118,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                             source: ImageSource
                                                                 .camera);
                                                 if (image != null) {
-                                                  setState(() {
-                                                    profileProvider
-                                                            .editProfileSelectedImage =
-                                                        File(image.path);
-                                                  });
+                                                  File? croppedImage =
+                                                      await cropImage(
+                                                          image.path);
+                                                  if (croppedImage != null) {
+                                                    setState(() {
+                                                      profileProvider
+                                                              .editProfileSelectedImage =
+                                                          croppedImage;
+                                                    });
+                                                  }
                                                 }
                                               } else if (value == 'Gallery') {
                                                 final image =
@@ -122,11 +136,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                             source: ImageSource
                                                                 .gallery);
                                                 if (image != null) {
-                                                  setState(() {
-                                                    profileProvider
-                                                            .editProfileSelectedImage =
-                                                        File(image.path);
-                                                  });
+                                                  File? croppedImage =
+                                                      await cropImage(
+                                                          image.path);
+                                                  if (croppedImage != null) {
+                                                    setState(() {
+                                                      profileProvider
+                                                              .editProfileSelectedImage =
+                                                          croppedImage;
+                                                    });
+                                                  }
                                                 }
                                               }
                                             });
@@ -148,7 +167,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: profileProvider.editProfileFirstNameController,
+                        controller:
+                            profileProvider.editProfileFirstNameController,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -189,7 +209,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller:profileProvider.editProfileLastNameController,
+                        controller:
+                            profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -220,13 +241,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               vertical: 15, horizontal: 10),
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Text(AppLocale.contactNumber.getString(context),
                           style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(height: 10),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: profileProvider.editProfileContactNumberController,
+                        controller:
+                            profileProvider.editProfileContactNumberController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validContact.getString(context);
@@ -243,20 +267,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.contactNumber.getString(context),
-                          hintStyle: const TextStyle(fontSize: 15, color: Colors.grey),
+                          hintStyle:
+                              const TextStyle(fontSize: 15, color: Colors.grey),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: AppColors.primaryColor),
+                            borderSide:
+                                const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                          const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                       ),
                       const SizedBox(
@@ -284,32 +311,42 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               color: Color(0xffD3D3D3),
                             ),
                           ),
-                          contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 16),
                           focusColor: Colors.transparent,
                           errorStyle: TextStyle(color: Colors.red.shade400),
                         ),
                         dropdownColor: Colors.white,
                         hint: Text(AppLocale.bloodGroup.getString(context)),
-                        value:profileProvider.editProfileBloodGroup,
+                        value: profileProvider.editProfileBloodGroup,
                         onChanged: (String? value) {
                           setState(() {
-                            profileProvider.editProfileBloodGroup= value!;
+                            profileProvider.editProfileBloodGroup = value!;
                           });
                         },
                         style: const TextStyle(color: Colors.black),
-                        items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
-                            .map<DropdownMenuItem<String>>((String value) {
+                        items: <String>[
+                          "O+ve",
+                          "AB+ve",
+                          "B+ve",
+                          "O-ve",
+                          "A+ve",
+                          "A-ve"
+                        ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Text(AppLocale.gender.getString(context),
                           style: const TextStyle(fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           errorMaxLines: 2,
@@ -330,14 +367,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         value: profileProvider.editProfileGender,
                         onChanged: (String? value) {
                           setState(() {
-                            profileProvider.selectedGender= value ==
-                                "Male" ? 1 : value == "Female" ? 2 : value == "Do not wish to specify" ? 3 :0;
+                            profileProvider.selectedGender = value == "Male"
+                                ? 1
+                                : value == "Female"
+                                    ? 2
+                                    : value == "Do not wish to specify"
+                                        ? 3
+                                        : 0;
                             profileProvider.editProfileGender = value!;
                           });
                         },
                         style: const TextStyle(color: Colors.black),
                         items: <String>[
-                         "Male",
+                          "Male",
                           "Female",
                           "Do not wish to specify"
                         ].map<DropdownMenuItem<String>>((String value) {
@@ -374,12 +416,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       lastDate: DateTime.now(),
                                     );
                                     setState(() {
-                                      profileProvider.editProfileDobController.text =
+                                      profileProvider
+                                              .editProfileDobController.text =
                                           "${picked!.year} - ${picked.month} - ${picked.day}";
                                     });
                                   },
                                   child: TextFormField(
-                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
@@ -411,7 +455,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           .getString(context),
                                       fillColor: Colors.white,
                                     ),
-                                    controller: profileProvider.editProfileDobController,
+                                    controller: profileProvider
+                                        .editProfileDobController,
                                     textInputAction: TextInputAction.done,
                                   ),
                                 ),

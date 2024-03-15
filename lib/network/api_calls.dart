@@ -304,33 +304,21 @@ class ApiCalls {
     }
   }
 
-  Future<ResetPasswordResponseModel> resetPassword(BuildContext? forgotPageContext, String email, String password) async {
+
+  resetPassword(
+      String email, String password, BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
-              jsonEncode({"Email": email, "NewPassword": password}));
+        jsonEncode({"Email": email, "NewPassword": password}));
+    print(jsonEncode({"Email": email, "NewPassword": password}));
     log(response.body);
-      print(jsonEncode({"Email": email, "NewPassword": password}));
-    if(response.statusCode==200) {
+    if (response.statusCode == 200) {
       return ResetPasswordResponseModel.fromJson(json.decode(response.body));
-    }else{
-      showErrorToast(forgotPageContext!, "Something went wrong");
-          throw "could not reset password${response.statusCode}";
+    } else {
+      Navigator.pop(buildContext);
+      showErrorToast(buildContext, "Something went wrong");
+      throw "could not reset password ${response.statusCode}";
     }
   }
-
-  // resetPassword(
-  //     String email, String password, BuildContext buildContext) async {
-  //   http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
-  //       jsonEncode({"Email": email, "NewPassword": password}));
-  //   log(response.body);
-  //   print(jsonEncode({"Email": email, "NewPassword": password}));
-  //   if (response.statusCode == 200) {
-  //     return ResetPasswordResponseModel.fromJson(json.decode(response.body));
-  //   } else {
-  //     Navigator.pop(buildContext);
-  //     showErrorToast(buildContext, "Something went wrong");
-  //     throw "could not reset password${response.statusCode}";
-  //   }
-  // }
 
   Future<AddIndividualProfileResponseModel> editPatient(
     String dob,
@@ -671,31 +659,18 @@ class ApiCalls {
     }
   }
 
-  Future<ResetPasswordResponseModel> resetNewPassword(
-      bool changePasswordIsShowPassword,
-      bool changePasswordIsConfirmPassword,
-      String? email,
-      BuildContext context) async {
-    http.Response response = await hitApiPost(
-        false,
-        UrlConstants.resetPassword,
-        jsonEncode({
-          "Email": email,
-          "NewPassword": changePasswordIsShowPassword,
-          "confirmPassword": changePasswordIsConfirmPassword
-        }));
-    print("${UrlConstants.resetPassword}");
-    print({
-      "Email": email,
-      "NewPassword": changePasswordIsShowPassword,
-      "confirmPassword": changePasswordIsConfirmPassword
-    });
-    if (response.statusCode == 200) {
+  Future<ResetPasswordResponseModel> resetNewPassword(bool password, String? changePswEmail, BuildContext context
+    ) async {
+    http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
+        jsonEncode({"Email": changePswEmail, "NewPassword": password}));
+    log(response.body);
+    print(jsonEncode({"Email": changePswEmail, "NewPassword": password}));
+    if(response.statusCode==200) {
+      print("case2");
       return ResetPasswordResponseModel.fromJson(json.decode(response.body));
-    } else {
-      // Navigator.pop(context);
-      showErrorToast(context, "Something went wrong");
-      throw "could not reset password${response.statusCode}";
+    }else{
+      showErrorToast(context!, "Something went wrong");
+      throw "could not reset password ${response.statusCode}";
     }
   }
 
