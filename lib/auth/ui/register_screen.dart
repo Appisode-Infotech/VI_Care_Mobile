@@ -130,9 +130,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .registerFormKey.currentState!
                                               .validate()) {
                                             if (currentStep == 1) {
-                                              SendOtpResponseModel response= await authProvider.sendOtp();
-                                              authProvider.otpReceived=response.result!.otp;
-                                              authProvider.registerOtpController.clear();
+                                              SendOtpResponseModel response =
+                                                  await authProvider.sendOtp();
+                                              authProvider.otpReceived =
+                                                  response.result!.otp;
+                                              authProvider.registerOtpController
+                                                  .clear();
                                               setState(() {
                                                 currentStep = currentStep + 1;
                                               });
@@ -141,12 +144,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   authProvider
                                                       .registerOtpController
                                                       .text) {
-                                                showSuccessToast(context, "Otp verified successfully");
+                                                showSuccessToast(context,
+                                                    "Otp verified successfully");
                                                 setState(() {
                                                   currentStep = currentStep + 1;
                                                 });
                                               } else {
-                                                showErrorToast(context, "Invalid Otp");
+                                                showErrorToast(
+                                                    context, "Invalid Otp");
                                                 // show error toast invalid otp
                                               }
                                             }
@@ -686,7 +691,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           value: authProvider.gender,
           onChanged: (String? value) {
             setState(() {
-              authProvider.selectedGender = value=="Male"?1:value=="Female"?2:value=="Do not wish to specify"?3:0;
+              authProvider.selectedGender = value == "Male"
+                  ? 1
+                  : value == "Female"
+                      ? 2
+                      : value == "Do not wish to specify"
+                          ? 3
+                          : 0;
               authProvider.gender = value!;
             });
           },
@@ -787,42 +798,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // GestureDetector(
-            //   onTap: () {
-            //     setState(() {
-            //       rememberMe = !rememberMe;
-            //     });
-            //   },
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       shape: BoxShape.rectangle,
-            //       border: Border.all(
-            //         // color: Colors.blue,
-            //         width: 2,
-            //       ),
-            //     ),
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(0.6),
-            //       child: rememberMe
-            //           ? const Icon(
-            //               Icons.check,
-            //               size: 10,
-            //             )
-            //           : Container(
-            //               width: 10,
-            //               height: 10,
-            //               decoration: BoxDecoration(
-            //                 shape: BoxShape.circle,
-            //                 border: Border.all(
-            //                   color: Colors.transparent,
-            //                 ),
-            //               ),
-            //             ),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(width: 10),
-            Container(
+            SizedBox(
               width: screenSize!.width - 40,
               child: Text.rich(
                 TextSpan(
