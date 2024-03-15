@@ -141,7 +141,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                                     image.path);
                                                           });
                                                         }
-                                                      } else if (value ==
+                                                      }
+                                                      // Gallery
+                                                      else if (value ==
                                                           'Gallery') {
                                                         final image =
                                                             await ImagePicker()
