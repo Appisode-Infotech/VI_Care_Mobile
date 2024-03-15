@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
@@ -191,6 +194,34 @@ showLoaderDialog(BuildContext context) {
           ),
         );
       });
+}
+
+Future<File?> cropImage(String imagePath) async {
+  File? croppedImage;
+  try {
+    croppedImage = await ImageCropper().cropImage(
+      sourcePath: imagePath,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9,
+      ],
+      androidUiSettings: AndroidUiSettings(
+        toolbarColor: AppColors.primaryColor,
+        toolbarTitle: 'Crop Image',
+        statusBarColor: AppColors.primaryColor,
+        backgroundColor: Colors.white,
+      ),
+      iosUiSettings: IOSUiSettings(
+        minimumAspectRatio: 1.0,
+      ),
+    );
+  } catch (e) {
+    print('Error cropping image: $e');
+  }
+  return croppedImage;
 }
 
 Future<bool> showStopTestWarningDialog(BuildContext context) async {

@@ -409,24 +409,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         GestureDetector(
           onTap: () {
             showImageSourceDialog(context, onOptionSelected: (value) async {
-              showLoaderDialog(context);
               if (value == 'Camera') {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.camera);
-                Navigator.pop(context);
                 if (image != null) {
-                  setState(() {
-                    authProvider.registerSelectedImage = File(image.path);
-                  });
+                  File? croppedImage = await cropImage(image.path);
+                  if (croppedImage != null) {
+                    setState(() {
+                      authProvider.registerSelectedImage = croppedImage;
+                    });
+                  }
                 }
               } else if (value == 'Gallery') {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.gallery);
-                Navigator.pop(context);
                 if (image != null) {
-                  setState(() {
-                    authProvider.registerSelectedImage = File(image.path);
-                  });
+                  File? croppedImage = await cropImage(image.path);
+                  if (croppedImage != null) {
+                    setState(() {
+                      authProvider.registerSelectedImage = croppedImage;
+                    });
+                  }
                 }
               }
             });
@@ -458,19 +461,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.camera);
                                   if (image != null) {
-                                    setState(() {
-                                      authProvider.registerSelectedImage =
-                                          File(image.path);
-                                    });
+                                    File? croppedImage =
+                                        await cropImage(image.path);
+                                    if (croppedImage != null) {
+                                      setState(() {
+                                        authProvider.registerSelectedImage =
+                                            croppedImage;
+                                      });
+                                    }
                                   }
                                 } else if (value == 'Gallery') {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
-                                    setState(() {
-                                      authProvider.registerSelectedImage =
-                                          File(image.path);
-                                    });
+                                    File? croppedImage =
+                                        await cropImage(image.path);
+                                    if (croppedImage != null) {
+                                      setState(() {
+                                        authProvider.registerSelectedImage =
+                                            croppedImage;
+                                      });
+                                    }
                                   }
                                 }
                               });
@@ -863,3 +874,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
+
+

@@ -197,11 +197,13 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<ResetPasswordResponseModel> resetPassword() async {
+  Future <ResetPasswordResponseModel> resetPassword() async {
+    showLoaderDialog(forgotPageContext!);
     ResetPasswordResponseModel response = await apiCalls.resetPassword(
-        forgotPageContext, forgotPasswordEmailController.text,
-        forgotPasswordNewPasswordController.text
-    );
+        forgotPasswordEmailController.text,
+        forgotPasswordNewPasswordController.text,
+        forgotPageContext!);
+    print("case1");
     if (response.result != null && response.result == true) {
       Navigator.pop(forgotPageContext!);
       showSuccessToast(forgotPageContext!, response.message!);
@@ -212,4 +214,5 @@ class AuthProvider extends ChangeNotifier {
     }
     return response;
   }
+
 }

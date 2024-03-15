@@ -71,29 +71,28 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  showImageSourceDialog(context,
-                                      onOptionSelected: (value) async {
+                                  showImageSourceDialog(context, onOptionSelected: (value) async {
                                     if (value == 'Camera') {
-                                      final image = await ImagePicker()
-                                          .pickImage(
-                                              source: ImageSource.camera);
+                                      final image =
+                                      await ImagePicker().pickImage(source: ImageSource.camera);
                                       if (image != null) {
-                                        setState(() {
-                                          patientProvider
-                                                  .editPatientSelectedImage =
-                                              File(image.path);
-                                        });
+                                        File? croppedImage = await cropImage(image.path);
+                                        if (croppedImage != null) {
+                                          setState(() {
+                                            patientProvider.editPatientSelectedImage = croppedImage;
+                                          });
+                                        }
                                       }
                                     } else if (value == 'Gallery') {
-                                      final image = await ImagePicker()
-                                          .pickImage(
-                                              source: ImageSource.gallery);
+                                      final image =
+                                      await ImagePicker().pickImage(source: ImageSource.gallery);
                                       if (image != null) {
-                                        setState(() {
-                                          patientProvider
-                                                  .editPatientSelectedImage =
-                                              File(image.path);
-                                        });
+                                        File? croppedImage = await cropImage(image.path);
+                                        if (croppedImage != null) {
+                                          setState(() {
+                                            patientProvider.editPatientSelectedImage = croppedImage;
+                                          });
+                                        }
                                       }
                                     }
                                   });
@@ -123,40 +122,28 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                   AppColors.primaryColor,
                                               child: IconButton(
                                                   onPressed: () {
-                                                    showImageSourceDialog(
-                                                        context,
-                                                        onOptionSelected:
-                                                            (value) async {
+                                                    showImageSourceDialog(context, onOptionSelected: (value) async {
                                                       if (value == 'Camera') {
                                                         final image =
-                                                            await ImagePicker()
-                                                                .pickImage(
-                                                                    source: ImageSource
-                                                                        .camera);
+                                                        await ImagePicker().pickImage(source: ImageSource.camera);
                                                         if (image != null) {
-                                                          setState(() {
-                                                            patientProvider
-                                                                    .editPatientSelectedImage =
-                                                                File(
-                                                                    image.path);
-                                                          });
+                                                          File? croppedImage = await cropImage(image.path);
+                                                          if (croppedImage != null) {
+                                                            setState(() {
+                                                              patientProvider.editPatientSelectedImage = croppedImage;
+                                                            });
+                                                          }
                                                         }
-                                                      }
-                                                      // Gallery
-                                                      else if (value ==
-                                                          'Gallery') {
+                                                      } else if (value == 'Gallery') {
                                                         final image =
-                                                            await ImagePicker()
-                                                                .pickImage(
-                                                                    source: ImageSource
-                                                                        .gallery);
+                                                        await ImagePicker().pickImage(source: ImageSource.gallery);
                                                         if (image != null) {
-                                                          setState(() {
-                                                            patientProvider
-                                                                    .editPatientSelectedImage =
-                                                                File(
-                                                                    image.path);
-                                                          });
+                                                          File? croppedImage = await cropImage(image.path);
+                                                          if (croppedImage != null) {
+                                                            setState(() {
+                                                              patientProvider.editPatientSelectedImage = croppedImage;
+                                                            });
+                                                          }
                                                         }
                                                       }
                                                     });
