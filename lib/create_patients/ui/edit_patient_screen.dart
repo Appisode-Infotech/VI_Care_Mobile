@@ -1046,62 +1046,101 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.address.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Text(AppLocale.bloodGroup.getString(context),
+                                  style: const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
-                              TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
+                              DropdownButtonFormField<String>(
                                 validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.validAddress
-                                        .getString(context);
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.validBloodGroup.getString(context);
                                   }
                                   return null;
                                 },
-                                controller: patientProvider
-                                    .editPatientAddressController,
-                                keyboardType: TextInputType.streetAddress,
-                                maxLines: 3,
                                 decoration: InputDecoration(
-                                  errorMaxLines: 2,
-                                  fillColor: Colors.white,
                                   filled: true,
-                                  hintText:
-                                      AppLocale.address.getString(context),
-                                  counterText: "",
-                                  isCollapsed: true,
-                                  errorStyle:
-                                      const TextStyle(color: Colors.red),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primaryColor),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
+                                  fillColor: Colors.white,
                                   border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
-                                        color: Colors.black, width: 2),
-                                    borderRadius: BorderRadius.circular(8),
+                                      color: Color(0xffD3D3D3),
+                                    ),
                                   ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
+                                  contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                                  focusColor: Colors.transparent,
+                                  errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
+                                dropdownColor: Colors.white,
+                                hint: Text(AppLocale.bloodGroup.getString(context)),
+                                value: patientProvider.editPatientBloodGroup,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    patientProvider.editPatientBloodGroup = value!;
+                                  });
+                                },
+                                style: const TextStyle(color: Colors.black),
+                                items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
                               ),
+                              // Text(AppLocale.address.getString(context),
+                              //     style: const TextStyle(
+                              //         fontWeight: FontWeight.w600)),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              // TextFormField(
+                              //   autovalidateMode:
+                              //       AutovalidateMode.onUserInteraction,
+                              //   textCapitalization:
+                              //       TextCapitalization.sentences,
+                              //   validator: (value) {
+                              //     if (value!.isEmpty) {
+                              //       return AppLocale.validAddress
+                              //           .getString(context);
+                              //     }
+                              //     return null;
+                              //   },
+                              //   controller: patientProvider
+                              //       .editPatientAddressController,
+                              //   keyboardType: TextInputType.streetAddress,
+                              //   maxLines: 3,
+                              //   decoration: InputDecoration(
+                              //     errorMaxLines: 2,
+                              //     fillColor: Colors.white,
+                              //     filled: true,
+                              //     hintText:
+                              //         AppLocale.address.getString(context),
+                              //     counterText: "",
+                              //     isCollapsed: true,
+                              //     errorStyle:
+                              //         const TextStyle(color: Colors.red),
+                              //     focusedBorder: OutlineInputBorder(
+                              //       borderSide: const BorderSide(
+                              //           color: AppColors.primaryColor),
+                              //       borderRadius: BorderRadius.circular(8),
+                              //     ),
+                              //     border: OutlineInputBorder(
+                              //       borderSide: const BorderSide(
+                              //           color: Colors.black, width: 2),
+                              //       borderRadius: BorderRadius.circular(8),
+                              //     ),
+                              //     contentPadding: const EdgeInsets.symmetric(
+                              //         vertical: 15, horizontal: 10),
+                              //   ),
+                              // ),
                               const SizedBox(height: 20),
                               getPrimaryAppButton(
                                   context, AppLocale.submit.getString(context),
                                   onPressed: () async {
                                 if (patientProvider.editPatientFormKey.currentState!.validate()) {
                                   patientProvider.editPatient();
-                                  if (patientProvider.addPatientSelectedImage != null) {
-                                    showErrorToast(context, "Please select an image");
-                                    return;
-                                  }
                                 }
                               }),
                             ],

@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vicare/utils/app_buttons.dart';
+import '../../auth/model/reset_password_response_model.dart';
+import '../../auth/model/send_otp_response_model.dart';
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
 
 class ProfileProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
+
 
   //edit profile declarations
   bool isNotValidContactNumber(String contactNumber) {
@@ -71,8 +74,11 @@ class ProfileProvider extends ChangeNotifier {
 
   //change password declaration
   final changePasswordFormKey = GlobalKey<FormState>();
+  TextEditingController changePasswordOtpController=TextEditingController();
+  String? otpReceived;
   bool changePasswordIsShowPassword = true;
   bool changePasswordIsConfirmPassword = true;
+  String?resetPasswordOtp ;
   BuildContext? changePasswordPageContext;
 
 
@@ -104,5 +110,26 @@ class ProfileProvider extends ChangeNotifier {
       //     prefModel.userData!.contactId
       // );
       }
+  }
+
+  Future<SendOtpResponseModel> changePassword(BuildContext context) async {
+    SendOtpResponseModel response = await apiCalls.sendOtpToChangePassword(
+      prefModel.userData!.email.toString(),context,changePasswordIsShowPassword
+    );
+   return response;
+  }
+
+  Future<void> resetNewPassword(BuildContext context) async {
+    ResetPasswordResponseModel response = await apiCalls.resetNewPassword(
+      changePasswordIsShowPassword,changePasswordIsConfirmPassword,prefModel.userData!.email,context
+    );
+    if (response.result != null && response.result == true) {
+      Navigator.pop(changePasswordPageContext!);
+      showSuccessToast(changePasswordPageContext!, response.message!);
+      // Navigator.pushNamedAndRemoveUntil(
+      //     changePasswordPageContext!, Routes.loginRoute, (route) => false);
+    } else {
+      showErrorToast(changePasswordPageContext!, response.message!);
+    }
   }
 }

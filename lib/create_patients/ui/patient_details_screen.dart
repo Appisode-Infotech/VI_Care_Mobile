@@ -594,13 +594,13 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // CircleAvatar(
-                          //   radius: 40,
-                          //   backgroundColor: Colors.grey,
-                          //   backgroundImage: NetworkImage(
-                          //       patientProvider.enterpriseUserData!.result!.profilePicture!.url!.toString()
-                          //   ),
-                          // ),
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: NetworkImage(
+                                patientProvider.enterpriseUserData!.result!.profilePicture!.url.toString()
+                            ),
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
@@ -622,20 +622,20 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 20),
                                 ),
-                                // Text(
-                                //   "${patientProvider.calculateAge(patientProvider.enterpriseUserData!.result!.contact!.doB.toString())} Years",
-                                //   style: const TextStyle(
-                                //       color: Colors.white,
-                                //       fontWeight: FontWeight.w600,
-                                //       fontSize: 18),
-                                // ),
-                                // Text(
-                                //   patientProvider.enterpriseUserData!.result!.contact!.gender==1?"Male":patientProvider.enterpriseUserData!.result!.contact!.gender==2?"Female":"Do not wish to specify",
-                                //   style: const TextStyle(
-                                //       color: Colors.white,
-                                //       fontWeight: FontWeight.w600,
-                                //       fontSize: 18),
-                                // ),
+                                Text(
+                                  "${patientProvider.calculateAge(patientProvider.enterpriseUserData!.result!.contact!.doB.toString())} Years",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  patientProvider.enterpriseUserData!.result!.contact!.gender==1?"Male":patientProvider.enterpriseUserData!.result!.contact!.gender==2?"Female":"Do not wish to specify",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
                                 const SizedBox(
                                   height: 5,
                                 ),
@@ -670,6 +670,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                           ),
                         ],
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,

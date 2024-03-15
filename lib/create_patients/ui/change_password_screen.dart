@@ -113,17 +113,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 ? getPrimaryAppButton(
                                 context, AppLocale.next.getString(context),
                                 onPressed: () async {
-                                  setState(() {
-                                    currentStep = currentStep + 1;
-                                  });
+                                  if (profileProvider.resetPasswordOtp ==
+                                      profileProvider.changePasswordOtpController.text) {
+                                    showSuccessToast(context, "Otp verified successfully");
+                                    setState(() {
+                                      currentStep = currentStep + 1;
+                                    });
+                                  } else {
+                                    showErrorToast(context, "Invalid Otp");
+                                  }
                                 })
                                 : getPrimaryAppButton(
                                 context, AppLocale.submit.getString(context),
                                 onPressed: () async {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, Routes.profileRoute, (
-                                      route) => false);
-                                }),
+                                  profileProvider.resetNewPassword(context);
+
+                                  // Navigator.pushNamedAndRemoveUntil(
+                                  //     context, Routes.profileRoute, (route) => false);
+                                }
+                            ),
                           ],
                         ),
                       ],
@@ -151,7 +159,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          // controller:changepasswordOtpController,
+          controller:profileProvider.changePasswordOtpController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);

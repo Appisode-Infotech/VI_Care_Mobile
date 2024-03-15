@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
+import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
@@ -19,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -228,7 +230,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 30,
                   ),
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      SendOtpResponseModel response = await profileProvider.changePassword(context);
+                      profileProvider.resetPasswordOtp = response.result!.otp;
+                      if (response.result != null) {
+                        showSuccessToast(context, response.message!);
+                      } else {
+                        showErrorToast(context, response.message!);
+                      }
+                      profileProvider.changePasswordOtpController.clear();
                       Navigator.pushNamed(context, Routes.changePasswordRoute);
                     },
                     child: Row(
