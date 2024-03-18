@@ -19,11 +19,18 @@ class DurationScreen extends StatefulWidget {
 }
 
 class _DurationScreenState extends State<DurationScreen> {
+
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<DeviceProvider>(context, listen: false).getAllDuration();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder:
-          (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
+      builder: (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -43,7 +50,7 @@ class _DurationScreenState extends State<DurationScreen> {
             ),
           ),
           body: FutureBuilder(
-            future: deviceProvider.getAllDuration(),
+            future: deviceProvider.allDurations,
             builder: (BuildContext context,
                 AsyncSnapshot<DurationResponseModel> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -58,9 +65,8 @@ class _DurationScreenState extends State<DurationScreen> {
                         Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 10),
-                          height: 100,
+                          height: 80,
                           width: screenSize!.width,
-                          padding: const EdgeInsets.all(8),
                           decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -69,9 +75,8 @@ class _DurationScreenState extends State<DurationScreen> {
                         Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 10),
-                          height: 100,
+                          height: 80,
                           width: screenSize!.width,
-                          padding: const EdgeInsets.all(8),
                           decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -80,9 +85,8 @@ class _DurationScreenState extends State<DurationScreen> {
                         Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 10),
-                          height: 100,
+                          height: 80,
                           width: screenSize!.width,
-                          padding: const EdgeInsets.all(8),
                           decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -142,9 +146,7 @@ class _DurationScreenState extends State<DurationScreen> {
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          child: const Divider());
+                      return const SizedBox.shrink();
                     });
               }
               if (snapshot.hasError) {

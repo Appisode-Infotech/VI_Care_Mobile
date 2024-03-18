@@ -21,11 +21,20 @@ class ManagePatientsScreen extends StatefulWidget {
 }
 
 class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<PatientProvider>(context, listen: false).getMyPatients();
+    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles();
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, PatientProvider patientProvider,
-          Widget? child) {
+      builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
+        patientProvider.relGetPatientContext = context;
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -47,8 +56,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
             child: prefModel.userData!.roleId == 2
                 ? FutureBuilder(
                     future: patientProvider.individualPatients,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<AllPatientsResponseModel> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                             width: screenSize!.width,
@@ -95,8 +103,13 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
-                                  Navigator.pushNamed(
-                                      context, Routes.addNewPatientRoute);
+                                  Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                    setState(() {
+                                      patientProvider.getMyPatients();
+                                      patientProvider.getEnterpriseProfiles();
+                                    });
+                                    return null;
+                                  });
                                 },
                                 child: DottedBorder(
                                   dashPattern: const [2, 2],
@@ -272,7 +285,13 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
-                                  Navigator.pushNamed(context, Routes.addNewPatientRoute);
+                                  Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                    setState(() {
+                                      patientProvider.getMyPatients();
+                                      patientProvider.getEnterpriseProfiles();
+                                    });
+                                    return null;
+                                  });
                                 },
                                 child: DottedBorder(
                                   dashPattern: const [2, 2],

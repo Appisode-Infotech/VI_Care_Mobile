@@ -123,6 +123,9 @@ class PatientProvider extends ChangeNotifier {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
+      }else{
+        Navigator.pop(addNewPatientContext!);
+        showErrorToast(addNewPatientContext!, response.message!);
       }
     }
   }
@@ -161,6 +164,7 @@ class PatientProvider extends ChangeNotifier {
   }
 
   editPatient() async {
+    showLoaderDialog(editPatientPageContext!);
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response = await apiCalls.editPatient(
           editPatientDobController.text,

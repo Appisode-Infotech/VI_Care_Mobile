@@ -65,7 +65,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             actions: [
               InkWell(
                 onTap: () {
-                  patientProvider.prefillEditPatientDetails(context);
+                  patientProvider.prefillEditPatientDetails(context).then((value) {
+                    setState(() {});
+                    return null;
+                  });
                 },
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),

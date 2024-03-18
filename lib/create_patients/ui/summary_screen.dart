@@ -4,7 +4,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
 
 class ScatterPoint {
   final double x;
@@ -36,7 +35,7 @@ class _SummaryScreenState extends State<SummaryScreen>
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, Routes.patientDetailsRoute);
+            Navigator.pop(context);
           },
           child: const Icon(
             Icons.arrow_back_ios,

@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.shade200,
                   ),
                   const SizedBox(height: 10),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.durationsRoute);
                     },
@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.devicesRoute);
                     },
@@ -150,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.offlineTestRoute);
                     },
@@ -276,7 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () async {
                       await showLanguageBottomSheet(context, onLanguageChange);
                     },
