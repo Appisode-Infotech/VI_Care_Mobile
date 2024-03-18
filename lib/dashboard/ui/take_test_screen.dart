@@ -125,7 +125,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                   onTap: () {
                                     setState(() {
                                       Navigator.pushNamed(
-                                              context, Routes.durationsRoute)
+                                          context, Routes.durationsRoute)
                                           .then((value) {
                                         setState(() {
                                           if (prefModel.selectedDuration !=
@@ -164,7 +164,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                               horizontal: 40, vertical: 10),
                           decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
+                            const BorderRadius.all(Radius.circular(12)),
                             color: Colors.blue.shade300,
                           ),
                           child: Text(
@@ -183,61 +183,61 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               } else {
                 return Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: snapshot.data!["stage"]==1?Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                            width: screenSize!.width / 1.6,
-                            child: Text(
-                              snapshot.data!['stage'].toString(),
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 16),
-                            )),
-                        SizedBox(
-                            width: screenSize!.width / 1.6,
-                            child: Text(
-                              AppLocale.noConnectedDevice.getString(context),
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 16),
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: screenSize!.width / 1.6,
-                            child: getPrimaryAppButton(context,
-                              AppLocale.connectNow.getString(context),
-                                onPressed: () async {
-                                  Navigator.pushNamed(
-                                      context, Routes.bluetoothScanRoute)
-                                      .then((value) {
-                                    setState(() {});
-                                  });
-                                })),
-                        // SizedBox(
-                        //     width: screenSize!.width / 1.6,
-                        //     child: getPrimaryAppButton(context,
-                        //         AppLocale.chooseDuration.getString(context),
-                        //         onPressed: () async {
-                        //       Navigator.pushNamed(
-                        //               context, Routes.durationsRoute)
-                        //           .then((value) {
-                        //         setState(() {
-                        //           if (prefModel.selectedDuration != null) {
-                        //             secondsRemaining = (prefModel
-                        //                     .selectedDuration!
-                        //                     .durationInMinutes!) *
-                        //                 60;
-                        //           }
-                        //         });
-                        //       });
-                        //     })),
-                      ],
-                    ):snapshot.data!['stage']==2?const SizedBox():const SizedBox()
+                      padding: const EdgeInsets.all(15.0),
+                      child: snapshot.data!["stage"]==1?Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              width: screenSize!.width / 1.6,
+                              child: Text(
+                                snapshot.data!['stage'].toString(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 16),
+                              )),
+                          SizedBox(
+                              width: screenSize!.width / 1.6,
+                              child: Text(
+                                AppLocale.noConnectedDevice.getString(context),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 16),
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                              width: screenSize!.width / 1.6,
+                              child: getPrimaryAppButton(context,
+                                  AppLocale.connectNow.getString(context),
+                                  onPressed: () async {
+                                    Navigator.pushNamed(
+                                        context, Routes.bluetoothScanRoute)
+                                        .then((value) {
+                                      setState(() {});
+                                    });
+                                  })),
+                          // SizedBox(
+                          //     width: screenSize!.width / 1.6,
+                          //     child: getPrimaryAppButton(context,
+                          //         AppLocale.chooseDuration.getString(context),
+                          //         onPressed: () async {
+                          //       Navigator.pushNamed(
+                          //               context, Routes.durationsRoute)
+                          //           .then((value) {
+                          //         setState(() {
+                          //           if (prefModel.selectedDuration != null) {
+                          //             secondsRemaining = (prefModel
+                          //                     .selectedDuration!
+                          //                     .durationInMinutes!) *
+                          //                 60;
+                          //           }
+                          //         });
+                          //       });
+                          //     })),
+                        ],
+                      ):snapshot.data!['stage']==2?const SizedBox():const SizedBox()
                   ),
                 );
               }

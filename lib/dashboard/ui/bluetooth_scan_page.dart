@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import 'bluetooth_classic_scan.dart';
@@ -17,6 +18,7 @@ class _BluetoothScanPageState extends State<BluetoothScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(AppLocale.scanDevices.getString(context)),
       ),
       body:  Column(
@@ -26,11 +28,16 @@ class _BluetoothScanPageState extends State<BluetoothScanPage> {
             child: Expanded(
               child: Column(
                 children: [
-                  TabBar(
-                    tabs: [
-                      Tab(text: AppLocale.bluetoothLe.getString(context)),
-                      Tab(text: AppLocale.bluetoothClassic.getString(context)),
-                    ],
+                  Container(
+                    color: Colors.white, // Change this color to the desired background color
+                    child: TabBar(
+                      tabs: [
+                        Tab(text: AppLocale.bluetoothLe.getString(context)),
+                        Tab(text: AppLocale.bluetoothClassic.getString(context)),
+                      ],
+                      labelColor: AppColors.primaryColor,
+                      indicatorColor: AppColors.primaryColor, // Change this color to the desired selected tab indicator color
+                    ),
                   ),
                   const SizedBox(height: 10),
                   const Expanded(
