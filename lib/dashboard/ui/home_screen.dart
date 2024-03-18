@@ -100,6 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<PatientProvider>(context, listen: false).getMyPatients();
+    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -423,11 +431,11 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 10,
             ),
             Consumer(builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
+              patientProvider.relGetPatientContext = context;
               return prefModel.userData!.roleId == 2
                   ? FutureBuilder(
                       future: patientProvider.individualPatients,
                       builder: (BuildContext context, AsyncSnapshot<AllPatientsResponseModel> snapshot) {
-                        patientProvider.getMyPatients(context);
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
@@ -476,9 +484,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     patientProvider.clearAddPatientForm();
                                     Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
-                                      patientProvider.individualPatients= null;
-
-                                      setState(() {});
+                                      setState(() {
+                                        patientProvider.getMyPatients();
+                                        patientProvider.getEnterpriseProfiles();
+                                      });
                                       return null;
                                     });
                                   },
@@ -614,7 +623,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (BuildContext context,
                           AsyncSnapshot<AllEnterpriseUsersResponseModel>
                               snapshot) {
-                        patientProvider.getEnterpriseProfiles(context);
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
@@ -664,8 +672,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     patientProvider.clearAddPatientForm();
                                     Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
-                                      patientProvider.enterprisePatients= null;
-                                      setState(() {});
+                                      setState(() {
+                                        patientProvider.getMyPatients();
+                                        patientProvider.getEnterpriseProfiles();
+                                      });
                                       return null;
                                     });
                                   },

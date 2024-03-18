@@ -15,6 +15,7 @@ class PatientProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
   IndividualResponseModel? individualPatientData;
   EnterpriseResponseModel? enterpriseUserData;
+  BuildContext? relGetPatientContext;
   Future<AllPatientsResponseModel>? individualPatients;
   Future<AllEnterpriseUsersResponseModel>? enterprisePatients;
 
@@ -206,12 +207,12 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 
-  getMyPatients(BuildContext context) {
-    individualPatients = apiCalls.getMyIndividualUsers(context);
+  getMyPatients() {
+    individualPatients = apiCalls.getMyIndividualUsers(relGetPatientContext!);
   }
 
-   getEnterpriseProfiles(BuildContext context) {
-     enterprisePatients =  apiCalls.getMyEnterpriseUsers(context);
+   getEnterpriseProfiles() {
+    enterprisePatients = apiCalls.getMyEnterpriseUsers(relGetPatientContext!);
   }
 
   getIndividualUserData(String? pId, BuildContext context) async {

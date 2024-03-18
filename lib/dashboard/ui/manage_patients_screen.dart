@@ -49,7 +49,6 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     future: patientProvider.individualPatients,
                     builder: (BuildContext context,
                         AsyncSnapshot<AllPatientsResponseModel> snapshot) {
-                      patientProvider.getMyPatients(context);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                             width: screenSize!.width,
@@ -97,11 +96,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
                                   Navigator.pushNamed(
-                                      context, Routes.addNewPatientRoute).then((value) {
-                                    patientProvider.individualPatients= null;
-                                        setState(() {});
-                                        return null;
-                                      });
+                                      context, Routes.addNewPatientRoute);
                                 },
                                 child: DottedBorder(
                                   dashPattern: const [2, 2],
@@ -230,7 +225,6 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     builder: (BuildContext context,
                         AsyncSnapshot<AllEnterpriseUsersResponseModel>
                             snapshot) {
-                      patientProvider.getEnterpriseProfiles(context);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                             width: screenSize!.width,
@@ -278,12 +272,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
-                                  Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
-                                    patientProvider.enterprisePatients= null;
-
-                                    setState(() {});
-                                    return null;
-                                  });
+                                  Navigator.pushNamed(context, Routes.addNewPatientRoute);
                                 },
                                 child: DottedBorder(
                                   dashPattern: const [2, 2],
