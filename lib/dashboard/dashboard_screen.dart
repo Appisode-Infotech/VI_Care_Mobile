@@ -48,44 +48,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(8),
-      child: BottomNavigationBar(
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: Colors.black,
-        showUnselectedLabels: true,
-        showSelectedLabels: true,
-        currentIndex: selectedItemPosition,
-        onTap: (index) {
-          if (index == 2) {
-            // If "Take Test" is tapped, call changeScreen with the index directly
-            changeScreen(index);
-          } else {
-            // For other tabs, set the selectedItemPosition
-            setState(() => selectedItemPosition = index);
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'HOME',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Reports',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.airline_seat_recline_extra_outlined),
-            label: 'Patients',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        selectedLabelStyle: const TextStyle(fontSize: 10),
-        unselectedLabelStyle: const TextStyle(fontSize: 10),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent, // Set splash color to transparent
+        ),
+        child: BottomNavigationBar(
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor: Colors.black,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
+          currentIndex: selectedItemPosition,
+          onTap: (index) {
+            if (index == 2) {
+              // If "Take Test" is tapped, call changeScreen with the index directly
+              changeScreen(index);
+            } else {
+              // For other tabs, set the selectedItemPosition
+              setState(() => selectedItemPosition = index);
+            }
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'HOME',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: 'Reports',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.airline_seat_recline_extra_outlined),
+              label: 'Patients',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          selectedLabelStyle: const TextStyle(fontSize: 10),
+          unselectedLabelStyle: const TextStyle(fontSize: 10),
+        ),
       ),
     );
   }
