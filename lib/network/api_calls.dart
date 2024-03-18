@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -124,12 +123,10 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
@@ -150,7 +147,6 @@ class ApiCalls {
       String email, String password, BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
         jsonEncode({"email": email.trim(), 'password': password}));
-    log(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -166,9 +162,6 @@ class ApiCalls {
         false,
         UrlConstants.sendOtpToResetPassword + email,
         jsonEncode({"email": email}));
-    print("==============");
-    print(response.body);
-    print(UrlConstants.sendOtpToResetPassword + email);
     if (response.statusCode == 200) {
       return SendOtpResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -219,7 +212,6 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -262,7 +254,6 @@ class ApiCalls {
     request.fields['Contact.BloodGroup'] = bloodGroup;
     request.fields['EnterpriseUserId'] =
         prefModel.userData!.enterpriseUserId.toString();
-    print(prefModel.userData!.enterpriseUserId.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -278,12 +269,10 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
     if (response.statusCode == 200) {
-      log(responseJson.toString());
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -309,8 +298,6 @@ class ApiCalls {
       String email, String password, BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
         jsonEncode({"Email": email, "NewPassword": password}));
-    print(jsonEncode({"Email": email, "NewPassword": password}));
-    log(response.body);
     if (response.statusCode == 200) {
       return ResetPasswordResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -337,7 +324,6 @@ class ApiCalls {
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addIndividualProfile));
-    print("case1");
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['Contact.Email'] = email;
@@ -348,7 +334,6 @@ class ApiCalls {
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;
     request.fields['Contact.BloodGroup'] = bloodGroup;
-    print("case2");
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -364,16 +349,10 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print("case3");
-    print(request.fields);
     var response = await request.send();
-    print("case4");
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
-      print("case5");
-      print(response.statusCode);
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -435,12 +414,10 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
     if (response.statusCode == 200) {
-      log(responseJson.toString());
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -465,7 +442,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getIndividualProfiles}/GetAllByUserId${prefModel.userData!.id}");
-    log(response.body);
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -478,7 +454,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.enterpriseUserId}");
-    log(response.body);
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
           json.decode(response.body));
@@ -490,10 +465,8 @@ class ApiCalls {
 
   Future<IndividualResponseModel> getIndividualUserData(
       String? pId, BuildContext context) async {
-    print("${UrlConstants.getIndividualProfiles}/${pId}");
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
-    log(response.body);
     if (response.statusCode == 200) {
       return IndividualResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -505,10 +478,8 @@ class ApiCalls {
 
   Future<EnterpriseResponseModel> getEnterpriseUserData(
       String? eId, BuildContext context) async {
-    print("${UrlConstants.getEnterpriseProfiles}/${eId}");
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/${eId}");
-    log(response.body);
     if (response.statusCode == 200) {
       return EnterpriseResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -529,8 +500,6 @@ class ApiCalls {
           "roleId": prefModel.userData!.roleId,
           "userId": prefModel.userData!.id
         }));
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       return AddDeviceResponseModel.fromJson(json.decode(response.body));
     } else if (response.statusCode == 401) {
@@ -547,7 +516,6 @@ class ApiCalls {
   Future<DurationResponseModel> getAllDurations() async {
     http.Response response =
         await hitApiGet(true, UrlConstants.getAllDurations);
-    print(response.body);
     if (response.statusCode == 200) {
       return DurationResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -571,11 +539,9 @@ class ApiCalls {
         // Return the path to the temporary file
         return tempFile;
       } else {
-        print('Failed to download image. Status code: ${response.statusCode}');
         return null;
       }
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -613,12 +579,10 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return EditProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -646,10 +610,6 @@ class ApiCalls {
         UrlConstants.sendOtpToResetPassword +
             prefModel.userData!.email.toString(),
         jsonEncode({"email": email}));
-    print("==============");
-    print(response.body);
-    print(UrlConstants.sendOtpToResetPassword +
-        prefModel.userData!.email.toString());
     if (response.statusCode == 200) {
       return SendOtpResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -663,13 +623,10 @@ class ApiCalls {
     ) async {
     http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
         jsonEncode({"Email": changePswEmail, "NewPassword": password}));
-    log(response.body);
-    print(jsonEncode({"Email": changePswEmail, "NewPassword": password}));
     if(response.statusCode==200) {
-      print("case2");
       return ResetPasswordResponseModel.fromJson(json.decode(response.body));
     }else{
-      showErrorToast(context!, "Something went wrong");
+      showErrorToast(context, "Something went wrong");
       throw "could not reset password ${response.statusCode}";
     }
   }

@@ -15,6 +15,9 @@ class PatientProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
   IndividualResponseModel? individualPatientData;
   EnterpriseResponseModel? enterpriseUserData;
+  Future<AllPatientsResponseModel>? individualPatients;
+  Future<AllEnterpriseUsersResponseModel>? enterprisePatients;
+
 
   //add New Patient Page declarations
   final addPatientFormKey = GlobalKey<FormState>();
@@ -203,13 +206,12 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 
-  Future<AllPatientsResponseModel> getMyPatients(BuildContext context) {
-    return apiCalls.getMyIndividualUsers(context);
+  getMyPatients(BuildContext context) {
+    individualPatients = apiCalls.getMyIndividualUsers(context);
   }
 
-  Future<AllEnterpriseUsersResponseModel> getEnterpriseProfiles(
-      BuildContext context) {
-    return apiCalls.getMyEnterpriseUsers(context);
+   getEnterpriseProfiles(BuildContext context) {
+     enterprisePatients =  apiCalls.getMyEnterpriseUsers(context);
   }
 
   getIndividualUserData(String? pId, BuildContext context) async {

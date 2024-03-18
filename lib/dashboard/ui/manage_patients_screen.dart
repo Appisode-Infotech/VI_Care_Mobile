@@ -46,9 +46,10 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
             child: prefModel.userData!.roleId == 2
                 ? FutureBuilder(
-                    future: patientProvider.getMyPatients(context),
+                    future: patientProvider.individualPatients,
                     builder: (BuildContext context,
                         AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                      patientProvider.getMyPatients(context);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                             width: screenSize!.width,
@@ -96,7 +97,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
                                   Navigator.pushNamed(
-                                      context, Routes.addNewPatientRoute);
+                                      context, Routes.addNewPatientRoute).then((value) {
+                                    patientProvider.individualPatients= null;
+                                        setState(() {});
+                                        return null;
+                                      });
                                 },
                                 child: DottedBorder(
                                   dashPattern: const [2, 2],
@@ -221,10 +226,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     },
                   )
                 : FutureBuilder(
-                    future: patientProvider.getEnterpriseProfiles(context),
+                    future: patientProvider.enterprisePatients,
                     builder: (BuildContext context,
                         AsyncSnapshot<AllEnterpriseUsersResponseModel>
                             snapshot) {
+                      patientProvider.getEnterpriseProfiles(context);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                             width: screenSize!.width,
@@ -272,8 +278,12 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
-                                  Navigator.pushNamed(
-                                      context, Routes.addNewPatientRoute);
+                                  Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                    patientProvider.enterprisePatients= null;
+
+                                    setState(() {});
+                                    return null;
+                                  });
                                 },
                                 child: DottedBorder(
                                   dashPattern: const [2, 2],

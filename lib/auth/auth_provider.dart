@@ -203,7 +203,6 @@ class AuthProvider extends ChangeNotifier {
         forgotPasswordEmailController.text,
         forgotPasswordNewPasswordController.text,
         forgotPageContext!);
-    print("case1");
     if (response.result != null && response.result == true) {
       Navigator.pop(forgotPageContext!);
       showSuccessToast(forgotPageContext!, response.message!);

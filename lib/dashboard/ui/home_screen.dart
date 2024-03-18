@@ -118,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   width: 8,
                 ),
-                 Text( "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}", style: TextStyle(color: Colors.white)),
+                Text(
+                    "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}",
+                    style: const TextStyle(color: Colors.white)),
               ],
             ),
             const SizedBox(
@@ -129,23 +131,36 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         actions: [
-          // Container(
-          //   margin: const EdgeInsets.symmetric(horizontal: 10),
-          //   decoration: const BoxDecoration(
-          //     color: Color(0xFFD9D9D9),
-          //     borderRadius: BorderRadius.all(Radius.circular(10)),
-          //   ),
-          //   padding: const EdgeInsets.all(10),
-          //   child: badges.Badge(
-          //     badgeContent: const Text('3',
-          //         style: TextStyle(fontSize: 8, color: Colors.white)),
-          //     position: BadgePosition.topEnd(top: -7, end: -4),
-          //     child: const Icon(
-          //       Icons.notifications,
-          //       color: Colors.white,
-          //     ),
-          //   ),
-          // ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: const BoxDecoration(
+              color: Color(0xFFD9D9D9),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Stack(
+              children: [
+                const Icon(
+                  size: 27,
+                  Icons.notifications,
+                  color: Colors.white,
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    width: 15,
+                    height: 15,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: Colors.red
+                    ),
+                    child: const Center(child: Text("0",style: TextStyle(fontSize: 10,color: Colors.white,fontWeight: FontWeight.bold),)),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -407,15 +422,13 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            Consumer(builder: (BuildContext context,
-                PatientProvider patientProvider, Widget? child) {
+            Consumer(builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
               return prefModel.userData!.roleId == 2
                   ? FutureBuilder(
-                      future: patientProvider.getMyPatients(context),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<AllPatientsResponseModel> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                      future: patientProvider.individualPatients,
+                      builder: (BuildContext context, AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                        patientProvider.getMyPatients(context);
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
                             child: Shimmer.fromColors(
@@ -462,8 +475,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return InkWell(
                                   onTap: () {
                                     patientProvider.clearAddPatientForm();
-                                    Navigator.pushNamed(
-                                        context, Routes.addNewPatientRoute);
+                                    Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                      patientProvider.individualPatients= null;
+
+                                      setState(() {});
+                                      return null;
+                                    });
                                   },
                                   child: DottedBorder(
                                     dashPattern: const [2, 2],
@@ -510,8 +527,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                     patientProvider.getIndividualUserData(
-                                        snapshot.data!.result![index].id.toString(),
+                                    patientProvider.getIndividualUserData(
+                                        snapshot.data!.result![index].id
+                                            .toString(),
                                         context);
                                   },
                                   child: Container(
@@ -592,12 +610,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     )
                   : FutureBuilder(
-                      future: patientProvider.getEnterpriseProfiles(context),
+                      future:patientProvider.enterprisePatients,
                       builder: (BuildContext context,
                           AsyncSnapshot<AllEnterpriseUsersResponseModel>
                               snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        patientProvider.getEnterpriseProfiles(context);
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
                             child: Shimmer.fromColors(
@@ -645,8 +663,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return InkWell(
                                   onTap: () {
                                     patientProvider.clearAddPatientForm();
-                                    Navigator.pushNamed(
-                                        context, Routes.addNewPatientRoute);
+                                    Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                      patientProvider.enterprisePatients= null;
+                                      setState(() {});
+                                      return null;
+                                    });
                                   },
                                   child: DottedBorder(
                                     dashPattern: const [2, 2],
@@ -693,9 +714,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                     patientProvider.getEnterpriseUserData(
-                                        snapshot.data!.result![index].id.toString(),
-                                        context);
+                                    patientProvider.getEnterpriseUserData(snapshot.data!.result![index].id.toString(),context);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -714,25 +733,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         snapshot.data!.result![index]
-                                            .profilePicture !=
-                                            null
+                                                    .profilePicture !=
+                                                null
                                             ? CircleAvatar(
-                                          radius: 22,
-                                          backgroundColor: Colors.grey,
-                                          backgroundImage: NetworkImage(
-                                            snapshot.data!.result![index]
-                                                .profilePicture!.url
-                                                .toString(),
-                                          ),
-                                        )
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                backgroundImage: NetworkImage(
+                                                  snapshot.data!.result![index]
+                                                      .profilePicture!.url
+                                                      .toString(),
+                                                ),
+                                              )
                                             : const CircleAvatar(
-                                          radius: 22,
-                                          backgroundColor: Colors.grey,
-                                          child: Icon(
-                                            Icons.person,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -751,7 +770,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           height: 3,
                                         ),
                                         Text(
-                                            "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
+                                          "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
                                           style: const TextStyle(
                                               fontSize: 10,
                                               fontWeight: FontWeight.bold,
@@ -966,6 +985,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }
-

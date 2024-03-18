@@ -173,28 +173,31 @@ void showErrorToast(BuildContext context, String content) {
   ).show(context);
 }
 
-showLoaderDialog(BuildContext context) {
+void showLoaderDialog(BuildContext context) {
   showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Lottie.asset('assets/lottie/loading.json', height: 150),
-              const Text(
-                "Loading...",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              )
-            ],
+    barrierDismissible: false,
+    context: context,
+    builder: (_) => AlertDialog(
+      backgroundColor: Colors.white,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 150,
+            height: 150,
+            child: Lottie.asset('assets/lottie/loading.json'),
           ),
-        );
-      });
+          const SizedBox(height: 8),
+          const Text(
+            "Loading...",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ),
+  );
 }
+
 
 Future<File?> cropImage(String imagePath) async {
   File? croppedImage;
@@ -208,13 +211,13 @@ Future<File?> cropImage(String imagePath) async {
         CropAspectRatioPreset.ratio4x3,
         CropAspectRatioPreset.ratio16x9,
       ],
-      androidUiSettings: AndroidUiSettings(
+      androidUiSettings: const AndroidUiSettings(
         toolbarColor: AppColors.primaryColor,
         toolbarTitle: 'Crop Image',
         statusBarColor: AppColors.primaryColor,
         backgroundColor: Colors.white,
       ),
-      iosUiSettings: IOSUiSettings(
+      iosUiSettings: const IOSUiSettings(
         minimumAspectRatio: 1.0,
       ),
     );
@@ -239,13 +242,13 @@ Future<bool> showStopTestWarningDialog(BuildContext context) async {
                   Navigator.pop(context, true);
                 },
                 child: Text(AppLocale.abort.getString(context),
-                    style: TextStyle(color: Colors.red))),
+                    style: const TextStyle(color: Colors.red))),
             TextButton(
                 onPressed: () {
                   Navigator.pop(context, false);
                 },
                 child: Text(AppLocale.continueTest.getString(context),
-                    style: TextStyle(color: Colors.green)))
+                    style: const TextStyle(color: Colors.green)))
           ],
         );
       });
