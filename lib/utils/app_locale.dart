@@ -249,8 +249,8 @@ mixin AppLocale {
 
     managePatients: 'Manage Patients',
 
-    abort: "No Continue test",
-    continueTest: 'Manage Patients',
+    continueTest: "No Continue test",
+    abort: 'Abort test',
     abortMessage: 'Aborting in middle of the test will result in loss of recorded data for this test',
     abortConfirm: 'Are you sure to abort the test?',
 
@@ -416,8 +416,8 @@ mixin AppLocale {
     editMembers: 'ಸದಸ್ಯರ ಸಂಪಾದನೆ',
 
     managePatients: 'ರೋಗಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
-    abort: "ಟೆಸ್ಟ್ ಮುಂದುವರಿಸದೆ ನಿಲ್ಲು",
-    continueTest: 'ರೋಗಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
+    continueTest: "ಟೆಸ್ಟ್ ಮುಂದುವರಿಸದೆ ನಿಲ್ಲು",
+    abort: 'ಟೆಸ್ಟ್ ನಿರಾಕರಿಸು',
     abortMessage: 'ಟೆಸ್ಟ್‌ನ ನಡುವೆ ನಿಲ್ಲುವುದು ಈ ಟೆಸ್ಟ್‌ಗೆ ದಾಖಲಿತ ಡೇಟಾದ ಕಳನ್ನುಂಟು ಮಾಡಬಹುದು',
     abortConfirm: 'ನೀವು ಟೆಸ್ಟ್ ನಿಲ್ಲುವುದು ಖಚಿತವಾಗಿದ್ದೀರಾ?',
 
@@ -592,8 +592,8 @@ mixin AppLocale {
     editMembers: 'सदस्य का संपादन',
 
     managePatients: 'रोगियों का प्रबंधन करें',
-    abort: "टेस्ट जारी नहीं रखें",
-    continueTest: 'रोगी प्रबंधित करें',
+    continueTest: "टेस्ट जारी नहीं रखें",
+    abort: 'परीक्षण रद्द करें ',
     abortMessage: 'टेस्ट के बीच में रोकने से इस टेस्ट के लिए रिकॉर्ड किए गए डेटा का नुकसान हो सकता है',
     abortConfirm: 'क्या आप टेस्ट को रोकने के लिए पक्का हैं?',
 
@@ -752,8 +752,8 @@ mixin AppLocale {
     editMembers: 'Mitglieder bearbeiten',
 
     managePatients: 'Patienten verwalten',
-    abort: "Test abbrechen",
-    continueTest: 'Patienten verwalten',
+    continueTest: "Test abbrechen",
+    abort: 'Test abbrechen',
     abortMessage: 'Das Abbrechen des Tests in der Mitte führt zum Verlust der aufgezeichneten Daten für diesen Test',
     abortConfirm: 'Sind Sie sicher, den Test abzubrechen?',
 
@@ -915,8 +915,8 @@ mixin AppLocale {
     serialNumber: "వర్షాంకవారం",
     cancel: "రద్దు చేయండి",
 
-    abort: "కొంతకాలం కంటిన్యూ టెస్ట్ లేదు",
-    continueTest: 'రోగులను నిర్వహించు',
+    continueTest: "కొంతకాలం కంటిన్యూ టెస్ట్ లేదు",
+    abort: 'పరీక్షను రద్దు చేయండి',
     abortMessage: 'టెస్ట్ నుండి మధ్యలో తప్పనిసరిగా బయటకు వచ్చినప్పుడు నమోదించిన డేటాను నష్టపెడతాం',
     abortConfirm: 'టెస్ట్ నిరసనించాలని ఖచ్చితంగా ఉందా?',
 
@@ -1069,8 +1069,8 @@ mixin AppLocale {
 
       managePatients: 'நோயாளிகளை நிர்வகிக்கவும்',
 
-      abort: "தொடர சோதனையை நடத்த வேண்டாம்",
-      continueTest: 'நோயாளிகளை நிர்வகிக்கவும்',
+      continueTest: "தொடர சோதனையை நடத்த வேண்டாம்",
+      abort: ' சோதனை ரத்து செய்',
       abortMessage: 'சோதனையின் மத்தியில் நீங்கள் பிழைத்துக் கொண்டிருந்தால், இந்த சோதனைக்கு பதினேழுக்கு போட்டிகளை இழக்கும்',
       abortConfirm: 'சோதனையை ரத்து செய்ய உறுதியாக இருக்கிறீர்களா?',
 
@@ -1245,8 +1245,8 @@ mixin AppLocale {
     serialNumber: "സീരിയൽ നമ്പർ",
     cancel: "റദ്ദാക്കുക",
 
-    abort: "കോടതിച്ചു",
-    continueTest: 'രോഗികൾ നിയന്ത്രിക്കുക',
+    continueTest: "കോടതിച്ചു",
+    abort: 'ടെസ്റ്റ് റദ്ദാക്കുക',
     abortMessage: 'ടെസ്റ്റിന്റെ മധ്യത്തിൽ നിരീക്ഷണം നിർത്തുന്നത് ഈ ടെസ്റ്റിനു സംഗ്രഹിച്ച ഡാറ്റ നഷ്ടപ്പെടുത്തും',
     abortConfirm: 'നിങ്ങൾ ടെസ്റ്റ് നിർത്താൻ ഉറപ്പാണോ?',
 

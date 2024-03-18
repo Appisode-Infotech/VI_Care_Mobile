@@ -19,7 +19,6 @@ class TakeTestScreen extends StatefulWidget {
   @override
   State<TakeTestScreen> createState() => _TakeTestScreenState();
 }
-
 class _TakeTestScreenState extends State<TakeTestScreen> {
   late Timer timer;
   int secondsRemaining = 0;
@@ -105,11 +104,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                         child: CircularPercentIndicator(
                           radius: 100.0,
                           lineWidth: 15.0,
-                          percent:
-                              ((prefModel.selectedDuration!.durationInMinutes! *
-                                          60) -
-                                      secondsRemaining) /
-                                  480.0,
+                          // percent: ((prefModel.selectedDuration!.durationInMinutes! * 60) - secondsRemaining) /  480.0,
+                          percent: ((prefModel.selectedDuration!.durationInMinutes! * 60 - secondsRemaining) /
+                              (prefModel.selectedDuration!.durationInMinutes! * 60))
+                              .clamp(0.0, 1.0),
                           center: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,11 +118,9 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
+                                textAlign: TextAlign.center,),
                               const SizedBox(
-                                width: 8,
-                              ),
+                                width: 8,),
                               GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -134,10 +130,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                         setState(() {
                                           if (prefModel.selectedDuration !=
                                               null) {
-                                            secondsRemaining = (prefModel
-                                                    .selectedDuration!
-                                                    .durationInMinutes!) *
-                                                60;
+                                            secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
                                           }
                                         });
                                       });
@@ -154,10 +147,12 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        "- Bpm",
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w600),
+                      Text(
+                        '${takeTestProvider.heartRate.toString()} BPM',
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       GestureDetector(

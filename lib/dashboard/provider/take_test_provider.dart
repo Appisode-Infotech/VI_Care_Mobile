@@ -4,6 +4,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 class TakeTestProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   List<BluetoothDevice> leDevices = [];
+  int heartRate = 0;
 
   Future<Map> checkTestPreRequests() async {
     List<BluetoothDevice> connectedDevices = await checkIfConnectionExist();
@@ -34,14 +35,52 @@ class TakeTestProvider extends ChangeNotifier {
     });
   }
 
+  // Future<void> connectToDevice(BluetoothDevice device, BuildContext context) async {
+  //   try {
+  //     await device.connect(autoConnect: true);
+  //     notifyListeners();
+  //     Navigator.pop(context);
+  //     print('Connected to ${device.name}');
+  //   } catch (e) {
+  //     print('Error connecting to ${device.name}: $e');
+  //   }
+  // }
+
   Future<void> connectToDevice(BluetoothDevice device, BuildContext context) async {
     try {
       await device.connect(autoConnect: true);
+      bluetoothListener(device);
+      device.state.listen((BluetoothDeviceState state) {
+        if (state == BluetoothDeviceState.disconnected) {
+          connectToDevice(device, context);
+        }
+      });
       notifyListeners();
       Navigator.pop(context);
       print('Connected to ${device.name}');
     } catch (e) {
       print('Error connecting to ${device.name}: $e');
+    }
+  }
+
+  Future<void> bluetoothListener(BluetoothDevice connectedDevice) async {
+    try {
+      List<BluetoothService> services = await connectedDevice.discoverServices();
+      for (BluetoothService service in services) {
+        if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
+          for (BluetoothCharacteristic characteristic in service.characteristics) {
+            await characteristic.setNotifyValue(true);
+            characteristic.value.listen((value) {
+              if (value.isNotEmpty) {
+                heartRate = value[1];
+                print("Heart Rate: $heartRate");
+              }
+            });
+          }
+        }
+      }
+    } catch (e) {
+      print('Error discovering services: $e');
     }
   }
 }
