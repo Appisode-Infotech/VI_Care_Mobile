@@ -24,8 +24,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<PatientProvider>(context, listen: false).getMyPatients();
-    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles();
+    Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
+    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
     super.didChangeDependencies();
   }
 
@@ -105,8 +105,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                   patientProvider.clearAddPatientForm();
                                   Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
                                     setState(() {
-                                      patientProvider.getMyPatients();
-                                      patientProvider.getEnterpriseProfiles();
+                                      patientProvider.getMyPatients(context);
+                                      patientProvider.getEnterpriseProfiles(context);
                                     });
                                     return null;
                                   });
@@ -287,8 +287,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                   patientProvider.clearAddPatientForm();
                                   Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
                                     setState(() {
-                                      patientProvider.getMyPatients();
-                                      patientProvider.getEnterpriseProfiles();
+                                      patientProvider.getMyPatients(context);
+                                      patientProvider.getEnterpriseProfiles(context);
                                     });
                                     return null;
                                   });

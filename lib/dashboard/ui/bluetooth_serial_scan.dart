@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
+import 'package:vicare/utils/app_buttons.dart';
+
+import '../../utils/app_locale.dart';
 
 class BluetoothSerialScan extends StatefulWidget {
   const BluetoothSerialScan({super.key});
@@ -14,18 +18,20 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
 
   @override
   void didChangeDependencies() {
+    Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('1');
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Consumer(
-      builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
+      builder: (BuildContext context, TakeTestProvider takeTestProvider,
+          Widget? child) {
         return Scaffold(
           body: RefreshIndicator(
             onRefresh: () => scanLeDevices(takeTestProvider),
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
               itemCount: takeTestProvider.leDevices.length,
               itemBuilder: (BuildContext context, int index) {
                 return Row(
@@ -42,12 +48,28 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                               : takeTestProvider.leDevices[index].name,
                           style: const TextStyle(fontSize: 16),
                         ),
-                        Text(takeTestProvider.leDevices[index].id.toString(),style: const TextStyle(fontSize: 14),)
+                        Text(
+                          takeTestProvider.leDevices[index].type.toString(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          takeTestProvider.leDevices[index].id.toString(),
+                          style: const TextStyle(fontSize: 14),
+                        )
                       ],
                     ),
-                    // TextButton(onPressed: (){
-                    //   takeTestProvider.connectToDevice(takeTestProvider.leDevices[index],context);
-                    // }, child:  Text(AppLocale.connect.getString(context),style: TextStyle(fontSize: 16),))
+                    TextButton(
+                        onPressed: () {
+                          if(takeTestProvider.isScanning){
+                            showErrorToast(context, "Please wait scanning in progress !");
+                          }else{
+                            takeTestProvider.connectToDevice(takeTestProvider.leDevices[index], context);
+                          }
+                        },
+                        child: Text(
+                          AppLocale.connect.getString(context),
+                          style: const TextStyle(fontSize: 16),
+                        ))
                   ],
                 );
               },
@@ -62,7 +84,6 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
   }
 
   Future<Null> scanLeDevices(TakeTestProvider takeTestProvider) async {
-    // takeTestProvider.leDevices.clear();
-    // takeTestProvider.scanForLEDevices();
+    takeTestProvider.scanLeDevices('2');
   }
 }

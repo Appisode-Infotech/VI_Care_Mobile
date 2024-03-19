@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
@@ -199,8 +199,8 @@ void showLoaderDialog(BuildContext context) {
 }
 
 
-Future<File?> cropImage(String imagePath) async {
-  File? croppedImage;
+Future<CroppedFile?> cropImage(String imagePath) async {
+  CroppedFile? croppedImage;
   try {
     croppedImage = await ImageCropper().cropImage(
       sourcePath: imagePath,
@@ -211,18 +211,21 @@ Future<File?> cropImage(String imagePath) async {
         CropAspectRatioPreset.ratio4x3,
         CropAspectRatioPreset.ratio16x9,
       ],
-      androidUiSettings: const AndroidUiSettings(
-        toolbarColor: AppColors.primaryColor,
-        toolbarTitle: 'Crop Image',
-        statusBarColor: AppColors.primaryColor,
-        backgroundColor: Colors.white,
-      ),
-      iosUiSettings: const IOSUiSettings(
-        minimumAspectRatio: 1.0,
-      ),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarColor: AppColors.primaryColor,
+          toolbarTitle: 'Crop Image',
+          statusBarColor: AppColors.primaryColor,
+          backgroundColor: Colors.white,
+        ),
+        IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        )
+      ],
+
     );
   } catch (e) {
-    print('Error cropping image: $e');
+    log('Error cropping image: $e');
   }
   return croppedImage;
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
@@ -282,7 +283,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Column(
                     children: [
                       Container(
@@ -587,7 +588,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             ):Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   width: screenSize!.width,
                   height: screenSize!.height / 2.4,
                   color: AppColors.primaryColor,
@@ -782,11 +783,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Column(
                     children: [
                       Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
                             color: AppColors.primaryColor,
@@ -799,99 +800,108 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               SizedBox(
                                   width: screenSize!.width * 0.6,
                                   child: Text(
-                                    AppLocale.deviceSetup.getString(context),
-                                    style: const TextStyle(color: Colors.white),
+                                    "Start a new scan for ${patientProvider.enterpriseUserData!.result!.firstName} ${patientProvider.enterpriseUserData!.result!.lastName}",
+                                    style: const TextStyle(color: Colors.white,fontSize: 16),
                                   )),
                               const SizedBox(width: 5),
-                              Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                      color: Colors.white),
-                                  child: Text(
-                                    AppLocale.setup.getString(context),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
-                                  ))
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pushNamed(context, Routes.takeTestRoute);
+                                },
+                                child: Container(
+                                  height: 50,
+                                    width: screenSize!.width * 0.2,
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                        color: Colors.white),
+                                    child: Center(
+                                      child: Text(
+                                        AppLocale.start.getString(context),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    )),
+                              )
                             ],
                           )),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Container(
+                      //     padding: const EdgeInsets.all(10),
+                      //     decoration: const BoxDecoration(
+                      //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                      //       color: AppColors.primaryColor,
+                      //     ),
+                      //     width: screenSize!.width,
+                      //     height: 100,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         SizedBox(
+                      //             width: screenSize!.width * 0.6,
+                      //             child: Text(
+                      //               AppLocale.deviceConnect.getString(context),
+                      //               style: const TextStyle(color: Colors.white),
+                      //             )),
+                      //         const SizedBox(width: 5),
+                      //         Container(
+                      //             padding: const EdgeInsets.all(12),
+                      //             decoration: const BoxDecoration(
+                      //                 borderRadius:
+                      //                 BorderRadius.all(Radius.circular(12)),
+                      //                 color: Colors.white),
+                      //             child: Text(
+                      //               AppLocale.connect.getString(context),
+                      //               style: const TextStyle(
+                      //                   color: Colors.black,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.w600),
+                      //             ))
+                      //       ],
+                      //     )),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Container(
+                      //     padding: const EdgeInsets.all(10),
+                      //     decoration: const BoxDecoration(
+                      //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                      //       color: AppColors.primaryColor,
+                      //     ),
+                      //     width: screenSize!.width,
+                      //     height: 100,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         SizedBox(
+                      //             width: screenSize!.width * 0.6,
+                      //             child: Text(
+                      //               AppLocale.deviceStart.getString(context),
+                      //               style: const TextStyle(color: Colors.white),
+                      //             )),
+                      //         const SizedBox(width: 5),
+                      //         Container(
+                      //             padding: const EdgeInsets.all(10),
+                      //             decoration: const BoxDecoration(
+                      //                 borderRadius:
+                      //                 BorderRadius.all(Radius.circular(12)),
+                      //                 color: Colors.white),
+                      //             child: Text(
+                      //               AppLocale.start.getString(context),
+                      //               style: const TextStyle(
+                      //                   color: Colors.black,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.w600),
+                      //             ))
+                      //       ],
+                      //     )),
                       const SizedBox(
                         height: 10,
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: AppColors.primaryColor,
-                          ),
-                          width: screenSize!.width,
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                  width: screenSize!.width * 0.6,
-                                  child: Text(
-                                    AppLocale.deviceConnect.getString(context),
-                                    style: const TextStyle(color: Colors.white),
-                                  )),
-                              const SizedBox(width: 5),
-                              Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                      color: Colors.white),
-                                  child: Text(
-                                    AppLocale.connect.getString(context),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
-                                  ))
-                            ],
-                          )),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: AppColors.primaryColor,
-                          ),
-                          width: screenSize!.width,
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                  width: screenSize!.width * 0.6,
-                                  child: Text(
-                                    AppLocale.deviceStart.getString(context),
-                                    style: const TextStyle(color: Colors.white),
-                                  )),
-                              const SizedBox(width: 5),
-                              Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                      color: Colors.white),
-                                  child: Text(
-                                    AppLocale.start.getString(context),
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
-                                  ))
-                            ],
-                          )),
-                      const SizedBox(
-                        height: 15,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

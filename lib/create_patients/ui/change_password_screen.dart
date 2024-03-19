@@ -7,7 +7,6 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
 import '../provider/profile_provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {

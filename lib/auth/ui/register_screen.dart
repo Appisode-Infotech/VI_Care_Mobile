@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -413,10 +414,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.camera);
                 if (image != null) {
-                  File? croppedImage = await cropImage(image.path);
+                  CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      authProvider.registerSelectedImage = croppedImage;
+                      authProvider.registerSelectedImage = File(croppedImage.path);
                     });
                   }
                 }
@@ -424,10 +425,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
-                  File? croppedImage = await cropImage(image.path);
+                  CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      authProvider.registerSelectedImage = croppedImage;
+                      authProvider.registerSelectedImage = File(croppedImage.path);
                     });
                   }
                 }
@@ -461,12 +462,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.camera);
                                   if (image != null) {
-                                    File? croppedImage =
+                                    CroppedFile? croppedImage =
                                         await cropImage(image.path);
                                     if (croppedImage != null) {
                                       setState(() {
                                         authProvider.registerSelectedImage =
-                                            croppedImage;
+                                            File(croppedImage.path);
                                       });
                                     }
                                   }
@@ -474,12 +475,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
-                                    File? croppedImage =
+                                    CroppedFile? croppedImage =
                                         await cropImage(image.path);
                                     if (croppedImage != null) {
                                       setState(() {
                                         authProvider.registerSelectedImage =
-                                            croppedImage;
+                                            File(croppedImage.path);
                                       });
                                     }
                                   }

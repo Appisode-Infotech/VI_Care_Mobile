@@ -106,6 +106,8 @@ mixin AppLocale {
   static const String connect  = 'connect';
   static const String deviceStart  = 'deviceStart';
   static const String start  = 'start';
+  static const String bluetoothIsOff  = 'bluetoothIsOff';
+  static const String bluetoothTurnOn  = 'bluetoothTurnOn';
 
   static const String summary  = 'summary';
   static const String readiness  = 'readiness';
@@ -272,7 +274,7 @@ mixin AppLocale {
     reports: 'Reports',
     minutes:"Minutes",
 
-    noConnectedDevice:"No connected Device",
+    noConnectedDevice:"No connected Device found. connect to start your scan",
     connectNow:"Connect now",
     scanDevices: "Scan devices",
     bluetoothClassic: "Bluetooth Classic",
@@ -289,6 +291,8 @@ mixin AppLocale {
     connect: 'Connect',
     deviceStart: '“Faros” device is connected !You can start a test now.',
     start: 'Start',
+    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+    bluetoothTurnOn: 'Turn on',
 
     summary:"Summary",
     readiness:"Readiness scores",
@@ -443,6 +447,8 @@ mixin AppLocale {
     connect: 'ಸಂಪರ್ಕಿಸಿ',
     deviceStart: '"Faros" ಸಾಧನವನ್ನು ಸಂಪರ್ಕಿಸಲಾಗಿದೆ !ನೀವು ಇದೀಗ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸಬಹುದು.',
     start: 'ಪ್ರಾರಂಭಿಸಿ',
+    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+    bluetoothTurnOn: 'Turn on',
 
     summary:"ಸಾರಾಂಶ",
     readiness:"ಸಿದ್ಧತೆ ಅಂಕಗಳು",
@@ -620,6 +626,8 @@ mixin AppLocale {
     connect: 'संपर्क करें',
     deviceStart: '"Faros" उपकरण से संपर्क कर रहा है! आप अब परीक्षण शुरू कर सकते हैं।',
     start: 'शुरू करें',
+    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+    bluetoothTurnOn: 'Turn on',
 
     summary: "संक्षेप",
     readiness: "तैयारी अंक",
@@ -781,6 +789,8 @@ mixin AppLocale {
     connect: 'Verbinden',
     deviceStart: 'Das "Faros" Gerät ist verbunden! Sie können jetzt einen Test starten.',
     start: 'Start',
+    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+    bluetoothTurnOn: 'Turn on',
 
     summary:"Zusammenfassung",
     readiness:"Bereitschaftswerte",
@@ -944,6 +954,8 @@ mixin AppLocale {
     connect: 'కనెక్ట్',
     deviceStart: '“ఫరోస్” పరికరం కనెక్ట్ అయ్యింది! మీరు ఇప్పుడు ఒక పరీక్షను ప్రారంభించవచ్చు.',
     start: 'ప్రారంభించండి',
+    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+    bluetoothTurnOn: 'Turn on',
 
     summary: "సంగ్రహం",
     readiness: "సిద్ధత స్కోర్లు",
@@ -1098,6 +1110,8 @@ mixin AppLocale {
       connect: 'இணை',
       deviceStart: '“பரமோஸ்” சாதனம் இணைக்கப்பட்டுள்ளது! நீங்கள் இப்போது ஒரு சோதனையை தொடங்கலாம்.',
       start: 'தொடங்கு',
+      bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+      bluetoothTurnOn: 'Turn on',
 
       summary:"சுருக்கம்",
       readiness:"தயார் சுழற்சி",
@@ -1275,6 +1289,8 @@ mixin AppLocale {
     connect: 'കണക്റ്റ്',
     deviceStart: '“ഫാറോസ്” ഉപകരണം കണക്റ്റുചെയ്തു! നിങ്ങൾ ഇപ്പോൾ ഒരു ടെസ്റ്റ് ആരംഭിക്കാം.',
     start: 'ആരംഭിക്കുക',
+    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
+    bluetoothTurnOn: 'Turn on',
 
     summary:"സംഗ്രഹം",
     readiness:"തുരുമ്പുകളുടെ സ്കോർ",

@@ -43,8 +43,8 @@ dependencies:
   dotted_border: ^2.1.0
   webview_flutter: ^4.4.4
   image_picker: ^1.0.4
-  syncfusion_flutter_charts: ^24.1.46+1
-  syncfusion_flutter_gauges: ^24.1.45
+  syncfusion_flutter_charts: ^25.1.35
+  syncfusion_flutter_gauges: ^25.1.35
   percent_indicator: ^4.2.3
   http: ^1.2.0
   shared_preferences: ^2.2.2
@@ -54,7 +54,7 @@ dependencies:
   lottie: ^3.0.0
   shimmer: ^3.0.0
   flutter_blue: ^0.8.0
-  image_cropper: ^1.5.1
+  image_cropper: ^5.0.1
 
 
 dev_dependencies:

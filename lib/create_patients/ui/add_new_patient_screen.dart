@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -156,10 +157,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 final image =
                 await ImagePicker().pickImage(source: ImageSource.camera);
                 if (image != null) {
-                  File? croppedImage = await cropImage(image.path);
+                  CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      patientProvider.addPatientSelectedImage = croppedImage;
+                      patientProvider.addPatientSelectedImage = File(croppedImage.path);
                     });
                   }
                 }
@@ -167,10 +168,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 final image =
                 await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
-                  File? croppedImage = await cropImage(image.path);
+                  CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      patientProvider.addPatientSelectedImage = croppedImage;
+                      patientProvider.addPatientSelectedImage = File(croppedImage.path);
                     });
                   }
                     }
@@ -205,10 +206,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                                   final image =
                                   await ImagePicker().pickImage(source: ImageSource.camera);
                                   if (image != null) {
-                                    File? croppedImage = await cropImage(image.path);
+                                    CroppedFile? croppedImage = await cropImage(image.path);
                                     if (croppedImage != null) {
                                       setState(() {
-                                        patientProvider.addPatientSelectedImage = croppedImage;
+                                        patientProvider.addPatientSelectedImage = File(croppedImage.path);
                                       });
                                     }
                                   }
@@ -216,10 +217,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                                   final image =
                                   await ImagePicker().pickImage(source: ImageSource.gallery);
                                   if (image != null) {
-                                    File? croppedImage = await cropImage(image.path);
+                                    CroppedFile? croppedImage = await cropImage(image.path);
                                     if (croppedImage != null) {
                                       setState(() {
-                                        patientProvider.addPatientSelectedImage = croppedImage;
+                                        patientProvider.addPatientSelectedImage = File(croppedImage.path);
                                       });
                                     }
                                       }

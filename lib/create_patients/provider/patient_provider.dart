@@ -211,12 +211,12 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 
-  getMyPatients() {
-    individualPatients = apiCalls.getMyIndividualUsers(relGetPatientContext!);
+  getMyPatients(BuildContext context) {
+    individualPatients = apiCalls.getMyIndividualUsers(context);
   }
 
-   getEnterpriseProfiles() {
-    enterprisePatients = apiCalls.getMyEnterpriseUsers(relGetPatientContext!);
+   getEnterpriseProfiles(BuildContext context) {
+    enterprisePatients = apiCalls.getMyEnterpriseUsers(context);
   }
 
   getIndividualUserData(String? pId, BuildContext context) async {

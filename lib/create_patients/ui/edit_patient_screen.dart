@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../network/api_calls.dart';
@@ -76,10 +77,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       final image =
                                       await ImagePicker().pickImage(source: ImageSource.camera);
                                       if (image != null) {
-                                        File? croppedImage = await cropImage(image.path);
+                                        CroppedFile? croppedImage = await cropImage(image.path);
                                         if (croppedImage != null) {
                                           setState(() {
-                                            patientProvider.editPatientSelectedImage = croppedImage;
+                                            patientProvider.editPatientSelectedImage = File(croppedImage.path);
                                           });
                                         }
                                       }
@@ -87,10 +88,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       final image =
                                       await ImagePicker().pickImage(source: ImageSource.gallery);
                                       if (image != null) {
-                                        File? croppedImage = await cropImage(image.path);
+                                        CroppedFile? croppedImage = await cropImage(image.path);
                                         if (croppedImage != null) {
                                           setState(() {
-                                            patientProvider.editPatientSelectedImage = croppedImage;
+                                            patientProvider.editPatientSelectedImage = File(croppedImage.path);
                                           });
                                         }
                                       }
@@ -127,10 +128,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                         final image =
                                                         await ImagePicker().pickImage(source: ImageSource.camera);
                                                         if (image != null) {
-                                                          File? croppedImage = await cropImage(image.path);
+                                                          CroppedFile? croppedImage = await cropImage(image.path);
                                                           if (croppedImage != null) {
                                                             setState(() {
-                                                              patientProvider.editPatientSelectedImage = croppedImage;
+                                                              patientProvider.editPatientSelectedImage = File(croppedImage.path);
                                                             });
                                                           }
                                                         }
@@ -138,10 +139,10 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                         final image =
                                                         await ImagePicker().pickImage(source: ImageSource.gallery);
                                                         if (image != null) {
-                                                          File? croppedImage = await cropImage(image.path);
+                                                          CroppedFile? croppedImage = await cropImage(image.path);
                                                           if (croppedImage != null) {
                                                             setState(() {
-                                                              patientProvider.editPatientSelectedImage = croppedImage;
+                                                              patientProvider.editPatientSelectedImage = File(croppedImage.path);
                                                             });
                                                           }
                                                         }

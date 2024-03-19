@@ -269,10 +269,8 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print(request.fields);
 
     var response = await request.send();
-    print(response.statusCode);
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
     if (response.statusCode == 200) {

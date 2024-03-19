@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
@@ -59,12 +60,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               final image = await ImagePicker()
                                   .pickImage(source: ImageSource.camera);
                               if (image != null) {
-                                File? croppedImage =
+                                CroppedFile? croppedImage =
                                     await cropImage(image.path);
                                 if (croppedImage != null) {
                                   setState(() {
                                     profileProvider.editProfileSelectedImage =
-                                        croppedImage;
+                                        File(croppedImage.path);
                                   });
                                 }
                               }
@@ -72,12 +73,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               final image = await ImagePicker()
                                   .pickImage(source: ImageSource.gallery);
                               if (image != null) {
-                                File? croppedImage =
+                                CroppedFile? croppedImage =
                                     await cropImage(image.path);
                                 if (croppedImage != null) {
                                   setState(() {
                                     profileProvider.editProfileSelectedImage =
-                                        croppedImage;
+                                        File(croppedImage.path);
                                   });
                                 }
                               }
@@ -118,14 +119,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                             source: ImageSource
                                                                 .camera);
                                                 if (image != null) {
-                                                  File? croppedImage =
+                                                  CroppedFile? croppedImage =
                                                       await cropImage(
                                                           image.path);
                                                   if (croppedImage != null) {
                                                     setState(() {
                                                       profileProvider
                                                               .editProfileSelectedImage =
-                                                          croppedImage;
+                                                          File(croppedImage.path);
                                                     });
                                                   }
                                                 }
@@ -136,14 +137,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                             source: ImageSource
                                                                 .gallery);
                                                 if (image != null) {
-                                                  File? croppedImage =
+                                                  CroppedFile? croppedImage =
                                                       await cropImage(
                                                           image.path);
                                                   if (croppedImage != null) {
                                                     setState(() {
                                                       profileProvider
                                                               .editProfileSelectedImage =
-                                                          croppedImage;
+                                                          File(croppedImage.path);
                                                     });
                                                   }
                                                 }

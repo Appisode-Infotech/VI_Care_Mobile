@@ -1,3 +1,4 @@
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -103,8 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<PatientProvider>(context, listen: false).getMyPatients();
-    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles();
+    Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
+    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
     super.didChangeDependencies();
   }
 
@@ -485,8 +486,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     patientProvider.clearAddPatientForm();
                                     Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
                                       setState(() {
-                                        patientProvider.getMyPatients();
-                                        patientProvider.getEnterpriseProfiles();
+                                        patientProvider.getMyPatients(context);
+                                        patientProvider.getEnterpriseProfiles(context);
                                       });
                                       return null;
                                     });
@@ -673,8 +674,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     patientProvider.clearAddPatientForm();
                                     Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
                                       setState(() {
-                                        patientProvider.getMyPatients();
-                                        patientProvider.getEnterpriseProfiles();
+                                        patientProvider.getMyPatients(context);
+                                        patientProvider.getEnterpriseProfiles(context);
                                       });
                                       return null;
                                     });
