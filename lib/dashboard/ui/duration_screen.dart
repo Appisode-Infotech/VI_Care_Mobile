@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/provider/devices_provider.dart';
 import 'package:vicare/database/app_pref.dart';
-import 'package:vicare/network/api_calls.dart';
 
 import '../../main.dart';
 import '../../utils/app_colors.dart';
@@ -19,8 +18,6 @@ class DurationScreen extends StatefulWidget {
 }
 
 class _DurationScreenState extends State<DurationScreen> {
-
-
   @override
   void didChangeDependencies() {
     Provider.of<DeviceProvider>(context, listen: false).getAllDuration();
@@ -30,7 +27,8 @@ class _DurationScreenState extends State<DurationScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
+      builder:
+          (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
             title: Text(

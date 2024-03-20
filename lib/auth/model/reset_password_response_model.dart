@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-ResetPasswordResponseModel resetPasswordResponseModelFromJson(String str) => ResetPasswordResponseModel.fromJson(json.decode(str));
+ResetPasswordResponseModel resetPasswordResponseModelFromJson(String str) =>
+    ResetPasswordResponseModel.fromJson(json.decode(str));
 
-String resetPasswordResponseModelToJson(ResetPasswordResponseModel data) => json.encode(data.toJson());
+String resetPasswordResponseModelToJson(ResetPasswordResponseModel data) =>
+    json.encode(data.toJson());
 
 class ResetPasswordResponseModel {
   String? message;
@@ -23,19 +25,20 @@ class ResetPasswordResponseModel {
     this.errors,
   });
 
-  factory ResetPasswordResponseModel.fromJson(Map<String, dynamic> json) => ResetPasswordResponseModel(
-    message: json["message"],
-    isSuccess: json["isSuccess"],
-    pageResult: json["pageResult"],
-    result: json["result"],
-    errors: json["errors"],
-  );
+  factory ResetPasswordResponseModel.fromJson(Map<String, dynamic> json) =>
+      ResetPasswordResponseModel(
+        message: json["message"],
+        isSuccess: json["isSuccess"],
+        pageResult: json["pageResult"],
+        result: json["result"],
+        errors: json["errors"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "message": message,
-    "isSuccess": isSuccess,
-    "pageResult": pageResult,
-    "result": result,
-    "errors": errors,
-  };
+        "message": message,
+        "isSuccess": isSuccess,
+        "pageResult": pageResult,
+        "result": result,
+        "errors": errors,
+      };
 }

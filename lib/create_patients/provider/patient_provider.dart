@@ -5,6 +5,7 @@ import 'package:vicare/create_patients/model/add_individual_profile_response_mod
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../../main.dart';
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
 import '../model/all_enterprise_users_response_model.dart';
@@ -18,7 +19,6 @@ class PatientProvider extends ChangeNotifier {
   BuildContext? relGetPatientContext;
   Future<AllPatientsResponseModel>? individualPatients;
   Future<AllEnterpriseUsersResponseModel>? enterprisePatients;
-
 
   //add New Patient Page declarations
   final addPatientFormKey = GlobalKey<FormState>();
@@ -117,13 +117,12 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientGender!,
               addPatientSelectedImage,
               addNewPatientContext!,
-              addPatientBloodGroup!
-          );
+              addPatientBloodGroup!);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
-      }else{
+      } else {
         Navigator.pop(addNewPatientContext!);
         showErrorToast(addNewPatientContext!, response.message!);
       }
@@ -132,31 +131,52 @@ class PatientProvider extends ChangeNotifier {
 
   Future<void> prefillEditPatientDetails(BuildContext context) async {
     showLoaderDialog(context);
-    editPatientSelectedImage=null;
-    if(prefModel.userData!.roleId==2){
-      editPatientDobController.text = "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData!.result!.contact!.doB!.month}-${individualPatientData!.result!.contact!.doB!.day}";
-      editPatientMobileController.text = individualPatientData!.result!.contact!.contactNumber!;
+    editPatientSelectedImage = null;
+    if (prefModel.userData!.roleId == 2) {
+      editPatientDobController.text =
+          "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData!.result!.contact!.doB!.month}-${individualPatientData!.result!.contact!.doB!.day}";
+      editPatientMobileController.text =
+          individualPatientData!.result!.contact!.contactNumber!;
       editPatientEmailController.text = individualPatientData!.result!.email!;
-      editPatientFirstNameController.text = individualPatientData!.result!.firstName!;
-      editPatientLastNameController.text = individualPatientData!.result!.lastName!;
-      editPatientAddressController.text = individualPatientData!.result!.contact!.address.toString();
-      editPatientAddressController.text = individualPatientData!.result!.contact!.address.toString();
-      editPatientGender = individualPatientData!.result!.contact!.gender==1?"Male":individualPatientData!.result!.contact!.gender==2?"Female":"Do not wish to specify";
-      editPatientBloodGroup = individualPatientData!.result!.contact!.bloodGroup;
-      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData!.result!.profilePicture!.url!);
+      editPatientFirstNameController.text =
+          individualPatientData!.result!.firstName!;
+      editPatientLastNameController.text =
+          individualPatientData!.result!.lastName!;
+      editPatientAddressController.text =
+          individualPatientData!.result!.contact!.address.toString();
+      editPatientAddressController.text =
+          individualPatientData!.result!.contact!.address.toString();
+      editPatientGender = individualPatientData!.result!.contact!.gender == 1
+          ? "Male"
+          : individualPatientData!.result!.contact!.gender == 2
+              ? "Female"
+              : "Do not wish to specify";
+      editPatientBloodGroup =
+          individualPatientData!.result!.contact!.bloodGroup;
+      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
+          individualPatientData!.result!.profilePicture!.url!);
       notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editPatientsRoute);
-    }else{
-      editPatientDobController.text = "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData!.result!.contact!.doB!.month}-${enterpriseUserData!.result!.contact!.doB!.day}";
-      editPatientMobileController.text = enterpriseUserData!.result!.contact!.contactNumber!;
+    } else {
+      editPatientDobController.text =
+          "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData!.result!.contact!.doB!.month}-${enterpriseUserData!.result!.contact!.doB!.day}";
+      editPatientMobileController.text =
+          enterpriseUserData!.result!.contact!.contactNumber!;
       editPatientEmailController.text = enterpriseUserData!.result!.emailId!;
-      editPatientFirstNameController.text = enterpriseUserData!.result!.firstName!;
-      editPatientLastNameController.text = enterpriseUserData!.result!.lastName!;
+      editPatientFirstNameController.text =
+          enterpriseUserData!.result!.firstName!;
+      editPatientLastNameController.text =
+          enterpriseUserData!.result!.lastName!;
       // editPatientAddressController.text = enterpriseUserData!.result!.contact!.address;
-      editPatientGender = enterpriseUserData!.result!.contact!.gender==1?"Male":enterpriseUserData!.result!.contact!.gender==2?"Female":"Do not wish to specify";
+      editPatientGender = enterpriseUserData!.result!.contact!.gender == 1
+          ? "Male"
+          : enterpriseUserData!.result!.contact!.gender == 2
+              ? "Female"
+              : "Do not wish to specify";
       editPatientBloodGroup = enterpriseUserData!.result!.contact!.bloodGroup;
-      editPatientSelectedImage =  await apiCalls.downloadImageAndReturnFilePath(enterpriseUserData!.result!.profilePicture!.url!);
+      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
+          enterpriseUserData!.result!.profilePicture!.url!);
       notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editPatientsRoute);
@@ -176,12 +196,11 @@ class PatientProvider extends ChangeNotifier {
           editPatientGender!,
           editPatientSelectedImage!,
           editPatientPageContext!,
-        editPatientBloodGroup!,
-        individualPatientData!.result!.userId.toString(),
-        individualPatientData!.result!.contactId.toString(),
-        individualPatientData!.result!.id.toString()
-      );
-    if (response.result != null) {
+          editPatientBloodGroup!,
+          individualPatientData!.result!.userId.toString(),
+          individualPatientData!.result!.contactId.toString(),
+          individualPatientData!.result!.id.toString());
+      if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);
         Navigator.pop(editPatientPageContext!);
@@ -200,9 +219,8 @@ class PatientProvider extends ChangeNotifier {
               editPatientPageContext!,
               editPatientBloodGroup!,
               enterpriseUserData!.result!.enterpriseUserId.toString(),
-            enterpriseUserData!.result!.id.toString(),
-            enterpriseUserData!.result!.contactId.toString()
-          );
+              enterpriseUserData!.result!.id.toString(),
+              enterpriseUserData!.result!.contactId.toString());
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);
@@ -215,7 +233,7 @@ class PatientProvider extends ChangeNotifier {
     individualPatients = apiCalls.getMyIndividualUsers(context);
   }
 
-   getEnterpriseProfiles(BuildContext context) {
+  getEnterpriseProfiles(BuildContext context) {
     enterprisePatients = apiCalls.getMyEnterpriseUsers(context);
   }
 
@@ -243,5 +261,3 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 }
-
-

@@ -51,7 +51,6 @@ class _SummaryScreenState extends State<SummaryScreen>
         toolbarHeight: 75,
         automaticallyImplyLeading: false,
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -67,8 +66,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                   borderRadius: BorderRadius.circular(12),
                   color: AppColors.primaryColor,
                 ),
-                indicatorPadding: const EdgeInsets.symmetric(
-                    horizontal: -10, vertical: 5),
+                indicatorPadding:
+                    const EdgeInsets.symmetric(horizontal: -10, vertical: 5),
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.black,
                 tabs: [
@@ -79,8 +78,9 @@ class _SummaryScreenState extends State<SummaryScreen>
                 ],
               ),
             ),
-
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
@@ -92,10 +92,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                       children: [
                         Text(
                           AppLocale.readiness.getString(context),
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight
-                              .w700),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w700),
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           padding: const EdgeInsets.all(15),
                           decoration: const BoxDecoration(
@@ -115,19 +117,26 @@ class _SummaryScreenState extends State<SummaryScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(AppLocale.low.getString(context),
-                                style: const TextStyle(color: Colors.white,
+                              Text(
+                                AppLocale.low.getString(context),
+                                style: const TextStyle(
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 15),),
-                              Text(AppLocale.high.getString(context),
-                                style: const TextStyle(color: Colors.white,
+                                    fontSize: 15),
+                              ),
+                              Text(
+                                AppLocale.high.getString(context),
+                                style: const TextStyle(
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 15),),
+                                    fontSize: 15),
+                              ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10,),
-
+                        const SizedBox(
+                          height: 10,
+                        ),
                         SfCartesianChart(
                           primaryXAxis: const NumericAxis(),
                           primaryYAxis: const NumericAxis(),
@@ -146,20 +155,22 @@ class _SummaryScreenState extends State<SummaryScreen>
                               xValueMapper: (ScatterPoint point, _) => point.x,
                               yValueMapper: (ScatterPoint point, _) => point.y,
                               pointColorMapper: (ScatterPoint point, _) =>
-                              point.y < 15 ? Colors.yellow : Colors.green,
-                              markerSettings: const MarkerSettings(
-                              ),
+                                  point.y < 15 ? Colors.yellow : Colors.green,
+                              markerSettings: const MarkerSettings(),
                             ),
                           ],
                         ),
-
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Text(
                           AppLocale.resting.getString(context),
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight
-                              .w700),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w700),
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           padding: const EdgeInsets.all(15),
                           decoration: const BoxDecoration(
@@ -179,19 +190,26 @@ class _SummaryScreenState extends State<SummaryScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(AppLocale.low.getString(context),
-                                style: const TextStyle(color: Colors.white,
+                              Text(
+                                AppLocale.low.getString(context),
+                                style: const TextStyle(
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 15),),
-                              Text(AppLocale.high.getString(context),
-                                style: const TextStyle(color: Colors.white,
+                                    fontSize: 15),
+                              ),
+                              Text(
+                                AppLocale.high.getString(context),
+                                style: const TextStyle(
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 15),),
+                                    fontSize: 15),
+                              ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10,),
-
+                        const SizedBox(
+                          height: 10,
+                        ),
                         SfCartesianChart(
                           primaryXAxis: const NumericAxis(),
                           primaryYAxis: const NumericAxis(),
@@ -210,19 +228,19 @@ class _SummaryScreenState extends State<SummaryScreen>
                               xValueMapper: (ScatterPoint point, _) => point.x,
                               yValueMapper: (ScatterPoint point, _) => point.y,
                               pointColorMapper: (ScatterPoint point, _) =>
-                              point.y < 15 ? Colors.yellow : Colors.green,
-                              markerSettings: const MarkerSettings(
-                              ),
+                                  point.y < 15 ? Colors.yellow : Colors.green,
+                              markerSettings: const MarkerSettings(),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                       ],
                     ),
                   ),
 
                   //Tabs content here//
-
                 ],
               ),
             ),
@@ -232,5 +250,3 @@ class _SummaryScreenState extends State<SummaryScreen>
     );
   }
 }
-
-

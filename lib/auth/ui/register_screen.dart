@@ -417,7 +417,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      authProvider.registerSelectedImage = File(croppedImage.path);
+                      authProvider.registerSelectedImage =
+                          File(croppedImage.path);
                     });
                   }
                 }
@@ -428,7 +429,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      authProvider.registerSelectedImage = File(croppedImage.path);
+                      authProvider.registerSelectedImage =
+                          File(croppedImage.path);
                     });
                   }
                 }
@@ -875,5 +877,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-
-

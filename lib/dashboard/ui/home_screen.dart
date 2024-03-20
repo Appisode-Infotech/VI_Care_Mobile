@@ -1,4 +1,3 @@
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:vicare/utils/routes.dart';
 
 import '../../create_patients/model/all_patients_response_model.dart';
 import '../../create_patients/provider/patient_provider.dart';
-import '../../network/api_calls.dart';
 import '../../utils/app_locale.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -101,17 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
-
   @override
   void didChangeDependencies() {
-    if(prefModel.userData!.roleId==2){
-      Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
-    }else{
-      Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
+    if (prefModel.userData!.roleId == 2) {
+      Provider.of<PatientProvider>(context, listen: false)
+          .getMyPatients(context);
+    } else {
+      Provider.of<PatientProvider>(context, listen: false)
+          .getEnterpriseProfiles(context);
     }
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -165,10 +163,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 15,
                     height: 15,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: Colors.red
-                    ),
-                    child: const Center(child: Text("0",style: TextStyle(fontSize: 10,color: Colors.white,fontWeight: FontWeight.bold),)),
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: Colors.red),
+                    child: const Center(
+                        child: Text(
+                      "0",
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    )),
                   ),
                 )
               ],
@@ -435,13 +439,16 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            Consumer(builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
+            Consumer(builder: (BuildContext context,
+                PatientProvider patientProvider, Widget? child) {
               patientProvider.relGetPatientContext = context;
               return prefModel.userData!.roleId == 2
                   ? FutureBuilder(
                       future: patientProvider.individualPatients,
-                      builder: (BuildContext context, AsyncSnapshot<AllPatientsResponseModel> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
                             child: Shimmer.fromColors(
@@ -488,10 +495,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return InkWell(
                                   onTap: () {
                                     patientProvider.clearAddPatientForm();
-                                    Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                    Navigator.pushNamed(
+                                            context, Routes.addNewPatientRoute)
+                                        .then((value) {
                                       setState(() {
                                         patientProvider.getMyPatients(context);
-                                        patientProvider.getEnterpriseProfiles(context);
+                                        patientProvider
+                                            .getEnterpriseProfiles(context);
                                       });
                                       return null;
                                     });
@@ -624,11 +634,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     )
                   : FutureBuilder(
-                      future:patientProvider.enterprisePatients,
+                      future: patientProvider.enterprisePatients,
                       builder: (BuildContext context,
                           AsyncSnapshot<AllEnterpriseUsersResponseModel>
                               snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return SizedBox(
                             width: screenSize!.width,
                             child: Shimmer.fromColors(
@@ -676,10 +687,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return InkWell(
                                   onTap: () {
                                     patientProvider.clearAddPatientForm();
-                                    Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                    Navigator.pushNamed(
+                                            context, Routes.addNewPatientRoute)
+                                        .then((value) {
                                       setState(() {
                                         patientProvider.getMyPatients(context);
-                                        patientProvider.getEnterpriseProfiles(context);
+                                        patientProvider
+                                            .getEnterpriseProfiles(context);
                                       });
                                       return null;
                                     });
@@ -729,7 +743,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    patientProvider.getEnterpriseUserData(snapshot.data!.result![index].id.toString(),context);
+                                    patientProvider.getEnterpriseUserData(
+                                        snapshot.data!.result![index].id
+                                            .toString(),
+                                        context);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(

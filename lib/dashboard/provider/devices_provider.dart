@@ -13,14 +13,13 @@ class DeviceProvider extends ChangeNotifier {
   String? deviceType;
   TextEditingController serialNumberController = TextEditingController();
   BuildContext? devicePageContext;
-  Future<DurationResponseModel>? allDurations ;
+  Future<DurationResponseModel>? allDurations;
 
   clearDevicePopUp() {
     serialNumberController.clear();
     deviceType = null;
     notifyListeners();
   }
-
 
   addDevice() async {
     AddDeviceResponseModel response = await apiCalls.addDevice(
@@ -34,7 +33,7 @@ class DeviceProvider extends ChangeNotifier {
 
   //duration page declarations
 
-   getAllDuration() async {
-     allDurations =  apiCalls.getAllDurations();
+  getAllDuration() async {
+    allDurations = apiCalls.getAllDurations();
   }
 }

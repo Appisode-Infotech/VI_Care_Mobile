@@ -45,7 +45,6 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                         Text(
                           takeTestProvider.leDevices[index].name.isEmpty
                               ? '${AppLocale.undefined.getString(context)}'
-
                               : takeTestProvider.leDevices[index].name,
                           style: const TextStyle(fontSize: 16),
                         ),
@@ -61,10 +60,12 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                     ),
                     TextButton(
                         onPressed: () {
-                          if(takeTestProvider.isScanning){
-                            showErrorToast(context, "${AppLocale.waitScanning.getString(context)}");
-                          }else{
-                            takeTestProvider.connectToDevice(takeTestProvider.leDevices[index], context);
+                          if (takeTestProvider.isScanning) {
+                            showErrorToast(context,
+                                "${AppLocale.waitScanning.getString(context)}");
+                          } else {
+                            takeTestProvider.connectToDevice(
+                                takeTestProvider.leDevices[index], context);
                           }
                         },
                         child: Text(

@@ -25,124 +25,126 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (BuildContext context, ProfileProvider profileProvider, Widget? child) {
-      profileProvider.changePasswordPageContext = context;
-      return Scaffold(
-        body: Form(
-          key: profileProvider.changePasswordFormKey,
-          child: Column(
-            children: [
-              // Non-scrollable part
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 80, left: 20, right: 20, bottom: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 25,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      AppLocale.changePassword.getString(context),
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      AppLocale.enterOtpForNewPswd.getString(context),
-                      style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.fontShadeColor),
-                    ),
-                    const SizedBox(height: 20),
-
-                    StepProgressIndicator(
-                      roundedEdges: const Radius.circular(20),
-                      size: 7,
-                      totalSteps: 2,
-                      currentStep: currentStep,
-                      selectedColor: AppColors.primaryColor,
-                      unselectedColor: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Scrollable part
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    child: Column(
-                      children: [
-                        currentStep == 1
-                            ? otpScreen(profileProvider)
-                            : const SizedBox.shrink(),
-                        currentStep == 2
-                            ? changePassword(profileProvider)
-                            : const SizedBox.shrink(),
-                        const SizedBox(height: 30),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            currentStep != 1
-                                ? getPrimaryAppButton(
-                              context,
-                              AppLocale.previous.getString(context),
-                              onPressed: () async {
-                                setState(() {
-                                  currentStep = currentStep - 1;
-                                });
-                              },
-                              buttonColor: Colors.red.shade500,
-                            )
-                                : const SizedBox.shrink(),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            (currentStep == 1)
-                                ? getPrimaryAppButton(
-                                context, AppLocale.next.getString(context),
-                                onPressed: () async {
-                                  if (profileProvider.resetPasswordOtp ==
-                                      profileProvider.changePasswordOtpController.text) {
-                                    showSuccessToast(context, "Otp verified successfully");
-                                    setState(() {
-                                      currentStep = currentStep + 1;
-                                    });
-                                  } else {
-                                    showErrorToast(context, "Invalid Otp");
-                                  }
-                                })
-                                : getPrimaryAppButton(
-                                context, AppLocale.submit.getString(context),
-                                onPressed: () async {
-                                  profileProvider.resetNewPassword(context);
-
-                                  // Navigator.pushNamedAndRemoveUntil(
-                                  //     context, Routes.profileRoute, (route) => false);
-                                }
-                            ),
-                          ],
+    return Consumer(
+      builder: (BuildContext context, ProfileProvider profileProvider,
+          Widget? child) {
+        profileProvider.changePasswordPageContext = context;
+        return Scaffold(
+          body: Form(
+            key: profileProvider.changePasswordFormKey,
+            child: Column(
+              children: [
+                // Non-scrollable part
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 80, left: 20, right: 20, bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          size: 25,
                         ),
-                      ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        AppLocale.changePassword.getString(context),
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        AppLocale.enterOtpForNewPswd.getString(context),
+                        style: const TextStyle(
+                            fontSize: 12, color: AppColors.fontShadeColor),
+                      ),
+                      const SizedBox(height: 20),
+                      StepProgressIndicator(
+                        roundedEdges: const Radius.circular(20),
+                        size: 7,
+                        totalSteps: 2,
+                        currentStep: currentStep,
+                        selectedColor: AppColors.primaryColor,
+                        unselectedColor: Colors.grey,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Scrollable part
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Column(
+                        children: [
+                          currentStep == 1
+                              ? otpScreen(profileProvider)
+                              : const SizedBox.shrink(),
+                          currentStep == 2
+                              ? changePassword(profileProvider)
+                              : const SizedBox.shrink(),
+                          const SizedBox(height: 30),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              currentStep != 1
+                                  ? getPrimaryAppButton(
+                                      context,
+                                      AppLocale.previous.getString(context),
+                                      onPressed: () async {
+                                        setState(() {
+                                          currentStep = currentStep - 1;
+                                        });
+                                      },
+                                      buttonColor: Colors.red.shade500,
+                                    )
+                                  : const SizedBox.shrink(),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              (currentStep == 1)
+                                  ? getPrimaryAppButton(context,
+                                      AppLocale.next.getString(context),
+                                      onPressed: () async {
+                                      if (profileProvider.resetPasswordOtp ==
+                                          profileProvider
+                                              .changePasswordOtpController
+                                              .text) {
+                                        showSuccessToast(context,
+                                            "Otp verified successfully");
+                                        setState(() {
+                                          currentStep = currentStep + 1;
+                                        });
+                                      } else {
+                                        showErrorToast(context, "Invalid Otp");
+                                      }
+                                    })
+                                  : getPrimaryAppButton(context,
+                                      AppLocale.submit.getString(context),
+                                      onPressed: () async {
+                                      profileProvider.resetNewPassword(context);
+
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //     context, Routes.profileRoute, (route) => false);
+                                    }),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    },
+        );
+      },
     );
   }
 
@@ -158,7 +160,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          controller:profileProvider.changePasswordOtpController,
+          controller: profileProvider.changePasswordOtpController,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
@@ -182,7 +184,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
       ],
@@ -219,7 +221,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               onPressed: () {
                 setState(() {
                   profileProvider.changePasswordIsShowPassword =
-                  !profileProvider.changePasswordIsShowPassword;
+                      !profileProvider.changePasswordIsShowPassword;
                 });
               },
               child: Icon(
@@ -233,17 +235,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-              const BorderSide(color: AppColors.primaryColor),
+              borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide:
-              const BorderSide(color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
@@ -265,8 +265,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
-          obscureText:
-          profileProvider.changePasswordIsConfirmPassword,
+          obscureText: profileProvider.changePasswordIsConfirmPassword,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -275,8 +274,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               onPressed: () {
                 setState(() {
                   profileProvider.changePasswordIsConfirmPassword =
-                  !profileProvider
-                      .changePasswordIsConfirmPassword;
+                      !profileProvider.changePasswordIsConfirmPassword;
                 });
               },
               child: Icon(
@@ -291,17 +289,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             errorStyle: const TextStyle(color: Colors.red),
             errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
-              borderSide:
-              const BorderSide(color: AppColors.primaryColor),
+              borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide:
-              const BorderSide(color: Colors.black, width: 2),
+              borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 15, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
       ],

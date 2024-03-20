@@ -5,7 +5,8 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../../network/api_calls.dart';
+
+import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
@@ -28,7 +29,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
         return Scaffold(
             appBar: AppBar(
               title: Text(
-                prefModel.userData!.roleId== 2
+                prefModel.userData!.roleId == 2
                     ? AppLocale.editMembers.getString(context)
                     : prefModel.userData!.roleId == 3
                         ? AppLocale.editPatients.getString(context)
@@ -72,26 +73,35 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  showImageSourceDialog(context, onOptionSelected: (value) async {
+                                  showImageSourceDialog(context,
+                                      onOptionSelected: (value) async {
                                     if (value == 'Camera') {
-                                      final image =
-                                      await ImagePicker().pickImage(source: ImageSource.camera);
+                                      final image = await ImagePicker()
+                                          .pickImage(
+                                              source: ImageSource.camera);
                                       if (image != null) {
-                                        CroppedFile? croppedImage = await cropImage(image.path);
+                                        CroppedFile? croppedImage =
+                                            await cropImage(image.path);
                                         if (croppedImage != null) {
                                           setState(() {
-                                            patientProvider.editPatientSelectedImage = File(croppedImage.path);
+                                            patientProvider
+                                                    .editPatientSelectedImage =
+                                                File(croppedImage.path);
                                           });
                                         }
                                       }
                                     } else if (value == 'Gallery') {
-                                      final image =
-                                      await ImagePicker().pickImage(source: ImageSource.gallery);
+                                      final image = await ImagePicker()
+                                          .pickImage(
+                                              source: ImageSource.gallery);
                                       if (image != null) {
-                                        CroppedFile? croppedImage = await cropImage(image.path);
+                                        CroppedFile? croppedImage =
+                                            await cropImage(image.path);
                                         if (croppedImage != null) {
                                           setState(() {
-                                            patientProvider.editPatientSelectedImage = File(croppedImage.path);
+                                            patientProvider
+                                                    .editPatientSelectedImage =
+                                                File(croppedImage.path);
                                           });
                                         }
                                       }
@@ -123,26 +133,50 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                   AppColors.primaryColor,
                                               child: IconButton(
                                                   onPressed: () {
-                                                    showImageSourceDialog(context, onOptionSelected: (value) async {
+                                                    showImageSourceDialog(
+                                                        context,
+                                                        onOptionSelected:
+                                                            (value) async {
                                                       if (value == 'Camera') {
                                                         final image =
-                                                        await ImagePicker().pickImage(source: ImageSource.camera);
+                                                            await ImagePicker()
+                                                                .pickImage(
+                                                                    source: ImageSource
+                                                                        .camera);
                                                         if (image != null) {
-                                                          CroppedFile? croppedImage = await cropImage(image.path);
-                                                          if (croppedImage != null) {
+                                                          CroppedFile?
+                                                              croppedImage =
+                                                              await cropImage(
+                                                                  image.path);
+                                                          if (croppedImage !=
+                                                              null) {
                                                             setState(() {
-                                                              patientProvider.editPatientSelectedImage = File(croppedImage.path);
+                                                              patientProvider
+                                                                      .editPatientSelectedImage =
+                                                                  File(croppedImage
+                                                                      .path);
                                                             });
                                                           }
                                                         }
-                                                      } else if (value == 'Gallery') {
+                                                      } else if (value ==
+                                                          'Gallery') {
                                                         final image =
-                                                        await ImagePicker().pickImage(source: ImageSource.gallery);
+                                                            await ImagePicker()
+                                                                .pickImage(
+                                                                    source: ImageSource
+                                                                        .gallery);
                                                         if (image != null) {
-                                                          CroppedFile? croppedImage = await cropImage(image.path);
-                                                          if (croppedImage != null) {
+                                                          CroppedFile?
+                                                              croppedImage =
+                                                              await cropImage(
+                                                                  image.path);
+                                                          if (croppedImage !=
+                                                              null) {
                                                             setState(() {
-                                                              patientProvider.editPatientSelectedImage = File(croppedImage.path);
+                                                              patientProvider
+                                                                      .editPatientSelectedImage =
+                                                                  File(croppedImage
+                                                                      .path);
                                                             });
                                                           }
                                                         }
@@ -468,7 +502,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 onChanged: (String? value) {
                                   setState(() {
                                     patientProvider.selectedGender = value ==
-                                            "Male" ? 1 : value == "Female" ? 2 : value == "Do not wish to specify" ? 3 : 0;
+                                            "Male"
+                                        ? 1
+                                        : value == "Female"
+                                            ? 2
+                                            : value == "Do not wish to specify"
+                                                ? 3
+                                                : 0;
                                     patientProvider.editPatientGender = value!;
                                   });
                                 },
@@ -488,14 +528,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               Text(AppLocale.bloodGroup.getString(context),
-                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return AppLocale.validBloodGroup.getString(context);
+                                    return AppLocale.validBloodGroup
+                                        .getString(context);
                                   }
                                   return null;
                                 },
@@ -508,22 +550,31 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       color: Color(0xffD3D3D3),
                                     ),
                                   ),
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 16),
                                   focusColor: Colors.transparent,
-                                  errorStyle: TextStyle(color: Colors.red.shade400),
+                                  errorStyle:
+                                      TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
-                                hint: Text(AppLocale.bloodGroup.getString(context)),
+                                hint: Text(
+                                    AppLocale.bloodGroup.getString(context)),
                                 value: patientProvider.editPatientBloodGroup,
                                 onChanged: (String? value) {
                                   setState(() {
-                                    patientProvider.editPatientBloodGroup = value!;
+                                    patientProvider.editPatientBloodGroup =
+                                        value!;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
-                                items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: <String>[
+                                  "O+ve",
+                                  "AB+ve",
+                                  "B+ve",
+                                  "O-ve",
+                                  "A+ve",
+                                  "A-ve"
+                                ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -1017,7 +1068,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 value: patientProvider.editPatientGender,
                                 onChanged: (String? value) {
                                   setState(() {
-                                    patientProvider.selectedGender = value == "Male" ? 1 : value == "Female" ? 2 : value == "Do not wish to specify" ? 3 : 0;
+                                    patientProvider.selectedGender = value ==
+                                            "Male"
+                                        ? 1
+                                        : value == "Female"
+                                            ? 2
+                                            : value == "Do not wish to specify"
+                                                ? 3
+                                                : 0;
                                     patientProvider.editPatientGender = value!;
                                   });
                                 },
@@ -1037,14 +1095,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               Text(AppLocale.bloodGroup.getString(context),
-                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return AppLocale.validBloodGroup.getString(context);
+                                    return AppLocale.validBloodGroup
+                                        .getString(context);
                                   }
                                   return null;
                                 },
@@ -1057,22 +1117,31 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       color: Color(0xffD3D3D3),
                                     ),
                                   ),
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 16),
                                   focusColor: Colors.transparent,
-                                  errorStyle: TextStyle(color: Colors.red.shade400),
+                                  errorStyle:
+                                      TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
-                                hint: Text(AppLocale.bloodGroup.getString(context)),
+                                hint: Text(
+                                    AppLocale.bloodGroup.getString(context)),
                                 value: patientProvider.editPatientBloodGroup,
                                 onChanged: (String? value) {
                                   setState(() {
-                                    patientProvider.editPatientBloodGroup = value!;
+                                    patientProvider.editPatientBloodGroup =
+                                        value!;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
-                                items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
-                                    .map<DropdownMenuItem<String>>((String value) {
+                                items: <String>[
+                                  "O+ve",
+                                  "AB+ve",
+                                  "B+ve",
+                                  "O-ve",
+                                  "A+ve",
+                                  "A-ve"
+                                ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -1129,7 +1198,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               getPrimaryAppButton(
                                   context, AppLocale.submit.getString(context),
                                   onPressed: () async {
-                                if (patientProvider.editPatientFormKey.currentState!.validate()) {
+                                if (patientProvider
+                                    .editPatientFormKey.currentState!
+                                    .validate()) {
                                   patientProvider.editPatient();
                                 }
                               }),

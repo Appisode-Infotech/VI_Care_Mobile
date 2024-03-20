@@ -1,14 +1,12 @@
-
-
-
 import 'package:vicare/dashboard/model/duration_response_model.dart';
 
 import '../../auth/model/register_response_model.dart';
+import '../../dashboard/model/offline_test_model.dart';
 
 class PrefModel {
   UserData? userData;
   Duration? selectedDuration;
-  List<Map>? offlineSavedTests;
+  List<OfflineTestModel>? offlineSavedTests;
 
   PrefModel({
     this.userData,
@@ -21,13 +19,13 @@ class PrefModel {
       userData: parsedJson["userData"] == null
           ? null
           : UserData.fromJson(parsedJson["userData"]),
-
       selectedDuration: parsedJson["selectedDuration"] == null
           ? null
           : Duration.fromJson(parsedJson["selectedDuration"]),
-      offlineSavedTests: parsedJson["offlineSavedTests"] != null
-          ? List<Map>.from(parsedJson["offlineSavedTests"])
-          : []
+      offlineSavedTests: parsedJson["offlineSavedTests"] == null
+          ? []
+          : List<OfflineTestModel>.from(parsedJson["offlineSavedTests"]
+              .map((x) => OfflineTestModel.fromJson(x))),
     );
   }
 
@@ -35,7 +33,9 @@ class PrefModel {
     return {
       "userData": userData?.toJson(),
       "selectedDuration": selectedDuration?.toJson(),
-      "offlineSavedTests": offlineSavedTests!.map((test) => Map<String, dynamic>.from(test)).toList(),
+      "offlineSavedTests": offlineSavedTests == null
+          ? null
+          : List<dynamic>.from(offlineSavedTests!.map((x) => x.toJson())),
     };
   }
 }

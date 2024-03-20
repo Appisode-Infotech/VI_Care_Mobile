@@ -18,13 +18,10 @@ import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
 import '../dashboard/model/duration_response_model.dart';
-import '../database/app_pref.dart';
-import '../database/models/pref_model.dart';
+import '../main.dart';
 import '../utils/url_constants.dart';
 
 String platform = Platform.isIOS ? "IOS" : "Android";
-
-PrefModel prefModel = AppPref.getPref();
 
 class ApiCalls {
   Future<http.Response> hitApiPost(
@@ -293,7 +290,6 @@ class ApiCalls {
       throw "could not add the profile ${response.statusCode}";
     }
   }
-
 
   resetPassword(
       String email, String password, BuildContext buildContext) async {
@@ -620,16 +616,15 @@ class ApiCalls {
     }
   }
 
-  Future<ResetPasswordResponseModel> resetNewPassword(bool password, String? changePswEmail, BuildContext context
-    ) async {
+  Future<ResetPasswordResponseModel> resetNewPassword(
+      bool password, String? changePswEmail, BuildContext context) async {
     http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
         jsonEncode({"Email": changePswEmail, "NewPassword": password}));
-    if(response.statusCode==200) {
+    if (response.statusCode == 200) {
       return ResetPasswordResponseModel.fromJson(json.decode(response.body));
-    }else{
+    } else {
       showErrorToast(context, "Something went wrong");
       throw "could not reset password ${response.statusCode}";
     }
   }
-
 }

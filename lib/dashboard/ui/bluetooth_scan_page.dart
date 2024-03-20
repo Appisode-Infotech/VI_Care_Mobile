@@ -16,17 +16,19 @@ class BluetoothScanPage extends StatefulWidget {
 }
 
 class _BluetoothScanPageState extends State<BluetoothScanPage> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
+      builder: (BuildContext context, TakeTestProvider takeTestProvider,
+          Widget? child) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: !takeTestProvider.isScanning?Text(AppLocale.scanDevices.getString(context)):const Text("Scanning..."),
+            title: !takeTestProvider.isScanning
+                ? Text(AppLocale.scanDevices.getString(context))
+                : const Text("Scanning..."),
           ),
-          body:  Column(
+          body: Column(
             children: [
               DefaultTabController(
                 length: 2,
@@ -34,14 +36,18 @@ class _BluetoothScanPageState extends State<BluetoothScanPage> {
                   child: Column(
                     children: [
                       Container(
-                        color: Colors.white, // Change this color to the desired background color
+                        color: Colors.white,
+                        // Change this color to the desired background color
                         child: TabBar(
                           tabs: [
                             Tab(text: AppLocale.bluetoothLe.getString(context)),
-                            Tab(text: AppLocale.bluetoothClassic.getString(context)),
+                            Tab(
+                                text: AppLocale.bluetoothClassic
+                                    .getString(context)),
                           ],
                           labelColor: AppColors.primaryColor,
-                          indicatorColor: AppColors.primaryColor, // Change this color to the desired selected tab indicator color
+                          indicatorColor: AppColors
+                              .primaryColor, // Change this color to the desired selected tab indicator color
                         ),
                       ),
                       const SizedBox(height: 10),

@@ -128,7 +128,6 @@ void showImageSourceDialog(BuildContext context,
   );
 }
 
-
 void showSuccessToast(BuildContext context, String content) {
   return DelightToastBar(
     position: DelightSnackbarPosition.top,
@@ -198,7 +197,6 @@ void showLoaderDialog(BuildContext context) {
   );
 }
 
-
 Future<CroppedFile?> cropImage(String imagePath) async {
   CroppedFile? croppedImage;
   try {
@@ -222,7 +220,6 @@ Future<CroppedFile?> cropImage(String imagePath) async {
           minimumAspectRatio: 1.0,
         )
       ],
-
     );
   } catch (e) {
     log('Error cropping image: $e');

@@ -8,7 +8,6 @@ import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/main.dart';
 
 import '../../create_patients/model/all_enterprise_users_response_model.dart';
-import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
@@ -21,19 +20,19 @@ class ManagePatientsScreen extends StatefulWidget {
 }
 
 class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
-
   @override
   void didChangeDependencies() {
     Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
-    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
+    Provider.of<PatientProvider>(context, listen: false)
+        .getEnterpriseProfiles(context);
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
+      builder: (BuildContext context, PatientProvider patientProvider,
+          Widget? child) {
         patientProvider.relGetPatientContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -56,7 +55,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
             child: prefModel.userData!.roleId == 2
                 ? FutureBuilder(
                     future: patientProvider.individualPatients,
-                    builder: (BuildContext context, AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                    builder: (BuildContext context,
+                        AsyncSnapshot<AllPatientsResponseModel> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                             width: screenSize!.width,
@@ -103,10 +103,13 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
-                                  Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                  Navigator.pushNamed(
+                                          context, Routes.addNewPatientRoute)
+                                      .then((value) {
                                     setState(() {
                                       patientProvider.getMyPatients(context);
-                                      patientProvider.getEnterpriseProfiles(context);
+                                      patientProvider
+                                          .getEnterpriseProfiles(context);
                                     });
                                     return null;
                                   });
@@ -154,9 +157,10 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                             } else {
                               index = index - 1;
                               return InkWell(
-                                onTap: ()  {
+                                onTap: () {
                                   patientProvider.getIndividualUserData(
-                                      snapshot.data!.result![index].id.toString(),
+                                      snapshot.data!.result![index].id
+                                          .toString(),
                                       context);
                                 },
                                 child: Container(
@@ -285,10 +289,13 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () {
                                   patientProvider.clearAddPatientForm();
-                                  Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                  Navigator.pushNamed(
+                                          context, Routes.addNewPatientRoute)
+                                      .then((value) {
                                     setState(() {
                                       patientProvider.getMyPatients(context);
-                                      patientProvider.getEnterpriseProfiles(context);
+                                      patientProvider
+                                          .getEnterpriseProfiles(context);
                                     });
                                     return null;
                                   });
@@ -338,7 +345,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               return InkWell(
                                 onTap: () async {
                                   patientProvider.getEnterpriseUserData(
-                                      snapshot.data!.result![index].id.toString(),
+                                      snapshot.data!.result![index].id
+                                          .toString(),
                                       context);
                                 },
                                 child: Container(

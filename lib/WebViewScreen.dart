@@ -42,7 +42,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         title: Text(
           title,
           style:
-          const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: WebViewWidget(controller: controller),

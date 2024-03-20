@@ -5,7 +5,6 @@ import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/network/api_calls.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
@@ -23,7 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, ProfileProvider profileProvider, Widget? child) {
+      builder: (BuildContext context, ProfileProvider profileProvider,
+          Widget? child) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -43,26 +43,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       prefModel.userData!.profilePicture!.url != null
                           ? CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: NetworkImage(prefModel
-                            .userData!.profilePicture!.url
-                            .toString()),
-                      )
+                              radius: 30,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: NetworkImage(prefModel
+                                  .userData!.profilePicture!.url
+                                  .toString()),
+                            )
                           : const CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.grey,
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        ),
-                      ),
+                              radius: 30,
+                              backgroundColor: Colors.grey,
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.white,
+                              ),
+                            ),
                       const SizedBox(
                         width: 20,
                       ),
                       Text(
                         "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}",
-                        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 20),
                       )
                     ],
                   ),
@@ -85,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.settings_outlined,
@@ -124,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.device_hub_outlined,
@@ -163,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.cloud_off,
@@ -203,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.edit_outlined,
@@ -230,7 +231,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      SendOtpResponseModel response = await profileProvider.changePassword(context);
+                      SendOtpResponseModel response =
+                          await profileProvider.changePassword(context);
                       profileProvider.resetPasswordOtp = response.result!.otp;
                       if (response.result != null) {
                         showSuccessToast(context, response.message!);
@@ -250,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.lock_outline,
@@ -289,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.language,
@@ -318,10 +320,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 10),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.webViewRoute, arguments: {
-                        'url': "https://www.google.com",
-                        'title': AppLocale.termsAndConditions.getString(context),
-                      });
+                      Navigator.pushNamed(context, Routes.webViewRoute,
+                          arguments: {
+                            'url': "https://www.google.com",
+                            'title':
+                                AppLocale.termsAndConditions.getString(context),
+                          });
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -333,7 +337,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.description_outlined,
@@ -360,10 +364,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.webViewRoute, arguments: {
-                        'url': "https://www.google.com",
-                        'title': AppLocale.newsBlog.getString(context),
-                      });
+                      Navigator.pushNamed(context, Routes.webViewRoute,
+                          arguments: {
+                            'url': "https://www.google.com",
+                            'title': AppLocale.newsBlog.getString(context),
+                          });
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -375,7 +380,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.teal.shade100,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                               ),
                               child: const Icon(
                                 Icons.newspaper,
@@ -410,7 +415,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               color: Colors.teal.shade100,
                               borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
+                                  const BorderRadius.all(Radius.circular(5)),
                             ),
                             child: const Icon(
                               Icons.headset_mic_outlined,
@@ -460,10 +465,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: Center(
                             child: Text(
-                              AppLocale.logOut.getString(context),
-                              style: const TextStyle(
-                                  color: Colors.red, fontWeight: FontWeight.w600),
-                            ))),
+                          AppLocale.logOut.getString(context),
+                          style: const TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.w600),
+                        ))),
                   ),
                   const SizedBox(
                     height: 30,
@@ -473,7 +478,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         );
-
       },
     );
   }

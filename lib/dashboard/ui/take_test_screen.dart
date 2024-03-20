@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -9,13 +10,13 @@ import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../create_patients/model/enterprise_response_model.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
+import '../model/offline_test_model.dart';
 
 class TakeTestScreen extends StatefulWidget {
   const TakeTestScreen({super.key});
@@ -35,7 +36,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
 
-  void startTimer() {
+  void startTimer(TakeTestProvider takeTestProvider) {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (secondsRemaining > 0) {
@@ -45,30 +46,32 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             subscription.cancel(); // cancel all subscriptions
           }
           timer.cancel();
-          heartRate=0;
-          secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+          heartRate = 0;
+          secondsRemaining =
+              (prefModel.selectedDuration!.durationInMinutes!) * 60;
           isTimerRunning = false;
-          saveReadings();
+          saveReadings(takeTestProvider);
         }
       });
     });
   }
 
-
-  Future<void> handleStartButtonClick(BuildContext context, TakeTestProvider takeTestProvider) async {
+  Future<void> handleStartButtonClick(
+      BuildContext context, TakeTestProvider takeTestProvider) async {
     if (!isTimerRunning) {
-      startRecordingReadings(takeTestProvider);
+      await startRecordingReadings(takeTestProvider);
       isTimerRunning = true;
-      startTimer();
+      startTimer(takeTestProvider);
     } else {
       bool userWantsToAbort = await showStopTestWarningDialog(context);
       if (userWantsToAbort) {
         for (var subscription in subscriptions) {
           subscription.cancel(); // cancel all subscriptions
         }
-        heartRate=0;
+        heartRate = 0;
         timer!.cancel();
-        secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+        secondsRemaining =
+            (prefModel.selectedDuration!.durationInMinutes!) * 60;
         isTimerRunning = false;
         setState(() {});
       }
@@ -93,7 +96,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     }
     super.dispose();
   }
-
 
   @override
   void didChangeDependencies() {
@@ -164,9 +166,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                         onTap: () {
                                           takeTestProvider.disconnect(context);
                                         },
-                                        child:  Text(
-                                          "${AppLocale.disconnect.getString(context)}",
-                                          style: TextStyle(
+                                        child: Text(
+                                          AppLocale.disconnect
+                                              .getString(context),
+                                          style: const TextStyle(
                                               color: AppColors.scaffoldColor,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
@@ -223,8 +226,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                                 });
                                               });
                                             } else {
-                                              showErrorToast(context,
-                                                  '${AppLocale.waitTillScan.getString(context)}');
+                                              showErrorToast(
+                                                  context,
+                                                  AppLocale.waitTillScan
+                                                      .getString(context));
                                             }
                                           },
                                           child: const Icon(
@@ -248,7 +253,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                               const SizedBox(height: 20),
                               GestureDetector(
                                 onTap: () {
-                                  handleStartButtonClick(context,takeTestProvider);
+                                  handleStartButtonClick(
+                                      context, takeTestProvider);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -392,26 +398,28 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-
   Future<void> startRecordingReadings(TakeTestProvider takeTestProvider) async {
     bpmList.clear(); // Clear existing values
     rrIntervalList.clear(); // Clear existing values
     subscriptions.clear(); // Clear existing subscriptions
 
     List<BluetoothService> services =
-    await takeTestProvider.connectedDevice!.discoverServices();
+        await takeTestProvider.connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
       if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
-        for (BluetoothCharacteristic characteristic in service.characteristics) {
-          await characteristic.setNotifyValue(true);
+        for (BluetoothCharacteristic characteristic
+            in service.characteristics) {
+          try {
+            await characteristic.setNotifyValue(true);
+          } catch (e) {
+            log(e.toString());
+          }
           StreamSubscription subscription =
-          characteristic.value.listen((value) {
+              characteristic.value.listen((value) {
             if (value.isNotEmpty) {
-              setState(() {
-                heartRate = value[1];
-                bpmList.add(value[1]);
-                rrIntervalList.add(60000/value[1]);
-              });
+              heartRate = value[1];
+              bpmList.add(value[1]);
+              rrIntervalList.add(60000 / value[1]);
             }
           });
           subscriptions.add(subscription); // Add the subscription to the list
@@ -420,21 +428,29 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     }
   }
 
-  void saveReadings() {
-    Map test = {
-      "profileType":prefModel.userData!.roleId==2?"individual":"enterprise",
-      "roleId":prefModel.userData!.roleId,
-      "individualPatientData":individualPatientData?.toJson(),
-      "enterprisePatientData":enterprisePatientData?.toJson(),
-      "bpmList":bpmList,
-      "rrIntervalList":rrIntervalList,
-      "scanTime":DateTime.now(),
-      "scanDuration":prefModel.selectedDuration
-    };
-    prefModel.offlineSavedTests!.add(test);
+  void saveReadings(TakeTestProvider takeTestProvider) {
+    prefModel.offlineSavedTests ??= [];
+    prefModel.offlineSavedTests!.add(OfflineTestModel(
+        myRoleId: prefModel.userData!.roleId,
+        bpmList: bpmList,
+        rrIntervalList: rrIntervalList,
+        scanDuration: prefModel.selectedDuration!.durationInMinutes,
+        deviceName: takeTestProvider.connectedDevice!.name,
+        deviceId: takeTestProvider.connectedDevice!.id.id,
+        patientFirstName: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.firstName
+            : enterprisePatientData?.result!.firstName,
+        patientlastName: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.lastName
+            : enterprisePatientData?.result!.lastName,
+        patientProfilePic: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.profilePicture!.path
+            : enterprisePatientData?.result!.profilePicture!.path,
+        patientId: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.id
+            : enterprisePatientData?.result!.enterpriseUserId,
+        created: DateTime.now()));
     AppPref.setPref(prefModel);
     showSuccessToast(context, "Test successful and saved to offline.");
   }
-
-
 }

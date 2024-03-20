@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -10,7 +11,6 @@ import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 
-import '../../network/api_calls.dart';
 import '../provider/patient_provider.dart';
 
 class AddNewPatientScreen extends StatefulWidget {
@@ -21,119 +21,136 @@ class AddNewPatientScreen extends StatefulWidget {
 }
 
 class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
-
   int currentStep = 1;
+
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
   }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer
-      (builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
-      patientProvider.addNewPatientContext= context;
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            prefModel.userData!.roleId == 2?AppLocale.addMember.getString(context):prefModel.userData!.roleId == 3?AppLocale.addPatients.getString(context):prefModel.userData!.roleId == 4?AppLocale.addPlayer.getString(context):"",
-            style: const TextStyle(color: Colors.white),
-          ),
-          backgroundColor: AppColors.primaryColor,
-          toolbarHeight: 75,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+    return Consumer(
+      builder: (BuildContext context, PatientProvider patientProvider,
+          Widget? child) {
+        patientProvider.addNewPatientContext = context;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              prefModel.userData!.roleId == 2
+                  ? AppLocale.addMember.getString(context)
+                  : prefModel.userData!.roleId == 3
+                      ? AppLocale.addPatients.getString(context)
+                      : prefModel.userData!.roleId == 4
+                          ? AppLocale.addPlayer.getString(context)
+                          : "",
+              style: const TextStyle(color: Colors.white),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            backgroundColor: AppColors.primaryColor,
+            toolbarHeight: 75,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
-        ),
-        body: Form(
-          key: patientProvider.addPatientFormKey,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Column(
-                children: [
-                  StepProgressIndicator(
-                    roundedEdges: const Radius.circular(20),
-                    size: 7,
-                    totalSteps: 3,
-                    currentStep: currentStep,
-                    selectedColor: AppColors.primaryColor,
-                    unselectedColor: Colors.grey,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  currentStep == 1
-                      ? patientDetails(patientProvider)
-                      : const SizedBox.shrink(),
-                  currentStep == 2
-                      ? firstQuestion(patientProvider)
-                      : const SizedBox.shrink(),
-                  currentStep == 3
-                      ? secondQuestion(patientProvider)
-                      : const SizedBox.shrink(),
-                  const SizedBox(height: 10),
-                  Container(
-                    color: Colors.white,
-                    width: screenSize!.width,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        currentStep != 1
-                            ? getPrimaryAppButton(
-                          context,
-                          AppLocale.previous.getString(context),
-                          onPressed: () async{
-                            setState(() {
-                              currentStep = currentStep - 1;
-                            });
-                          },
-                          buttonColor: Colors.red.shade500,
-                        )
-                            : const SizedBox.shrink(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        currentStep == 1 || currentStep == 2
-                            ? getPrimaryAppButton(
-                          context,
-                          AppLocale.next.getString(context),
-                          onPressed: () async{
-                            if (patientProvider.addPatientFormKey.currentState!.validate()) {
-                              if(currentStep==1){
-                                if(patientProvider.addPatientSelectedImage==null){
-                                  showErrorToast(context, "Please select an image");
-                                  return;
-                                }
-                              }
-                              setState(() {
-                                currentStep = currentStep + 1;
-                              });
-                            }
-                          },
-                        ) : getPrimaryAppButton(
-                          context,
-                          AppLocale.submit.getString(context),
-                          onPressed: () async{
-                            if (patientProvider.addPatientFormKey.currentState!.validate()) {
-                              patientProvider.addNewPatient();
-                            }
-                          },
-                        ),
-                      ],
+          body: Form(
+            key: patientProvider.addPatientFormKey,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Column(
+                  children: [
+                    StepProgressIndicator(
+                      roundedEdges: const Radius.circular(20),
+                      size: 7,
+                      totalSteps: 3,
+                      currentStep: currentStep,
+                      selectedColor: AppColors.primaryColor,
+                      unselectedColor: Colors.grey,
                     ),
-                  )
-                ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    currentStep == 1
+                        ? patientDetails(patientProvider)
+                        : const SizedBox.shrink(),
+                    currentStep == 2
+                        ? firstQuestion(patientProvider)
+                        : const SizedBox.shrink(),
+                    currentStep == 3
+                        ? secondQuestion(patientProvider)
+                        : const SizedBox.shrink(),
+                    const SizedBox(height: 10),
+                    Container(
+                      color: Colors.white,
+                      width: screenSize!.width,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          currentStep != 1
+                              ? getPrimaryAppButton(
+                                  context,
+                                  AppLocale.previous.getString(context),
+                                  onPressed: () async {
+                                    setState(() {
+                                      currentStep = currentStep - 1;
+                                    });
+                                  },
+                                  buttonColor: Colors.red.shade500,
+                                )
+                              : const SizedBox.shrink(),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          currentStep == 1 || currentStep == 2
+                              ? getPrimaryAppButton(
+                                  context,
+                                  AppLocale.next.getString(context),
+                                  onPressed: () async {
+                                    if (patientProvider
+                                        .addPatientFormKey.currentState!
+                                        .validate()) {
+                                      if (currentStep == 1) {
+                                        if (patientProvider
+                                                .addPatientSelectedImage ==
+                                            null) {
+                                          showErrorToast(context,
+                                              "Please select an image");
+                                          return;
+                                        }
+                                      }
+                                      setState(() {
+                                        currentStep = currentStep + 1;
+                                      });
+                                    }
+                                  },
+                                )
+                              : getPrimaryAppButton(
+                                  context,
+                                  AppLocale.submit.getString(context),
+                                  onPressed: () async {
+                                    if (patientProvider
+                                        .addPatientFormKey.currentState!
+                                        .validate()) {
+                                      patientProvider.addNewPatient();
+                                    }
+                                  },
+                                ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
       },
     );
   }
@@ -155,28 +172,30 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             showImageSourceDialog(context, onOptionSelected: (value) async {
               if (value == 'Camera') {
                 final image =
-                await ImagePicker().pickImage(source: ImageSource.camera);
+                    await ImagePicker().pickImage(source: ImageSource.camera);
                 if (image != null) {
                   CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      patientProvider.addPatientSelectedImage = File(croppedImage.path);
+                      patientProvider.addPatientSelectedImage =
+                          File(croppedImage.path);
                     });
                   }
                 }
               } else if (value == 'Gallery') {
                 final image =
-                await ImagePicker().pickImage(source: ImageSource.gallery);
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
                   CroppedFile? croppedImage = await cropImage(image.path);
                   if (croppedImage != null) {
                     setState(() {
-                      patientProvider.addPatientSelectedImage = File(croppedImage.path);
+                      patientProvider.addPatientSelectedImage =
+                          File(croppedImage.path);
                     });
                   }
-                    }
-                  }
-                });
+                }
+              }
+            });
           },
           child: Center(
             child: Stack(
@@ -185,10 +204,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                   radius: 50,
                   backgroundColor: Colors.grey.shade300,
                   backgroundImage:
-                  patientProvider.addPatientSelectedImage != null
-                      ? FileImage(
-                      patientProvider.addPatientSelectedImage!)
-                      : null,
+                      patientProvider.addPatientSelectedImage != null
+                          ? FileImage(patientProvider.addPatientSelectedImage!)
+                          : null,
                 ),
                 const SizedBox(
                   height: 10,
@@ -201,31 +219,38 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         backgroundColor: AppColors.primaryColor,
                         child: IconButton(
                             onPressed: () {
-                              showImageSourceDialog(context, onOptionSelected: (value) async {
+                              showImageSourceDialog(context,
+                                  onOptionSelected: (value) async {
                                 if (value == 'Camera') {
-                                  final image =
-                                  await ImagePicker().pickImage(source: ImageSource.camera);
+                                  final image = await ImagePicker()
+                                      .pickImage(source: ImageSource.camera);
                                   if (image != null) {
-                                    CroppedFile? croppedImage = await cropImage(image.path);
+                                    CroppedFile? croppedImage =
+                                        await cropImage(image.path);
                                     if (croppedImage != null) {
                                       setState(() {
-                                        patientProvider.addPatientSelectedImage = File(croppedImage.path);
+                                        patientProvider
+                                                .addPatientSelectedImage =
+                                            File(croppedImage.path);
                                       });
                                     }
                                   }
                                 } else if (value == 'Gallery') {
-                                  final image =
-                                  await ImagePicker().pickImage(source: ImageSource.gallery);
+                                  final image = await ImagePicker()
+                                      .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
-                                    CroppedFile? croppedImage = await cropImage(image.path);
+                                    CroppedFile? croppedImage =
+                                        await cropImage(image.path);
                                     if (croppedImage != null) {
                                       setState(() {
-                                        patientProvider.addPatientSelectedImage = File(croppedImage.path);
+                                        patientProvider
+                                                .addPatientSelectedImage =
+                                            File(croppedImage.path);
                                       });
                                     }
-                                      }
-                                    }
-                                  });
+                                  }
+                                }
+                              });
                             },
                             icon: const Icon(
                               Icons.edit_outlined,
@@ -357,10 +382,12 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         errorMaxLines: 2,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Color(0xffD3D3D3)),
+                          borderSide:
+                              const BorderSide(color: Color(0xffD3D3D3)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: AppColors.primaryColor),
+                          borderSide:
+                              const BorderSide(color: AppColors.primaryColor),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         border: OutlineInputBorder(
@@ -507,11 +534,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>[
-            "Male",
-            "Female",
-            "Do not wish to specify"
-          ].map<DropdownMenuItem<String>>((String value) {
+          items: <String>["Male", "Female", "Do not wish to specify"]
+              .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -543,7 +567,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
               ),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),

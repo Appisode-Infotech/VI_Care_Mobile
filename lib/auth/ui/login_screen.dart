@@ -18,11 +18,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.loginPageContext = context;
         return Scaffold(
           body: SafeArea(
@@ -39,17 +39,45 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Image(image: AssetImage("assets/images/logo.png"),width: 150,),
-                          const SizedBox(height: 20,),
-                          Text(AppLocale.welcomeTo.getString(context) ,style: const TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
-                          Text(AppLocale.viCare.getString(context),style: const TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
-                          const SizedBox(height: 10,),
-                          Text(AppLocale.enterEmailAndPasswordTitle.getString(context),style: const TextStyle(color: AppColors.fontShadeColor),),
-                          const SizedBox(height: 20,),
-                          Text(AppLocale.email.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-                          const SizedBox(height: 10,),
+                          const Image(
+                            image: AssetImage("assets/images/logo.png"),
+                            width: 150,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            AppLocale.welcomeTo.getString(context),
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            AppLocale.viCare.getString(context),
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            AppLocale.enterEmailAndPasswordTitle
+                                .getString(context),
+                            style: const TextStyle(
+                                color: AppColors.fontShadeColor),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            AppLocale.email.getString(context),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           TextFormField(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: authProvider.loginEmailController,
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -67,11 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               hintText: AppLocale.email.getString(context),
                               counterText: "",
                               isCollapsed: true,
-                              errorStyle: const TextStyle(
-                                  color: Colors.red),
+                              errorStyle: const TextStyle(color: Colors.red),
                               errorMaxLines: 2,
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderSide: const BorderSide(
+                                    color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               border: OutlineInputBorder(
@@ -83,16 +111,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   vertical: 15, horizontal: 10),
                             ),
                           ),
-
-                          const SizedBox(height: 10,),
-                          Text(AppLocale.password.getString(context),style: const TextStyle(fontWeight: FontWeight.w600),),
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            AppLocale.password.getString(context),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           TextFormField(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: authProvider.loginPasswordController,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return AppLocale.validPassword.getString(context);
+                                return AppLocale.validPassword
+                                    .getString(context);
                               }
                               return null;
                             },
@@ -105,21 +141,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               suffixIcon: CupertinoButton(
                                 onPressed: () {
                                   setState(() {
-                                    authProvider.loginIsShowPassword = !authProvider.loginIsShowPassword;
+                                    authProvider.loginIsShowPassword =
+                                        !authProvider.loginIsShowPassword;
                                   });
                                 },
                                 child: Icon(
-                                  authProvider.loginIsShowPassword ? Icons.visibility_off : Icons.visibility,
+                                  authProvider.loginIsShowPassword
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                   color: Colors.grey,
                                 ),
                               ),
                               counterText: "",
                               isCollapsed: true,
-                              errorStyle: const TextStyle(
-                                  color: Colors.red),
+                              errorStyle: const TextStyle(color: Colors.red),
                               errorMaxLines: 2,
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderSide: const BorderSide(
+                                    color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               border: OutlineInputBorder(
@@ -131,96 +170,120 @@ class _LoginScreenState extends State<LoginScreen> {
                                   vertical: 15, horizontal: 10),
                             ),
                           ),
-                          const SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: InkWell(
-                                onTap: (){
+                                onTap: () {
                                   authProvider.clearForgotPasswordForm();
-                                  Navigator.pushNamed(context, Routes.forgotResetPasswordRoute);
+                                  Navigator.pushNamed(
+                                      context, Routes.forgotResetPasswordRoute);
                                 },
-                                child: Text(AppLocale.forgotPassword.getString(context),style: const TextStyle(fontSize: 13),)),
+                                child: Text(
+                                  AppLocale.forgotPassword.getString(context),
+                                  style: const TextStyle(fontSize: 13),
+                                )),
                           ),
-                          const SizedBox(height: 20,),
-                          getPrimaryAppButton(context, AppLocale.signIn.getString(context),
-                              onPressed: ()async {
-                                if (authProvider.loginFormKey.currentState!.validate()) {
-                                  authProvider.login();
-                                }
-                              }),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          getPrimaryAppButton(
+                              context, AppLocale.signIn.getString(context),
+                              onPressed: () async {
+                            if (authProvider.loginFormKey.currentState!
+                                .validate()) {
+                              authProvider.login();
+                            }
+                          }),
                         ],
                       ),
                     ),
-
-                    const SizedBox(height: 30,),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(AppLocale.dntHaveAnAccount.getString(context),style: const TextStyle(color: AppColors.fontShadeColor,fontSize: 13),),
+                        Text(
+                          AppLocale.dntHaveAnAccount.getString(context),
+                          style: const TextStyle(
+                              color: AppColors.fontShadeColor, fontSize: 13),
+                        ),
                         InkWell(
-                            onTap: (){
+                            onTap: () {
                               authProvider.getRoleMasters(context);
                             },
-                            child: Text(AppLocale.registerNow.getString(context),style: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),))
+                            child: Text(
+                              AppLocale.registerNow.getString(context),
+                              style: const TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
+                            ))
                       ],
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Center(
                       child: Text.rich(
                           textAlign: TextAlign.center,
-                          TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: AppLocale.agreeToLogin.getString(context),
-                                  style: const TextStyle(
-                                    color: AppColors.fontShadeColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, Routes.webViewRoute,
-                                          arguments: {
-                                            'url': "https://www.google.com",
-                                            'title': AppLocale.termsAndConditions.getString(context),
-                                          });
-                                    },
-                                  text: AppLocale.termsAndConditions.getString(context),
-                                  style: const TextStyle(
-                                    color: AppColors.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: AppLocale.and.getString(context) ,
-                                  style: const TextStyle(
-                                    color: AppColors.fontShadeColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, Routes.webViewRoute,
-                                          arguments: {
-                                            'url': "https://www.google.com",
-                                            'title': AppLocale.privacyPolicy.getString(context),
-                                          });
-                                    },
-                                  text: AppLocale.privacyPolicy.getString(context),
-                                  style: const TextStyle(
-                                    color: AppColors.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ])),
+                          TextSpan(children: [
+                            TextSpan(
+                              text: AppLocale.agreeToLogin.getString(context),
+                              style: const TextStyle(
+                                color: AppColors.fontShadeColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushNamed(
+                                      context, Routes.webViewRoute,
+                                      arguments: {
+                                        'url': "https://www.google.com",
+                                        'title': AppLocale.termsAndConditions
+                                            .getString(context),
+                                      });
+                                },
+                              text: AppLocale.termsAndConditions
+                                  .getString(context),
+                              style: const TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: AppLocale.and.getString(context),
+                              style: const TextStyle(
+                                color: AppColors.fontShadeColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushNamed(
+                                      context, Routes.webViewRoute,
+                                      arguments: {
+                                        'url': "https://www.google.com",
+                                        'title': AppLocale.privacyPolicy
+                                            .getString(context),
+                                      });
+                                },
+                              text: AppLocale.privacyPolicy.getString(context),
+                              style: const TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ])),
                     )
                   ],
                 ),

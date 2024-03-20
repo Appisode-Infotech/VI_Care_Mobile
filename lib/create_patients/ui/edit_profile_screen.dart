@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -126,7 +127,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     setState(() {
                                                       profileProvider
                                                               .editProfileSelectedImage =
-                                                          File(croppedImage.path);
+                                                          File(croppedImage
+                                                              .path);
                                                     });
                                                   }
                                                 }
@@ -144,7 +146,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     setState(() {
                                                       profileProvider
                                                               .editProfileSelectedImage =
-                                                          File(croppedImage.path);
+                                                          File(croppedImage
+                                                              .path);
                                                     });
                                                   }
                                                 }

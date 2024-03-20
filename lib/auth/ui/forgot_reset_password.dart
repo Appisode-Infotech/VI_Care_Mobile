@@ -54,7 +54,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         weight: 45,
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     currentStep == 1
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -253,7 +255,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
             }
-            if (value!=resetPasswordOtp) {
+            if (value != resetPasswordOtp) {
               return AppLocale.validOtp.getString(context);
             }
             return null;

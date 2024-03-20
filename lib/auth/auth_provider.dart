@@ -8,6 +8,7 @@ import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/network/api_calls.dart';
 
+import '../main.dart';
 import '../utils/app_buttons.dart';
 import '../utils/routes.dart';
 
@@ -126,7 +127,8 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(loginPageContext!);
-      Navigator.pushNamedAndRemoveUntil(loginPageContext!, Routes.dashboardRoute, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          loginPageContext!, Routes.dashboardRoute, (route) => false);
       clearLoginForm();
     } else {
       Navigator.pop(loginPageContext!);
@@ -197,7 +199,7 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
-  Future <ResetPasswordResponseModel> resetPassword() async {
+  Future<ResetPasswordResponseModel> resetPassword() async {
     showLoaderDialog(forgotPageContext!);
     ResetPasswordResponseModel response = await apiCalls.resetPassword(
         forgotPasswordEmailController.text,
@@ -213,5 +215,4 @@ class AuthProvider extends ChangeNotifier {
     }
     return response;
   }
-
 }

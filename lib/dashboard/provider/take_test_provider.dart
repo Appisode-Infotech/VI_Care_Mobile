@@ -24,17 +24,20 @@ class TakeTestProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> connectToDevice(BluetoothDevice device, BuildContext context) async {
+  Future<void> connectToDevice(
+      BluetoothDevice device, BuildContext context) async {
     showLoaderDialog(context);
     try {
       await device.connect();
       connectedDevice = device;
       Navigator.pop(context); // Dismiss the loader
       Navigator.pop(context); // Back to test screen
-      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.name}");
+      showSuccessToast(context,
+          "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
       Navigator.pop(context); // Dismiss the loader
-      showErrorToast(context, '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
+      showErrorToast(context,
+          '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
     }
   }
 
@@ -42,7 +45,8 @@ class TakeTestProvider extends ChangeNotifier {
     bool bluetoothOn = await flutterBlue.isOn;
     bluetoothStatus = bluetoothOn;
     if (bluetoothOn) {
-      List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
+      List<BluetoothDevice> connectedDevices =
+          await flutterBlue.connectedDevices;
       if (connectedDevices.isNotEmpty) {
         isConnected = true;
         connectedDevice = connectedDevices[0];
@@ -67,7 +71,8 @@ class TakeTestProvider extends ChangeNotifier {
       await flutterBlue.startScan(timeout: const Duration(seconds: 5));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult result in results) {
-          if (!leDevices.contains(result.device) && result.device.type == BluetoothDeviceType.le) {
+          if (!leDevices.contains(result.device) &&
+              result.device.type == BluetoothDeviceType.le) {
             leDevices.add(result.device);
           }
         }
@@ -79,14 +84,14 @@ class TakeTestProvider extends ChangeNotifier {
       notifyListeners();
       log('Error scanning for devices: $e');
     }
-
   }
 
   Future<void> disconnect(BuildContext context) async {
     if (connectedDevice != null) {
       try {
         await connectedDevice!.disconnect();
-        showSuccessToast(context, AppLocale.deviceDisconnected.getString(context));
+        showSuccessToast(
+            context, AppLocale.deviceDisconnected.getString(context));
         log('Disconnected from device');
       } catch (e) {
         log('Error disconnecting from device: $e');

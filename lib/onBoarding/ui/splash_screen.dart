@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../network/api_calls.dart';
+import '../../main.dart';
 import '../../utils/routes.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   moveToCorrespondingScreen(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 2), () async {
       if (prefModel.userData == null) {

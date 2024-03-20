@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-AddDeviceResponseModel addDeviceResponseModelFromJson(String str) => AddDeviceResponseModel.fromJson(json.decode(str));
+AddDeviceResponseModel addDeviceResponseModelFromJson(String str) =>
+    AddDeviceResponseModel.fromJson(json.decode(str));
 
-String addDeviceResponseModelToJson(AddDeviceResponseModel data) => json.encode(data.toJson());
+String addDeviceResponseModelToJson(AddDeviceResponseModel data) =>
+    json.encode(data.toJson());
 
 class AddDeviceResponseModel {
   Message? message;
@@ -23,30 +25,34 @@ class AddDeviceResponseModel {
     this.errors,
   });
 
-  factory AddDeviceResponseModel.fromJson(Map<String, dynamic> json) => AddDeviceResponseModel(
-    message: messageValues.map[json["message"]],
-    isSuccess: json["isSuccess"],
-    pageResult: json["pageResult"] == null ? null : PageResult.fromJson(json["pageResult"]),
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
-    errors: json["errors"] == null ? [] : List<Message>.from(json["errors"]!.map((x) => messageValues.map[x]!)),
-  );
+  factory AddDeviceResponseModel.fromJson(Map<String, dynamic> json) =>
+      AddDeviceResponseModel(
+        message: messageValues.map[json["message"]],
+        isSuccess: json["isSuccess"],
+        pageResult: json["pageResult"] == null
+            ? null
+            : PageResult.fromJson(json["pageResult"]),
+        result: json["result"] == null ? null : Result.fromJson(json["result"]),
+        errors: json["errors"] == null
+            ? []
+            : List<Message>.from(
+                json["errors"]!.map((x) => messageValues.map[x]!)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "message": messageValues.reverse[message],
-    "isSuccess": isSuccess,
-    "pageResult": pageResult?.toJson(),
-    "result": result?.toJson(),
-    "errors": errors == null ? [] : List<dynamic>.from(errors!.map((x) => messageValues.reverse[x])),
-  };
+        "message": messageValues.reverse[message],
+        "isSuccess": isSuccess,
+        "pageResult": pageResult?.toJson(),
+        "result": result?.toJson(),
+        "errors": errors == null
+            ? []
+            : List<dynamic>.from(errors!.map((x) => messageValues.reverse[x])),
+      };
 }
 
-enum Message {
-  STRING
-}
+enum Message { STRING }
 
-final messageValues = EnumValues({
-  "string": Message.STRING
-});
+final messageValues = EnumValues({"string": Message.STRING});
 
 class PageResult {
   int? currentPage;
@@ -70,26 +76,26 @@ class PageResult {
   });
 
   factory PageResult.fromJson(Map<String, dynamic> json) => PageResult(
-    currentPage: json["currentPage"],
-    totalPages: json["totalPages"],
-    pageSize: json["pageSize"],
-    totalCount: json["totalCount"],
-    hasPrevious: json["hasPrevious"],
-    hasNext: json["hasNext"],
-    previousPage: messageValues.map[json["previousPage"]]!,
-    nextPage: messageValues.map[json["nextPage"]]!,
-  );
+        currentPage: json["currentPage"],
+        totalPages: json["totalPages"],
+        pageSize: json["pageSize"],
+        totalCount: json["totalCount"],
+        hasPrevious: json["hasPrevious"],
+        hasNext: json["hasNext"],
+        previousPage: messageValues.map[json["previousPage"]]!,
+        nextPage: messageValues.map[json["nextPage"]]!,
+      );
 
   Map<String, dynamic> toJson() => {
-    "currentPage": currentPage,
-    "totalPages": totalPages,
-    "pageSize": pageSize,
-    "totalCount": totalCount,
-    "hasPrevious": hasPrevious,
-    "hasNext": hasNext,
-    "previousPage": messageValues.reverse[previousPage],
-    "nextPage": messageValues.reverse[nextPage],
-  };
+        "currentPage": currentPage,
+        "totalPages": totalPages,
+        "pageSize": pageSize,
+        "totalCount": totalCount,
+        "hasPrevious": hasPrevious,
+        "hasNext": hasNext,
+        "previousPage": messageValues.reverse[previousPage],
+        "nextPage": messageValues.reverse[nextPage],
+      };
 }
 
 class Result {
@@ -120,32 +126,34 @@ class Result {
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    type: messageValues.map[json["type"]]!,
-    deviceSerialNo: messageValues.map[json["deviceSerialNo"]]!,
-    isPaired: json["isPaired"],
-    roleId: json["roleId"],
-    role: json["role"] == null ? null : Role.fromJson(json["role"]),
-    userId: json["userId"],
-    user: json["user"] == null ? null : ResultUser.fromJson(json["user"]),
-    deviceId: json["deviceId"],
-    device: json["device"] == null ? null : ResultDevice.fromJson(json["device"]),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        type: messageValues.map[json["type"]]!,
+        deviceSerialNo: messageValues.map[json["deviceSerialNo"]]!,
+        isPaired: json["isPaired"],
+        roleId: json["roleId"],
+        role: json["role"] == null ? null : Role.fromJson(json["role"]),
+        userId: json["userId"],
+        user: json["user"] == null ? null : ResultUser.fromJson(json["user"]),
+        deviceId: json["deviceId"],
+        device: json["device"] == null
+            ? null
+            : ResultDevice.fromJson(json["device"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "type": messageValues.reverse[type],
-    "deviceSerialNo": messageValues.reverse[deviceSerialNo],
-    "isPaired": isPaired,
-    "roleId": roleId,
-    "role": role?.toJson(),
-    "userId": userId,
-    "user": user?.toJson(),
-    "deviceId": deviceId,
-    "device": device?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "type": messageValues.reverse[type],
+        "deviceSerialNo": messageValues.reverse[deviceSerialNo],
+        "isPaired": isPaired,
+        "roleId": roleId,
+        "role": role?.toJson(),
+        "userId": userId,
+        "user": user?.toJson(),
+        "deviceId": deviceId,
+        "device": device?.toJson(),
+      };
 }
 
 class ResultDevice {
@@ -198,54 +206,58 @@ class ResultDevice {
   });
 
   factory ResultDevice.fromJson(Map<String, dynamic> json) => ResultDevice(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    serialNo: messageValues.map[json["serialNo"]]!,
-    manufacturer: messageValues.map[json["manufacturer"]]!,
-    isPaired: json["isPaired"],
-    pairedDate: json["pairedDate"] == null ? null : DateTime.parse(json["pairedDate"]),
-    deviceStatus: json["deviceStatus"],
-    description: messageValues.map[json["description"]]!,
-    purchaseCost: json["purchaseCost"],
-    sellingCost: json["sellingCost"],
-    warrantyDuration: json["warrantyDuration"],
-    validity: json["validity"],
-    deviceType: messageValues.map[json["deviceType"]]!,
-    ipAddress: messageValues.map[json["ipAddress"]]!,
-    allocationStatus: json["allocationStatus"],
-    remarks: messageValues.map[json["remarks"]]!,
-    subscriberDeviceId: json["subscriberDeviceId"],
-    userId: json["userId"],
-    user: json["user"] == null ? null : ResultUser.fromJson(json["user"]),
-    subscriberId: json["subscriberId"],
-    subscriber: json["subscriber"] == null ? null : Subscriber.fromJson(json["subscriber"]),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        serialNo: messageValues.map[json["serialNo"]]!,
+        manufacturer: messageValues.map[json["manufacturer"]]!,
+        isPaired: json["isPaired"],
+        pairedDate: json["pairedDate"] == null
+            ? null
+            : DateTime.parse(json["pairedDate"]),
+        deviceStatus: json["deviceStatus"],
+        description: messageValues.map[json["description"]]!,
+        purchaseCost: json["purchaseCost"],
+        sellingCost: json["sellingCost"],
+        warrantyDuration: json["warrantyDuration"],
+        validity: json["validity"],
+        deviceType: messageValues.map[json["deviceType"]]!,
+        ipAddress: messageValues.map[json["ipAddress"]]!,
+        allocationStatus: json["allocationStatus"],
+        remarks: messageValues.map[json["remarks"]]!,
+        subscriberDeviceId: json["subscriberDeviceId"],
+        userId: json["userId"],
+        user: json["user"] == null ? null : ResultUser.fromJson(json["user"]),
+        subscriberId: json["subscriberId"],
+        subscriber: json["subscriber"] == null
+            ? null
+            : Subscriber.fromJson(json["subscriber"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "serialNo": messageValues.reverse[serialNo],
-    "manufacturer": messageValues.reverse[manufacturer],
-    "isPaired": isPaired,
-    "pairedDate": pairedDate?.toIso8601String(),
-    "deviceStatus": deviceStatus,
-    "description": messageValues.reverse[description],
-    "purchaseCost": purchaseCost,
-    "sellingCost": sellingCost,
-    "warrantyDuration": warrantyDuration,
-    "validity": validity,
-    "deviceType": messageValues.reverse[deviceType],
-    "ipAddress": messageValues.reverse[ipAddress],
-    "allocationStatus": allocationStatus,
-    "remarks": messageValues.reverse[remarks],
-    "subscriberDeviceId": subscriberDeviceId,
-    "userId": userId,
-    "user": user?.toJson(),
-    "subscriberId": subscriberId,
-    "subscriber": subscriber?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "serialNo": messageValues.reverse[serialNo],
+        "manufacturer": messageValues.reverse[manufacturer],
+        "isPaired": isPaired,
+        "pairedDate": pairedDate?.toIso8601String(),
+        "deviceStatus": deviceStatus,
+        "description": messageValues.reverse[description],
+        "purchaseCost": purchaseCost,
+        "sellingCost": sellingCost,
+        "warrantyDuration": warrantyDuration,
+        "validity": validity,
+        "deviceType": messageValues.reverse[deviceType],
+        "ipAddress": messageValues.reverse[ipAddress],
+        "allocationStatus": allocationStatus,
+        "remarks": messageValues.reverse[remarks],
+        "subscriberDeviceId": subscriberDeviceId,
+        "userId": userId,
+        "user": user?.toJson(),
+        "subscriberId": subscriberId,
+        "subscriber": subscriber?.toJson(),
+      };
 }
 
 class Subscriber {
@@ -276,32 +288,32 @@ class Subscriber {
   });
 
   factory Subscriber.fromJson(Map<String, dynamic> json) => Subscriber(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    companyName: messageValues.map[json["companyName"]]!,
-    displayName: messageValues.map[json["displayName"]]!,
-    email: messageValues.map[json["email"]]!,
-    contactNumber: messageValues.map[json["contactNumber"]]!,
-    contactPersonName: messageValues.map[json["contactPersonName"]]!,
-    address: messageValues.map[json["address"]]!,
-    subscriberEngineId: json["subscriberEngineId"],
-    gstNumber: messageValues.map[json["gstNumber"]]!,
-    applicationId: json["applicationId"],
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        companyName: messageValues.map[json["companyName"]]!,
+        displayName: messageValues.map[json["displayName"]]!,
+        email: messageValues.map[json["email"]]!,
+        contactNumber: messageValues.map[json["contactNumber"]]!,
+        contactPersonName: messageValues.map[json["contactPersonName"]]!,
+        address: messageValues.map[json["address"]]!,
+        subscriberEngineId: json["subscriberEngineId"],
+        gstNumber: messageValues.map[json["gstNumber"]]!,
+        applicationId: json["applicationId"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "companyName": messageValues.reverse[companyName],
-    "displayName": messageValues.reverse[displayName],
-    "email": messageValues.reverse[email],
-    "contactNumber": messageValues.reverse[contactNumber],
-    "contactPersonName": messageValues.reverse[contactPersonName],
-    "address": messageValues.reverse[address],
-    "subscriberEngineId": subscriberEngineId,
-    "gstNumber": messageValues.reverse[gstNumber],
-    "applicationId": applicationId,
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "companyName": messageValues.reverse[companyName],
+        "displayName": messageValues.reverse[displayName],
+        "email": messageValues.reverse[email],
+        "contactNumber": messageValues.reverse[contactNumber],
+        "contactPersonName": messageValues.reverse[contactPersonName],
+        "address": messageValues.reverse[address],
+        "subscriberEngineId": subscriberEngineId,
+        "gstNumber": messageValues.reverse[gstNumber],
+        "applicationId": applicationId,
+      };
 }
 
 class ResultUser {
@@ -350,50 +362,57 @@ class ResultUser {
   });
 
   factory ResultUser.fromJson(Map<String, dynamic> json) => ResultUser(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    email: messageValues.map[json["email"]]!,
-    contactNumber: messageValues.map[json["contactNumber"]]!,
-    passwordHash: messageValues.map[json["passwordHash"]]!,
-    passwordSalt: messageValues.map[json["passwordSalt"]]!,
-    type: messageValues.map[json["type"]]!,
-    status: json["status"],
-    remarks: messageValues.map[json["remarks"]]!,
-    token: messageValues.map[json["token"]]!,
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    roleId: json["roleId"],
-    role: json["role"] == null ? null : Role.fromJson(json["role"]),
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : UserProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseId: json["enterpriseId"],
-    enterprise: json["enterprise"] == null ? null : UserEnterprise.fromJson(json["enterprise"]),
-    enterpriseUserId: json["enterpriseUserId"],
-    enterpriseUser: json["enterpriseUser"] == null ? null : UserEnterpriseUser.fromJson(json["enterpriseUser"]),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        email: messageValues.map[json["email"]]!,
+        contactNumber: messageValues.map[json["contactNumber"]]!,
+        passwordHash: messageValues.map[json["passwordHash"]]!,
+        passwordSalt: messageValues.map[json["passwordSalt"]]!,
+        type: messageValues.map[json["type"]]!,
+        status: json["status"],
+        remarks: messageValues.map[json["remarks"]]!,
+        token: messageValues.map[json["token"]]!,
+        contactId: json["contactId"],
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        roleId: json["roleId"],
+        role: json["role"] == null ? null : Role.fromJson(json["role"]),
+        profilePictureId: json["profilePictureId"],
+        profilePicture: json["profilePicture"] == null
+            ? null
+            : UserProfilePicture.fromJson(json["profilePicture"]),
+        enterpriseId: json["enterpriseId"],
+        enterprise: json["enterprise"] == null
+            ? null
+            : UserEnterprise.fromJson(json["enterprise"]),
+        enterpriseUserId: json["enterpriseUserId"],
+        enterpriseUser: json["enterpriseUser"] == null
+            ? null
+            : UserEnterpriseUser.fromJson(json["enterpriseUser"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "email": messageValues.reverse[email],
-    "contactNumber": messageValues.reverse[contactNumber],
-    "passwordHash": messageValues.reverse[passwordHash],
-    "passwordSalt": messageValues.reverse[passwordSalt],
-    "type": messageValues.reverse[type],
-    "status": status,
-    "remarks": messageValues.reverse[remarks],
-    "token": messageValues.reverse[token],
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "roleId": roleId,
-    "role": role?.toJson(),
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseId": enterpriseId,
-    "enterprise": enterprise?.toJson(),
-    "enterpriseUserId": enterpriseUserId,
-    "enterpriseUser": enterpriseUser?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "email": messageValues.reverse[email],
+        "contactNumber": messageValues.reverse[contactNumber],
+        "passwordHash": messageValues.reverse[passwordHash],
+        "passwordSalt": messageValues.reverse[passwordSalt],
+        "type": messageValues.reverse[type],
+        "status": status,
+        "remarks": messageValues.reverse[remarks],
+        "token": messageValues.reverse[token],
+        "contactId": contactId,
+        "contact": contact?.toJson(),
+        "roleId": roleId,
+        "role": role?.toJson(),
+        "profilePictureId": profilePictureId,
+        "profilePicture": profilePicture?.toJson(),
+        "enterpriseId": enterpriseId,
+        "enterprise": enterprise?.toJson(),
+        "enterpriseUserId": enterpriseUserId,
+        "enterpriseUser": enterpriseUser?.toJson(),
+      };
 }
 
 class Contact {
@@ -424,32 +443,33 @@ class Contact {
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    firstname: messageValues.map[json["firstname"]]!,
-    lastName: messageValues.map[json["lastName"]]!,
-    email: messageValues.map[json["email"]]!,
-    contactNumber: messageValues.map[json["contactNumber"]]!,
-    doB: json["doB"] == null ? null : DateTime.parse(json["doB"]),
-    gender: json["gender"],
-    bloodGroup: messageValues.map[json["bloodGroup"]]!,
-    addressId: json["addressId"],
-    address: json["address"] == null ? null : Address.fromJson(json["address"]),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        firstname: messageValues.map[json["firstname"]]!,
+        lastName: messageValues.map[json["lastName"]]!,
+        email: messageValues.map[json["email"]]!,
+        contactNumber: messageValues.map[json["contactNumber"]]!,
+        doB: json["doB"] == null ? null : DateTime.parse(json["doB"]),
+        gender: json["gender"],
+        bloodGroup: messageValues.map[json["bloodGroup"]]!,
+        addressId: json["addressId"],
+        address:
+            json["address"] == null ? null : Address.fromJson(json["address"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "firstname": messageValues.reverse[firstname],
-    "lastName": messageValues.reverse[lastName],
-    "email": messageValues.reverse[email],
-    "contactNumber": messageValues.reverse[contactNumber],
-    "doB": doB?.toIso8601String(),
-    "gender": gender,
-    "bloodGroup": messageValues.reverse[bloodGroup],
-    "addressId": addressId,
-    "address": address?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "firstname": messageValues.reverse[firstname],
+        "lastName": messageValues.reverse[lastName],
+        "email": messageValues.reverse[email],
+        "contactNumber": messageValues.reverse[contactNumber],
+        "doB": doB?.toIso8601String(),
+        "gender": gender,
+        "bloodGroup": messageValues.reverse[bloodGroup],
+        "addressId": addressId,
+        "address": address?.toJson(),
+      };
 }
 
 class Address {
@@ -480,32 +500,32 @@ class Address {
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    street: messageValues.map[json["street"]]!,
-    area: messageValues.map[json["area"]]!,
-    landmark: messageValues.map[json["landmark"]]!,
-    city: messageValues.map[json["city"]]!,
-    pinCode: messageValues.map[json["pinCode"]]!,
-    longitude: messageValues.map[json["longitude"]]!,
-    latitude: messageValues.map[json["latitude"]]!,
-    stateId: json["stateId"],
-    state: json["state"] == null ? null : State.fromJson(json["state"]),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        street: messageValues.map[json["street"]]!,
+        area: messageValues.map[json["area"]]!,
+        landmark: messageValues.map[json["landmark"]]!,
+        city: messageValues.map[json["city"]]!,
+        pinCode: messageValues.map[json["pinCode"]]!,
+        longitude: messageValues.map[json["longitude"]]!,
+        latitude: messageValues.map[json["latitude"]]!,
+        stateId: json["stateId"],
+        state: json["state"] == null ? null : State.fromJson(json["state"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "street": messageValues.reverse[street],
-    "area": messageValues.reverse[area],
-    "landmark": messageValues.reverse[landmark],
-    "city": messageValues.reverse[city],
-    "pinCode": messageValues.reverse[pinCode],
-    "longitude": messageValues.reverse[longitude],
-    "latitude": messageValues.reverse[latitude],
-    "stateId": stateId,
-    "state": state?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "street": messageValues.reverse[street],
+        "area": messageValues.reverse[area],
+        "landmark": messageValues.reverse[landmark],
+        "city": messageValues.reverse[city],
+        "pinCode": messageValues.reverse[pinCode],
+        "longitude": messageValues.reverse[longitude],
+        "latitude": messageValues.reverse[latitude],
+        "stateId": stateId,
+        "state": state?.toJson(),
+      };
 }
 
 class State {
@@ -528,24 +548,25 @@ class State {
   });
 
   factory State.fromJson(Map<String, dynamic> json) => State(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    code: messageValues.map[json["code"]]!,
-    numericCode: json["numericCode"],
-    countryId: json["countryId"],
-    country: json["country"] == null ? null : Country.fromJson(json["country"]),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        code: messageValues.map[json["code"]]!,
+        numericCode: json["numericCode"],
+        countryId: json["countryId"],
+        country:
+            json["country"] == null ? null : Country.fromJson(json["country"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "code": messageValues.reverse[code],
-    "numericCode": numericCode,
-    "countryId": countryId,
-    "country": country?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "code": messageValues.reverse[code],
+        "numericCode": numericCode,
+        "countryId": countryId,
+        "country": country?.toJson(),
+      };
 }
 
 class Country {
@@ -568,24 +589,24 @@ class Country {
   });
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    code: messageValues.map[json["code"]]!,
-    twoLetterCode: messageValues.map[json["twoLetterCode"]]!,
-    threeLetterCode: messageValues.map[json["threeLetterCode"]]!,
-    numericCode: json["numericCode"],
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        code: messageValues.map[json["code"]]!,
+        twoLetterCode: messageValues.map[json["twoLetterCode"]]!,
+        threeLetterCode: messageValues.map[json["threeLetterCode"]]!,
+        numericCode: json["numericCode"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "code": messageValues.reverse[code],
-    "twoLetterCode": messageValues.reverse[twoLetterCode],
-    "threeLetterCode": messageValues.reverse[threeLetterCode],
-    "numericCode": numericCode,
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "code": messageValues.reverse[code],
+        "twoLetterCode": messageValues.reverse[twoLetterCode],
+        "threeLetterCode": messageValues.reverse[threeLetterCode],
+        "numericCode": numericCode,
+      };
 }
 
 class UserEnterprise {
@@ -612,28 +633,34 @@ class UserEnterprise {
   });
 
   factory UserEnterprise.fromJson(Map<String, dynamic> json) => UserEnterprise(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    spocName: messageValues.map[json["spocName"]]!,
-    contactNumber: messageValues.map[json["contactNumber"]]!,
-    gstNumber: messageValues.map[json["gstNumber"]]!,
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    enterpriseUser: json["enterpriseUser"] == null ? [] : List<UserEnterpriseUser>.from(json["enterpriseUser"]!.map((x) => UserEnterpriseUser.fromJson(x))),
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        spocName: messageValues.map[json["spocName"]]!,
+        contactNumber: messageValues.map[json["contactNumber"]]!,
+        gstNumber: messageValues.map[json["gstNumber"]]!,
+        contactId: json["contactId"],
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        enterpriseUser: json["enterpriseUser"] == null
+            ? []
+            : List<UserEnterpriseUser>.from(json["enterpriseUser"]!
+                .map((x) => UserEnterpriseUser.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "spocName": messageValues.reverse[spocName],
-    "contactNumber": messageValues.reverse[contactNumber],
-    "gstNumber": messageValues.reverse[gstNumber],
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "enterpriseUser": enterpriseUser == null ? [] : List<dynamic>.from(enterpriseUser!.map((x) => x.toJson())),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "spocName": messageValues.reverse[spocName],
+        "contactNumber": messageValues.reverse[contactNumber],
+        "gstNumber": messageValues.reverse[gstNumber],
+        "contactId": contactId,
+        "contact": contact?.toJson(),
+        "enterpriseUser": enterpriseUser == null
+            ? []
+            : List<dynamic>.from(enterpriseUser!.map((x) => x.toJson())),
+      };
 }
 
 class UserEnterpriseUser {
@@ -663,33 +690,43 @@ class UserEnterpriseUser {
     this.enterpriseProfile,
   });
 
-  factory UserEnterpriseUser.fromJson(Map<String, dynamic> json) => UserEnterpriseUser(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    designation: messageValues.map[json["designation"]]!,
-    roleId: json["roleId"],
-    role: json["role"] == null ? null : Role.fromJson(json["role"]),
-    enterpriseId: json["enterpriseId"],
-    enterprise: json["enterprise"] == null ? null : EnterpriseUserEnterprise.fromJson(json["enterprise"]),
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : UserProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseProfile: json["enterpriseProfile"] == null ? [] : List<FluffyEnterpriseProfile>.from(json["enterpriseProfile"]!.map((x) => FluffyEnterpriseProfile.fromJson(x))),
-  );
+  factory UserEnterpriseUser.fromJson(Map<String, dynamic> json) =>
+      UserEnterpriseUser(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        designation: messageValues.map[json["designation"]]!,
+        roleId: json["roleId"],
+        role: json["role"] == null ? null : Role.fromJson(json["role"]),
+        enterpriseId: json["enterpriseId"],
+        enterprise: json["enterprise"] == null
+            ? null
+            : EnterpriseUserEnterprise.fromJson(json["enterprise"]),
+        profilePictureId: json["profilePictureId"],
+        profilePicture: json["profilePicture"] == null
+            ? null
+            : UserProfilePicture.fromJson(json["profilePicture"]),
+        enterpriseProfile: json["enterpriseProfile"] == null
+            ? []
+            : List<FluffyEnterpriseProfile>.from(json["enterpriseProfile"]!
+                .map((x) => FluffyEnterpriseProfile.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "designation": messageValues.reverse[designation],
-    "roleId": roleId,
-    "role": role?.toJson(),
-    "enterpriseId": enterpriseId,
-    "enterprise": enterprise?.toJson(),
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseProfile": enterpriseProfile == null ? [] : List<dynamic>.from(enterpriseProfile!.map((x) => x.toJson())),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "designation": messageValues.reverse[designation],
+        "roleId": roleId,
+        "role": role?.toJson(),
+        "enterpriseId": enterpriseId,
+        "enterprise": enterprise?.toJson(),
+        "profilePictureId": profilePictureId,
+        "profilePicture": profilePicture?.toJson(),
+        "enterpriseProfile": enterpriseProfile == null
+            ? []
+            : List<dynamic>.from(enterpriseProfile!.map((x) => x.toJson())),
+      };
 }
 
 class EnterpriseUserEnterprise {
@@ -715,29 +752,36 @@ class EnterpriseUserEnterprise {
     this.enterpriseUser,
   });
 
-  factory EnterpriseUserEnterprise.fromJson(Map<String, dynamic> json) => EnterpriseUserEnterprise(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    spocName: messageValues.map[json["spocName"]]!,
-    contactNumber: messageValues.map[json["contactNumber"]]!,
-    gstNumber: messageValues.map[json["gstNumber"]]!,
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    enterpriseUser: json["enterpriseUser"] == null ? [] : List<PurpleEnterpriseUser>.from(json["enterpriseUser"]!.map((x) => PurpleEnterpriseUser.fromJson(x))),
-  );
+  factory EnterpriseUserEnterprise.fromJson(Map<String, dynamic> json) =>
+      EnterpriseUserEnterprise(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        spocName: messageValues.map[json["spocName"]]!,
+        contactNumber: messageValues.map[json["contactNumber"]]!,
+        gstNumber: messageValues.map[json["gstNumber"]]!,
+        contactId: json["contactId"],
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        enterpriseUser: json["enterpriseUser"] == null
+            ? []
+            : List<PurpleEnterpriseUser>.from(json["enterpriseUser"]!
+                .map((x) => PurpleEnterpriseUser.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "spocName": messageValues.reverse[spocName],
-    "contactNumber": messageValues.reverse[contactNumber],
-    "gstNumber": messageValues.reverse[gstNumber],
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "enterpriseUser": enterpriseUser == null ? [] : List<dynamic>.from(enterpriseUser!.map((x) => x.toJson())),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "spocName": messageValues.reverse[spocName],
+        "contactNumber": messageValues.reverse[contactNumber],
+        "gstNumber": messageValues.reverse[gstNumber],
+        "contactId": contactId,
+        "contact": contact?.toJson(),
+        "enterpriseUser": enterpriseUser == null
+            ? []
+            : List<dynamic>.from(enterpriseUser!.map((x) => x.toJson())),
+      };
 }
 
 class PurpleEnterpriseUser {
@@ -767,33 +811,41 @@ class PurpleEnterpriseUser {
     this.enterpriseProfile,
   });
 
-  factory PurpleEnterpriseUser.fromJson(Map<String, dynamic> json) => PurpleEnterpriseUser(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    designation: messageValues.map[json["designation"]]!,
-    roleId: json["roleId"],
-    role: json["role"] == null ? null : Role.fromJson(json["role"]),
-    enterpriseId: json["enterpriseId"],
-    enterprise: messageValues.map[json["enterprise"]]!,
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : PurpleProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseProfile: json["enterpriseProfile"] == null ? [] : List<PurpleEnterpriseProfile>.from(json["enterpriseProfile"]!.map((x) => PurpleEnterpriseProfile.fromJson(x))),
-  );
+  factory PurpleEnterpriseUser.fromJson(Map<String, dynamic> json) =>
+      PurpleEnterpriseUser(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        designation: messageValues.map[json["designation"]]!,
+        roleId: json["roleId"],
+        role: json["role"] == null ? null : Role.fromJson(json["role"]),
+        enterpriseId: json["enterpriseId"],
+        enterprise: messageValues.map[json["enterprise"]]!,
+        profilePictureId: json["profilePictureId"],
+        profilePicture: json["profilePicture"] == null
+            ? null
+            : PurpleProfilePicture.fromJson(json["profilePicture"]),
+        enterpriseProfile: json["enterpriseProfile"] == null
+            ? []
+            : List<PurpleEnterpriseProfile>.from(json["enterpriseProfile"]!
+                .map((x) => PurpleEnterpriseProfile.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "designation": messageValues.reverse[designation],
-    "roleId": roleId,
-    "role": role?.toJson(),
-    "enterpriseId": enterpriseId,
-    "enterprise": messageValues.reverse[enterprise],
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseProfile": enterpriseProfile == null ? [] : List<dynamic>.from(enterpriseProfile!.map((x) => x.toJson())),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "designation": messageValues.reverse[designation],
+        "roleId": roleId,
+        "role": role?.toJson(),
+        "enterpriseId": enterpriseId,
+        "enterprise": messageValues.reverse[enterprise],
+        "profilePictureId": profilePictureId,
+        "profilePicture": profilePicture?.toJson(),
+        "enterpriseProfile": enterpriseProfile == null
+            ? []
+            : List<dynamic>.from(enterpriseProfile!.map((x) => x.toJson())),
+      };
 }
 
 class PurpleEnterpriseProfile {
@@ -821,31 +873,35 @@ class PurpleEnterpriseProfile {
     this.enterpriseUserId,
   });
 
-  factory PurpleEnterpriseProfile.fromJson(Map<String, dynamic> json) => PurpleEnterpriseProfile(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    firstName: messageValues.map[json["firstName"]]!,
-    lastName: messageValues.map[json["lastName"]]!,
-    emailId: messageValues.map[json["emailId"]]!,
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : PurpleProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseUserId: json["enterpriseUserId"],
-  );
+  factory PurpleEnterpriseProfile.fromJson(Map<String, dynamic> json) =>
+      PurpleEnterpriseProfile(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        firstName: messageValues.map[json["firstName"]]!,
+        lastName: messageValues.map[json["lastName"]]!,
+        emailId: messageValues.map[json["emailId"]]!,
+        contactId: json["contactId"],
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        profilePictureId: json["profilePictureId"],
+        profilePicture: json["profilePicture"] == null
+            ? null
+            : PurpleProfilePicture.fromJson(json["profilePicture"]),
+        enterpriseUserId: json["enterpriseUserId"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "firstName": messageValues.reverse[firstName],
-    "lastName": messageValues.reverse[lastName],
-    "emailId": messageValues.reverse[emailId],
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseUserId": enterpriseUserId,
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "firstName": messageValues.reverse[firstName],
+        "lastName": messageValues.reverse[lastName],
+        "emailId": messageValues.reverse[emailId],
+        "contactId": contactId,
+        "contact": contact?.toJson(),
+        "profilePictureId": profilePictureId,
+        "profilePicture": profilePicture?.toJson(),
+        "enterpriseUserId": enterpriseUserId,
+      };
 }
 
 class PurpleProfilePicture {
@@ -881,39 +937,42 @@ class PurpleProfilePicture {
     this.device,
   });
 
-  factory PurpleProfilePicture.fromJson(Map<String, dynamic> json) => PurpleProfilePicture(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    type: messageValues.map[json["type"]]!,
-    path: messageValues.map[json["path"]]!,
-    tags: messageValues.map[json["tags"]]!,
-    length: json["length"],
-    savedFileName: messageValues.map[json["savedFileName"]]!,
-    actualFileName: messageValues.map[json["actualFileName"]]!,
-    fileType: json["fileType"],
-    sthreeKey: messageValues.map[json["sthreeKey"]]!,
-    url: messageValues.map[json["url"]]!,
-    deviceId: json["deviceId"],
-    device: json["device"] == null ? null : ProfilePictureDevice.fromJson(json["device"]),
-  );
+  factory PurpleProfilePicture.fromJson(Map<String, dynamic> json) =>
+      PurpleProfilePicture(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        type: messageValues.map[json["type"]]!,
+        path: messageValues.map[json["path"]]!,
+        tags: messageValues.map[json["tags"]]!,
+        length: json["length"],
+        savedFileName: messageValues.map[json["savedFileName"]]!,
+        actualFileName: messageValues.map[json["actualFileName"]]!,
+        fileType: json["fileType"],
+        sthreeKey: messageValues.map[json["sthreeKey"]]!,
+        url: messageValues.map[json["url"]]!,
+        deviceId: json["deviceId"],
+        device: json["device"] == null
+            ? null
+            : ProfilePictureDevice.fromJson(json["device"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "type": messageValues.reverse[type],
-    "path": messageValues.reverse[path],
-    "tags": messageValues.reverse[tags],
-    "length": length,
-    "savedFileName": messageValues.reverse[savedFileName],
-    "actualFileName": messageValues.reverse[actualFileName],
-    "fileType": fileType,
-    "sthreeKey": messageValues.reverse[sthreeKey],
-    "url": messageValues.reverse[url],
-    "deviceId": deviceId,
-    "device": device?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "type": messageValues.reverse[type],
+        "path": messageValues.reverse[path],
+        "tags": messageValues.reverse[tags],
+        "length": length,
+        "savedFileName": messageValues.reverse[savedFileName],
+        "actualFileName": messageValues.reverse[actualFileName],
+        "fileType": fileType,
+        "sthreeKey": messageValues.reverse[sthreeKey],
+        "url": messageValues.reverse[url],
+        "deviceId": deviceId,
+        "device": device?.toJson(),
+      };
 }
 
 class ProfilePictureDevice {
@@ -965,55 +1024,60 @@ class ProfilePictureDevice {
     this.subscriber,
   });
 
-  factory ProfilePictureDevice.fromJson(Map<String, dynamic> json) => ProfilePictureDevice(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    serialNo: messageValues.map[json["serialNo"]]!,
-    manufacturer: messageValues.map[json["manufacturer"]]!,
-    isPaired: json["isPaired"],
-    pairedDate: json["pairedDate"] == null ? null : DateTime.parse(json["pairedDate"]),
-    deviceStatus: json["deviceStatus"],
-    description: messageValues.map[json["description"]]!,
-    purchaseCost: json["purchaseCost"],
-    sellingCost: json["sellingCost"],
-    warrantyDuration: json["warrantyDuration"],
-    validity: json["validity"],
-    deviceType: messageValues.map[json["deviceType"]]!,
-    ipAddress: messageValues.map[json["ipAddress"]]!,
-    allocationStatus: json["allocationStatus"],
-    remarks: messageValues.map[json["remarks"]]!,
-    subscriberDeviceId: json["subscriberDeviceId"],
-    userId: json["userId"],
-    user: json["user"] == null ? null : PurpleUser.fromJson(json["user"]),
-    subscriberId: json["subscriberId"],
-    subscriber: json["subscriber"] == null ? null : Subscriber.fromJson(json["subscriber"]),
-  );
+  factory ProfilePictureDevice.fromJson(Map<String, dynamic> json) =>
+      ProfilePictureDevice(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        serialNo: messageValues.map[json["serialNo"]]!,
+        manufacturer: messageValues.map[json["manufacturer"]]!,
+        isPaired: json["isPaired"],
+        pairedDate: json["pairedDate"] == null
+            ? null
+            : DateTime.parse(json["pairedDate"]),
+        deviceStatus: json["deviceStatus"],
+        description: messageValues.map[json["description"]]!,
+        purchaseCost: json["purchaseCost"],
+        sellingCost: json["sellingCost"],
+        warrantyDuration: json["warrantyDuration"],
+        validity: json["validity"],
+        deviceType: messageValues.map[json["deviceType"]]!,
+        ipAddress: messageValues.map[json["ipAddress"]]!,
+        allocationStatus: json["allocationStatus"],
+        remarks: messageValues.map[json["remarks"]]!,
+        subscriberDeviceId: json["subscriberDeviceId"],
+        userId: json["userId"],
+        user: json["user"] == null ? null : PurpleUser.fromJson(json["user"]),
+        subscriberId: json["subscriberId"],
+        subscriber: json["subscriber"] == null
+            ? null
+            : Subscriber.fromJson(json["subscriber"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "serialNo": messageValues.reverse[serialNo],
-    "manufacturer": messageValues.reverse[manufacturer],
-    "isPaired": isPaired,
-    "pairedDate": pairedDate?.toIso8601String(),
-    "deviceStatus": deviceStatus,
-    "description": messageValues.reverse[description],
-    "purchaseCost": purchaseCost,
-    "sellingCost": sellingCost,
-    "warrantyDuration": warrantyDuration,
-    "validity": validity,
-    "deviceType": messageValues.reverse[deviceType],
-    "ipAddress": messageValues.reverse[ipAddress],
-    "allocationStatus": allocationStatus,
-    "remarks": messageValues.reverse[remarks],
-    "subscriberDeviceId": subscriberDeviceId,
-    "userId": userId,
-    "user": user?.toJson(),
-    "subscriberId": subscriberId,
-    "subscriber": subscriber?.toJson(),
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "serialNo": messageValues.reverse[serialNo],
+        "manufacturer": messageValues.reverse[manufacturer],
+        "isPaired": isPaired,
+        "pairedDate": pairedDate?.toIso8601String(),
+        "deviceStatus": deviceStatus,
+        "description": messageValues.reverse[description],
+        "purchaseCost": purchaseCost,
+        "sellingCost": sellingCost,
+        "warrantyDuration": warrantyDuration,
+        "validity": validity,
+        "deviceType": messageValues.reverse[deviceType],
+        "ipAddress": messageValues.reverse[ipAddress],
+        "allocationStatus": allocationStatus,
+        "remarks": messageValues.reverse[remarks],
+        "subscriberDeviceId": subscriberDeviceId,
+        "userId": userId,
+        "user": user?.toJson(),
+        "subscriberId": subscriberId,
+        "subscriber": subscriber?.toJson(),
+      };
 }
 
 class PurpleUser {
@@ -1062,50 +1126,51 @@ class PurpleUser {
   });
 
   factory PurpleUser.fromJson(Map<String, dynamic> json) => PurpleUser(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    email: messageValues.map[json["email"]]!,
-    contactNumber: messageValues.map[json["contactNumber"]]!,
-    passwordHash: messageValues.map[json["passwordHash"]]!,
-    passwordSalt: messageValues.map[json["passwordSalt"]]!,
-    type: messageValues.map[json["type"]]!,
-    status: json["status"],
-    remarks: messageValues.map[json["remarks"]]!,
-    token: messageValues.map[json["token"]]!,
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    roleId: json["roleId"],
-    role: json["role"] == null ? null : Role.fromJson(json["role"]),
-    profilePictureId: json["profilePictureId"],
-    profilePicture: messageValues.map[json["profilePicture"]]!,
-    enterpriseId: json["enterpriseId"],
-    enterprise: messageValues.map[json["enterprise"]]!,
-    enterpriseUserId: json["enterpriseUserId"],
-    enterpriseUser: messageValues.map[json["enterpriseUser"]]!,
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        email: messageValues.map[json["email"]]!,
+        contactNumber: messageValues.map[json["contactNumber"]]!,
+        passwordHash: messageValues.map[json["passwordHash"]]!,
+        passwordSalt: messageValues.map[json["passwordSalt"]]!,
+        type: messageValues.map[json["type"]]!,
+        status: json["status"],
+        remarks: messageValues.map[json["remarks"]]!,
+        token: messageValues.map[json["token"]]!,
+        contactId: json["contactId"],
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        roleId: json["roleId"],
+        role: json["role"] == null ? null : Role.fromJson(json["role"]),
+        profilePictureId: json["profilePictureId"],
+        profilePicture: messageValues.map[json["profilePicture"]]!,
+        enterpriseId: json["enterpriseId"],
+        enterprise: messageValues.map[json["enterprise"]]!,
+        enterpriseUserId: json["enterpriseUserId"],
+        enterpriseUser: messageValues.map[json["enterpriseUser"]]!,
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "email": messageValues.reverse[email],
-    "contactNumber": messageValues.reverse[contactNumber],
-    "passwordHash": messageValues.reverse[passwordHash],
-    "passwordSalt": messageValues.reverse[passwordSalt],
-    "type": messageValues.reverse[type],
-    "status": status,
-    "remarks": messageValues.reverse[remarks],
-    "token": messageValues.reverse[token],
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "roleId": roleId,
-    "role": role?.toJson(),
-    "profilePictureId": profilePictureId,
-    "profilePicture": messageValues.reverse[profilePicture],
-    "enterpriseId": enterpriseId,
-    "enterprise": messageValues.reverse[enterprise],
-    "enterpriseUserId": enterpriseUserId,
-    "enterpriseUser": messageValues.reverse[enterpriseUser],
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "email": messageValues.reverse[email],
+        "contactNumber": messageValues.reverse[contactNumber],
+        "passwordHash": messageValues.reverse[passwordHash],
+        "passwordSalt": messageValues.reverse[passwordSalt],
+        "type": messageValues.reverse[type],
+        "status": status,
+        "remarks": messageValues.reverse[remarks],
+        "token": messageValues.reverse[token],
+        "contactId": contactId,
+        "contact": contact?.toJson(),
+        "roleId": roleId,
+        "role": role?.toJson(),
+        "profilePictureId": profilePictureId,
+        "profilePicture": messageValues.reverse[profilePicture],
+        "enterpriseId": enterpriseId,
+        "enterprise": messageValues.reverse[enterprise],
+        "enterpriseUserId": enterpriseUserId,
+        "enterpriseUser": messageValues.reverse[enterpriseUser],
+      };
 }
 
 class Role {
@@ -1126,22 +1191,22 @@ class Role {
   });
 
   factory Role.fromJson(Map<String, dynamic> json) => Role(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    maximumMembers: json["maximumMembers"],
-    profileName: messageValues.map[json["profileName"]]!,
-    isAdmin: json["isAdmin"],
-  );
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        maximumMembers: json["maximumMembers"],
+        profileName: messageValues.map[json["profileName"]]!,
+        isAdmin: json["isAdmin"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "maximumMembers": maximumMembers,
-    "profileName": messageValues.reverse[profileName],
-    "isAdmin": isAdmin,
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "maximumMembers": maximumMembers,
+        "profileName": messageValues.reverse[profileName],
+        "isAdmin": isAdmin,
+      };
 }
 
 class FluffyEnterpriseProfile {
@@ -1169,31 +1234,35 @@ class FluffyEnterpriseProfile {
     this.enterpriseUserId,
   });
 
-  factory FluffyEnterpriseProfile.fromJson(Map<String, dynamic> json) => FluffyEnterpriseProfile(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    firstName: messageValues.map[json["firstName"]]!,
-    lastName: messageValues.map[json["lastName"]]!,
-    emailId: messageValues.map[json["emailId"]]!,
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : UserProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseUserId: json["enterpriseUserId"],
-  );
+  factory FluffyEnterpriseProfile.fromJson(Map<String, dynamic> json) =>
+      FluffyEnterpriseProfile(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        firstName: messageValues.map[json["firstName"]]!,
+        lastName: messageValues.map[json["lastName"]]!,
+        emailId: messageValues.map[json["emailId"]]!,
+        contactId: json["contactId"],
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        profilePictureId: json["profilePictureId"],
+        profilePicture: json["profilePicture"] == null
+            ? null
+            : UserProfilePicture.fromJson(json["profilePicture"]),
+        enterpriseUserId: json["enterpriseUserId"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "firstName": messageValues.reverse[firstName],
-    "lastName": messageValues.reverse[lastName],
-    "emailId": messageValues.reverse[emailId],
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseUserId": enterpriseUserId,
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "firstName": messageValues.reverse[firstName],
+        "lastName": messageValues.reverse[lastName],
+        "emailId": messageValues.reverse[emailId],
+        "contactId": contactId,
+        "contact": contact?.toJson(),
+        "profilePictureId": profilePictureId,
+        "profilePicture": profilePicture?.toJson(),
+        "enterpriseUserId": enterpriseUserId,
+      };
 }
 
 class UserProfilePicture {
@@ -1229,39 +1298,40 @@ class UserProfilePicture {
     this.device,
   });
 
-  factory UserProfilePicture.fromJson(Map<String, dynamic> json) => UserProfilePicture(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: messageValues.map[json["name"]]!,
-    type: messageValues.map[json["type"]]!,
-    path: messageValues.map[json["path"]]!,
-    tags: messageValues.map[json["tags"]]!,
-    length: json["length"],
-    savedFileName: messageValues.map[json["savedFileName"]]!,
-    actualFileName: messageValues.map[json["actualFileName"]]!,
-    fileType: json["fileType"],
-    sthreeKey: messageValues.map[json["sthreeKey"]]!,
-    url: messageValues.map[json["url"]]!,
-    deviceId: json["deviceId"],
-    device: messageValues.map[json["device"]]!,
-  );
+  factory UserProfilePicture.fromJson(Map<String, dynamic> json) =>
+      UserProfilePicture(
+        id: json["id"],
+        uniqueGuid: json["uniqueGuid"],
+        name: messageValues.map[json["name"]]!,
+        type: messageValues.map[json["type"]]!,
+        path: messageValues.map[json["path"]]!,
+        tags: messageValues.map[json["tags"]]!,
+        length: json["length"],
+        savedFileName: messageValues.map[json["savedFileName"]]!,
+        actualFileName: messageValues.map[json["actualFileName"]]!,
+        fileType: json["fileType"],
+        sthreeKey: messageValues.map[json["sthreeKey"]]!,
+        url: messageValues.map[json["url"]]!,
+        deviceId: json["deviceId"],
+        device: messageValues.map[json["device"]]!,
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": messageValues.reverse[name],
-    "type": messageValues.reverse[type],
-    "path": messageValues.reverse[path],
-    "tags": messageValues.reverse[tags],
-    "length": length,
-    "savedFileName": messageValues.reverse[savedFileName],
-    "actualFileName": messageValues.reverse[actualFileName],
-    "fileType": fileType,
-    "sthreeKey": messageValues.reverse[sthreeKey],
-    "url": messageValues.reverse[url],
-    "deviceId": deviceId,
-    "device": messageValues.reverse[device],
-  };
+        "id": id,
+        "uniqueGuid": uniqueGuid,
+        "name": messageValues.reverse[name],
+        "type": messageValues.reverse[type],
+        "path": messageValues.reverse[path],
+        "tags": messageValues.reverse[tags],
+        "length": length,
+        "savedFileName": messageValues.reverse[savedFileName],
+        "actualFileName": messageValues.reverse[actualFileName],
+        "fileType": fileType,
+        "sthreeKey": messageValues.reverse[sthreeKey],
+        "url": messageValues.reverse[url],
+        "deviceId": deviceId,
+        "device": messageValues.reverse[device],
+      };
 }
 
 class EnumValues<T> {
