@@ -434,6 +434,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     };
     prefModel.offlineSavedTests!.add(test);
     AppPref.setPref(prefModel);
+    showSuccessToast(context, "Test successful and saved to offline.");
   }
 
 }
