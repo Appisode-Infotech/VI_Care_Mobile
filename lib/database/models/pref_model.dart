@@ -8,10 +8,12 @@ import '../../auth/model/register_response_model.dart';
 class PrefModel {
   UserData? userData;
   Duration? selectedDuration;
+  List<Map>? offlineSavedTests;
 
   PrefModel({
     this.userData,
     this.selectedDuration,
+    this.offlineSavedTests,
   });
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
@@ -22,6 +24,9 @@ class PrefModel {
       selectedDuration: parsedJson["selectedDuration"] == null
           ? null
           : Duration.fromJson(parsedJson["selectedDuration"]),
+      offlineSavedTests: parsedJson["offlineSavedTests"] != null
+          ? List<Map>.from(parsedJson["offlineSavedTests"])
+          : []
     );
   }
 
@@ -29,6 +34,7 @@ class PrefModel {
     return {
       "userData": userData?.toJson(),
       "selectedDuration": selectedDuration?.toJson(),
+      "offlineSavedTests": offlineSavedTests?.map((test) => Map<String, dynamic>.from(test)).toList(),
     };
   }
 }

@@ -1,17 +1,19 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
+import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 
+import '../../create_patients/model/enterprise_response_model.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
 
@@ -26,6 +28,12 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   Timer? timer;
   int secondsRemaining = 0;
   bool isTimerRunning = false;
+  int heartRate = 0;
+  List<StreamSubscription> subscriptions = []; // to keep track of subscriptions
+  List<int> bpmList = [];
+  List<double> rrIntervalList = [];
+  EnterpriseResponseModel? enterprisePatientData;
+  IndividualResponseModel? individualPatientData;
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -33,23 +41,34 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         if (secondsRemaining > 0) {
           secondsRemaining--;
         } else {
+          for (var subscription in subscriptions) {
+            subscription.cancel(); // cancel all subscriptions
+          }
           timer.cancel();
+          heartRate=0;
+          secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
           isTimerRunning = false;
+          saveReadings();
         }
       });
     });
   }
 
-  Future<void> handleStartButtonClick(BuildContext context) async {
+
+  Future<void> handleStartButtonClick(BuildContext context, TakeTestProvider takeTestProvider) async {
     if (!isTimerRunning) {
+      startRecordingReadings(takeTestProvider);
       isTimerRunning = true;
       startTimer();
     } else {
       bool userWantsToAbort = await showStopTestWarningDialog(context);
       if (userWantsToAbort) {
+        for (var subscription in subscriptions) {
+          subscription.cancel(); // cancel all subscriptions
+        }
+        heartRate=0;
         timer!.cancel();
-        secondsRemaining =
-            (prefModel.selectedDuration!.durationInMinutes!) * 60;
+        secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
         isTimerRunning = false;
         setState(() {});
       }
@@ -66,11 +85,15 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   void dispose() {
-    if(timer!=null){
+    for (var subscription in subscriptions) {
+      subscription.cancel(); // Cancel each subscription
+    }
+    if (timer != null) {
       timer!.cancel();
     }
     super.dispose();
   }
+
 
   @override
   void didChangeDependencies() {
@@ -81,6 +104,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    enterprisePatientData = arguments['enterprisePatientData'];
+    individualPatientData = arguments['individualPatientData'];
     return Consumer(
       builder: (BuildContext context, TakeTestProvider takeTestProvider,
           Widget? child) {
@@ -124,25 +151,26 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: screenSize!.width * 0.6,
                                         child: Text(
                                           "Connected to : ${takeTestProvider.connectedDevice!.name}",
                                           style: const TextStyle(
-                                              color: Colors.white, fontSize: 16),
+                                              color: Colors.white,
+                                              fontSize: 16),
                                         ),
                                       ),
                                       GestureDetector(
-                                        onTap: (){
+                                        onTap: () {
                                           takeTestProvider.disconnect(context);
                                         },
                                         child: const Text(
-                                              "Disconnect",
-                                              style: TextStyle(
-                                                  color: AppColors.scaffoldColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
+                                          "Disconnect",
+                                          style: TextStyle(
+                                              color: AppColors.scaffoldColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       )
                                     ],
                                   )),
@@ -179,7 +207,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                       ),
                                       GestureDetector(
                                           onTap: () {
-                                            setState(() {
+                                            if (!isTimerRunning) {
                                               Navigator.pushNamed(context,
                                                       Routes.durationsRoute)
                                                   .then((value) {
@@ -194,7 +222,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                                   }
                                                 });
                                               });
-                                            });
+                                            } else {
+                                              showErrorToast(context,
+                                                  'Please wait till scan is complete, or stop the scan to proceed.');
+                                            }
                                           },
                                           child: const Icon(
                                             Icons.timer_outlined,
@@ -207,8 +238,9 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                 ),
                               ),
                               const SizedBox(height: 10),
+                              // enterprisePatientData!=null?Text(enterprisePatientData!.toJson().toString()):Text(enterprisePatientData.toString()),
                               Text(
-                                '${takeTestProvider.heartRate.toString()} BPM',
+                                '${heartRate.toString()} BPM',
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w600,
@@ -217,7 +249,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                               const SizedBox(height: 20),
                               GestureDetector(
                                 onTap: () {
-                                  handleStartButtonClick(context);
+                                  handleStartButtonClick(context,takeTestProvider);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -360,4 +392,48 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
       },
     );
   }
+
+
+  Future<void> startRecordingReadings(TakeTestProvider takeTestProvider) async {
+    bpmList.clear(); // Clear existing values
+    rrIntervalList.clear(); // Clear existing values
+    subscriptions.clear(); // Clear existing subscriptions
+
+    List<BluetoothService> services =
+    await takeTestProvider.connectedDevice!.discoverServices();
+    for (BluetoothService service in services) {
+      if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
+        for (BluetoothCharacteristic characteristic in service.characteristics) {
+          await characteristic.setNotifyValue(true);
+          StreamSubscription subscription =
+          characteristic.value.listen((value) {
+            if (value.isNotEmpty) {
+              setState(() {
+                heartRate = value[1];
+                bpmList.add(value[1]);
+                rrIntervalList.add(60000/value[1]);
+              });
+            }
+          });
+          subscriptions.add(subscription); // Add the subscription to the list
+        }
+      }
+    }
+  }
+
+  void saveReadings() {
+    Map test = {
+      "profileType":prefModel.userData!.roleId==2?"individual":"enterprise",
+      "roleId":prefModel.userData!.roleId,
+      "individualPatientData":individualPatientData?.toJson(),
+      "enterprisePatientData":enterprisePatientData?.toJson(),
+      "bpmList":bpmList,
+      "rrIntervalList":rrIntervalList,
+      "scanTime":DateTime.now(),
+      "scanDuration":prefModel.selectedDuration
+    };
+    prefModel.offlineSavedTests!.add(test);
+    AppPref.setPref(prefModel);
+  }
+
 }

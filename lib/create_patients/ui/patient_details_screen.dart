@@ -806,7 +806,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               const SizedBox(width: 5),
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.pushNamed(context, Routes.takeTestRoute);
+                                  Navigator.pushNamed(context, Routes.takeTestRoute,arguments: {
+                                    'enterprisePatientData':patientProvider.enterpriseUserData
+                                  });
                                 },
                                 child: Container(
                                   height: 50,
