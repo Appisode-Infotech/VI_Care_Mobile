@@ -71,6 +71,8 @@ mixin AppLocale {
   static const String moderate  = 'moderate';
   static const String normal  = 'normal';
   static const String managePatients  = 'managePatients';
+  static const String undefined  = 'undefined';
+  static const String waitScanning  = 'waitScanning';
 
   static const String noConnectedDevice  = 'noConnectedDevice';
   static const String connectNow  = 'connectNow';
@@ -108,6 +110,11 @@ mixin AppLocale {
   static const String start  = 'start';
   static const String bluetoothIsOff  = 'bluetoothIsOff';
   static const String bluetoothTurnOn  = 'bluetoothTurnOn';
+  static const String connectedTo  = 'connectedTo';
+  static const String disconnect  = 'disconnect';
+  static const String waitTillScan  = 'waitTillScan';
+  static const String bpm  = 'bpm';
+  static const String startNewScan  = 'startNewScan';
 
   static const String summary  = 'summary';
   static const String readiness  = 'readiness';
@@ -144,6 +151,8 @@ mixin AppLocale {
   static const String continueTest  = 'continueTest';
   static const String abortMessage  = 'abortMessage';
   static const String abortConfirm  = 'abortConfirm';
+  static const String deviceDisconnected  = 'deviceDisconnected';
+  static const String errorConnecting  = 'errorConnecting';
 
   static const String profile  = 'profile';
   static const String scanSettings  = 'scanSettings';
@@ -294,6 +303,14 @@ mixin AppLocale {
     bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
     bluetoothTurnOn: 'Turn on',
 
+    connectedTo: 'Connected to',
+    disconnect: 'Disconnect',
+    waitTillScan: 'Please wait till scan is complete, or stop the scan to proceed.',
+    bpm: 'BPM',
+    startNewScan: 'Start a new scan for',
+    errorConnecting: 'Error connecting to',
+    deviceDisconnected: 'Disconnected from device',
+
     summary:"Summary",
     readiness:"Readiness scores",
     resting:"Resting heart rate",
@@ -320,6 +337,8 @@ mixin AppLocale {
     chooseDurationMessage: 'Please choose a duration to take test.',
 
     editProfile: 'Edit Profile',
+    waitScanning: 'Please wait scanning in progress !',
+    undefined: 'Undefined',
 
     changePassword: 'Change Password',
     changeLanguage: 'Change Language',
@@ -447,8 +466,17 @@ mixin AppLocale {
     connect: 'ಸಂಪರ್ಕಿಸಿ',
     deviceStart: '"Faros" ಸಾಧನವನ್ನು ಸಂಪರ್ಕಿಸಲಾಗಿದೆ !ನೀವು ಇದೀಗ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸಬಹುದು.',
     start: 'ಪ್ರಾರಂಭಿಸಿ',
-    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
-    bluetoothTurnOn: 'Turn on',
+    bluetoothIsOff: 'ನಿಮ್ಮ ಬ್ಲೂಟೂತ್ ಆಫ್ ಇದೆಯೇ ಇಲ್ಲವೇ ಅಂತಲ್ಲಾದರೆ ಅದನ್ನು ಚಾಲನೆ ಮಾಡಿ ಮುಂದುವರಿಸಿ.',
+    bluetoothTurnOn: 'ಚಾಲನೆ ಮಾಡಿ',
+
+    errorConnecting: 'ಸಂಪರ್ಕಿಸುವಲ್ಲಿ ತಪ್ಪಾಗಿದೆ',
+    deviceDisconnected: 'ಸಾಧನದಿಂದ ಸಂಪರ್ಕ ಕಳೆದುಕೊಂಡಿದೆ',
+
+    connectedTo: 'ಸಂಪರ್ಕಿಸಿದೆ',
+    disconnect: 'ವಿಯೋಗ',
+    waitTillScan: 'ಸ್ಕ್ಯಾನ್ ಪೂರ್ಣವಾಗುವವರೆಗೂ ದಯವಿಟ್ಟು ನಿಲ್ಲಿಸಿ ಅಥವಾ ಸ್ಕ್ಯಾನ್ ನಿಲ್ಲಿಸಲು ಮುಂದುವರಿಯಿರಿ.',
+    bpm: 'ಬಿಪಿಎಂ',
+    startNewScan: 'ಹೊಸ ಸ್ಕ್ಯಾನ್ ಪ್ರಾರಂಭಿಸಿ',
 
     summary:"ಸಾರಾಂಶ",
     readiness:"ಸಿದ್ಧತೆ ಅಂಕಗಳು",
@@ -480,6 +508,8 @@ mixin AppLocale {
     editProfile: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸು',
     editPatients:"ರೋಗಿಗಳನ್ನು ಸಂಪಾದಿಸಿ",
     minutes:"ನಿಮಿಷಗಳು",
+    waitScanning: 'ದಯವಿಟ್ಟು ಸ್ಕ್ಯಾನ್‌ನೋಡುವುದರಲ್ಲಿ ಮುಂದುವರಿಸುತ್ತಿದೆ!',
+    undefined: 'ವಿವರಿಸಲಾಗದ',
 
     profile: 'ಪ್ರೊಫೈಲ್',
     scanSettings: 'ಸೆಟ್ಟಿಂಗ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ',
@@ -583,6 +613,8 @@ mixin AppLocale {
     type: "प्रकार",
     serialNumber: "सीरियल नंबर",
     cancel: "रद्द करें",
+    waitScanning: 'कृपया प्रक्रिया में स्कैनिंग की प्रतीक्षा करें!',
+    undefined: 'अपरिभाषित',
 
     player: 'खिलाड़ी',
     members: 'सदस्य',
@@ -626,8 +658,17 @@ mixin AppLocale {
     connect: 'संपर्क करें',
     deviceStart: '"Faros" उपकरण से संपर्क कर रहा है! आप अब परीक्षण शुरू कर सकते हैं।',
     start: 'शुरू करें',
-    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
-    bluetoothTurnOn: 'Turn on',
+    bluetoothIsOff: 'लगता है कि आपका ब्लूटूथ बंद है। जारी रखने के लिए इसे चालू करें।',
+    bluetoothTurnOn: ' चालू करें',
+
+    errorConnecting: 'कनेक्ट करते समय त्रुटि',
+    deviceDisconnected: 'उपकरण से डिस्कनेक्ट',
+
+    connectedTo: 'कनेक्ट किया गया है',
+    disconnect: 'डिस्कनेक्ट',
+    waitTillScan: 'कृपया स्कैन पूरा होने तक प्रतीक्षा करें, या स्कैन को रोकें और आगे बढ़ें।',
+    bpm: 'बीपीएम',
+    startNewScan: 'के लिए एक नया स्कैन शुरू करें',
 
     summary: "संक्षेप",
     readiness: "तैयारी अंक",
@@ -782,6 +823,8 @@ mixin AppLocale {
     totalTested: 'Insgesamt getestet',
     reports: 'Berichte',
     minutes: " Minuten",
+    waitScanning: 'Bitte warten, Scan läuft!',
+    undefined: 'Undefiniert',
 
     deviceSetup: 'Es sieht so aus, als hätten Sie das Gerät noch nicht eingerichtet. Richten Sie es jetzt ein, um mit den Tests zu beginnen',
     setup: 'Aufstellen',
@@ -789,8 +832,17 @@ mixin AppLocale {
     connect: 'Verbinden',
     deviceStart: 'Das "Faros" Gerät ist verbunden! Sie können jetzt einen Test starten.',
     start: 'Start',
-    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
-    bluetoothTurnOn: 'Turn on',
+    bluetoothIsOff: 'Es sieht so aus, als wäre Ihr Bluetooth ausgeschaltet. Schalten Sie es ein, um fortzufahren.',
+    bluetoothTurnOn: 'Einschalten',
+
+    errorConnecting: 'Fehler beim Verbinden mit',
+    deviceDisconnected: 'Vom Gerät getrennt',
+
+    connectedTo: 'Verbunden mit',
+    disconnect: 'Trennen',
+    waitTillScan: 'Bitte warten Sie, bis der Scan abgeschlossen ist, oder stoppen Sie den Scan, um fortzufahren.',
+    bpm: 'BPM',
+    startNewScan: 'Starten Sie einen neuen Scan für',
 
     summary:"Zusammenfassung",
     readiness:"Bereitschaftswerte",
@@ -893,6 +945,10 @@ mixin AppLocale {
     viewAll: 'అన్నీ చూడండి',
     newPatient: 'కొత్త రోగిని జోడించండి',
     allReports: 'అన్నీ నివేదికలు',
+    waitScanning: 'దయచేసి స్కానింగ్ నడుస్తోంది!',
+    undefined: 'అపరిగ్రహితం',
+
+
 
     player: 'వారులు',
     members: 'సభ్యులు',
@@ -954,8 +1010,18 @@ mixin AppLocale {
     connect: 'కనెక్ట్',
     deviceStart: '“ఫరోస్” పరికరం కనెక్ట్ అయ్యింది! మీరు ఇప్పుడు ఒక పరీక్షను ప్రారంభించవచ్చు.',
     start: 'ప్రారంభించండి',
-    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
-    bluetoothTurnOn: 'Turn on',
+    bluetoothIsOff: 'మీ బ్లూటూత్ ఆఫ్ ఉందని అనిపించింది. కొనసాగించడానికి అదనంతటి ప్రారంభించండి. ',
+    bluetoothTurnOn: 'ఆన్ చేయండి ',
+
+    errorConnecting: 'కనెక్ట్ చేసేందుకు దోషం',
+    deviceDisconnected: 'ఉపకరణం నుండి డిస్కనెక్ట్ చేయబడింది',
+
+    connectedTo: 'కనెక్ట్ చేయబడినది',
+    disconnect: 'డిస్‌కనెక్ట్',
+    waitTillScan: 'స్కాన్ పూర్తి అయ్యేవరకు వేచి ఉండండి, లేదా స్కాన్ నిల్లిసుకోండి.',
+    bpm: 'బిపిఎం',
+    startNewScan: 'కొత్త స్కాన్ ప్రారంభించు',
+
 
     summary: "సంగ్రహం",
     readiness: "సిద్ధత స్కోర్లు",
@@ -1058,6 +1124,8 @@ mixin AppLocale {
       viewAll: 'அனைத்தும் பார்',
       newPatient: 'புதியவரை\nசேர்க்கவும்',
       allReports: 'அறிக்கைகள்',
+      waitScanning: 'சரிபார்க்கும் நிலையில் காத்திருக்கவும்!',
+      undefined: 'ஒருபெயரில்லை',
 
       player:'விளை',
       patients: 'நோயா',
@@ -1110,8 +1178,14 @@ mixin AppLocale {
       connect: 'இணை',
       deviceStart: '“பரமோஸ்” சாதனம் இணைக்கப்பட்டுள்ளது! நீங்கள் இப்போது ஒரு சோதனையை தொடங்கலாம்.',
       start: 'தொடங்கு',
-      bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
-      bluetoothTurnOn: 'Turn on',
+      bluetoothIsOff: 'உங்கள் புளூடூத்து அணைக்கப்பட்டுள்ளதா என்று தெரிந்துகொள்ளுகின்றது. தொடர முன்னேற இதை இயக்கவும்.',
+      bluetoothTurnOn: 'இயக்கு ',
+
+      connectedTo: 'இணைக்கப்பட்டது',
+      disconnect: 'தொடர்ந்து இயக்கு',
+      waitTillScan: 'ஸ்கேன் முடிந்தவரை காத்திருக்கவும், அல்லது ஸ்கேனை நிறுத்தி முடிக்கவும்.',
+      bpm: 'பிபிஎம்',
+      startNewScan: 'புதிய ஸ்கேன் தொடங்கு',
 
       summary:"சுருக்கம்",
       readiness:"தயார் சுழற்சி",
@@ -1129,6 +1203,9 @@ mixin AppLocale {
       retryUpload:"மீளமைப்பு மேம்படுத்தவும்",
       delete:"நீக்கு",
       editPatients:"நோயாளி திருத்து",
+
+      errorConnecting: 'இணையும் போது பிழை',
+      deviceDisconnected: 'சாதனத்திலிருந்து இணைப்பு இருக்காது',
 
       noConnectedDevice: "இணைக்கப்பட்ட சாதனம் இல்லை",
       connectNow: "இப்போது இணைக்கவும்",
@@ -1289,8 +1366,17 @@ mixin AppLocale {
     connect: 'കണക്റ്റ്',
     deviceStart: '“ഫാറോസ്” ഉപകരണം കണക്റ്റുചെയ്തു! നിങ്ങൾ ഇപ്പോൾ ഒരു ടെസ്റ്റ് ആരംഭിക്കാം.',
     start: 'ആരംഭിക്കുക',
-    bluetoothIsOff: 'Looks like your bluetooth is off. Turn it on to continue.',
-    bluetoothTurnOn: 'Turn on',
+    bluetoothIsOff: 'നിങ്ങളുടെ ബ്ലൂടൂത്ത് ഓഫാണെന്നു തോന്നുന്നു. തുടരുന്നതിന് അതെ ഓൺ ചെയ്യുക.',
+    bluetoothTurnOn: 'ഓണാക്കുക',
+
+    errorConnecting: 'കണക്ഷന്‍ ചെയ്യുമ്പോള്‍ പിശക്',
+    deviceDisconnected: 'ഉപകരണം ഡിസ്‌കണെക്റ്റ് ചെയ്തു',
+
+    connectedTo: 'കണക്ഷൻ ചെയ്തിടുന്നു',
+    disconnect: 'ഡിസ്‌കണെക്റ്റ്',
+    waitTillScan: 'സ്കാൻ പൂർത്തിയാകുന്നതുവരെ കാത്തിരിക്കുക, അല്ലെങ്കിൽ സ്കാൻ നിർത്തുകയും ചെയ്യുക.',
+    bpm: 'ബിപിഎം',
+    startNewScan: 'പുതിയ സ്കാൻ ആരംഭിക്കുക',
 
     summary:"സംഗ്രഹം",
     readiness:"തുരുമ്പുകളുടെ സ്കോർ",
@@ -1303,6 +1389,8 @@ mixin AppLocale {
     oneYear:"1 വർഷം",
     takeTest:"ഒരു പരീക്ഷ എടുക്കുക",
     stop:"നിർത്തുക",
+    waitScanning: 'ദയവായി സ്കാനുചെയ്യൽ പുരോഗതിയിലാണ്!',
+    undefined: 'വ്യക്തിയാക്കാത്ത',
 
     offlineTests:"ഓഫ്‌ലൈൻ പരീക്ഷണങ്ങൾ",
     retryUpload:"അപ്ലോഡ് വേണ്ടത് വീണ്ടും ശ്രമിക്കുക",

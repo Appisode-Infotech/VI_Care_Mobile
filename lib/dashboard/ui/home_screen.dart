@@ -104,8 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
-    Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
+    if(prefModel.userData!.roleId==2){
+      Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
+    }else{
+      Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
+    }
     super.didChangeDependencies();
   }
 

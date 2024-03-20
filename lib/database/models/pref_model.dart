@@ -34,7 +34,7 @@ class PrefModel {
     return {
       "userData": userData?.toJson(),
       "selectedDuration": selectedDuration?.toJson(),
-      "offlineSavedTests": offlineSavedTests?.map((test) => Map<String, dynamic>.from(test)).toList(),
+      "offlineSavedTests": offlineSavedTests!.map((test) => Map<String, dynamic>.from(test)).toList(),
     };
   }
 }

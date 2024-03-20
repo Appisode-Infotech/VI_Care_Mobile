@@ -44,7 +44,7 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: ListView.builder(
-            itemCount: prefModel.offlineSavedTests!.length,
+            itemCount: prefModel.offlineSavedTests?.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -75,17 +75,19 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                         const SizedBox(
                           width: 20,
                         ),
-                        Container(
+                        SizedBox(
                           width: screenSize!.width-90,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(prefModel.offlineSavedTests![index]['profileType'].toString()),
-                              Text(prefModel.offlineSavedTests![index]['roleId'].toString()),
-                              Text(prefModel.offlineSavedTests![index]['individualPatientData'].toString()),
-                              Text(prefModel.offlineSavedTests![index]['enterprisePatientData'].toString()),
-                              Text(prefModel.offlineSavedTests![index]['rrIntervalList'].toString()),
+                              Text(prefModel.offlineSavedTests.toString()),
+                              // Text(prefModel.offlineSavedTests![index]['profileType']),
+                              // Text(prefModel.offlineSavedTests![index]['roleId']),
+                              // Text(prefModel.offlineSavedTests![index]['individualPatientData'].toString()),
+                              // Text(prefModel.offlineSavedTests![index]['enterprisePatientData'].toString()),
+                              // Text(prefModel.offlineSavedTests![index]['rrIntervalList'].toString()),
+
                               // Text(
                               //   prefModel.offlineSavedTests![index]["patientName"],
                               //   style: const TextStyle(

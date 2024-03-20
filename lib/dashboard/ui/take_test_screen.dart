@@ -154,7 +154,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                       SizedBox(
                                         width: screenSize!.width * 0.6,
                                         child: Text(
-                                          "Connected to : ${takeTestProvider.connectedDevice!.name}",
+                                          "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 16),
@@ -164,8 +164,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                         onTap: () {
                                           takeTestProvider.disconnect(context);
                                         },
-                                        child: const Text(
-                                          "Disconnect",
+                                        child:  Text(
+                                          "${AppLocale.disconnect.getString(context)}",
                                           style: TextStyle(
                                               color: AppColors.scaffoldColor,
                                               fontSize: 16,
@@ -224,7 +224,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                               });
                                             } else {
                                               showErrorToast(context,
-                                                  'Please wait till scan is complete, or stop the scan to proceed.');
+                                                  '${AppLocale.waitTillScan.getString(context)}');
                                             }
                                           },
                                           child: const Icon(
@@ -238,9 +238,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              // enterprisePatientData!=null?Text(enterprisePatientData!.toJson().toString()):Text(enterprisePatientData.toString()),
                               Text(
-                                '${heartRate.toString()} BPM',
+                                '${heartRate.toString()} ${AppLocale.bpm.getString(context)}',
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w600,
@@ -288,7 +287,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                      width: screenSize!.width * 0.5,
+                                      width: screenSize!.width * 0.4,
                                       child: Text(
                                         AppLocale.chooseDurationMessage
                                             .getString(context),
@@ -349,9 +348,9 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                       context, Routes.bluetoothScanRoute);
                                 },
                                 child: Container(
-                                    width: screenSize!.width * 0.25,
+                                    width: screenSize!.width * 0.20,
                                     height: 50,
-                                    padding: const EdgeInsets.all(12),
+                                    padding: const EdgeInsets.all(8),
                                     decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(12)),

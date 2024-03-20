@@ -44,7 +44,7 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                       children: [
                         Text(
                           takeTestProvider.leDevices[index].name.isEmpty
-                              ? 'Undefined'
+                              ? '${AppLocale.undefined.getString(context)}'
                               : takeTestProvider.leDevices[index].name,
                           style: const TextStyle(fontSize: 16),
                         ),
@@ -61,7 +61,7 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                     TextButton(
                         onPressed: () {
                           if(takeTestProvider.isScanning){
-                            showErrorToast(context, "Please wait scanning in progress !");
+                            showErrorToast(context, "${AppLocale.waitScanning.getString(context)}");
                           }else{
                             takeTestProvider.connectToDevice(takeTestProvider.leDevices[index], context);
                           }

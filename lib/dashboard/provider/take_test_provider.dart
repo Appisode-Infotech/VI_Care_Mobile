@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/utils/app_buttons.dart';
+import 'package:vicare/utils/app_locale.dart';
 
 class TakeTestProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
@@ -29,10 +31,10 @@ class TakeTestProvider extends ChangeNotifier {
       connectedDevice = device;
       Navigator.pop(context); // Dismiss the loader
       Navigator.pop(context); // Back to test screen
-      showSuccessToast(context, "Connected to ${device.name}");
+      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
       Navigator.pop(context); // Dismiss the loader
-      showErrorToast(context, 'Error connecting to ${device.name}: $e');
+      showErrorToast(context, '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
     }
   }
 
@@ -83,7 +85,7 @@ class TakeTestProvider extends ChangeNotifier {
     if (connectedDevice != null) {
       try {
         await connectedDevice!.disconnect();
-        showSuccessToast(context, "Disconnected from device");
+        showSuccessToast(context, AppLocale.deviceDisconnected.getString(context));
         log('Disconnected from device');
       } catch (e) {
         log('Error disconnecting from device: $e');
