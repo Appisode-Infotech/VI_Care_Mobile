@@ -169,6 +169,7 @@ mixin AppLocale {
   static const String support  = 'support';
   static const String logOut  = 'logOut';
 
+
   static const String thisIs = 'thisIs';
 
 

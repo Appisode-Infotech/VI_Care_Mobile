@@ -45,6 +45,7 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                         Text(
                           takeTestProvider.leDevices[index].name.isEmpty
                               ? '${AppLocale.undefined.getString(context)}'
+
                               : takeTestProvider.leDevices[index].name,
                           style: const TextStyle(fontSize: 16),
                         ),

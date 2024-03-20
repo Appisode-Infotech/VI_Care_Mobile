@@ -721,6 +721,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     ],
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Column(

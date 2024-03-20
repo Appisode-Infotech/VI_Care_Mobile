@@ -21,6 +21,7 @@ class PrefModel {
       userData: parsedJson["userData"] == null
           ? null
           : UserData.fromJson(parsedJson["userData"]),
+
       selectedDuration: parsedJson["selectedDuration"] == null
           ? null
           : Duration.fromJson(parsedJson["selectedDuration"]),

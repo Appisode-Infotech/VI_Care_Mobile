@@ -87,7 +87,6 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                               // Text(prefModel.offlineSavedTests![index]['individualPatientData'].toString()),
                               // Text(prefModel.offlineSavedTests![index]['enterprisePatientData'].toString()),
                               // Text(prefModel.offlineSavedTests![index]['rrIntervalList'].toString()),
-
                               // Text(
                               //   prefModel.offlineSavedTests![index]["patientName"],
                               //   style: const TextStyle(

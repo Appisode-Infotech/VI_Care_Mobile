@@ -16,6 +16,7 @@ class BluetoothScanPage extends StatefulWidget {
 }
 
 class _BluetoothScanPageState extends State<BluetoothScanPage> {
+
   @override
   Widget build(BuildContext context) {
     return Consumer(

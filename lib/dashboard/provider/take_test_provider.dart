@@ -79,6 +79,7 @@ class TakeTestProvider extends ChangeNotifier {
       notifyListeners();
       log('Error scanning for devices: $e');
     }
+
   }
 
   Future<void> disconnect(BuildContext context) async {

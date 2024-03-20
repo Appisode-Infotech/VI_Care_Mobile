@@ -14,7 +14,6 @@ class DeviceScreen extends StatefulWidget {
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer(

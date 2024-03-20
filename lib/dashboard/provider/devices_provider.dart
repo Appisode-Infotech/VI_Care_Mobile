@@ -21,6 +21,7 @@ class DeviceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
   addDevice() async {
     AddDeviceResponseModel response = await apiCalls.addDevice(
         deviceType!, serialNumberController.text, devicePageContext!);
