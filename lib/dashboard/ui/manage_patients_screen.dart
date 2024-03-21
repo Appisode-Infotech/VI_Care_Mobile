@@ -22,7 +22,7 @@ class ManagePatientsScreen extends StatefulWidget {
 class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
   @override
   void didChangeDependencies() {
-    Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
+    prefModel.userData!.roleId==2?Provider.of<PatientProvider>(context, listen: false).getMyPatients(context):
     Provider.of<PatientProvider>(context, listen: false)
         .getEnterpriseProfiles(context);
     super.didChangeDependencies();
@@ -107,7 +107,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                           context, Routes.addNewPatientRoute)
                                       .then((value) {
                                     setState(() {
-                                      patientProvider.getMyPatients(context);
+                                      prefModel.userData!.roleId==2?patientProvider.getMyPatients(context):
                                       patientProvider
                                           .getEnterpriseProfiles(context);
                                     });
@@ -293,7 +293,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                           context, Routes.addNewPatientRoute)
                                       .then((value) {
                                     setState(() {
-                                      patientProvider.getMyPatients(context);
+                                      prefModel.userData!.roleId==2?patientProvider.getMyPatients(context):
                                       patientProvider
                                           .getEnterpriseProfiles(context);
                                     });

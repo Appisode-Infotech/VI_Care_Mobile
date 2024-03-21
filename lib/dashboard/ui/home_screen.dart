@@ -493,13 +493,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (BuildContext context, int index) {
                               if (index == snapshot.data!.result!.length) {
                                 return InkWell(
-                                  onTap: () {
-                                    patientProvider.clearAddPatientForm();
+                                  onTap: () async {
+                                    await patientProvider.getStateMaster(context);
                                     Navigator.pushNamed(
                                             context, Routes.addNewPatientRoute)
                                         .then((value) {
                                       setState(() {
-                                        patientProvider.getMyPatients(context);
+                                        prefModel.userData!.roleId==2?patientProvider.getMyPatients(context):
                                         patientProvider
                                             .getEnterpriseProfiles(context);
                                       });
@@ -691,8 +691,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             context, Routes.addNewPatientRoute)
                                         .then((value) {
                                       setState(() {
-                                        patientProvider.getMyPatients(context);
-                                        patientProvider
+                                        prefModel.userData!.roleId==2?patientProvider.getMyPatients(context)
+                                        :patientProvider
                                             .getEnterpriseProfiles(context);
                                       });
                                       return null;

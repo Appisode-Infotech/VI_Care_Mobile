@@ -65,6 +65,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             actions: [
               InkWell(
                 onTap: () {
+                  patientProvider.getStateMaster(context);
                   patientProvider
                       .prefillEditPatientDetails(context)
                       .then((value) {
