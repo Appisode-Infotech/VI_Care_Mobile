@@ -58,6 +58,7 @@ final FlutterLocalization localization = FlutterLocalization.instance;
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    prefModel.offlineSavedTests ??= [];
     localization.init(
       mapLocales: [
         const MapLocale(

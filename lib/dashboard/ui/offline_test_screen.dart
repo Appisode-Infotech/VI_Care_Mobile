@@ -20,7 +20,6 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    prefModel.offlineSavedTests ??= [];
     return Scaffold(
         appBar: AppBar(
           title: Text(

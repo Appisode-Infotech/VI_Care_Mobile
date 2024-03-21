@@ -429,7 +429,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   }
 
   void saveReadings(TakeTestProvider takeTestProvider) {
-    prefModel.offlineSavedTests ??= [];
     prefModel.offlineSavedTests!.add(OfflineTestModel(
         myRoleId: prefModel.userData!.roleId,
         bpmList: bpmList,
