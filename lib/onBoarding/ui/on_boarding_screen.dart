@@ -6,7 +6,6 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/auth/auth_provider.dart';
 import 'package:vicare/utils/app_colors.dart';
-import 'package:vicare/utils/url_constants.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
@@ -182,7 +181,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () async {
                                   await authProvider.getRoleMasters(context);
-                                    await authProvider.getStateMaster(context);
+                                    // await authProvider.getStateMaster(context);
                                     Navigator.pushNamed(context, Routes.registerRoute);
                                 },
                               text: AppLocale.signUpNow.getString(context),

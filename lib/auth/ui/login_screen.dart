@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         InkWell(
                             onTap: ()  {
                               authProvider.getRoleMasters(context);
-                              authProvider.getStateMaster(context);
+                              // authProvider.getStateMaster(context);
                             },
                             child: Text(
                               AppLocale.registerNow.getString(context),
