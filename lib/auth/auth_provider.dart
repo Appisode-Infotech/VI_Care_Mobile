@@ -165,7 +165,7 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(registerPageContext!);
-      Navigator.pushNamed(registerPageContext!, Routes.dashboardRoute);
+      Navigator.pushNamed(registerPageContext!, Routes.loginRoute);
       showSuccessToast(registerPageContext!, response.message!);
       clearRegisterForm();
     } else {
