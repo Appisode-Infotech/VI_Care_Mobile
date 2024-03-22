@@ -203,7 +203,12 @@ class PatientProvider extends ChangeNotifier {
           individualPatientData!.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =
           individualPatientData!.result!.contact!.address!.pinCode.toString();
-      // editStateAs = individualPatientData!.result!.contact!.address!.stateId.toString();
+      for (var state in stateMasterResponse!.result!) {
+        if (state.id == individualPatientData!.result!.contact!.address!.stateId) {
+          editStateAs = state.name;
+          break;
+        }
+      }
       editPatientBloodGroup =
           individualPatientData!.result!.contact!.bloodGroup;
       editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
@@ -222,16 +227,21 @@ class PatientProvider extends ChangeNotifier {
       editPatientLastNameController.text =
           enterpriseUserData!.result!.lastName!;
       editNewPatientStreetController.text =
-          individualPatientData!.result!.contact!.address!.street.toString();
+          enterpriseUserData!.result!.contact!.address!.street.toString();
       editNewPatientAreaController.text =
-          individualPatientData!.result!.contact!.address!.area.toString();
+          enterpriseUserData!.result!.contact!.address!.area.toString();
       editNewPatientLandmarkController.text =
-          individualPatientData!.result!.contact!.address!.landmark.toString();
+          enterpriseUserData!.result!.contact!.address!.landmark.toString();
       editNewPatientCityController.text =
-          individualPatientData!.result!.contact!.address!.city.toString();
+          enterpriseUserData!.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =
-          individualPatientData!.result!.contact!.address!.pinCode.toString();
-      // editStateAs = individualPatientData!.result!.contact!.address!.stateId.toString();
+          enterpriseUserData!.result!.contact!.address!.pinCode.toString();
+      for (var state in stateMasterResponse!.result!) {
+        if (state.id == enterpriseUserData!.result!.contact!.address!.stateId) {
+          editStateAs = state.name;
+          break;
+        }
+      }
       editPatientGender = enterpriseUserData!.result!.contact!.gender == 1
           ? "Male"
           : enterpriseUserData!.result!.contact!.gender == 2
@@ -255,14 +265,21 @@ class PatientProvider extends ChangeNotifier {
           editPatientEmailController.text,
           editPatientFirstNameController.text,
           editPatientLastNameController.text,
-          editPatientAddressController.text,
           editPatientGender!,
-          editPatientSelectedImage!,
+          editPatientSelectedImage,
           editPatientPageContext!,
           editPatientBloodGroup!,
           individualPatientData!.result!.userId.toString(),
           individualPatientData!.result!.contactId.toString(),
-          individualPatientData!.result!.id.toString());
+          individualPatientData!.result!.id.toString(),
+          editNewPatientStreetController.text,
+          editNewPatientAreaController.text,
+          editNewPatientPinCodeController.text,
+          editNewPatientCityController.text,
+          editNewPatientLandmarkController.text,
+          editSelectedStateId!,
+          individualPatientData!.result!.contact!.addressId.toString()
+      );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);
@@ -283,7 +300,15 @@ class PatientProvider extends ChangeNotifier {
               editPatientBloodGroup!,
               enterpriseUserData!.result!.enterpriseUserId.toString(),
               enterpriseUserData!.result!.id.toString(),
-              enterpriseUserData!.result!.contactId.toString());
+              enterpriseUserData!.result!.contactId.toString(),
+              editNewPatientStreetController.text,
+              editNewPatientAreaController.text,
+              editNewPatientPinCodeController.text,
+              editNewPatientCityController.text,
+              editNewPatientLandmarkController.text,
+              editSelectedStateId!,
+              enterpriseUserData!.result!.contact!.addressId.toString()
+          );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
         Navigator.pop(editPatientPageContext!);
@@ -328,9 +353,6 @@ class PatientProvider extends ChangeNotifier {
     stateMasterResponse = await apiCalls.getStateMaster(context);
     if (stateMasterResponse!.result!.isNotEmpty) {
       clearAddPatientForm();
-      if (context.mounted) {
-        print("case1");
-      }
     } else {
       Navigator.pop(context);
       showErrorToast(context, stateMasterResponse!.message.toString());

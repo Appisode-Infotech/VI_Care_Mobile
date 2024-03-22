@@ -184,7 +184,8 @@ class ApiCalls {
       String area,
       String landMark,
       String city,
-      String pinCode, int? stateId) async {
+      String pinCode,
+      int? stateId) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addIndividualProfile));
     request.fields['IsSelf'] = false.toString();
@@ -202,8 +203,6 @@ class ApiCalls {
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.StateId'] = stateId.toString();
     request.fields['UserId'] = prefModel.userData!.id.toString();
-
-    print(request.fields);
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -258,7 +257,8 @@ class ApiCalls {
       String area,
       String landMark,
       String city,
-      String pinCode, int? stateId) async {
+      String pinCode,
+      int? stateId) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -329,13 +329,13 @@ class ApiCalls {
     }
   }
 
+
   Future<AddIndividualProfileResponseModel> editPatient(
     String dob,
     String mobile,
     String email,
     String fName,
     String lName,
-    String address,
     String gender,
     File? patientPic,
     BuildContext? context,
@@ -343,6 +343,13 @@ class ApiCalls {
     String userID,
     String contactId,
     String id,
+    String street,
+    String area,
+    String pinCode,
+    String city,
+    String landMark,
+    int? stateId,
+    String addressId,
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addIndividualProfile));
@@ -356,6 +363,13 @@ class ApiCalls {
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;
     request.fields['Contact.BloodGroup'] = bloodGroup;
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.Id'] = addressId;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -396,19 +410,27 @@ class ApiCalls {
   }
 
   Future<AddIndividualProfileResponseModel> editEnterprise(
-      String email,
-      String fName,
-      String lName,
-      String dob,
-      String address,
-      String mobile,
-      String gender,
-      File? patientPic,
-      BuildContext? context,
-      String bloodGroup,
-      String eUserId,
-      String id,
-      String contactId) async {
+    String email,
+    String fName,
+    String lName,
+    String dob,
+    String address,
+    String mobile,
+    String gender,
+    File? patientPic,
+    BuildContext? context,
+    String bloodGroup,
+    String eUserId,
+    String id,
+    String contactId,
+    String street,
+    String area,
+    String pinCode,
+    String city,
+    String landMark,
+    int? stateId,
+    String addressId,
+  ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -421,6 +443,13 @@ class ApiCalls {
     request.fields['Contact.BloodGroup'] = bloodGroup;
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.Id'] = addressId;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -490,7 +519,6 @@ class ApiCalls {
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
     log(response.body);
-
     if (response.statusCode == 200) {
       return IndividualResponseModel.fromJson(json.decode(response.body));
     } else {

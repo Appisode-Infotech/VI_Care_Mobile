@@ -146,6 +146,18 @@ mixin AppLocale {
   static const String editMembers = 'editMembers';
   static const String members = 'members';
   static const String minutes = 'minutes';
+  static const String state = 'state';
+  static const String stateValid = 'stateValid';
+  static const String area = 'area';
+  static const String areaValid = 'areaValid';
+  static const String landMark = 'landMark';
+  static const String landMarkValid = 'landMarkValid';
+  static const String street = 'street';
+  static const String streetValid = 'streetValid';
+  static const String pinCode = 'pinCode';
+  static const String pinCodeValid = 'pinCodeValid';
+  static const String city = 'city';
+  static const String cityValid = 'cityValid';
 
   static const String abort = 'abort';
   static const String continueTest = 'continueTest';
@@ -160,8 +172,7 @@ mixin AppLocale {
   static const String devices = 'devices';
   static const String duration = 'duration';
   static const String chooseDuration = 'chooseDuration';
-  static const String chooseDurationMessage =
-      'Please choose a duration to take test.';
+  static const String chooseDurationMessage = 'Please choose a duration to take test.';
   static const String editProfile = 'editProfile';
   static const String changePassword = 'changePassword';
   static const String changeLanguage = 'changeLanguage';
@@ -339,6 +350,18 @@ mixin AppLocale {
     termsConditions: 'Terms & Conditions',
     newsBlog: 'News & Blogs',
     support: 'Support',
+    street:"Street",
+    area:"Area",
+    landMark:"Landmark",
+    city:"City",
+    state:"State",
+    pinCode:"PinCode",
+    streetValid:"Please enter Valid Street",
+    stateValid:"Please enter Valid State",
+    areaValid:"Please enter Valid Area",
+    cityValid:"Please enter Valid City",
+    landMarkValid:"Please enter Valid LandMark",
+    pinCodeValid:"Please enter Valid PinCode",
     logOut: 'Logout',
     thisIs: 'This is %a package, version %a.',
   };
@@ -514,6 +537,18 @@ mixin AppLocale {
     termsConditions: 'ನಿಯಮ ಮತ್ತು ಶರತ್ತುಗಳು',
     newsBlog: 'ಸುದ್ದಿ ಮತ್ತು ಬ್ಲಾಗ್‌ಗಳು',
     support: 'ಬೆಂಬಲ',
+    street: "ರಸ್ತೆ",
+    area: "ಪ್ರದೇಶ",
+    landMark: "ಭೂದೃಶ್ಯ",
+    city: "ನಗರ",
+    state: "ರಾಜ್ಯ",
+    pinCode: "ಪಿನ್ ಕೋಡ್",
+    streetValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ರಸ್ತೆ ನಮೂದಿಸಿ",
+    stateValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ರಾಜ್ಯ ನಮೂದಿಸಿ",
+    areaValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪ್ರದೇಶ ನಮೂದಿಸಿ",
+    cityValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ನಗರ ನಮೂದಿಸಿ",
+    landMarkValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಭೂದೃಶ್ಯ ನಮೂದಿಸಿ",
+    pinCodeValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ",
     logOut: 'ಲಾಗ್ ಔಟ್',
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -686,6 +721,18 @@ mixin AppLocale {
     termsConditions: 'नियम और शर्तें',
     newsBlog: 'समाचार और ब्लॉग',
     support: 'समर्थन',
+    street: "सड़क",
+    area: "क्षेत्र",
+    landMark: "सीमा चिह्न",
+    city: "शहर",
+    state: "राज्य",
+    pinCode: "पिन कोड",
+    streetValid: "कृपया सही सड़क दर्ज करें",
+    stateValid: "कृपया सही राज्य दर्ज करें",
+    areaValid: "कृपया सही क्षेत्र दर्ज करें",
+    cityValid: "कृपया सही शहर दर्ज करें",
+    landMarkValid: "कृपया सही सीमा चिह्न दर्ज करें",
+    pinCodeValid: "कृपया सही पिन कोड दर्ज करें",
     logOut: 'लॉग आउट',
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -859,6 +906,18 @@ mixin AppLocale {
     termsConditions: 'Nutzungsbedingungen',
     newsBlog: 'Nachrichten & Blogs',
     support: 'Unterstützung',
+    street: "Straße",
+    area: "Gebiet",
+    landMark: "Landmarke",
+    city: "Stadt",
+    state: "Bundesland",
+    pinCode: "Postleitzahl",
+    streetValid: "Bitte geben Sie eine gültige Straße ein",
+    stateValid: "Bitte geben Sie einen gültigen Bundesland ein",
+    areaValid: "Bitte geben Sie ein gültiges Gebiet ein",
+    cityValid: "Bitte geben Sie eine gültige Stadt ein",
+    landMarkValid: "Bitte geben Sie eine gültige Landmarke ein",
+    pinCodeValid: "Bitte geben Sie eine gültige Postleitzahl ein",
     logOut: 'Ausloggen',
   };
 
@@ -1032,6 +1091,18 @@ mixin AppLocale {
     termsConditions: 'షరతులు & సవరణలు',
     newsBlog: 'వార్తలు & బ్లాగులు',
     support: 'మద్దతు',
+    street: "వీధి",
+    area: "ప్రాంతం",
+    landMark: "భూదర్శనం",
+    city: "నగరం",
+    state: "రాష్ట్రం",
+    pinCode: "పిన్ కోడ్",
+    streetValid: "దయచేసి సరిగా వీధి నమోదు చేయండి",
+    stateValid: "దయచేసి సరిగా రాష్ట్రం నమోదు చేయండి",
+    areaValid: "దయచేసి సరిగా ప్రాంతం నమోదు చేయండి",
+    cityValid: "దయచేసి సరిగా నగరం నమోదు చేయండి",
+    landMarkValid: "దయచేసి సరిగా భూదర్శనం నమోదు చేయండి",
+    pinCodeValid: "దయచేసి సరిగా పిన్ కోడ్ నమోదు చేయండి",
     logOut: 'లాగ్ అవుట్',
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
@@ -1208,6 +1279,18 @@ mixin AppLocale {
     termsConditions: 'விதிமுறைகள் & நடப்புப் பலன்கள்',
     newsBlog: 'செய்திகள் & வலைப்பகுதிகள்',
     support: 'ஆதரவு',
+    street: "தெரு",
+    area: "பரப்பு",
+    landMark: "குறிப்புக் குறிச்சொல்",
+    city: "நகரம்",
+    state: "மாநிலம்",
+    pinCode: "அஞ்சல் குறியீடு",
+    streetValid: "சரியான தெரு உள்ளிடவும்",
+    stateValid: "சரியான மாநிலம் உள்ளிடவும்",
+    areaValid: "சரியான பரப்பு உள்ளிடவும்",
+    cityValid: "சரியான நகரத்தை உள்ளிடவும்",
+    landMarkValid: "சரியான குறிப்புக் குறிச்சொல் உள்ளிடவும்",
+    pinCodeValid: "சரியான அஞ்சல் குறியீடை உள்ளிடவும்",
     logOut: 'வெளியேறு',
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
@@ -1378,6 +1461,18 @@ mixin AppLocale {
     termsConditions: 'നിബന്ധനകൾ & പദവിയായി',
     newsBlog: 'വാർത്തകൾ & ബ്ലോഗുകൾ',
     support: 'പിന്തുണ',
+    street: "സ്ട്രീറ്റ്",
+    area: "പ്രദേശം",
+    landMark: "ഭൂമിയൊരുപതി",
+    city: "നഗരം",
+    state: "സംസ്ഥാനം",
+    pinCode: "പിൻ കോഡ്",
+    streetValid: "സാധുവായ സ്ട്രീറ്റ് നൽകുക",
+    stateValid: "സാധുവായ സംസ്ഥാനം നൽകുക",
+    areaValid: "സാധുവായ പ്രദേശം നൽകുക",
+    cityValid: "സാധുവായ നഗരം നൽകുക",
+    landMarkValid: "സാധുവായ ഭൂമിയൊരുപതി നൽകുക",
+    pinCodeValid: "സാധുവായ പിൻ കോഡ് നൽകുക",
     logOut: 'ലോഗ് ഔട്ട്',
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

@@ -5,8 +5,7 @@ class UrlConstants {
   static const String getRoleMaster = "${apiBaseUrl}Role";
   static const String registerUser = "${apiBaseUrl}Account/Registration";
   static const String loginUser = "${apiBaseUrl}Account/LogIn";
-  static const String sendOtpToResetPassword =
-      "${apiBaseUrl}Account/ForgotPassword/";
+  static const String sendOtpToResetPassword = "${apiBaseUrl}Account/ForgotPassword/";
   static const String resetPassword = "${apiBaseUrl}Account/ResetPassword";
   static const String addIndividualProfile = "${apiBaseUrl}IndividualProfile";
   static const String addEnterpriseProfile = "${apiBaseUrl}EnterpriseProfile";
