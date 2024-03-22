@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      prefModel.userData!.profilePicture!.url != null
+                      prefModel.userData!.profilePicture!= null
                           ? CircleAvatar(
                               radius: 30,
                               backgroundColor: Colors.grey,
