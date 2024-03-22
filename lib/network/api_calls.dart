@@ -291,7 +291,6 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
@@ -328,7 +327,6 @@ class ApiCalls {
       throw "could not reset password ${response.statusCode}";
     }
   }
-
 
   Future<AddIndividualProfileResponseModel> editPatient(
     String dob,
