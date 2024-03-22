@@ -40,8 +40,10 @@ class ProfileProvider extends ChangeNotifier {
           : prefModel.userData!.contact!.gender == 2
               ? "Female"
               : "Do not wish to specify";
-      editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-          prefModel.userData!.profilePicture!.url.toString());
+      if(prefModel.userData!.profilePicture!=null){
+        editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
+            prefModel.userData!.profilePicture!.url.toString());
+      }
       notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute);
