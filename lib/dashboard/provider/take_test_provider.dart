@@ -10,7 +10,7 @@ import 'package:vicare/utils/app_locale.dart';
 class TakeTestProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   bool isConnected = false;
-  bool bluetoothStatus = true;
+  bool bluetoothStatus = false;
   Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
@@ -19,13 +19,13 @@ class TakeTestProvider extends ChangeNotifier {
 
   void listenToConnectedDevice() {
     checkBluetoothStatus();
-    // _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    //   try {
-    //     checkBluetoothStatus();
-    //   } catch (e) {
-    //     print("Error checking Bluetooth status: $e");
-    //   }
-    // });
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      try {
+        checkBluetoothStatus();
+      } catch (e) {
+        print("Error checking Bluetooth status: $e");
+      }
+    });
   }
 
   Future<void> connectToDevice(
@@ -45,25 +45,19 @@ class TakeTestProvider extends ChangeNotifier {
     }
   }
 
- checkBluetoothStatus() async {
-    bool bluetoothOn = await flutterBlue.isOn;
-    bluetoothStatus = bluetoothOn;
-    if (bluetoothOn) {
-      List<BluetoothDevice> connectedDevices =
-          await flutterBlue.connectedDevices;
-      if (connectedDevices.isNotEmpty) {
-        isConnected = false;
-        connectedDevice = connectedDevices[0];
-      } else {
-        isConnected = true;
-        connectedDevice = null;
-      }
+  Future<void> checkBluetoothStatus() async {
+    bluetoothStatus = await flutterBlue.isOn;
+    if (bluetoothStatus) {
+      List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
+      isConnected = connectedDevices.isNotEmpty;
+      connectedDevice = isConnected ? connectedDevices[0] : null;
     } else {
-      // isConnected = true;
+      isConnected = false;
       connectedDevice = null;
     }
     notifyListeners();
   }
+}
 
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
