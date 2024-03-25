@@ -39,18 +39,19 @@ class TakeTestProvider extends ChangeNotifier {
       showSuccessToast(context,
           "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
-      Navigator.pop(context); // Dismiss the loader
+      Navigator.pop(context);
       showErrorToast(context,
           '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
     }
   }
 
- checkBluetoothStatus() async {
+  Future<void> checkBluetoothStatus() async {
     bool bluetoothOn = await flutterBlue.isOn;
-    bluetoothStatus = bluetoothOn;
+    if (!bluetoothStatus) {
+      bluetoothStatus = bluetoothOn;
+    }
     if (bluetoothOn) {
-      List<BluetoothDevice> connectedDevices =
-          await flutterBlue.connectedDevices;
+      List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
       if (connectedDevices.isNotEmpty) {
         isConnected = true;
         connectedDevice = connectedDevices[0];
