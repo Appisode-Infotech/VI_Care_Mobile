@@ -20,7 +20,11 @@ class TakeTestProvider extends ChangeNotifier {
   void listenToConnectedDevice() {
     checkBluetoothStatus();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      checkBluetoothStatus();
+      try {
+        checkBluetoothStatus();
+      } catch (e) {
+        print("Error checking Bluetooth status: $e");
+      }
     });
   }
 
