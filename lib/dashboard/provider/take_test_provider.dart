@@ -42,24 +42,34 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   void _checkBluetoothStatus() async {
-    bool bluetoothOn = await flutterBlue.isOn;
-    bluetoothStatus = bluetoothOn;
-    if (bluetoothOn) {
-      List<BluetoothDevice> connectedDevices =
-          await flutterBlue.connectedDevices;
-      if (connectedDevices.isNotEmpty) {
-        isConnected = true;
-        connectedDevice = connectedDevices[0];
+    try {
+      bool bluetoothOn = await flutterBlue.isOn;
+      bluetoothStatus = bluetoothOn;
+
+      if (bluetoothOn) {
+        List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
+
+        if (connectedDevices.isNotEmpty) {
+          isConnected = true;
+          connectedDevice = connectedDevices[0];
+        } else {
+          isConnected = false;
+          connectedDevice = null;
+        }
       } else {
         isConnected = false;
         connectedDevice = null;
       }
-    } else {
+    } catch (e) {
+      print("Error checking Bluetooth status: $e");
+      bluetoothStatus = false;
       isConnected = false;
       connectedDevice = null;
+    } finally {
+      notifyListeners();
     }
-    notifyListeners();
   }
+
 
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;

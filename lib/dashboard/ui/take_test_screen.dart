@@ -185,9 +185,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                   radius: 100.0,
                                   lineWidth: 15.0,
                                   percent: ((prefModel.selectedDuration!
-                                                      .durationInMinutes! *
-                                                  60 -
-                                              secondsRemaining) /
+                                                      .durationInMinutes! * 60 - secondsRemaining) /
                                           (prefModel.selectedDuration!
                                                   .durationInMinutes! *
                                               60))
@@ -218,10 +216,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                                                   if (prefModel
                                                           .selectedDuration !=
                                                       null) {
-                                                    secondsRemaining = (prefModel
-                                                            .selectedDuration!
-                                                            .durationInMinutes!) *
-                                                        60;
+                                                    secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
                                                   }
                                                 });
                                               });
