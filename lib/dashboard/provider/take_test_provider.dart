@@ -10,7 +10,7 @@ import 'package:vicare/utils/app_locale.dart';
 class TakeTestProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   bool isConnected = false;
-  bool bluetoothStatus = false;
+  bool bluetoothStatus = true;
   Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
@@ -45,22 +45,21 @@ class TakeTestProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> checkBluetoothStatus() async {
+ checkBluetoothStatus() async {
     bool bluetoothOn = await flutterBlue.isOn;
-    if (!bluetoothStatus) {
-      bluetoothStatus = bluetoothOn;
-    }
+    bluetoothStatus = bluetoothOn;
     if (bluetoothOn) {
-      List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
+      List<BluetoothDevice> connectedDevices =
+          await flutterBlue.connectedDevices;
       if (connectedDevices.isNotEmpty) {
-        isConnected = true;
+        isConnected = false;
         connectedDevice = connectedDevices[0];
       } else {
-        isConnected = false;
+        isConnected = true;
         connectedDevice = null;
       }
     } else {
-      isConnected = false;
+      // isConnected = true;
       connectedDevice = null;
     }
     notifyListeners();
