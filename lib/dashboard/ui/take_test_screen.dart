@@ -30,7 +30,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   int secondsRemaining = 0;
   bool isTimerRunning = false;
   int heartRate = 0;
-  List<StreamSubscription> subscriptions = []; // to keep track of subscriptions
+  List<StreamSubscription> subscriptions = [];
   List<int> bpmList = [];
   List<double> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
@@ -43,7 +43,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           secondsRemaining--;
         } else {
           for (var subscription in subscriptions) {
-            subscription.cancel(); // cancel all subscriptions
+            subscription.cancel();
           }
           timer.cancel();
           heartRate = 0;

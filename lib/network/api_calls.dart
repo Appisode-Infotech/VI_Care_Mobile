@@ -682,7 +682,7 @@ class ApiCalls {
   }
 
   Future<StateMasterResponseModel> getStateMaster(BuildContext context) async {
-    http.Response response = await hitApiGet(true, UrlConstants.getStateMaster);
+    http.Response response = await hitApiGet(false, UrlConstants.getStateMaster);
     if (response.statusCode == 200) {
       return StateMasterResponseModel.fromJson(json.decode(response.body));
     } else {
