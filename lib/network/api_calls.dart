@@ -98,6 +98,12 @@ class ApiCalls {
     required String contact,
     required String password,
     BuildContext? context,
+    int? state,
+    required String street,
+    required String area,
+    required String landMark,
+    required String city,
+    required String pinCode,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
@@ -105,10 +111,16 @@ class ApiCalls {
     request.fields['Contact.Firstname'] = fName;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Gender'] = gender.toString();
+    request.fields['Contact.Address.StateId'] = state.toString();
     request.fields['Contact.LastName'] = lName;
     request.fields['RoleId'] = roleId.toString();
     request.fields['Contact.BloodGroup'] = bloodGroup ?? '';
     request.fields['Contact.ContactNumber'] = contact;
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Password'] = password;
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
@@ -122,6 +134,7 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
+    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
@@ -606,7 +619,12 @@ class ApiCalls {
       File? profilePic,
       BuildContext? context,
       int? id,
-      int? contactId) async {
+      int? contactId,
+      String street,
+      String area,
+      String city,
+      String landMark,
+      String pinCode, int? addressId, int? state) async {
     var request =
         http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
     request.fields['Firstname'] = fName;
@@ -614,6 +632,15 @@ class ApiCalls {
     request.fields['BloodGroup'] = bloodGroup;
     request.fields['Gender'] = gender;
     request.fields['Dob'] = dob;
+    request.fields['UserId'] = id.toString();
+    request.fields['ContactId'] = contactId.toString();
+    request.fields['AddressId'] = addressId.toString();
+    request.fields['Address.Street'] = street;
+    request.fields['Address.Area'] = area;
+    request.fields['Address.Landmark'] = landMark;
+    request.fields['Address.City'] = city;
+    request.fields['Address.PinCode'] = pinCode;
+    request.fields['Address.StateId'] = state.toString();
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -629,6 +656,7 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
+    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
@@ -682,7 +710,8 @@ class ApiCalls {
   }
 
   Future<StateMasterResponseModel> getStateMaster(BuildContext context) async {
-    http.Response response = await hitApiGet(false, UrlConstants.getStateMaster);
+    http.Response response =
+        await hitApiGet(false, UrlConstants.getStateMaster);
     if (response.statusCode == 200) {
       return StateMasterResponseModel.fromJson(json.decode(response.body));
     } else {

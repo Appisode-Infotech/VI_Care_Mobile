@@ -159,7 +159,13 @@ class AuthProvider extends ChangeNotifier {
         bloodGroup: registerBloodGroup,
         contact: registerContactNumberController.text,
         password: registerPasswordController.text,
-        context: registerPageContext!
+        context: registerPageContext!,
+        state: selectedStateId,
+      street:registerStreetController.text,
+      area:registerAreaController.text,
+      landMark:registerLandmarkController.text,
+      city:registerCityController.text,
+      pinCode:registerPinCodeController.text
     );
     if (response.result != null) {
       prefModel.userData = response.result;

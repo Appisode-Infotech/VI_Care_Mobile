@@ -165,6 +165,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             .getString(context),
                                         onPressed: () async {
                                           if (authProvider
+                                              .registerSelectedImage ==
+                                              null) {
+                                            showErrorToast(context,
+                                                "Please select an image");
+                                            return;
+                                          }
+                                          if (authProvider
                                               .registerFormKey.currentState!
                                               .validate()) {
                                             authProvider.register();

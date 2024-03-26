@@ -9,12 +9,12 @@ import 'package:vicare/utils/app_locale.dart';
 
 class TakeTestProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
-  bool isConnected = false;
   bool bluetoothStatus = false;
+  bool isConnected = false;
+  BluetoothDevice? connectedDevice;
   Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
-  BluetoothDevice? connectedDevice;
   int? heartRate = 0;
 
   void listenToConnectedDevice() {
@@ -34,8 +34,8 @@ class TakeTestProvider extends ChangeNotifier {
     try {
       await device.connect();
       connectedDevice = device;
-      Navigator.pop(context); // Dismiss the loader
-      Navigator.pop(context); // Back to test screen
+      Navigator.pop(context);
+      Navigator.pop(context);
       showSuccessToast(context,
           "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
@@ -46,18 +46,27 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   Future<void> checkBluetoothStatus() async {
-    bluetoothStatus = await flutterBlue.isOn;
-    if (bluetoothStatus) {
-      List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
-      isConnected = connectedDevices.isNotEmpty;
-      connectedDevice = isConnected ? connectedDevices[0] : null;
-    } else {
-      isConnected = false;
-      connectedDevice = null;
+    try {
+      bool bluetoothOn = await flutterBlue.isOn;
+      bluetoothStatus = bluetoothOn;
+      if (bluetoothOn) {
+        List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
+        if (connectedDevices.isNotEmpty) {
+          isConnected = true;
+          connectedDevice = connectedDevices[0];
+        } else {
+          isConnected = false;
+          connectedDevice = null;
+        }
+      } else {
+        isConnected = false;
+        connectedDevice = null;
+      }
+      notifyListeners();
+    } catch (e) {
+      print('Error in Bluetooth operation: $e');
     }
-    notifyListeners();
   }
-}
 
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
