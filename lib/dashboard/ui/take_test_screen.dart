@@ -99,8 +99,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<TakeTestProvider>(context, listen: false)
-        .listenToConnectedDevice();
+    Provider.of<TakeTestProvider>(context, listen: false).listenToConnectedDevice();
     super.didChangeDependencies();
   }
 
@@ -134,265 +133,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           body: takeTestProvider.bluetoothStatus
               ? takeTestProvider.isConnected
                   ? prefModel.selectedDuration != null
-                      ? Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  width: screenSize!.width,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                      color: AppColors.primaryColor),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: screenSize!.width * 0.6,
-                                        child: Text(
-                                          "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          takeTestProvider.disconnect(context);
-                                        },
-                                        child: Text(
-                                          AppLocale.disconnect
-                                              .getString(context),
-                                          style: const TextStyle(
-                                              color: AppColors.scaffoldColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Center(
-                                child: CircularPercentIndicator(
-                                  radius: 100.0,
-                                  lineWidth: 15.0,
-                                  percent: ((prefModel.selectedDuration!
-                                                      .durationInMinutes! *
-                                                  60 -
-                                              secondsRemaining) /
-                                          (prefModel.selectedDuration!
-                                                  .durationInMinutes! *
-                                              60))
-                                      .clamp(0.0, 1.0),
-                                  center: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
-                                        style: const TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            if (!isTimerRunning) {
-                                              Navigator.pushNamed(context,
-                                                      Routes.durationsRoute)
-                                                  .then((value) {
-                                                setState(() {
-                                                  if (prefModel
-                                                          .selectedDuration !=
-                                                      null) {
-                                                    secondsRemaining = (prefModel
-                                                            .selectedDuration!
-                                                            .durationInMinutes!) *
-                                                        60;
-                                                  }
-                                                });
-                                              });
-                                            } else {
-                                              showErrorToast(
-                                                  context,
-                                                  AppLocale.waitTillScan
-                                                      .getString(context));
-                                            }
-                                          },
-                                          child: const Icon(
-                                            Icons.timer_outlined,
-                                            color: AppColors.primaryColor,
-                                          ))
-                                    ],
-                                  ),
-                                  circularStrokeCap: CircularStrokeCap.round,
-                                  progressColor: AppColors.primaryColor,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                '${heartRate.toString()} ${AppLocale.bpm.getString(context)}',
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              GestureDetector(
-                                onTap: () {
-                                  handleStartButtonClick(
-                                      context, takeTestProvider);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(12)),
-                                    color: Colors.blue.shade300,
-                                  ),
-                                  child: Text(
-                                    isTimerRunning
-                                        ? AppLocale.stop.getString(context)
-                                        : AppLocale.start.getString(context),
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                color: AppColors.primaryColor,
-                              ),
-                              width: screenSize!.width,
-                              height: 100,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                      width: screenSize!.width * 0.4,
-                                      child: Text(
-                                        AppLocale.chooseDurationMessage
-                                            .getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      )),
-                                  const SizedBox(width: 5),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.durationsRoute);
-                                    },
-                                    child: Container(
-                                        height: 50,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                            color: Colors.white),
-                                        child: Center(
-                                          child: Text(
-                                            AppLocale.chooseDuration
-                                                .getString(context),
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-                                  )
-                                ],
-                              )),
-                        )
-                  : Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: AppColors.primaryColor,
-                          ),
-                          width: screenSize!.width,
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                  width: screenSize!.width * 0.6,
-                                  child: Text(
-                                    AppLocale.noConnectedDevice
-                                        .getString(context),
-                                    style: const TextStyle(color: Colors.white),
-                                  )),
-                              const SizedBox(width: 5),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.bluetoothScanRoute);
-                                },
-                                child: Container(
-                                    width: screenSize!.width * 0.20,
-                                    height: 50,
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12)),
-                                        color: Colors.white),
-                                    child: Center(
-                                      child: Text(
-                                        AppLocale.connect.getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )),
-                              )
-                            ],
-                          )),
-                    )
-              : Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: AppColors.primaryColor,
-                      ),
-                      width: screenSize!.width,
-                      height: 100,
-                      child: Center(
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          AppLocale.bluetoothIsOff.getString(context),
-                          style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                ),
+                      ? deviceConnectedWidget(context,takeTestProvider)
+                      : chooseDurationWidget(context,takeTestProvider)
+                  : scanBluetoothWidget(context,takeTestProvider)
+              : bluetoothOffWarningWidget(context,takeTestProvider),
         );
       },
     );
@@ -451,5 +195,276 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         created: DateTime.now()));
     AppPref.setPref(prefModel);
     showSuccessToast(context, "Test successful and saved to offline.");
+  }
+
+  deviceConnectedWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              width: screenSize!.width,
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(8)),
+                  color: AppColors.primaryColor),
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+                crossAxisAlignment:
+                CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: screenSize!.width * 0.6,
+                    child: Text(
+                      "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      takeTestProvider.disconnect(context);
+                    },
+                    child: Text(
+                      AppLocale.disconnect
+                          .getString(context),
+                      style: const TextStyle(
+                          color: AppColors.scaffoldColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              )),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: CircularPercentIndicator(
+              radius: 100.0,
+              lineWidth: 15.0,
+              percent: ((prefModel.selectedDuration!
+                  .durationInMinutes! *
+                  60 -
+                  secondsRemaining) /
+                  (prefModel.selectedDuration!
+                      .durationInMinutes! *
+                      60))
+                  .clamp(0.0, 1.0),
+              center: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment:
+                CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        if (!isTimerRunning) {
+                          Navigator.pushNamed(context,
+                              Routes.durationsRoute)
+                              .then((value) {
+                            setState(() {
+                              if (prefModel
+                                  .selectedDuration !=
+                                  null) {
+                                secondsRemaining = (prefModel
+                                    .selectedDuration!
+                                    .durationInMinutes!) *
+                                    60;
+                              }
+                            });
+                          });
+                        } else {
+                          showErrorToast(
+                              context,
+                              AppLocale.waitTillScan
+                                  .getString(context));
+                        }
+                      },
+                      child: const Icon(
+                        Icons.timer_outlined,
+                        color: AppColors.primaryColor,
+                      ))
+                ],
+              ),
+              circularStrokeCap: CircularStrokeCap.round,
+              progressColor: AppColors.primaryColor,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${heartRate.toString()} ${AppLocale.bpm.getString(context)}',
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 20),
+          GestureDetector(
+            onTap: () {
+              handleStartButtonClick(
+                  context, takeTestProvider);
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 40, vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(12)),
+                color: Colors.blue.shade300,
+              ),
+              child: Text(
+                isTimerRunning
+                    ? AppLocale.stop.getString(context)
+                    : AppLocale.start.getString(context),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  chooseDurationWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+    Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            borderRadius:
+            BorderRadius.all(Radius.circular(12)),
+            color: AppColors.primaryColor,
+          ),
+          width: screenSize!.width,
+          height: 100,
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                  width: screenSize!.width * 0.4,
+                  child: Text(
+                    AppLocale.chooseDurationMessage
+                        .getString(context),
+                    style: const TextStyle(
+                        color: Colors.white),
+                  )),
+              const SizedBox(width: 5),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, Routes.durationsRoute);
+                },
+                child: Container(
+                    height: 50,
+                    padding: const EdgeInsets.all(12),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(12)),
+                        color: Colors.white),
+                    child: Center(
+                      child: Text(
+                        AppLocale.chooseDuration
+                            .getString(context),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+              )
+            ],
+          )),
+    );
+  }
+
+  scanBluetoothWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            color: AppColors.primaryColor,
+          ),
+          width: screenSize!.width,
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                  width: screenSize!.width * 0.6,
+                  child: Text(
+                    AppLocale.noConnectedDevice
+                        .getString(context),
+                    style: const TextStyle(color: Colors.white),
+                  )),
+              const SizedBox(width: 5),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, Routes.bluetoothScanRoute);
+                },
+                child: Container(
+                    width: screenSize!.width * 0.20,
+                    height: 50,
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(12)),
+                        color: Colors.white),
+                    child: Center(
+                      child: Text(
+                        AppLocale.connect.getString(context),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+              )
+            ],
+          )),
+    );
+  }
+
+  bluetoothOffWarningWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            color: AppColors.primaryColor,
+          ),
+          width: screenSize!.width,
+          height: 100,
+          child: Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              AppLocale.bluetoothIsOff.getString(context),
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          )),
+    );
   }
 }
