@@ -26,7 +26,6 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<void> preFillEditProfile(BuildContext context) async {
     showLoaderDialog(context);
-    // if (prefModel.userData!.roleId == 2) {
       editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
       editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
       editProfileFirstNameController.text = prefModel.userData!.contact!.firstname!;
@@ -56,37 +55,8 @@ class ProfileProvider extends ChangeNotifier {
       notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute);
-    // } else {
-    //   editProfileDobController.text =
-    //       "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
-    //   editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
-    //   editProfileFirstNameController.text = prefModel.userData!.contact!.firstname!;
-    //   editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
-    //   editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
-    //   editProfileStreetController.text=prefModel.userData!.contact!.address!.street!;
-    //   editProfileAreaController.text=prefModel.userData!.contact!.address!.area!;
-    //   editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!;
-    //   editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
-    //   editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!;
-    //   editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
-    //   for (var state in stateMasterResponse!.result!) {
-    //     if (state.id == prefModel.userData!.contact!.address!.stateId) {
-    //       editProfileStateAs = state.name;
-    //       break;
-    //     }
-    //   }
-    //   editProfileGender = prefModel.userData!.contact!.gender == 1
-    //       ? "Male"
-    //       : prefModel.userData!.contact!.gender == 2
-    //           ? "Female"
-    //           : "Do not wish to specify";
-    //   editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-    //       prefModel.userData!.profilePicture!.url.toString());
-    //   notifyListeners();
-    //   Navigator.pop(context);
-    //   Navigator.pushNamed(context, Routes.editProfileRoute);
-    // }
   }
+
 
   final editProfileFormKey = GlobalKey<FormState>();
   TextEditingController editProfileDobController = TextEditingController();

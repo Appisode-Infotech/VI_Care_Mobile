@@ -159,6 +159,7 @@ class ApiCalls {
       String email, String password, BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
         jsonEncode({"email": email.trim(), 'password': password}));
+    log(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {

@@ -193,7 +193,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () async {
                        profileProvider.getStateMaster(context);
                        await profileProvider.preFillEditProfile(context);
-                       // Navigator.pushNamed(context, Routes.editProfileRoute);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
