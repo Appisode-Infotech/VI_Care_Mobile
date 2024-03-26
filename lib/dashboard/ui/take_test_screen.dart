@@ -130,6 +130,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               },
             ),
           ),
+          // body:Text(prefModel.selectedDuration.toString()),
           body: takeTestProvider.bluetoothStatus
               ? takeTestProvider.isConnected
                   ? prefModel.selectedDuration != null
@@ -344,7 +345,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   }
 
   chooseDurationWidget(BuildContext context, TakeTestProvider takeTestProvider) {
-    Padding(
+    return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
           padding: const EdgeInsets.all(10),
