@@ -161,17 +161,18 @@ class AuthProvider extends ChangeNotifier {
         password: registerPasswordController.text,
         context: registerPageContext!,
         state: selectedStateId,
-      street:registerStreetController.text,
-      area:registerAreaController.text,
-      landMark:registerLandmarkController.text,
-      city:registerCityController.text,
-      pinCode:registerPinCodeController.text
+        street:registerStreetController.text,
+        area:registerAreaController.text,
+        landMark:registerLandmarkController.text,
+        city:registerCityController.text,
+        pinCode:registerPinCodeController.text
     );
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(registerPageContext!);
-      Navigator.pushNamed(registerPageContext!, Routes.loginRoute);
+      // Navigator.pop(registerPageContext!);
+      Navigator.pushReplacementNamed(registerPageContext!, Routes.loginRoute);
       showSuccessToast(registerPageContext!, response.message!);
       clearRegisterForm();
     } else {

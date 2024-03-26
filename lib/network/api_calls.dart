@@ -109,19 +109,20 @@ class ApiCalls {
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.LastName'] = lName;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Gender'] = gender.toString();
-    request.fields['Contact.Address.StateId'] = state.toString();
-    request.fields['Contact.LastName'] = lName;
-    request.fields['RoleId'] = roleId.toString();
     request.fields['Contact.BloodGroup'] = bloodGroup ?? '';
+    request.fields['RoleId'] = roleId.toString();
+    request.fields['Password'] = password;
+    request.fields['Contact.Address.StateId'] = state.toString();
     request.fields['Contact.ContactNumber'] = contact;
     request.fields['Contact.Address.Street'] = street;
     request.fields['Contact.Address.Area'] = area;
     request.fields['Contact.Address.Landmark'] = landMark;
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
-    request.fields['Password'] = password;
+    log(request.fields.toString());
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -134,7 +135,6 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
@@ -656,7 +656,7 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    print(request.fields);
+    log(request.fields.toString());
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();

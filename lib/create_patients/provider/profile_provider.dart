@@ -27,18 +27,18 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> preFillEditProfile(BuildContext context) async {
     showLoaderDialog(context);
     // if (prefModel.userData!.roleId == 2) {
-      editProfileDobController.text =
-          "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
+      editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
       editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
       editProfileFirstNameController.text = prefModel.userData!.contact!.firstname!;
       editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
+      print(prefModel.userData!.contact!.toJson());
       editProfileStreetController.text=prefModel.userData!.contact!.address!.street!;
       editProfileAreaController.text=prefModel.userData!.contact!.address!.area!;
       editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!;
       editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
       editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!;
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
-      for (var state in stateMasterResponse!.result!) {
+      for (var state in editStateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
           editProfileStateAs = state.name;
           break;
@@ -107,7 +107,7 @@ class ProfileProvider extends ChangeNotifier {
   BuildContext? editProfilePageContext;
   int? editProfileSelectedStateId;
   String? editProfileStateAs;
-  StateMasterResponseModel? stateMasterResponse;
+  StateMasterResponseModel? editStateMasterResponse;
 
   clearEditProfileForm() {
     editProfileDobController.clear();
@@ -121,7 +121,7 @@ class ProfileProvider extends ChangeNotifier {
     editProfileCityController.clear();
     editProfileLandMarkController.clear();
     editProfilePinCodeController.clear();
-    editProfileStateAs=null;
+    editProfileStateAs = null;
     editProfileSelectedImage = null;
     notifyListeners();
   }
@@ -185,11 +185,11 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> getStateMaster(BuildContext context) async {
-    stateMasterResponse = await apiCalls.getStateMaster(context);
-    if (stateMasterResponse!.result!.isNotEmpty) {
+    editStateMasterResponse = await apiCalls.getStateMaster(context);
+    if (editStateMasterResponse!.result!.isNotEmpty) {
     } else {
       Navigator.pop(context);
-      showErrorToast(context, stateMasterResponse!.message.toString());
+      showErrorToast(context, editStateMasterResponse!.message.toString());
     }
   }
 }

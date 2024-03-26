@@ -216,7 +216,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               authProvider.getRoleMasters(context);
                              await authProvider.getStateMaster(context);
                               Navigator.pushNamed(context, Routes.registerRoute);
-
                             },
                             child: Text(
                               AppLocale.registerNow.getString(context),

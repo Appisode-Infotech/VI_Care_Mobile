@@ -10,6 +10,7 @@ import 'package:vicare/create_patients/provider/profile_provider.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
+import '../../utils/routes.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -502,7 +503,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   hint: Text(AppLocale.state.getString(context)),
                                   onChanged: (String? value) {
                                     for (var state in profileProvider
-                                        .stateMasterResponse!.result!) {
+                                        .editStateMasterResponse!.result!) {
                                       if (state.name == value) {
                                         profileProvider.editProfileSelectedStateId = state.id;
                                         break;
@@ -514,8 +515,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   },
                                   style: const TextStyle(color: Colors.black),
                                   items: <String>[
-                                    for (int i = 0; i < profileProvider.stateMasterResponse!.result!.length; i++)
-                                      profileProvider.stateMasterResponse!.result![i].name.toString(),
+                                    for (int i = 0; i < profileProvider.editStateMasterResponse!.result!.length; i++)
+                                      profileProvider.editStateMasterResponse!.result![i].name.toString(),
                                   ].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
@@ -767,8 +768,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
                                   profileProvider.editProfile();
-                                  // Navigator.pushNamed(
-                                  //     context, Routes.profileRoute);
+                                  Navigator.pushNamed(
+                                      context, Routes.profileRoute);
                                 }),
                               ],
                             ),

@@ -192,7 +192,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   InkWell(
                     onTap: () async {
                        profileProvider.getStateMaster(context);
-                       profileProvider.preFillEditProfile(context);
+                       await profileProvider.preFillEditProfile(context);
+                       // Navigator.pushNamed(context, Routes.editProfileRoute);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
