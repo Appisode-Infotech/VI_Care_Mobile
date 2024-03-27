@@ -9,22 +9,34 @@ import 'package:vicare/utils/app_locale.dart';
 
 class TakeTestProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
-  bool bluetoothStatus = false;
   bool isConnected = false;
-  BluetoothDevice? connectedDevice;
-  Timer? _timer;
+  bool bluetoothStatus = false;
+  // Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
+  BluetoothDevice? connectedDevice;
   int? heartRate = 0;
+  StreamSubscription? _bluetoothStateSubscription;
 
   void listenToConnectedDevice() {
-    checkBluetoothStatus();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      try {
-        checkBluetoothStatus();
-      } catch (e) {
-        print("Error checking Bluetooth status: $e");
+    _bluetoothStateSubscription =
+        flutterBlue.state.listen((BluetoothState state) async {
+      bluetoothStatus = state == BluetoothState.on;
+      if (!bluetoothStatus) {
+        isConnected = false;
+        connectedDevice = null;
+      }else{
+        flutterBlue.connectedDevices.then((List<BluetoothDevice> devices) {
+          if (devices.isNotEmpty) {
+            connectedDevice = devices.first;
+            isConnected = true;
+          } else {
+            isConnected = false;
+            connectedDevice = null;
+          }
+        });
       }
+      notifyListeners();
     });
   }
 
@@ -34,39 +46,36 @@ class TakeTestProvider extends ChangeNotifier {
     try {
       await device.connect();
       connectedDevice = device;
-      Navigator.pop(context);
-      Navigator.pop(context);
-      showSuccessToast(context,
-          "${AppLocale.connectedTo.getString(context)} ${device.name}");
+      isConnected = true;
+      Navigator.pop(context); // Dismiss the loader
+      Navigator.pop(context); // Back to test screen
+      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
-      Navigator.pop(context);
+      Navigator.pop(context); // Dismiss the loader
       showErrorToast(context,
           '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
     }
   }
 
-  Future<void> checkBluetoothStatus() async {
-    try {
-      bool bluetoothOn = await flutterBlue.isOn;
-      bluetoothStatus = bluetoothOn;
-      if (bluetoothOn) {
-        List<BluetoothDevice> connectedDevices = await flutterBlue.connectedDevices;
-        if (connectedDevices.isNotEmpty) {
-          isConnected = true;
-          connectedDevice = connectedDevices[0];
-        } else {
-          isConnected = false;
-          connectedDevice = null;
-        }
-      } else {
-        isConnected = false;
-        connectedDevice = null;
-      }
-      notifyListeners();
-    } catch (e) {
-      print('Error in Bluetooth operation: $e');
-    }
-  }
+  // void _checkBluetoothStatus() async {
+  //   bool bluetoothOn = await flutterBlue.isOn;
+  //   bluetoothStatus = bluetoothOn;
+  //   if (bluetoothOn) {
+  //     List<BluetoothDevice> connectedDevices =
+  //         await flutterBlue.connectedDevices;
+  //     if (connectedDevices.isNotEmpty) {
+  //       isConnected = true;
+  //       connectedDevice = connectedDevices[0];
+  //     } else {
+  //       isConnected = false;
+  //       connectedDevice = null;
+  //     }
+  //   } else {
+  //     isConnected = false;
+  //     connectedDevice = null;
+  //   }
+  //   notifyListeners();
+  // }
 
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
@@ -96,9 +105,13 @@ class TakeTestProvider extends ChangeNotifier {
   Future<void> disconnect(BuildContext context) async {
     if (connectedDevice != null) {
       try {
-        await connectedDevice!.disconnect();
-        showSuccessToast(
-            context, AppLocale.deviceDisconnected.getString(context));
+        await connectedDevice!.disconnect().then((value) {
+          print(value);
+          return null;
+        });
+        isConnected = false;
+        connectedDevice = null;
+        showSuccessToast(context, AppLocale.deviceDisconnected.getString(context));
         log('Disconnected from device');
       } catch (e) {
         log('Error disconnecting from device: $e');
@@ -108,7 +121,7 @@ class TakeTestProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _bluetoothStateSubscription?.cancel();
     super.dispose();
   }
 }
