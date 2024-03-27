@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ import '../../utils/routes.dart';
 import '../model/offline_test_model.dart';
 
 class TakeTestScreen extends StatefulWidget {
-  const TakeTestScreen({super.key});
+  const TakeTestScreen({Key? key}) : super(key: key);
 
   @override
   State<TakeTestScreen> createState() => _TakeTestScreenState();
@@ -30,11 +31,13 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   int secondsRemaining = 0;
   bool isTimerRunning = false;
   int heartRate = 0;
-  List<StreamSubscription> subscriptions = []; // to keep track of subscriptions
+  List<StreamSubscription> subscriptions = [];
   List<int> bpmList = [];
   List<double> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
+
+  List<int> bpmListForChart = [];
 
   void startTimer(TakeTestProvider takeTestProvider) {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -43,7 +46,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           secondsRemaining--;
         } else {
           for (var subscription in subscriptions) {
-            subscription.cancel(); // cancel all subscriptions
+            subscription.cancel();
           }
           timer.cancel();
           heartRate = 0;
@@ -84,6 +87,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     if (prefModel.selectedDuration != null) {
       secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
     }
+    bpmListForChart.add(0); // Initialize with zero for the chart
   }
 
   @override
@@ -99,72 +103,36 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<TakeTestProvider>(context, listen: false).listenToConnectedDevice();
+    Provider.of<TakeTestProvider>(context, listen: false)
+        .listenToConnectedDevice();
     super.didChangeDependencies();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    enterprisePatientData = arguments['enterprisePatientData'];
-    individualPatientData = arguments['individualPatientData'];
-    return Consumer(
-      builder: (BuildContext context, TakeTestProvider takeTestProvider,
-          Widget? child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              AppLocale.takeTest.getString(context),
-              style: const TextStyle(color: Colors.white),
-            ),
-            backgroundColor: AppColors.primaryColor,
-            toolbarHeight: 75,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          // body:Text(prefModel.selectedDuration.toString()),
-          body: takeTestProvider.bluetoothStatus
-              ? takeTestProvider.isConnected
-                  ? prefModel.selectedDuration != null
-                      ? deviceConnectedWidget(context,takeTestProvider)
-                      : chooseDurationWidget(context,takeTestProvider)
-                  : scanBluetoothWidget(context,takeTestProvider)
-              : bluetoothOffWarningWidget(context,takeTestProvider),
-        );
-      },
-    );
-  }
-
-  Future<void> startRecordingReadings(TakeTestProvider takeTestProvider) async {
-    bpmList.clear(); // Clear existing values
-    rrIntervalList.clear(); // Clear existing values
-    subscriptions.clear(); // Clear existing subscriptions
+  Future<void> startRecordingReadings(
+      TakeTestProvider takeTestProvider) async {
+    bpmList.clear();
+    rrIntervalList.clear();
+    subscriptions.clear();
 
     List<BluetoothService> services =
-        await takeTestProvider.connectedDevice!.discoverServices();
+    await takeTestProvider.connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
-      if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
+      if (service.uuid.toString() ==
+          "0000180d-0000-1000-8000-00805f9b34fb") {
         for (BluetoothCharacteristic characteristic
-            in service.characteristics) {
+        in service.characteristics) {
           try {
             await characteristic.setNotifyValue(true);
           } catch (e) {
             log(e.toString());
           }
           StreamSubscription subscription =
-              characteristic.value.listen((value) {
+          characteristic.value.listen((value) {
             if (value.isNotEmpty) {
               heartRate = value[1];
               bpmList.add(value[1]);
               rrIntervalList.add(60000 / value[1]);
+              updateChartData(value[1]); // Update chart data
             }
           });
           subscriptions.add(subscription);
@@ -198,59 +166,131 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     showSuccessToast(context, "Test successful and saved to offline.");
   }
 
-  deviceConnectedWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+  void updateChartData(int newHeartRate) {
+    setState(() {
+      bpmListForChart.add(newHeartRate);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    enterprisePatientData = arguments['enterprisePatientData'];
+    individualPatientData = arguments['individualPatientData'];
+    return Consumer(
+      builder: (BuildContext context, TakeTestProvider takeTestProvider,
+          Widget? child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              AppLocale.takeTest.getString(context),
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: AppColors.primaryColor,
+            toolbarHeight: 75,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          body: takeTestProvider.bluetoothStatus
+              ? takeTestProvider.isConnected
+              ? prefModel.selectedDuration != null
+              ? deviceConnectedWidget(context, takeTestProvider)
+              : chooseDurationWidget(context, takeTestProvider)
+              : scanBluetoothWidget(context, takeTestProvider)
+              : bluetoothOffWarningWidget(context, takeTestProvider),
+        );
+      },
+    );
+  }
+
+  Widget deviceConnectedWidget(
+      BuildContext context, TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-              width: screenSize!.width,
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(8)),
-                  color: AppColors.primaryColor),
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-                crossAxisAlignment:
-                CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: screenSize!.width * 0.6,
-                    child: Text(
-                      "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      takeTestProvider.disconnect(context);
-                    },
-                    child: Text(
-                      AppLocale.disconnect
-                          .getString(context),
-                      style: const TextStyle(
-                          color: AppColors.scaffoldColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              )),
-          const SizedBox(
-            height: 20,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: AppColors.primaryColor,
           ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Text(
+                  "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  takeTestProvider.disconnect(context);
+                },
+                child: Text(
+                  AppLocale.disconnect.getString(context),
+                  style: const TextStyle(
+                    color: AppColors.scaffoldColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        // Real-time chart
+        Expanded(
+          child: LineChart(
+            LineChartData(
+              lineBarsData: [
+                LineChartBarData(
+                  spots: List.generate(
+                    bpmListForChart.length,
+                        (index) => FlSpot(index.toDouble(), bpmListForChart[index].toDouble()),
+                  ),
+                  isCurved: true,
+                  colors: [Colors.blue],
+                  barWidth: 2,
+                  isStrokeCapRound: true,
+                  belowBarData: BarAreaData(show: false),
+                ),
+              ],
+              titlesData: FlTitlesData(
+                bottomTitles: SideTitles(showTitles: false),
+                leftTitles: SideTitles(showTitles: true),
+              ),
+              borderData: FlBorderData(show: true),
+              minX: 0,
+              maxX: bpmListForChart.length.toDouble() - 1,
+              minY: 0,
+              maxY: (bpmListForChart.reduce((curr, next) => curr > next ? curr : next) + 10).toDouble(),
+            ),
+          ),
+        ),
 
 
-          //add realtimechart and take the reading of the bpm
 
-
-          Center(
+        Center(
             child: CircularPercentIndicator(
               radius: 100.0,
               lineWidth: 15.0,

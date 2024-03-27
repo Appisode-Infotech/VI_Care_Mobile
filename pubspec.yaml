@@ -55,6 +55,7 @@ dependencies:
   shimmer: ^3.0.0
   image_cropper: ^5.0.1
   flutter_blue: ^0.8.0
+  fl_chart: ^0.35.0
 
 
 dev_dependencies:
