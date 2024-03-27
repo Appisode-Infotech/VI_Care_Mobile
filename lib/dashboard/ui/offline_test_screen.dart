@@ -80,9 +80,7 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(prefModel.offlineSavedTests![index].bpmList!.length.toString()),
-                                    Text(prefModel
-                                        .offlineSavedTests![index].toJson().toString()),
+                                    Text(prefModel.offlineSavedTests![index].toJson().toString()),
                                     // Text(prefModel.offlineSavedTests![index]['profileType']),
                                     // Text(prefModel.offlineSavedTests![index]['roleId'].toString()),
                                     // Text(prefModel.offlineSavedTests![index]['individualPatientData'].toString()),
