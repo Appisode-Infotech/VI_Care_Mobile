@@ -502,8 +502,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   value: profileProvider.editProfileStateAs,
                                   hint: Text(AppLocale.state.getString(context)),
                                   onChanged: (String? value) {
-                                    for (var state in profileProvider
-                                        .editStateMasterResponse!.result!) {
+                                    for (var state in profileProvider.stateMasterResponse!.result!) {
                                       if (state.name == value) {
                                         profileProvider.editProfileSelectedStateId = state.id;
                                         break;
@@ -515,8 +514,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   },
                                   style: const TextStyle(color: Colors.black),
                                   items: <String>[
-                                    for (int i = 0; i < profileProvider.editStateMasterResponse!.result!.length; i++)
-                                      profileProvider.editStateMasterResponse!.result![i].name.toString(),
+                                    for (int i = 0; i < profileProvider.stateMasterResponse!.result!.length; i++)
+                                      profileProvider.stateMasterResponse!.result![i].name.toString(),
                                   ].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
@@ -767,9 +766,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
+                                      if (profileProvider
+                                          .editProfileSelectedImage ==
+                                          null) {
+                                        showErrorToast(context,
+                                            AppLocale.validImage.getString(context));
+                                        return;
+                                      }
                                   profileProvider.editProfile();
-                                  Navigator.pushNamed(
-                                      context, Routes.profileRoute);
+                                      Navigator.pop(context);
                                 }),
                               ],
                             ),

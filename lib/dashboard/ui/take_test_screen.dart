@@ -167,7 +167,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               rrIntervalList.add(60000 / value[1]);
             }
           });
-          subscriptions.add(subscription); // Add the subscription to the list
+          subscriptions.add(subscription);
         }
       }
     }
@@ -245,6 +245,11 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           const SizedBox(
             height: 20,
           ),
+
+
+          //add realtimechart and take the reading of the bpm
+
+
           Center(
             child: CircularPercentIndicator(
               radius: 100.0,

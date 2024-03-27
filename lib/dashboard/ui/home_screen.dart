@@ -686,6 +686,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (index == snapshot.data!.result!.length) {
                                 return InkWell(
                                   onTap: () {
+                                    patientProvider.getStateMaster(context);
                                     patientProvider.clearAddPatientForm();
                                     Navigator.pushNamed(
                                             context, Routes.addNewPatientRoute)
