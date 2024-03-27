@@ -58,7 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onTap: () {
                           showImageSourceDialog(context,
                               onOptionSelected: (value) async {
-                            if (value == 'Camera') {
+                            if (value == AppLocale.camera.getString(context)) {
                               final image = await ImagePicker()
                                   .pickImage(source: ImageSource.camera);
                               if (image != null) {
@@ -71,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   });
                                 }
                               }
-                            } else if (value == 'Gallery') {
+                            } else if (value == AppLocale.gallery.getString(context)) {
                               final image = await ImagePicker()
                                   .pickImage(source: ImageSource.gallery);
                               if (image != null) {
@@ -114,7 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             showImageSourceDialog(context,
                                                 onOptionSelected:
                                                     (value) async {
-                                              if (value == 'Camera') {
+                                              if (value == AppLocale.camera.getString(context)) {
                                                 final image =
                                                     await ImagePicker()
                                                         .pickImage(
@@ -133,7 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     });
                                                   }
                                                 }
-                                              } else if (value == 'Gallery') {
+                                              } else if (value == AppLocale.gallery.getString(context)) {
                                                 final image =
                                                     await ImagePicker()
                                                         .pickImage(

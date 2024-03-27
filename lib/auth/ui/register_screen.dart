@@ -146,13 +146,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                       .registerOtpController
                                                       .text) {
                                                 showSuccessToast(context,
-                                                    "Otp verified successfully");
+                                                    AppLocale.otpSuccessful.getString(context));
                                                 setState(() {
                                                   currentStep = currentStep + 1;
                                                 });
                                               } else {
                                                 showErrorToast(
-                                                    context, "Invalid Otp");
+                                                    context, AppLocale.invalidOtp.getString(context));
                                                 // show error toast invalid otp
                                               }
                                             }
@@ -168,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .registerSelectedImage ==
                                               null) {
                                             showErrorToast(context,
-                                                "Please select an image");
+                                                AppLocale.validImage.getString(context));
                                             return;
                                           }
                                           if (authProvider
@@ -217,7 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return AppLocale.validEmail.getString(context);
                 }
                 if (authProvider.isNotValidEmail(value)) {
-                  return "Please enter valid email";
+                  return AppLocale.validEmail.getString(context);
                 }
                 return null;
               },
@@ -312,7 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             DropdownButtonFormField<String>(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please select the role";
+                  return AppLocale.validRole.getString(context);
                 }
                 return null;
               },
@@ -417,7 +417,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         GestureDetector(
           onTap: () {
             showImageSourceDialog(context, onOptionSelected: (value) async {
-              if (value == 'Camera') {
+              if (value == AppLocale.camera.getString(context)) {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.camera);
                 if (image != null) {
@@ -429,7 +429,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     });
                   }
                 }
-              } else if (value == 'Gallery') {
+              } else if (value == AppLocale.gallery.getString(context)) {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
@@ -467,7 +467,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onPressed: () {
                               showImageSourceDialog(context,
                                   onOptionSelected: (value) async {
-                                if (value == 'Camera') {
+                                if (value == AppLocale.camera.getString(context)) {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.camera);
                                   if (image != null) {
@@ -480,7 +480,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       });
                                     }
                                   }
-                                } else if (value == 'Gallery') {
+                                } else if (value == AppLocale.gallery.getString(context)) {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
@@ -689,7 +689,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         DropdownButtonFormField<String>(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select the gender";
+              return AppLocale.validGender.getString(context);
             }
             return null;
           },
@@ -769,7 +769,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Please enter valid Date";
+                          return AppLocale.validDate.getString(context);
                         }
                         return null;
                       },

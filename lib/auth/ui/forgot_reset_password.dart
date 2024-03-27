@@ -175,7 +175,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                                     authProvider.resetPassword();
                                   } else {
                                     showErrorToast(
-                                        context, "Please enter valid Otp");
+                                        context, AppLocale.validOtp.getString(context));
                                   }
                                 }
                               }),

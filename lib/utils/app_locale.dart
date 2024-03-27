@@ -93,6 +93,7 @@ mixin AppLocale {
   static const String validPhone = 'validPhone';
   static const String address = 'address';
   static const String validAddress = 'validAddress';
+  static const String validDate = 'validDate';
   static const String questionarie1 = 'questionarie1';
   static const String questionarie2 = 'questionarie2';
 
@@ -165,6 +166,13 @@ mixin AppLocale {
   static const String abortConfirm = 'abortConfirm';
   static const String deviceDisconnected = 'deviceDisconnected';
   static const String errorConnecting = 'errorConnecting';
+  static const String validGender = 'validGender';
+  static const String camera = 'camera';
+  static const String gallery = 'gallery';
+  static const String validImage = 'validImage';
+  static const String validRole = 'validRole';
+  static const String otpSuccessful = 'otpSuccessful';
+  static const String invalidOtp = 'invalidOtp';
 
   static const String profile = 'profile';
   static const String scanSettings = 'scanSettings';
@@ -362,6 +370,16 @@ mixin AppLocale {
     cityValid:"Please enter Valid City",
     landMarkValid:"Please enter Valid LandMark",
     pinCodeValid:"Please enter Valid PinCode",
+
+    validDate: "Please enter valid Date",
+    validGender: "Please enter valid Gender",
+    camera:"Camera",
+    gallery:"Gallery",
+    validImage:"Please enter valid Image",
+    validRole:"Please enter valid Role",
+    otpSuccessful:"Otp verified successfully",
+    invalidOtp:"invalidOtp",
+
     logOut: 'Logout',
     thisIs: 'This is %a package, version %a.',
   };
@@ -542,6 +560,13 @@ mixin AppLocale {
     landMark: "ಭೂದೃಶ್ಯ",
     city: "ನಗರ",
     state: "ರಾಜ್ಯ",
+    validGender: "ದಯವಿಟ್ಟು ಮಾನ್ಯ ಲಿಂಗವನ್ನು ನಮೂದಿಸಿ",
+    camera: "ಕ್ಯಾಮರಾ",
+    gallery: "ಗ್ಯಾಲರಿ",
+    validImage: "ದಯವಿಟ್ಟು ಮಾನ್ಯ ಚಿತ್ರವನ್ನು ನಮೂದಿಸಿ",
+    validRole: "ದಯವಿಟ್ಟು ಮಾನ್ಯ ಪಾತ್ರವನ್ನು ನಮೂದಿಸಿ",
+    otpSuccessful: "Otp ಯಶಸ್ವಿಯಾಗಿ ಪರಿಶೀಲಿತವಾಗಿದೆ",
+    invalidOtp: "ಅಮಾನ್ಯ Otp",
     pinCode: "ಪಿನ್ ಕೋಡ್",
     streetValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ರಸ್ತೆ ನಮೂದಿಸಿ",
     stateValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ರಾಜ್ಯ ನಮೂದಿಸಿ",
@@ -723,6 +748,13 @@ mixin AppLocale {
     support: 'समर्थन',
     street: "सड़क",
     area: "क्षेत्र",
+    validGender: "कृपया मान्य लिंग दर्ज करें",
+    camera: "कैमरा",
+    gallery: "गैलरी",
+    validImage: "कृपया मान्य छवि दर्ज करें",
+    validRole: "कृपया मान्य भूमिका दर्ज करें",
+    otpSuccessful: "Otp सफलतापूर्वक सत्यापित हुआ",
+    invalidOtp: "अवैध Otp",
     landMark: "सीमा चिह्न",
     city: "शहर",
     state: "राज्य",
@@ -912,6 +944,13 @@ mixin AppLocale {
     city: "Stadt",
     state: "Bundesland",
     pinCode: "Postleitzahl",
+    validGender: "Bitte geben Sie ein gültiges Geschlecht ein",
+    camera: "Kamera",
+    gallery: "Galerie",
+    validImage: "Bitte geben Sie ein gültiges Bild ein",
+    validRole: "Bitte geben Sie eine gültige Rolle ein",
+    otpSuccessful: "Otp erfolgreich überprüft",
+    invalidOtp: "Ungültige Otp",
     streetValid: "Bitte geben Sie eine gültige Straße ein",
     stateValid: "Bitte geben Sie einen gültigen Bundesland ein",
     areaValid: "Bitte geben Sie ein gültiges Gebiet ein",
@@ -1020,6 +1059,13 @@ mixin AppLocale {
     type: "రకం",
     serialNumber: "వర్షాంకవారం",
     cancel: "రద్దు చేయండి",
+    validGender: "దయచేసి చెందిన జెండర్‌ను నమోదు చేయండి",
+    camera: "కెమెరా",
+    gallery: "గ్యాలరీ",
+    validImage: "దయచేసి చెందిన చిత్రం నమోదు చేయండి",
+    validRole: "దయచేసి చెందిన పాత్రను నమోదు చేయండి",
+    otpSuccessful: "Otp యశస్వమైనందుకు ధన్యవాదాలు",
+    invalidOtp: "చెల్లని Otp",
     continueTest: "కొంతకాలం కంటిన్యూ టెస్ట్ లేదు",
     abort: 'పరీక్షను రద్దు చేయండి',
     abortMessage:
@@ -1181,6 +1227,13 @@ mixin AppLocale {
     player: 'விளை',
     patients: 'நோயா',
     members: 'உறு',
+    validGender: "சரியான பாலினத்தை உள்ளிடவும்",
+    camera: "கேமரா",
+    gallery: "கேலரி",
+    validImage: "சரியான படத்தை உள்ளிடவும்",
+    validRole: "சரியான பங்குதாராய்வுக்கு அமையாதவையை உள்ளிடவும்",
+    otpSuccessful: "Otp வெற்றிகரமாக சரிபார்க்கப்பட்டது",
+    invalidOtp: "தவறான Otp",
     newPlayer: "புதிய விளையாட்டு",
     newMember: 'புதிய உறுப்பினர்',
     managePlayers: 'விளையாட்டுவர்களை நிர்வகிக்கவும்',
@@ -1466,6 +1519,13 @@ mixin AppLocale {
     landMark: "ഭൂമിയൊരുപതി",
     city: "നഗരം",
     state: "സംസ്ഥാനം",
+    validGender: "ദയവായി സാധുവായ ലിംഗം നൽകുക",
+    camera: "ക്യാമറ",
+    gallery: "ഗാലറി",
+    validImage: "സാധുവായ ചിത്രം നൽകുക",
+    validRole: "സാധുവായ റോൾ നൽകുക",
+    otpSuccessful: "Otp വിജയകരമായി പരിശോധിച്ചു",
+    invalidOtp: "അസാധുവായ Otp",
     pinCode: "പിൻ കോഡ്",
     streetValid: "സാധുവായ സ്ട്രീറ്റ് നൽകുക",
     stateValid: "സാധുവായ സംസ്ഥാനം നൽകുക",

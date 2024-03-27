@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return AppLocale.validEmail.getString(context);
                               }
                               if (authProvider.isNotValidEmail(value.trim())) {
-                                return "Please enter valid email";
+                                return AppLocale.validEmail.getString(context);
                               }
                               return null;
                             },

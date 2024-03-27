@@ -121,7 +121,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                                                 .addPatientSelectedImage ==
                                             null) {
                                           showErrorToast(context,
-                                              "Please select an image");
+                                              AppLocale.validImage.getString(context));
                                           return;
                                         }
                                       }
@@ -170,7 +170,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         GestureDetector(
           onTap: () {
             showImageSourceDialog(context, onOptionSelected: (value) async {
-              if (value == 'Camera') {
+              if (value == AppLocale.camera.getString(context)) {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.camera);
                 if (image != null) {
@@ -182,7 +182,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                     });
                   }
                 }
-              } else if (value == 'Gallery') {
+              } else if (value == AppLocale.gallery.getString(context)) {
                 final image =
                     await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
@@ -221,7 +221,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                             onPressed: () {
                               showImageSourceDialog(context,
                                   onOptionSelected: (value) async {
-                                if (value == 'Camera') {
+                                if (value == AppLocale.camera.getString(context)) {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.camera);
                                   if (image != null) {
@@ -235,7 +235,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                                       });
                                     }
                                   }
-                                } else if (value == 'Gallery') {
+                                } else if (value == AppLocale.gallery.getString(context)) {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
@@ -369,7 +369,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Please enter valid Date";
+                          return AppLocale.validDate.getString(context);
                         }
                         return null;
                       },
@@ -501,7 +501,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         DropdownButtonFormField<String>(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select the gender";
+              return AppLocale.validGender.getString(context);
             }
             return null;
           },

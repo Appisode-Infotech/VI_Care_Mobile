@@ -117,12 +117,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                               .changePasswordOtpController
                                               .text) {
                                         showSuccessToast(context,
-                                            "Otp verified successfully");
+                                            AppLocale.otpSuccessful.getString(context));
                                         setState(() {
                                           currentStep = currentStep + 1;
                                         });
                                       } else {
-                                        showErrorToast(context, "Invalid Otp");
+                                        showErrorToast(context, AppLocale.invalidOtp.getString(context));
                                       }
                                     })
                                   : getPrimaryAppButton(context,

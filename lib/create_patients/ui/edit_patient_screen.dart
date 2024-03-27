@@ -75,7 +75,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 onTap: () {
                                   showImageSourceDialog(context,
                                       onOptionSelected: (value) async {
-                                    if (value == 'Camera') {
+                                    if (value == AppLocale.camera.getString(context)) {
                                       final image = await ImagePicker()
                                           .pickImage(
                                               source: ImageSource.camera);
@@ -90,7 +90,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                           });
                                         }
                                       }
-                                    } else if (value == 'Gallery') {
+                                    } else if (value == AppLocale.gallery.getString(context)) {
                                       final image = await ImagePicker()
                                           .pickImage(
                                               source: ImageSource.gallery);
@@ -137,7 +137,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                         context,
                                                         onOptionSelected:
                                                             (value) async {
-                                                      if (value == 'Camera') {
+                                                      if (value == AppLocale.camera.getString(context)) {
                                                         final image =
                                                             await ImagePicker()
                                                                 .pickImage(
@@ -159,7 +159,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                           }
                                                         }
                                                       } else if (value ==
-                                                          'Gallery') {
+                                                          AppLocale.gallery.getString(context)) {
                                                         final image =
                                                             await ImagePicker()
                                                                 .pickImage(
@@ -915,7 +915,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 onTap: () {
                                   showImageSourceDialog(context,
                                       onOptionSelected: (value) async {
-                                    if (value == 'Camera') {
+                                    if (value == AppLocale.camera.getString(context)) {
                                       final image = await ImagePicker()
                                           .pickImage(
                                               source: ImageSource.camera);
@@ -926,7 +926,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                               File(image.path);
                                         });
                                       }
-                                    } else if (value == 'Gallery') {
+                                    } else if (value == AppLocale.gallery.getString(context)) {
                                       final image = await ImagePicker()
                                           .pickImage(
                                               source: ImageSource.gallery);
@@ -969,7 +969,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                         context,
                                                         onOptionSelected:
                                                             (value) async {
-                                                      if (value == 'Camera') {
+                                                      if (value == AppLocale.camera.getString(context)) {
                                                         final image =
                                                             await ImagePicker()
                                                                 .pickImage(
@@ -984,7 +984,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                           });
                                                         }
                                                       } else if (value ==
-                                                          'Gallery') {
+                                                          AppLocale.gallery.getString(context)) {
                                                         final image =
                                                             await ImagePicker()
                                                                 .pickImage(
