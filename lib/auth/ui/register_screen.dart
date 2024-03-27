@@ -815,15 +815,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("State",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.state.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
         DropdownButtonFormField<String>(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select the state";
+              return AppLocale.stateValid.getString(context);
             }
             return null;
           },
@@ -843,7 +843,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           dropdownColor: Colors.white,
           value: authProvider.registerStateAs,
-          hint: const Text("State"),
+          hint:  Text(AppLocale.state.getString(context)),
           onChanged: (String? value) {
             for (var state in authProvider.stateMasterResponse!.result!) {
               if (state.name == value) {
@@ -870,8 +870,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("Street",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.street.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -881,7 +881,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: authProvider.registerStreetController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid street";
+              return AppLocale.streetValid.getString(context);
             }
             return null;
           },
@@ -889,7 +889,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Street",
+            hintText: AppLocale.street.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -906,9 +906,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-        const SizedBox(height: 10,),
-        const Text("Area",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         const SizedBox(height: 10,),
+         Text(AppLocale.area.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -918,7 +918,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: authProvider.registerAreaController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid area";
+              return AppLocale.areaValid.getString(context);
             }
             return null;
           },
@@ -926,7 +926,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Area",
+            hintText: AppLocale.area.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -945,7 +945,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
 
         const SizedBox(height: 10,),
-        const Text("Landmark", style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.landMark.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -955,7 +955,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: authProvider.registerLandmarkController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid landmark";
+              return AppLocale.landMarkValid.getString(context);
             }
             return null;
           },
@@ -963,7 +963,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Landmark",
+            hintText: AppLocale.landMark.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -981,8 +981,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-        const Text("City",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.city.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -992,7 +992,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: authProvider.registerCityController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid City";
+              return AppLocale.cityValid.getString(context);
             }
             return null;
           },
@@ -1000,7 +1000,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "City",
+            hintText: AppLocale.city.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -1018,8 +1018,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-        const Text("PinCode",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.pinCode.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -1029,7 +1029,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: authProvider.registerPinCodeController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid PinCode";
+              return AppLocale.pinCodeValid.getString(context);
             }
             return null;
           },
@@ -1037,7 +1037,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "PinCode",
+            hintText: AppLocale.pinCode.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
