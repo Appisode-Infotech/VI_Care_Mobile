@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:vicare/create_patients/model/all_patients_response_model.dart';
 import 'package:vicare/create_patients/model/edit_profile_response_model.dart';
 import 'package:vicare/create_patients/model/enterprise_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
+import 'package:vicare/create_patients/model/state_master_response_model.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
@@ -174,21 +176,32 @@ class ApiCalls {
       String email,
       String fName,
       String lName,
-      String address,
       String gender,
       File? selectedImage,
       BuildContext? context,
-      String bloodGroup) async {
+      String bloodGroup,
+      String street,
+      String area,
+      String landMark,
+      String city,
+      String pinCode,
+      int? stateId) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addIndividualProfile));
     request.fields['IsSelf'] = false.toString();
     request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.Firstname'] = fName;
-    request.fields['Contact.Email'] = email;
-    request.fields['Contact.Gender'] = gender.toString();
-    request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
+    request.fields['Contact.Email'] = email;
+    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.LastName'] = lName;
+    request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.BloodGroup'] = bloodGroup.toString();
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.StateId'] = stateId.toString();
     request.fields['UserId'] = prefModel.userData!.id.toString();
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
@@ -239,7 +252,13 @@ class ApiCalls {
       String gender,
       File? selectedImage,
       BuildContext? context,
-      String bloodGroup) async {
+      String bloodGroup,
+      String street,
+      String area,
+      String landMark,
+      String city,
+      String pinCode,
+      int? stateId) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -249,6 +268,12 @@ class ApiCalls {
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['Contact.BloodGroup'] = bloodGroup;
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.StateId'] = stateId.toString();
     request.fields['EnterpriseUserId'] =
         prefModel.userData!.enterpriseUserId.toString();
     if (selectedImage != null) {
@@ -266,7 +291,6 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
@@ -310,7 +334,6 @@ class ApiCalls {
     String email,
     String fName,
     String lName,
-    String address,
     String gender,
     File? patientPic,
     BuildContext? context,
@@ -318,6 +341,13 @@ class ApiCalls {
     String userID,
     String contactId,
     String id,
+    String street,
+    String area,
+    String pinCode,
+    String city,
+    String landMark,
+    int? stateId,
+    String addressId,
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addIndividualProfile));
@@ -331,6 +361,13 @@ class ApiCalls {
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;
     request.fields['Contact.BloodGroup'] = bloodGroup;
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.Id'] = addressId;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -371,19 +408,27 @@ class ApiCalls {
   }
 
   Future<AddIndividualProfileResponseModel> editEnterprise(
-      String email,
-      String fName,
-      String lName,
-      String dob,
-      String address,
-      String mobile,
-      String gender,
-      File? patientPic,
-      BuildContext? context,
-      String bloodGroup,
-      String eUserId,
-      String id,
-      String contactId) async {
+    String email,
+    String fName,
+    String lName,
+    String dob,
+    String address,
+    String mobile,
+    String gender,
+    File? patientPic,
+    BuildContext? context,
+    String bloodGroup,
+    String eUserId,
+    String id,
+    String contactId,
+    String street,
+    String area,
+    String pinCode,
+    String city,
+    String landMark,
+    int? stateId,
+    String addressId,
+  ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -396,6 +441,13 @@ class ApiCalls {
     request.fields['Contact.BloodGroup'] = bloodGroup;
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;
+    request.fields['Contact.Address.Street'] = street;
+    request.fields['Contact.Address.Area'] = area;
+    request.fields['Contact.Address.Landmark'] = landMark;
+    request.fields['Contact.Address.City'] = city;
+    request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.Id'] = addressId;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -464,6 +516,7 @@ class ApiCalls {
       String? pId, BuildContext context) async {
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
+    log(response.body);
     if (response.statusCode == 200) {
       return IndividualResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -625,6 +678,17 @@ class ApiCalls {
     } else {
       showErrorToast(context, "Something went wrong");
       throw "could not reset password ${response.statusCode}";
+    }
+  }
+
+  Future<StateMasterResponseModel> getStateMaster(BuildContext context) async {
+    http.Response response = await hitApiGet(true, UrlConstants.getStateMaster);
+    if (response.statusCode == 200) {
+      return StateMasterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
+      throw "could not get the states ${response.statusCode}";
     }
   }
 }

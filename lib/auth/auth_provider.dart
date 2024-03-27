@@ -8,6 +8,7 @@ import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/network/api_calls.dart';
 
+import '../create_patients/model/state_master_response_model.dart';
 import '../main.dart';
 import '../utils/app_buttons.dart';
 import '../utils/routes.dart';
@@ -61,15 +62,22 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController registerPasswordController = TextEditingController();
   TextEditingController registerDobController = TextEditingController();
   TextEditingController registerOtpController = TextEditingController();
-  TextEditingController registerContactNumberController =
-      TextEditingController();
+  TextEditingController registerStreetController = TextEditingController();
+  TextEditingController registerAreaController = TextEditingController();
+  TextEditingController registerLandmarkController = TextEditingController();
+  TextEditingController registerCityController = TextEditingController();
+  TextEditingController registerPinCodeController = TextEditingController();
+  TextEditingController registerContactNumberController = TextEditingController();
   String? registerBloodGroup;
   String? otpReceived;
   int? selectedRoleId;
+  int? selectedStateId;
   int? selectedGender;
+  StateMasterResponseModel? stateMasterResponse;
 
   File? registerSelectedImage;
   String? registerAs;
+  String? registerStateAs;
   String? gender;
   BuildContext? registerPageContext;
 
@@ -101,10 +109,12 @@ class AuthProvider extends ChangeNotifier {
     registerContactNumberController.clear();
     registerSelectedImage = null;
     registerAs = null;
+    registerStateAs = null;
     gender = null;
     registerBloodGroup = null;
     otpReceived = null;
     selectedRoleId = null;
+    selectedStateId=null;
     selectedGender = null;
     notifyListeners();
   }
@@ -149,12 +159,13 @@ class AuthProvider extends ChangeNotifier {
         bloodGroup: registerBloodGroup,
         contact: registerContactNumberController.text,
         password: registerPasswordController.text,
-        context: registerPageContext!);
+        context: registerPageContext!
+    );
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(registerPageContext!);
-      Navigator.pushNamed(registerPageContext!, Routes.dashboardRoute);
+      Navigator.pushNamed(registerPageContext!, Routes.loginRoute);
       showSuccessToast(registerPageContext!, response.message!);
       clearRegisterForm();
     } else {
@@ -183,7 +194,7 @@ class AuthProvider extends ChangeNotifier {
       Navigator.pop(relContext);
       clearRegisterForm();
       if (relContext.mounted) {
-        Navigator.pushNamed(relContext, Routes.registerRoute);
+        // Navigator.pushNamed(relContext, Routes.registerRoute);
       }
     } else {
       Navigator.pop(relContext);
@@ -214,5 +225,18 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(forgotPageContext!, response.message!);
     }
     return response;
+  }
+
+  Future<void> getStateMaster(BuildContext context) async {
+    stateMasterResponse = await apiCalls.getStateMaster(context);
+    if (stateMasterResponse!.result!.isNotEmpty) {
+      clearRegisterForm();
+      if (context.mounted) {
+        // Navigator.pushNamed(context, Routes.registerRoute);
+      }
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, stateMasterResponse!.message.toString());
+    }
   }
 }

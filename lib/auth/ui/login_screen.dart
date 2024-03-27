@@ -212,8 +212,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: AppColors.fontShadeColor, fontSize: 13),
                         ),
                         InkWell(
-                            onTap: () {
+                            onTap: ()  {
                               authProvider.getRoleMasters(context);
+                              // authProvider.getStateMaster(context);
                             },
                             child: Text(
                               AppLocale.registerNow.getString(context),

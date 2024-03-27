@@ -581,53 +581,310 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   );
                                 }).toList(),
                               ),
-
-                              // Text(AppLocale.address.getString(context),
-                              //     style: const TextStyle(
-                              //         fontWeight: FontWeight.w600)),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // TextFormField(
-                              //   autovalidateMode:
-                              //       AutovalidateMode.onUserInteraction,
-                              //   textCapitalization:
-                              //       TextCapitalization.sentences,
-                              //   validator: (value) {
-                              //     if (value!.isEmpty) {
-                              //       return AppLocale.validAddress
-                              //           .getString(context);
-                              //     }
-                              //     return null;
-                              //   },
-                              //   controller: patientProvider
-                              //       .editPatientAddressController,
-                              //   keyboardType: TextInputType.streetAddress,
-                              //   maxLines: 3,
-                              //   decoration: InputDecoration(
-                              //     errorMaxLines: 2,
-                              //     fillColor: Colors.white,
-                              //     filled: true,
-                              //     hintText:
-                              //         AppLocale.address.getString(context),
-                              //     counterText: "",
-                              //     isCollapsed: true,
-                              //     errorStyle:
-                              //         const TextStyle(color: Colors.red),
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //           color: AppColors.primaryColor),
-                              //       borderRadius: BorderRadius.circular(8),
-                              //     ),
-                              //     border: OutlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //           color: Colors.black, width: 2),
-                              //       borderRadius: BorderRadius.circular(8),
-                              //     ),
-                              //     contentPadding: const EdgeInsets.symmetric(
-                              //         vertical: 15, horizontal: 10),
-                              //   ),
-                              // ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.state.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.stateValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade50,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 16),
+                                  focusColor: Colors.transparent,
+                                  errorStyle:
+                                      TextStyle(color: Colors.red.shade400),
+                                ),
+                                dropdownColor: Colors.white,
+                                value: patientProvider.editStateAs,
+                                hint: Text(AppLocale.state.getString(context)),
+                                onChanged: (String? value) {
+                                  for (var state in patientProvider
+                                      .stateMasterResponse!.result!) {
+                                    if (state.name == value) {
+                                      patientProvider.editSelectedStateId =
+                                          state.id;
+                                      break;
+                                    }
+                                  }
+                                  setState(() {
+                                    patientProvider.editStateAs = value!;
+                                  });
+                                },
+                                style: const TextStyle(color: Colors.black),
+                                items: <String>[
+                                  for (int i = 0;
+                                      i < patientProvider.stateMasterResponse!
+                                              .result!.length;
+                                      i++)
+                                    patientProvider
+                                        .stateMasterResponse!.result![i].name
+                                        .toString(),
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.street.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientStreetController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.streetValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: AppLocale.street.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.area.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientAreaController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.areaValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: AppLocale.area.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.landMark.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientLandmarkController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.landMarkValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                      AppLocale.landMark.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.city.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientCityController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.cityValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: AppLocale.city.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.pinCode.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientPinCodeController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.pinCodeValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                      AppLocale.pinCode.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               const SizedBox(height: 20),
                               getPrimaryAppButton(
                                   context, AppLocale.submit.getString(context),
@@ -635,13 +892,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 if (patientProvider
                                     .editPatientFormKey.currentState!
                                     .validate()) {
-                                  patientProvider.editPatient();
-                                  // if (patientProvider.addPatientSelectedImage !=
-                                  //     null) {
-                                  //   showErrorToast(
-                                  //       context, "Please select an image");
-                                  //   return;
-                                  // }
+                                  await patientProvider.editPatient();
                                 }
                               }),
                             ],
@@ -1148,52 +1399,311 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   );
                                 }).toList(),
                               ),
-                              // Text(AppLocale.address.getString(context),
-                              //     style: const TextStyle(
-                              //         fontWeight: FontWeight.w600)),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // TextFormField(
-                              //   autovalidateMode:
-                              //       AutovalidateMode.onUserInteraction,
-                              //   textCapitalization:
-                              //       TextCapitalization.sentences,
-                              //   validator: (value) {
-                              //     if (value!.isEmpty) {
-                              //       return AppLocale.validAddress
-                              //           .getString(context);
-                              //     }
-                              //     return null;
-                              //   },
-                              //   controller: patientProvider
-                              //       .editPatientAddressController,
-                              //   keyboardType: TextInputType.streetAddress,
-                              //   maxLines: 3,
-                              //   decoration: InputDecoration(
-                              //     errorMaxLines: 2,
-                              //     fillColor: Colors.white,
-                              //     filled: true,
-                              //     hintText:
-                              //         AppLocale.address.getString(context),
-                              //     counterText: "",
-                              //     isCollapsed: true,
-                              //     errorStyle:
-                              //         const TextStyle(color: Colors.red),
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //           color: AppColors.primaryColor),
-                              //       borderRadius: BorderRadius.circular(8),
-                              //     ),
-                              //     border: OutlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //           color: Colors.black, width: 2),
-                              //       borderRadius: BorderRadius.circular(8),
-                              //     ),
-                              //     contentPadding: const EdgeInsets.symmetric(
-                              //         vertical: 15, horizontal: 10),
-                              //   ),
-                              // ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.state.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.stateValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade50,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 16),
+                                  focusColor: Colors.transparent,
+                                  errorStyle:
+                                      TextStyle(color: Colors.red.shade400),
+                                ),
+                                dropdownColor: Colors.white,
+                                value: patientProvider.editStateAs,
+                                hint: Text(AppLocale.state.getString(context)),
+                                onChanged: (String? value) {
+                                  for (var state in patientProvider
+                                      .stateMasterResponse!.result!) {
+                                    if (state.name == value) {
+                                      patientProvider.editSelectedStateId =
+                                          state.id;
+                                      break;
+                                    }
+                                  }
+                                  setState(() {
+                                    patientProvider.editStateAs = value!;
+                                  });
+                                },
+                                style: const TextStyle(color: Colors.black),
+                                items: <String>[
+                                  for (int i = 0;
+                                      i <
+                                          patientProvider.stateMasterResponse!
+                                              .result!.length;
+                                      i++)
+                                    patientProvider
+                                        .stateMasterResponse!.result![i].name
+                                        .toString(),
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.street.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientStreetController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.streetValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: AppLocale.street.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.area.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientAreaController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.areaValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: AppLocale.area.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.landMark.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientLandmarkController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.landMarkValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                      AppLocale.landMark.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.city.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientCityController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.cityValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: AppLocale.city.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(AppLocale.pinCode.getString(context),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                controller: patientProvider
+                                    .editNewPatientPinCodeController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.pinCodeValid
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                      AppLocale.pinCode.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               const SizedBox(height: 20),
                               getPrimaryAppButton(
                                   context, AppLocale.submit.getString(context),
