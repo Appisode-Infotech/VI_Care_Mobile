@@ -66,7 +66,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
       bool userWantsToAbort = await showStopTestWarningDialog(context);
       if (userWantsToAbort) {
         for (var subscription in subscriptions) {
-          subscription.cancel();
+          subscription.cancel(); // cancel all subscriptions
         }
         heartRate = 0;
         timer!.cancel();

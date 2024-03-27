@@ -10,6 +10,7 @@ import 'package:vicare/create_patients/provider/profile_provider.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
+import '../../utils/routes.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -465,14 +466,310 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ),
                                 ),
                                 const SizedBox(
+                                  height: 10,
+                                ),
+
+                                Text(AppLocale.state.getString(context),
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                DropdownButtonFormField<String>(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLocale.stateValid
+                                          .getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade50,
+                                      ),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 16.0, horizontal: 16),
+                                    focusColor: Colors.transparent,
+                                    errorStyle:
+                                    TextStyle(color: Colors.red.shade400),
+                                  ),
+                                  dropdownColor: Colors.white,
+                                  value: profileProvider.editProfileStateAs,
+                                  hint: Text(AppLocale.state.getString(context)),
+                                  onChanged: (String? value) {
+                                    for (var state in profileProvider
+                                        .editStateMasterResponse!.result!) {
+                                      if (state.name == value) {
+                                        profileProvider.editProfileSelectedStateId = state.id;
+                                        break;
+                                      }
+                                    }
+                                    setState(() {
+                                      profileProvider.editProfileStateAs = value!;
+                                    });
+                                  },
+                                  style: const TextStyle(color: Colors.black),
+                                  items: <String>[
+                                    for (int i = 0; i < profileProvider.editStateMasterResponse!.result!.length; i++)
+                                      profileProvider.editStateMasterResponse!.result![i].name.toString(),
+                                  ].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(AppLocale.street.getString(context),
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                  TextCapitalization.sentences,
+                                  controller: profileProvider
+                                      .editProfileStreetController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return AppLocale.streetValid
+                                          .getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.streetAddress,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: AppLocale.street.getString(context),
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle:
+                                    const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(AppLocale.area.getString(context),
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                  TextCapitalization.sentences,
+                                  controller: profileProvider
+                                      .editProfileAreaController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return AppLocale.areaValid
+                                          .getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.streetAddress,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: AppLocale.area.getString(context),
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle:
+                                    const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(AppLocale.landMark.getString(context),
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                  TextCapitalization.sentences,
+                                  controller: profileProvider
+                                      .editProfileLandMarkController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return AppLocale.landMarkValid
+                                          .getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.streetAddress,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText:
+                                    AppLocale.landMark.getString(context),
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle:
+                                    const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(AppLocale.city.getString(context),
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                  TextCapitalization.sentences,
+                                  controller: profileProvider
+                                      .editProfileCityController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return AppLocale.cityValid
+                                          .getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.streetAddress,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: AppLocale.city.getString(context),
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle:
+                                    const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(AppLocale.pinCode.getString(context),
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                  TextCapitalization.sentences,
+                                  controller: profileProvider
+                                      .editProfilePinCodeController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return AppLocale.pinCodeValid
+                                          .getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText:
+                                    AppLocale.pinCode.getString(context),
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle:
+                                    const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                                const SizedBox(
                                   height: 30,
                                 ),
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
                                   profileProvider.editProfile();
-                                  // Navigator.pushNamed(
-                                  //     context, Routes.profileRoute);
+                                  Navigator.pushNamed(
+                                      context, Routes.profileRoute);
                                 }),
                               ],
                             ),

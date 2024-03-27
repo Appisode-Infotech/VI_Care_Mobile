@@ -146,7 +146,7 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> register() async {
+   register() async {
     showLoaderDialog(registerPageContext!);
     RegisterResponseModel response = await apiCalls.registerNewUser(
         profilePic: registerSelectedImage,
@@ -159,13 +159,19 @@ class AuthProvider extends ChangeNotifier {
         bloodGroup: registerBloodGroup,
         contact: registerContactNumberController.text,
         password: registerPasswordController.text,
-        context: registerPageContext!
+        context: registerPageContext!,
+        state: selectedStateId,
+        street: registerStreetController.text,
+        area: registerAreaController.text,
+        landMark: registerLandmarkController.text,
+        city: registerCityController.text,
+        pinCode: registerPinCodeController.text
     );
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(registerPageContext!);
-      Navigator.pushNamed(registerPageContext!, Routes.loginRoute);
+      Navigator.pushReplacementNamed(registerPageContext!, Routes.loginRoute);
       showSuccessToast(registerPageContext!, response.message!);
       clearRegisterForm();
     } else {

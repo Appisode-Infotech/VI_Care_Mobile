@@ -1715,7 +1715,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 }
                               }),
                             ],
-                          )),
+                          )
+                ),
               ),
             ));
       },

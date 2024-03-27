@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vicare/create_patients/model/edit_profile_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../auth/model/reset_password_response_model.dart';
@@ -9,6 +10,7 @@ import '../../auth/model/send_otp_response_model.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
+import '../model/state_master_response_model.dart';
 
 class ProfileProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
@@ -24,17 +26,23 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<void> preFillEditProfile(BuildContext context) async {
     showLoaderDialog(context);
-    editProfileSelectedImage = null;
-    if (prefModel.userData!.roleId == 2) {
-      editProfileDobController.text =
-          "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
-      editProfileContactNumberController.text =
-          prefModel.userData!.contactNumber!;
-      editProfileFirstNameController.text =
-          prefModel.userData!.contact!.firstname!;
-      editProfileLastNameController.text =
-          prefModel.userData!.contact!.lastName!;
+      editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
+      editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
+      editProfileFirstNameController.text = prefModel.userData!.contact!.firstname!;
+      editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
+      print(prefModel.userData!.contact!.toJson());
+      editProfileStreetController.text=prefModel.userData!.contact!.address!.street!;
+      editProfileAreaController.text=prefModel.userData!.contact!.address!.area!;
+      editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!;
+      editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
+      editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!;
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
+      for (var state in editStateMasterResponse!.result!) {
+        if (state.id == prefModel.userData!.contact!.address!.stateId) {
+          editProfileStateAs = state.name;
+          break;
+        }
+      }
       editProfileGender = prefModel.userData!.contact!.gender == 1
           ? "Male"
           : prefModel.userData!.contact!.gender == 2
@@ -47,28 +55,8 @@ class ProfileProvider extends ChangeNotifier {
       notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute);
-    } else {
-      editProfileDobController.text =
-          "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
-      editProfileContactNumberController.text =
-          prefModel.userData!.contactNumber!;
-      editProfileFirstNameController.text =
-          prefModel.userData!.contact!.firstname!;
-      editProfileLastNameController.text =
-          prefModel.userData!.contact!.lastName!;
-      editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
-      editProfileGender = prefModel.userData!.contact!.gender == 1
-          ? "Male"
-          : prefModel.userData!.contact!.gender == 2
-              ? "Female"
-              : "Do not wish to specify";
-      editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-          prefModel.userData!.profilePicture!.url.toString());
-      notifyListeners();
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editProfileRoute);
-    }
   }
+
 
   final editProfileFormKey = GlobalKey<FormState>();
   TextEditingController editProfileDobController = TextEditingController();
@@ -77,11 +65,19 @@ class ProfileProvider extends ChangeNotifier {
   TextEditingController editProfileFirstNameController =
       TextEditingController();
   TextEditingController editProfileLastNameController = TextEditingController();
+  TextEditingController editProfileStreetController = TextEditingController();
+  TextEditingController editProfileAreaController = TextEditingController();
+  TextEditingController editProfileCityController = TextEditingController();
+  TextEditingController editProfileLandMarkController = TextEditingController();
+  TextEditingController editProfilePinCodeController = TextEditingController();
   String? editProfileBloodGroup;
   String? editProfileGender;
   int? selectedGender;
   File? editProfileSelectedImage;
   BuildContext? editProfilePageContext;
+  int? editProfileSelectedStateId;
+  String? editProfileStateAs;
+  StateMasterResponseModel? editStateMasterResponse;
 
   clearEditProfileForm() {
     editProfileDobController.clear();
@@ -90,7 +86,12 @@ class ProfileProvider extends ChangeNotifier {
     editProfileLastNameController.clear();
     editProfileBloodGroup = null;
     editProfileGender = null;
-
+    editProfileStreetController.clear();
+    editProfileAreaController.clear();
+    editProfileCityController.clear();
+    editProfileLandMarkController.clear();
+    editProfilePinCodeController.clear();
+    editProfileStateAs = null;
     editProfileSelectedImage = null;
     notifyListeners();
   }
@@ -102,12 +103,11 @@ class ProfileProvider extends ChangeNotifier {
   bool changePasswordIsShowPassword = true;
   bool changePasswordIsConfirmPassword = true;
   String? resetPasswordOtp;
-
   BuildContext? changePasswordPageContext;
 
-  void editProfile() {
-    if (prefModel.userData!.roleId == 2) {
-      apiCalls.editIndividualProfile(
+
+  Future<void> editProfile() async {
+      EditProfileResponseModel response = await apiCalls.editIndividualProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
         editProfileContactNumberController.text,
@@ -118,21 +118,19 @@ class ProfileProvider extends ChangeNotifier {
         editProfilePageContext!,
         prefModel.userData!.id,
         prefModel.userData!.contactId,
+        editProfileStreetController.text,
+        editProfileAreaController.text,
+        editProfileCityController.text,
+        editProfileLandMarkController.text,
+        editProfilePinCodeController.text,
+        prefModel.userData!.contact!.addressId,
+          editProfileSelectedStateId
       );
-    } else {
-      // apiCalls.editEnterpriseProfile(
-      //     editProfileFirstNameController.text,
-      //     editProfileLastNameController.text,
-      //     editProfileContactNumberController.text,
-      //     editProfileBloodGroup!,
-      //     editProfileGender!,
-      //     editProfileDobController.text,
-      //     editProfileSelectedImage!,
-      //     editProfilePageContext!,
-      //     prefModel.userData!.id,
-      //     prefModel.userData!.contactId
-      // );
-    }
+      if (response.result != null) {
+        showSuccessToast(editProfilePageContext!, response.message!);
+        Navigator.pop(editProfilePageContext!);
+        Navigator.pop(editProfilePageContext!);
+      }
   }
 
   Future<SendOtpResponseModel> changePassword(BuildContext context) async {
@@ -153,6 +151,15 @@ class ProfileProvider extends ChangeNotifier {
       //     changePasswordPageContext!, Routes.loginRoute, (route) => false);
     } else {
       showErrorToast(changePasswordPageContext!, response.message!);
+    }
+  }
+
+  Future<void> getStateMaster(BuildContext context) async {
+    editStateMasterResponse = await apiCalls.getStateMaster(context);
+    if (editStateMasterResponse!.result!.isNotEmpty) {
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, editStateMasterResponse!.message.toString());
     }
   }
 }

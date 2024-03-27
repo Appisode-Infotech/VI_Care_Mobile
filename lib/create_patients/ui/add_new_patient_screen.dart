@@ -591,15 +591,15 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("State",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.state.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
         DropdownButtonFormField<String>(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select the state";
+              return AppLocale.stateValid.getString(context);
             }
             return null;
           },
@@ -619,7 +619,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
           dropdownColor: Colors.white,
           value: patientProvider.stateAs,
-          hint: const Text("State"),
+          hint:  Text(AppLocale.state.getString(context)),
           onChanged: (String? value) {
             for (var state in patientProvider.stateMasterResponse!.result!) {
               if (state.name == value) {
@@ -646,8 +646,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("Street",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.street.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -657,7 +657,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           controller: patientProvider.addNewPatientStreetController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid street";
+              return AppLocale.streetValid.getString(context);
             }
             return null;
           },
@@ -665,7 +665,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Street",
+            hintText: AppLocale.street.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -683,8 +683,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-        const Text("Area",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.area.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -694,7 +694,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           controller: patientProvider.addNewPatientAreaController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid area";
+              return AppLocale.areaValid.getString(context);
             }
             return null;
           },
@@ -702,7 +702,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Area",
+            hintText: AppLocale.area.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -721,8 +721,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
 
         const SizedBox(height: 10,),
-        const Text("Landmark",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.landMark.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -732,7 +732,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           controller: patientProvider.addNewPatientLandmarkController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid landmark";
+              return AppLocale.landMarkValid.getString(context);
             }
             return null;
           },
@@ -740,7 +740,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Landmark",
+            hintText: AppLocale.landMark.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -758,8 +758,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-        const Text("City",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.city.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -769,7 +769,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           controller: patientProvider.addNewPatientCityController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid City";
+              return AppLocale.cityValid.getString(context);
             }
             return null;
           },
@@ -777,7 +777,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "City",
+            hintText: AppLocale.city.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -795,8 +795,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-        const Text("PinCode",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.pinCode.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -806,7 +806,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           controller: patientProvider.addNewPatientPinCodeController,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please enter valid PinCode";
+              return AppLocale.pinCodeValid.getString(context);
             }
             return null;
           },
@@ -814,7 +814,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "PinCode",
+            hintText: AppLocale.pinCode.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
