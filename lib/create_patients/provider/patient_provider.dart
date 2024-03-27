@@ -351,10 +351,7 @@ class PatientProvider extends ChangeNotifier {
 
   Future<void> getStateMaster(BuildContext context) async {
     stateMasterResponse = await apiCalls.getStateMaster(context);
-    if (stateMasterResponse!.result!.isNotEmpty) {
-      clearAddPatientForm();
-    } else {
-      Navigator.pop(context);
+    if (stateMasterResponse!.result!.isEmpty) {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }
   }

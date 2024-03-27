@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -260,7 +261,10 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             }
             return null;
           },
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,

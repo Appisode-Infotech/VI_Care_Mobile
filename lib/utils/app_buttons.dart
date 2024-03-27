@@ -47,9 +47,9 @@ showLanguageBottomSheet(
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Select Language",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+               Text(
+                AppLocale.selectLanguage.getString(context),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
@@ -58,7 +58,7 @@ showLanguageBottomSheet(
                   shrinkWrap: true,
                   itemCount: localization.supportedLanguageCodes.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
+                    return InkWell(
                       onTap: () {
                         onLanguageChange(
                             localization.supportedLanguageCodes[index]);
@@ -225,6 +225,34 @@ Future<CroppedFile?> cropImage(String imagePath) async {
     log('Error cropping image: $e');
   }
   return croppedImage;
+}
+
+Future<bool> showDisconnectWarningDialog(BuildContext context) async {
+  bool result = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(AppLocale.disconnectConfirm.getString(context)),
+          backgroundColor: Colors.white,
+          content: Text(AppLocale.disconnectMessage.getString(context)),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Text(AppLocale.disconnect.getString(context),
+                    style: const TextStyle(color: Colors.red))),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: Text(AppLocale.continueTest.getString(context),
+                    style: const TextStyle(color: Colors.green)))
+          ],
+        );
+      });
+  return result; // Default to false if result is null
 }
 
 Future<bool> showStopTestWarningDialog(BuildContext context) async {

@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/create_patients/model/all_enterprise_users_response_model.dart';
 import 'package:vicare/main.dart';
+import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 
@@ -494,7 +495,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (index == snapshot.data!.result!.length) {
                                 return InkWell(
                                   onTap: () async {
+                                    showLoaderDialog(context);
                                     await patientProvider.getStateMaster(context);
+                                    patientProvider.clearAddPatientForm();
+                                    Navigator.pop(context);
                                     Navigator.pushNamed(
                                             context, Routes.addNewPatientRoute)
                                         .then((value) {
@@ -685,8 +689,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (BuildContext context, int index) {
                               if (index == snapshot.data!.result!.length) {
                                 return InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    showLoaderDialog(context);
+                                    await patientProvider.getStateMaster(context);
                                     patientProvider.clearAddPatientForm();
+                                    Navigator.pop(context);
                                     Navigator.pushNamed(
                                             context, Routes.addNewPatientRoute)
                                         .then((value) {

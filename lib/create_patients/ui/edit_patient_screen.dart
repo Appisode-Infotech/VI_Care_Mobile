@@ -586,15 +586,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.state.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return AppLocale.stateValid
-                                        .getString(context);
+                                  if (value != null && value.isNotEmpty) {
+                                    return null;
                                   }
                                   return null;
                                 },
@@ -650,7 +649,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.street.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -697,7 +696,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.area.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -744,7 +743,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.landMark.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -792,7 +791,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.city.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -839,7 +838,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.pinCode.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1404,15 +1403,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.state.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return AppLocale.stateValid
-                                        .getString(context);
+                                  if (value != null && value.isNotEmpty) {
+                                    return null;
                                   }
                                   return null;
                                 },
@@ -1469,7 +1467,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.street.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1516,7 +1514,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.area.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1563,7 +1561,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.landMark.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1611,7 +1609,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.city.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1658,7 +1656,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               Text(AppLocale.pinCode.getString(context),
                                   style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
+                                      const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),

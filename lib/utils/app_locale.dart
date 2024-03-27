@@ -1,4 +1,5 @@
 mixin AppLocale {
+  static const String selectLanguage = 'selectLanguage';
   static const String getStartedBtnTitle = 'getStartedBtnTitle';
   static const String dntHaveAnAccount = 'dntHaveAnAccount';
   static const String signUpNow = 'signUpNow';
@@ -133,6 +134,8 @@ mixin AppLocale {
   static const String retryUpload = 'retryUpload';
   static const String delete = 'delete';
   static const String editPatients = 'editPatients';
+  static const String disconnectConfirm = 'disconnectConfirm';
+  static const String disconnectMessage = 'disconnectMessage';
 
   static const String player = 'player';
   static const String newPlayer = 'newPlayer';
@@ -192,6 +195,7 @@ mixin AppLocale {
   static const String thisIs = 'thisIs';
 
   static const Map<String, dynamic> EN = {
+    selectLanguage:"Select Language",
     getStartedBtnTitle: 'Login to get started',
     connectMeasure: 'Connect, Measure \nand Thrive!',
     joinHruday:
@@ -279,8 +283,9 @@ mixin AppLocale {
     managePatients: 'Manage Patients',
     continueTest: "No Continue test",
     abort: 'Abort test',
-    abortMessage:
-        'Aborting in middle of the test will result in loss of recorded data for this test',
+    abortMessage: 'Aborting in middle of the test will result in loss of recorded data for this test',
+    disconnectMessage: 'Disconnecting in middle of the test will result in loss of recorded data for this test',
+    disconnectConfirm: 'Are you sure to Disconnect?',
     abortConfirm: 'Are you sure to abort the test?',
     addPatients: 'Add new patient',
     fillNewPatients:
@@ -375,7 +380,7 @@ mixin AppLocale {
     validGender: "Please enter valid Gender",
     camera:"Camera",
     gallery:"Gallery",
-    validImage:"Please enter valid Image",
+    validImage:"Please select Image",
     validRole:"Please enter valid Role",
     otpSuccessful:"Otp verified successfully",
     invalidOtp:"invalidOtp",
@@ -385,6 +390,7 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> KN = {
+    selectLanguage:"ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡಿ",
     getStartedBtnTitle: 'ಪ್ರಾರಂಭಿಸಲು ಲಾಗಿನ್ ಮಾಡಿ',
     dntHaveAnAccount: 'ಖಾತೆ ಇಲ್ಲವೇ ? ',
     signUpNow: ' ಈಗ ಸೈನ್ ಅಪ್ ಮಾಡಿ',
@@ -493,6 +499,8 @@ mixin AppLocale {
     lastTested: 'ಕೊನೆಯ ಪರೀಕ್ಷೆ',
     totalTested: 'ಒಟ್ಟು ಪರೀಕ್ಷೆಗಳು',
     reports: 'ವರದಿಗಳು',
+    disconnectMessage: 'ಪರೀಕ್ಷೆಯ ನಡುವೆ ಸಂಪರ್ಕ ಮುಂದುವರಿಸುವುದರ ಮಧ್ಯದಲ್ಲಿ ನಡೆಯುವುದು ಈ ಪರೀಕ್ಷೆಗೆ ನೋಟಗಳ ನಷ್ಟವನ್ನು ತರುತ್ತದೆ',
+    disconnectConfirm: 'ನಿಶ್ಚಿತವಾಗಿ ವಿಯುಕ್ತಿಯನ್ನು ಮಾಡಲು ಖಚಿತವಾಗಿದ್ದೀರಾ?',
     deviceSetup:
         'ನೀವು ಇನ್ನೂ ಸಾಧನವನ್ನು ಸೆಟಪ್ ಮಾಡಿಲ್ಲ ಎಂದು ತೋರುತ್ತಿದೆ. ಪರೀಕ್ಷೆಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಈಗಲೇ ಸೆಟಪ್ ಮಾಡಿ',
     setup: 'ಸೆಟಪ್',
@@ -579,6 +587,7 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> HI = {
+    selectLanguage:"भाषा चुनें",
     getStartedBtnTitle: 'लॉगिन करें',
     dntHaveAnAccount: 'खाता नहीं है? ',
     signUpNow: 'अब साइन अप करें',
@@ -681,6 +690,8 @@ mixin AppLocale {
     managePatients: 'रोगियों का प्रबंधन करें',
     continueTest: "टेस्ट जारी नहीं रखें",
     abort: 'परीक्षण रद्द करें ',
+    disconnectMessage: 'टेस्ट के बीच में विच्छेद करने से इस टेस्ट के लिए रिकॉर्ड किए गए डेटा का नुकसान होगा',
+    disconnectConfirm: 'क्या आप वाकई विच्छेद करना चाहते हैं?',
     abortMessage:
         'टेस्ट के बीच में रोकने से इस टेस्ट के लिए रिकॉर्ड किए गए डेटा का नुकसान हो सकता है',
     abortConfirm: 'क्या आप टेस्ट को रोकने के लिए पक्का हैं?',
@@ -770,6 +781,7 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> de = {
+    selectLanguage:"Sprache auswählen",
     getStartedBtnTitle: 'Einloggen, um zu beginnen',
     connectMeasure: 'Verbinden, Messen \nund Erfolg haben!',
     joinHruday:
@@ -902,6 +914,8 @@ mixin AppLocale {
     bluetoothIsOff:
         'Es sieht so aus, als wäre Ihr Bluetooth ausgeschaltet. Schalten Sie es ein, um fortzufahren.',
     bluetoothTurnOn: 'Einschalten',
+    disconnectMessage: 'Das Trennen während des Tests führt zum Verlust der aufgezeichneten Daten für diesen Test.',
+    disconnectConfirm: 'Sind Sie sicher, dass Sie trennen möchten?',
     errorConnecting: 'Fehler beim Verbinden mit',
     deviceDisconnected: 'Vom Gerät getrennt',
     connectedTo: 'Verbunden mit',
@@ -961,6 +975,7 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> TE = {
+    selectLanguage:"భాషను ఎంచుకోండి",
     getStartedBtnTitle: 'ప్రారంభించుకోండి లాగిన్ చేయడానికి',
     connectMeasure:
         'సంప్రదించండి, కొలతలను \nమరియు బాధాకరమైన పరిజ్ఞానం తీసుకోండి!',
@@ -1114,6 +1129,8 @@ mixin AppLocale {
     resting: "విశ్రాంతి హృదయ రేట్",
     low: "తక్కువ",
     high: "అధిక",
+    disconnectMessage: 'పరీక్ష యొక్క మధ్యలో ఆదేశంలో వ్యవహారాన్ని వియుక్తి చేయడం ఈ పరీక్షకు రికార్డు చేసిన డేటా నుంచి నష్టమవుతుంది',
+    disconnectConfirm: 'నిశ్చితంగా వియుక్తి చేయాలా?',
     oneWeek: "1 వారం",
     oneMonth: "1 నెల",
     sixMonth: "6 నెలలు",
@@ -1154,6 +1171,7 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> TA = {
+    selectLanguage:'மொழியை தேர்ந்தெடுக்கவும்',
     getStartedBtnTitle: 'தொடங்க உள்நுழைக',
     connectMeasure: 'இணையம், அளவீடு \nமற்றும் வளரும்!',
     joinHruday:
@@ -1324,6 +1342,8 @@ mixin AppLocale {
     devices: 'சாதன நிர்வகனம்',
     duration: 'காலம்',
     chooseDuration: 'காலத்தைத் தேர்ந்தெடுக்கவும்',
+    disconnectMessage: 'சேர்க்கையின் மத்தியில் தொலைபேசி சேர்க்கை இந்த சோதனைக்கு சேமித்த தரவுகளின் இழப்பை தரும்',
+    disconnectConfirm: 'நீங்கள் உறுதியாக தொலைபேசி சேர்க்க வேண்டுமா?',
     chooseDurationMessage:
         'சோதனையை எடுத்துக் கொள்ள ஒரு காலத்தைத் தேர்வு செய்யவும்.',
     editProfile: 'சுயவிவரத்தை திருத்து',
@@ -1349,6 +1369,7 @@ mixin AppLocale {
   };
 
   static const Map<String, dynamic> ML = {
+    selectLanguage:'ഭാഷ തിരഞ്ഞെടുക്കുക',
     getStartedBtnTitle: 'ആരംഭിക്കാൻ ലോഗിൻ ചെയ്യുക',
     connectMeasure: 'കണക്കിക്കുക, മാപ്പുകൾ \nലഭിക്കുകയും സമൃദ്ധമാകുക!',
     joinHruday:
@@ -1515,6 +1536,8 @@ mixin AppLocale {
     newsBlog: 'വാർത്തകൾ & ബ്ലോഗുകൾ',
     support: 'പിന്തുണ',
     street: "സ്ട്രീറ്റ്",
+    disconnectMessage: 'ടെസ്റ്റിന്റെ ഇടതുകാലത്ത് വേര്‍തിരിച്ചിരിക്കുന്നത് ഈ ടെസ്റ്റിനായി നോട്ടുചെയ്ത ഡാറ്റയുടെ നഷ്ടം വരും',
+    disconnectConfirm: 'വേണ്ടത്ര തിരികൊള്ളണേ?',
     area: "പ്രദേശം",
     landMark: "ഭൂമിയൊരുപതി",
     city: "നഗരം",
