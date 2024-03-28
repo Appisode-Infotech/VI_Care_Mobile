@@ -768,8 +768,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
                                   profileProvider.editProfile();
-                                  Navigator.pushNamed(
-                                      context, Routes.profileRoute);
+                                  // Navigator.pushNamed(
+                                  //     context, Routes.profileRoute);
                                 }),
                               ],
                             ),

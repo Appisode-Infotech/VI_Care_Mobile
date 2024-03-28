@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -129,7 +130,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                       AppLocale.submit.getString(context),
                                       onPressed: () async {
                                       profileProvider.resetNewPassword(context);
-
                                       // Navigator.pushNamedAndRemoveUntil(
                                       //     context, Routes.profileRoute, (route) => false);
                                     }),
@@ -168,6 +168,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             return null;
           },
           keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
