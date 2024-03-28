@@ -11,9 +11,9 @@ String registerResponseModelToJson(RegisterResponseModel data) => json.encode(da
 class RegisterResponseModel {
   String? message;
   bool? isSuccess;
-  PageResult? pageResult;
+  dynamic pageResult;
   UserData? result;
-  List<String>? errors;
+  dynamic errors;
 
   RegisterResponseModel({
     this.message,
@@ -26,74 +26,28 @@ class RegisterResponseModel {
   factory RegisterResponseModel.fromJson(Map<String, dynamic> json) => RegisterResponseModel(
     message: json["message"],
     isSuccess: json["isSuccess"],
-    pageResult: json["pageResult"] == null ? null : PageResult.fromJson(json["pageResult"]),
+    pageResult: json["pageResult"],
     result: json["result"] == null ? null : UserData.fromJson(json["result"]),
-    errors: json["errors"] == null ? [] : List<String>.from(json["errors"]!.map((x) => x)),
+    errors: json["errors"],
   );
 
   Map<String, dynamic> toJson() => {
     "message": message,
     "isSuccess": isSuccess,
-    "pageResult": pageResult?.toJson(),
+    "pageResult": pageResult,
     "result": result?.toJson(),
-    "errors": errors == null ? [] : List<dynamic>.from(errors!.map((x) => x)),
-  };
-}
-
-class PageResult {
-  int? currentPage;
-  int? totalPages;
-  int? pageSize;
-  int? totalCount;
-  bool? hasPrevious;
-  bool? hasNext;
-  String? previousPage;
-  String? nextPage;
-
-  PageResult({
-    this.currentPage,
-    this.totalPages,
-    this.pageSize,
-    this.totalCount,
-    this.hasPrevious,
-    this.hasNext,
-    this.previousPage,
-    this.nextPage,
-  });
-
-  factory PageResult.fromJson(Map<String, dynamic> json) => PageResult(
-    currentPage: json["currentPage"],
-    totalPages: json["totalPages"],
-    pageSize: json["pageSize"],
-    totalCount: json["totalCount"],
-    hasPrevious: json["hasPrevious"],
-    hasNext: json["hasNext"],
-    previousPage: json["previousPage"],
-    nextPage: json["nextPage"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "currentPage": currentPage,
-    "totalPages": totalPages,
-    "pageSize": pageSize,
-    "totalCount": totalCount,
-    "hasPrevious": hasPrevious,
-    "hasNext": hasNext,
-    "previousPage": previousPage,
-    "nextPage": nextPage,
+    "errors": errors,
   };
 }
 
 class UserData {
-  int? id;
-  String? uniqueGuid;
   String? email;
   String? contactNumber;
   String? passwordHash;
   String? passwordSalt;
-  String? type;
+  dynamic type;
   int? status;
-  String? remarks;
+  dynamic remarks;
   String? token;
   int? contactId;
   Contact? contact;
@@ -101,15 +55,15 @@ class UserData {
   Role? role;
   int? profilePictureId;
   ProfilePicture? profilePicture;
-  int? enterpriseId;
-  Enterprise? enterprise;
-  int? enterpriseUserId;
-  EnterpriseUser? enterpriseUser;
+  dynamic enterpriseId;
+  dynamic enterprise;
+  dynamic enterpriseUserId;
+  dynamic enterpriseUser;
   int? individualProfileId;
+  String? uniqueGuid;
+  int? id;
 
   UserData({
-    this.id,
-    this.uniqueGuid,
     this.email,
     this.contactNumber,
     this.passwordHash,
@@ -129,11 +83,11 @@ class UserData {
     this.enterpriseUserId,
     this.enterpriseUser,
     this.individualProfileId,
+    this.uniqueGuid,
+    this.id,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
     email: json["email"],
     contactNumber: json["contactNumber"],
     passwordHash: json["passwordHash"],
@@ -149,15 +103,15 @@ class UserData {
     profilePictureId: json["profilePictureId"],
     profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
     enterpriseId: json["enterpriseId"],
-    enterprise: json["enterprise"] == null ? null : Enterprise.fromJson(json["enterprise"]),
+    enterprise: json["enterprise"],
     enterpriseUserId: json["enterpriseUserId"],
-    enterpriseUser: json["enterpriseUser"] == null ? null : EnterpriseUser.fromJson(json["enterpriseUser"]),
+    enterpriseUser: json["enterpriseUser"],
     individualProfileId: json["individualProfileId"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
     "email": email,
     "contactNumber": contactNumber,
     "passwordHash": passwordHash,
@@ -173,16 +127,16 @@ class UserData {
     "profilePictureId": profilePictureId,
     "profilePicture": profilePicture?.toJson(),
     "enterpriseId": enterpriseId,
-    "enterprise": enterprise?.toJson(),
+    "enterprise": enterprise,
     "enterpriseUserId": enterpriseUserId,
-    "enterpriseUser": enterpriseUser?.toJson(),
+    "enterpriseUser": enterpriseUser,
     "individualProfileId": individualProfileId,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
   };
 }
 
 class Contact {
-  int? id;
-  String? uniqueGuid;
   String? firstname;
   String? lastName;
   String? email;
@@ -192,10 +146,10 @@ class Contact {
   String? bloodGroup;
   int? addressId;
   Address? address;
+  String? uniqueGuid;
+  int? id;
 
   Contact({
-    this.id,
-    this.uniqueGuid,
     this.firstname,
     this.lastName,
     this.email,
@@ -205,11 +159,11 @@ class Contact {
     this.bloodGroup,
     this.addressId,
     this.address,
+    this.uniqueGuid,
+    this.id,
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
     firstname: json["firstname"],
     lastName: json["lastName"],
     email: json["email"],
@@ -219,11 +173,11 @@ class Contact {
     bloodGroup: json["bloodGroup"],
     addressId: json["addressId"],
     address: json["address"] == null ? null : Address.fromJson(json["address"]),
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
     "firstname": firstname,
     "lastName": lastName,
     "email": email,
@@ -233,25 +187,25 @@ class Contact {
     "bloodGroup": bloodGroup,
     "addressId": addressId,
     "address": address?.toJson(),
+    "uniqueGuid": uniqueGuid,
+    "id": id,
   };
 }
 
 class Address {
-  int? id;
-  String? uniqueGuid;
   String? street;
   String? area;
   String? landmark;
   String? city;
   String? pinCode;
-  String? longitude;
-  String? latitude;
+  dynamic longitude;
+  dynamic latitude;
   int? stateId;
-  State? state;
+  dynamic state;
+  String? uniqueGuid;
+  int? id;
 
   Address({
-    this.id,
-    this.uniqueGuid,
     this.street,
     this.area,
     this.landmark,
@@ -261,11 +215,11 @@ class Address {
     this.latitude,
     this.stateId,
     this.state,
+    this.uniqueGuid,
+    this.id,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
     street: json["street"],
     area: json["area"],
     landmark: json["landmark"],
@@ -274,12 +228,12 @@ class Address {
     longitude: json["longitude"],
     latitude: json["latitude"],
     stateId: json["stateId"],
-    state: json["state"] == null ? null : State.fromJson(json["state"]),
+    state: json["state"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
     "street": street,
     "area": area,
     "landmark": landmark,
@@ -288,268 +242,28 @@ class Address {
     "longitude": longitude,
     "latitude": latitude,
     "stateId": stateId,
-    "state": state?.toJson(),
-  };
-}
-
-class State {
-  int? id;
-  String? uniqueGuid;
-  String? name;
-  String? code;
-  int? numericCode;
-  int? countryId;
-  Country? country;
-
-  State({
-    this.id,
-    this.uniqueGuid,
-    this.name,
-    this.code,
-    this.numericCode,
-    this.countryId,
-    this.country,
-  });
-
-  factory State.fromJson(Map<String, dynamic> json) => State(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: json["name"],
-    code: json["code"],
-    numericCode: json["numericCode"],
-    countryId: json["countryId"],
-    country: json["country"] == null ? null : Country.fromJson(json["country"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
+    "state": state,
     "uniqueGuid": uniqueGuid,
-    "name": name,
-    "code": code,
-    "numericCode": numericCode,
-    "countryId": countryId,
-    "country": country?.toJson(),
-  };
-}
-
-class Country {
-  int? id;
-  String? uniqueGuid;
-  String? name;
-  String? code;
-  String? twoLetterCode;
-  String? threeLetterCode;
-  int? numericCode;
-
-  Country({
-    this.id,
-    this.uniqueGuid,
-    this.name,
-    this.code,
-    this.twoLetterCode,
-    this.threeLetterCode,
-    this.numericCode,
-  });
-
-  factory Country.fromJson(Map<String, dynamic> json) => Country(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: json["name"],
-    code: json["code"],
-    twoLetterCode: json["twoLetterCode"],
-    threeLetterCode: json["threeLetterCode"],
-    numericCode: json["numericCode"],
-  );
-
-  Map<String, dynamic> toJson() => {
     "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": name,
-    "code": code,
-    "twoLetterCode": twoLetterCode,
-    "threeLetterCode": threeLetterCode,
-    "numericCode": numericCode,
-  };
-}
-
-class Enterprise {
-  int? id;
-  String? uniqueGuid;
-  String? name;
-  String? spocName;
-  String? contactNumber;
-  String? gstNumber;
-  int? contactId;
-  Contact? contact;
-  List<EnterpriseUser>? enterpriseUser;
-
-  Enterprise({
-    this.id,
-    this.uniqueGuid,
-    this.name,
-    this.spocName,
-    this.contactNumber,
-    this.gstNumber,
-    this.contactId,
-    this.contact,
-    this.enterpriseUser,
-  });
-
-  factory Enterprise.fromJson(Map<String, dynamic> json) => Enterprise(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: json["name"],
-    spocName: json["spocName"],
-    contactNumber: json["contactNumber"],
-    gstNumber: json["gstNumber"],
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    enterpriseUser: json["enterpriseUser"] == null ? [] : List<EnterpriseUser>.from(json["enterpriseUser"]!.map((x) => EnterpriseUser.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": name,
-    "spocName": spocName,
-    "contactNumber": contactNumber,
-    "gstNumber": gstNumber,
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "enterpriseUser": enterpriseUser == null ? [] : List<dynamic>.from(enterpriseUser!.map((x) => x.toJson())),
-  };
-}
-
-class EnterpriseUser {
-  int? id;
-  String? uniqueGuid;
-  String? name;
-  String? designation;
-  int? roleId;
-  Role? role;
-  int? contactId;
-  Contact? contact;
-  int? enterpriseId;
-  int? profilePictureId;
-  ProfilePicture? profilePicture;
-  List<EnterpriseProfile>? enterpriseProfile;
-
-  EnterpriseUser({
-    this.id,
-    this.uniqueGuid,
-    this.name,
-    this.designation,
-    this.roleId,
-    this.role,
-    this.contactId,
-    this.contact,
-    this.enterpriseId,
-    this.profilePictureId,
-    this.profilePicture,
-    this.enterpriseProfile,
-  });
-
-  factory EnterpriseUser.fromJson(Map<String, dynamic> json) => EnterpriseUser(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    name: json["name"],
-    designation: json["designation"],
-    roleId: json["roleId"],
-    role: json["role"] == null ? null : Role.fromJson(json["role"]),
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    enterpriseId: json["enterpriseId"],
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseProfile: json["enterpriseProfile"] == null ? [] : List<EnterpriseProfile>.from(json["enterpriseProfile"]!.map((x) => EnterpriseProfile.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "name": name,
-    "designation": designation,
-    "roleId": roleId,
-    "role": role?.toJson(),
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "enterpriseId": enterpriseId,
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseProfile": enterpriseProfile == null ? [] : List<dynamic>.from(enterpriseProfile!.map((x) => x.toJson())),
-  };
-}
-
-class EnterpriseProfile {
-  int? id;
-  String? uniqueGuid;
-  String? firstName;
-  String? lastName;
-  String? emailId;
-  int? contactId;
-  Contact? contact;
-  int? profilePictureId;
-  ProfilePicture? profilePicture;
-  int? enterpriseUserId;
-
-  EnterpriseProfile({
-    this.id,
-    this.uniqueGuid,
-    this.firstName,
-    this.lastName,
-    this.emailId,
-    this.contactId,
-    this.contact,
-    this.profilePictureId,
-    this.profilePicture,
-    this.enterpriseUserId,
-  });
-
-  factory EnterpriseProfile.fromJson(Map<String, dynamic> json) => EnterpriseProfile(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
-    firstName: json["firstName"],
-    lastName: json["lastName"],
-    emailId: json["emailId"],
-    contactId: json["contactId"],
-    contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-    profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
-    enterpriseUserId: json["enterpriseUserId"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
-    "firstName": firstName,
-    "lastName": lastName,
-    "emailId": emailId,
-    "contactId": contactId,
-    "contact": contact?.toJson(),
-    "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture?.toJson(),
-    "enterpriseUserId": enterpriseUserId,
   };
 }
 
 class ProfilePicture {
-  int? id;
-  String? uniqueGuid;
   String? name;
-  String? type;
+  dynamic type;
   String? path;
-  String? tags;
+  dynamic tags;
   int? length;
   String? savedFileName;
   String? actualFileName;
   int? fileType;
   String? sthreeKey;
   String? url;
-  int? deviceId;
+  dynamic deviceId;
+  String? uniqueGuid;
+  int? id;
 
   ProfilePicture({
-    this.id,
-    this.uniqueGuid,
     this.name,
     this.type,
     this.path,
@@ -561,11 +275,11 @@ class ProfilePicture {
     this.sthreeKey,
     this.url,
     this.deviceId,
+    this.uniqueGuid,
+    this.id,
   });
 
   factory ProfilePicture.fromJson(Map<String, dynamic> json) => ProfilePicture(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
     name: json["name"],
     type: json["type"],
     path: json["path"],
@@ -577,11 +291,11 @@ class ProfilePicture {
     sthreeKey: json["sthreeKey"],
     url: json["url"],
     deviceId: json["deviceId"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
     "name": name,
     "type": type,
     "path": path,
@@ -593,41 +307,43 @@ class ProfilePicture {
     "sthreeKey": sthreeKey,
     "url": url,
     "deviceId": deviceId,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
   };
 }
 
 class Role {
-  int? id;
-  String? uniqueGuid;
   String? name;
-  int? maximumMembers;
-  String? profileName;
+  dynamic maximumMembers;
+  dynamic profileName;
   bool? isAdmin;
+  String? uniqueGuid;
+  int? id;
 
   Role({
-    this.id,
-    this.uniqueGuid,
     this.name,
     this.maximumMembers,
     this.profileName,
     this.isAdmin,
+    this.uniqueGuid,
+    this.id,
   });
 
   factory Role.fromJson(Map<String, dynamic> json) => Role(
-    id: json["id"],
-    uniqueGuid: json["uniqueGuid"],
     name: json["name"],
     maximumMembers: json["maximumMembers"],
     profileName: json["profileName"],
     isAdmin: json["isAdmin"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "uniqueGuid": uniqueGuid,
     "name": name,
     "maximumMembers": maximumMembers,
     "profileName": profileName,
     "isAdmin": isAdmin,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
   };
 }

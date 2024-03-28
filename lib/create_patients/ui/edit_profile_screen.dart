@@ -6,11 +6,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
+import 'package:vicare/main.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
-import '../../utils/routes.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -481,7 +481,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       return AppLocale.stateValid
                                           .getString(context);
                                     }
-                                    return null;
+                                    prefModel.userData!.profilePicture;
                                   },
                                   decoration: InputDecoration(
                                     filled: true,
@@ -502,8 +502,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   value: profileProvider.editProfileStateAs,
                                   hint: Text(AppLocale.state.getString(context)),
                                   onChanged: (String? value) {
-                                    for (var state in profileProvider
-                                        .editStateMasterResponse!.result!) {
+                                    for (var state in profileProvider.editStateMasterResponse!.result!) {
                                       if (state.name == value) {
                                         profileProvider.editProfileSelectedStateId = state.id;
                                         break;
@@ -767,9 +766,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
+                                      if (profileProvider.editProfileSelectedImage == null) {
+                                        showErrorToast(context, AppLocale.validImage.getString(context));
+                                        return;
+                                      }
                                   profileProvider.editProfile();
-                                  // Navigator.pushNamed(
-                                  //     context, Routes.profileRoute);
                                 }),
                               ],
                             ),

@@ -592,10 +592,11 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               DropdownButtonFormField<String>(
                                 validator: (value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    return null;
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.stateValid
+                                        .getString(context);
                                   }
-                                  return null;
+                                  patientProvider.individualPatientData!.result!.contact!.address!.stateId;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
@@ -1409,10 +1410,11 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               DropdownButtonFormField<String>(
                                 validator: (value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    return null;
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.stateValid
+                                        .getString(context);
                                   }
-                                  return null;
+                                  patientProvider.enterpriseUserData!.result!.contact!.address!.stateId;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,

@@ -12,7 +12,7 @@ class EditProfileResponseModel {
   String? message;
   bool? isSuccess;
   dynamic pageResult;
-  Result? result;
+  UserData? result;
   dynamic errors;
 
   EditProfileResponseModel({
@@ -27,7 +27,7 @@ class EditProfileResponseModel {
     message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
+    result: json["result"] == null ? null : UserData.fromJson(json["result"]),
     errors: json["errors"],
   );
 
@@ -40,7 +40,7 @@ class EditProfileResponseModel {
   };
 }
 
-class Result {
+class UserData {
   String? email;
   String? contactNumber;
   String? passwordHash;
@@ -63,7 +63,7 @@ class Result {
   String? uniqueGuid;
   int? id;
 
-  Result({
+  UserData({
     this.email,
     this.contactNumber,
     this.passwordHash,
@@ -87,7 +87,7 @@ class Result {
     this.id,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
     email: json["email"],
     contactNumber: json["contactNumber"],
     passwordHash: json["passwordHash"],

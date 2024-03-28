@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vicare/create_patients/model/edit_profile_response_model.dart';
+import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../auth/model/reset_password_response_model.dart';
 import '../../auth/model/send_otp_response_model.dart';
+import '../../database/app_pref.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
@@ -48,10 +49,12 @@ class ProfileProvider extends ChangeNotifier {
           : prefModel.userData!.contact!.gender == 2
               ? "Female"
               : "Do not wish to specify";
+
       if(prefModel.userData!.profilePicture!=null){
         editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
             prefModel.userData!.profilePicture!.url.toString());
       }
+
       notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute);
@@ -107,7 +110,7 @@ class ProfileProvider extends ChangeNotifier {
 
 
   Future<void> editProfile() async {
-      EditProfileResponseModel response = await apiCalls.editIndividualProfile(
+      RegisterResponseModel response = await apiCalls.editIndividualProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
         editProfileContactNumberController.text,
@@ -124,12 +127,28 @@ class ProfileProvider extends ChangeNotifier {
         editProfileLandMarkController.text,
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
-          editProfileSelectedStateId
+        editProfileSelectedStateId!
       );
       if (response.result != null) {
+        prefModel.userData!.contact!.firstname =response.result!.contact!.firstname;
+        prefModel.userData!.contact!.lastName =response.result!.contact!.lastName;
+        prefModel.userData!.contactNumber =response.result!.contactNumber;
+        prefModel.userData!.contact!.bloodGroup =response.result!.contact!.bloodGroup;
+        prefModel.userData!.contact!.gender =response.result!.contact!.gender;
+        prefModel.userData!.contact!.doB =response.result!.contact!.doB;
+        prefModel.userData!.profilePicture!.url = response.result!.profilePicture!.url;
+        prefModel.userData!.id =response.result!.id;
+        prefModel.userData!.contactId =response.result!.contactId;
+        prefModel.userData!.contact!.address!.street =response.result!.contact!.address!.street;
+        prefModel.userData!.contact!.address!.area =response.result!.contact!.address!.area;
+        prefModel.userData!.contact!.address!.city =response.result!.contact!.address!.city;
+        prefModel.userData!.contact!.address!.landmark =response.result!.contact!.address!.landmark;
+        prefModel.userData!.contact!.address!.pinCode =response.result!.contact!.address!.pinCode;
+        prefModel.userData!.contact!.addressId =response.result!.contact!.addressId;
+        prefModel.userData!.contact!.address!.stateId =response.result!.contact!.address!.stateId;
+        AppPref.setPref(prefModel);
+        Navigator.pop(editProfilePageContext!);
         showSuccessToast(editProfilePageContext!, response.message!);
-        Navigator.pop(editProfilePageContext!);
-        Navigator.pop(editProfilePageContext!);
       }
   }
 
@@ -147,8 +166,6 @@ class ProfileProvider extends ChangeNotifier {
     if (response.result != null && response.result == true) {
       Navigator.pop(changePasswordPageContext!);
       showSuccessToast(changePasswordPageContext!, response.message!);
-      // Navigator.pushNamedAndRemoveUntil(
-      //     changePasswordPageContext!, Routes.loginRoute, (route) => false);
     } else {
       showErrorToast(changePasswordPageContext!, response.message!);
     }
