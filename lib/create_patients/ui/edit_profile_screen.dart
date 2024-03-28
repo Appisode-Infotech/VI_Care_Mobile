@@ -49,7 +49,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,34 +58,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onTap: () {
                           showImageSourceDialog(context,
                               onOptionSelected: (value) async {
-                            if (value == AppLocale.camera.getString(context)) {
-                              final image = await ImagePicker()
-                                  .pickImage(source: ImageSource.camera);
-                              if (image != null) {
-                                CroppedFile? croppedImage =
+                                if (value == AppLocale.camera.getString(context)) {
+                                  final image = await ImagePicker()
+                                      .pickImage(source: ImageSource.camera);
+                                  if (image != null) {
+                                    CroppedFile? croppedImage =
                                     await cropImage(image.path);
-                                if (croppedImage != null) {
-                                  setState(() {
-                                    profileProvider.editProfileSelectedImage =
-                                        File(croppedImage.path);
-                                  });
-                                }
-                              }
-                            } else if (value == AppLocale.gallery.getString(context)) {
-                              final image = await ImagePicker()
-                                  .pickImage(source: ImageSource.gallery);
-                              if (image != null) {
-                                CroppedFile? croppedImage =
+                                    if (croppedImage != null) {
+                                      setState(() {
+                                        profileProvider.editProfileSelectedImage =
+                                            File(croppedImage.path);
+                                      });
+                                    }
+                                  }
+                                } else if (value == AppLocale.gallery.getString(context)) {
+                                  final image = await ImagePicker()
+                                      .pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    CroppedFile? croppedImage =
                                     await cropImage(image.path);
-                                if (croppedImage != null) {
-                                  setState(() {
-                                    profileProvider.editProfileSelectedImage =
-                                        File(croppedImage.path);
-                                  });
+                                    if (croppedImage != null) {
+                                      setState(() {
+                                        profileProvider.editProfileSelectedImage =
+                                            File(croppedImage.path);
+                                      });
+                                    }
+                                  }
                                 }
-                              }
-                            }
-                          });
+                              });
                         },
                         child: Center(
                           child: Stack(
@@ -94,11 +94,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 radius: 50,
                                 backgroundColor: Colors.grey.shade300,
                                 backgroundImage:
-                                    profileProvider.editProfileSelectedImage !=
-                                            null
-                                        ? FileImage(profileProvider
-                                            .editProfileSelectedImage!)
-                                        : null,
+                                profileProvider.editProfileSelectedImage !=
+                                    null
+                                    ? FileImage(profileProvider
+                                    .editProfileSelectedImage!)
+                                    : null,
                               ),
                               const SizedBox(
                                 height: 10,
@@ -114,46 +114,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             showImageSourceDialog(context,
                                                 onOptionSelected:
                                                     (value) async {
-                                              if (value == AppLocale.camera.getString(context)) {
-                                                final image =
+                                                  if (value == AppLocale.camera.getString(context)) {
+                                                    final image =
                                                     await ImagePicker()
                                                         .pickImage(
-                                                            source: ImageSource
-                                                                .camera);
-                                                if (image != null) {
-                                                  CroppedFile? croppedImage =
+                                                        source: ImageSource
+                                                            .camera);
+                                                    if (image != null) {
+                                                      CroppedFile? croppedImage =
                                                       await cropImage(
                                                           image.path);
-                                                  if (croppedImage != null) {
-                                                    setState(() {
-                                                      profileProvider
+                                                      if (croppedImage != null) {
+                                                        setState(() {
+                                                          profileProvider
                                                               .editProfileSelectedImage =
-                                                          File(croppedImage
-                                                              .path);
-                                                    });
-                                                  }
-                                                }
-                                              } else if (value == AppLocale.gallery.getString(context)) {
-                                                final image =
+                                                              File(croppedImage
+                                                                  .path);
+                                                        });
+                                                      }
+                                                    }
+                                                  } else if (value == AppLocale.gallery.getString(context)) {
+                                                    final image =
                                                     await ImagePicker()
                                                         .pickImage(
-                                                            source: ImageSource
-                                                                .gallery);
-                                                if (image != null) {
-                                                  CroppedFile? croppedImage =
+                                                        source: ImageSource
+                                                            .gallery);
+                                                    if (image != null) {
+                                                      CroppedFile? croppedImage =
                                                       await cropImage(
                                                           image.path);
-                                                  if (croppedImage != null) {
-                                                    setState(() {
-                                                      profileProvider
+                                                      if (croppedImage != null) {
+                                                        setState(() {
+                                                          profileProvider
                                                               .editProfileSelectedImage =
-                                                          File(croppedImage
-                                                              .path);
-                                                    });
+                                                              File(croppedImage
+                                                                  .path);
+                                                        });
+                                                      }
+                                                    }
                                                   }
-                                                }
-                                              }
-                                            });
+                                                });
                                           },
                                           icon: const Icon(
                                             Icons.edit_outlined,
@@ -173,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
-                            profileProvider.editProfileFirstNameController,
+                        profileProvider.editProfileFirstNameController,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -192,12 +192,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: AppColors.primaryColor),
+                            const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.black, width: 2),
+                            const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -215,7 +215,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
-                            profileProvider.editProfileLastNameController,
+                        profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -234,12 +234,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: AppColors.primaryColor),
+                            const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.black, width: 2),
+                            const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -255,7 +255,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
-                            profileProvider.editProfileContactNumberController,
+                        profileProvider.editProfileContactNumberController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validContact.getString(context);
@@ -273,18 +273,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           filled: true,
                           hintText: AppLocale.contactNumber.getString(context),
                           hintStyle:
-                              const TextStyle(fontSize: 15, color: Colors.grey),
+                          const TextStyle(fontSize: 15, color: Colors.grey),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: AppColors.primaryColor),
+                            const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.black, width: 2),
+                            const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -375,10 +375,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             profileProvider.selectedGender = value == "Male"
                                 ? 1
                                 : value == "Female"
-                                    ? 2
-                                    : value == "Do not wish to specify"
-                                        ? 3
-                                        : 0;
+                                ? 2
+                                : value == "Do not wish to specify"
+                                ? 3
+                                : 0;
                             profileProvider.editProfileGender = value!;
                           });
                         },
@@ -414,7 +414,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 GestureDetector(
                                   onTap: () async {
                                     final DateTime? picked =
-                                        await showDatePicker(
+                                    await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(1026),
@@ -422,20 +422,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     );
                                     setState(() {
                                       profileProvider
-                                              .editProfileDobController.text =
-                                          "${picked!.year} - ${picked.month} - ${picked.day}";
+                                          .editProfileDobController.text =
+                                      "${picked!.year} - ${picked.month} - ${picked.day}";
                                     });
                                   },
                                   child: TextFormField(
                                     autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
+                                    AutovalidateMode.onUserInteraction,
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
                                       errorMaxLines: 2,
                                       contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 15, horizontal: 10),
+                                      const EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 10),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
@@ -770,8 +770,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         showErrorToast(context, AppLocale.validImage.getString(context));
                                         return;
                                       }
-                                  profileProvider.editProfile();
-                                }),
+                                      profileProvider.editProfile();
+                                    }),
                               ],
                             ),
                           ),
