@@ -277,6 +277,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
           maxLength: 10,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -316,6 +317,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             errorMaxLines: 2,
             fillColor: Colors.white,
@@ -431,6 +433,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -470,6 +473,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -662,6 +666,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -699,6 +704,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -737,6 +743,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -774,6 +781,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -811,6 +819,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,

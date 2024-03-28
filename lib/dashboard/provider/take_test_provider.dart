@@ -105,14 +105,22 @@ class TakeTestProvider extends ChangeNotifier {
   Future<void> disconnect(BuildContext context) async {
     if (connectedDevice != null) {
       try {
-        await connectedDevice!.disconnect().then((value) {
-          print(value);
-          return null;
-        });
-        isConnected = false;
-        connectedDevice = null;
-        showSuccessToast(context, AppLocale.deviceDisconnected.getString(context));
-        log('Disconnected from device');
+        bool disconnectConfirmed = await showDisconnectWarningDialog(context);
+        if (disconnectConfirmed) {
+          await connectedDevice!.disconnect().then((value) {
+            print(value);
+            connectedDevice = null;
+            isConnected = false;
+            notifyListeners();
+            return null;
+          });
+          isConnected = false;
+          connectedDevice = null;
+          showSuccessToast(context, AppLocale.deviceDisconnected.getString(context));
+          log('Disconnected from device');
+        } else {
+          print('Disconnect cancelled by user');
+        }
       } catch (e) {
         log('Error disconnecting from device: $e');
       }

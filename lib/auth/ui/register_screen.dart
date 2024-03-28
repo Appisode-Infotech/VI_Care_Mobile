@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -165,15 +166,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             .getString(context),
                                         onPressed: () async {
                                           if (authProvider
-                                              .registerSelectedImage ==
-                                              null) {
-                                            showErrorToast(context,
-                                                AppLocale.validImage.getString(context));
-                                            return;
-                                          }
-                                          if (authProvider
                                               .registerFormKey.currentState!
                                               .validate()) {
+                                            if (authProvider
+                                                .registerSelectedImage ==
+                                                null) {
+                                              showErrorToast(context,
+                                                  AppLocale.validImage.getString(context));
+                                              return;
+                                            }
                                             authProvider.register();
                                           }
                                         },
@@ -222,6 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return null;
               },
               keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
@@ -265,6 +267,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return null;
               },
               keyboardType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.next,
               obscureText: authProvider.registerIsShowPassword,
               decoration: InputDecoration(
                 fillColor: Colors.white,
@@ -385,6 +388,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -568,6 +575,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -610,6 +618,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+
           maxLength: 10,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -886,6 +896,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
+
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -923,6 +935,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -960,6 +973,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -997,6 +1011,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -1034,6 +1049,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,

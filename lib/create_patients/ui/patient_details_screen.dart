@@ -103,15 +103,19 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CircleAvatar(
+                                patientProvider.individualPatientData!.result!.profilePicture!.url !=null
+                                    ? CircleAvatar(
                                   radius: 40,
                                   backgroundColor: Colors.grey,
-                                  backgroundImage: NetworkImage(patientProvider
-                                      .individualPatientData!
-                                      .result!
-                                      .profilePicture!
-                                      .url!
-                                      .toString()),
+                                  backgroundImage: NetworkImage(patientProvider.individualPatientData!.result!.profilePicture!.url!.toString())
+                                ):
+                                const CircleAvatar(
+                                  radius: 22,
+                                  backgroundColor: Colors.grey,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 20,

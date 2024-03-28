@@ -659,16 +659,16 @@ class ApiCalls {
     });
     log(request.fields.toString());
     var response = await request.send();
-
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
       log(responseJson.toString());
+
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
       showErrorToast(context, "Unauthorized");
-      throw "could not add the profile ${response.statusCode}";
+        throw "could not add the profile ${response.statusCode}";
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
       showErrorToast(context, "Email or phone may exist.");
@@ -715,7 +715,6 @@ class ApiCalls {
   Future<StateMasterResponseModel> getStateMaster(BuildContext context) async {
     http.Response response =
         await hitApiGet(false, UrlConstants.getStateMaster);
-    log(response.body);
     if (response.statusCode == 200) {
       return StateMasterResponseModel.fromJson(json.decode(response.body));
     } else {
