@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vicare/create_patients/model/edit_profile_response_model.dart';
+import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../auth/model/reset_password_response_model.dart';
 import '../../auth/model/send_otp_response_model.dart';
+import '../../database/app_pref.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
@@ -107,7 +108,7 @@ class ProfileProvider extends ChangeNotifier {
 
 
   Future<void> editProfile() async {
-      EditProfileResponseModel response = await apiCalls.editIndividualProfile(
+      RegisterResponseModel response = await apiCalls.editIndividualProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
         editProfileContactNumberController.text,
@@ -127,6 +128,8 @@ class ProfileProvider extends ChangeNotifier {
           editProfileSelectedStateId
       );
       if (response.result != null) {
+        prefModel.userData = response.result;
+        AppPref.setPref(prefModel);
         showSuccessToast(editProfilePageContext!, response.message!);
         Navigator.pop(editProfilePageContext!);
         Navigator.pop(editProfilePageContext!);
