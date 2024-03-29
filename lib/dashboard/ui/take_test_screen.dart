@@ -3,10 +3,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/database/app_pref.dart';
@@ -36,8 +36,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   List<double> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
+  late StreamController<double> _chartDataStreamController;
 
-  List<int> bpmListForChart = [];
 
   void startTimer(TakeTestProvider takeTestProvider) {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -84,14 +84,15 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   @override
   void initState() {
     super.initState();
+    _chartDataStreamController = StreamController<double>();
     if (prefModel.selectedDuration != null) {
       secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
     }
-    bpmListForChart.add(0); // Initialize with zero for the chart
   }
 
   @override
   void dispose() {
+    _chartDataStreamController.close();
     for (var subscription in subscriptions) {
       subscription.cancel(); // Cancel each subscription
     }
@@ -106,70 +107,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     Provider.of<TakeTestProvider>(context, listen: false)
         .listenToConnectedDevice();
     super.didChangeDependencies();
-  }
-
-  Future<void> startRecordingReadings(
-      TakeTestProvider takeTestProvider) async {
-    bpmList.clear();
-    rrIntervalList.clear();
-    subscriptions.clear();
-
-    List<BluetoothService> services =
-    await takeTestProvider.connectedDevice!.discoverServices();
-    for (BluetoothService service in services) {
-      if (service.uuid.toString() ==
-          "0000180d-0000-1000-8000-00805f9b34fb") {
-        for (BluetoothCharacteristic characteristic
-        in service.characteristics) {
-          try {
-            await characteristic.setNotifyValue(true);
-          } catch (e) {
-            log(e.toString());
-          }
-          StreamSubscription subscription =
-          characteristic.value.listen((value) {
-            if (value.isNotEmpty) {
-              heartRate = value[1];
-              bpmList.add(value[1]);
-              rrIntervalList.add(60000 / value[1]);
-              updateChartData(value[1]); // Update chart data
-            }
-          });
-          subscriptions.add(subscription);
-        }
-      }
-    }
-  }
-
-  void saveReadings(TakeTestProvider takeTestProvider) {
-    prefModel.offlineSavedTests!.add(OfflineTestModel(
-        myRoleId: prefModel.userData!.roleId,
-        bpmList: bpmList,
-        rrIntervalList: rrIntervalList,
-        scanDuration: prefModel.selectedDuration!.durationInMinutes,
-        deviceName: takeTestProvider.connectedDevice!.name,
-        deviceId: takeTestProvider.connectedDevice!.id.id,
-        patientFirstName: prefModel.userData!.roleId == 2
-            ? individualPatientData?.result!.firstName
-            : enterprisePatientData?.result!.firstName,
-        patientlastName: prefModel.userData!.roleId == 2
-            ? individualPatientData?.result!.lastName
-            : enterprisePatientData?.result!.lastName,
-        patientProfilePic: prefModel.userData!.roleId == 2
-            ? individualPatientData?.result!.profilePicture!.path
-            : enterprisePatientData?.result!.profilePicture!.path,
-        patientId: prefModel.userData!.roleId == 2
-            ? individualPatientData?.result!.id
-            : enterprisePatientData?.result!.enterpriseUserId,
-        created: DateTime.now()));
-    AppPref.setPref(prefModel);
-    showSuccessToast(context, "Test successful and saved to offline.");
-  }
-
-  void updateChartData(int newHeartRate) {
-    setState(() {
-      bpmListForChart.add(newHeartRate);
-    });
   }
 
   @override
@@ -211,101 +148,147 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  Widget deviceConnectedWidget(
-      BuildContext context, TakeTestProvider takeTestProvider) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: AppColors.primaryColor,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Text(
-                  "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  takeTestProvider.disconnect(context);
-                },
-                child: Text(
-                  AppLocale.disconnect.getString(context),
-                  style: const TextStyle(
-                    color: AppColors.scaffoldColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
+  Future<void> startRecordingReadings(
+      TakeTestProvider takeTestProvider) async {
+    bpmList.clear(); // Clear existing values
+    rrIntervalList.clear(); // Clear existing values
+    subscriptions.clear(); // Clear existing subscriptions
 
-        // Real-time chart
-        Expanded(
-          child: LineChart(
-            LineChartData(
-              lineBarsData: [
-                LineChartBarData(
-                  spots: List.generate(
-                    bpmListForChart.length,
-                        (index) => FlSpot(index.toDouble(), bpmListForChart[index].toDouble()),
+    List<BluetoothService> services =
+    await takeTestProvider.connectedDevice!.discoverServices();
+    for (BluetoothService service in services) {
+      if (service.uuid.toString() ==
+          "0000180d-0000-1000-8000-00805f9b34fb") {
+        for (BluetoothCharacteristic characteristic in service.characteristics) {
+          try {
+            await characteristic.setNotifyValue(true);
+          } catch (e) {
+            log(e.toString());
+          }
+          StreamSubscription subscription =
+          characteristic.value.listen((value) {
+            if (value.isNotEmpty) {
+              heartRate = value[1];
+              bpmList.add(value[1]);
+              double rrInterval = 60000 / value[1];
+              rrIntervalList.add(rrInterval);
+              _chartDataStreamController.add(rrInterval); // Add RR interval to the chart stream
+            }
+          });
+          subscriptions.add(subscription); // Add the subscription to the list
+        }
+      }
+    }
+  }
+
+  void saveReadings(TakeTestProvider takeTestProvider) {
+    prefModel.offlineSavedTests!.add(OfflineTestModel(
+        myRoleId: prefModel.userData!.roleId,
+        bpmList: bpmList,
+        rrIntervalList: rrIntervalList,
+        scanDuration: prefModel.selectedDuration!.durationInMinutes,
+        deviceName: takeTestProvider.connectedDevice!.name,
+        deviceId: takeTestProvider.connectedDevice!.id.id,
+        patientFirstName: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.firstName
+            : enterprisePatientData?.result!.firstName,
+        patientlastName: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.lastName
+            : enterprisePatientData?.result!.lastName,
+        patientProfilePic: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.profilePicture!.path
+            : enterprisePatientData?.result!.profilePicture!.path,
+        patientId: prefModel.userData!.roleId == 2
+            ? individualPatientData?.result!.id
+            : enterprisePatientData?.result!.enterpriseUserId,
+        created: DateTime.now()));
+    AppPref.setPref(prefModel);
+    showSuccessToast(context, "Test successful and saved to offline.");
+  }
+
+  Widget deviceConnectedWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              width: screenSize!.width,
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: AppColors.primaryColor),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: screenSize!.width * 0.6,
+                    child: Text(
+                      "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 16),
+                    ),
                   ),
-                  isCurved: true,
-                  colors: [Colors.blue],
-                  barWidth: 2,
-                  isStrokeCapRound: true,
-                  belowBarData: BarAreaData(show: false),
+                  GestureDetector(
+                    onTap: () {
+                      takeTestProvider.disconnect(context);
+                    },
+                    child: Text(
+                      AppLocale.disconnect.getString(context),
+                      style: const TextStyle(
+                          color: AppColors.scaffoldColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              )),
+          const SizedBox(height: 15,),
+
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    primaryYAxis: const NumericAxis(
+                      interval: 40,
+                      minimum: 600,
+                      maximum: 800,
+                    ),
+                    series: <CartesianSeries<dynamic, dynamic>>[
+                      LineSeries<ChartData, double>(
+                        dataSource: rrIntervalList.asMap().entries.map((entry) => ChartData(entry.key.toDouble(), entry.value)).toList(),
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y,
+                      ),
+                    ],
+                    zoomPanBehavior: ZoomPanBehavior(
+                      enablePanning: true,
+                      enablePinching: true,
+                  ),
+                  ),
                 ),
-              ],
-              titlesData: FlTitlesData(
-                bottomTitles: SideTitles(showTitles: false),
-                leftTitles: SideTitles(showTitles: true),
               ),
-              borderData: FlBorderData(show: true),
-              minX: 0,
-              maxX: bpmListForChart.length.toDouble() - 1,
-              minY: 0,
-              maxY: (bpmListForChart.reduce((curr, next) => curr > next ? curr : next) + 10).toDouble(),
             ),
           ),
-        ),
 
 
-
-        Center(
+          Center(
             child: CircularPercentIndicator(
               radius: 100.0,
               lineWidth: 15.0,
-              percent: ((prefModel.selectedDuration!
-                  .durationInMinutes! *
-                  60 -
-                  secondsRemaining) /
-                  (prefModel.selectedDuration!
-                      .durationInMinutes! *
-                      60))
+              percent: ((prefModel.selectedDuration!.durationInMinutes! * 60 - secondsRemaining) /
+                  (prefModel.selectedDuration!.durationInMinutes! * 60))
                   .clamp(0.0, 1.0),
               center: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
@@ -321,25 +304,15 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   GestureDetector(
                       onTap: () {
                         if (!isTimerRunning) {
-                          Navigator.pushNamed(context,
-                              Routes.durationsRoute)
-                              .then((value) {
+                          Navigator.pushNamed(context, Routes.durationsRoute).then((value) {
                             setState(() {
-                              if (prefModel
-                                  .selectedDuration !=
-                                  null) {
-                                secondsRemaining = (prefModel
-                                    .selectedDuration!
-                                    .durationInMinutes!) *
-                                    60;
+                              if (prefModel.selectedDuration != null) {
+                                secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
                               }
                             });
                           });
                         } else {
-                          showErrorToast(
-                              context,
-                              AppLocale.waitTillScan
-                                  .getString(context));
+                          showErrorToast(context, AppLocale.waitTillScan.getString(context));
                         }
                       },
                       child: const Icon(
@@ -360,27 +333,20 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           GestureDetector(
             onTap: () {
-              handleStartButtonClick(
-                  context, takeTestProvider);
+              handleStartButtonClick(context, takeTestProvider);
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 40, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(12)),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
                 color: Colors.blue.shade300,
               ),
               child: Text(
-                isTimerRunning
-                    ? AppLocale.stop.getString(context)
-                    : AppLocale.start.getString(context),
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600),
+                isTimerRunning ? AppLocale.stop.getString(context) : AppLocale.start.getString(context),
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -389,51 +355,42 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  chooseDurationWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget chooseDurationWidget(
+      BuildContext context, TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
           padding: const EdgeInsets.all(10),
           decoration: const BoxDecoration(
-            borderRadius:
-            BorderRadius.all(Radius.circular(12)),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             color: AppColors.primaryColor,
           ),
           width: screenSize!.width,
           height: 100,
           child: Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
                   width: screenSize!.width * 0.4,
                   child: Text(
-                    AppLocale.chooseDurationMessage
-                        .getString(context),
-                    style: const TextStyle(
-                        color: Colors.white),
+                    AppLocale.chooseDurationMessage.getString(context),
+                    style: const TextStyle(color: Colors.white),
                   )),
               const SizedBox(width: 5),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, Routes.durationsRoute);
+                  Navigator.pushNamed(context, Routes.durationsRoute);
                 },
                 child: Container(
                     height: 50,
                     padding: const EdgeInsets.all(12),
                     decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(12)),
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
                         color: Colors.white),
                     child: Center(
                       child: Text(
-                        AppLocale.chooseDuration
-                            .getString(context),
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
+                        AppLocale.chooseDuration.getString(context),
+                        style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     )),
               )
@@ -442,7 +399,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  scanBluetoothWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget scanBluetoothWidget(
+      BuildContext context, TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -459,31 +417,25 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               SizedBox(
                   width: screenSize!.width * 0.6,
                   child: Text(
-                    AppLocale.noConnectedDevice
-                        .getString(context),
+                    AppLocale.noConnectedDevice.getString(context),
                     style: const TextStyle(color: Colors.white),
                   )),
               const SizedBox(width: 5),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, Routes.bluetoothScanRoute);
+                  Navigator.pushNamed(context, Routes.bluetoothScanRoute);
                 },
                 child: Container(
                     width: screenSize!.width * 0.20,
                     height: 50,
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(12)),
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
                         color: Colors.white),
                     child: Center(
                       child: Text(
                         AppLocale.connect.getString(context),
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     )),
               )
@@ -492,7 +444,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  bluetoothOffWarningWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget bluetoothOffWarningWidget(
+      BuildContext context, TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -505,12 +458,18 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           height: 100,
           child: Center(
             child: Text(
-              textAlign: TextAlign.center,
               AppLocale.bluetoothIsOff.getString(context),
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           )),
     );
   }
+}
+
+class ChartData {
+  final double x;
+  final double y;
+
+  ChartData(this.x, this.y);
 }

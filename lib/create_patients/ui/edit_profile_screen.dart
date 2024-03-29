@@ -478,10 +478,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 DropdownButtonFormField<String>(
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return AppLocale.stateValid
-                                          .getString(context);
+                                      prefModel.userData!.contact!.address!.stateId;
                                     }
-                                    prefModel.userData!.profilePicture;
                                   },
                                   decoration: InputDecoration(
                                     filled: true,
