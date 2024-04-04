@@ -63,10 +63,8 @@ class ProfileProvider extends ChangeNotifier {
 
   final editProfileFormKey = GlobalKey<FormState>();
   TextEditingController editProfileDobController = TextEditingController();
-  TextEditingController editProfileContactNumberController =
-      TextEditingController();
-  TextEditingController editProfileFirstNameController =
-      TextEditingController();
+  TextEditingController editProfileContactNumberController = TextEditingController();
+  TextEditingController editProfileFirstNameController = TextEditingController();
   TextEditingController editProfileLastNameController = TextEditingController();
   TextEditingController editProfileStreetController = TextEditingController();
   TextEditingController editProfileAreaController = TextEditingController();
@@ -127,7 +125,7 @@ class ProfileProvider extends ChangeNotifier {
         editProfileLandMarkController.text,
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
-        editProfileSelectedStateId!
+        editProfileSelectedStateId??prefModel.userData!.contact!.address!.stateId
       );
       if (response.result != null) {
         prefModel.userData!.contact!.firstname =response.result!.contact!.firstname;
@@ -145,7 +143,7 @@ class ProfileProvider extends ChangeNotifier {
         prefModel.userData!.contact!.address!.landmark =response.result!.contact!.address!.landmark;
         prefModel.userData!.contact!.address!.pinCode =response.result!.contact!.address!.pinCode;
         prefModel.userData!.contact!.addressId =response.result!.contact!.addressId;
-        prefModel.userData!.contact!.address!.stateId =response.result!.contact!.address!.stateId;
+        prefModel.userData!.contact!.address!.stateId = response.result!.contact!.address!.stateId;
         AppPref.setPref(prefModel);
         Navigator.pop(editProfilePageContext!);
         showSuccessToast(editProfilePageContext!, response.message!);

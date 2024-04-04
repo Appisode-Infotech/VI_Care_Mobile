@@ -15,4 +15,5 @@ class UrlConstants {
   static const String getAllDurations = "${apiBaseUrl}Duration";
   static const String updateProfile = "${apiBaseUrl}user";
   static const String getStateMaster = "${apiBaseUrl}State";
+  static const String requestDeviceData = "${apiBaseUrl}RequestDeviceData";
 }

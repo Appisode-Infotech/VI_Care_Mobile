@@ -57,6 +57,7 @@ dependencies:
   flutter_blue: ^0.8.0
   real_time_chart: ^0.0.1
   fl_chart: ^0.67.0
+  flutter_charts: ^0.5.2
 
 
 dev_dependencies:

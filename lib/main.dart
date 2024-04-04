@@ -148,22 +148,17 @@ class _MyAppState extends State<MyApp> {
               Routes.loginRoute: (context) => const LoginScreen(),
               Routes.registerRoute: (context) => const RegisterScreen(),
               Routes.webViewRoute: (context) => const WebViewScreen(),
-              Routes.addNewPatientRoute: (context) =>
-                  const AddNewPatientScreen(),
-              Routes.managePatientsRoute: (context) =>
-                  const ManagePatientsScreen(),
+              Routes.addNewPatientRoute: (context) => const AddNewPatientScreen(),
+              Routes.managePatientsRoute: (context) => const ManagePatientsScreen(),
               Routes.reportsRoute: (context) => const ReportScreen(),
-              Routes.forgotResetPasswordRoute: (context) =>
-                  const ForgotResetPassword(),
-              Routes.patientDetailsRoute: (context) =>
-                  const PatientDetailsScreen(),
+              Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
+              Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
               Routes.summaryRoute: (context) => const SummaryScreen(),
               Routes.takeTestRoute: (context) => const TakeTestScreen(),
               Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
               Routes.editPatientsRoute: (context) => const EditPatientScreen(),
               Routes.editProfileRoute: (context) => const EditProfileScreen(),
-              Routes.changePasswordRoute: (context) =>
-                  const ChangePasswordScreen(),
+              Routes.changePasswordRoute: (context) => const ChangePasswordScreen(),
               Routes.devicesRoute: (context) => const DeviceScreen(),
               Routes.profileRoute: (context) => const ProfileScreen(),
               Routes.durationsRoute: (context) => const DurationScreen(),

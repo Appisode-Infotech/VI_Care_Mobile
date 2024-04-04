@@ -1,16 +1,23 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
+import '../../network/api_calls.dart';
+
 class TakeTestProvider extends ChangeNotifier {
+  ApiCalls apiCalls = ApiCalls();
+
   FlutterBlue flutterBlue = FlutterBlue.instance;
   bool isConnected = false;
   bool bluetoothStatus = false;
+
   // Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
@@ -25,7 +32,7 @@ class TakeTestProvider extends ChangeNotifier {
       if (!bluetoothStatus) {
         isConnected = false;
         connectedDevice = null;
-      }else{
+      } else {
         flutterBlue.connectedDevices.then((List<BluetoothDevice> devices) {
           if (devices.isNotEmpty) {
             connectedDevice = devices.first;
@@ -49,7 +56,8 @@ class TakeTestProvider extends ChangeNotifier {
       isConnected = true;
       Navigator.pop(context); // Dismiss the loader
       Navigator.pop(context); // Back to test screen
-      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.name}");
+      showSuccessToast(context,
+          "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
       Navigator.pop(context); // Dismiss the loader
       showErrorToast(context,
@@ -84,7 +92,7 @@ class TakeTestProvider extends ChangeNotifier {
     }
     leDevices.clear();
     try {
-      await flutterBlue.startScan(timeout: const Duration(seconds: 5));
+      await flutterBlue.startScan(timeout: Duration(seconds: 5));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult result in results) {
           if (!leDevices.contains(result.device) &&
@@ -116,7 +124,8 @@ class TakeTestProvider extends ChangeNotifier {
           });
           isConnected = false;
           connectedDevice = null;
-          showSuccessToast(context, AppLocale.deviceDisconnected.getString(context));
+          showSuccessToast(
+              context, AppLocale.deviceDisconnected.getString(context));
           log('Disconnected from device');
         } else {
           print('Disconnect cancelled by user');
@@ -131,5 +140,29 @@ class TakeTestProvider extends ChangeNotifier {
   void dispose() {
     _bluetoothStateSubscription?.cancel();
     super.dispose();
+  }
+
+  requestDeviceData(BuildContext dataContext, File payload) async {
+    await apiCalls.requestDeviceData(
+      context: dataContext,
+      userId: prefModel.userData!.id,
+      roleId: prefModel.userData!.roleId,
+      durationId: prefModel.selectedDuration!.id,
+      individualProfileId: prefModel.userData!.individualProfileId,
+      enterpriseProfileId: prefModel.userData!.enterpriseUserId,
+      durationName: prefModel.selectedDuration!.name,
+      fileType: "ecg",
+      deviceSerialNumber: "123456",
+      ipAddress: "",
+      userAndDeviceId: "abcd",
+      subscriberGuid: "abcd",
+      details: "abcd",
+      uploadFile: payload,
+    );
+    // if (response.result != null) {
+    //   showSuccessToast(dataContext, "Test successful and saved to offline.");
+    // } else {
+    //   Navigator.pop(dataContext!);
+    // }
   }
 }

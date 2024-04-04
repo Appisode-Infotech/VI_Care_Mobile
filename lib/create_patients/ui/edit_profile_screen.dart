@@ -471,15 +471,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                                 Text(AppLocale.state.getString(context),
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w600)),
+                                    const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 DropdownButtonFormField<String>(
                                   validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      prefModel.userData!.contact!.address!.stateId;
+                                    if (value == null) {
+                                    return prefModel.userData!.contact!.address!.stateId.toString();
                                     }
+                                      return "please enter valid state";
                                   },
                                   decoration: InputDecoration(
                                     filled: true,
@@ -526,7 +527,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 Text(AppLocale.street.getString(context),
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w600)),
+                                    const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -535,8 +536,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   AutovalidateMode.onUserInteraction,
                                   textCapitalization:
                                   TextCapitalization.sentences,
-                                  controller: profileProvider
-                                      .editProfileStreetController,
+                                  controller: profileProvider.editProfileStreetController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return AppLocale.streetValid
@@ -573,7 +573,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 Text(AppLocale.area.getString(context),
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w600)),
+                                    const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -620,7 +620,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 Text(AppLocale.landMark.getString(context),
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w600)),
+                                    const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -668,7 +668,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 Text(AppLocale.city.getString(context),
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w600)),
+                                    const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -715,7 +715,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 Text(AppLocale.pinCode.getString(context),
                                     style:
-                                    TextStyle(fontWeight: FontWeight.w600)),
+                                    const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),

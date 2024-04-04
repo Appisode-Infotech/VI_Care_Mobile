@@ -13,7 +13,7 @@ String offlineTestModelToJson(OfflineTestModel data) =>
 class OfflineTestModel {
   int? myRoleId;
   List<int>? bpmList;
-  List<double>? rrIntervalList;
+  List<int>? rrIntervalList;
   int? scanDuration;
   String? deviceName;
   String? deviceId;
@@ -46,8 +46,8 @@ class OfflineTestModel {
             : List<int>.from(json["bpmList"]!.map((x) => x)),
         rrIntervalList: json["rrIntervalList"] == null
             ? []
-            : List<double>.from(
-                json["rrIntervalList"]!.map((x) => x?.toDouble())),
+            : List<int>.from(
+                json["rrIntervalList"]!.map((x) => x)),
         scanDuration: json["scanDuration"],
         deviceName: json["deviceName"],
         deviceId: json["deviceId"],

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -33,11 +35,14 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   int heartRate = 0;
   List<StreamSubscription> subscriptions = [];
   List<int> bpmList = [];
-  List<double> rrIntervalList = [];
+  List<int> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
   late StreamController<double> _chartDataStreamController;
 
+  final double pWaveDuration = 0.09; // Assuming typical value
+  final double qrsComplexDuration = 0.08; // Assuming typical value
+  final double tWaveDuration = 0.16; // Assuming typical value
 
   void startTimer(TakeTestProvider takeTestProvider) {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -59,8 +64,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     });
   }
 
-  Future<void> handleStartButtonClick(
-      BuildContext context, TakeTestProvider takeTestProvider) async {
+  Future<void> handleStartButtonClick(BuildContext context,
+      TakeTestProvider takeTestProvider) async {
     if (!isTimerRunning) {
       await startRecordingReadings(takeTestProvider);
       isTimerRunning = true;
@@ -111,7 +116,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+    final arguments = (ModalRoute
+        .of(context)
+        ?.settings
+        .arguments ??
         <String, dynamic>{}) as Map;
     enterprisePatientData = arguments['enterprisePatientData'];
     individualPatientData = arguments['individualPatientData'];
@@ -148,8 +156,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  Future<void> startRecordingReadings(
-      TakeTestProvider takeTestProvider) async {
+  Future<void> startRecordingReadings(TakeTestProvider takeTestProvider) async {
     bpmList.clear(); // Clear existing values
     rrIntervalList.clear(); // Clear existing values
     subscriptions.clear(); // Clear existing subscriptions
@@ -157,9 +164,9 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     List<BluetoothService> services =
     await takeTestProvider.connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
-      if (service.uuid.toString() ==
-          "0000180d-0000-1000-8000-00805f9b34fb") {
-        for (BluetoothCharacteristic characteristic in service.characteristics) {
+      if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
+        for (BluetoothCharacteristic characteristic
+        in service.characteristics) {
           try {
             await characteristic.setNotifyValue(true);
           } catch (e) {
@@ -171,11 +178,11 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               heartRate = value[1];
               bpmList.add(value[1]);
               double rrInterval = 60000 / value[1];
-              rrIntervalList.add(rrInterval);
-              _chartDataStreamController.add(rrInterval); // Add RR interval to the chart stream
+              rrIntervalList.add(rrInterval.toInt());
+              _chartDataStreamController.add(rrInterval);
             }
           });
-          subscriptions.add(subscription); // Add the subscription to the list
+          subscriptions.add(subscription);
         }
       }
     }
@@ -203,10 +210,36 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             : enterprisePatientData?.result!.enterpriseUserId,
         created: DateTime.now()));
     AppPref.setPref(prefModel);
-    showSuccessToast(context, "Test successful and saved to offline.");
+
+    var testData = {
+      "fileVersion": "IBIPOLAR",
+      "appVersion": "ViCare",
+      "serialNumber": "040E115118000C00",
+      "guid": "46184141-00c6-46ee-b927-4218085e85fd",
+      "age": prefModel.userData!.roleId == 2
+          ? calculateAge(individualPatientData!.result!.contact!.doB.toString())
+          : calculateAge(enterprisePatientData!.result!.contact!.doB.toString()),
+      "gender": prefModel.userData!.roleId == 2
+          ? individualPatientData!.result!.contact!.gender
+          : enterprisePatientData!.result!.contact!.gender,
+      "date": DateTime.now().toIso8601String(),
+      "countryCode": "IN",
+      "intervals": rrIntervalList
+    };
+
+    var jsonString = jsonEncode(testData);
+    var filePath = "data.json";
+    File payload = File(filePath);
+    payload.writeAsStringSync(jsonString);
+
+    takeTestProvider.requestDeviceData(context,payload);
   }
 
-  Widget deviceConnectedWidget(BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget deviceConnectedWidget(BuildContext context,
+      TakeTestProvider takeTestProvider) {
+    int bpm = heartRate;
+    double cardiacCycleDuration = 1.0 / bpm;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -226,9 +259,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   SizedBox(
                     width: screenSize!.width * 0.6,
                     child: Text(
-                      "${AppLocale.connectedTo.getString(context)} : ${takeTestProvider.connectedDevice!.name}",
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 16),
+                      "${AppLocale.connectedTo.getString(
+                          context)} : ${takeTestProvider.connectedDevice!
+                          .name}",
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   GestureDetector(
@@ -245,45 +279,50 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   )
                 ],
               )),
-          const SizedBox(height: 15,),
-
+          const SizedBox(
+            height: 15,
+          ),
           Expanded(
             child: Center(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: SfCartesianChart(
-                    primaryXAxis: CategoryAxis(),
-                    primaryYAxis: const NumericAxis(
-                      interval: 40,
-                      minimum: 600,
-                      maximum: 800,
-                    ),
-                    series: <CartesianSeries<dynamic, dynamic>>[
-                      LineSeries<ChartData, double>(
-                        dataSource: rrIntervalList.asMap().entries.map((entry) => ChartData(entry.key.toDouble(), entry.value)).toList(),
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y,
-                      ),
-                    ],
-                    zoomPanBehavior: ZoomPanBehavior(
-                      enablePanning: true,
-                      enablePinching: true,
+                width: screenSize!.width,
+                height: screenSize!.width * 0.7,
+                child: SfCartesianChart(
+                  primaryXAxis: CategoryAxis(),
+                  primaryYAxis: const NumericAxis(
+                    interval: 40,
+                    minimum: 600,
+                    maximum: 800,
                   ),
+                  series: <CartesianSeries<dynamic, dynamic>>[
+                    LineSeries<ChartData, double>(
+                      dataSource: rrIntervalList
+                          .asMap()
+                          .entries
+                          .map(
+                            (entry) =>
+                            ChartData(
+                                entry.key.toDouble(), entry.value.toDouble()),
+                      )
+                          .toList(),
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y,
+                    ),
+                  ],
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePanning: true,
+                    enablePinching: true,
                   ),
                 ),
               ),
             ),
           ),
-
-
           Center(
             child: CircularPercentIndicator(
               radius: 100.0,
               lineWidth: 15.0,
-              percent: ((prefModel.selectedDuration!.durationInMinutes! * 60 - secondsRemaining) /
+              percent: ((prefModel.selectedDuration!.durationInMinutes! * 60 -
+                  secondsRemaining) /
                   (prefModel.selectedDuration!.durationInMinutes! * 60))
                   .clamp(0.0, 1.0),
               center: Row(
@@ -291,7 +330,9 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '${(secondsRemaining ~/ 60).toString().padLeft(2, '0')}:${(secondsRemaining % 60).toString().padLeft(2, '0')}',
+                    '${(secondsRemaining ~/ 60).toString().padLeft(
+                        2, '0')}:${(secondsRemaining % 60).toString().padLeft(
+                        2, '0')}',
                     style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -304,15 +345,19 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                   GestureDetector(
                       onTap: () {
                         if (!isTimerRunning) {
-                          Navigator.pushNamed(context, Routes.durationsRoute).then((value) {
+                          Navigator.pushNamed(context, Routes.durationsRoute)
+                              .then((value) {
                             setState(() {
                               if (prefModel.selectedDuration != null) {
-                                secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+                                secondsRemaining = (prefModel
+                                    .selectedDuration!.durationInMinutes!) *
+                                    60;
                               }
                             });
                           });
                         } else {
-                          showErrorToast(context, AppLocale.waitTillScan.getString(context));
+                          showErrorToast(context,
+                              AppLocale.waitTillScan.getString(context));
                         }
                       },
                       child: const Icon(
@@ -345,8 +390,11 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                 color: Colors.blue.shade300,
               ),
               child: Text(
-                isTimerRunning ? AppLocale.stop.getString(context) : AppLocale.start.getString(context),
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                isTimerRunning
+                    ? AppLocale.stop.getString(context)
+                    : AppLocale.start.getString(context),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -355,8 +403,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  Widget chooseDurationWidget(
-      BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget chooseDurationWidget(BuildContext context,
+      TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -390,7 +438,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                     child: Center(
                       child: Text(
                         AppLocale.chooseDuration.getString(context),
-                        style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
                       ),
                     )),
               )
@@ -399,8 +450,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  Widget scanBluetoothWidget(
-      BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget scanBluetoothWidget(BuildContext context,
+      TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -435,7 +486,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                     child: Center(
                       child: Text(
                         AppLocale.connect.getString(context),
-                        style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
                       ),
                     )),
               )
@@ -444,8 +498,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  Widget bluetoothOffWarningWidget(
-      BuildContext context, TakeTestProvider takeTestProvider) {
+  Widget bluetoothOffWarningWidget(BuildContext context,
+      TakeTestProvider takeTestProvider) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -460,10 +514,39 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             child: Text(
               AppLocale.bluetoothIsOff.getString(context),
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
             ),
           )),
     );
+  }
+
+  // List<ChartData> generateDataPoints(int heartRate, double pWaveDurationAt60BPM, double qrsDurationAt60BPM, double tWaveDurationAt60BPM) {
+  //   List<ChartData> data = [];
+  //
+  //   double pWaveDuration = pWaveDurationAt60BPM * (60 / heartRate);
+  //   double qrsDuration = qrsDurationAt60BPM * (60 / heartRate);
+  //   double tWaveDuration = tWaveDurationAt60BPM * (60 / heartRate);
+  //
+  //   double pqrstInterval = pWaveDuration + qrsDuration + tWaveDuration;
+  //
+  //   data.add(ChartData(0, heartRate.toDouble(), pqrstInterval));
+  //
+  //   double time = 0;
+  //   double timeIncrement = 0.1;
+  //   while (time < pqrstInterval) {
+  //     time += timeIncrement;
+  //     data.add(ChartData(time, heartRate.toDouble(), pqrstInterval));
+  //   }
+  //   return data;
+  // }
+
+  int calculateAge(String dateOfBirthString) {
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
+    DateTime currentDate = DateTime.now();
+    Duration difference = currentDate.difference(dateOfBirth);
+    int ageInYears = (difference.inDays / 365).floor();
+    return ageInYears;
   }
 }
 

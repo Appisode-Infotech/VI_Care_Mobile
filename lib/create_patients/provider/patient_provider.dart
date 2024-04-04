@@ -277,7 +277,7 @@ class PatientProvider extends ChangeNotifier {
           editNewPatientPinCodeController.text,
           editNewPatientCityController.text,
           editNewPatientLandmarkController.text,
-          editSelectedStateId!,
+          editSelectedStateId??individualPatientData!.result!.contact!.address!.stateId,
           individualPatientData!.result!.contact!.addressId.toString()
       );
       if (response.result != null) {
@@ -306,7 +306,7 @@ class PatientProvider extends ChangeNotifier {
               editNewPatientPinCodeController.text,
               editNewPatientCityController.text,
               editNewPatientLandmarkController.text,
-              editSelectedStateId!,
+              editSelectedStateId??enterpriseUserData!.result!.contact!.address!.stateId,
               enterpriseUserData!.result!.contact!.addressId.toString()
           );
       if (response.result != null) {

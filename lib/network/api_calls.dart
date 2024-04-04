@@ -14,6 +14,7 @@ import 'package:vicare/create_patients/model/enterprise_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/create_patients/model/state_master_response_model.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
+import 'package:vicare/dashboard/model/device_data_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
@@ -625,7 +626,9 @@ class ApiCalls {
       String area,
       String city,
       String landMark,
-      String pinCode, int? addressId, int? state) async {
+      String pinCode,
+      int? addressId,
+      int? state) async {
     var request =
         http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
     request.fields['Firstname'] = fName;
@@ -663,12 +666,11 @@ class ApiCalls {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
       log(responseJson.toString());
-
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
       showErrorToast(context, "Unauthorized");
-        throw "could not add the profile ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
       showErrorToast(context, "Email or phone may exist.");
@@ -721,6 +723,64 @@ class ApiCalls {
       Navigator.pop(context);
       showErrorToast(context, "Something went wrong");
       throw "could not get the states ${response.statusCode}";
+    }
+  }
+
+  Future<DeviceDataResponseModel> requestDeviceData({
+    required BuildContext context,
+    int? userId,
+    int? roleId,
+    int? durationId,
+    int? individualProfileId,
+    required enterpriseProfileId,
+    String? durationName,
+    required String fileType,
+    required String deviceSerialNumber,
+    required String ipAddress,
+    required String userAndDeviceId,
+    required String subscriberGuid,
+    required String details,
+    required File uploadFile,
+  }) async {
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.requestDeviceData));
+    request.fields['DurationName'] = durationName!;
+    request.fields['DurationId'] = durationId.toString();
+    request.fields['IndividualProfileId'] = individualProfileId.toString();
+    request.fields['EnterpriseProfileId'] = enterpriseProfileId.toString();
+    request.fields['RoleId'] = roleId.toString();
+    request.fields['Details'] = details;
+    request.fields['FileType'] = fileType;
+    request.fields['RoleId'] = roleId.toString();
+    request.fields['DeviceSerialNo'] = deviceSerialNumber.toString();
+    request.fields['IPAddress'] = ipAddress.toString();
+    request.fields['UserAndDeviceId'] = userAndDeviceId.toString();
+    request.fields['SubscriberGuid'] = subscriberGuid.toString();
+    log(request.fields.toString());
+    if (uploadFile != null) {
+      var picStream = http.ByteStream(uploadFile.openRead());
+      var length = await uploadFile.length();
+      var multipartFile = http.MultipartFile(
+        'uploadfile',
+        picStream,
+        length,
+        filename: uploadFile.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      var responseData = await response.stream.toBytes();
+      var responseJson = json.decode(utf8.decode(responseData));
+      return DeviceDataResponseModel.fromJson(responseJson);
+    }else if (response.statusCode == 400) {
+      Navigator.pop(context!);
+      showErrorToast(context, "Invalid Data");
+      throw "could not fetch Data ${response.statusCode}";
+    } else {
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
+      throw "could not fetch data ${response.statusCode}";
     }
   }
 }
