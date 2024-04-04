@@ -9,7 +9,6 @@ import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/create_patients/model/all_patients_response_model.dart';
-import 'package:vicare/create_patients/model/edit_profile_response_model.dart';
 import 'package:vicare/create_patients/model/enterprise_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/create_patients/model/state_master_response_model.dart';

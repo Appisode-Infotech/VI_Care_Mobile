@@ -237,9 +237,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   Widget deviceConnectedWidget(BuildContext context,
       TakeTestProvider takeTestProvider) {
-    int bpm = heartRate;
-    double cardiacCycleDuration = 1.0 / bpm;
-
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
