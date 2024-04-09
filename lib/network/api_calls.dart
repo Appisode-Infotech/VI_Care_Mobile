@@ -727,57 +727,64 @@ class ApiCalls {
 
   Future<DeviceDataResponseModel> requestDeviceData({
     required BuildContext context,
-    int? userId,
-    int? roleId,
-    int? durationId,
-    int? individualProfileId,
-    required enterpriseProfileId,
-    String? durationName,
+    required String details,
     required String fileType,
+    String? durationName,
     required String deviceSerialNumber,
     required String ipAddress,
     required String userAndDeviceId,
     required String subscriberGuid,
-    required String details,
+    required String deviceId,
+    int? durationId,
+    int? userId,
+    int? roleId,
+    required individualProfileId,
+    required enterpriseProfileId,
     required File uploadFile,
   }) async {
-    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.requestDeviceData));
-    request.fields['DurationName'] = durationName!;
-    request.fields['DurationId'] = durationId.toString();
-    request.fields['IndividualProfileId'] = individualProfileId.toString();
-    request.fields['EnterpriseProfileId'] = enterpriseProfileId.toString();
-    request.fields['RoleId'] = roleId.toString();
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(UrlConstants.requestDeviceData));
     request.fields['Details'] = details;
     request.fields['FileType'] = fileType;
+    request.fields['DurationName'] = durationName!;
+    request.fields['DeviceSerialNo'] = deviceSerialNumber;
+    request.fields['IPAddress'] = ipAddress;
+    request.fields['UserAndDeviceId'] = userAndDeviceId;
+    request.fields['SubscriberGuid'] = subscriberGuid;
+    request.fields['DeviceId'] = deviceId;
+    request.fields['DurationId'] = durationId.toString();
+    request.fields['UserId'] = userId.toString();
     request.fields['RoleId'] = roleId.toString();
-    request.fields['DeviceSerialNo'] = deviceSerialNumber.toString();
-    request.fields['IPAddress'] = ipAddress.toString();
-    request.fields['UserAndDeviceId'] = userAndDeviceId.toString();
-    request.fields['SubscriberGuid'] = subscriberGuid.toString();
-    log(request.fields.toString());
+    request.fields['IndividualProfileId'] = individualProfileId.toString();
+    request.fields['EnterpriseProfileId'] = enterpriseProfileId;
     if (uploadFile != null) {
-      var picStream = http.ByteStream(uploadFile.openRead());
-      var length = await uploadFile.length();
-      var multipartFile = http.MultipartFile(
+      var jsonStream = http.ByteStream(uploadFile.openRead());
+      var jsonDataBytes = await uploadFile.readAsBytes();
+      var jsonLength = jsonDataBytes.length;
+      var jsonMultipartFile = http.MultipartFile(
         'uploadfile',
-        picStream,
-        length,
+        jsonStream,
+        jsonLength,
         filename: uploadFile.path.split('/').last,
-        contentType: MediaType('image', 'jpeg'),
+        contentType: MediaType('application', 'json'),
       );
-      request.files.add(multipartFile);
+      request.files.add(jsonMultipartFile);
     }
+    request.headers.addAll({
+      "Authorization": "Bearer ${prefModel.userData!.token}",
+    });
     var response = await request.send();
+    print(request.files);
+
+    print("case4");
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
       return DeviceDataResponseModel.fromJson(responseJson);
-    }else if (response.statusCode == 400) {
-      Navigator.pop(context!);
+    } else if (response.statusCode == 400) {
       showErrorToast(context, "Invalid Data");
       throw "could not fetch Data ${response.statusCode}";
     } else {
-      Navigator.pop(context!);
       showErrorToast(context, "Something went wrong");
       throw "could not fetch data ${response.statusCode}";
     }

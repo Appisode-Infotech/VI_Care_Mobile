@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -188,7 +189,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     }
   }
 
-  void saveReadings(TakeTestProvider takeTestProvider) {
+  Future<void> saveReadings(TakeTestProvider takeTestProvider) async {
     prefModel.offlineSavedTests!.add(OfflineTestModel(
         myRoleId: prefModel.userData!.roleId,
         bpmList: bpmList,
@@ -227,12 +228,31 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
       "intervals": rrIntervalList
     };
 
-    var jsonString = jsonEncode(testData);
-    var filePath = "data.json";
-    File payload = File(filePath);
-    payload.writeAsStringSync(jsonString);
 
-    takeTestProvider.requestDeviceData(context,payload);
+    var jsonString = jsonEncode(testData);
+
+    // Get the internal storage directory
+    var directory = await getExternalStorageDirectory();
+    var vicareDirectory = Directory('${directory!.path}/vicare');
+
+    if (!(await vicareDirectory.exists())) {
+      await vicareDirectory.create(recursive: true);
+    }
+
+    var filePath = '${vicareDirectory.path}/data.json';
+
+    File payload = File(filePath);
+    await payload.writeAsString(jsonString);
+
+    if (await payload.exists()) {
+      // File was successfully written
+      takeTestProvider.requestDeviceData(context, payload);
+
+      showSuccessToast(context, "Test successful and saved to offline.");
+    } else {
+      // Failed to write the file
+      showErrorToast(context, "Failed to save test data.");
+    }
   }
 
   Widget deviceConnectedWidget(BuildContext context,

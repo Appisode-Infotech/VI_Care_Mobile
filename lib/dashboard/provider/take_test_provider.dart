@@ -143,22 +143,24 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   requestDeviceData(BuildContext dataContext, File payload) async {
-    await apiCalls.requestDeviceData(
+    apiCalls.requestDeviceData(
       context: dataContext,
-      userId: prefModel.userData!.id,
-      roleId: prefModel.userData!.roleId,
-      durationId: prefModel.selectedDuration!.id,
-      individualProfileId: prefModel.userData!.individualProfileId,
-      enterpriseProfileId: prefModel.userData!.enterpriseUserId,
-      durationName: prefModel.selectedDuration!.name,
-      fileType: "ecg",
-      deviceSerialNumber: "123456",
-      ipAddress: "",
-      userAndDeviceId: "abcd",
-      subscriberGuid: "abcd",
-      details: "abcd",
-      uploadFile: payload,
+      details: "abc",
+        fileType: "ecg",
+        durationName: prefModel.selectedDuration!.name,
+        deviceSerialNumber:"4050023853",
+        ipAddress:"1234567890",
+        userAndDeviceId: "1234",
+        subscriberGuid: "1234567",
+        deviceId: "1234",
+        durationId:prefModel.selectedDuration!.id,
+        userId:prefModel.userData!.id,
+        roleId:prefModel.userData!.roleId,
+        individualProfileId:prefModel.userData!.roleId==2?prefModel.userData!.individualProfileId:prefModel.userData!.enterpriseUserId,
+        enterpriseProfileId:prefModel.userData!.roleId==2?prefModel.userData!.individualProfileId:prefModel.userData!.enterpriseUserId,
+        uploadFile: payload
     );
+    print("case2");
     // if (response.result != null) {
     //   showSuccessToast(dataContext, "Test successful and saved to offline.");
     // } else {
