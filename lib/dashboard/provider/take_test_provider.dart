@@ -143,6 +143,7 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   requestDeviceData(BuildContext dataContext, File payload) async {
+    // DeviceDataResponseModel response = await
     apiCalls.requestDeviceData(
       context: dataContext,
       details: "abc",

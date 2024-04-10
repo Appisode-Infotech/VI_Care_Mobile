@@ -239,7 +239,10 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
       await vicareDirectory.create(recursive: true);
     }
 
-    var filePath = '${vicareDirectory.path}/data.json';
+    var now = DateTime.now();
+    var timestamp = now.millisecondsSinceEpoch;
+    var filename = 'data_$timestamp.json';
+    var filePath = '${vicareDirectory.path}/$filename';
 
     File payload = File(filePath);
     await payload.writeAsString(jsonString);
@@ -254,6 +257,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
       showErrorToast(context, "Failed to save test data.");
     }
   }
+
 
   Widget deviceConnectedWidget(BuildContext context,
       TakeTestProvider takeTestProvider) {
