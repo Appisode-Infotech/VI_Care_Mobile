@@ -23,7 +23,7 @@ import '../../utils/routes.dart';
 import '../model/offline_test_model.dart';
 
 class TakeTestScreen extends StatefulWidget {
-  const TakeTestScreen({Key? key}) : super(key: key);
+  const TakeTestScreen({super.key});
 
   @override
   State<TakeTestScreen> createState() => _TakeTestScreenState();
@@ -200,7 +200,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         patientFirstName: prefModel.userData!.roleId == 2
             ? individualPatientData?.result!.firstName
             : enterprisePatientData?.result!.firstName,
-        patientlastName: prefModel.userData!.roleId == 2
+        patientLastName: prefModel.userData!.roleId == 2
             ? individualPatientData?.result!.lastName
             : enterprisePatientData?.result!.lastName,
         patientProfilePic: prefModel.userData!.roleId == 2
@@ -233,16 +233,16 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
     // Get the internal storage directory
     var directory = await getExternalStorageDirectory();
-    var vicareDirectory = Directory('${directory!.path}/vicare');
+    var viCareDirectory = Directory('${directory!.path}/vicare');
 
-    if (!(await vicareDirectory.exists())) {
-      await vicareDirectory.create(recursive: true);
+    if (!(await viCareDirectory.exists())) {
+      await viCareDirectory.create(recursive: true);
     }
 
     var now = DateTime.now();
     var timestamp = now.millisecondsSinceEpoch;
     var filename = 'data_$timestamp.json';
-    var filePath = '${vicareDirectory.path}/$filename';
+    var filePath = '${viCareDirectory.path}/$filename';
 
     File payload = File(filePath);
     await payload.writeAsString(jsonString);
@@ -250,7 +250,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     if (await payload.exists()) {
       // File was successfully written
       takeTestProvider.requestDeviceData(context, payload);
-
       showSuccessToast(context, "Test successful and saved to offline.");
     } else {
       // Failed to write the file

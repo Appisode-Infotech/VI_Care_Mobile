@@ -39,6 +39,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              size: 25,
+                            ),
+                          ),
+                          const SizedBox(height: 15),
                           const Image(
                             image: AssetImage("assets/images/logo.png"),
                             width: 150,

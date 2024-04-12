@@ -13,15 +13,22 @@ import 'package:vicare/utils/app_locale.dart';
 
 getPrimaryAppButton(BuildContext context, String label,
     {required Future<Null> Function() onPressed, Color? buttonColor}) {
-  return GestureDetector(
-    onTap: onPressed,
+  return ElevatedButton(
+    onPressed: onPressed,
+    style: ElevatedButton.styleFrom(
+      elevation: 3,
+      backgroundColor: buttonColor ?? AppColors.primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ),
     child: Container(
       // margin: const EdgeInsets.symmetric(horizontal: 2),
       width: screenSize!.width,
       height: 50,
-      decoration: BoxDecoration(
-          color: buttonColor ?? AppColors.primaryColor,
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+      // decoration: BoxDecoration(
+      //     color: buttonColor ?? AppColors.primaryColor,
+      //     borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Center(
           child: Text(
         label,
@@ -176,22 +183,25 @@ void showLoaderDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (_) => AlertDialog(
-      backgroundColor: Colors.white,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 150,
-            height: 150,
-            child: Lottie.asset('assets/lottie/loading.json'),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "Loading...",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ],
+    builder: (_) => PopScope(
+      canPop: false,
+      child: AlertDialog(
+        backgroundColor: Colors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 150,
+              height: 150,
+              child: Lottie.asset('assets/lottie/loading.json'),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "Loading...",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     ),
   );

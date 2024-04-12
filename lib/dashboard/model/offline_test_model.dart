@@ -18,7 +18,7 @@ class OfflineTestModel {
   String? deviceName;
   String? deviceId;
   String? patientFirstName;
-  String? patientlastName;
+  String? patientLastName;
   String? patientProfilePic;
   int? patientId;
   DateTime? created;
@@ -32,7 +32,7 @@ class OfflineTestModel {
     this.deviceName,
     this.deviceId,
     this.patientFirstName,
-    this.patientlastName,
+    this.patientLastName,
     this.patientProfilePic,
     this.patientId,
     this.created,
@@ -52,7 +52,7 @@ class OfflineTestModel {
         deviceName: json["deviceName"],
         deviceId: json["deviceId"],
         patientFirstName: json["patientFirstName"],
-        patientlastName: json["patientlastName"],
+        patientLastName: json["patientLastName"],
         patientProfilePic: json["patientProfilePic"],
         patientId: json["patientId"],
         created: json["created"] == null ? null : DateTime.parse(json["created"]),
@@ -70,7 +70,7 @@ class OfflineTestModel {
         "deviceName": deviceName,
         "deviceId": deviceId,
         "patientFirstName": patientFirstName,
-        "patientlastName": patientlastName,
+        "patientLastName": patientLastName,
         "patientProfilePic": patientProfilePic,
         "patientId": patientId,
     "created": created?.toIso8601String(),
