@@ -10,6 +10,7 @@ import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
+import '../model/device_data_response_model.dart';
 
 class TakeTestProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
@@ -92,7 +93,7 @@ class TakeTestProvider extends ChangeNotifier {
     }
     leDevices.clear();
     try {
-      await flutterBlue.startScan(timeout: Duration(seconds: 5));
+      // await flutterBlue.startScan(timeout: const Duration(seconds: 5));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult result in results) {
           if (!leDevices.contains(result.device) &&
@@ -143,7 +144,7 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   requestDeviceData(BuildContext dataContext, File payload) async {
-    // DeviceDataResponseModel response = await
+    DeviceDataResponseModel response = await
     apiCalls.requestDeviceData(
       context: dataContext,
       details: "abc",
@@ -162,10 +163,10 @@ class TakeTestProvider extends ChangeNotifier {
         uploadFile: payload
     );
     print("case2");
-    // if (response.result != null) {
-    //   showSuccessToast(dataContext, "Test successful and saved to offline.");
-    // } else {
-    //   Navigator.pop(dataContext!);
-    // }
+    if (response.result != null) {
+      showSuccessToast(dataContext, "Test successful and saved to offline.");
+    } else {
+      Navigator.pop(dataContext!);
+    }
   }
 }

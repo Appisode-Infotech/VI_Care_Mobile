@@ -628,8 +628,7 @@ class ApiCalls {
       String pinCode,
       int? addressId,
       int? state) async {
-    var request =
-        http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
+    var request = http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
     request.fields['Firstname'] = fName;
     request.fields['LastName'] = lName;
     request.fields['BloodGroup'] = bloodGroup;
@@ -757,6 +756,7 @@ class ApiCalls {
     request.fields['RoleId'] = roleId.toString();
     request.fields['IndividualProfileId'] = individualProfileId.toString();
     request.fields['EnterpriseProfileId'] = enterpriseProfileId;
+
     if (uploadFile != null) {
       var jsonStream = http.ByteStream(uploadFile.openRead());
       var jsonDataBytes = await uploadFile.readAsBytes();
@@ -775,7 +775,6 @@ class ApiCalls {
     });
     var response = await request.send();
     print(request.files);
-
     print("case4");
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();

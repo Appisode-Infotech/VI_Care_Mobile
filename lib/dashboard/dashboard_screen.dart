@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vicare/dashboard/ui/all_reports_screen.dart';
 import 'package:vicare/dashboard/ui/home_screen.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
