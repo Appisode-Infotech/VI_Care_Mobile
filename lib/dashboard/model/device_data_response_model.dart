@@ -111,7 +111,7 @@ class Result {
   int? deviceId;
   Device? device;
   int? durationId;
-  Duration? duration;
+  ScanDuration? duration;
   int? userId;
   User? user;
   int? deviceDocumentId;
@@ -174,7 +174,7 @@ class Result {
     deviceId: json["deviceId"],
     device: json["device"] == null ? null : Device.fromJson(json["device"]),
     durationId: json["durationId"],
-    duration: json["duration"] == null ? null : Duration.fromJson(json["duration"]),
+    duration: json["duration"] == null ? null : ScanDuration.fromJson(json["duration"]),
     userId: json["userId"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
     deviceDocumentId: json["deviceDocumentId"],
@@ -980,14 +980,14 @@ class DeviceDocument {
   };
 }
 
-class Duration {
+class ScanDuration {
   int? id;
   String? uniqueGuid;
   Message? name;
   int? durationInMinutes;
   Message? type;
 
-  Duration({
+  ScanDuration({
     this.id,
     this.uniqueGuid,
     this.name,
@@ -995,7 +995,7 @@ class Duration {
     this.type,
   });
 
-  factory Duration.fromJson(Map<String, dynamic> json) => Duration(
+  factory ScanDuration.fromJson(Map<String, dynamic> json) => ScanDuration(
     id: json["id"],
     uniqueGuid: json["uniqueGuid"],
     name: messageValues.map[json["name"]]!,

@@ -11,6 +11,7 @@ import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
+import '../model/device_data_response_model.dart';
 import '../model/my_reports_response_model.dart';
 
 class TakeTestProvider extends ChangeNotifier {
@@ -29,6 +30,7 @@ class TakeTestProvider extends ChangeNotifier {
   final addDeviceFormKey = GlobalKey<FormState>();
 
   TextEditingController serialNumberController = TextEditingController();
+  List<StreamSubscription> subscriptions = [];
 
   void listenToConnectedDevice() {
     _bluetoothStateSubscription =
@@ -37,6 +39,9 @@ class TakeTestProvider extends ChangeNotifier {
       if (!bluetoothStatus) {
         isConnected = false;
         connectedDevice = null;
+        for (var subscription in subscriptions) {
+          subscription.cancel(); // cancel all subscriptions
+        }
       } else {
         flutterBlue.connectedDevices.then((List<BluetoothDevice> devices) {
           if (devices.isNotEmpty) {
@@ -45,6 +50,9 @@ class TakeTestProvider extends ChangeNotifier {
           } else {
             isConnected = false;
             connectedDevice = null;
+            for (var subscription in subscriptions) {
+              subscription.cancel(); // cancel all subscriptions
+            }
           }
         });
       }
@@ -121,7 +129,9 @@ class TakeTestProvider extends ChangeNotifier {
                       Text("Smart Lab"),
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   const Text("Serial number"),
                   Form(
                     key: addDeviceFormKey,
@@ -160,15 +170,23 @@ class TakeTestProvider extends ChangeNotifier {
                 ],
               ),
               actions: [
-                TextButton(onPressed: () {
-                  Navigator.pop(dialogContext);
-                  Navigator.pop(oldContext);
-                }, child: Text("Close")),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(dialogContext);
+                      Navigator.pop(oldContext);
+                    },
+                    child: Text("Close")),
                 TextButton(
                     onPressed: () async {
                       if (addDeviceFormKey.currentState!.validate()) {
                         showLoaderDialog(dialogContext);
-                        await apiCalls.addDevice(device.name,device.id,"le",serialNumberController.text,dialogContext,oldContext);
+                        await apiCalls.addDevice(
+                            device.name,
+                            device.id,
+                            "le",
+                            serialNumberController.text,
+                            dialogContext,
+                            oldContext);
                         serialNumberController.clear();
                         Navigator.pop(dialogContext);
                         Navigator.pop(oldContext);
@@ -226,28 +244,54 @@ class TakeTestProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> disconnect(BuildContext context) async {
+  Future<void> disconnect(BuildContext context, bool isTimerRunning,
+      Null Function(bool val) disconnected) async {
     if (connectedDevice != null) {
-      try {
-        bool disconnectConfirmed = await showDisconnectWarningDialog(context);
-        if (disconnectConfirmed) {
-          await connectedDevice!.disconnect().then((value) {
-            print(value);
-            connectedDevice = null;
+      if (isTimerRunning) {
+        try {
+          bool disconnectConfirmed = await showDisconnectWarningDialog(context);
+          if (disconnectConfirmed) {
+            await connectedDevice!.disconnect().then((value) {
+              connectedDevice = null;
+              isConnected = false;
+              notifyListeners();
+              return null;
+            });
+            for (var subscription in subscriptions) {
+              subscription.cancel(); // cancel all subscriptions
+            }
             isConnected = false;
-            notifyListeners();
-            return null;
-          });
-          isConnected = false;
-          connectedDevice = null;
-          showSuccessToast(
-              context, AppLocale.deviceDisconnected.getString(context));
-          log('Disconnected from device');
-        } else {
-          print('Disconnect cancelled by user');
+            connectedDevice = null;
+            disconnected(true);
+            showSuccessToast(
+                context, AppLocale.deviceDisconnected.getString(context));
+            log('Disconnected from device');
+          } else {
+            disconnected(false);
+            print('Disconnect cancelled by user');
+          }
+        } catch (e) {
+          for (var subscription in subscriptions) {
+            subscription.cancel(); // cancel all subscriptions
+          }
+          disconnected(false);
+          log('Error disconnecting from device: $e');
         }
-      } catch (e) {
-        log('Error disconnecting from device: $e');
+      } else {
+        await connectedDevice!.disconnect().then((value) {
+          connectedDevice = null;
+          isConnected = false;
+          notifyListeners();
+          disconnected(true);
+          return null;
+        });
+        for (var subscription in subscriptions) {
+          subscription.cancel(); // cancel all subscriptions
+        }
+        isConnected = false;
+        connectedDevice = null;
+        showSuccessToast(
+            context, AppLocale.deviceDisconnected.getString(context));
       }
     }
   }
@@ -258,30 +302,29 @@ class TakeTestProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo) async {
+  requestDeviceData(BuildContext dataContext, File payload,
+      String? deviceSerialNo, int? userAndDeviceId, String deviceId) async {
+    showLoaderDialog(dataContext);
     // DeviceDataResponseModel response = await
-    apiCalls.requestDeviceData(
+    DeviceDataResponseModel response = await apiCalls.requestDeviceData(
         context: dataContext,
         details: "abc",
         fileType: "1",
         durationName: prefModel.selectedDuration!.name,
         deviceSerialNumber: deviceSerialNo!,
         ipAddress: "192.168.0.1",
-        userAndDeviceId: "1",
+        userAndDeviceId: userAndDeviceId.toString(),
         subscriberGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        deviceId: "1",
+        deviceId: deviceId,
         durationId: prefModel.selectedDuration!.id,
         userId: prefModel.userData!.id,
         roleId: prefModel.userData!.roleId,
         individualProfileId: prefModel.userData!.individualProfileId,
         enterpriseProfileId: prefModel.userData!.enterpriseUserId,
         uploadFile: payload);
-    print("case2");
-    // if (response.result != null) {
-    //   showSuccessToast(dataContext, "Test successful and saved to offline.");
-    // } else {
-    //   Navigator.pop(dataContext!);
-    // }
+    if (response.result != null) {
+      showSuccessToast(dataContext, "Test successfully sent to hrv server");
+    }
   }
 
   Future<MyReportsResponseModel> getMyReports() async {

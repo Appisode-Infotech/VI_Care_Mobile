@@ -28,6 +28,7 @@ import 'create_patients/ui/summary_screen.dart';
 import 'dashboard/provider/devices_provider.dart';
 import 'dashboard/ui/all_reports_screen.dart';
 import 'dashboard/ui/bluetooth_scan_page.dart';
+import 'dashboard/ui/detailed_report_screen.dart';
 import 'dashboard/ui/devices_screen.dart';
 import 'dashboard/ui/duration_screen.dart';
 import 'dashboard/ui/scan_le_devices_to_add_screen.dart';
@@ -164,7 +165,8 @@ class _MyAppState extends State<MyApp> {
               Routes.profileRoute: (context) => const ProfileScreen(),
               Routes.durationsRoute: (context) => const DurationScreen(),
               Routes.bluetoothScanRoute: (context) => const BluetoothScanPage(),
-              Routes.scanLeDevicesToAddRoute: (context) => const ScanLeDevicesToAddScreen()
+              Routes.scanLeDevicesToAddRoute: (context) => const ScanLeDevicesToAddScreen(),
+              Routes.detailedReportRoute: (context) => const DetailedReportScreen()
             }));
   }
 }

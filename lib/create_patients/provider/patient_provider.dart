@@ -17,7 +17,8 @@ class PatientProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
   IndividualResponseModel? individualPatientData;
   EnterpriseResponseModel? enterpriseUserData;
-  BuildContext? relGetPatientContext;
+  BuildContext?
+  relGetPatientContext;
   Future<AllPatientsResponseModel>? individualPatients;
   Future<AllEnterpriseUsersResponseModel>? enterprisePatients;
 
@@ -325,28 +326,13 @@ class PatientProvider extends ChangeNotifier {
     enterprisePatients = apiCalls.getMyEnterpriseUsers(context);
   }
 
-  getIndividualUserData(String? pId, BuildContext context) async {
-    showLoaderDialog(context);
-    individualPatientData = await apiCalls.getIndividualUserData(pId, context);
-    if (individualPatientData!.result != null) {
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.patientDetailsRoute);
-    } else {
-      Navigator.pop(context);
-      showErrorToast(context, individualPatientData!.message!);
-    }
+  Future<IndividualResponseModel>getIndividualUserData(String? pId) async {
+    return await apiCalls.getIndividualUserData(pId);
   }
 
-  getEnterpriseUserData(String? eId, BuildContext context) async {
-    showLoaderDialog(context);
-    enterpriseUserData = await apiCalls.getEnterpriseUserData(eId, context);
-    if (enterpriseUserData!.result != null) {
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.patientDetailsRoute);
-    } else {
-      Navigator.pop(context);
-      showErrorToast(context, enterpriseUserData!.message!);
-    }
+  Future<EnterpriseResponseModel>getEnterpriseUserData(String? eId) async {
+    return await apiCalls.getEnterpriseUserData(eId);
+
   }
 
   Future<void> getStateMaster(BuildContext context) async {

@@ -555,10 +555,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    patientProvider.getIndividualUserData(
-                                        snapshot.data!.result![index].id
-                                            .toString(),
-                                        context);
+                                    Navigator.pushNamed(context, Routes.patientDetailsRoute,arguments: {
+                                      "id":snapshot.data!.result![index].id,
+                                    });
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -750,10 +749,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    patientProvider.getEnterpriseUserData(
-                                        snapshot.data!.result![index].id
-                                            .toString(),
-                                        context);
+                                    Navigator.pushNamed(context, Routes.patientDetailsRoute,arguments: {
+                                      "id":snapshot.data!.result![index].id,
+                                    });
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -873,9 +871,9 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.patientDetailsRoute);
-                  },
+                  // onTap: () {
+                  //   Navigator.pushNamed(context, Routes.patientDetailsRoute);
+                  // },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
