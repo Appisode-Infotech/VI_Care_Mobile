@@ -24,7 +24,7 @@ class DeviceDataResponseModel {
   });
 
   factory DeviceDataResponseModel.fromJson(Map<String, dynamic> json) => DeviceDataResponseModel(
-    message: messageValues.map[json["message"]]!,
+    message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"] == null ? null : PageResult.fromJson(json["pageResult"]),
     result: json["result"] == null ? null : Result.fromJson(json["result"]),

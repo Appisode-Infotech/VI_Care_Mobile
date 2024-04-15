@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -14,6 +15,8 @@ import 'package:vicare/utils/routes.dart';
 import '../../create_patients/model/all_patients_response_model.dart';
 import '../../create_patients/provider/patient_provider.dart';
 import '../../utils/app_locale.dart';
+import '../model/my_reports_response_model.dart';
+import '../provider/take_test_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(int) changeScreen;
@@ -865,155 +868,210 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            ListView.builder(
-              itemCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  // onTap: () {
-                  //   Navigator.pushNamed(context, Routes.patientDetailsRoute);
-                  // },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    margin: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 2,
-                            color: Colors.grey,
-                            offset: Offset(1, 1),
+            Consumer(
+              builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
+                return FutureBuilder(
+                  future: takeTestProvider.getMyReports(),
+                  builder: (BuildContext context, AsyncSnapshot<MyReportsResponseModel> reportsSnapshot) {
+                    if (reportsSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return SizedBox(
+                        width: screenSize!.width,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          enabled: true,
+                          child: ListView.builder(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: 4,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                width: 100,
+                                height: 80,
+                                color: Colors.grey.shade300,
+                              );
+                            },
                           ),
-                        ],
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: Colors.white),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(patientReports[index]["image"]),
-                              radius: 30,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  patientReports[index]["patientName"],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  patientReports[index]["age"],
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  patientReports[index]["description"],
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  "created: ${patientReports[index]["created"]}",
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
                         ),
-                        Container(
-                          child: (patientReports[index]["receivedReport"] ==
-                                  true)
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                      child: Stack(
+                      );
+                    }
+                    if(reportsSnapshot.hasData){
+                      return ListView.builder(
+                        itemCount: reportsSnapshot.data!.result!.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
+                                "processedData":reportsSnapshot.data!.result![index].processedData!,
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              margin: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 2,
+                                      color: Colors.grey,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                  color: Colors.white),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage: reportsSnapshot.data!.result![index].roleId==2?NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture!=null?reportsSnapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
+                                            :NetworkImage(reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!:''),
+                                        radius: 30,
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          CircularStepProgressIndicator(
-                                            totalSteps: 200,
-                                            currentStep: int.parse(
-                                                patientReports[index]["repData"]
-                                                    ["bpm"]),
-                                            stepSize: 5,
-                                            selectedColor: patientReports[index]
-                                                ["repData"]["color"],
-                                            unselectedColor: Colors.grey[200],
-                                            padding: 0,
-                                            selectedStepSize: 6,
-                                            roundedCap: (_, __) => true,
-                                          ),
-                                          Center(
-                                            child: Text(
-                                              patientReports[index]["repData"]
-                                                  ["bpm"],
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                          Text(
+                                            reportsSnapshot.data!.result![index].roleId==2?
+                                            "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
+                                                :reportsSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " +reportsSnapshot.data!.result![index].enterpriseProfile!.lastName!,
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 10,
-                                              ),
-                                            ),
+                                                fontSize: 15),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            reportsSnapshot.data!.result![index].roleId==2?
+                                            "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}Years":
+                                            "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}Years",
+                                            style: const TextStyle(
+                                                color: Colors.black, fontSize: 12),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          // Text(
+                                          //   patientReports[index]["description"],
+                                          //   style: const TextStyle(
+                                          //       color: Colors.black, fontSize: 12),
+                                          // ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "${parseDate(reportsSnapshot.data!.result![index].requestDateTime!)}",
+                                            style: const TextStyle(
+                                                color: Colors.black, fontSize: 12),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      patientReports[index]["repData"]
-                                          ["status"],
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: patientReports[index]
-                                              ["repData"]["color"]),
-                                    )
-                                  ],
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 5,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(20)),
-                                        color: patientReports[index]['repData']
-                                            ["color"],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          patientReports[index]["reportStatus"],
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600,
+                                    ],
+                                  ),
+                                  Container(
+                                    child:
+                                    // (patientReports[index]["receivedReport"] == true)
+                                    //     ? Column(
+                                    //   mainAxisAlignment:
+                                    //   MainAxisAlignment.center,
+                                    //   children: [
+                                    //     SizedBox(
+                                    //       width: 50,
+                                    //       height: 50,
+                                    //       child: Stack(
+                                    //         children: [
+                                    //           CircularStepProgressIndicator(
+                                    //             totalSteps: 200,
+                                    //             currentStep: int.parse(
+                                    //                 patientReports[index]
+                                    //                 ["repData"]["bpm"]),
+                                    //             stepSize: 5,
+                                    //             selectedColor:
+                                    //             patientReports[index]
+                                    //             ["repData"]["color"],
+                                    //             unselectedColor:
+                                    //             Colors.grey[200],
+                                    //             padding: 0,
+                                    //             selectedStepSize: 6,
+                                    //             roundedCap: (_, __) => true,
+                                    //           ),
+                                    //           Center(
+                                    //             child: Text(
+                                    //               patientReports[index]
+                                    //               ["repData"]["bpm"],
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontWeight: FontWeight.bold,
+                                    //                 fontSize: 10,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //     const SizedBox(height: 10),
+                                    //     Text(
+                                    //       patientReports[index]["repData"]
+                                    //       ["status"],
+                                    //       style: TextStyle(
+                                    //           fontSize: 12,
+                                    //           color: patientReports[index]
+                                    //           ["repData"]["color"]),
+                                    //     )
+                                    //   ],
+                                    // )
+                                    //     :
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width / 5,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            const BorderRadius.all(
+                                                Radius.circular(20)),
+                                            color: getChipColor(reportsSnapshot.data!.result![index].processingStatus),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              reportsSnapshot.data!.result![index].processingStatus==1?'New':reportsSnapshot.data!.result![index].processingStatus==2?'In Progress':reportsSnapshot.data!.result![index].processingStatus==3?'Success':reportsSnapshot.data!.result![index].processingStatus==4?'Fail':'',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                        ),
-                      ],
-                    ),
-                  ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    if (reportsSnapshot.hasError) {
+                      return Center(
+                        child: Text(reportsSnapshot.error.toString()),
+                      );
+                    } else {
+                      return const Center(child: Text("loading"));
+                    }
+                  },
                 );
               },
             )
@@ -1021,5 +1079,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+  int calculateAge(String dateOfBirthString) {
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
+    DateTime currentDate = DateTime.now();
+    Duration difference = currentDate.difference(dateOfBirth);
+    int ageInYears = (difference.inDays / 365).floor();
+    return ageInYears;
+  }
+
+  parseDate(String timestampString){
+    DateTime parsedDateTime = DateTime.parse(timestampString);
+    return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+  }
+
+  getChipColor(int? processingStatus) {
+    return processingStatus==1?Colors.deepOrange:processingStatus==2?Colors.teal:processingStatus==3?Colors.green:processingStatus==4?Colors.red:Colors.black;
   }
 }

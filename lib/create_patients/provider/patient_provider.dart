@@ -5,6 +5,8 @@ import 'package:vicare/create_patients/model/add_individual_profile_response_mod
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../../dashboard/model/device_response_model.dart';
+import '../../dashboard/model/patient_reports_response_model.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
@@ -331,14 +333,15 @@ class PatientProvider extends ChangeNotifier {
   getEnterpriseProfiles(BuildContext context) {
     enterprisePatients = apiCalls.getMyEnterpriseUsers(context);
   }
+  Future<IndividualResponseModel>? individualUserData;
+  Future<EnterpriseResponseModel>? enterpriseUserData;
 
-  Future<IndividualResponseModel>getIndividualUserData(String? pId) async {
-    return await apiCalls.getIndividualUserData(pId);
+  getIndividualUserData(String? pId) async {
+    individualUserData = apiCalls.getIndividualUserData(pId);
   }
 
-  Future<EnterpriseResponseModel>getEnterpriseUserData(String? eId) async {
-    return await apiCalls.getEnterpriseUserData(eId);
-
+  getEnterpriseUserData(String? eId) async {
+    enterpriseUserData = apiCalls.getEnterpriseUserData(eId);
   }
 
   Future<void> getStateMaster(BuildContext context) async {
@@ -350,5 +353,13 @@ class PatientProvider extends ChangeNotifier {
 
   Future<DashboardCountResponseModel> getCounts(int pId) {
     return apiCalls.getDashboardCounts(pId);
+  }
+
+  Future<PatientReportsResponseModel>getPatientReports(int? pId) async {
+    return await apiCalls.getAllReportsByProfileId(pId);
+  }
+
+  Future<DeviceResponseModel>getMyDevices() {
+    return apiCalls.getMyDevices();
   }
 }

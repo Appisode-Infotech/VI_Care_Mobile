@@ -1,12 +1,15 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 
+import '../../main.dart';
 import '../../utils/app_locale.dart';
 import '../model/my_reports_response_model.dart';
 
@@ -21,60 +24,6 @@ class _ReportScreenState extends State<ReportScreen> {
   String? allTime;
   String? allReport;
 
-  List patientReports = [
-    {
-      "image": "assets/images/img.png",
-      "patientName": "Tom Robinson",
-      "age": "25 years",
-      "description": "Some data goes here",
-      "created": "12 Mar 2024",
-      "receivedReport": true,
-      "repData": {
-        "status": "Normal",
-        "bpm": "117",
-        "color": Colors.green,
-      },
-      "reportStatus": "pending"
-    },
-    {
-      "image": "assets/images/img.png",
-      "patientName": "Mary Jane",
-      "age": "22 years",
-      "description": "Some data goes here",
-      "created": "12 Mar 2024",
-      "receivedReport": true,
-      "repData": {"status": "Moderate", "bpm": "123", "color": Colors.orange},
-      "reportStatus": "pending"
-    },
-    {
-      "image": "assets/images/img.png",
-      "patientName": "Rama krishna",
-      "age": "28 years",
-      "description": "Some data goes here",
-      "created": "12 Mar 2024",
-      "receivedReport": false,
-      "repData": {
-        "status": "Moderate",
-        "bpm": "125",
-        "color": Colors.yellow,
-      },
-      "reportStatus": "Pending"
-    },
-    {
-      "image": "assets/images/img.png",
-      "patientName": "Harry potter",
-      "age": "21 years",
-      "description": "Some data goes here",
-      "created": "12 Mar 2024",
-      "receivedReport": false,
-      "repData": {
-        "status": "Moderate",
-        "bpm": "125",
-        "color": Colors.red,
-      },
-      "reportStatus": "Rejected"
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -201,6 +150,32 @@ class _ReportScreenState extends State<ReportScreen> {
                 FutureBuilder(
                   future: takeTestProvider.getMyReports(),
                   builder: (BuildContext context, AsyncSnapshot<MyReportsResponseModel> snapshot) {
+                    if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return SizedBox(
+                        width: screenSize!.width,
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          enabled: true,
+                          child: ListView.builder(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: 4,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                width: 100,
+                                height: 80,
+                                color: Colors.grey.shade300,
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }
                     if(snapshot.hasData){
                       return Expanded(
                         child: ListView.builder(
@@ -235,8 +210,8 @@ class _ReportScreenState extends State<ReportScreen> {
                                         Row(
                                           children: [
                                             CircleAvatar(
-                                              backgroundImage: snapshot.data!.result![index].roleId==2?NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture!.url!)
-                                                  :NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!),
+                                              backgroundImage: snapshot.data!.result![index].roleId==2?NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture!=null?snapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
+                                                  :NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?snapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!:''),
                                               radius: 30,
                                             ),
                                             const SizedBox(
@@ -262,12 +237,12 @@ class _ReportScreenState extends State<ReportScreen> {
                                                   style: const TextStyle(
                                                       color: Colors.black, fontSize: 12),
                                                 ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  patientReports[index]["description"],
-                                                  style: const TextStyle(
-                                                      color: Colors.black, fontSize: 12),
-                                                ),
+                                                // const SizedBox(height: 5),
+                                                // Text(
+                                                //   patientReports[index]["description"],
+                                                //   style: const TextStyle(
+                                                //       color: Colors.black, fontSize: 12),
+                                                // ),
                                                 const SizedBox(height: 5),
                                                 Text(
                                                   "${parseDate(snapshot.data!.result![index].requestDateTime!)}",
@@ -344,8 +319,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                                   borderRadius:
                                                   const BorderRadius.all(
                                                       Radius.circular(20)),
-                                                  color: patientReports[index]
-                                                  ['repData']["color"],
+                                                  color: getChipColor(snapshot.data!.result![index].processingStatus),
                                                 ),
                                                 child: Center(
                                                   child: Text(
@@ -373,7 +347,8 @@ class _ReportScreenState extends State<ReportScreen> {
                           },
                         ),
                       );
-                    }if (snapshot.hasError) {
+                    }
+                    if (snapshot.hasError) {
                       return Center(
                         child: Text(snapshot.error.toString()),
                       );
@@ -400,5 +375,9 @@ class _ReportScreenState extends State<ReportScreen> {
   parseDate(String timestampString){
     DateTime parsedDateTime = DateTime.parse(timestampString);
     return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+  }
+
+  getChipColor(int? processingStatus) {
+    return processingStatus==1?Colors.deepOrange:processingStatus==2?Colors.teal:processingStatus==3?Colors.green:processingStatus==4?Colors.red:Colors.black;
   }
 }
