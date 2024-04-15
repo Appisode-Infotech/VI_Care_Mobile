@@ -10,7 +10,8 @@ import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
-import '../model/device_data_response_model.dart';
+import '../../utils/app_colors.dart';
+import '../model/my_reports_response_model.dart';
 
 class TakeTestProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
@@ -25,6 +26,9 @@ class TakeTestProvider extends ChangeNotifier {
   BluetoothDevice? connectedDevice;
   int? heartRate = 0;
   StreamSubscription? _bluetoothStateSubscription;
+  final addDeviceFormKey = GlobalKey<FormState>();
+
+  TextEditingController serialNumberController = TextEditingController();
 
   void listenToConnectedDevice() {
     _bluetoothStateSubscription =
@@ -66,6 +70,117 @@ class TakeTestProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> connectDeviceToAdd(
+      BluetoothDevice device, BuildContext context) async {
+    showLoaderDialog(context);
+    try {
+      await device.connect();
+      List<BluetoothService> services = await device.discoverServices();
+      for (BluetoothService service in services) {
+        if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
+          Navigator.pop(context); // Dismiss the loader
+          askDeviceDetails(context, device);
+        }
+      }
+      device.disconnect();
+    } catch (e) {
+      Navigator.pop(context); // Dismiss the loader
+      showErrorToast(context,
+          '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
+    }
+  }
+
+  askDeviceDetails(BuildContext oldContext, BluetoothDevice device) {
+    showDialog(
+        context: oldContext,
+        builder: (BuildContext dialogContext) {
+          return PopScope(
+            canPop: false,
+            child: AlertDialog(
+              title: Text("Add device details."),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Device name : ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(device.name),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Device manufacturer : ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text("Smart Lab"),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  const Text("Serial number"),
+                  Form(
+                    key: addDeviceFormKey,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: serialNumberController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter device serial number";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: "Serial number",
+                        counterText: "",
+                        isCollapsed: true,
+                        errorStyle: const TextStyle(color: Colors.red),
+                        errorMaxLines: 2,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColors.primaryColor),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.black, width: 2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 10),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(onPressed: () {
+                  Navigator.pop(dialogContext);
+                  Navigator.pop(oldContext);
+                }, child: Text("Close")),
+                TextButton(
+                    onPressed: () async {
+                      if (addDeviceFormKey.currentState!.validate()) {
+                        showLoaderDialog(dialogContext);
+                        await apiCalls.addDevice(device.name,device.id,"le",serialNumberController.text,dialogContext,oldContext);
+                        serialNumberController.clear();
+                        Navigator.pop(dialogContext);
+                        Navigator.pop(oldContext);
+                      }
+                    },
+                    child: const Text("Proceed to add")),
+              ],
+            ),
+          );
+        });
+  }
+
   // void _checkBluetoothStatus() async {
   //   bool bluetoothOn = await flutterBlue.isOn;
   //   bluetoothStatus = bluetoothOn;
@@ -93,7 +208,7 @@ class TakeTestProvider extends ChangeNotifier {
     }
     leDevices.clear();
     try {
-      // await flutterBlue.startScan(timeout: const Duration(seconds: 5));
+      await flutterBlue.startScan(timeout: Duration(seconds: 5));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult result in results) {
           if (!leDevices.contains(result.device) &&
@@ -143,30 +258,33 @@ class TakeTestProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  requestDeviceData(BuildContext dataContext, File payload) async {
-    DeviceDataResponseModel response = await
+  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo) async {
+    // DeviceDataResponseModel response = await
     apiCalls.requestDeviceData(
-      context: dataContext,
-      details: "abc",
-        fileType: "ecg",
+        context: dataContext,
+        details: "abc",
+        fileType: "1",
         durationName: prefModel.selectedDuration!.name,
-        deviceSerialNumber:"4050023853",
-        ipAddress:"1234567890",
-        userAndDeviceId: "1234",
-        subscriberGuid: "1234567",
-        deviceId: "1234",
-        durationId:prefModel.selectedDuration!.id,
-        userId:prefModel.userData!.id,
-        roleId:prefModel.userData!.roleId,
-        individualProfileId:prefModel.userData!.roleId==2?prefModel.userData!.individualProfileId:prefModel.userData!.enterpriseUserId,
-        enterpriseProfileId:prefModel.userData!.roleId==2?prefModel.userData!.individualProfileId:prefModel.userData!.enterpriseUserId,
-        uploadFile: payload
-    );
+        deviceSerialNumber: deviceSerialNo!,
+        ipAddress: "192.168.0.1",
+        userAndDeviceId: "1",
+        subscriberGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        deviceId: "1",
+        durationId: prefModel.selectedDuration!.id,
+        userId: prefModel.userData!.id,
+        roleId: prefModel.userData!.roleId,
+        individualProfileId: prefModel.userData!.individualProfileId,
+        enterpriseProfileId: prefModel.userData!.enterpriseUserId,
+        uploadFile: payload);
     print("case2");
-    if (response.result != null) {
-      showSuccessToast(dataContext, "Test successful and saved to offline.");
-    } else {
-      Navigator.pop(dataContext!);
-    }
+    // if (response.result != null) {
+    //   showSuccessToast(dataContext, "Test successful and saved to offline.");
+    // } else {
+    //   Navigator.pop(dataContext!);
+    // }
+  }
+
+  Future<MyReportsResponseModel> getMyReports() async {
+    return await apiCalls.getMyReports();
   }
 }

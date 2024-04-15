@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vicare/dashboard/model/device_response_model.dart';
+import 'package:vicare/dashboard/provider/devices_provider.dart';
+import 'package:vicare/dashboard/ui/all_reports_screen.dart';
 import 'package:vicare/dashboard/ui/home_screen.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
+import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/routes.dart';
 
 import '../utils/app_colors.dart';
@@ -96,24 +101,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildFloatingActionButton() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: 50.0,
-        height: 50.0,
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.takeTestRoute,
-                arguments: {'enterprisePatientData': null});
-            // setState(() {
-            //   selectedItemPosition = 2;
-            // });
-          },
-          backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.monitor_heart_outlined,
-              color: Colors.white, size: 28),
-        ),
-      ),
+    return Consumer(
+      builder: (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
+       return Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: SizedBox(
+           width: 50.0,
+           height: 50.0,
+           child: FloatingActionButton(
+             onPressed: () async {
+               showLoaderDialog(context);
+               DeviceResponseModel myDevices = await deviceProvider.getMyDevices();
+               Navigator.pop(context);
+               if(myDevices.result!.isEmpty){
+                 showErrorToast(context, myDevices.message!);
+               }else{
+                 Navigator.pushNamed(context, Routes.takeTestRoute,
+                     arguments: {'enterprisePatientData': null,'deviceData':myDevices.result![0]});
+               }
+             },
+             backgroundColor: AppColors.primaryColor,
+             child: const Icon(Icons.monitor_heart_outlined,
+                 color: Colors.white, size: 28),
+           ),
+         ),
+       );
+      },
     );
   }
 

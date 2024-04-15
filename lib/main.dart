@@ -30,6 +30,7 @@ import 'dashboard/ui/all_reports_screen.dart';
 import 'dashboard/ui/bluetooth_scan_page.dart';
 import 'dashboard/ui/devices_screen.dart';
 import 'dashboard/ui/duration_screen.dart';
+import 'dashboard/ui/scan_le_devices_to_add_screen.dart';
 import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
 import 'onboarding/ui/on_boarding_screen.dart';
@@ -162,7 +163,8 @@ class _MyAppState extends State<MyApp> {
               Routes.devicesRoute: (context) => const DeviceScreen(),
               Routes.profileRoute: (context) => const ProfileScreen(),
               Routes.durationsRoute: (context) => const DurationScreen(),
-              Routes.bluetoothScanRoute: (context) => const BluetoothScanPage()
+              Routes.bluetoothScanRoute: (context) => const BluetoothScanPage(),
+              Routes.scanLeDevicesToAddRoute: (context) => const ScanLeDevicesToAddScreen()
             }));
   }
 }

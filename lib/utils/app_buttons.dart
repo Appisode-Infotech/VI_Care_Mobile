@@ -184,7 +184,7 @@ void showLoaderDialog(BuildContext context) {
     barrierDismissible: false,
     context: context,
     builder: (_) => PopScope(
-      canPop: false,
+      canPop: true,
       child: AlertDialog(
         backgroundColor: Colors.white,
         content: Column(
