@@ -11,6 +11,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
+import 'package:vicare/dashboard/model/device_response_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
@@ -39,7 +40,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   List<int> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
-  late StreamController<double> _chartDataStreamController;
+  DeviceResult? deviceData;
 
   final double pWaveDuration = 0.09; // Assuming typical value
   final double qrsComplexDuration = 0.08; // Assuming typical value
@@ -79,8 +80,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         }
         heartRate = 0;
         timer!.cancel();
-        secondsRemaining =
-            (prefModel.selectedDuration!.durationInMinutes!) * 60;
+        secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
         isTimerRunning = false;
         setState(() {});
       }
@@ -90,7 +90,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   @override
   void initState() {
     super.initState();
-    _chartDataStreamController = StreamController<double>();
     if (prefModel.selectedDuration != null) {
       secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
     }
@@ -98,7 +97,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   void dispose() {
-    _chartDataStreamController.close();
     for (var subscription in subscriptions) {
       subscription.cancel(); // Cancel each subscription
     }
@@ -124,6 +122,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         <String, dynamic>{}) as Map;
     enterprisePatientData = arguments['enterprisePatientData'];
     individualPatientData = arguments['individualPatientData'];
+    deviceData = arguments['deviceData'];
     return Consumer(
       builder: (BuildContext context, TakeTestProvider takeTestProvider,
           Widget? child) {
@@ -162,8 +161,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     rrIntervalList.clear(); // Clear existing values
     subscriptions.clear(); // Clear existing subscriptions
 
-    List<BluetoothService> services =
-    await takeTestProvider.connectedDevice!.discoverServices();
+    List<BluetoothService> services = await takeTestProvider.connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
       if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
         for (BluetoothCharacteristic characteristic
@@ -180,7 +178,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               bpmList.add(value[1]);
               double rrInterval = 60000 / value[1];
               rrIntervalList.add(rrInterval.toInt());
-              _chartDataStreamController.add(rrInterval);
             }
           });
           subscriptions.add(subscription);
@@ -215,7 +212,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     var testData = {
       "fileVersion": "IBIPOLAR",
       "appVersion": "ViCare",
-      "serialNumber": "040E115118000C00",
+      "serialNumber": deviceData!.deviceSerialNo,
       "guid": "46184141-00c6-46ee-b927-4218085e85fd",
       "age": prefModel.userData!.roleId == 2
           ? calculateAge(individualPatientData!.result!.contact!.doB.toString())
@@ -249,7 +246,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
     if (await payload.exists()) {
       // File was successfully written
-      takeTestProvider.requestDeviceData(context, payload);
+      takeTestProvider.requestDeviceData(context, payload,deviceData!.deviceSerialNo);
       showSuccessToast(context, "Test successful and saved to offline.");
     } else {
       // Failed to write the file
@@ -302,40 +299,39 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           const SizedBox(
             height: 15,
           ),
-          Expanded(
-            child: Center(
-              child: SizedBox(
-                width: screenSize!.width,
-                height: screenSize!.width * 0.7,
-                child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis: const NumericAxis(
-                    interval: 40,
-                    minimum: 600,
-                    maximum: 800,
-                  ),
-                  series: <CartesianSeries<dynamic, dynamic>>[
-                    LineSeries<ChartData, double>(
-                      dataSource: rrIntervalList
-                          .asMap()
-                          .entries
-                          .map(
-                            (entry) =>
-                            ChartData(
-                                entry.key.toDouble(), entry.value.toDouble()),
-                      )
-                          .toList(),
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y,
-                    ),
-                  ],
-                  zoomPanBehavior: ZoomPanBehavior(
-                    enablePanning: true,
-                    enablePinching: true,
-                  ),
+          SizedBox(
+            width: screenSize!.width,
+            height: screenSize!.width * 0.5,
+            child: SfCartesianChart(
+              primaryXAxis: CategoryAxis(),
+              primaryYAxis: const NumericAxis(
+                interval: 40,
+                minimum: 500,
+                maximum: 800,
+              ),
+              series: <CartesianSeries<dynamic, dynamic>>[
+                LineSeries<ChartData, double>(
+                  dataSource: rrIntervalList
+                      .asMap()
+                      .entries
+                      .map(
+                        (entry) =>
+                        ChartData(
+                            entry.key.toDouble(), entry.value.toDouble()),
+                  )
+                      .toList(),
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
                 ),
+              ],
+              zoomPanBehavior: ZoomPanBehavior(
+                enablePanning: true,
+                enablePinching: true,
               ),
             ),
+          ),
+          const SizedBox(
+            height: 15,
           ),
           Center(
             child: CircularPercentIndicator(
@@ -541,25 +537,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     );
   }
 
-  // List<ChartData> generateDataPoints(int heartRate, double pWaveDurationAt60BPM, double qrsDurationAt60BPM, double tWaveDurationAt60BPM) {
-  //   List<ChartData> data = [];
-  //
-  //   double pWaveDuration = pWaveDurationAt60BPM * (60 / heartRate);
-  //   double qrsDuration = qrsDurationAt60BPM * (60 / heartRate);
-  //   double tWaveDuration = tWaveDurationAt60BPM * (60 / heartRate);
-  //
-  //   double pqrstInterval = pWaveDuration + qrsDuration + tWaveDuration;
-  //
-  //   data.add(ChartData(0, heartRate.toDouble(), pqrstInterval));
-  //
-  //   double time = 0;
-  //   double timeIncrement = 0.1;
-  //   while (time < pqrstInterval) {
-  //     time += timeIncrement;
-  //     data.add(ChartData(time, heartRate.toDouble(), pqrstInterval));
-  //   }
-  //   return data;
-  // }
 
   int calculateAge(String dateOfBirthString) {
     DateTime dateOfBirth = DateTime.parse(dateOfBirthString);

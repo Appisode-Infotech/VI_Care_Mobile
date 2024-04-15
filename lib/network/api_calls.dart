@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:vicare/auth/model/reset_password_response_model.dart';
@@ -14,12 +15,15 @@ import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/create_patients/model/state_master_response_model.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/dashboard/model/device_data_response_model.dart';
+import 'package:vicare/dashboard/model/device_delete_response_model.dart';
+import 'package:vicare/dashboard/model/device_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
 import '../dashboard/model/duration_response_model.dart';
+import '../dashboard/model/my_reports_response_model.dart';
 import '../main.dart';
 import '../utils/url_constants.dart';
 
@@ -553,30 +557,6 @@ class ApiCalls {
     }
   }
 
-  Future<AddDeviceResponseModel> addDevice(
-      String type, String serialNo, BuildContext context) async {
-    http.Response response = await hitApiPost(
-        true,
-        "${UrlConstants.userAndDevice}",
-        jsonEncode({
-          "type": type,
-          "deviceSerialNo": serialNo,
-          "roleId": prefModel.userData!.roleId,
-          "userId": prefModel.userData!.id
-        }));
-    if (response.statusCode == 200) {
-      return AddDeviceResponseModel.fromJson(json.decode(response.body));
-    } else if (response.statusCode == 401) {
-      Navigator.pop(context);
-      showErrorToast(context, "Unauthorized");
-      throw "could not add the device ${response.statusCode}";
-    } else {
-      Navigator.pop(context);
-      showErrorToast(context, "Something went wrong");
-      throw "could not add the device ${response.statusCode}";
-    }
-  }
-
   Future<DurationResponseModel> getAllDurations() async {
     http.Response response =
         await hitApiGet(true, UrlConstants.getAllDurations);
@@ -738,8 +718,8 @@ class ApiCalls {
     int? durationId,
     int? userId,
     int? roleId,
-    required individualProfileId,
-    required enterpriseProfileId,
+    int? individualProfileId,
+    int? enterpriseProfileId,
     required File uploadFile,
   }) async {
     var request = http.MultipartRequest(
@@ -755,28 +735,31 @@ class ApiCalls {
     request.fields['DurationId'] = durationId.toString();
     request.fields['UserId'] = userId.toString();
     request.fields['RoleId'] = roleId.toString();
-    request.fields['IndividualProfileId'] = individualProfileId.toString();
-    request.fields['EnterpriseProfileId'] = enterpriseProfileId;
-    if (uploadFile != null) {
-      var jsonStream = http.ByteStream(uploadFile.openRead());
-      var jsonDataBytes = await uploadFile.readAsBytes();
-      var jsonLength = jsonDataBytes.length;
-      var jsonMultipartFile = http.MultipartFile(
-        'uploadfile',
-        jsonStream,
-        jsonLength,
-        filename: uploadFile.path.split('/').last,
-        contentType: MediaType('application', 'json'),
-      );
-      request.files.add(jsonMultipartFile);
+    if(individualProfileId!=null){
+      request.fields['IndividualProfileId'] = individualProfileId.toString();
+    }if(enterpriseProfileId!=null){
+      request.fields['EnterpriseProfileId'] = enterpriseProfileId.toString();
     }
-    request.headers.addAll({
+    var jsonStream = http.ByteStream(uploadFile.openRead());
+    var jsonDataBytes = await uploadFile.readAsBytes();
+    var jsonLength = jsonDataBytes.length;
+    var jsonMultipartFile = http.MultipartFile(
+      'uploadfile',
+      jsonStream,
+      jsonLength,
+      filename: uploadFile.path.split('/').last,
+      contentType: MediaType('application', 'json'),
+    );
+    request.files.add(jsonMultipartFile);
+      request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
     var response = await request.send();
+    print(request.fields);
     print(request.files);
-
-    print("case4");
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    log(responseJson.toString());
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
@@ -787,6 +770,73 @@ class ApiCalls {
     } else {
       showErrorToast(context, "Something went wrong");
       throw "could not fetch data ${response.statusCode}";
+    }
+  }
+
+  addDevice(String name, DeviceIdentifier id, String type, String serialNo, BuildContext context, BuildContext oldContext) async {
+    if(type=="le"){
+      http.Response response = await hitApiPost(true, UrlConstants.userAndDevice,
+          jsonEncode(
+              {
+                "type": "vicare",
+                "deviceSerialNo": serialNo,
+                "isPaired": true,
+                "roleId": prefModel.userData!.roleId,
+                "userId": prefModel.userData!.id
+              }
+          ));
+      print(jsonEncode(
+          {
+            "type": "vicare",
+            "deviceSerialNo": serialNo,
+            "isPaired": true,
+            "roleId": prefModel.userData!.roleId,
+            "userId": prefModel.userData!.id
+          }
+      ));
+      log(response.body);
+      if (response.statusCode == 200) {
+        showSuccessToast(context, json.decode(response.body)['message'].toString());
+        return AddDeviceResponseModel.fromJson(json.decode(response.body));
+      } else {
+        Navigator.pop(context);
+        showErrorToast(oldContext, "Something went wrong");
+        throw "could not reset password ${response.statusCode}";
+      }
+    }
+  }
+
+  Future<DeviceResponseModel> getMyDevices() async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.userAndDevice}/GetAllByName/${prefModel.userData!.id}");
+    print(response.body);
+    if(response.statusCode==200){
+      return DeviceResponseModel.fromJson(json.decode(response.body));
+    }else{
+      throw "could not fetch devices ${response.statusCode}";
+    }
+  }
+
+  deleteMyDevice(int? userAndDeviceId, BuildContext context) async {
+    http.Response response = await http.delete(
+      Uri.parse("${UrlConstants.userAndDevice}/${userAndDeviceId}"),
+      headers: getHeaders(true),
+    );
+    log(response.body);
+    if(response.statusCode==200){
+      return DeviceDeleteResponseModel.fromJson(json.decode(response.body));
+    }else{
+      Navigator.pop(context);
+      throw "could not fetch devices ${response.statusCode}";
+    }
+  }
+
+  Future<MyReportsResponseModel>getMyReports() async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.MResponseReport}${prefModel.userData!.id}");
+    log(response.body);
+    if(response.statusCode==200){
+      return MyReportsResponseModel.fromJson(json.decode(response.body));
+    }else{
+      throw "could not fetch devices ${response.statusCode}";
     }
   }
 }

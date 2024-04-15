@@ -1,6 +1,6 @@
 class UrlConstants {
-  static const String imageBaseUrl = "http://103.208.228.42:8054/";
-  static const String apiBaseUrl = "http://103.208.228.42:8054/api/";
+  static const String imageBaseUrl = "http://52.172.157.45:91/";
+  static const String apiBaseUrl = "http://52.172.157.45:91/api/";
   static const String sendOtpToRegister = "${apiBaseUrl}Account/SendOtp/";
   static const String getRoleMaster = "${apiBaseUrl}Role";
   static const String registerUser = "${apiBaseUrl}Account/Registration";
@@ -16,4 +16,5 @@ class UrlConstants {
   static const String updateProfile = "${apiBaseUrl}user";
   static const String getStateMaster = "${apiBaseUrl}State";
   static const String requestDeviceData = "${apiBaseUrl}RequestDeviceData";
+  static const String MResponseReport = "${apiBaseUrl}MResponseReport/GetReportsBySearchFilter";
 }

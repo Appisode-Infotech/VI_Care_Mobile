@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final addDeviceResponseModel = addDeviceResponseModelFromJson(jsonString);
+//     final deviceDeleteResponseModel = deviceDeleteResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
-AddDeviceResponseModel addDeviceResponseModelFromJson(String str) => AddDeviceResponseModel.fromJson(json.decode(str));
+DeviceDeleteResponseModel deviceDeleteResponseModelFromJson(String str) => DeviceDeleteResponseModel.fromJson(json.decode(str));
 
-String addDeviceResponseModelToJson(AddDeviceResponseModel data) => json.encode(data.toJson());
+String deviceDeleteResponseModelToJson(DeviceDeleteResponseModel data) => json.encode(data.toJson());
 
-class AddDeviceResponseModel {
+class DeviceDeleteResponseModel {
   String? message;
   bool? isSuccess;
   dynamic pageResult;
   Result? result;
   dynamic errors;
 
-  AddDeviceResponseModel({
+  DeviceDeleteResponseModel({
     this.message,
     this.isSuccess,
     this.pageResult,
@@ -23,7 +23,7 @@ class AddDeviceResponseModel {
     this.errors,
   });
 
-  factory AddDeviceResponseModel.fromJson(Map<String, dynamic> json) => AddDeviceResponseModel(
+  factory DeviceDeleteResponseModel.fromJson(Map<String, dynamic> json) => DeviceDeleteResponseModel(
     message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"],

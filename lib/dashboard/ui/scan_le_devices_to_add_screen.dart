@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:vicare/dashboard/provider/take_test_provider.dart';
-import 'package:vicare/utils/app_buttons.dart';
 
+import '../../utils/app_buttons.dart';
 import '../../utils/app_locale.dart';
+import '../provider/take_test_provider.dart';
 
-class BluetoothSerialScan extends StatefulWidget {
-  const BluetoothSerialScan({super.key});
+class ScanLeDevicesToAddScreen extends StatefulWidget {
+  const ScanLeDevicesToAddScreen({super.key});
 
   @override
-  State<BluetoothSerialScan> createState() => _BluetoothSerialScanState();
+  State<ScanLeDevicesToAddScreen> createState() => _ScanLeDevicesToAddScreenState();
 }
 
-class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
+class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
   bool isFirstOpen = true;
 
   @override
@@ -28,6 +28,9 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
       builder: (BuildContext context, TakeTestProvider takeTestProvider,
           Widget? child) {
         return Scaffold(
+          appBar: AppBar(
+            title: Text(takeTestProvider.isScanning?"Scanning...":"Find your device"),
+          ),
           body: RefreshIndicator(
             onRefresh: () => scanLeDevices(takeTestProvider),
             child: ListView.separated(
@@ -64,13 +67,13 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                             showErrorToast(context,
                                 AppLocale.waitScanning.getString(context));
                           } else {
-                            takeTestProvider.connectToDevice(
+                            takeTestProvider.connectDeviceToAdd(
                                 takeTestProvider.leDevices[index], context);
                           }
                         },
-                        child: Text(
-                          AppLocale.connect.getString(context),
-                          style: const TextStyle(fontSize: 16),
+                        child: const Text(
+                          "Add device",
+                          style: TextStyle(fontSize: 16),
                         ))
                   ],
                 );

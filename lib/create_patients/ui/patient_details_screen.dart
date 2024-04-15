@@ -6,7 +6,10 @@ import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 
+import '../../dashboard/model/device_response_model.dart';
+import '../../dashboard/provider/devices_provider.dart';
 import '../../main.dart';
+import '../../utils/app_buttons.dart';
 import '../../utils/routes.dart';
 
 class PatientDetailsScreen extends StatefulWidget {
@@ -64,8 +67,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             ),
             actions: [
               InkWell(
-                onTap: () {
-                  patientProvider.getStateMaster(context);
+                onTap: () async {
+                  await patientProvider.getStateMaster(context);
                   patientProvider
                       .prefillEditPatientDetails(context)
                       .then((value) {
@@ -103,20 +106,27 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                patientProvider.individualPatientData!.result!.profilePicture!.url !=null
+                                patientProvider.individualPatientData!.result!
+                                            .profilePicture!.url !=
+                                        null
                                     ? CircleAvatar(
-                                  radius: 40,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: NetworkImage(patientProvider.individualPatientData!.result!.profilePicture!.url!.toString())
-                                ):
-                                const CircleAvatar(
-                                  radius: 22,
-                                  backgroundColor: Colors.grey,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                        radius: 40,
+                                        backgroundColor: Colors.grey,
+                                        backgroundImage: NetworkImage(
+                                            patientProvider
+                                                .individualPatientData!
+                                                .result!
+                                                .profilePicture!
+                                                .url!
+                                                .toString()))
+                                    : const CircleAvatar(
+                                        radius: 22,
+                                        backgroundColor: Colors.grey,
+                                        child: Icon(
+                                          Icons.person,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                 const SizedBox(
                                   width: 20,
                                 ),
@@ -319,60 +329,80 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                             horizontal: 15, vertical: 10),
                         child: Column(
                           children: [
-                            Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 10),
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                  color: AppColors.primaryColor,
-                                ),
-                                width: screenSize!.width,
-                                height: 100,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                        width: screenSize!.width * 0.6,
-                                        child: Text(
-                                          "${AppLocale.startNewScan.getString(context)} ${patientProvider.individualPatientData!.result!.firstName} ${patientProvider.individualPatientData!.result!.lastName}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        )),
-                                    const SizedBox(width: 5),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, Routes.takeTestRoute,
-                                            arguments: {
-                                              'individualPatientData':
-                                                  patientProvider
-                                                      .individualPatientData
-                                            });
-                                      },
-                                      child: Container(
-                                          height: 50,
-                                          width: screenSize!.width * 0.2,
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(12)),
-                                              color: Colors.white),
-                                          child: Center(
+                            Consumer(
+                              builder: (BuildContext context,
+                                  DeviceProvider deviceProvider,
+                                  Widget? child) {
+                                return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 10),
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    width: screenSize!.width,
+                                    height: 100,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: screenSize!.width * 0.6,
                                             child: Text(
-                                              AppLocale.start
-                                                  .getString(context),
+                                              "${AppLocale.startNewScan.getString(context)} ${patientProvider.individualPatientData!.result!.firstName} ${patientProvider.individualPatientData!.result!.lastName}",
                                               style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          )),
-                                    )
-                                  ],
-                                )),
+                                                  color: Colors.white,
+                                                  fontSize: 16),
+                                            )),
+                                        const SizedBox(width: 5),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            showLoaderDialog(context);
+                                            DeviceResponseModel myDevices =
+                                                await deviceProvider
+                                                    .getMyDevices();
+                                            Navigator.pop(context);
+                                            if (myDevices.result!.isEmpty) {
+                                              showErrorToast(
+                                                  context, myDevices.message!);
+                                            } else {
+                                              Navigator.pushNamed(
+                                                  context, Routes.takeTestRoute,
+                                                  arguments: {
+                                                    'individualPatientData':
+                                                        patientProvider
+                                                            .individualPatientData,
+                                                    'deviceData':
+                                                        myDevices.result![0]
+                                                  });
+                                            }
+                                          },
+                                          child: Container(
+                                              height: 50,
+                                              width: screenSize!.width * 0.2,
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(12)),
+                                                  color: Colors.white),
+                                              child: Center(
+                                                child: Text(
+                                                  AppLocale.start
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              )),
+                                        )
+                                      ],
+                                    ));
+                              },
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -829,58 +859,75 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                             horizontal: 15, vertical: 15),
                         child: Column(
                           children: [
-                            Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 10),
-                                decoration: const BoxDecoration(
-                                  borderRadius:
+                            Consumer(
+                              builder: (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
+                                return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 10),
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
                                       BorderRadius.all(Radius.circular(12)),
-                                  color: AppColors.primaryColor,
-                                ),
-                                width: screenSize!.width,
-                                height: 100,
-                                child: Row(
-                                  mainAxisAlignment:
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    width: screenSize!.width,
+                                    height: 100,
+                                    child: Row(
+                                      mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                        width: screenSize!.width * 0.6,
-                                        child: Text(
-                                          "${AppLocale.startNewScan.getString(context)} ${patientProvider.enterpriseUserData!.result!.firstName} ${patientProvider.enterpriseUserData!.result!.lastName}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        )),
-                                    const SizedBox(width: 5),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(context,
-                                            Routes.takeTestRoute, arguments: {
-                                          'enterprisePatientData':
-                                              patientProvider.enterpriseUserData
-                                        });
-                                      },
-                                      child: Container(
-                                          height: 50,
-                                          width: screenSize!.width * 0.2,
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(12)),
-                                              color: Colors.white),
-                                          child: Center(
+                                      children: [
+                                        SizedBox(
+                                            width: screenSize!.width * 0.6,
                                             child: Text(
-                                              AppLocale.start
-                                                  .getString(context),
+                                              "${AppLocale.startNewScan.getString(context)} ${patientProvider.enterpriseUserData!.result!.firstName} ${patientProvider.enterpriseUserData!.result!.lastName}",
                                               style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          )),
-                                    )
-                                  ],
-                                )),
+                                                  color: Colors.white,
+                                                  fontSize: 16),
+                                            )),
+                                        const SizedBox(width: 5),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            showLoaderDialog(context);
+                                            DeviceResponseModel myDevices =
+                                            await deviceProvider.getMyDevices();
+                                            Navigator.pop(context);
+                                            if (myDevices.result!.isEmpty) {
+                                              showErrorToast(
+                                                  context, myDevices.message!);
+                                            } else {
+                                              Navigator.pushNamed(
+                                                  context, Routes.takeTestRoute,
+                                                  arguments: {
+                                                    'enterprisePatientData':
+                                                    patientProvider
+                                                        .enterpriseUserData,
+                                                    'deviceData':
+                                                    myDevices.result![0]
+                                                  });
+                                            }
+                                          },
+                                          child: Container(
+                                              height: 50,
+                                              width: screenSize!.width * 0.2,
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(12)),
+                                                  color: Colors.white),
+                                              child: Center(
+                                                child: Text(
+                                                  AppLocale.start
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                              )),
+                                        )
+                                      ],
+                                    ));
+                              },
+                            ),
                             const SizedBox(
                               height: 10,
                             ),

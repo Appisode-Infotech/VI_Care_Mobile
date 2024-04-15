@@ -192,6 +192,9 @@ mixin AppLocale {
   static const String support = 'support';
   static const String logOut = 'logOut';
 
+
+  static const String chooseDeviceModel = 'chooseDeviceModel';
+
   static const String thisIs = 'thisIs';
 
   static const Map<String, dynamic> EN = {
@@ -384,8 +387,10 @@ mixin AppLocale {
     validRole:"Please enter valid Role",
     otpSuccessful:"Otp verified successfully",
     invalidOtp:"invalidOtp",
-
     logOut: 'Logout',
+
+
+    chooseDeviceModel: 'Choose your device',
     thisIs: 'This is %a package, version %a.',
   };
 
@@ -583,6 +588,8 @@ mixin AppLocale {
     landMarkValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಭೂದೃಶ್ಯ ನಮೂದಿಸಿ",
     pinCodeValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ",
     logOut: 'ಲಾಗ್ ಔಟ್',
+    chooseDeviceModel: 'Choose your device',
+
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
 
@@ -777,6 +784,8 @@ mixin AppLocale {
     landMarkValid: "कृपया सही सीमा चिह्न दर्ज करें",
     pinCodeValid: "कृपया सही पिन कोड दर्ज करें",
     logOut: 'लॉग आउट',
+    chooseDeviceModel: 'Choose your device',
+
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
 
@@ -971,6 +980,8 @@ mixin AppLocale {
     cityValid: "Bitte geben Sie eine gültige Stadt ein",
     landMarkValid: "Bitte geben Sie eine gültige Landmarke ein",
     pinCodeValid: "Bitte geben Sie eine gültige Postleitzahl ein",
+    chooseDeviceModel: 'Choose your device',
+
     logOut: 'Ausloggen',
   };
 
@@ -1167,6 +1178,8 @@ mixin AppLocale {
     landMarkValid: "దయచేసి సరిగా భూదర్శనం నమోదు చేయండి",
     pinCodeValid: "దయచేసి సరిగా పిన్ కోడ్ నమోదు చేయండి",
     logOut: 'లాగ్ అవుట్',
+    chooseDeviceModel: 'Choose your device',
+
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
 
@@ -1365,6 +1378,8 @@ mixin AppLocale {
     landMarkValid: "சரியான குறிப்புக் குறிச்சொல் உள்ளிடவும்",
     pinCodeValid: "சரியான அஞ்சல் குறியீடை உள்ளிடவும்",
     logOut: 'வெளியேறு',
+    chooseDeviceModel: 'Choose your device',
+
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
 
@@ -1557,6 +1572,7 @@ mixin AppLocale {
     landMarkValid: "സാധുവായ ഭൂമിയൊരുപതി നൽകുക",
     pinCodeValid: "സാധുവായ പിൻ കോഡ് നൽകുക",
     logOut: 'ലോഗ് ഔട്ട്',
+    chooseDeviceModel: 'Choose your device',
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };
 }
