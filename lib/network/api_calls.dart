@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ import 'package:vicare/utils/app_buttons.dart';
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
+import '../create_patients/model/dashboard_count_response_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
 import '../main.dart';
@@ -811,5 +813,25 @@ class ApiCalls {
     }else{
       throw "could not fetch devices ${response.statusCode}";
     }
+  }
+
+  Future<DashboardCountResponseModel> getDashboardCounts(int pId) async {
+    if(prefModel.userData!.roleId==2){
+      http.Response response = await hitApiGet(true, "${UrlConstants.MDashboard}${prefModel.userData!.id}?individualProfileId=$pId");
+      log(response.body);
+      if(response.statusCode==200){
+        return DashboardCountResponseModel.fromJson(json.decode(response.body));
+      }else{
+        throw "could not fetch devices ${response.statusCode}";
+      }
+    }else{
+      http.Response response = await hitApiGet(true, "${UrlConstants.MDashboard}${prefModel.userData!.id}?enterpriseProfileId=$pId");
+      if(response.statusCode==200){
+        return DashboardCountResponseModel.fromJson(json.decode(response.body));
+      }else{
+        throw "could not fetch devices ${response.statusCode}";
+      }
+    }
+
   }
 }

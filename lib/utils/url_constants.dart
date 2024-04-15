@@ -17,4 +17,5 @@ class UrlConstants {
   static const String getStateMaster = "${apiBaseUrl}State";
   static const String requestDeviceData = "${apiBaseUrl}RequestDeviceData";
   static const String MResponseReport = "${apiBaseUrl}MResponseReport/GetReportsBySearchFilter";
+  static const String MDashboard = "${apiBaseUrl}MDashboard/GetProfileDashboardCounts";
 }

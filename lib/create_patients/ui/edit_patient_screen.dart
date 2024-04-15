@@ -10,6 +10,8 @@ import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
+import '../model/enterprise_response_model.dart';
+import '../model/individual_response_model.dart';
 import '../provider/patient_provider.dart';
 
 class EditPatientScreen extends StatefulWidget {
@@ -19,9 +21,15 @@ class EditPatientScreen extends StatefulWidget {
   State<EditPatientScreen> createState() => _EditPatientScreenState();
 }
 
+IndividualResponseModel? individualUserData;
+EnterpriseResponseModel? enterPriseUserData;
 class _EditPatientScreenState extends State<EditPatientScreen> {
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    individualUserData = arguments['individualUserData'];
+    enterPriseUserData = arguments['enterPriseUserData'];
     return Consumer(
       builder: (BuildContext context, PatientProvider patientProvider,
           Widget? child) {
@@ -595,8 +603,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   if (value == null || value.isEmpty) {
                                     return AppLocale.stateValid.getString(context);
                                   }
-                                  return "";
-                                  // patientProvider.individualPatientData!.result!.contact!.address!.stateId;
+                                  return null;
+                                  // individualUserData!.result!.contact!.address!.stateId;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
@@ -892,7 +900,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 if (patientProvider
                                     .editPatientFormKey.currentState!
                                     .validate()) {
-                                  await patientProvider.editPatient();
+                                  await patientProvider.editPatient(individualUserData,enterPriseUserData);
                                 }
                               }),
                             ],
@@ -1414,7 +1422,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     return AppLocale.stateValid
                                         .getString(context);
                                   }
-                                  return "";
+                                  return null;
                                   // patientProvider.enterpriseUserData!.result!.contact!.address!.stateId;
                                 },
                                 decoration: InputDecoration(
@@ -1712,7 +1720,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 if (patientProvider
                                     .editPatientFormKey.currentState!
                                     .validate()) {
-                                  patientProvider.editPatient();
+                                  await patientProvider.editPatient(individualUserData,enterPriseUserData);
                                 }
                               }),
                             ],

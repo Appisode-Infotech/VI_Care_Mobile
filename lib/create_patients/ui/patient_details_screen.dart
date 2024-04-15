@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
@@ -11,6 +12,7 @@ import '../../dashboard/provider/devices_provider.dart';
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/routes.dart';
+import '../model/dashboard_count_response_model.dart';
 import '../model/enterprise_response_model.dart';
 import '../model/individual_response_model.dart';
 
@@ -22,6 +24,8 @@ class PatientDetailsScreen extends StatefulWidget {
 }
 
 class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
+  IndividualResponseModel? individualPatientData;
+  EnterpriseResponseModel? enterprisePatientData;
   List patientReports = [
     {
       "image": "assets/images/img.png",
@@ -74,8 +78,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             actions: [
               InkWell(
                 onTap: () async {
-                  // await patientProvider.getStateMaster(context);
-                  // patientProvider.prefillEditPatientDetails(context);
+                  await patientProvider.getStateMaster(context);
+                  if (prefModel.userData!.roleId == 2 &&
+                      individualPatientData?.result != null) {
+                    patientProvider.prefillEditPatientDetails(
+                        context, individualPatientData, enterprisePatientData);
+                  }
+                  if (prefModel.userData!.roleId == 3 &&
+                      enterprisePatientData?.result != null) {
+                    patientProvider.prefillEditPatientDetails(
+                        context, individualPatientData, enterprisePatientData);
+                  }
                 },
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -94,14 +107,648 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
           body: SingleChildScrollView(
             child: prefModel.userData!.roleId == 2
                 ? FutureBuilder(
-                  future: patientProvider.getIndividualUserData(pId),
-                  builder: (BuildContext context, AsyncSnapshot<IndividualResponseModel> snapshot) {
-                    if(snapshot.hasData){
+                    future: patientProvider.getIndividualUserData(pId),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<IndividualResponseModel> snapshot) {
+                      if (snapshot.hasData) {
+                        individualPatientData = snapshot.data;
+                        return Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              width: screenSize!.width,
+                              height: screenSize!.height / 2.4,
+                              color: AppColors.primaryColor,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      snapshot.data!.result!.profilePicture!
+                                                  .url !=
+                                              null
+                                          ? CircleAvatar(
+                                              radius: 40,
+                                              backgroundColor: Colors.grey,
+                                              backgroundImage: NetworkImage(
+                                                  snapshot.data!.result!
+                                                      .profilePicture!.url!
+                                                      .toString()))
+                                          : const CircleAvatar(
+                                              radius: 22,
+                                              backgroundColor: Colors.grey,
+                                              child: Icon(
+                                                Icons.person,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.summaryRoute,
+                                          );
+                                        },
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20),
+                                            ),
+                                            Text(
+                                              "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} Years",
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18),
+                                            ),
+                                            Text(
+                                              snapshot.data!.result!.contact!
+                                                          .gender ==
+                                                      1
+                                                  ? "Male"
+                                                  : snapshot
+                                                              .data!
+                                                              .result!
+                                                              .contact!
+                                                              .gender ==
+                                                          2
+                                                      ? "Female"
+                                                      : "Do not wish to specify",
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              AppLocale.viewCompleteDetails
+                                                  .getString(context),
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationColor:
+                                                      Colors.white),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 18,
+                                                        vertical: 12),
+                                                decoration: const BoxDecoration(
+                                                    color: Color(0xffdbeeee),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10))),
+                                                child: Text(
+                                                  AppLocale.viewSummary
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                )),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  FutureBuilder(
+                                    future: patientProvider
+                                        .getCounts(snapshot.data!.result!.id!),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<
+                                                DashboardCountResponseModel>
+                                            countSnapshot) {
+                                      if(countSnapshot.hasData){
+                                        return Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 15,
+                                                      right: 10,
+                                                      top: 10,
+                                                      bottom: 10),
+                                                  decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(12)),
+                                                    color: Colors.white,
+                                                  ),
+                                                  height: 100,
+                                                  width: screenSize!.width / 4,
+                                                  child: Center(
+                                                    child: Text(
+                                                      parseDate(
+                                                          countSnapshot.data!.result!
+                                                              .lastTested!),
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  AppLocale.lastTested
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      overflow:
+                                                      TextOverflow.ellipsis),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                  const EdgeInsets.all(12),
+                                                  decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(12)),
+                                                    color: Colors.white,
+                                                  ),
+                                                  height: 100,
+                                                  width: screenSize!.width / 4,
+                                                  child: Center(
+                                                      child: Text(
+                                                        countSnapshot.data!.result!
+                                                            .totalTests!.toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                            FontWeight.w600),
+                                                      )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  AppLocale.totalTested
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      overflow:
+                                                      TextOverflow.ellipsis),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                  const EdgeInsets.all(12),
+                                                  decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(12)),
+                                                    color: Colors.white,
+                                                  ),
+                                                  height: 100,
+                                                  width: screenSize!.width / 4,
+                                                  child: Center(
+                                                      child: Text(
+                                                        countSnapshot.data!.result!
+                                                            .reportsCount!.toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                            FontWeight.w600),
+                                                      )),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  AppLocale.reports
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      overflow:
+                                                      TextOverflow.ellipsis),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                      if (snapshot.hasError) {
+                                        return Center(
+                                          child: Text(snapshot.error.toString()),
+                                        );
+                                      } else {
+                                        return const Center(child: Text("loading"));
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Column(
+                                children: [
+                                  Consumer(
+                                    builder: (BuildContext context,
+                                        DeviceProvider deviceProvider,
+                                        Widget? child) {
+                                      return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 10),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12)),
+                                            color: AppColors.primaryColor,
+                                          ),
+                                          width: screenSize!.width,
+                                          height: 100,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                  width:
+                                                      screenSize!.width * 0.6,
+                                                  child: Text(
+                                                    "${AppLocale.startNewScan.getString(context)} ${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16),
+                                                  )),
+                                              const SizedBox(width: 5),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  showLoaderDialog(context);
+                                                  DeviceResponseModel
+                                                      myDevices =
+                                                      await deviceProvider
+                                                          .getMyDevices();
+                                                  Navigator.pop(context);
+                                                  if (myDevices
+                                                      .result!.isEmpty) {
+                                                    showErrorToast(context,
+                                                        myDevices.message!);
+                                                  } else {
+                                                    Navigator.pushNamed(context,
+                                                        Routes.takeTestRoute,
+                                                        arguments: {
+                                                          'individualPatientData':
+                                                              snapshot.data!,
+                                                          'deviceData':
+                                                              myDevices
+                                                                  .result![0]
+                                                        });
+                                                  }
+                                                },
+                                                child: Container(
+                                                    height: 50,
+                                                    width: screenSize!.width *
+                                                        0.2,
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            12)),
+                                                            color:
+                                                                Colors.white),
+                                                    child: Center(
+                                                      child: Text(
+                                                        AppLocale.start
+                                                            .getString(context),
+                                                        style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    )),
+                                              )
+                                            ],
+                                          ));
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        AppLocale.reports.getString(context),
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, Routes.reportsRoute);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              AppLocale.viewAll
+                                                  .getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const Icon(Icons.navigate_next)
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  ListView.builder(
+                                    itemCount: patientReports.length,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 20),
+                                        decoration: const BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 2,
+                                                color: Colors.grey,
+                                                offset: Offset(1, 1),
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12)),
+                                            color: Colors.white),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundImage: AssetImage(
+                                                      patientReports[index]
+                                                          ["image"]),
+                                                  radius: 30,
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      patientReports[index]
+                                                          ["patientName"],
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15),
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      patientReports[index]
+                                                          ["age"],
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12),
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      patientReports[index]
+                                                          ["description"],
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12),
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      "created: ${patientReports[index]["created"]}",
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              child: (patientReports[index]
+                                                          ["receivedReport"] ==
+                                                      true)
+                                                  ? Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 50,
+                                                          height: 50,
+                                                          child: Stack(
+                                                            children: [
+                                                              CircularStepProgressIndicator(
+                                                                totalSteps: 200,
+                                                                currentStep: int.parse(
+                                                                    patientReports[index]
+                                                                            [
+                                                                            "repData"]
+                                                                        [
+                                                                        "bpm"]),
+                                                                stepSize: 5,
+                                                                selectedColor:
+                                                                    patientReports[index]
+                                                                            [
+                                                                            "repData"]
+                                                                        [
+                                                                        "color"],
+                                                                unselectedColor:
+                                                                    Colors.grey[
+                                                                        200],
+                                                                padding: 0,
+                                                                selectedStepSize:
+                                                                    6,
+                                                                roundedCap:
+                                                                    (_, __) =>
+                                                                        true,
+                                                              ),
+                                                              Center(
+                                                                child: Text(
+                                                                  patientReports[
+                                                                          index]
+                                                                      [
+                                                                      "repData"]["bpm"],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 10),
+                                                        Text(
+                                                          patientReports[index]
+                                                                  ["repData"]
+                                                              ["status"],
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: patientReports[
+                                                                          index]
+                                                                      [
+                                                                      "repData"]
+                                                                  ["color"]),
+                                                        )
+                                                      ],
+                                                    )
+                                                  : Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Container(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                          height: 30,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            20)),
+                                                            color: patientReports[
+                                                                        index]
+                                                                    ['repData']
+                                                                ["color"],
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              patientReports[
+                                                                      index][
+                                                                  "reportStatus"],
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(snapshot.error.toString()),
+                        );
+                      } else {
+                        return const Center(child: Text("loading"));
+                      }
+                    },
+                  )
+                : FutureBuilder(
+                    future: patientProvider.getEnterpriseUserData(pId),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<EnterpriseResponseModel> snapshot) {
+                      enterprisePatientData = snapshot.data;
                       return Column(
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
+                                horizontal: 15, vertical: 10),
                             width: screenSize!.width,
                             height: screenSize!.height / 2.4,
                             color: AppColors.primaryColor,
@@ -111,25 +758,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    snapshot.data!.result!
-                                        .profilePicture!.url !=
-                                        null
-                                        ? CircleAvatar(
-                                        radius: 40,
-                                        backgroundColor: Colors.grey,
-                                        backgroundImage: NetworkImage(
-                                            snapshot.data!
-                                                .result!
-                                                .profilePicture!
-                                                .url!
-                                                .toString()))
-                                        : const CircleAvatar(
-                                      radius: 22,
+                                    CircleAvatar(
+                                      radius: 40,
                                       backgroundColor: Colors.grey,
-                                      child: Icon(
-                                        Icons.person,
-                                        color: Colors.white,
-                                      ),
+                                      backgroundImage: NetworkImage(snapshot
+                                          .data!.result!.profilePicture!.url
+                                          .toString()),
                                     ),
                                     const SizedBox(
                                       width: 20,
@@ -142,9 +776,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                         );
                                       },
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
@@ -161,17 +796,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 fontSize: 18),
                                           ),
                                           Text(
-                                            snapshot.data!
-                                                .result!.contact!.gender ==
-                                                1
+                                            snapshot.data!.result!.contact!
+                                                        .gender ==
+                                                    1
                                                 ? "Male"
-                                                : snapshot.data!
-                                                .result!
-                                                .contact!
-                                                .gender ==
-                                                2
-                                                ? "Female"
-                                                : "Do not wish to specify",
+                                                : snapshot.data!.result!
+                                                            .contact!.gender ==
+                                                        2
+                                                    ? "Female"
+                                                    : "Do not wish to specify",
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w600,
@@ -188,23 +821,27 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 decoration:
-                                                TextDecoration.underline,
+                                                    TextDecoration.underline,
                                                 decorationColor: Colors.white),
                                           ),
                                           const SizedBox(height: 10),
                                           Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 18, vertical: 12),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 18,
+                                                      vertical: 12),
                                               decoration: const BoxDecoration(
                                                   color: Color(0xffdbeeee),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10))),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
                                               child: Text(
                                                 AppLocale.viewSummary
                                                     .getString(context),
                                                 style: const TextStyle(
                                                     fontSize: 13,
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               )),
                                           const SizedBox(
                                             height: 20,
@@ -214,122 +851,160 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 15,
-                                              right: 10,
-                                              top: 10,
-                                              bottom: 10),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                            color: Colors.white,
+                                FutureBuilder(
+                                  future: patientProvider
+                                      .getCounts(snapshot.data!.result!.id!),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<
+                                          DashboardCountResponseModel>
+                                      countSnapshot) {
+                                    if(countSnapshot.hasData){
+                                      return Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15,
+                                                    right: 10,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(12)),
+                                                  color: Colors.white,
+                                                ),
+                                                height: 100,
+                                                width: screenSize!.width / 4,
+                                                child: Center(
+                                                  child: Text(
+                                                    parseDate(
+                                                        countSnapshot.data!.result!
+                                                            .lastTested!),
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                        FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                AppLocale.lastTested
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    overflow:
+                                                    TextOverflow.ellipsis),
+                                              )
+                                            ],
                                           ),
-                                          height: 100,
-                                          width: screenSize!.width / 4,
-                                          child: const Center(
-                                            child: Text(
-                                              '7 Mar 2023',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          AppLocale.lastTested.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              overflow: TextOverflow.ellipsis),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                            color: Colors.white,
+                                          Column(
+                                            children: [
+                                              Container(
+                                                padding:
+                                                const EdgeInsets.all(12),
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(12)),
+                                                  color: Colors.white,
+                                                ),
+                                                height: 100,
+                                                width: screenSize!.width / 4,
+                                                child: Center(
+                                                    child: Text(
+                                                      countSnapshot.data!.result!
+                                                          .totalTests!.toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.w600),
+                                                    )),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                AppLocale.totalTested
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    overflow:
+                                                    TextOverflow.ellipsis),
+                                              )
+                                            ],
                                           ),
-                                          height: 100,
-                                          width: screenSize!.width / 4,
-                                          child: const Center(
-                                              child: Text(
-                                                '10',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w600),
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          AppLocale.totalTested.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              overflow: TextOverflow.ellipsis),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                            color: Colors.white,
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-                                          height: 100,
-                                          width: screenSize!.width / 4,
-                                          child: const Center(
-                                              child: Text(
-                                                '9',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w600),
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          AppLocale.reports.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              overflow: TextOverflow.ellipsis),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                          Column(
+                                            children: [
+                                              Container(
+                                                padding:
+                                                const EdgeInsets.all(12),
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(12)),
+                                                  color: Colors.white,
+                                                ),
+                                                height: 100,
+                                                width: screenSize!.width / 4,
+                                                child: Center(
+                                                    child: Text(
+                                                      countSnapshot.data!.result!
+                                                          .reportsCount!.toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.w600),
+                                                    )),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                AppLocale.reports
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    overflow:
+                                                    TextOverflow.ellipsis),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    if (snapshot.hasError) {
+                                      return Center(
+                                        child: Text(snapshot.error.toString()),
+                                      );
+                                    } else {
+                                      return const Center(child: Text("loading"));
+                                    }
+                                  },
                                 )
                               ],
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                                horizontal: 15, vertical: 15),
                             child: Column(
                               children: [
                                 Consumer(
@@ -340,15 +1015,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8, horizontal: 10),
                                         decoration: const BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
                                           color: AppColors.primaryColor,
                                         ),
                                         width: screenSize!.width,
                                         height: 100,
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             SizedBox(
                                                 width: screenSize!.width * 0.6,
@@ -363,32 +1038,37 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               onTap: () async {
                                                 showLoaderDialog(context);
                                                 DeviceResponseModel myDevices =
-                                                await deviceProvider
-                                                    .getMyDevices();
+                                                    await deviceProvider
+                                                        .getMyDevices();
                                                 Navigator.pop(context);
                                                 if (myDevices.result!.isEmpty) {
-                                                  showErrorToast(
-                                                      context, myDevices.message!);
+                                                  showErrorToast(context,
+                                                      myDevices.message!);
                                                 } else {
-                                                  Navigator.pushNamed(
-                                                      context, Routes.takeTestRoute,
+                                                  Navigator.pushNamed(context,
+                                                      Routes.takeTestRoute,
                                                       arguments: {
-                                                        'individualPatientData':
-                                                        snapshot.data!,
+                                                        'enterprisePatientData':
+                                                            snapshot.data!,
                                                         'deviceData':
-                                                        myDevices.result![0]
+                                                            myDevices.result![0]
                                                       });
                                                 }
                                               },
                                               child: Container(
                                                   height: 50,
-                                                  width: screenSize!.width * 0.2,
-                                                  padding: const EdgeInsets.all(8),
-                                                  decoration: const BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12)),
-                                                      color: Colors.white),
+                                                  width:
+                                                      screenSize!.width * 0.2,
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          12)),
+                                                          color: Colors.white),
                                                   child: Center(
                                                     child: Text(
                                                       AppLocale.start
@@ -397,7 +1077,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                           color: Colors.black,
                                                           fontSize: 12,
                                                           fontWeight:
-                                                          FontWeight.w600),
+                                                              FontWeight.w600),
                                                     ),
                                                   )),
                                             )
@@ -409,7 +1089,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
@@ -426,7 +1107,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            AppLocale.viewAll.getString(context),
+                                            AppLocale.viewAll
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500),
@@ -444,7 +1126,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   itemCount: patientReports.length,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 20),
@@ -456,20 +1139,21 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               offset: Offset(1, 1),
                                             ),
                                           ],
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
                                           color: Colors.white),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Row(
                                             children: [
                                               CircleAvatar(
                                                 backgroundImage: AssetImage(
-                                                    patientReports[index]["image"]),
+                                                    patientReports[index]
+                                                        ["image"]),
                                                 radius: 30,
                                               ),
                                               const SizedBox(
@@ -477,20 +1161,22 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               ),
                                               Column(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                    MainAxisAlignment.center,
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     patientReports[index]
-                                                    ["patientName"],
+                                                        ["patientName"],
                                                     style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         fontSize: 15),
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    patientReports[index]["age"],
+                                                    patientReports[index]
+                                                        ["age"],
                                                     style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 12),
@@ -498,7 +1184,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   const SizedBox(height: 5),
                                                   Text(
                                                     patientReports[index]
-                                                    ["description"],
+                                                        ["description"],
                                                     style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 12),
@@ -516,111 +1202,125 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                           ),
                                           Container(
                                             child: (patientReports[index]
-                                            ["receivedReport"] ==
-                                                true)
+                                                        ["receivedReport"] ==
+                                                    true)
                                                 ? Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: 50,
-                                                  height: 50,
-                                                  child: Stack(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
-                                                      CircularStepProgressIndicator(
-                                                        totalSteps: 200,
-                                                        currentStep: int.parse(
-                                                            patientReports[
-                                                            index]
-                                                            [
-                                                            "repData"]
-                                                            ["bpm"]),
-                                                        stepSize: 5,
-                                                        selectedColor:
-                                                        patientReports[
-                                                        index]
-                                                        [
-                                                        "repData"]
-                                                        ["color"],
-                                                        unselectedColor:
-                                                        Colors.grey[200],
-                                                        padding: 0,
-                                                        selectedStepSize: 6,
-                                                        roundedCap: (_, __) =>
-                                                        true,
+                                                      SizedBox(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child: Stack(
+                                                          children: [
+                                                            CircularStepProgressIndicator(
+                                                              totalSteps: 200,
+                                                              currentStep: int.parse(
+                                                                  patientReports[
+                                                                              index]
+                                                                          [
+                                                                          "repData"]
+                                                                      ["bpm"]),
+                                                              stepSize: 5,
+                                                              selectedColor:
+                                                                  patientReports[
+                                                                              index]
+                                                                          [
+                                                                          "repData"]
+                                                                      ["color"],
+                                                              unselectedColor:
+                                                                  Colors.grey[
+                                                                      200],
+                                                              padding: 0,
+                                                              selectedStepSize:
+                                                                  6,
+                                                              roundedCap:
+                                                                  (_, __) =>
+                                                                      true,
+                                                            ),
+                                                            Center(
+                                                              child: Text(
+                                                                patientReports[
+                                                                            index]
+                                                                        [
+                                                                        "repData"]
+                                                                    ["bpm"],
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 10,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      Center(
-                                                        child: Text(
-                                                          patientReports[
-                                                          index]
-                                                          ["repData"]
-                                                          ["bpm"],
-                                                          style:
-                                                          const TextStyle(
-                                                            color:
-                                                            Colors.black,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .bold,
-                                                            fontSize: 10,
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      Text(
+                                                        patientReports[index]
+                                                                ["repData"]
+                                                            ["status"],
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: patientReports[
+                                                                        index]
+                                                                    ["repData"]
+                                                                ["color"]),
+                                                      )
+                                                    ],
+                                                  )
+                                                : Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          20)),
+                                                          color: patientReports[
+                                                                      index]
+                                                                  ['repData']
+                                                              ["color"],
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            patientReports[
+                                                                    index][
+                                                                "reportStatus"],
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                  patientReports[index]
-                                                  ["repData"]["status"],
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: patientReports[
-                                                      index]
-                                                      ["repData"]
-                                                      ["color"]),
-                                                )
-                                              ],
-                                            )
-                                                : Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                      5,
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    const BorderRadius
-                                                        .all(
-                                                        Radius.circular(
-                                                            20)),
-                                                    color:
-                                                    patientReports[index]
-                                                    ['repData']
-                                                    ["color"],
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      patientReports[index]
-                                                      ["reportStatus"],
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -635,546 +1335,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                           ),
                         ],
                       );
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else {
-                      return const Center(child: Text("loading"));
-                    }
-                  },
-                )
-                : FutureBuilder(
-              future: patientProvider.getEnterpriseUserData(pId),
-                  builder: (BuildContext context, AsyncSnapshot<EnterpriseResponseModel> snapshot) {
-                    return Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          width: screenSize!.width,
-                          height: screenSize!.height / 2.4,
-                          color: AppColors.primaryColor,
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors.grey,
-                                    backgroundImage: NetworkImage(snapshot.data!
-                                        .result!
-                                        .profilePicture!
-                                        .url
-                                        .toString()),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Routes.summaryRoute,
-                                      );
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                        Text(
-                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} Years",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                        Text(
-                                          snapshot.data!
-                                              .result!.contact!.gender ==
-                                              1
-                                              ? "Male"
-                                              : snapshot.data!
-                                              .result!
-                                              .contact!
-                                              .gender ==
-                                              2
-                                              ? "Female"
-                                              : "Do not wish to specify",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          AppLocale.viewCompleteDetails
-                                              .getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              decoration:
-                                              TextDecoration.underline,
-                                              decorationColor: Colors.white),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 18, vertical: 12),
-                                            decoration: const BoxDecoration(
-                                                color: Color(0xffdbeeee),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10))),
-                                            child: Text(
-                                              AppLocale.viewSummary
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 15,
-                                            right: 10,
-                                            top: 10,
-                                            bottom: 10),
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12)),
-                                          color: Colors.white,
-                                        ),
-                                        height: 100,
-                                        width: screenSize!.width / 4,
-                                        child: const Center(
-                                          child: Text(
-                                            '7 Mar 2023',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        AppLocale.lastTested.getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            overflow: TextOverflow.ellipsis),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12)),
-                                          color: Colors.white,
-                                        ),
-                                        height: 100,
-                                        width: screenSize!.width / 4,
-                                        child: const Center(
-                                            child: Text(
-                                              '10',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        AppLocale.totalTested.getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            overflow: TextOverflow.ellipsis),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(12)),
-                                          color: Colors.white,
-                                        ),
-                                        height: 100,
-                                        width: screenSize!.width / 4,
-                                        child: const Center(
-                                            child: Text(
-                                              '9',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        AppLocale.reports.getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            overflow: TextOverflow.ellipsis),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 15),
-                          child: Column(
-                            children: [
-                              Consumer(
-                                builder: (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
-                                  return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 10),
-                                      decoration: const BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                        color: AppColors.primaryColor,
-                                      ),
-                                      width: screenSize!.width,
-                                      height: 100,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                              width: screenSize!.width * 0.6,
-                                              child: Text(
-                                                "${AppLocale.startNewScan.getString(context)} ${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16),
-                                              )),
-                                          const SizedBox(width: 5),
-                                          GestureDetector(
-                                            onTap: () async {
-                                              showLoaderDialog(context);
-                                              DeviceResponseModel myDevices =
-                                              await deviceProvider.getMyDevices();
-                                              Navigator.pop(context);
-                                              if (myDevices.result!.isEmpty) {
-                                                showErrorToast(
-                                                    context, myDevices.message!);
-                                              } else {
-                                                Navigator.pushNamed(
-                                                    context, Routes.takeTestRoute,
-                                                    arguments: {
-                                                      'enterprisePatientData':
-                                                      snapshot.data!,
-                                                      'deviceData':
-                                                      myDevices.result![0]
-                                                    });
-                                              }
-                                            },
-                                            child: Container(
-                                                height: 50,
-                                                width: screenSize!.width * 0.2,
-                                                padding: const EdgeInsets.all(8),
-                                                decoration: const BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(12)),
-                                                    color: Colors.white),
-                                                child: Center(
-                                                  child: Text(
-                                                    AppLocale.start
-                                                        .getString(context),
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w600),
-                                                  ),
-                                                )),
-                                          )
-                                        ],
-                                      ));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    AppLocale.reports.getString(context),
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.reportsRoute);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          AppLocale.viewAll.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const Icon(Icons.navigate_next)
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              ListView.builder(
-                                itemCount: patientReports.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 20),
-                                    decoration: const BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 2,
-                                            color: Colors.grey,
-                                            offset: Offset(1, 1),
-                                          ),
-                                        ],
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                        color: Colors.white),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundImage: AssetImage(
-                                                  patientReports[index]["image"]),
-                                              radius: 30,
-                                            ),
-                                            const SizedBox(
-                                              width: 20,
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  patientReports[index]
-                                                  ["patientName"],
-                                                  style: const TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 15),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  patientReports[index]["age"],
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  patientReports[index]
-                                                  ["description"],
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  "created: ${patientReports[index]["created"]}",
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          child: (patientReports[index]
-                                          ["receivedReport"] ==
-                                              true)
-                                              ? Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                width: 50,
-                                                height: 50,
-                                                child: Stack(
-                                                  children: [
-                                                    CircularStepProgressIndicator(
-                                                      totalSteps: 200,
-                                                      currentStep: int.parse(
-                                                          patientReports[
-                                                          index]
-                                                          [
-                                                          "repData"]
-                                                          ["bpm"]),
-                                                      stepSize: 5,
-                                                      selectedColor:
-                                                      patientReports[
-                                                      index]
-                                                      [
-                                                      "repData"]
-                                                      ["color"],
-                                                      unselectedColor:
-                                                      Colors.grey[200],
-                                                      padding: 0,
-                                                      selectedStepSize: 6,
-                                                      roundedCap: (_, __) =>
-                                                      true,
-                                                    ),
-                                                    Center(
-                                                      child: Text(
-                                                        patientReports[
-                                                        index]
-                                                        ["repData"]
-                                                        ["bpm"],
-                                                        style:
-                                                        const TextStyle(
-                                                          color:
-                                                          Colors.black,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .bold,
-                                                          fontSize: 10,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Text(
-                                                patientReports[index]
-                                                ["repData"]["status"],
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: patientReports[
-                                                    index]
-                                                    ["repData"]
-                                                    ["color"]),
-                                              )
-                                            ],
-                                          )
-                                              : Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width:
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                    5,
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  const BorderRadius
-                                                      .all(
-                                                      Radius.circular(
-                                                          20)),
-                                                  color:
-                                                  patientReports[index]
-                                                  ['repData']
-                                                  ["color"],
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    patientReports[index]
-                                                    ["reportStatus"],
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                      FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                    },
+                  ),
           ),
         );
       },
     );
+  }
+  parseDate(String timestampString){
+    DateTime parsedDateTime = DateTime.parse(timestampString);
+    return DateFormat('dd\nMM\nyyyy').format(parsedDateTime);
   }
 }

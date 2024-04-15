@@ -10,13 +10,14 @@ import '../../network/api_calls.dart';
 import '../../utils/routes.dart';
 import '../model/all_enterprise_users_response_model.dart';
 import '../model/all_patients_response_model.dart';
+import '../model/dashboard_count_response_model.dart';
 import '../model/enterprise_response_model.dart';
 import '../model/state_master_response_model.dart';
 
 class PatientProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
-  IndividualResponseModel? individualPatientData;
-  EnterpriseResponseModel? enterpriseUserData;
+  // IndividualResponseModel? individualPatientData;
+  // EnterpriseResponseModel? enterpriseUserData;
   BuildContext?
   relGetPatientContext;
   Future<AllPatientsResponseModel>? individualPatients;
@@ -174,90 +175,95 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> prefillEditPatientDetails(BuildContext context) async {
+  Future<void> prefillEditPatientDetails(BuildContext context, IndividualResponseModel? individualPatientData, EnterpriseResponseModel? enterpriseUserData) async {
     showLoaderDialog(context);
     editPatientSelectedImage = null;
     if (prefModel.userData!.roleId == 2) {
       editPatientDobController.text =
-          "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData!.result!.contact!.doB!.month}-${individualPatientData!.result!.contact!.doB!.day}";
+          "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
-          individualPatientData!.result!.contact!.contactNumber!;
-      editPatientEmailController.text = individualPatientData!.result!.email!;
+          individualPatientData.result!.contact!.contactNumber!;
+      editPatientEmailController.text = individualPatientData.result!.email!;
       editPatientFirstNameController.text =
-          individualPatientData!.result!.firstName!;
+          individualPatientData.result!.firstName!;
       editPatientLastNameController.text =
-          individualPatientData!.result!.lastName!;
+          individualPatientData.result!.lastName!;
       editPatientAddressController.text =
-          individualPatientData!.result!.contact!.address.toString();
-      editPatientGender = individualPatientData!.result!.contact!.gender == 1
+          individualPatientData.result!.contact!.address.toString();
+      editPatientGender = individualPatientData.result!.contact!.gender == 1
           ? "Male"
-          : individualPatientData!.result!.contact!.gender == 2
+          : individualPatientData.result!.contact!.gender == 2
               ? "Female"
               : "Do not wish to specify";
       editNewPatientStreetController.text =
-          individualPatientData!.result!.contact!.address!.street.toString();
+          individualPatientData.result!.contact!.address!.street.toString();
       editNewPatientAreaController.text =
-          individualPatientData!.result!.contact!.address!.area.toString();
+          individualPatientData.result!.contact!.address!.area.toString();
       editNewPatientLandmarkController.text =
-          individualPatientData!.result!.contact!.address!.landmark.toString();
+          individualPatientData.result!.contact!.address!.landmark.toString();
       editNewPatientCityController.text =
-          individualPatientData!.result!.contact!.address!.city.toString();
+          individualPatientData.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =
-          individualPatientData!.result!.contact!.address!.pinCode.toString();
+          individualPatientData.result!.contact!.address!.pinCode.toString();
       for (var state in stateMasterResponse!.result!) {
-        if (state.id == individualPatientData!.result!.contact!.address!.stateId) {
+        if (state.id == individualPatientData.result!.contact!.address!.stateId) {
           editStateAs = state.name;
           break;
         }
       }
-      editPatientBloodGroup =
-          individualPatientData!.result!.contact!.bloodGroup;
-      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-          individualPatientData!.result!.profilePicture!.url!);
+      editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
+      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData.result!.profilePicture!.url!);
       notifyListeners();
       Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editPatientsRoute);
+      Navigator.pushNamed(context, Routes.editPatientsRoute,
+      arguments: {
+        "individualUserData":individualPatientData,
+        "enterPriseUserData":enterpriseUserData
+      });
     } else {
       editPatientDobController.text =
-          "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData!.result!.contact!.doB!.month}-${enterpriseUserData!.result!.contact!.doB!.day}";
+          "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
-          enterpriseUserData!.result!.contact!.contactNumber!;
-      editPatientEmailController.text = enterpriseUserData!.result!.emailId!;
+          enterpriseUserData.result!.contact!.contactNumber!;
+      editPatientEmailController.text = enterpriseUserData.result!.emailId!;
       editPatientFirstNameController.text =
-          enterpriseUserData!.result!.firstName!;
+          enterpriseUserData.result!.firstName!;
       editPatientLastNameController.text =
-          enterpriseUserData!.result!.lastName!;
+          enterpriseUserData.result!.lastName!;
       editNewPatientStreetController.text =
-          enterpriseUserData!.result!.contact!.address!.street.toString();
+          enterpriseUserData.result!.contact!.address!.street.toString();
       editNewPatientAreaController.text =
-          enterpriseUserData!.result!.contact!.address!.area.toString();
+          enterpriseUserData.result!.contact!.address!.area.toString();
       editNewPatientLandmarkController.text =
-          enterpriseUserData!.result!.contact!.address!.landmark.toString();
+          enterpriseUserData.result!.contact!.address!.landmark.toString();
       editNewPatientCityController.text =
-          enterpriseUserData!.result!.contact!.address!.city.toString();
+          enterpriseUserData.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =
-          enterpriseUserData!.result!.contact!.address!.pinCode.toString();
+          enterpriseUserData.result!.contact!.address!.pinCode.toString();
       for (var state in stateMasterResponse!.result!) {
-        if (state.id == enterpriseUserData!.result!.contact!.address!.stateId) {
+        if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
           editStateAs = state.name;
           break;
         }
       }
-      editPatientGender = enterpriseUserData!.result!.contact!.gender == 1
+      editPatientGender = enterpriseUserData.result!.contact!.gender == 1
           ? "Male"
-          : enterpriseUserData!.result!.contact!.gender == 2
+          : enterpriseUserData.result!.contact!.gender == 2
               ? "Female"
               : "Do not wish to specify";
-      editPatientBloodGroup = enterpriseUserData!.result!.contact!.bloodGroup;
-      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-          enterpriseUserData!.result!.profilePicture!.url!);
+      editPatientBloodGroup = enterpriseUserData.result!.contact!.bloodGroup;
+      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(enterpriseUserData.result!.profilePicture!.url!);
       notifyListeners();
       Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editPatientsRoute);
+      Navigator.pushNamed(context, Routes.editPatientsRoute,
+          arguments: {
+            "individualUserData":individualPatientData,
+            "enterPriseUserData":enterpriseUserData
+          });
     }
   }
 
-  editPatient() async {
+  editPatient(IndividualResponseModel? individualPatientData, EnterpriseResponseModel? enterpriseUserData) async {
     showLoaderDialog(editPatientPageContext!);
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response = await apiCalls.editPatient(
@@ -271,15 +277,15 @@ class PatientProvider extends ChangeNotifier {
           editPatientPageContext!,
           editPatientBloodGroup!,
           individualPatientData!.result!.userId.toString(),
-          individualPatientData!.result!.contactId.toString(),
-          individualPatientData!.result!.id.toString(),
+          individualPatientData.result!.contactId.toString(),
+          individualPatientData.result!.id.toString(),
           editNewPatientStreetController.text,
           editNewPatientAreaController.text,
           editNewPatientPinCodeController.text,
           editNewPatientCityController.text,
           editNewPatientLandmarkController.text,
-          editSelectedStateId??individualPatientData!.result!.contact!.address!.stateId,
-          individualPatientData!.result!.contact!.addressId.toString()
+          editSelectedStateId??individualPatientData.result!.contact!.address!.stateId,
+          individualPatientData.result!.contact!.addressId.toString()
       );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
@@ -300,15 +306,15 @@ class PatientProvider extends ChangeNotifier {
               editPatientPageContext!,
               editPatientBloodGroup!,
               enterpriseUserData!.result!.enterpriseUserId.toString(),
-              enterpriseUserData!.result!.id.toString(),
-              enterpriseUserData!.result!.contactId.toString(),
+              enterpriseUserData.result!.id.toString(),
+              enterpriseUserData.result!.contactId.toString(),
               editNewPatientStreetController.text,
               editNewPatientAreaController.text,
               editNewPatientPinCodeController.text,
               editNewPatientCityController.text,
               editNewPatientLandmarkController.text,
-              editSelectedStateId??enterpriseUserData!.result!.contact!.address!.stateId,
-              enterpriseUserData!.result!.contact!.addressId.toString()
+              editSelectedStateId??enterpriseUserData.result!.contact!.address!.stateId,
+              enterpriseUserData.result!.contact!.addressId.toString()
           );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
@@ -340,5 +346,9 @@ class PatientProvider extends ChangeNotifier {
     if (stateMasterResponse!.result!.isEmpty) {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }
+  }
+
+  Future<DashboardCountResponseModel> getCounts(int pId) {
+    return apiCalls.getDashboardCounts(pId);
   }
 }
