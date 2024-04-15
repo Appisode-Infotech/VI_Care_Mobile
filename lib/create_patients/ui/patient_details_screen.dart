@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
@@ -76,7 +77,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
               },
             ),
             actions: [
-              InkWell(
+              GestureDetector(
                 onTap: () async {
                   await patientProvider.getStateMaster(context);
                   if (prefModel.userData!.roleId == 2 &&
@@ -266,16 +267,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   ),
                                                   height: 100,
                                                   width: screenSize!.width / 4,
-                                                  child: Center(
-                                                    child: Text(
-                                                      parseDate(
-                                                          countSnapshot.data!.result!
-                                                              .lastTested!),
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                          FontWeight.w600),
-                                                    ),
+                                                  child: Text(
+                                                    parseDate(
+                                                        countSnapshot.data!.result!
+                                                            .lastTested!),
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                        FontWeight.w600),
                                                   ),
                                                 ),
                                                 const SizedBox(
@@ -312,7 +311,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       child: Text(
                                                         countSnapshot.data!.result!
                                                             .totalTests!.toString(),
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontSize: 20,
                                                             fontWeight:
                                                             FontWeight.w600),
@@ -352,7 +351,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       child: Text(
                                                         countSnapshot.data!.result!
                                                             .reportsCount!.toString(),
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontSize: 20,
                                                             fontWeight:
                                                             FontWeight.w600),
@@ -881,16 +880,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 ),
                                                 height: 100,
                                                 width: screenSize!.width / 4,
-                                                child: Center(
-                                                  child: Text(
-                                                    parseDate(
-                                                        countSnapshot.data!.result!
-                                                            .lastTested!),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                        FontWeight.w600),
-                                                  ),
+                                                child: Text(
+                                                  parseDate(
+                                                      countSnapshot.data!.result!
+                                                          .lastTested!),
+                                                  style: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                      FontWeight.w600),
                                                 ),
                                               ),
                                               const SizedBox(
@@ -927,7 +924,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     child: Text(
                                                       countSnapshot.data!.result!
                                                           .totalTests!.toString(),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:
                                                           FontWeight.w600),
@@ -967,7 +964,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     child: Text(
                                                       countSnapshot.data!.result!
                                                           .reportsCount!.toString(),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:
                                                           FontWeight.w600),
@@ -1344,6 +1341,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
   }
   parseDate(String timestampString){
     DateTime parsedDateTime = DateTime.parse(timestampString);
-    return DateFormat('dd\nMM\nyyyy').format(parsedDateTime);
+    return DateFormat('dd\nMMM\nyyyy').format(parsedDateTime);
   }
 }
