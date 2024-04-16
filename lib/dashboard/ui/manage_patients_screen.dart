@@ -162,10 +162,13 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               index = index - 1;
                               return InkWell(
                                 onTap: () {
-                                  patientProvider.getIndividualUserData(
-                                      snapshot.data!.result![index].id
-                                          .toString(),
-                                      context);
+                                  Navigator.pushNamed(context, Routes.patientDetailsRoute,arguments: {
+                                    "id":snapshot.data!.result![index].id,
+                                  });
+                                  // patientProvider.getIndividualUserData(
+                                  //     snapshot.data!.result![index].id
+                                  //         .toString(),
+                                  //     context);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -348,10 +351,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               index = index - 1;
                               return InkWell(
                                 onTap: () async {
-                                  patientProvider.getEnterpriseUserData(
-                                      snapshot.data!.result![index].id
-                                          .toString(),
-                                      context);
+                                  Navigator.pushNamed(context, Routes.patientDetailsRoute,arguments: {
+                                    "id":snapshot.data!.result![index].id,
+                                  });
+                                  // patientProvider.getEnterpriseUserData(snapshot.data!.result![index].id.toString(), context);
+
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(

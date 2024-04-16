@@ -35,7 +35,6 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   int secondsRemaining = 0;
   bool isTimerRunning = false;
   int heartRate = 0;
-  List<StreamSubscription> subscriptions = [];
   List<int> bpmList = [];
   List<int> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
@@ -52,15 +51,18 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
         if (secondsRemaining > 0) {
           secondsRemaining--;
         } else {
-          for (var subscription in subscriptions) {
+          for (var subscription in takeTestProvider.subscriptions) {
             subscription.cancel();
           }
           timer.cancel();
           heartRate = 0;
-          secondsRemaining =
-              (prefModel.selectedDuration!.durationInMinutes!) * 60;
+          secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
           isTimerRunning = false;
-          saveReadings(takeTestProvider);
+          if(enterprisePatientData!=null || individualPatientData!=null){
+            saveReadings(takeTestProvider);
+          }else{
+            showSuccessToast(context, "Test complete");
+          }
         }
       });
     });
@@ -75,7 +77,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     } else {
       bool userWantsToAbort = await showStopTestWarningDialog(context);
       if (userWantsToAbort) {
-        for (var subscription in subscriptions) {
+        for (var subscription in takeTestProvider.subscriptions) {
           subscription.cancel(); // cancel all subscriptions
         }
         heartRate = 0;
@@ -97,19 +99,24 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
   @override
   void dispose() {
-    for (var subscription in subscriptions) {
-      subscription.cancel(); // Cancel each subscription
-    }
+    // for (var subscription in subscriptions) {
+    //   subscription.cancel(); // Cancel each subscription
+    // }
     if (timer != null) {
       timer!.cancel();
     }
+    rrIntervalList.clear();
+    bpmList.clear();
+    timer?.cancel();
+    heartRate = 0;
+    secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+    isTimerRunning = false;
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
-    Provider.of<TakeTestProvider>(context, listen: false)
-        .listenToConnectedDevice();
+    Provider.of<TakeTestProvider>(context, listen: false).listenToConnectedDevice();
     super.didChangeDependencies();
   }
 
@@ -159,7 +166,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   Future<void> startRecordingReadings(TakeTestProvider takeTestProvider) async {
     bpmList.clear(); // Clear existing values
     rrIntervalList.clear(); // Clear existing values
-    subscriptions.clear(); // Clear existing subscriptions
+    takeTestProvider.subscriptions.clear(); // Clear existing subscriptions
 
     List<BluetoothService> services = await takeTestProvider.connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
@@ -180,7 +187,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
               rrIntervalList.add(rrInterval.toInt());
             }
           });
-          subscriptions.add(subscription);
+          takeTestProvider.subscriptions.add(subscription);
         }
       }
     }
@@ -211,7 +218,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
     var testData = {
       "fileVersion": "IBIPOLAR",
-      "appVersion": "ViCare",
+      "appVersion": "ViCare_1.0.0",
       "serialNumber": deviceData!.deviceSerialNo,
       "guid": "46184141-00c6-46ee-b927-4218085e85fd",
       "age": prefModel.userData!.roleId == 2
@@ -243,10 +250,13 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
 
     File payload = File(filePath);
     await payload.writeAsString(jsonString);
-
+    setState(() {
+      rrIntervalList.clear();
+      bpmList.clear();
+    });
     if (await payload.exists()) {
       // File was successfully written
-      takeTestProvider.requestDeviceData(context, payload,deviceData!.deviceSerialNo);
+      takeTestProvider.requestDeviceData(context, payload,deviceData!.deviceSerialNo,deviceData!.id,takeTestProvider.connectedDevice!.id.id);
       showSuccessToast(context, "Test successful and saved to offline.");
     } else {
       // Failed to write the file
@@ -283,8 +293,22 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      takeTestProvider.disconnect(context);
+                    onTap: () async {
+                      await takeTestProvider.disconnect(context,isTimerRunning,(bool val){
+                        if(val){
+                          for (var subscription in takeTestProvider.subscriptions) {
+                            subscription.cancel();
+                          }
+                          setState(() {
+                            rrIntervalList.clear();
+                            bpmList.clear();
+                            timer?.cancel();
+                            heartRate = 0;
+                            secondsRemaining = (prefModel.selectedDuration!.durationInMinutes!) * 60;
+                            isTimerRunning = false;
+                          });
+                        }
+                      });
                     },
                     child: Text(
                       AppLocale.disconnect.getString(context),
@@ -303,7 +327,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             width: screenSize!.width,
             height: screenSize!.width * 0.5,
             child: SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
+              primaryXAxis: const CategoryAxis(),
               primaryYAxis: const NumericAxis(
                 interval: 40,
                 minimum: 500,

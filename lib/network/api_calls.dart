@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,8 +21,10 @@ import 'package:vicare/utils/app_buttons.dart';
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
+import '../create_patients/model/dashboard_count_response_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
+import '../dashboard/model/patient_reports_response_model.dart';
 import '../main.dart';
 import '../utils/url_constants.dart';
 
@@ -126,7 +127,6 @@ class ApiCalls {
     request.fields['Contact.Address.Landmark'] = landMark;
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
-    log(request.fields.toString());
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -163,7 +163,6 @@ class ApiCalls {
       String email, String password, BuildContext buildContext) async {
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
         jsonEncode({"email": email.trim(), 'password': password}));
-    log(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -531,28 +530,24 @@ class ApiCalls {
   }
 
   Future<IndividualResponseModel> getIndividualUserData(
-      String? pId, BuildContext context) async {
+      String? pId) async {
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
-    log(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       return IndividualResponseModel.fromJson(json.decode(response.body));
     } else {
-      Navigator.pop(context);
-      showErrorToast(context, "Something went wrong");
       throw "could not fetch Data ${response.statusCode}";
     }
   }
 
   Future<EnterpriseResponseModel> getEnterpriseUserData(
-      String? eId, BuildContext context) async {
+      String? eId) async {
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getEnterpriseProfiles}/${eId}");
     if (response.statusCode == 200) {
       return EnterpriseResponseModel.fromJson(json.decode(response.body));
     } else {
-      Navigator.pop(context);
-      showErrorToast(context, "Something went wrong");
       throw "could not fetch Data ${response.statusCode}";
     }
   }
@@ -639,12 +634,10 @@ class ApiCalls {
     request.headers.addAll({
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
-    log(request.fields.toString());
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -755,11 +748,6 @@ class ApiCalls {
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
     var response = await request.send();
-    print(request.fields);
-    print(request.files);
-    var responseData = await response.stream.toBytes();
-    var responseJson = json.decode(utf8.decode(responseData));
-    log(responseJson.toString());
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
@@ -768,6 +756,7 @@ class ApiCalls {
       showErrorToast(context, "Invalid Data");
       throw "could not fetch Data ${response.statusCode}";
     } else {
+      Navigator.pop(context);
       showErrorToast(context, "Something went wrong");
       throw "could not fetch data ${response.statusCode}";
     }
@@ -785,16 +774,6 @@ class ApiCalls {
                 "userId": prefModel.userData!.id
               }
           ));
-      print(jsonEncode(
-          {
-            "type": "vicare",
-            "deviceSerialNo": serialNo,
-            "isPaired": true,
-            "roleId": prefModel.userData!.roleId,
-            "userId": prefModel.userData!.id
-          }
-      ));
-      log(response.body);
       if (response.statusCode == 200) {
         showSuccessToast(context, json.decode(response.body)['message'].toString());
         return AddDeviceResponseModel.fromJson(json.decode(response.body));
@@ -808,7 +787,6 @@ class ApiCalls {
 
   Future<DeviceResponseModel> getMyDevices() async {
     http.Response response = await hitApiGet(true, "${UrlConstants.userAndDevice}/GetAllByName/${prefModel.userData!.id}");
-    print(response.body);
     if(response.statusCode==200){
       return DeviceResponseModel.fromJson(json.decode(response.body));
     }else{
@@ -821,7 +799,6 @@ class ApiCalls {
       Uri.parse("${UrlConstants.userAndDevice}/${userAndDeviceId}"),
       headers: getHeaders(true),
     );
-    log(response.body);
     if(response.statusCode==200){
       return DeviceDeleteResponseModel.fromJson(json.decode(response.body));
     }else{
@@ -832,11 +809,47 @@ class ApiCalls {
 
   Future<MyReportsResponseModel>getMyReports() async {
     http.Response response = await hitApiGet(true, "${UrlConstants.MResponseReport}${prefModel.userData!.id}");
-    log(response.body);
     if(response.statusCode==200){
       return MyReportsResponseModel.fromJson(json.decode(response.body));
     }else{
       throw "could not fetch devices ${response.statusCode}";
+    }
+  }
+
+  Future<DashboardCountResponseModel> getDashboardCounts(int pId) async {
+    if(prefModel.userData!.roleId==2){
+      http.Response response = await hitApiGet(true, "${UrlConstants.MDashboard}${prefModel.userData!.id}?individualProfileId=$pId");
+      if(response.statusCode==200){
+        return DashboardCountResponseModel.fromJson(json.decode(response.body));
+      }else{
+        throw "could not fetch devices ${response.statusCode}";
+      }
+    }else{
+      http.Response response = await hitApiGet(true, "${UrlConstants.MDashboard}${prefModel.userData!.id}?enterpriseProfileId=$pId");
+      if(response.statusCode==200){
+        return DashboardCountResponseModel.fromJson(json.decode(response.body));
+      }else{
+        throw "could not fetch devices ${response.statusCode}";
+      }
+    }
+
+  }
+
+  Future<PatientReportsResponseModel> getAllReportsByProfileId(int? pId) async {
+    if(prefModel.userData!.roleId==2){
+      http.Response response = await hitApiGet(true, "${UrlConstants.getAllReportsByProfileId}?individualProfileId=$pId");
+      if(response.statusCode==200){
+        return PatientReportsResponseModel.fromJson(json.decode(response.body));
+      }else{
+        throw "could not fetch devices ${response.statusCode}";
+      }
+    }else{
+      http.Response response = await hitApiGet(true, "${UrlConstants.getAllReportsByProfileId}?enterpriseProfileId=$pId");
+      if(response.statusCode==200){
+        return PatientReportsResponseModel.fromJson(json.decode(response.body));
+      }else{
+        throw "could not fetch devices ${response.statusCode}";
+      }
     }
   }
 }
