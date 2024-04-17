@@ -22,6 +22,7 @@ import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
 import '../create_patients/model/dashboard_count_response_model.dart';
+import '../dashboard/model/detailed_report_ddf_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
 import '../dashboard/model/patient_reports_response_model.dart';
@@ -850,6 +851,15 @@ class ApiCalls {
       }else{
         throw "could not fetch devices ${response.statusCode}";
       }
+    }
+  }
+
+  Future<DetailedReportPdfModel> getReportPdf(int? requestDeviceDataId, BuildContext context) async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
+    if(response.statusCode==200){
+      return DetailedReportPdfModel.fromJson(json.decode(response.body));
+    }else{
+      throw "could not fetch devices ${response.statusCode}";
     }
   }
 }

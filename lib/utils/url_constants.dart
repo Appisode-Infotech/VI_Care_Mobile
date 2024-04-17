@@ -19,4 +19,5 @@ class UrlConstants {
   static const String MResponseReport = "${apiBaseUrl}MResponseReport/GetReportsBySearchFilter";
   static const String MDashboard = "${apiBaseUrl}MDashboard/GetProfileDashboardCounts";
   static const String getAllReportsByProfileId = "${apiBaseUrl}ResponseReport/GetAllReportsByProfileId";
+  static const String getResponseDocumentsByUserId = "${apiBaseUrl}ResponseDeviceDocument/GetResponseDocumentsByUserId";
 }

@@ -256,8 +256,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     ],
                                   ),
                                   FutureBuilder(
-                                    future: patientProvider
-                                        .getCounts(snapshot.data!.result!.id!),
+                                    future: patientProvider.getCounts(snapshot.data!.result!.id!),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<
                                                 DashboardCountResponseModel>
