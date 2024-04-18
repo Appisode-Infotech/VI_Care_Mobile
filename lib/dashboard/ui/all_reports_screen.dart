@@ -185,6 +185,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               onTap: (){
                                 Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
                                   "processedData":snapshot.data!.result![index].processedData!,
+                                  "requestDeviceDataId":snapshot.data!.result![index].requestDeviceDataId,
                                 });
                               },
                               child: Column(
@@ -210,8 +211,8 @@ class _ReportScreenState extends State<ReportScreen> {
                                         Row(
                                           children: [
                                             CircleAvatar(
-                                              backgroundImage: snapshot.data!.result![index].roleId==2?NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture!=null?snapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
-                                                  :NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?snapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!:''),
+                                              backgroundImage: snapshot.data!.result![index].roleId==2?NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture!=null?snapshot.data!.result![index].individualProfile!.profilePicture!['url']!:'')
+                                                  :NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?snapshot.data!.result![index].enterpriseProfile!['profilePicture']!['url']!:''),
                                               radius: 30,
                                             ),
                                             const SizedBox(
@@ -232,8 +233,8 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 const SizedBox(height: 5),
                                                 Text(
                                                   snapshot.data!.result![index].roleId==2?
-                                                  "${calculateAge(snapshot.data!.result![index].individualProfile!.contact!.doB!)}Years":
-                                                  "${calculateAge(snapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}Years",
+                                                  "${calculateAge(snapshot.data!.result![index].individualProfile!.contact!.doB!)} Years":
+                                                  "${calculateAge(snapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} Years",
                                                   style: const TextStyle(
                                                       color: Colors.black, fontSize: 12),
                                                 ),

@@ -909,6 +909,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: (){
                               Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
                                 "processedData":reportsSnapshot.data!.result![index].processedData!,
+                                "requestDeviceDataId":reportsSnapshot.data!.result![index].requestDeviceDataId,
                               });
                             },
                             child: Container(
@@ -932,8 +933,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Row(
                                     children: [
                                       CircleAvatar(
-                                        backgroundImage: reportsSnapshot.data!.result![index].roleId==2?NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture!=null?reportsSnapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
-                                            :NetworkImage(reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!:''),
+                                        backgroundImage: reportsSnapshot.data!.result![index].roleId==2?NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture!=null?reportsSnapshot.data!.result![index].individualProfile!.profilePicture!['url']:'')
+                                            :NetworkImage(reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?reportsSnapshot.data!.result![index].enterpriseProfile!['profilePicture']['url']:''),
                                         radius: 30,
                                       ),
                                       const SizedBox(

@@ -5,12 +5,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
+import '../model/detailed_report_ddf_model.dart';
 import '../model/device_data_response_model.dart';
 import '../model/my_reports_response_model.dart';
 
@@ -322,12 +324,26 @@ class TakeTestProvider extends ChangeNotifier {
         individualProfileId: prefModel.userData!.individualProfileId,
         enterpriseProfileId: prefModel.userData!.enterpriseUserId,
         uploadFile: payload);
+    Navigator.pop(dataContext);
     if (response.result != null) {
-      showSuccessToast(dataContext, "Test successfully sent to hrv server");
+      showSuccessToast(dataContext, "Test successfully sent to hrv server.You can check the reports in some time");
     }
   }
 
   Future<MyReportsResponseModel> getMyReports() async {
     return await apiCalls.getMyReports();
+  }
+
+  Future<void> getReportPdf(int? requestDeviceDataId, BuildContext context) async {
+    showLoaderDialog(context);
+    DetailedReportPdfModel response =  await apiCalls.getReportPdf(requestDeviceDataId,context);
+    Navigator.pop(context);
+    if(response.result!=null){
+      if (!await launchUrl(Uri.parse(response.result![0].url!))) {
+        throw Exception('Could not launch $response.result![0].url!');
+      }
+    }else{
+      showSuccessToast(context, response.message!);
+    }
   }
 }
