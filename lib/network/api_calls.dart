@@ -809,7 +809,7 @@ class ApiCalls {
   }
 
   Future<MyReportsResponseModel>getMyReports() async {
-    http.Response response = await hitApiGet(true, "${UrlConstants.MResponseReport}${prefModel.userData!.id}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.MResponseReport}/${prefModel.userData!.id}");
     if(response.statusCode==200){
       return MyReportsResponseModel.fromJson(json.decode(response.body));
     }else{
