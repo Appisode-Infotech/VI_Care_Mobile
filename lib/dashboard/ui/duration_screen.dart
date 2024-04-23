@@ -3,7 +3,6 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/provider/devices_provider.dart';
-import 'package:vicare/database/app_pref.dart';
 
 import '../../main.dart';
 import '../../utils/app_colors.dart';
@@ -99,47 +98,31 @@ class _DurationScreenState extends State<DurationScreen> {
                 return ListView.separated(
                     itemCount: snapshot.data!.result!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            prefModel.selectedDuration =
-                                snapshot.data!.result![index];
-                            AppPref.setPref(prefModel);
-                          });
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 16),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              border: Border.all(
-                                  color: prefModel.selectedDuration == null
-                                      ? Colors.white
-                                      : prefModel.selectedDuration!.id ==
-                                              snapshot.data!.result![index].id
-                                          ? AppColors.primaryColor
-                                          : Colors.white),
-                              color: Colors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                snapshot.data!.result![index].name!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Text(
-                                "${snapshot.data!.result![index].durationInMinutes!} ${AppLocale.minutes.getString(context)}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16,
-                                    color: AppColors.primaryColor),
-                              ),
-                            ],
-                          ),
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 16),
+                        decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              snapshot.data!.result![index].name!,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              "${snapshot.data!.result![index].durationInMinutes!} ${AppLocale.minutes.getString(context)}",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                  color: AppColors.primaryColor),
+                            ),
+                          ],
                         ),
                       );
                     },

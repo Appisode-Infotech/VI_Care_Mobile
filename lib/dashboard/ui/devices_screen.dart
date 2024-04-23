@@ -99,23 +99,16 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                 vertical: 10, horizontal: 10),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 16),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                    color: prefModel.selectedDuration == null
-                                        ? Colors.white
-                                        : prefModel.selectedDuration!.id ==
-                                        snapshot.data!.result!.devices![index].id
-                                        ? AppColors.primaryColor
-                                        : Colors.white),
+                                BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                    snapshot.data!.result!.devices![index].serialNumber!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                    snapshot.data!.result!.devices![index].serialNumber!,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                                 GestureDetector(
                                     onTap: (){
                                       deviceProvider.deleteDevice(snapshot.data!.result!.devices![index].id,context);

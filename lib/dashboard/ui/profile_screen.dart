@@ -442,7 +442,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   InkWell(
                     onTap: () {
                       prefModel.userData = null;
-                      prefModel.selectedDuration = null;
                       AppPref.setPref(prefModel);
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           Routes.loginRoute, (route) => false);

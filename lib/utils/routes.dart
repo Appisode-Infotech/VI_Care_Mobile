@@ -24,5 +24,5 @@ class Routes {
   static const String bluetoothScanRoute = "bluetoothScan";
   static const String scanLeDevicesToAddRoute = "scanLeDevicesToAdd";
   static const String detailedReportRoute = "detailedReportScreen";
-  static const String newTestRoute = "newTest";
+  static const String newTestLeRoute = "newTestLe";
 }

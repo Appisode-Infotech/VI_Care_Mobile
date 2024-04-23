@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vicare/dashboard/provider/new_test_le_provider.dart';
 import '../../create_patients/model/enterprise_response_model.dart';
 import '../../create_patients/model/individual_response_model.dart';
 import '../model/device_response_model.dart';
 import '../model/duration_response_model.dart';
 
-class NewTestScreen extends StatefulWidget {
-  const NewTestScreen({super.key});
+class NewTestLeScreen extends StatefulWidget {
+  const NewTestLeScreen({super.key});
 
   @override
-  State<NewTestScreen> createState() => _NewTestScreenState();
+  State<NewTestLeScreen> createState() => _NewTestLeScreenState();
 }
 
-class _NewTestScreenState extends State<NewTestScreen> {
+class _NewTestLeScreenState extends State<NewTestLeScreen> {
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
   Device? selectedDevice;
@@ -24,8 +26,13 @@ class _NewTestScreenState extends State<NewTestScreen> {
     individualPatientData = arguments['individualPatientData'];
     selectedDevice = arguments['selectedDevice'];
     selectedDuration = arguments['selectedDuration'];
-    return  Scaffold(
-      appBar: AppBar(title: Text("New Test"),),
+    return  Consumer(
+      builder: (BuildContext context, NewTestLeProvider newTestLeProvider, Widget? child) {
+        return Scaffold(
+          appBar: AppBar(title: Text("New Test"),),
+          body: Text(newTestLeProvider.flutterBlue.state.toString()),
+        );
+      },
     );
   }
 }
