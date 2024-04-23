@@ -422,8 +422,10 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                     AppLocale.connect.getString(context),
                     onPressed: () async {
                       if (testFormKey.currentState!.validate()) {
-                        if(selectedDevice!.deviceType==2){
+                        if(selectedDevice!.deviceCategory==2){
                           newTestLeProvider.connectToDevice((bool isConnected) {
+                            Navigator.pop(consumerContext);
+                            Navigator.pop(bottomSheetContext);
                             if (isConnected) {
                               Navigator.pushNamed(
                                 context,
@@ -434,11 +436,6 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                                   'selectedDuration': selectedDuration,
                                   'selectedDevice': selectedDevice
                                 },
-                              );
-                            } else {
-                              showErrorToast(
-                                context,
-                                "Could not connect to the device. Please ensure that the device is powered on, worn, and ready to connect.",
                               );
                             }
                           },selectedDevice,consumerContext);

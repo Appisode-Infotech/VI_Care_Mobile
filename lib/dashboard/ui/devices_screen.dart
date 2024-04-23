@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -96,7 +97,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         itemBuilder: (BuildContext listViewContext, int index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
+                                vertical: 5, horizontal: 10),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 16),
                             decoration: const BoxDecoration(
@@ -107,8 +108,18 @@ class _DeviceScreenState extends State<DeviceScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                    snapshot.data!.result!.devices![index].serialNumber!,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                SizedBox(
+                                  width: screenSize!.width * 0.7,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildRow("Name : ", snapshot.data!.result!.devices![index].name!),
+                                      _buildRow("Serial Number : ", snapshot.data!.result!.devices![index].serialNumber!),
+                                      _buildRow("Bluetooth type : ", snapshot.data!.result!.devices![index].deviceCategory == 2 ? 'LE' : 'Classic'),
+                                    ],
+                                  ),
+                                ),
                                 GestureDetector(
                                     onTap: (){
                                       deviceProvider.deleteDevice(snapshot.data!.result!.devices![index].id,context);
@@ -120,7 +131,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         },
                         separatorBuilder:
                             (BuildContext listViewContext, int index) {
-                          return const Divider();
+                          return const SizedBox();
                         },
                         itemCount: snapshot.data!.result!.devices!.length)
                     : Center(
@@ -282,6 +293,20 @@ class _DeviceScreenState extends State<DeviceScreen> {
           },
         );
       },
+    );
+  }
+  Widget _buildRow(String label, String value) {
+    return Row(
+      children: [
+        Text(
+          "$label",
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "$value",
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
     );
   }
 }

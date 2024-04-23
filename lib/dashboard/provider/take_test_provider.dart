@@ -71,8 +71,7 @@ class TakeTestProvider extends ChangeNotifier {
       isConnected = true;
       Navigator.pop(context); // Dismiss the loader
       Navigator.pop(context); // Back to test screen
-      showSuccessToast(context,
-          "${AppLocale.connectedTo.getString(context)} ${device.name}");
+      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.name}");
     } catch (e) {
       Navigator.pop(context); // Dismiss the loader
       showErrorToast(context,
@@ -107,7 +106,7 @@ class TakeTestProvider extends ChangeNotifier {
           return PopScope(
             canPop: false,
             child: AlertDialog(
-              title: Text("Add device details."),
+              title: const Text("Add device details."),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -115,14 +114,14 @@ class TakeTestProvider extends ChangeNotifier {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "Device name : ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(device.name),
                     ],
                   ),
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         "Device manufacturer : ",
@@ -131,7 +130,7 @@ class TakeTestProvider extends ChangeNotifier {
                       Text("Smart Lab"),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   const Text("Serial number"),
@@ -177,7 +176,7 @@ class TakeTestProvider extends ChangeNotifier {
                       Navigator.pop(dialogContext);
                       Navigator.pop(oldContext);
                     },
-                    child: Text("Close")),
+                    child: const Text("Close")),
                 TextButton(
                     onPressed: () async {
                       if (addDeviceFormKey.currentState!.validate()) {
@@ -228,7 +227,7 @@ class TakeTestProvider extends ChangeNotifier {
     }
     leDevices.clear();
     try {
-      await flutterBlue.startScan(timeout: Duration(seconds: 5));
+      await flutterBlue.startScan(timeout: const Duration(seconds: 5));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult result in results) {
           if (!leDevices.contains(result.device) &&
