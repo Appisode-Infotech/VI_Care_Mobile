@@ -344,7 +344,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     break;
                   }
                 }
-
                 setState(() {
                   authProvider.registerAs = value!;
                 });

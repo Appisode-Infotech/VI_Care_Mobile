@@ -14,7 +14,7 @@ class DurationResponseModel {
   String? message;
   bool? isSuccess;
   PageResult? pageResult;
-  List<Duration>? result;
+  List<DurationClass>? result;
   List<String>? errors;
 
   DurationResponseModel({
@@ -34,8 +34,8 @@ class DurationResponseModel {
             : PageResult.fromJson(json["pageResult"]),
         result: json["result"] == null
             ? []
-            : List<Duration>.from(
-                json["result"]!.map((x) => Duration.fromJson(x))),
+            : List<DurationClass>.from(
+                json["result"]!.map((x) => DurationClass.fromJson(x))),
         errors: json["errors"] == null
             ? []
             : List<String>.from(json["errors"]!.map((x) => x)),
@@ -97,14 +97,14 @@ class PageResult {
       };
 }
 
-class Duration {
+class DurationClass {
   int? id;
   String? uniqueGuid;
   String? name;
   int? durationInMinutes;
   String? type;
 
-  Duration({
+  DurationClass({
     this.id,
     this.uniqueGuid,
     this.name,
@@ -112,7 +112,7 @@ class Duration {
     this.type,
   });
 
-  factory Duration.fromJson(Map<String, dynamic> json) => Duration(
+  factory DurationClass.fromJson(Map<String, dynamic> json) => DurationClass(
         id: json["id"],
         uniqueGuid: json["uniqueGuid"],
         name: json["name"],

@@ -5,7 +5,7 @@ import '../../dashboard/model/offline_test_model.dart';
 
 class PrefModel {
   UserData? userData;
-  Duration? selectedDuration;
+  DurationClass? selectedDuration;
   List<OfflineTestModel>? offlineSavedTests;
 
   PrefModel({
@@ -21,7 +21,7 @@ class PrefModel {
           : UserData.fromJson(parsedJson["userData"]),
       selectedDuration: parsedJson["selectedDuration"] == null
           ? null
-          : Duration.fromJson(parsedJson["selectedDuration"]),
+          : DurationClass.fromJson(parsedJson["selectedDuration"]),
       offlineSavedTests: parsedJson["offlineSavedTests"] == null
           ? []
           : List<OfflineTestModel>.from(parsedJson["offlineSavedTests"]

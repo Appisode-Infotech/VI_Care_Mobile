@@ -6,6 +6,7 @@ import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../dashboard/model/device_response_model.dart';
+import '../../dashboard/model/duration_response_model.dart';
 import '../../dashboard/model/patient_reports_response_model.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
@@ -361,5 +362,8 @@ class PatientProvider extends ChangeNotifier {
 
   Future<DeviceResponseModel>getMyDevices() {
     return apiCalls.getMyDevices();
+  }
+  Future<DurationResponseModel> getAllDuration() async {
+    return await apiCalls.getAllDurations();
   }
 }
