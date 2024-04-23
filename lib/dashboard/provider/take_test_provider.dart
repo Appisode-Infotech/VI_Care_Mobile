@@ -184,7 +184,7 @@ class TakeTestProvider extends ChangeNotifier {
                         showLoaderDialog(dialogContext);
                         await apiCalls.addDevice(
                             device.name,
-                            device.id,
+                            device.id.id,
                             "le",
                             serialNumberController.text,
                             dialogContext,
@@ -334,16 +334,20 @@ class TakeTestProvider extends ChangeNotifier {
     return await apiCalls.getMyReports();
   }
 
-  Future<void> getReportPdf(int? requestDeviceDataId, BuildContext context) async {
-    showLoaderDialog(context);
-    DetailedReportPdfModel response =  await apiCalls.getReportPdf(requestDeviceDataId,context);
-    Navigator.pop(context);
-    if(response.result!=null){
-      if (!await launchUrl(Uri.parse(response.result![0].url!))) {
-        throw Exception('Could not launch $response.result![0].url!');
-      }
-    }else{
-      showSuccessToast(context, response.message!);
+  Future<DetailedReportPdfModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
+    return await apiCalls.getReportPdf(requestDeviceDataId,context);
+    // Navigator.pop(context);
+    // if(response.result!=null){
+    //   if (!await launchUrl(Uri.parse(response.result![0].url!))) {
+    //     throw Exception('Could not launch $response.result![0].url!');
+    //   }
+    // }else{
+    //   showSuccessToast(context, response.message!);
+    // }
+  }
+  downloadReportPdf(String url, BuildContext context) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
     }
   }
 }

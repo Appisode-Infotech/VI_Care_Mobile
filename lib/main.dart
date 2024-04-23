@@ -36,9 +36,14 @@ import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
 import 'onboarding/ui/on_boarding_screen.dart';
 import 'onboarding/ui/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await AppPref.getInstance();
   runApp(
     const MyApp(),

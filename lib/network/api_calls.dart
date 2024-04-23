@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:vicare/auth/model/reset_password_response_model.dart';
@@ -160,10 +161,10 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel> loginUser(
-      String email, String password, BuildContext buildContext) async {
+  Future<RegisterResponseModel> loginUser(String email, String password, BuildContext buildContext) async {
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
     http.Response response = await hitApiPost(false, UrlConstants.loginUser,
-        jsonEncode({"email": email.trim(), 'password': password}));
+        jsonEncode({"email": email.trim(), 'password': password, 'fcmToken':fcmToken}));
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -210,7 +211,7 @@ class ApiCalls {
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['Contact.Email'] = email;
-    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.BloodGroup'] = bloodGroup.toString();
@@ -534,7 +535,6 @@ class ApiCalls {
       String? pId) async {
     http.Response response =
         await hitApiGet(true, "${UrlConstants.getIndividualProfiles}/${pId}");
-    print(response.body);
     if (response.statusCode == 200) {
       return IndividualResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -763,14 +763,14 @@ class ApiCalls {
     }
   }
 
-  addDevice(String name, DeviceIdentifier id, String type, String serialNo, BuildContext context, BuildContext oldContext) async {
+  addDevice(String name, String deviceUid, String type, String serialNo, BuildContext context, BuildContext oldContext) async {
     if(type=="le"){
       http.Response response = await hitApiPost(true, UrlConstants.userAndDevice,
           jsonEncode(
               {
-                "type": "vicare",
+                "type": "le",
                 "deviceSerialNo": serialNo,
-                "isPaired": true,
+                "deviceKey": deviceUid,
                 "roleId": prefModel.userData!.roleId,
                 "userId": prefModel.userData!.id
               }
@@ -787,7 +787,8 @@ class ApiCalls {
   }
 
   Future<DeviceResponseModel> getMyDevices() async {
-    http.Response response = await hitApiGet(true, "${UrlConstants.userAndDevice}/GetAllByName/${prefModel.userData!.id}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.userAndDevice}/GetDevicesByUserId/${prefModel.userData!.id}");
+    log(response.body);
     if(response.statusCode==200){
       return DeviceResponseModel.fromJson(json.decode(response.body));
     }else{
@@ -809,7 +810,7 @@ class ApiCalls {
   }
 
   Future<MyReportsResponseModel>getMyReports() async {
-    http.Response response = await hitApiGet(true, "${UrlConstants.MResponseReport}${prefModel.userData!.id}");
+    http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}");
     if(response.statusCode==200){
       return MyReportsResponseModel.fromJson(json.decode(response.body));
     }else{
@@ -819,14 +820,14 @@ class ApiCalls {
 
   Future<DashboardCountResponseModel> getDashboardCounts(int pId) async {
     if(prefModel.userData!.roleId==2){
-      http.Response response = await hitApiGet(true, "${UrlConstants.MDashboard}${prefModel.userData!.id}?individualProfileId=$pId");
+      http.Response response = await hitApiGet(true, "${UrlConstants.mDashboard}${prefModel.userData!.id}?individualProfileId=$pId");
       if(response.statusCode==200){
         return DashboardCountResponseModel.fromJson(json.decode(response.body));
       }else{
         throw "could not fetch devices ${response.statusCode}";
       }
     }else{
-      http.Response response = await hitApiGet(true, "${UrlConstants.MDashboard}${prefModel.userData!.id}?enterpriseProfileId=$pId");
+      http.Response response = await hitApiGet(true, "${UrlConstants.mDashboard}${prefModel.userData!.id}?enterpriseProfileId=$pId");
       if(response.statusCode==200){
         return DashboardCountResponseModel.fromJson(json.decode(response.body));
       }else{

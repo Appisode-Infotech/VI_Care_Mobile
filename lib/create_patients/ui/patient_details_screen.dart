@@ -47,7 +47,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
   ];
   String? pId;
 
-  bool isLoaded= false;
+  bool isLoaded = false;
+
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -57,7 +58,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
     return Consumer(
       builder: (BuildContext context, PatientProvider patientProvider,
           Widget? child) {
-        if(!isLoaded){
+        if (!isLoaded) {
           patientProvider.getIndividualUserData(pId);
           patientProvider.getEnterpriseUserData(pId);
           isLoaded = true;
@@ -256,7 +257,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     ],
                                   ),
                                   FutureBuilder(
-                                    future: patientProvider.getCounts(snapshot.data!.result!.id!),
+                                    future: patientProvider
+                                        .getCounts(snapshot.data!.result!.id!),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<
                                                 DashboardCountResponseModel>
@@ -388,10 +390,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   width: screenSize!.width / 4,
                                                   child: Center(
                                                     child: Text(
-                                                      parseDate(countSnapshot
-                                                          .data!
-                                                          .result!
-                                                          .lastTested!),
+                                                      countSnapshot
+                                                                  .data!
+                                                                  .result!
+                                                                  .lastTested !=
+                                                              null
+                                                          ? parseDate(
+                                                              countSnapshot
+                                                                  .data!
+                                                                  .result!
+                                                                  .lastTested!)
+                                                          : "Never",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: const TextStyle(
@@ -436,8 +445,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   child: Center(
                                                       child: Text(
                                                     countSnapshot.data!.result!
-                                                        .totalTests!
-                                                        .toString(),
+                                                                .totalTests !=
+                                                            null
+                                                        ? countSnapshot.data!
+                                                            .result!.totalTests!
+                                                            .toString()
+                                                        : "0",
                                                     style: const TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -479,8 +492,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   child: Center(
                                                       child: Text(
                                                     countSnapshot.data!.result!
-                                                        .reportsCount!
-                                                        .toString(),
+                                                                .reportsCount !=
+                                                            null
+                                                        ? countSnapshot
+                                                            .data!
+                                                            .result!
+                                                            .reportsCount!
+                                                            .toString()
+                                                        : "0",
                                                     style: const TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -553,28 +572,25 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               const SizedBox(width: 5),
                                               GestureDetector(
                                                 onTap: () async {
-                                                  showLoaderDialog(
-                                                      context);
+                                                  showLoaderDialog(context);
                                                   DeviceResponseModel
                                                       myDevices =
                                                       await deviceProvider
                                                           .getMyDevices();
                                                   Navigator.pop(context);
                                                   if (myDevices
-                                                      .result!.isEmpty) {
-                                                    showErrorToast(
-                                                        context,
+                                                      .result!.devices!.isEmpty) {
+                                                    showErrorToast(context,
                                                         myDevices.message!);
                                                   } else {
-                                                    Navigator.pushNamed(
-                                                        context,
+                                                    Navigator.pushNamed(context,
                                                         Routes.takeTestRoute,
                                                         arguments: {
                                                           'individualPatientData':
                                                               snapshot.data!,
                                                           'deviceData':
                                                               myDevices
-                                                                  .result![0]
+                                                                  .result!.devices![0]
                                                         });
                                                   }
                                                 },
@@ -694,9 +710,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                           shrinkWrap: true,
                                           physics:
                                               const NeverScrollableScrollPhysics(),
-                                          separatorBuilder: (BuildContext context,
-                                              int index){
-                                            return const SizedBox(height: 10,);
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return const SizedBox(
+                                              height: 10,
+                                            );
                                           },
                                           itemBuilder: (BuildContext context,
                                               int index) {
@@ -729,7 +748,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       CircleAvatar(
                                                         backgroundImage:
                                                             AssetImage(
-                                                                patientReports[0]
+                                                                patientReports[
+                                                                        0]
                                                                     ["image"]),
                                                         radius: 30,
                                                       ),
@@ -745,8 +765,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            patientReports[
-                                                                    0]
+                                                            patientReports[0]
                                                                 ["patientName"],
                                                             style: const TextStyle(
                                                                 fontWeight:
@@ -757,8 +776,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                           const SizedBox(
                                                               height: 5),
                                                           Text(
-                                                            patientReports[
-                                                                0]["age"],
+                                                            patientReports[0]
+                                                                ["age"],
                                                             style: const TextStyle(
                                                                 color: Colors
                                                                     .black,
@@ -767,8 +786,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                           const SizedBox(
                                                               height: 5),
                                                           Text(
-                                                            patientReports[
-                                                                    0]
+                                                            patientReports[0]
                                                                 ["description"],
                                                             style: const TextStyle(
                                                                 color: Colors
@@ -789,8 +807,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     ],
                                                   ),
                                                   Container(
-                                                    child: (patientReports[
-                                                                    0][
+                                                    child: (patientReports[0][
                                                                 "receivedReport"] ==
                                                             true)
                                                         ? Column(
@@ -851,8 +868,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   height: 10),
                                                               Text(
                                                                 patientReports[
-                                                                            0]
-                                                                        [
+                                                                            0][
                                                                         "repData"]
                                                                     ["status"],
                                                                 style: TextStyle(
@@ -897,8 +913,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 child: Center(
                                                                   child: Text(
                                                                     patientReports[
-                                                                            0]
-                                                                        [
+                                                                            0][
                                                                         "reportStatus"],
                                                                     style:
                                                                         const TextStyle(
@@ -1248,7 +1263,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 await patientProvider
                                                     .getMyDevices();
                                             Navigator.pop(context);
-                                            if (myDevices.result!.isEmpty) {
+                                            if (myDevices.result!.devices!.isEmpty) {
                                               showErrorToast(
                                                   context, myDevices.message!);
                                             } else {
@@ -1258,7 +1273,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     'enterprisePatientData':
                                                         snapshot.data!,
                                                     'deviceData':
-                                                        myDevices.result![0]
+                                                        myDevices.result!.devices![0]
                                                   });
                                             }
                                           },
@@ -1326,7 +1341,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   itemCount: patientReports.length,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  separatorBuilder: (BuildContext context,int index){
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
                                     return const Divider();
                                   },
                                   itemBuilder:
