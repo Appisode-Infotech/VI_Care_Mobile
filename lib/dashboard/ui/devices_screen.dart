@@ -92,7 +92,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         )));
               }
               if (snapshot.hasData) {
-                return snapshot.data!.result!.isNotEmpty? ListView.separated(
+                return snapshot.data!.result!.devices!.isNotEmpty? ListView.separated(
                         itemBuilder: (BuildContext listViewContext, int index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(
@@ -106,7 +106,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                     color: prefModel.selectedDuration == null
                                         ? Colors.white
                                         : prefModel.selectedDuration!.id ==
-                                        snapshot.data!.result![index].id
+                                        snapshot.data!.result!.devices![index].id
                                         ? AppColors.primaryColor
                                         : Colors.white),
                                 color: Colors.white),
@@ -115,10 +115,10 @@ class _DeviceScreenState extends State<DeviceScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                    snapshot.data!.result![index].deviceSerialNo!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                    snapshot.data!.result!.devices![index].serialNumber!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                                 GestureDetector(
                                     onTap: (){
-                                      deviceProvider.deleteDevice(snapshot.data!.result![index].id,context);
+                                      deviceProvider.deleteDevice(snapshot.data!.result!.devices![index].id,context);
                                     },
                                     child: const CircleAvatar(child: Icon(Icons.delete_outline_rounded)))
                               ],
@@ -129,7 +129,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                             (BuildContext listViewContext, int index) {
                           return const Divider();
                         },
-                        itemCount: snapshot.data!.result!.length)
+                        itemCount: snapshot.data!.result!.devices!.length)
                     : Center(
                         child: Text(
                           AppLocale.noDevicesFound.getString(context),

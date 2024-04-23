@@ -39,7 +39,8 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
   List<int> rrIntervalList = [];
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
-  DeviceResult? deviceData;
+  Device? deviceData;
+  int energy = 0;
 
   final double pWaveDuration = 0.09; // Assuming typical value
   final double qrsComplexDuration = 0.08; // Assuming typical value
@@ -180,12 +181,52 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
           }
           StreamSubscription subscription =
           characteristic.value.listen((value) {
-            if (value.isNotEmpty) {
-              heartRate = value[1];
-              bpmList.add(value[1]);
-              double rrInterval = 60000 / value[1];
-              rrIntervalList.add(rrInterval.toInt());
+            int flag = value[0];
+            bpmList.add(value[1]);
+            int offset = 1;
+
+            // Parse Heart Rate
+            if ((flag & 0x01) != 0) {
+              heartRate = (value[offset + 1] << 8) + value[offset];
+              offset += 2;
+            } else {
+              heartRate = value[offset];
+              offset += 1;
             }
+
+            // Parse Energy
+            if ((flag & 0x08) != 0) {
+              energy = (value[offset + 1] << 8) + value[offset];
+              offset += 2;
+            }
+            int rrValue = 0;
+            // Parse RR Intervals
+            if ((flag & 0x10) != 0) {
+              int rrCount = (value.length - offset) ~/ 2;
+              for (int i = 0; i < rrCount; i++) {
+                rrValue = (value[offset + 1] << 8) + value[offset];
+                offset += 2;
+              }
+              rrIntervalList.add(rrValue);
+            }
+            // if (value.isNotEmpty) {
+            //   heartRate = value[1];
+            //   bpmList.add(value[1]);
+            //   print("case1");
+            //   if ((value[0] & 0x10) != 0) {
+            //     print("case2");
+            //     // RR stuff
+            //     int offset = 2;
+            //     int rrCount = (value.length - offset) ~/ 2;
+            //     print(rrCount);
+            //     int jsonData = 0;
+            //     for (int i = 0; i < rrCount; i++) {
+            //       jsonData += value[offset + i * 2];
+            //     }
+            //     print(jsonData);
+            //     rrIntervalList.add(jsonData);
+            //   }
+            // }
           });
           takeTestProvider.subscriptions.add(subscription);
         }
@@ -219,7 +260,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     var testData = {
       "fileVersion": "IBIPOLAR",
       "appVersion": "ViCare_1.0.0",
-      "serialNumber": deviceData!.deviceSerialNo,
+      "serialNumber": deviceData!.serialNumber,
       "guid": "46184141-00c6-46ee-b927-4218085e85fd",
       "age": prefModel.userData!.roleId == 2
           ? calculateAge(individualPatientData!.result!.contact!.doB.toString())
@@ -256,7 +297,7 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
     });
     if (await payload.exists()) {
       // File was successfully written
-      takeTestProvider.requestDeviceData(context, payload,deviceData!.deviceSerialNo,deviceData!.id,takeTestProvider.connectedDevice!.id.id);
+      takeTestProvider.requestDeviceData(context, payload,deviceData!.serialNumber,deviceData!.id,takeTestProvider.connectedDevice!.id.id);
       showSuccessToast(context, "Test successful and saved to offline.");
     } else {
       // Failed to write the file
@@ -328,11 +369,11 @@ class _TakeTestScreenState extends State<TakeTestScreen> {
             height: screenSize!.width * 0.5,
             child: SfCartesianChart(
               primaryXAxis: const CategoryAxis(),
-              primaryYAxis: const NumericAxis(
-                interval: 40,
-                minimum: 500,
-                maximum: 800,
-              ),
+              // primaryYAxis: const NumericAxis(
+              //   interval: 40,
+              //   minimum: 500,
+              //   maximum: 800,
+              // ),
               series: <CartesianSeries<dynamic, dynamic>>[
                 LineSeries<ChartData, double>(
                   dataSource: rrIntervalList

@@ -184,8 +184,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             return GestureDetector(
                               onTap: (){
                                 Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
-                                  "processedData":snapshot.data!.result![index].processedData!,
-                                  "requestDeviceDataId":snapshot.data!.result![index].requestDeviceDataId,
+                                  "requestDeviceDataId":snapshot.data!.result![index].id,
                                 });
                               },
                               child: Column(
@@ -211,7 +210,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                         Row(
                                           children: [
                                             CircleAvatar(
-                                              backgroundImage: snapshot.data!.result![index].roleId==2?NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture!=null?snapshot.data!.result![index].individualProfile!.profilePicture!['url']!:'')
+                                              backgroundImage: snapshot.data!.result![index].roleId==2?NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture!=null?snapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
                                                   :NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?snapshot.data!.result![index].enterpriseProfile!['profilePicture']!['url']!:''),
                                               radius: 30,
                                             ),

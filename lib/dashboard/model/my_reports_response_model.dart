@@ -41,28 +41,29 @@ class MyReportsResponseModel {
 }
 
 class Result {
-  dynamic name;
-  int? reportStatus;
-  String? reportDate;
-  dynamic type;
-  String? processedData;
+  String? details;
   String? requestDateTime;
-  String? processedDateTime;
-  int? paymentStatus;
-  String? errorType;
-  String? errorMessage;
-  int? totalRequest;
-  int? remainingRequest;
-  int? consumedRequest;
   int? processingStatus;
+  String? processedDate;
+  dynamic inputData;
+  int? fileType;
+  String? durationName;
+  String? deviceSerialNo;
+  String? ipAddress;
+  int? userAndDeviceId;
+  dynamic subscriberGuid;
   int? subscriberId;
-  String? status;
-  int? roleId;
-  dynamic role;
-  int? requestDeviceDataId;
-  dynamic requestDeviceData;
+  dynamic subscriber;
+  int? deviceId;
+  dynamic device;
+  int? durationId;
+  dynamic duration;
   int? userId;
   User? user;
+  int? deviceDocumentId;
+  dynamic deviceDocument;
+  int? roleId;
+  dynamic role;
   int? individualProfileId;
   IndividualProfile? individualProfile;
   dynamic enterpriseProfileId;
@@ -71,28 +72,29 @@ class Result {
   int? id;
 
   Result({
-    this.name,
-    this.reportStatus,
-    this.reportDate,
-    this.type,
-    this.processedData,
+    this.details,
     this.requestDateTime,
-    this.processedDateTime,
-    this.paymentStatus,
-    this.errorType,
-    this.errorMessage,
-    this.totalRequest,
-    this.remainingRequest,
-    this.consumedRequest,
     this.processingStatus,
+    this.processedDate,
+    this.inputData,
+    this.fileType,
+    this.durationName,
+    this.deviceSerialNo,
+    this.ipAddress,
+    this.userAndDeviceId,
+    this.subscriberGuid,
     this.subscriberId,
-    this.status,
-    this.roleId,
-    this.role,
-    this.requestDeviceDataId,
-    this.requestDeviceData,
+    this.subscriber,
+    this.deviceId,
+    this.device,
+    this.durationId,
+    this.duration,
     this.userId,
     this.user,
+    this.deviceDocumentId,
+    this.deviceDocument,
+    this.roleId,
+    this.role,
     this.individualProfileId,
     this.individualProfile,
     this.enterpriseProfileId,
@@ -102,28 +104,29 @@ class Result {
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    name: json["name"],
-    reportStatus: json["reportStatus"],
-    reportDate: json["reportDate"],
-    type: json["type"],
-    processedData: json["processedData"],
+    details: json["details"],
     requestDateTime: json["requestDateTime"],
-    processedDateTime: json["processedDateTime"],
-    paymentStatus: json["paymentStatus"],
-    errorType: json["errorType"],
-    errorMessage: json["errorMessage"],
-    totalRequest: json["totalRequest"],
-    remainingRequest: json["remainingRequest"],
-    consumedRequest: json["consumedRequest"],
     processingStatus: json["processingStatus"],
+    processedDate: json["processedDate"],
+    inputData: json["inputData"],
+    fileType: json["fileType"],
+    durationName: json["durationName"],
+    deviceSerialNo: json["deviceSerialNo"],
+    ipAddress: json["ipAddress"],
+    userAndDeviceId: json["userAndDeviceId"],
+    subscriberGuid: json["subscriberGuid"],
     subscriberId: json["subscriberId"],
-    status: json["status"],
-    roleId: json["roleId"],
-    role: json["role"],
-    requestDeviceDataId: json["requestDeviceDataId"],
-    requestDeviceData: json["requestDeviceData"],
+    subscriber: json["subscriber"],
+    deviceId: json["deviceId"],
+    device: json["device"],
+    durationId: json["durationId"],
+    duration: json["duration"],
     userId: json["userId"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
+    deviceDocumentId: json["deviceDocumentId"],
+    deviceDocument: json["deviceDocument"],
+    roleId: json["roleId"],
+    role: json["role"],
     individualProfileId: json["individualProfileId"],
     individualProfile: json["individualProfile"] == null ? null : IndividualProfile.fromJson(json["individualProfile"]),
     enterpriseProfileId: json["enterpriseProfileId"],
@@ -133,28 +136,29 @@ class Result {
   );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "reportStatus": reportStatus,
-    "reportDate": reportDate,
-    "type": type,
-    "processedData": processedData,
+    "details": details,
     "requestDateTime": requestDateTime,
-    "processedDateTime": processedDateTime,
-    "paymentStatus": paymentStatus,
-    "errorType": errorType,
-    "errorMessage": errorMessage,
-    "totalRequest": totalRequest,
-    "remainingRequest": remainingRequest,
-    "consumedRequest": consumedRequest,
     "processingStatus": processingStatus,
+    "processedDate": processedDate,
+    "inputData": inputData,
+    "fileType": fileType,
+    "durationName": durationName,
+    "deviceSerialNo": deviceSerialNo,
+    "ipAddress": ipAddress,
+    "userAndDeviceId": userAndDeviceId,
+    "subscriberGuid": subscriberGuid,
     "subscriberId": subscriberId,
-    "status": status,
-    "roleId": roleId,
-    "role": role,
-    "requestDeviceDataId": requestDeviceDataId,
-    "requestDeviceData": requestDeviceData,
+    "subscriber": subscriber,
+    "deviceId": deviceId,
+    "device": device,
+    "durationId": durationId,
+    "duration": duration,
     "userId": userId,
     "user": user?.toJson(),
+    "deviceDocumentId": deviceDocumentId,
+    "deviceDocument": deviceDocument,
+    "roleId": roleId,
+    "role": role,
     "individualProfileId": individualProfileId,
     "individualProfile": individualProfile?.toJson(),
     "enterpriseProfileId": enterpriseProfileId,
@@ -174,7 +178,7 @@ class IndividualProfile {
   int? userId;
   User? user;
   int? profilePictureId;
-  dynamic profilePicture;
+  ProfilePicture? profilePicture;
   String? uniqueGuid;
   int? id;
 
@@ -203,7 +207,7 @@ class IndividualProfile {
     userId: json["userId"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
     profilePictureId: json["profilePictureId"],
-    profilePicture: json["profilePicture"],
+    profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -218,7 +222,7 @@ class IndividualProfile {
     "userId": userId,
     "user": user?.toJson(),
     "profilePictureId": profilePictureId,
-    "profilePicture": profilePicture,
+    "profilePicture": profilePicture?.toJson(),
     "uniqueGuid": uniqueGuid,
     "id": id,
   };
@@ -336,6 +340,70 @@ class Address {
   };
 }
 
+class ProfilePicture {
+  String? name;
+  dynamic type;
+  String? path;
+  dynamic tags;
+  int? length;
+  String? savedFileName;
+  String? actualFileName;
+  int? fileType;
+  String? sthreeKey;
+  String? url;
+  dynamic deviceId;
+  String? uniqueGuid;
+  int? id;
+
+  ProfilePicture({
+    this.name,
+    this.type,
+    this.path,
+    this.tags,
+    this.length,
+    this.savedFileName,
+    this.actualFileName,
+    this.fileType,
+    this.sthreeKey,
+    this.url,
+    this.deviceId,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory ProfilePicture.fromJson(Map<String, dynamic> json) => ProfilePicture(
+    name: json["name"],
+    type: json["type"],
+    path: json["path"],
+    tags: json["tags"],
+    length: json["length"],
+    savedFileName: json["savedFileName"],
+    actualFileName: json["actualFileName"],
+    fileType: json["fileType"],
+    sthreeKey: json["sthreeKey"],
+    url: json["url"],
+    deviceId: json["deviceId"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "type": type,
+    "path": path,
+    "tags": tags,
+    "length": length,
+    "savedFileName": savedFileName,
+    "actualFileName": actualFileName,
+    "fileType": fileType,
+    "sthreeKey": sthreeKey,
+    "url": url,
+    "deviceId": deviceId,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
 class User {
   String? email;
   String? contactNumber;
@@ -427,70 +495,6 @@ class User {
     "enterpriseUserId": enterpriseUserId,
     "enterpriseUser": enterpriseUser,
     "individualProfileId": individualProfileId,
-    "uniqueGuid": uniqueGuid,
-    "id": id,
-  };
-}
-
-class ProfilePicture {
-  String? name;
-  dynamic type;
-  String? path;
-  dynamic tags;
-  int? length;
-  String? savedFileName;
-  String? actualFileName;
-  int? fileType;
-  String? sthreeKey;
-  String? url;
-  dynamic deviceId;
-  String? uniqueGuid;
-  int? id;
-
-  ProfilePicture({
-    this.name,
-    this.type,
-    this.path,
-    this.tags,
-    this.length,
-    this.savedFileName,
-    this.actualFileName,
-    this.fileType,
-    this.sthreeKey,
-    this.url,
-    this.deviceId,
-    this.uniqueGuid,
-    this.id,
-  });
-
-  factory ProfilePicture.fromJson(Map<String, dynamic> json) => ProfilePicture(
-    name: json["name"],
-    type: json["type"],
-    path: json["path"],
-    tags: json["tags"],
-    length: json["length"],
-    savedFileName: json["savedFileName"],
-    actualFileName: json["actualFileName"],
-    fileType: json["fileType"],
-    sthreeKey: json["sthreeKey"],
-    url: json["url"],
-    deviceId: json["deviceId"],
-    uniqueGuid: json["uniqueGuid"],
-    id: json["id"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "type": type,
-    "path": path,
-    "tags": tags,
-    "length": length,
-    "savedFileName": savedFileName,
-    "actualFileName": actualFileName,
-    "fileType": fileType,
-    "sthreeKey": sthreeKey,
-    "url": url,
-    "deviceId": deviceId,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };
