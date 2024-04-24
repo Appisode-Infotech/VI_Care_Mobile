@@ -7,9 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:vicare/create_patients/model/enterprise_response_model.dart';
+import 'package:vicare/create_patients/model/individual_response_model.dart';
+import 'package:vicare/dashboard/model/device_response_model.dart';
+import 'package:vicare/dashboard/model/duration_response_model.dart';
+import 'package:vicare/dashboard/provider/new_test_le_provider.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
+import 'package:vicare/utils/routes.dart';
 
 getPrimaryAppButton(BuildContext context, String label,
     {required Future<Null> Function() onPressed, Color? buttonColor}) {
@@ -291,4 +298,159 @@ Future<bool> showStopTestWarningDialog(BuildContext context) async {
         );
       });
   return result; // Default to false if result is null
+}
+showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, DurationResponseModel myDurations, IndividualResponseModel? individualPatientData, EnterpriseResponseModel? enterprisePatientData,) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext bottomSheetContext) {
+      final testFormKey = GlobalKey<FormState>();
+      Device? selectedDevice;
+      DurationClass? selectedDuration;
+
+      return Consumer(
+        builder: (BuildContext consumerContext, NewTestLeProvider newTestLeProvider, Widget? child) {
+          return  Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            width: screenSize!.width,
+            child: Form(
+              key: testFormKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Select options",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: (){
+                          Navigator.pop(bottomSheetContext);
+                        },
+                        icon: const Icon(Icons.close),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: const Text("Select Device"),
+                  ),
+                  DropdownButtonFormField<Device>(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null) {
+                        return "Please select device";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Device",
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade50,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      focusColor: Colors.transparent,
+                      errorStyle: TextStyle(color: Colors.red.shade400),
+                    ),
+                    items: myDevices.result!.devices!.map((device) {
+                      return DropdownMenuItem<Device>(
+                        value: device,
+                        child: Text("${device.name!} - ${device.serialNumber!}"),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      selectedDevice = val;
+                    },
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: const Text("Select Duration"),
+                  ),
+                  DropdownButtonFormField<DurationClass>(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null) {
+                        return "Please select duration";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Duration",
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade50,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      focusColor: Colors.transparent,
+                      errorStyle: TextStyle(color: Colors.red.shade400),
+                    ),
+                    items: myDurations.result!.map((duration) {
+                      return DropdownMenuItem<DurationClass>(
+                        value: duration,
+                        child: Text(duration.name!),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      selectedDuration = val;
+                    },
+                  ),
+                  Container(
+                    width: screenSize!.width,
+                    margin: const EdgeInsets.symmetric(vertical: 20),
+                    child: const Text("* Please ensure that the device is powered on, worn, and ready to connect"),
+                  ),
+                  getPrimaryAppButton(
+                    context,
+                    AppLocale.connect.getString(context),
+                    onPressed: () async {
+                      if (testFormKey.currentState!.validate()) {
+                        if(selectedDevice!.deviceCategory==2){
+                          newTestLeProvider.connectToDevice((bool isConnected) {
+                            Navigator.pop(consumerContext);
+                            Navigator.pop(bottomSheetContext);
+                            if (isConnected) {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.newTestLeRoute,
+                                arguments: {
+                                  'individualPatientData': individualPatientData,
+                                  'enterprisePatientData': enterprisePatientData,
+                                  'selectedDuration': selectedDuration,
+                                  'selectedDevice': selectedDevice
+                                },
+                              );
+                            }
+                          },selectedDevice,consumerContext);
+                        }else{
+                          showErrorToast(context, "Selected device type is not supported at the moment");
+                        }
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    },
+  );
 }

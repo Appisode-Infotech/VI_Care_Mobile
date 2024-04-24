@@ -11,7 +11,6 @@ import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/offline_test_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
-import 'package:vicare/dashboard/ui/take_test_screen.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 import 'package:vicare/utils/routes.dart';
@@ -26,11 +25,13 @@ import 'create_patients/ui/add_new_patient_screen.dart';
 import 'create_patients/ui/edit_profile_screen.dart';
 import 'create_patients/ui/summary_screen.dart';
 import 'dashboard/provider/devices_provider.dart';
+import 'dashboard/provider/new_test_le_provider.dart';
 import 'dashboard/ui/all_reports_screen.dart';
 import 'dashboard/ui/bluetooth_scan_page.dart';
 import 'dashboard/ui/detailed_report_screen.dart';
 import 'dashboard/ui/devices_screen.dart';
 import 'dashboard/ui/duration_screen.dart';
+import 'dashboard/ui/new_test_le_screen.dart';
 import 'dashboard/ui/scan_le_devices_to_add_screen.dart';
 import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
@@ -133,6 +134,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ProfileProvider()),
           ChangeNotifierProvider(create: (context) => DeviceProvider()),
           ChangeNotifierProvider(create: (context) => TakeTestProvider()),
+          ChangeNotifierProvider(create: (context) => NewTestLeProvider()),
         ],
         child: MaterialApp(
             supportedLocales: localization.supportedLocales,
@@ -161,7 +163,7 @@ class _MyAppState extends State<MyApp> {
               Routes.forgotResetPasswordRoute: (context) => const ForgotResetPassword(),
               Routes.patientDetailsRoute: (context) => const PatientDetailsScreen(),
               Routes.summaryRoute: (context) => const SummaryScreen(),
-              Routes.takeTestRoute: (context) => const TakeTestScreen(),
+              // Routes.takeTestRoute: (context) => const TakeTestScreen(),
               Routes.offlineTestRoute: (context) => const OfflineTestScreen(),
               Routes.editPatientsRoute: (context) => const EditPatientScreen(),
               Routes.editProfileRoute: (context) => const EditProfileScreen(),
@@ -171,7 +173,8 @@ class _MyAppState extends State<MyApp> {
               Routes.durationsRoute: (context) => const DurationScreen(),
               Routes.bluetoothScanRoute: (context) => const BluetoothScanPage(),
               Routes.scanLeDevicesToAddRoute: (context) => const ScanLeDevicesToAddScreen(),
-              Routes.detailedReportRoute: (context) => const DetailedReportScreen()
+              Routes.detailedReportRoute: (context) => const DetailedReportScreen(),
+              Routes.newTestLeRoute: (context) => const NewTestLeScreen()
             }));
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -115,7 +114,7 @@ class ApiCalls {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
     request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Gender'] = gender.toString();
@@ -281,7 +280,7 @@ class ApiCalls {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
@@ -373,7 +372,7 @@ class ApiCalls {
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['Contact.Email'] = email;
-    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.Gender'] = gender;
     request.fields['UserId'] = userID;
@@ -451,7 +450,7 @@ class ApiCalls {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.Firstname'] = fName;
+    request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.Email'] = email;
     request.fields['Contact.Gender'] = gender.toString();
     request.fields['Contact.LastName'] = lName;
@@ -606,7 +605,7 @@ class ApiCalls {
       int? state) async {
     var request =
         http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
-    request.fields['Firstname'] = fName;
+    request.fields['FirstName'] = fName;
     request.fields['LastName'] = lName;
     request.fields['BloodGroup'] = bloodGroup;
     request.fields['Gender'] = gender;
@@ -788,7 +787,6 @@ class ApiCalls {
 
   Future<DeviceResponseModel> getMyDevices() async {
     http.Response response = await hitApiGet(true, "${UrlConstants.userAndDevice}/GetDevicesByUserId/${prefModel.userData!.id}");
-    log(response.body);
     if(response.statusCode==200){
       return DeviceResponseModel.fromJson(json.decode(response.body));
     }else{
@@ -798,7 +796,7 @@ class ApiCalls {
 
   deleteMyDevice(int? userAndDeviceId, BuildContext context) async {
     http.Response response = await http.delete(
-      Uri.parse("${UrlConstants.userAndDevice}/${userAndDeviceId}"),
+      Uri.parse("${UrlConstants.userAndDevice}/$userAndDeviceId"),
       headers: getHeaders(true),
     );
     if(response.statusCode==200){

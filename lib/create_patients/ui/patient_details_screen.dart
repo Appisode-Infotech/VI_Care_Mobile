@@ -10,6 +10,7 @@ import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import '../../dashboard/model/device_response_model.dart';
+import '../../dashboard/model/duration_response_model.dart';
 import '../../dashboard/model/patient_reports_response_model.dart';
 import '../../dashboard/provider/devices_provider.dart';
 import '../../main.dart';
@@ -573,26 +574,25 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               GestureDetector(
                                                 onTap: () async {
                                                   showLoaderDialog(context);
-                                                  DeviceResponseModel
-                                                      myDevices =
-                                                      await deviceProvider
-                                                          .getMyDevices();
+                                                  DeviceResponseModel myDevices = await patientProvider.getMyDevices();
+                                                  DurationResponseModel myDurations = await patientProvider.getAllDuration();
                                                   Navigator.pop(context);
-                                                  if (myDevices
-                                                      .result!.devices!.isEmpty) {
-                                                    showErrorToast(context,
-                                                        myDevices.message!);
-                                                  } else {
-                                                    Navigator.pushNamed(context,
-                                                        Routes.takeTestRoute,
-                                                        arguments: {
-                                                          'individualPatientData':
-                                                              snapshot.data!,
-                                                          'deviceData':
-                                                              myDevices
-                                                                  .result!.devices![0]
-                                                        });
-                                                  }
+                                                  showTestFormBottomSheet(context,myDevices,myDurations,snapshot.data!,null);
+                                                  // if (myDevices
+                                                  //     .result!.devices!.isEmpty) {
+                                                  //   showErrorToast(context,
+                                                  //       myDevices.message!);
+                                                  // } else {
+                                                  //   Navigator.pushNamed(context,
+                                                  //       Routes.takeTestRoute,
+                                                  //       arguments: {
+                                                  //         'individualPatientData':
+                                                  //             snapshot.data!,
+                                                  //         'deviceData':
+                                                  //             myDevices
+                                                  //                 .result!.devices![0]
+                                                  //       });
+                                                  // }
                                                 },
                                                 child: Container(
                                                     height: 50,
@@ -1259,23 +1259,23 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                         GestureDetector(
                                           onTap: () async {
                                             showLoaderDialog(context);
-                                            DeviceResponseModel myDevices =
-                                                await patientProvider
-                                                    .getMyDevices();
+                                            DeviceResponseModel myDevices = await patientProvider.getMyDevices();
+                                            DurationResponseModel myDurations = await patientProvider.getAllDuration();
                                             Navigator.pop(context);
-                                            if (myDevices.result!.devices!.isEmpty) {
-                                              showErrorToast(
-                                                  context, myDevices.message!);
-                                            } else {
-                                              Navigator.pushNamed(
-                                                  context, Routes.takeTestRoute,
-                                                  arguments: {
-                                                    'enterprisePatientData':
-                                                        snapshot.data!,
-                                                    'deviceData':
-                                                        myDevices.result!.devices![0]
-                                                  });
-                                            }
+                                            showTestFormBottomSheet(context,myDevices,myDurations,null,snapshot.data!);
+                                            // if (myDevices.result!.devices!.isEmpty) {
+                                            //   showErrorToast(
+                                            //       context, myDevices.message!);
+                                            // } else {
+                                            //   Navigator.pushNamed(
+                                            //       context, Routes.takeTestRoute,
+                                            //       arguments: {
+                                            //         'enterprisePatientData':
+                                            //             snapshot.data!,
+                                            //         'deviceData':
+                                            //             myDevices.result!.devices![0]
+                                            //       });
+                                            // }
                                           },
                                           child: Container(
                                               height: 50,

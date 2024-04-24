@@ -29,7 +29,7 @@ class ProfileProvider extends ChangeNotifier {
     showLoaderDialog(context);
       editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
       editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
-      editProfileFirstNameController.text = prefModel.userData!.contact!.firstname!;
+      editProfileFirstNameController.text = prefModel.userData!.contact!.firstname.toString();
       editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
       editProfileStreetController.text=prefModel.userData!.contact!.address!.street!;
       editProfileAreaController.text=prefModel.userData!.contact!.address!.area!;
