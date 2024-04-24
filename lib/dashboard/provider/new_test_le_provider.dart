@@ -8,7 +8,8 @@ import 'package:vicare/utils/app_buttons.dart';
 class NewTestLeProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   BluetoothDevice? connectedDevice;
-  BluetoothDeviceState? deviceStatus;
+
+
   Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
     showLoaderDialog(consumerContext);
     for(var device in await flutterBlue.connectedDevices){
@@ -40,12 +41,5 @@ class NewTestLeProvider extends ChangeNotifier {
       showErrorToast(consumerContext, "Could not connect: $e");
       return;
     }
-  }
-
-  void listenDeviceState() {
-    connectedDevice!.state.listen((state) {
-      deviceStatus = state;
-      notifyListeners();
-    });
   }
 }

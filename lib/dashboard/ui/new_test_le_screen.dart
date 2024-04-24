@@ -21,6 +21,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   Device? selectedDevice;
   DurationClass? selectedDuration;
   bool isFirstTimeLoading = true;
+  BluetoothDeviceState? deviceStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +38,16 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
       body: Consumer(
         builder: (BuildContext context, NewTestLeProvider newTestLeProvider, Widget? child) {
           if(isFirstTimeLoading){
-            newTestLeProvider.listenDeviceState();
+            newTestLeProvider.connectedDevice!.state.listen((state) {
+              deviceStatus = state;
+            });
             isFirstTimeLoading = false;
           }
           return Column(
             children: [
               Text(newTestLeProvider.connectedDevice!=null?newTestLeProvider.connectedDevice!.name:'nothing'),
-              Text(newTestLeProvider.deviceStatus.toString()),
-              newTestLeProvider.deviceStatus==BluetoothDeviceState.disconnected?ElevatedButton(onPressed: (){
+              Text(deviceStatus.toString()),
+              deviceStatus==BluetoothDeviceState.disconnected?ElevatedButton(onPressed: (){
                 newTestLeProvider.connectToDevice((isConnected) {
                   Navigator.pop(context);
                   if(isConnected){
