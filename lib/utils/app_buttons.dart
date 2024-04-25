@@ -299,6 +299,41 @@ Future<bool> showStopTestWarningDialog(BuildContext context) async {
       });
   return result; // Default to false if result is null
 }
+
+
+
+Future<bool> showSaveTestDialog(BuildContext context) async {
+  bool result = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: const Text("Test completed !"),
+            backgroundColor: Colors.white,
+            content: const Text("Test completed successfully, what do you want to do?"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text("close",
+                      style: TextStyle(color: Colors.red))),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text("Save offline",
+                      style: TextStyle(color: Colors.green)))
+            ],
+          ),
+        );
+      });
+  return result; // Default to false if result is null
+}
+
+
 showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, DurationResponseModel myDurations, IndividualResponseModel? individualPatientData, EnterpriseResponseModel? enterprisePatientData,) {
   showModalBottomSheet(
     context: context,

@@ -93,7 +93,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         )));
               }
               if (snapshot.hasData) {
-                return snapshot.data!.result!.devices!.isNotEmpty? ListView.separated(
+                return (snapshot.data!.result!=null && snapshot.data!.result!.devices!.isNotEmpty)? ListView.separated(
                         itemBuilder: (BuildContext listViewContext, int index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(

@@ -25,7 +25,6 @@ import '../create_patients/model/dashboard_count_response_model.dart';
 import '../dashboard/model/detailed_report_ddf_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
-import '../dashboard/model/patient_reports_response_model.dart';
 import '../main.dart';
 import '../utils/url_constants.dart';
 
@@ -585,7 +584,7 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel> editIndividualProfile(
+  Future<RegisterResponseModel> editProfile(
       String fName,
       String lName,
       String mobile,
@@ -762,7 +761,7 @@ class ApiCalls {
     }
   }
 
-  addDevice(String name, String deviceUid, String type, String serialNo, BuildContext context, BuildContext oldContext) async {
+  Future<AddDeviceResponseModel>addDevice(String name, String deviceUid, String type, String serialNo, BuildContext context, BuildContext oldContext) async {
     if(type=="le"){
       http.Response response = await hitApiPost(true, UrlConstants.userAndDevice,
           jsonEncode(
@@ -775,13 +774,14 @@ class ApiCalls {
               }
           ));
       if (response.statusCode == 200) {
-        showSuccessToast(context, json.decode(response.body)['message'].toString());
         return AddDeviceResponseModel.fromJson(json.decode(response.body));
       } else {
         Navigator.pop(context);
         showErrorToast(oldContext, "Something went wrong");
         throw "could not reset password ${response.statusCode}";
       }
+    }else{
+      throw "Classic device not supported atm";
     }
   }
 
@@ -807,14 +807,49 @@ class ApiCalls {
     }
   }
 
-  Future<MyReportsResponseModel>getMyReports() async {
-    http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}");
-    if(response.statusCode==200){
+  Future<MyReportsResponseModel> getMyReports(String? reportTime, String? reportStatus) async {
+    int timeType = 0;
+    int reportStatusType = 0;
+
+    if (reportTime == 'This Week') {
+      timeType = 1;
+    } else if (reportTime == 'This Month') {
+      timeType = 2;
+    }
+
+    if (reportStatus == 'New') {
+      reportStatusType = 1;
+    } else if (reportStatus == 'In Progress') {
+      reportStatusType = 2;
+    } else if (reportStatus == 'Success') {
+      reportStatusType = 3;
+    } else if (reportStatus == 'Fail') {
+      reportStatusType = 4;
+    }
+
+    String url = "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
+    if (timeType != 0 || reportStatusType != 0) {
+      url += "?";
+      if (timeType != 0) {
+        url += "time=$timeType";
+        if (reportStatusType != 0) {
+          url += "&";
+        }
+      }
+      if (reportStatusType != 0) {
+        url += "statusType=$reportStatusType";
+      }
+    }
+
+    http.Response response = await hitApiGet(true, url);
+
+    if (response.statusCode == 200) {
       return MyReportsResponseModel.fromJson(json.decode(response.body));
-    }else{
+    } else {
       throw "could not fetch devices ${response.statusCode}";
     }
   }
+
 
   Future<DashboardCountResponseModel> getDashboardCounts(int pId) async {
     if(prefModel.userData!.roleId==2){
@@ -835,18 +870,18 @@ class ApiCalls {
 
   }
 
-  Future<PatientReportsResponseModel> getAllReportsByProfileId(int? pId) async {
+  Future<MyReportsResponseModel> getAllReportsByProfileId(int? pId) async {
     if(prefModel.userData!.roleId==2){
-      http.Response response = await hitApiGet(true, "${UrlConstants.getAllReportsByProfileId}?individualProfileId=$pId");
+      http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?individualProfileId=$pId");
       if(response.statusCode==200){
-        return PatientReportsResponseModel.fromJson(json.decode(response.body));
+        return MyReportsResponseModel.fromJson(json.decode(response.body));
       }else{
         throw "could not fetch devices ${response.statusCode}";
       }
     }else{
-      http.Response response = await hitApiGet(true, "${UrlConstants.getAllReportsByProfileId}?enterpriseProfileId=$pId");
+      http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?enterpriseProfileId=$pId");
       if(response.statusCode==200){
-        return PatientReportsResponseModel.fromJson(json.decode(response.body));
+        return MyReportsResponseModel.fromJson(json.decode(response.body));
       }else{
         throw "could not fetch devices ${response.statusCode}";
       }

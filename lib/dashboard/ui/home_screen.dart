@@ -871,7 +871,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Consumer(
               builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
                 return FutureBuilder(
-                  future: takeTestProvider.getMyReports(),
+                  future: takeTestProvider.getMyReports('All Time','All reports'),
                   builder: (BuildContext context, AsyncSnapshot<MyReportsResponseModel> reportsSnapshot) {
                     if (reportsSnapshot.connectionState ==
                         ConnectionState.waiting) {

@@ -4,6 +4,9 @@ import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 
+import '../../database/app_pref.dart';
+import '../../database/models/pref_model.dart';
+
 class OfflineTestScreen extends StatefulWidget {
   const OfflineTestScreen({super.key});
 
@@ -12,14 +15,10 @@ class OfflineTestScreen extends StatefulWidget {
 }
 
 class _OfflineTestScreenState extends State<OfflineTestScreen> {
-  void deleteItem(int index) {
-    setState(() {
-      prefModel.offlineSavedTests!.removeAt(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    PrefModel offlinePrefModel = AppPref.getPref();
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -40,9 +39,9 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(15),
-          child: prefModel.offlineSavedTests!.isNotEmpty
+          child: offlinePrefModel.offlineSavedTests!.isNotEmpty
               ? ListView.builder(
-                  itemCount: prefModel.offlineSavedTests!.length,
+                  itemCount: offlinePrefModel.offlineSavedTests!.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -80,31 +79,25 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(prefModel.offlineSavedTests![index].toJson().toString()),
-                                    // Text(prefModel.offlineSavedTests![index]['profileType']),
-                                    // Text(prefModel.offlineSavedTests![index]['roleId'].toString()),
-                                    // Text(prefModel.offlineSavedTests![index]['individualPatientData'].toString()),
-                                    // Text(prefModel.offlineSavedTests![index]['enterprisePatientData'].toString()),
-                                    // Text(prefModel.offlineSavedTests![index]['rrIntervalList'].toString()),
-                                    // Text(
-                                    //   prefModel.offlineSavedTests![index]["patientName"],
-                                    //   style: const TextStyle(
-                                    //       fontWeight: FontWeight.bold, fontSize: 15),
-                                    // ),
-                                    // const SizedBox(height: 5),
-                                    // Text(
-                                    //   offlineTestData[index]["age"],
-                                    //   style: const TextStyle(
-                                    //       color: AppColors.fontShadeColor,
-                                    //       fontSize: 14),
-                                    // ),
-                                    // const SizedBox(height: 5),
-                                    // Text(
-                                    //   "created: ${offlineTestData[index]["created"]}",
-                                    //   style: const TextStyle(
-                                    //       color: AppColors.fontShadeColor,
-                                    //       fontSize: 14),
-                                    // ),
+                                    (offlinePrefModel.offlineSavedTests![index].individualPatientData!=null && offlinePrefModel.offlineSavedTests![index].enterprisePatientData!=null)?
+                                    Column(
+                                      children: [
+                                        offlinePrefModel.offlineSavedTests![index].myRoleId==2?Text("${offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.firstName!} ${offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.lastName!}"):
+                                        Text("${offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.firstName!} ${offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.lastName!}"),
+                                      ],
+                                    ):Center(child: Column(
+                                      children: [
+                                        const Text("No profile linked"),
+                                        TextButton(onPressed: (){}, child: const Text("Link now"))
+                                      ],
+                                    ),),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      "created: ${offlinePrefModel.offlineSavedTests![index].created}",
+                                      style: const TextStyle(
+                                          color: AppColors.fontShadeColor,
+                                          fontSize: 14),
+                                    ),
                                     const SizedBox(height: 10),
                                     Row(children: [
                                       Row(
@@ -131,7 +124,9 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          deleteItem(index);
+                                          setState(() {
+                                            offlinePrefModel.offlineSavedTests!.removeAt(index);
+                                          });
                                         },
                                         child: Row(
                                           children: [
@@ -165,7 +160,11 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                   },
                 )
               : const Center(
-                  child: Text("No saved tests yet !"),
+                  child: Text(
+                    "No saved tests yet !",
+                    style: TextStyle(
+                        fontSize: 18, color: AppColors.fontShadeColor),
+                  ),
                 ),
         ));
   }

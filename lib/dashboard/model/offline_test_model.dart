@@ -4,6 +4,9 @@
 
 import 'dart:convert';
 
+import '../../create_patients/model/enterprise_response_model.dart';
+import '../../create_patients/model/individual_response_model.dart';
+
 OfflineTestModel offlineTestModelFromJson(String str) =>
     OfflineTestModel.fromJson(json.decode(str));
 
@@ -17,10 +20,8 @@ class OfflineTestModel {
   int? scanDuration;
   String? deviceName;
   String? deviceId;
-  String? patientFirstName;
-  String? patientLastName;
-  String? patientProfilePic;
-  int? patientId;
+  EnterpriseResponseModel? enterprisePatientData;
+  IndividualResponseModel? individualPatientData;
   DateTime? created;
 
 
@@ -31,10 +32,8 @@ class OfflineTestModel {
     this.scanDuration,
     this.deviceName,
     this.deviceId,
-    this.patientFirstName,
-    this.patientLastName,
-    this.patientProfilePic,
-    this.patientId,
+    this.enterprisePatientData,
+    this.individualPatientData,
     this.created,
   });
 
@@ -51,10 +50,8 @@ class OfflineTestModel {
         scanDuration: json["scanDuration"],
         deviceName: json["deviceName"],
         deviceId: json["deviceId"],
-        patientFirstName: json["patientFirstName"],
-        patientLastName: json["patientLastName"],
-        patientProfilePic: json["patientProfilePic"],
-        patientId: json["patientId"],
+        enterprisePatientData: json["enterprisePatientData"]== null ? null :EnterpriseResponseModel.fromJson(json["enterprisePatientData"]),
+        individualPatientData: json["individualPatientData"]== null ? null :IndividualResponseModel.fromJson(json["individualPatientData"]),
         created: json["created"] == null ? null : DateTime.parse(json["created"]),
 
       );
@@ -69,10 +66,8 @@ class OfflineTestModel {
         "scanDuration": scanDuration,
         "deviceName": deviceName,
         "deviceId": deviceId,
-        "patientFirstName": patientFirstName,
-        "patientLastName": patientLastName,
-        "patientProfilePic": patientProfilePic,
-        "patientId": patientId,
+        "enterprisePatientData": enterprisePatientData?.toJson(),
+        "individualPatientData": individualPatientData?.toJson(),
     "created": created?.toIso8601String(),
 
   };

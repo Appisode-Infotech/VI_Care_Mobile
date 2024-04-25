@@ -117,7 +117,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 DurationResponseModel myDurations = await deviceProvider
                     .getAllDuration();
                 Navigator.pop(context);
-                showTestFormBottomSheet(context,myDevices,myDurations,null,null);
+                if(myDevices.result!=null && myDevices.result!.devices!.isNotEmpty){
+                  showTestFormBottomSheet(context,myDevices,myDurations,null,null);
+                }else{
+                  showErrorToast(context, "You have not added any devices yet. Please add the device to continue.");
+                }
                 // if (myDevices.result!.devices!.isEmpty) {
                 //   showErrorToast(context, myDevices.message!);
                 // } else {

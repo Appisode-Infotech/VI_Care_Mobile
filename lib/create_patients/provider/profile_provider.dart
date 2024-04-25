@@ -107,7 +107,7 @@ class ProfileProvider extends ChangeNotifier {
 
 
   Future<void> editProfile() async {
-      RegisterResponseModel response = await apiCalls.editIndividualProfile(
+      RegisterResponseModel response = await apiCalls.editProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
         editProfileContactNumberController.text,

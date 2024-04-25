@@ -7,10 +7,9 @@ import 'package:vicare/utils/app_buttons.dart';
 
 import '../../dashboard/model/device_response_model.dart';
 import '../../dashboard/model/duration_response_model.dart';
-import '../../dashboard/model/patient_reports_response_model.dart';
+import '../../dashboard/model/my_reports_response_model.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
-import '../../utils/routes.dart';
 import '../model/all_enterprise_users_response_model.dart';
 import '../model/all_patients_response_model.dart';
 import '../model/dashboard_count_response_model.dart';
@@ -216,13 +215,6 @@ class PatientProvider extends ChangeNotifier {
       }
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
       editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData.result!.profilePicture!.url!);
-      notifyListeners();
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editPatientsRoute,
-      arguments: {
-        "individualUserData":individualPatientData,
-        "enterPriseUserData":enterpriseUserData
-      });
     } else {
       editPatientDobController.text =
           "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
@@ -256,13 +248,6 @@ class PatientProvider extends ChangeNotifier {
               : "Do not wish to specify";
       editPatientBloodGroup = enterpriseUserData.result!.contact!.bloodGroup;
       editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(enterpriseUserData.result!.profilePicture!.url!);
-      notifyListeners();
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editPatientsRoute,
-          arguments: {
-            "individualUserData":individualPatientData,
-            "enterPriseUserData":enterpriseUserData
-          });
     }
   }
 
@@ -356,7 +341,7 @@ class PatientProvider extends ChangeNotifier {
     return apiCalls.getDashboardCounts(pId);
   }
 
-  Future<PatientReportsResponseModel>getPatientReports(int? pId) async {
+  Future<MyReportsResponseModel>getPatientReports(int? pId) async {
     return await apiCalls.getAllReportsByProfileId(pId);
   }
 
