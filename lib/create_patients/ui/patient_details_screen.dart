@@ -389,7 +389,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   .result!
                                                                   .lastTested !=
                                                               null
-                                                          ? parseDate(
+                                                          ? parseDateMonth(
                                                               countSnapshot
                                                                   .data!
                                                                   .result!
@@ -1735,6 +1735,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
   parseDate(String timestampString){
     DateTime parsedDateTime = DateTime.parse(timestampString);
     return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+  }
+  parseDateMonth(String timestampString){
+    DateTime parsedDateTime = DateTime.parse(timestampString);
+    return DateFormat('dd\nMM\nyyyy').format(parsedDateTime);
   }
 
   getChipColor(int? processingStatus) {
