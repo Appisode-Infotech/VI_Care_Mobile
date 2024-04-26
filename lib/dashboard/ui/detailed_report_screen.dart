@@ -63,16 +63,18 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 );
               }
               if(snapshot.hasData){
-                ReportsProcessedDataModel processedData =  ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result!.processedData!));
+                ReportsProcessedDataModel processedData =  ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result![0].processedData!));
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      Text(takeTestProvider.documentResp!.toJson().toString()),
+                      Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(snapshot.data!.result!.processedDateTime.toString()),
+                          Text(snapshot.data!.result![0].processedDateTime.toString()),
                           Container(
                             width: MediaQuery.of(context).size.width / 5,
                             height: 30,
@@ -80,11 +82,11 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               borderRadius:
                               const BorderRadius.all(
                                   Radius.circular(20)),
-                              color: getChipColor(snapshot.data!.result!.processingStatus),
+                              color: getChipColor(snapshot.data!.result![0].processingStatus),
                             ),
                             child: Center(
                               child: Text(
-                                snapshot.data!.result!.processingStatus==1?'New':snapshot.data!.result!.processingStatus==2?'In Progress':snapshot.data!.result!.processingStatus==3?'Success':snapshot.data!.result!.processingStatus==4?'Fail':'',
+                                snapshot.data!.result![0].processingStatus==1?'New':snapshot.data!.result![0].processingStatus==2?'In Progress':snapshot.data!.result![0].processingStatus==3?'Success':snapshot.data!.result![0].processingStatus==4?'Fail':'',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
