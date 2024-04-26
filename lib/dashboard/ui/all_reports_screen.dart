@@ -21,8 +21,8 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  String? allTime;
-  String? allReport;
+  String? reportTime = 'All Time';
+  String? reportStatus='All Reports';
 
 
   @override
@@ -43,112 +43,114 @@ class _ReportScreenState extends State<ReportScreen> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     Expanded(
-                //       child: Center(
-                //         child: DropdownButtonFormField<String>(
-                //           decoration: InputDecoration(
-                //             filled: true,
-                //             fillColor: AppColors.primaryColor,
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(30.0),
-                //               borderSide: BorderSide.none,
-                //             ),
-                //             contentPadding: const EdgeInsets.symmetric(
-                //                 vertical: 10.0, horizontal: 20),
-                //           ),
-                //           dropdownColor: AppColors.primaryColor,
-                //           value: allTime,
-                //           onChanged: (String? value) {
-                //             setState(() {
-                //               allTime = value!;
-                //             });
-                //           },
-                //           items: <String>[
-                //             AppLocale.allTime.getString(context),
-                //             AppLocale.yesterday.getString(context),
-                //             AppLocale.today.getString(context)
-                //           ].map<DropdownMenuItem<String>>((String value) {
-                //             return DropdownMenuItem<String>(
-                //               value: value,
-                //               child: Text(
-                //                 value,
-                //                 style: const TextStyle(
-                //                     color: Colors.white, fontSize: 15),
-                //               ),
-                //             );
-                //           }).toList(),
-                //           icon: const Icon(
-                //             Icons.arrow_drop_down,
-                //             color: Colors.white,
-                //           ),
-                //           hint: Text(
-                //             AppLocale.allTime.getString(context),
-                //             style:
-                //             const TextStyle(color: Colors.white, fontSize: 15),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       width: 20,
-                //     ),
-                //     Expanded(
-                //       child: Center(
-                //         child: DropdownButtonFormField<String>(
-                //           decoration: InputDecoration(
-                //             filled: true,
-                //             fillColor: AppColors.primaryColor,
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(30.0),
-                //               borderSide: BorderSide.none,
-                //             ),
-                //             contentPadding: const EdgeInsets.symmetric(
-                //                 vertical: 10.0, horizontal: 20),
-                //           ),
-                //           dropdownColor: AppColors.primaryColor,
-                //           value: allReport,
-                //           onChanged: (String? value) {
-                //             setState(() {
-                //               allReport = value!;
-                //             });
-                //           },
-                //           items: <String>[
-                //             AppLocale.allReports.getString(context),
-                //             AppLocale.moderate.getString(context),
-                //             AppLocale.normal.getString(context)
-                //           ].map<DropdownMenuItem<String>>((String value) {
-                //             return DropdownMenuItem<String>(
-                //               value: value,
-                //               child: Text(
-                //                 value,
-                //                 style: const TextStyle(
-                //                     color: Colors.white, fontSize: 15),
-                //               ),
-                //             );
-                //           }).toList(),
-                //           icon: const Icon(
-                //             Icons.arrow_drop_down,
-                //             color: Colors.white,
-                //           ),
-                //           hint: Text(
-                //             AppLocale.allReports.getString(context),
-                //             style:
-                //             const TextStyle(color: Colors.white, fontSize: 15),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: AppColors.primaryColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 20),
+                          ),
+                          dropdownColor: AppColors.primaryColor,
+                          value: reportTime,
+                          onChanged: (String? value) {
+                            setState(() {
+                              reportTime = value!;
+                            });
+                          },
+                          items: <String>[
+                            "All Time",
+                            "This Week",
+                            "This Month"
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                            );
+                          }).toList(),
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                          ),
+                          hint: Text(
+                            AppLocale.allTime.getString(context),
+                            style:
+                            const TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: AppColors.primaryColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 20),
+                          ),
+                          dropdownColor: AppColors.primaryColor,
+                          value: reportStatus,
+                          onChanged: (String? value) {
+                            setState(() {
+                              reportStatus = value!;
+                            });
+                          },
+                          items: <String>[
+                            "All Reports",
+                            "New",
+                            "In Progress",
+                            "Success",
+                            "Fail"
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                            );
+                          }).toList(),
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                          ),
+                          hint: Text(
+                            AppLocale.allReports.getString(context),
+                            style:
+                            const TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 FutureBuilder(
-                  future: takeTestProvider.getMyReports(),
+                  future: takeTestProvider.getMyReports(reportTime,reportStatus),
                   builder: (BuildContext context, AsyncSnapshot<MyReportsResponseModel> snapshot) {
                     if (snapshot.connectionState ==
                         ConnectionState.waiting) {
@@ -177,7 +179,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       );
                     }
                     if(snapshot.hasData){
-                      return Expanded(
+                      return snapshot.data!.result!.isNotEmpty?Expanded(
                         child: ListView.builder(
                           itemCount: snapshot.data!.result!.length,
                           itemBuilder: (context, index) {
@@ -346,7 +348,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             );
                           },
                         ),
-                      );
+                      ):const Center(child: Text("No reports found"),);
                     }
                     if (snapshot.hasError) {
                       return Center(

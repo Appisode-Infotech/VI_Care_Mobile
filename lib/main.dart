@@ -15,7 +15,7 @@ import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 import 'package:vicare/utils/routes.dart';
 
-import 'WebViewScreen.dart';
+import 'web_view_screen.dart';
 import 'auth/auth_provider.dart';
 import 'auth/ui/login_screen.dart';
 import 'auth/ui/register_screen.dart';

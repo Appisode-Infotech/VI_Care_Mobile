@@ -164,7 +164,7 @@ class Contact {
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-    firstname: json["firstname"],
+    firstname: json["firstName"],
     lastName: json["lastName"],
     email: json["email"],
     contactNumber: json["contactNumber"],
@@ -178,7 +178,7 @@ class Contact {
   );
 
   Map<String, dynamic> toJson() => {
-    "firstname": firstname,
+    "firstName": firstname,
     "lastName": lastName,
     "email": email,
     "contactNumber": contactNumber,

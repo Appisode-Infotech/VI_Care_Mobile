@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
@@ -181,7 +182,7 @@ class TakeTestProvider extends ChangeNotifier {
                     onPressed: () async {
                       if (addDeviceFormKey.currentState!.validate()) {
                         showLoaderDialog(dialogContext);
-                        await apiCalls.addDevice(
+                        AddDeviceResponseModel res = await apiCalls.addDevice(
                             device.name,
                             device.id.id,
                             "le",
@@ -191,6 +192,12 @@ class TakeTestProvider extends ChangeNotifier {
                         serialNumberController.clear();
                         Navigator.pop(dialogContext);
                         Navigator.pop(oldContext);
+                        Navigator.pop(oldContext);
+                        if(res.result==null){
+                          showErrorToast(oldContext, res.message!);
+                        }else{
+                          showSuccessToast(oldContext, res.message!);
+                        }
                       }
                     },
                     child: const Text("Proceed to add")),
@@ -269,7 +276,7 @@ class TakeTestProvider extends ChangeNotifier {
             log('Disconnected from device');
           } else {
             disconnected(false);
-            print('Disconnect cancelled by user');
+            log('Disconnect cancelled by user');
           }
         } catch (e) {
           for (var subscription in subscriptions) {
@@ -329,8 +336,8 @@ class TakeTestProvider extends ChangeNotifier {
     }
   }
 
-  Future<MyReportsResponseModel> getMyReports() async {
-    return await apiCalls.getMyReports();
+  Future<MyReportsResponseModel> getMyReports(String? reportTime, String? reportStatus) async {
+    return await apiCalls.getMyReports(reportTime,reportStatus);
   }
 
   Future<DetailedReportPdfModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
