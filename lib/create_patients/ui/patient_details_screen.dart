@@ -130,7 +130,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
                               width: screenSize!.width,
-                              height: screenSize!.height / 2.4,
                               color: AppColors.primaryColor,
                               child: Column(
                                 children: [
@@ -207,21 +206,21 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 18),
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              AppLocale.viewCompleteDetails
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  decorationColor:
-                                                      Colors.white),
-                                            ),
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
+                                            // Text(
+                                            //   AppLocale.viewCompleteDetails
+                                            //       .getString(context),
+                                            //   style: const TextStyle(
+                                            //       color: Colors.white,
+                                            //       fontWeight: FontWeight.w500,
+                                            //       fontSize: 12,
+                                            //       decoration:
+                                            //           TextDecoration.underline,
+                                            //       decorationColor:
+                                            //           Colors.white),
+                                            // ),
                                             const SizedBox(height: 10),
                                             Container(
                                                 padding:
@@ -937,7 +936,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         width: screenSize!.width,
-                        height: screenSize!.height / 2.4,
                         color: AppColors.primaryColor,
                         child: Column(
                           children: [
@@ -1483,8 +1481,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               builder: (BuildContext context,
                                   AsyncSnapshot<MyReportsResponseModel>
                                   patientSnapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
                                   return SizedBox(
                                     width: screenSize!.width,
                                     child: Shimmer.fromColors(

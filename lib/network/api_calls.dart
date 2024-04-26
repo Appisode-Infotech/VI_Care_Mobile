@@ -16,6 +16,7 @@ import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/dashboard/model/device_data_response_model.dart';
 import 'package:vicare/dashboard/model/device_delete_response_model.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
+import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../auth/model/register_response_model.dart';
@@ -892,6 +893,15 @@ class ApiCalls {
     http.Response response = await hitApiGet(true, "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
     if(response.statusCode==200){
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
+    }else{
+      throw "could not fetch devices ${response.statusCode}";
+    }
+  }
+
+  Future<ReportsDetailModel>getReport(int? requestDeviceDataId, BuildContext context) async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.responseReport}/$requestDeviceDataId");
+    if(response.statusCode==200){
+      return ReportsDetailModel.fromJson(json.decode(response.body));
     }else{
       throw "could not fetch devices ${response.statusCode}";
     }
