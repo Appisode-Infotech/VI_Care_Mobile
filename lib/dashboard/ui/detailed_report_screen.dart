@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
@@ -11,7 +12,7 @@ import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import '../../main.dart';
 
 class DetailedReportScreen extends StatefulWidget {
-  const DetailedReportScreen({Key? key}) : super(key: key);
+  const DetailedReportScreen({super.key});
 
   @override
   State<DetailedReportScreen> createState() => _DetailedReportScreenState();
@@ -26,6 +27,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
     return Consumer(
       builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text("Detailed report"),
             actions: [
@@ -67,14 +69,20 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(takeTestProvider.documentResp!.toJson().toString()),
-                      Divider(),
+                      const Text("Patient details ",style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 18,fontWeight: FontWeight.bold),),
+                      Text("Name : ${takeTestProvider.reportUserData!.contact!.firstname} ${takeTestProvider.reportUserData!.contact!.lastName}"),
+                      Text("Age : ${calculateAge(takeTestProvider.reportUserData!.contact!.doB!)}"),
+                      Text("Gender : ${takeTestProvider.reportUserData!.contact!.gender.toString()}"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(snapshot.data!.result![0].processedDateTime.toString()),
+                          Text("Report Date : "+parseDate(snapshot.data!.result![0].processedDateTime.toString())),
                           Container(
                             width: MediaQuery.of(context).size.width / 5,
                             height: 30,
@@ -97,6 +105,9 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           ),
                         ],
                       ),
+                      for(int i=0;i<takeTestProvider.documentResp!.result!.length;i++)
+                        takeTestProvider.documentResp!.result![i].fileType==2?Image.network(takeTestProvider.documentResp!.result![i].url.toString()):SizedBox(),
+                      const Divider(),
                       Text(processedData.toJson().toString()),
                     ],
                   )
@@ -117,5 +128,16 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
   }
   getChipColor(int? processingStatus) {
     return processingStatus==1?Colors.deepOrange:processingStatus==2?Colors.teal:processingStatus==3?Colors.green:processingStatus==4?Colors.red:Colors.black;
+  }
+  int calculateAge(String dateOfBirthString) {
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
+    DateTime currentDate = DateTime.now();
+    Duration difference = currentDate.difference(dateOfBirth);
+    int ageInYears = (difference.inDays / 365).floor();
+    return ageInYears;
+  }
+  parseDate(String timestampString){
+    DateTime parsedDateTime = DateTime.parse(timestampString);
+    return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
   }
 }

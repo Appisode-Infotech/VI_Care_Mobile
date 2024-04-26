@@ -36,6 +36,8 @@ class TakeTestProvider extends ChangeNotifier {
   TextEditingController serialNumberController = TextEditingController();
   List<StreamSubscription> subscriptions = [];
   DetailedReportPdfModel? documentResp;
+  ReportUser? reportUserData;
+
   void listenToConnectedDevice() {
     _bluetoothStateSubscription =
         flutterBlue.state.listen((BluetoothState state) async {
@@ -343,6 +345,12 @@ class TakeTestProvider extends ChangeNotifier {
 
   Future<ReportsDetailModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
     documentResp = await apiCalls.getReportPdf(requestDeviceDataId,context);
+    for(int i = 0;i<documentResp!.result!.length;i++){
+      if(documentResp!.result![i].fileType==2){
+        reportUserData = documentResp!.result![i].requestDeviceData!.user;
+      }
+    }
+
     return await apiCalls.getReport(requestDeviceDataId,context);
   }
   downloadReportPdf(String url, BuildContext context) async {

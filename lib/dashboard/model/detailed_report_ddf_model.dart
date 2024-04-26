@@ -127,7 +127,7 @@ class RequestDeviceData {
   int? durationId;
   dynamic duration;
   int? userId;
-  User? user;
+  ReportUser? user;
   int? deviceDocumentId;
   dynamic deviceDocument;
   int? roleId;
@@ -190,7 +190,7 @@ class RequestDeviceData {
     durationId: json["durationId"],
     duration: json["duration"],
     userId: json["userId"],
-    user: json["user"] == null ? null : User.fromJson(json["user"]),
+    user: json["user"] == null ? null : ReportUser.fromJson(json["user"]),
     deviceDocumentId: json["deviceDocumentId"],
     deviceDocument: json["deviceDocument"],
     roleId: json["roleId"],
@@ -244,7 +244,7 @@ class IndividualProfile {
   int? contactId;
   Contact? contact;
   int? userId;
-  User? user;
+  ReportUser? user;
   int? profilePictureId;
   dynamic profilePicture;
   String? uniqueGuid;
@@ -273,7 +273,7 @@ class IndividualProfile {
     contactId: json["contactId"],
     contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     userId: json["userId"],
-    user: json["user"] == null ? null : User.fromJson(json["user"]),
+    user: json["user"] == null ? null : ReportUser.fromJson(json["user"]),
     profilePictureId: json["profilePictureId"],
     profilePicture: json["profilePicture"],
     uniqueGuid: json["uniqueGuid"],
@@ -408,7 +408,7 @@ class Address {
   };
 }
 
-class User {
+class ReportUser {
   String? email;
   String? contactNumber;
   String? passwordHash;
@@ -431,7 +431,7 @@ class User {
   String? uniqueGuid;
   int? id;
 
-  User({
+  ReportUser({
     this.email,
     this.contactNumber,
     this.passwordHash,
@@ -455,7 +455,7 @@ class User {
     this.id,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory ReportUser.fromJson(Map<String, dynamic> json) => ReportUser(
     email: json["email"],
     contactNumber: json["contactNumber"],
     passwordHash: json["passwordHash"],
