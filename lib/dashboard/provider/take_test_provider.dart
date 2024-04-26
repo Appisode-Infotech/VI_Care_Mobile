@@ -14,6 +14,7 @@ import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
+import '../model/detailed_report_ddf_model.dart';
 import '../model/device_data_response_model.dart';
 import '../model/my_reports_response_model.dart';
 
@@ -34,7 +35,7 @@ class TakeTestProvider extends ChangeNotifier {
 
   TextEditingController serialNumberController = TextEditingController();
   List<StreamSubscription> subscriptions = [];
-
+  DetailedReportPdfModel? documentResp;
   void listenToConnectedDevice() {
     _bluetoothStateSubscription =
         flutterBlue.state.listen((BluetoothState state) async {
@@ -341,16 +342,8 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   Future<ReportsDetailModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
-    // return await apiCalls.getReportPdf(requestDeviceDataId,context);
+    documentResp = await apiCalls.getReportPdf(requestDeviceDataId,context);
     return await apiCalls.getReport(requestDeviceDataId,context);
-    // Navigator.pop(context);
-    // if(response.result!=null){
-    //   if (!await launchUrl(Uri.parse(response.result![0].url!))) {
-    //     throw Exception('Could not launch $response.result![0].url!');
-    //   }
-    // }else{
-    //   showSuccessToast(context, response.message!);
-    // }
   }
   downloadReportPdf(String url, BuildContext context) async {
     if (!await launchUrl(Uri.parse(url))) {

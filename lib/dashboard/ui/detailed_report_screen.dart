@@ -2,13 +2,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/dashboard/model/reports_processed_data_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
-import 'package:vicare/utils/app_locale.dart';
 
 import '../../main.dart';
 
@@ -29,7 +27,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
       builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
-            title:  Text(AppLocale.detailReport.getString(context)),
+            title: const Text("Detailed report"),
             actions: [
               IconButton(onPressed: (){
                 // takeTestProvider.downloadReportPdf(snapshot.data!.result![0].url!,context);
@@ -65,16 +63,18 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 );
               }
               if(snapshot.hasData){
-                ReportsProcessedDataModel processedData =  ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result!.processedData!));
+                ReportsProcessedDataModel processedData =  ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result![0].processedData!));
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      Text(takeTestProvider.documentResp!.toJson().toString()),
+                      Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(snapshot.data!.result!.processedDateTime.toString()),
+                          Text(snapshot.data!.result![0].processedDateTime.toString()),
                           Container(
                             width: MediaQuery.of(context).size.width / 5,
                             height: 30,
@@ -82,11 +82,11 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               borderRadius:
                               const BorderRadius.all(
                                   Radius.circular(20)),
-                              color: getChipColor(snapshot.data!.result!.processingStatus),
+                              color: getChipColor(snapshot.data!.result![0].processingStatus),
                             ),
                             child: Center(
                               child: Text(
-                                snapshot.data!.result!.processingStatus==1?AppLocale.newReport.getString(context):snapshot.data!.result!.processingStatus==2?AppLocale.inProgress.getString(context):snapshot.data!.result!.processingStatus==3?AppLocale.successReport.getString(context):snapshot.data!.result!.processingStatus==4?AppLocale.failReport.getString(context):'',
+                                snapshot.data!.result![0].processingStatus==1?'New':snapshot.data!.result![0].processingStatus==2?'In Progress':snapshot.data!.result![0].processingStatus==3?'Success':snapshot.data!.result![0].processingStatus==4?'Fail':'',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
@@ -107,7 +107,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return  Center(child: Text(AppLocale.loading.getString(context)));
+                return const Center(child: Text("loading"));
               }
             },
           ),
