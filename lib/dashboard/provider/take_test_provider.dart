@@ -7,13 +7,13 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
+import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
-import '../model/detailed_report_ddf_model.dart';
 import '../model/device_data_response_model.dart';
 import '../model/my_reports_response_model.dart';
 
@@ -340,8 +340,9 @@ class TakeTestProvider extends ChangeNotifier {
     return await apiCalls.getMyReports(reportTime,reportStatus);
   }
 
-  Future<DetailedReportPdfModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
-    return await apiCalls.getReportPdf(requestDeviceDataId,context);
+  Future<ReportsDetailModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
+    // return await apiCalls.getReportPdf(requestDeviceDataId,context);
+    return await apiCalls.getReport(requestDeviceDataId,context);
     // Navigator.pop(context);
     // if(response.result!=null){
     //   if (!await launchUrl(Uri.parse(response.result![0].url!))) {
