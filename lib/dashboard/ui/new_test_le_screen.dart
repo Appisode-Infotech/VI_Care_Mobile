@@ -180,8 +180,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: screenSize!.width * .2),
-                  child: const Text(
-                    "Device disconnected unexpectedly. Make sure the device is in range.",
+                  child:  Text(
+                    AppLocale.deviceDisconnectedRange.getString(context),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: AppColors.fontShadeColor, fontSize: 16),
@@ -191,7 +191,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
-                    child: getPrimaryAppButton(context, 'Re-connect',
+                    child: getPrimaryAppButton(context, AppLocale.reconnect.getString(context),
                         onPressed: () async {
                       newTestLeProvider.connectToDevice((isConnected) {
                         Navigator.pop(context);
@@ -258,7 +258,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       ? Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenSize!.width * .3),
-                          child: getPrimaryAppButton(context, 'Stop',
+                          child: getPrimaryAppButton(context, AppLocale.stop.getString(context),
                               onPressed: () async {
                             bool userWantsToAbort =
                                 await showStopTestWarningDialog(context);
@@ -272,7 +272,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       : Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenSize!.width * .3),
-                          child: getPrimaryAppButton(context, 'Start',
+                          child: getPrimaryAppButton(context, AppLocale.start.getString(context),
                               onPressed: () async {
                             await startRecordingReadings();
                             _startTimer(newTestLeProvider);
@@ -306,14 +306,14 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                         width: 1, color: Colors.grey),
                                   ),
                                 ),
-                                titlesData: const FlTitlesData(
+                                titlesData:  FlTitlesData(
                                   rightTitles: AxisTitles(
                                     axisNameSize: 28,
-                                    axisNameWidget: Text("RR Intervals"),
+                                    axisNameWidget: Text(AppLocale.rrInterval.getString(context)),
                                   ),
                                   topTitles: AxisTitles(
                                     axisNameSize: 28,
-                                    axisNameWidget: Text("Seconds"),
+                                    axisNameWidget: Text(AppLocale.seconds.getString(context)),
                                   ),
                                 ),
                               ),
@@ -404,7 +404,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   }
 
   Future<void> saveRecording(NewTestLeProvider newTestLeProvider) async {
-    showSuccessToast(context, "Test completed");
+    showSuccessToast(context, AppLocale.testCompleted.getString(context));
     if (enterprisePatientData == null && individualPatientData == null) {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {
@@ -419,9 +419,9 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             individualPatientData: individualPatientData,
             created: DateTime.now()));
         AppPref.setPref(prefModel);
-        showSuccessToast(context, "Test saved offline");
+        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
       } else {
-        showErrorToast(context, "Test discarded");
+        showErrorToast(context, AppLocale.testDiscarded.getString(context));
       }
     } else {
       showDialog(
@@ -430,15 +430,15 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             return PopScope(
               canPop: false,
               child: AlertDialog(
-                title: const Text("Test completed !"),
-                content: const Text(
-                    "Test completed successfully. What do you want to do now?"),
+                title:  Text(AppLocale.testCompleted.getString(context)),
+                content:  Text(
+                    AppLocale.testCompletedSuccessful.getString(context)),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text("close")),
+                      child: Text(AppLocale.close.getString(context))),
                   TextButton(
                       onPressed: () {
                         prefModel.offlineSavedTests!.add(OfflineTestModel(
@@ -452,7 +452,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                             individualPatientData: individualPatientData,
                             created: DateTime.now()));
                         AppPref.setPref(prefModel);
-                        showSuccessToast(context, "Test saved offline");
+                        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
                         Navigator.pop(context);
                       },
                       child: const Text("Save offline")),
@@ -491,11 +491,11 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                         if (await payload.exists()) {
                           await newTestLeProvider.requestDeviceData(context, payload, selectedDevice!.serialNumber, selectedDevice!.id, connectedDevice!.id.id,selectedDuration!.id,selectedDuration!.name);
                         } else {
-                          showErrorToast(context, "Something went wrong could not form data");
+                          showErrorToast(context, AppLocale.somethingWentWrong.getString(context));
                         }
                         Navigator.pop(context);
                       },
-                      child: const Text("Upload"))
+                      child:  Text(AppLocale.upload.getString(context)))
                 ],
               ),
             );

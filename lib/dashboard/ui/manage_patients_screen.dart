@@ -221,7 +221,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                         height: 3,
                                       ),
                                       Text(
-                                        "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
+                                        "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
                                         style: const TextStyle(
                                             fontSize: 10,
                                             fontWeight: FontWeight.bold,
@@ -240,7 +240,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                           child: Text(snapshot.error.toString()),
                         );
                       } else {
-                        return const Center(child: Text("loading"));
+                        return  Center(child: Text(AppLocale.loading.getString(context)));
                       }
                     },
                   )
@@ -410,7 +410,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                         height: 3,
                                       ),
                                       Text(
-                                        "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
+                                        "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
                                         style: const TextStyle(
                                             fontSize: 10,
                                             fontWeight: FontWeight.bold,
@@ -429,7 +429,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                           child: Text(snapshot.error.toString()),
                         );
                       } else {
-                        return const Center(child: Text("loading"));
+                        return  Center(child: Text(AppLocale.loading.getString(context)));
                       }
                     },
                   ),

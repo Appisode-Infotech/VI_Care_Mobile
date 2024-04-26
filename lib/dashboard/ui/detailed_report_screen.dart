@@ -2,11 +2,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/dashboard/model/reports_processed_data_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
+import 'package:vicare/utils/app_locale.dart';
 
 import '../../main.dart';
 
@@ -27,7 +29,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
       builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Detailed report"),
+            title:  Text(AppLocale.detailReport.getString(context)),
             actions: [
               IconButton(onPressed: (){
                 // takeTestProvider.downloadReportPdf(snapshot.data!.result![0].url!,context);
@@ -84,7 +86,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                snapshot.data!.result!.processingStatus==1?'New':snapshot.data!.result!.processingStatus==2?'In Progress':snapshot.data!.result!.processingStatus==3?'Success':snapshot.data!.result!.processingStatus==4?'Fail':'',
+                                snapshot.data!.result!.processingStatus==1?AppLocale.newReport.getString(context):snapshot.data!.result!.processingStatus==2?AppLocale.inProgress.getString(context):snapshot.data!.result!.processingStatus==3?AppLocale.successReport.getString(context):snapshot.data!.result!.processingStatus==4?AppLocale.failReport.getString(context):'',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
@@ -105,7 +107,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return const Center(child: Text("loading"));
+                return  Center(child: Text(AppLocale.loading.getString(context)));
               }
             },
           ),

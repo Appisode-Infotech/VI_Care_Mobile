@@ -26,7 +26,7 @@ class _BluetoothScanPageState extends State<BluetoothScanPage> {
             backgroundColor: Colors.white,
             title: !takeTestProvider.isScanning
                 ? Text(AppLocale.scanDevices.getString(context))
-                : const Text("Scanning..."),
+                :  Text(AppLocale.scanning.getString(context)),
           ),
           body: Column(
             children: [

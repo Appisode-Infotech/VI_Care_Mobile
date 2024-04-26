@@ -194,6 +194,36 @@ mixin AppLocale {
 
 
   static const String chooseDeviceModel = 'chooseDeviceModel';
+  static const String loading = 'loading';
+  static const String all = 'all';
+  static const String newReport = 'newReport';
+  static const String inProgress = 'inProgress';
+  static const String successReport = 'successReport';
+  static const String failReport = 'failReport';
+  static const String noReportFound = 'noReportFound';
+  static const String scanning = 'scanning';
+  static const String detailReport = 'detailReport';
+  static const String bluetoothType = 'bluetoothType';
+  static const String deviceScreenName = 'deviceScreenName';
+  static const String deviceScreenSNum = 'deviceScreenSNum';
+  static const String startPairingError = 'startPairingError';
+  static const String startPairing = 'startPairing';
+  static const String instructions = 'instructions';
+  static const String created = 'created';
+  static const String years = 'years';
+  static const String deviceDisconnectedRange = 'deviceDisconnectedRange';
+  static const String reconnect = 'reconnect';
+  static const String rrInterval = 'rrInterval';
+  static const String seconds = 'seconds';
+  static const String close = 'close';
+  static const String upload = 'upload';
+  static const String saveOffline = 'saveOffline';
+  static const String testCompleted = 'testCompleted';
+  static const String testSavedOffline = 'testSavedOffline';
+  static const String testDiscarded = 'testDiscarded';
+  static const String somethingWentWrong = 'somethingWentWrong';
+  static const String testCompletedSuccessful = 'testCompletedSuccessful';
+
 
   static const String thisIs = 'thisIs';
 
@@ -391,6 +421,36 @@ mixin AppLocale {
 
 
     chooseDeviceModel: 'Choose your device',
+    loading: 'loading',
+    all:"All Reports",
+    newReport:"New",
+    inProgress:"In Progress",
+    successReport:"Success",
+    failReport:"Fail",
+    noReportFound:"No reports found",
+    scanning:"Scanning...",
+    detailReport:"Detailed report",
+    bluetoothType:"Bluetooth type : ",
+    deviceScreenSNum:"Serial Number : ",
+    deviceScreenName:"Name : ",
+    instructions: "Instructions",
+    startPairing: "Start pairing",
+    startPairingError: "Not supported atm, will be available soon",
+    created: "created",
+    years: "Years",
+    deviceDisconnectedRange: "Device disconnected unexpectedly. Make sure the device is in range.",
+    reconnect: 'Re-connect',
+    rrInterval: "RR Intervals",
+    seconds: "Seconds",
+    close: "close",
+    upload: "Upload",
+    saveOffline: "Save offline",
+    testCompleted: "Test completed",
+    testSavedOffline: "Test saved offline",
+    testDiscarded: "Test discarded",
+    somethingWentWrong: "Something went wrong could not form data",
+    testCompletedSuccessful: "Test completed successfully. What do you want to do now?",
+
     thisIs: 'This is %a package, version %a.',
   };
 
@@ -588,7 +648,38 @@ mixin AppLocale {
     landMarkValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಭೂದೃಶ್ಯ ನಮೂದಿಸಿ",
     pinCodeValid: "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ",
     logOut: 'ಲಾಗ್ ಔಟ್',
-    chooseDeviceModel: 'Choose your device',
+
+    chooseDeviceModel: 'ನಿಮ್ಮ ಸಾಧನವನ್ನು ಆಯ್ಕೆಮಾಡಿ',
+    loading: 'ಲೋಡಿಂಗ್',
+    all:"ಎಲ್ಲಾ ವರದಿಗಳು",
+    newReport:"ಹೊಸ",
+    inProgress:"ಸಾಗಾತ್ಮಕ",
+    successReport:"ಯಶಸ್ವಿ",
+    failReport:"ವಿಫಲವಾದ",
+    noReportFound:"ಯಾವುದೇ ವರದಿಗಳು ಸಿಗಲಿಲ್ಲ",
+    scanning:"ಸ್ಕ್ಯಾನಿಂಗ್...",
+    detailReport:"ವಿವರವಾದ ವರದಿ",
+    bluetoothType:"ಬ್ಲೂಟೂತ್ ಪ್ರಕಾರ: ",
+    deviceScreenSNum:"ಸೀರಿಯಲ್ ಸಂಖ್ಯೆ: ",
+    deviceScreenName:"ಹೆಸರು: ",
+    instructions: "ಮಾರ್ಗದರ್ಶನಗಳು",
+    startPairing: "ಜೋಡಿಸಲು ಪ್ರಾರಂಭಿಸಿ",
+    startPairingError: "ಈಗ ಬೆಂಬಲಿಸಲಾಗುವುದಿಲ್ಲ, ಶೀಘ್ರದಲ್ಲೇ ಲಭ್ಯವಾಗುತ್ತದೆ",
+    created: "ರಚಿಸಲಾಗಿದೆ",
+    years: "ವರ್ಷಗಳು",
+    deviceDisconnectedRange: "ಸಾಧನ ಅಪ್ರತ್ಯಕ್ಷವಾಗಿ ಸಂಪರ್ಕ ಮರೆತಿದೆ. ಖಾತರಿಯಿಟ್ಟಿದೆ ಎಂದು ಖಚಿತವಿದ್ದಿರಿ.",
+    reconnect: 'ಮರೆ-ಸಂಪರ್ಕ',
+    rrInterval: "ಆರ್ಆರ್ ಅಂತರಾಲಗಳು",
+    seconds: "ಸೆಕೆಂಡುಗಳು",
+    close: "ಮುಚ್ಚಿ",
+    upload: "ಅಪ್‌ಲೋಡ್",
+    saveOffline: "ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಉಳಿಸಿ",
+    testCompleted: "ಪರೀಕ್ಷೆ ಪೂರ್ಣಗೊಂಡಿದೆ",
+    testSavedOffline: "ಪರೀಕ್ಷೆ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ",
+    testDiscarded: "ಪರೀಕ್ಷೆ ತಿರಸ್ಕರಿಸಲಾಗಿದೆ",
+    somethingWentWrong: "ಏನಾದರೂ ತಪ್ಪಾಯಿತು, ಡೇಟಾ ರೂಪಿಸಲಾಗಿಲ್ಲ",
+    testCompletedSuccessful: "ಪರೀಕ್ಷೆ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ. ಈಗ ನೀವು ಏನು ಮಾಡಬಯಸುತ್ತೀರಿ?",
+
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -784,7 +875,38 @@ mixin AppLocale {
     landMarkValid: "कृपया सही सीमा चिह्न दर्ज करें",
     pinCodeValid: "कृपया सही पिन कोड दर्ज करें",
     logOut: 'लॉग आउट',
-    chooseDeviceModel: 'Choose your device',
+
+    chooseDeviceModel: 'अपने डिवाइस का चयन करें',
+    loading: 'लोड हो रहा है',
+    all:"सभी रिपोर्ट्स",
+    newReport:"नया",
+    inProgress:"कार्यारंभ",
+    successReport:"सफलता",
+    failReport:"विफल",
+    noReportFound:"कोई रिपोर्ट नहीं मिली",
+    scanning:"स्कैनिंग...",
+    detailReport:"विस्तृत रिपोर्ट",
+    bluetoothType:"ब्लूटूथ प्रकार: ",
+    deviceScreenSNum:"सीरियल नंबर: ",
+    deviceScreenName:"नाम: ",
+    instructions: "निर्देश",
+    startPairing: "पेयरिंग शुरू करें",
+    startPairingError: "इस समय समर्थित नहीं है, जल्द ही उपलब्ध होगा",
+    created: "बनाया गया",
+    years: "वर्ष",
+    deviceDisconnectedRange: "डिवाइस अप्रत्याशित रूप से डिस्कनेक्ट हो गया। सुनिश्चित करें कि डिवाइस रेंज में है।",
+    reconnect: 'फिर से कनेक्ट करें',
+    rrInterval: "आरआर अंतराल",
+    seconds: "सेकंड्स",
+    close: "बंद करें",
+    upload: "अपलोड",
+    saveOffline: "ऑफलाइन में सहेजें",
+    testCompleted: "परीक्षण पूरा हुआ",
+    testSavedOffline: "परीक्षण को ऑफलाइन में सहेजा गया",
+    testDiscarded: "परीक्षण को छोड़ दिया",
+    somethingWentWrong: "कुछ गलत हो गया, डेटा बनाया नहीं जा सका",
+    testCompletedSuccessful: "परीक्षण सफलतापूर्वक पूरा हुआ। अब आप क्या करना चाहेंगे?",
+
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };

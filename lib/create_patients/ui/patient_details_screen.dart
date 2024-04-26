@@ -1692,8 +1692,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     Text(snapshot.error.toString()),
                                   );
                                 } else {
-                                  return const Center(
-                                      child: Text("loading"));
+                                  return  Center(
+                                      child: Text(AppLocale.loading.getString(context)));
                                 }
                               },
                             ),
@@ -1711,7 +1711,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     child: Text(snapshot.error.toString()),
                   );
                 } else {
-                  return const Center(child: Text("loading"));
+                  return  Center(child: Text(AppLocale.loading.getString(context)));
                 }
               },
             ),

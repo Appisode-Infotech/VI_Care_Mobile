@@ -114,9 +114,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      _buildRow("Name : ", snapshot.data!.result!.devices![index].name!),
-                                      _buildRow("Serial Number : ", snapshot.data!.result!.devices![index].serialNumber!),
-                                      _buildRow("Bluetooth type : ", snapshot.data!.result!.devices![index].deviceCategory == 2 ? 'LE' : 'Classic'),
+                                      _buildRow(AppLocale.deviceScreenName.getString(context), snapshot.data!.result!.devices![index].name!),
+                                      _buildRow(AppLocale.deviceScreenSNum.getString(context), snapshot.data!.result!.devices![index].serialNumber!),
+                                      _buildRow(AppLocale.bluetoothType.getString(context), snapshot.data!.result!.devices![index].deviceCategory == 2 ? 'LE' : 'Classic'),
                                     ],
                                   ),
                                 ),
@@ -147,7 +147,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return const Center(child: Text("loading"));
+                return  Center(child: Text(AppLocale.loading.getString(context)));
               }
             },
           ),
@@ -258,9 +258,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     },
                   ),
                   const Divider(),
-                  const Text(
-                    "Instructions",
-                    style: TextStyle(
+                   Text(
+                   AppLocale.instructions.getString(context),
+                    style: const TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
@@ -273,7 +273,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     ),
                   ),
                   const Divider(),
-                  getPrimaryAppButton(context, "Start pairing",
+                  getPrimaryAppButton(context, AppLocale.startPairing.getString(context),
                       onPressed: () async {
                     if (selectedDeviceIndex == 0) {
                       Navigator.pushNamed(
@@ -281,7 +281,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                           .then((value) => null);
                     } else {
                       showErrorToast(
-                          context, "Not supported atm, will be available soon");
+                          context, AppLocale.startPairingError.getString(context));
                     }
                   }),
                   const SizedBox(

@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          "created: ${patientReports[index]["created"]}",
+                                          "${AppLocale.created.getString(context)}: ${patientReports[index]["created"]}",
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 10),
@@ -635,7 +635,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(snapshot.error.toString()),
                           );
                         } else {
-                          return const Center(child: Text("loading"));
+                          return  Center(child: Text(AppLocale.loading.getString(context)));
                         }
                       },
                     )
@@ -830,7 +830,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(snapshot.error.toString()),
                           );
                         } else {
-                          return const Center(child: Text("loading"));
+                          return  Center(child: Text(AppLocale.loading.getString(context)));
                         }
                       },
                     );
@@ -1045,7 +1045,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              reportsSnapshot.data!.result![index].processingStatus==1?'New':reportsSnapshot.data!.result![index].processingStatus==2?'In Progress':reportsSnapshot.data!.result![index].processingStatus==3?'Success':reportsSnapshot.data!.result![index].processingStatus==4?'Fail':'',
+                                              reportsSnapshot.data!.result![index].processingStatus==1?AppLocale.newReport.getString(context):reportsSnapshot.data!.result![index].processingStatus==2?AppLocale.inProgress.getString(context):reportsSnapshot.data!.result![index].processingStatus==3?AppLocale.successReport.getString(context):reportsSnapshot.data!.result![index].processingStatus==4?AppLocale.failReport.getString(context):'',
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 10,
@@ -1069,7 +1069,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(reportsSnapshot.error.toString()),
                       );
                     } else {
-                      return const Center(child: Text("loading"));
+                      return  Center(child: Text(AppLocale.loading.getString(context)));
                     }
                   },
                 );
