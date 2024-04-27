@@ -28,7 +28,7 @@ class DashboardCountResponseModel {
     message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
+    result: json["result"] == null ? Result(lastTested: null,totalTests: 0,reportsCount: 0) : Result.fromJson(json["result"]),
     errors: json["errors"],
   );
 
@@ -36,7 +36,11 @@ class DashboardCountResponseModel {
     "message": message,
     "isSuccess": isSuccess,
     "pageResult": pageResult,
-    "result": result?.toJson(),
+    "result": result==null?Result(
+      lastTested: null,
+      totalTests: 0,
+      reportsCount: 0
+    ):result?.toJson(),
     "errors": errors,
   };
 }
