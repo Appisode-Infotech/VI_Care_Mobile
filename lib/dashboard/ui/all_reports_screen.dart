@@ -1,6 +1,8 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +44,6 @@ class _ReportScreenState extends State<ReportScreen> {
           return Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -51,100 +52,92 @@ class _ReportScreenState extends State<ReportScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Center(
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: AppColors.primaryColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              borderSide: BorderSide.none,
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.primaryColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20),
+                        ),
+                        dropdownColor: AppColors.primaryColor,
+                        value: reportTime,
+                        onChanged: (String? value) {
+                          setState(() {
+                            reportTime = value!;
+                          });
+                        },
+                        items: <String>[
+                          "All Time",
+                          "This Week",
+                          "This Month"
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20),
-                          ),
-                          dropdownColor: AppColors.primaryColor,
-                          value: reportTime,
-                          onChanged: (String? value) {
-                            setState(() {
-                              reportTime = value!;
-                            });
-                          },
-                          items: <String>[
-                            AppLocale.thisWeek.getString(context),
-                            AppLocale.thisMonth.getString(context),
-                            AppLocale.thisYear.getString(context),
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 15),
-                              ),
-                            );
-                          }).toList(),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white,
-                          ),
-                          hint: Text(
-                            AppLocale.allTime.getString(context),
-                            style:
-                            const TextStyle(color: Colors.white, fontSize: 15),
-                          ),
+                          );
+                        }).toList(),
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                        hint: Text(
+                          AppLocale.allTime.getString(context),
+                          style:
+                          const TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
                     Expanded(
-                      child: Center(
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: AppColors.primaryColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              borderSide: BorderSide.none,
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.primaryColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20),
+                        ),
+                        dropdownColor: AppColors.primaryColor,
+                        value: reportStatus,
+                        onChanged: (String? value) {
+                          setState(() {
+                            reportStatus = value!;
+                          });
+                        },
+                        items: <String>[
+                          "All Reports",
+                          "New",
+                          "In Progress"
+                          "Success",
+                          "Fail",
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20),
-                          ),
-                          dropdownColor: AppColors.primaryColor,
-                          value: reportStatus,
-                          onChanged: (String? value) {
-                            setState(() {
-                              reportStatus = value!;
-                            });
-                          },
-                          items: <String>[
-                            AppLocale.all.getString(context),
-                            AppLocale.newReport.getString(context),
-                            AppLocale.inProgress.getString(context),
-                            AppLocale.successReport.getString(context),
-                            AppLocale.failReport.getString(context),
-
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 15),
-                              ),
-                            );
-                          }).toList(),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white,
-                          ),
-                          hint: Text(
-                            AppLocale.allReports.getString(context),
-                            style:
-                            const TextStyle(color: Colors.white, fontSize: 15),
-                          ),
+                          );
+                        }).toList(),
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                        hint: Text(
+                          AppLocale.allReports.getString(context),
+                          style:
+                          const TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       ),
                     ),
@@ -357,7 +350,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         },
                         child: SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
-                            child: SizedBox(height:screenSize!.height/1.5,child: Center(child: Text(AppLocale.noReportFound.getString(context)),))),
+                            child: SizedBox(height:screenSize!.height*.5,child: Center(child: Text(AppLocale.noReportFound.getString(context)),))),
                       );
                     }
                     if (snapshot.hasError) {
