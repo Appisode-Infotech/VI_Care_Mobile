@@ -29,7 +29,12 @@ class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
           Widget? child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(takeTestProvider.isScanning?AppLocale.scanning.getString(context):AppLocale.findYourDevice.getString(context)),
+            title: Text(takeTestProvider.isScanning?AppLocale.scanning.getString(context):AppLocale.findYourDevice.getString(context),style: const TextStyle(fontSize: 22),),
+            actions: [
+              !takeTestProvider.isScanning?TextButton(onPressed: (){
+                scanLeDevices(takeTestProvider);
+              }, child: Text(AppLocale.scanDevices.getString(context),style: const TextStyle(fontSize: 16),)):const SizedBox.shrink()
+            ],
           ),
           body: RefreshIndicator(
             onRefresh: () => scanLeDevices(takeTestProvider),
@@ -73,7 +78,7 @@ class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
                         },
                         child:  Text(
                           AppLocale.addDevice.getString(context),
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ))
                   ],
                 );
