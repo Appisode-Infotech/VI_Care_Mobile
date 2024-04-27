@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../../utils/app_locale.dart';
 import '../model/device_data_response_model.dart';
 
 class NewTestLeProvider extends ChangeNotifier {
@@ -35,20 +37,20 @@ class NewTestLeProvider extends ChangeNotifier {
           await device.connect(autoConnect: false);
           connectedDevice = device;
           onConnectionResult(true);
-          showSuccessToast(consumerContext, "Connected to ${device.name}");
+          showSuccessToast(consumerContext, "${AppLocale.connectedTo}: ${device.name}");
           return;
         } else {
           onConnectionResult(false);
-          showErrorToast(consumerContext, "Device not in range. Please ensure that the device is powered on, worn, and ready to connect");
+          showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
           return;
         }
       } catch (e) {
         onConnectionResult(false);
-        showErrorToast(consumerContext, "Could not connect: $e");
+        showErrorToast(consumerContext,"${AppLocale.couldNotConnect.getString}: $e");
         return;
       }
     }else{
-      showErrorToast(consumerContext, "Looks like bluetooth is off. Please turn on to continue.");
+      showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
     }
   }
 
@@ -71,7 +73,7 @@ class NewTestLeProvider extends ChangeNotifier {
         uploadFile: payload);
     Navigator.pop(dataContext);
     if (response.result != null) {
-      showSuccessToast(dataContext, "Test successfully sent to hrv server.You can check the reports in some time");
+      showSuccessToast(dataContext, AppLocale.testSuccessfulCheck.getString(dataContext));
     }else{
       showErrorToast(dataContext, response.message!);
     }

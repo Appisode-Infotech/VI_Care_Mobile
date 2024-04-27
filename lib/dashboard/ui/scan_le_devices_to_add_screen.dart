@@ -29,7 +29,7 @@ class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
           Widget? child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(takeTestProvider.isScanning?"Scanning...":"Find your device"),
+            title: Text(takeTestProvider.isScanning?AppLocale.scanning.getString(context):AppLocale.findYourDevice.getString(context)),
           ),
           body: RefreshIndicator(
             onRefresh: () => scanLeDevices(takeTestProvider),
@@ -71,8 +71,8 @@ class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
                                 takeTestProvider.leDevices[index], context);
                           }
                         },
-                        child: const Text(
-                          "Add device",
+                        child:  Text(
+                          AppLocale.addDevice.getString(context),
                           style: TextStyle(fontSize: 16),
                         ))
                   ],
