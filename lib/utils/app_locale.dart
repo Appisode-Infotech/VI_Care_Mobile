@@ -252,6 +252,9 @@ mixin AppLocale {
   static const String proceedToAdd = 'proceedToAdd';
   static const String testSuccessSendHRV = 'testSuccessSendHRV';
   static const String testSuccessfulCheck = 'testSuccessfulCheck';
+  static const String thisYear = 'thisYear';
+  static const String thisMonth = 'thisMonth';
+  static const String thisWeek = 'thisWeek';
 
   static const String thisIs = 'thisIs';
 
@@ -470,7 +473,7 @@ mixin AppLocale {
     reconnect: 'Re-connect',
     rrInterval: "RR Intervals",
     seconds: "Seconds",
-    close: "close",
+    close: "Close",
     upload: "Upload",
     saveOffline: "Save offline",
     testCompleted: "Test completed",
@@ -508,6 +511,9 @@ mixin AppLocale {
     testSuccessSendHRV: "Test successfully sent to hrv server.You can check the reports in some time",
     testSuccessfulCheck:  "Test successfully sent to hrv server.You can check the reports in some time",
 
+    thisWeek:"All Time",
+    thisMonth:"This Week",
+    thisYear:"This Month",
     thisIs: 'This is %a package, version %a.',
   };
 
@@ -764,6 +770,10 @@ mixin AppLocale {
     proceedToAdd: "ಸೇರಿಸಲು ಮುಂದುವರಿಯಿರಿ",
     testSuccessSendHRV: "ಟೆಸ್ಟ್ ಯಶಸ್ವಿಯಾಗಿ HRV ಗಣಕಕ್ಕೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ಸ್ಥಳೀಯ ಕಾಲದಲ್ಲಿ ವರದಿಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು",
     testSuccessfulCheck:  "ಟೆಸ್ಟ್ ಯಶಸ್ವಿಯಾಗಿ HRV ಗಣಕಕ್ಕೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ಸ್ಥಳೀಯ ಕಾಲದಲ್ಲಿ ವರದಿಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು",
+    thisWeek:"ಎಲ್ಲಾ ಸಮಯ",
+    thisMonth:"ಈ ವಾರ",
+    thisYear:"ಈ ತಿಂಗಳು",
+
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1019,6 +1029,9 @@ mixin AppLocale {
     proceedToAdd: "जोड़ने के लिए आगे बढ़ें",
     testSuccessSendHRV: "टेस्ट सफलतापूर्वक hrv सर्वर को भेजा गया। आप कुछ समय में रिपोर्ट देख सकते हैं",
     testSuccessfulCheck:  "टेस्ट सफलतापूर्वक hrv सर्वर को भेजा गया। आप कुछ समय में रिपोर्ट देख सकते हैं",
+    thisWeek:"सभी समय",
+    thisMonth:"इस सप्ताह",
+    thisYear:"इस महीने",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1274,6 +1287,9 @@ mixin AppLocale {
     proceedToAdd: "Weiter zur Hinzufügung",
     testSuccessSendHRV: "Test erfolgreich an hrv Server gesendet. Sie können die Berichte in Kürze überprüfen",
     testSuccessfulCheck:  "Test erfolgreich an hrv Server gesendet. Sie können die Berichte in Kürze überprüfen",
+    thisWeek:"Alle Zeit",
+    thisMonth:"Diese Woche",
+    thisYear:"Dieser Monat",
 
     logOut: 'Ausloggen',
   };
@@ -1531,6 +1547,9 @@ mixin AppLocale {
     proceedToAdd: "జోడించడానికి ముందుకు వెళ్ళు",
     testSuccessSendHRV: "టెస్ట్ యశస్వితంగా hrv సర్వర్‌కు పంపబడింది. కొనసాగించుకోవడానికి మీరు కొనసాగాల్సిన సమయంలో నివేదికలను తనిఖీ చేయవచ్చు",
     testSuccessfulCheck:  "టెస్ట్ యశస్వితంగా hrv సర్వర్‌కు పంపబడింది. కొనసాగించుకోవడానికి మీరు కొనసాగాల్సిన సమయంలో నివేదికలను తనిఖీ చేయవచ్చు",
+    thisWeek:"అన్నీ సమయం",
+    thisMonth:"ఈ వారం",
+    thisYear:"ఈ నెల",
 
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
@@ -1790,6 +1809,9 @@ mixin AppLocale {
     proceedToAdd: "சேர்க்க தொடர்க",
     testSuccessSendHRV: "சோதனை வெற்றிகரமாக hrv சேவையில் அனுப்பப்பட்டுள்ளது. நீங்கள் கொழுப்பு நேரத்தில் அறிக்கைகளை சரிபார்க்கலாம்",
     testSuccessfulCheck:  "சோதனை வெற்றிகரமாக hrv சேவையில் அனுப்பப்பட்டுள்ளது. நீங்கள் கொழுப்பு நேரத்தில் அறிக்கைகளை சரிபார்க்கலாம்",
+    thisWeek:"அனைத்து நேரங்கள்",
+    thisMonth:"இந்த வாரம்",
+    thisYear:"இந்த மாதம்",
 
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
@@ -2043,6 +2065,9 @@ mixin AppLocale {
     proceedToAdd: "ചേർക്കാനും തുടരുക",
     testSuccessSendHRV: "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
     testSuccessfulCheck:  "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
+    thisWeek:"Alle Zeit",
+    thisMonth:"Diese Woche",
+    thisYear:"Dieser Monat",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

@@ -68,9 +68,10 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           items: <String>[
-                            "All Time",
-                            "This Week",
-                            "This Month"
+                            AppLocale.thisWeek.getString(context),
+                            AppLocale.thisMonth.getString(context),
+                            AppLocale.thisYear.getString(context),
+
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
