@@ -194,16 +194,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> getRoleMasters(BuildContext relContext) async {
-    showLoaderDialog(relContext);
     masterRolesResponse = await apiCalls.getMasterRoles(relContext);
-    if (masterRolesResponse!.result!.isNotEmpty) {
-      Navigator.pop(relContext);
+    if (masterRolesResponse!.result!.isEmpty) {
       clearRegisterForm();
-      if (relContext.mounted) {
-        // Navigator.pushNamed(relContext, Routes.registerRoute);
-      }
-    } else {
-      Navigator.pop(relContext);
       showErrorToast(relContext, masterRolesResponse!.message!);
     }
   }
@@ -216,17 +209,16 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<ResetPasswordResponseModel> resetPassword() async {
-    showLoaderDialog(forgotPageContext!);
+  Future<ResetPasswordResponseModel> resetPassword(BuildContext? coContext) async {
+    showLoaderDialog(coContext!);
     ResetPasswordResponseModel response = await apiCalls.resetPassword(
         forgotPasswordEmailController.text,
         forgotPasswordNewPasswordController.text,
-        forgotPageContext!);
+        coContext);
     if (response.result != null && response.result == true) {
-      Navigator.pop(forgotPageContext!);
-      showSuccessToast(forgotPageContext!, response.message!);
-      Navigator.pushNamed(
-          forgotPageContext!, Routes.loginRoute);
+      Navigator.pop(coContext);
+      showSuccessToast(coContext, response.message!);
+      Navigator.pushNamed(coContext, Routes.loginRoute);
     } else {
       showErrorToast(forgotPageContext!, response.message!);
     }
@@ -235,13 +227,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> getStateMaster(BuildContext context) async {
     stateMasterResponse = await apiCalls.getStateMaster(context);
-    if (stateMasterResponse!.result!.isNotEmpty) {
-      clearRegisterForm();
-      if (context.mounted) {
-        // Navigator.pushNamed(context, Routes.registerRoute);
-      }
-    } else {
-      Navigator.pop(context);
+    if (stateMasterResponse!.result!.isEmpty) {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }
   }

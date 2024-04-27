@@ -334,16 +334,20 @@ class ApiCalls {
     }
   }
 
-  resetPassword(
-      String email, String password, BuildContext buildContext) async {
-    http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
-        jsonEncode({"Email": email, "NewPassword": password}));
+  resetPassword(String email, String password, BuildContext buildContext) async {
+
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
+    request.fields['Email'] = email.toString();
+    request.fields['NewPassword'] = password.toString();
+    var response = await request.send();
     if (response.statusCode == 200) {
-      return ResetPasswordResponseModel.fromJson(json.decode(response.body));
+      var responseData = await response.stream.toBytes();
+      var responseJson = json.decode(utf8.decode(responseData));
+      return ResetPasswordResponseModel.fromJson(responseJson);
     } else {
       Navigator.pop(buildContext);
       showErrorToast(buildContext, "Something went wrong");
-      throw "could not reset password ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     }
   }
 
@@ -595,7 +599,7 @@ class ApiCalls {
       String dob,
       File? profilePic,
       BuildContext? context,
-      int? id,
+      int? userId,
       int? contactId,
       String street,
       String area,
@@ -609,9 +613,9 @@ class ApiCalls {
     request.fields['FirstName'] = fName;
     request.fields['LastName'] = lName;
     request.fields['BloodGroup'] = bloodGroup;
-    request.fields['Gender'] = gender;
+    request.fields['Gender'] = gender=='Female'?'2':gender=='Male'?'1':'3';
     request.fields['Dob'] = dob;
-    request.fields['UserId'] = id.toString();
+    request.fields['UserId'] = userId.toString();
     request.fields['ContactId'] = contactId.toString();
     request.fields['AddressId'] = addressId.toString();
     request.fields['Address.Street'] = street;
@@ -636,6 +640,7 @@ class ApiCalls {
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
     var response = await request.send();
+    print(request.fields);
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
@@ -677,13 +682,19 @@ class ApiCalls {
 
   Future<ResetPasswordResponseModel> resetNewPassword(
       bool password, String? changePswEmail, BuildContext context) async {
-    http.Response response = await hitApiPost(false, UrlConstants.resetPassword,
-        jsonEncode({"Email": changePswEmail, "NewPassword": password}));
+
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
+    request.fields['Email'] = changePswEmail.toString();
+    request.fields['NewPassword'] = password.toString();
+    var response = await request.send();
     if (response.statusCode == 200) {
-      return ResetPasswordResponseModel.fromJson(json.decode(response.body));
+      var responseData = await response.stream.toBytes();
+      var responseJson = json.decode(utf8.decode(responseData));
+      return ResetPasswordResponseModel.fromJson(responseJson);
     } else {
+      Navigator.pop(context);
       showErrorToast(context, "Something went wrong");
-      throw "could not reset password ${response.statusCode}";
+      throw "could not add the profile ${response.statusCode}";
     }
   }
 
