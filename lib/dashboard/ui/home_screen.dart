@@ -1160,6 +1160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         fontSize: 15),
                                                   ),
                                                   const SizedBox(height: 5),
+                                                  Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
                                                   // Text(
                                                   //   reportsSnapshot
                                                   //               .data!

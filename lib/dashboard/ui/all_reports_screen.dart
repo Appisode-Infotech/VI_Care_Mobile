@@ -227,14 +227,16 @@ class _ReportScreenState extends State<ReportScreen> {
                                                     fontSize: 15),
                                               ),
                                               const SizedBox(height: 5),
-                                              Text(
-                                                snapshot.data!.result![index].roleId==2?
-                                                "${calculateAge(snapshot.data!.result![index].individualProfile!.contact!.doB!)} Years":
-                                                "${calculateAge(snapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} Years",
-                                                style: const TextStyle(
-                                                    color: Colors.black, fontSize: 12),
-                                              ),
-                                              const SizedBox(height: 5),
+                                              Text("${snapshot.data!.result![index].durationName!} Test"),
+
+                                              // Text(
+                                              //   snapshot.data!.result![index].roleId==2?
+                                              //   "${calculateAge(snapshot.data!.result![index].individualProfile!.contact!.doB!)} Years":
+                                              //   "${calculateAge(snapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} Years",
+                                              //   style: const TextStyle(
+                                              //       color: Colors.black, fontSize: 12),
+                                              // ),
+                                              // const SizedBox(height: 5),
                                               // Text(
                                               //   snapshot.data!.result![index].user!.contact!.toJson().toString(),
                                               //   style: const TextStyle(
