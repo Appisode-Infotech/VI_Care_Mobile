@@ -207,6 +207,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           height: 10,
         ),
         TextFormField(
+          controller: profileProvider.changePasswordOneController,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value!.isEmpty) {
@@ -260,6 +261,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           height: 10,
         ),
         TextFormField(
+          controller: profileProvider.changePasswordTwoController,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value!.isEmpty) {

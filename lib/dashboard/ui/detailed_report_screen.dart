@@ -75,9 +75,9 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                       const Text("Patient details ",style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 18,fontWeight: FontWeight.bold),),
-                      Text("Name : ${takeTestProvider.reportUserData!.contact!.firstname} ${takeTestProvider.reportUserData!.contact!.lastName}"),
-                      Text("Age : ${calculateAge(takeTestProvider.reportUserData!.contact!.doB!)}"),
-                      Text("Gender : ${takeTestProvider.reportUserData!.contact!.gender.toString()}"),
+                      Text("Name : ${takeTestProvider.reportUserData!.firstName} ${takeTestProvider.reportUserData!.lastName}"),
+                      // Text("Age : ${calculateAge(takeTestProvider.reportUserData!.doB!)}"),
+                      // Text("Gender : ${takeTestProvider.reportUserData!.gender.toString()}"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,

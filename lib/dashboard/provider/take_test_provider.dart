@@ -7,6 +7,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
+import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
@@ -33,8 +34,8 @@ class TakeTestProvider extends ChangeNotifier {
   TextEditingController serialNumberController = TextEditingController();
   List<StreamSubscription> subscriptions = [];
   DetailedReportPdfModel? documentResp;
-  ReportUser? reportUserData;
 
+  dynamic reportUserData;
   void listenToConnectedDevice() {
     _bluetoothStateSubscription =
         flutterBlue.state.listen((BluetoothState state) async {
@@ -322,8 +323,14 @@ class TakeTestProvider extends ChangeNotifier {
   Future<ReportsDetailModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
     documentResp = await apiCalls.getReportPdf(requestDeviceDataId,context);
     for(int i = 0;i<documentResp!.result!.length;i++){
-      if(documentResp!.result![i].fileType==2){
-        reportUserData = documentResp!.result![i].requestDeviceData!.user;
+      if(prefModel.userData!.roleId==2){
+        if(documentResp!.result![i].fileType==2){
+          reportUserData = documentResp!.result![i].requestDeviceData!.individualProfile;
+        }
+      }else{
+        if(documentResp!.result![i].fileType==2){
+          reportUserData = documentResp!.result![i].requestDeviceData!.enterpriseProfile;
+        }
       }
     }
 

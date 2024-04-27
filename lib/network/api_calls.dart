@@ -680,8 +680,7 @@ class ApiCalls {
   }
 
   Future<ResetPasswordResponseModel> resetNewPassword(
-      bool password, String? changePswEmail, BuildContext context) async {
-
+      String password, String? changePswEmail, BuildContext context) async {
     var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
     request.fields['Email'] = changePswEmail.toString();
     request.fields['NewPassword'] = password.toString();
@@ -884,7 +883,6 @@ class ApiCalls {
     print(pId);
     if(prefModel.userData!.roleId==2){
       http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?individualProfileId=$pId");
-      log(response.body);
       if(response.statusCode==200){
         return MyReportsResponseModel.fromJson(json.decode(response.body));
       }else{
@@ -902,6 +900,7 @@ class ApiCalls {
 
   Future<DetailedReportPdfModel> getReportPdf(int? requestDeviceDataId, BuildContext context) async {
     http.Response response = await hitApiGet(true, "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
+    log(response.body);
     if(response.statusCode==200){
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
     }else{
