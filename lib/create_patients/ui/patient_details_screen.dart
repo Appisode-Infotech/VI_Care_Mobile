@@ -652,24 +652,24 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      // InkWell(
-                                      //   onTap: () {
-                                      //     Navigator.pushNamed(
-                                      //         context, Routes.reportsRoute);
-                                      //   },
-                                      //   child: Row(
-                                      //     children: [
-                                      //       Text(
-                                      //         AppLocale.viewAll
-                                      //             .getString(context),
-                                      //         style: const TextStyle(
-                                      //             fontSize: 16,
-                                      //             fontWeight: FontWeight.w500),
-                                      //       ),
-                                      //       const Icon(Icons.navigate_next)
-                                      //     ],
-                                      //   ),
-                                      // ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, Routes.reportsRoute);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              AppLocale.viewAll
+                                                  .getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const Icon(Icons.navigate_next)
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(

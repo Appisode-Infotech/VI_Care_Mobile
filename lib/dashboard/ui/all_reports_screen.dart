@@ -357,7 +357,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         },
                         child: SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
-                            child: SizedBox(height:screenSize!.height/1.5,child: Center(child: Text(AppLocale.noReportFound.getString(context)),))),
+                            child: SizedBox(height:screenSize!.height*.5,child: Center(child: Text(AppLocale.noReportFound.getString(context)),))),
                       );
                     }
                     if (snapshot.hasError) {
