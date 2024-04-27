@@ -445,7 +445,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppPref.setPref(prefModel);
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           Routes.loginRoute, (route) => false);
-                      showSuccessToast(context, "Logout successful");
+                      showSuccessToast(context, AppLocale.logoutSuccess.getString(context));
                     },
                     child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 3),

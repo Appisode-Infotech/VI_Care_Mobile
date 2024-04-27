@@ -110,7 +110,7 @@ class TakeTestProvider extends ChangeNotifier {
           return PopScope(
             canPop: false,
             child: AlertDialog(
-              title: const Text("Add device details."),
+              title:  Text(AppLocale.addDeviceDetails.getString(dialogContext)),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -118,26 +118,26 @@ class TakeTestProvider extends ChangeNotifier {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        "Device name : ",
+                       Text(
+                        "${AppLocale.deviceName.getString(dialogContext)}: ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(device.name),
                     ],
                   ),
-                  const Row(
+                   Row(
                     children: [
                       Text(
-                        "Device manufacturer : ",
+                        "${AppLocale.deviceManufacturer.getString(dialogContext)} : ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text("Smart Lab"),
+                      Text(AppLocale.smartLab.getString(dialogContext)),
                     ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("Serial number"),
+                   Text(AppLocale.serialNumber.getString(dialogContext)),
                   Form(
                     key: addDeviceFormKey,
                     child: TextFormField(
@@ -145,14 +145,14 @@ class TakeTestProvider extends ChangeNotifier {
                       controller: serialNumberController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Please enter device serial number";
+                          return AppLocale.enterSNumber.getString(dialogContext);
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
-                        hintText: "Serial number",
+                        hintText: AppLocale.serialNumber.getString(dialogContext),
                         counterText: "",
                         isCollapsed: true,
                         errorStyle: const TextStyle(color: Colors.red),
@@ -180,7 +180,7 @@ class TakeTestProvider extends ChangeNotifier {
                       Navigator.pop(dialogContext);
                       Navigator.pop(oldContext);
                     },
-                    child: const Text("Close")),
+                    child: Text(AppLocale.close.getString(dialogContext))),
                 TextButton(
                     onPressed: () async {
                       if (addDeviceFormKey.currentState!.validate()) {
@@ -203,7 +203,7 @@ class TakeTestProvider extends ChangeNotifier {
                         }
                       }
                     },
-                    child: const Text("Proceed to add")),
+                    child:  Text(AppLocale.proceedToAdd.getString(dialogContext))),
               ],
             ),
           );
@@ -335,7 +335,7 @@ class TakeTestProvider extends ChangeNotifier {
         uploadFile: payload);
     Navigator.pop(dataContext);
     if (response.result != null) {
-      showSuccessToast(dataContext, "Test successfully sent to hrv server.You can check the reports in some time");
+      showSuccessToast(dataContext, AppLocale.testSuccessSendHRV);
     }
   }
 

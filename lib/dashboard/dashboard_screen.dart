@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
 import 'package:vicare/dashboard/model/duration_response_model.dart';
@@ -10,6 +11,7 @@ import 'package:vicare/dashboard/ui/profile_screen.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../utils/app_colors.dart';
+import '../utils/app_locale.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -75,22 +77,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
               setState(() => selectedItemPosition = index);
             }
           },
-          items: const [
+          items:  [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'HOME',
+              label: AppLocale.home.getString(context),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart),
-              label: 'Reports',
+              label: AppLocale.reports.getString(context),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.airline_seat_recline_extra_outlined),
-              label: 'Patients',
+              label: AppLocale.patients.getString(context),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profile',
+              label: AppLocale.profile.getString(context),
             ),
           ],
           selectedLabelStyle: const TextStyle(fontSize: 10),
@@ -120,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if(myDevices.result!=null && myDevices.result!.devices!.isNotEmpty){
                   showTestFormBottomSheet(context,myDevices,myDurations,null,null);
                 }else{
-                  showErrorToast(context, "You have not added any devices yet. Please add the device to continue.");
+                  showErrorToast(context, AppLocale.deviceNotAdded.getString(context));
                 }
                 // if (myDevices.result!.devices!.isEmpty) {
                 //   showErrorToast(context, myDevices.message!);

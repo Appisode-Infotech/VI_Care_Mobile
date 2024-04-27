@@ -117,11 +117,12 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           items: <String>[
-                            "All Reports",
-                            "New",
-                            "In Progress",
-                            "Success",
-                            "Fail"
+                            AppLocale.all.getString(context),
+                            AppLocale.newReport.getString(context),
+                            AppLocale.inProgress.getString(context),
+                            AppLocale.successReport.getString(context),
+                            AppLocale.failReport.getString(context),
+
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -348,14 +349,14 @@ class _ReportScreenState extends State<ReportScreen> {
                             );
                           },
                         ),
-                      ):const Center(child: Text("No reports found"),);
+                      ): Center(child: Text(AppLocale.noReportFound.getString(context)),);
                     }
                     if (snapshot.hasError) {
                       return Center(
                         child: Text(snapshot.error.toString()),
                       );
                     } else {
-                      return const Center(child: Text("loading"));
+                      return  Center(child: Text(AppLocale.loading.getString(context)));
                     }
                   },
                 ),

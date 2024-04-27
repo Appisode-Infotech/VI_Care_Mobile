@@ -114,26 +114,26 @@ void showImageSourceDialog(BuildContext context,
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
-        title: const Text("Choose Image Source"),
+        title:  Text(AppLocale.chooseImageSource.getString(context)),
         children: <Widget>[
           SimpleDialogOption(
             onPressed: () async {
-              onOptionSelected('Camera');
+              onOptionSelected(AppLocale.camera.getString(context));
               Navigator.pop(context);
             },
-            child: const ListTile(
+            child:  ListTile(
               leading: Icon(Icons.camera),
-              title: Text("Camera"),
+              title: Text(AppLocale.camera.getString(context)),
             ),
           ),
           SimpleDialogOption(
             onPressed: () async {
-              onOptionSelected('Gallery');
+              onOptionSelected(AppLocale.gallery.getString(context));
               Navigator.pop(context);
             },
-            child: const ListTile(
+            child:  ListTile(
               leading: Icon(Icons.image),
-              title: Text("Gallery"),
+              title: Text(AppLocale.gallery.getString(context)),
             ),
           ),
         ],
@@ -203,8 +203,8 @@ void showLoaderDialog(BuildContext context) {
               child: Lottie.asset('assets/lottie/loading.json'),
             ),
             const SizedBox(height: 8),
-            const Text(
-              "Loading...",
+             Text(
+             AppLocale.loading.getString(context),
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
@@ -229,7 +229,7 @@ Future<CroppedFile?> cropImage(String imagePath) async {
       uiSettings: [
         AndroidUiSettings(
           toolbarColor: AppColors.primaryColor,
-          toolbarTitle: 'Crop Image',
+          toolbarTitle: AppLocale.cropImage,
           statusBarColor: AppColors.primaryColor,
           backgroundColor: Colors.white,
         ),
@@ -310,21 +310,21 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
         return PopScope(
           canPop: false,
           child: AlertDialog(
-            title: const Text("Test completed !"),
+            title:  Text(AppLocale.testCompleted.getString(context)),
             backgroundColor: Colors.white,
-            content: const Text("Test completed successfully, what do you want to do?"),
+            content:  Text(AppLocale.testNext.getString(context)),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text("close",
+                  child:  Text(AppLocale.close.getString(context),
                       style: TextStyle(color: Colors.red))),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  child: const Text("Save offline",
+                  child:  Text(AppLocale.saveOffline.getString(context),
                       style: TextStyle(color: Colors.green)))
             ],
           ),
@@ -360,8 +360,8 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Select options",
+                       Text(
+                        AppLocale.selectOption.getString(context),
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       IconButton(
@@ -377,18 +377,18 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("Select Device"),
+                    child:  Text(AppLocale.selectDevice.getString(context)),
                   ),
                   DropdownButtonFormField<Device>(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null) {
-                        return "Please select device";
+                        return AppLocale.pleaseSelectDevice.getString(context);
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: "Device",
+                      hintText: AppLocale.device.getString(context),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -413,18 +413,18 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("Select Duration"),
+                    child:  Text(AppLocale.selectDuration.getString(context)),
                   ),
                   DropdownButtonFormField<DurationClass>(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null) {
-                        return "Please select duration";
+                        return AppLocale.pleaseSelectDuration.getString(context);
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: "Duration",
+                      hintText: AppLocale.duration.getString(context),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -450,7 +450,7 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                   Container(
                     width: screenSize!.width,
                     margin: const EdgeInsets.symmetric(vertical: 20),
-                    child: const Text("* Please ensure that the device is powered on, worn, and ready to connect"),
+                    child:  Text(AppLocale.devicePoweredOn.getString(context)),
                   ),
                   getPrimaryAppButton(
                     context,
@@ -475,7 +475,7 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                             }
                           },selectedDevice,consumerContext);
                         }else{
-                          showErrorToast(context, "Selected device type is not supported at the moment");
+                          showErrorToast(context, AppLocale.deviceTypeNotSupported.getString(context));
                         }
                       }
                     },

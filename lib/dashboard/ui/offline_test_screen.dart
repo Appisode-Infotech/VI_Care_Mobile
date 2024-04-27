@@ -87,13 +87,13 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                       ],
                                     ):Center(child: Column(
                                       children: [
-                                        const Text("No profile linked"),
+                                         Text(AppLocale.noProfileLinked.getString(context)),
                                         TextButton(onPressed: (){}, child: const Text("Link now"))
                                       ],
                                     ),),
                                     const SizedBox(height: 5),
                                     Text(
-                                      "created: ${offlinePrefModel.offlineSavedTests![index].created}",
+                                      "${AppLocale.created.getString(context)}: ${offlinePrefModel.offlineSavedTests![index].created}",
                                       style: const TextStyle(
                                           color: AppColors.fontShadeColor,
                                           fontSize: 14),
@@ -159,13 +159,14 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                     );
                   },
                 )
-              : const Center(
+              :  Center(
                   child: Text(
-                    "No saved tests yet !",
+                    AppLocale.noSavedYet.getString(context),
                     style: TextStyle(
                         fontSize: 18, color: AppColors.fontShadeColor),
                   ),
                 ),
         ));
   }
+
 }
