@@ -431,19 +431,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               index]
                                                                   .processingStatus ==
                                                                   1
-                                                                  ? AppLocale
-                                                                  .newReport
-                                                                  .getString(
-                                                                  context)
+                                                                  ? "New"
                                                                   : reportsSnapshot.data!.result![index].processingStatus ==
                                                                   2
-                                                                  ? AppLocale
-                                                                  .inProgress
-                                                                  .getString(context)
+                                                                  ? "In Progress"
                                                                   : reportsSnapshot.data!.result![index].processingStatus == 3
-                                                                  ? AppLocale.successReport.getString(context)
+                                                                  ? "Success"
                                                                   : reportsSnapshot.data!.result![index].processingStatus == 4
-                                                                  ? AppLocale.failReport.getString(context)
+                                                                  ? "Fail"
                                                                   : '',
                                                               style:
                                                               const TextStyle(
@@ -1268,39 +1263,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       index]
                                                                   .processingStatus ==
                                                               1
-                                                          ? AppLocale.newReport
-                                                              .getString(
-                                                                  context)
+                                                          ? "New"
                                                           : reportsSnapshot
                                                                       .data!
                                                                       .result![
                                                                           index]
                                                                       .processingStatus ==
                                                                   2
-                                                              ? AppLocale
-                                                                  .inProgress
-                                                                  .getString(
-                                                                      context)
+                                                              ? "In Progress"
                                                               : reportsSnapshot
                                                                           .data!
                                                                           .result![
                                                                               index]
                                                                           .processingStatus ==
                                                                       3
-                                                                  ? AppLocale
-                                                                      .successReport
-                                                                      .getString(
-                                                                          context)
+                                                                  ? "Success"
                                                                   : reportsSnapshot
                                                                               .data!
                                                                               .result![
                                                                                   index]
                                                                               .processingStatus ==
                                                                           4
-                                                                      ? AppLocale
-                                                                          .failReport
-                                                                          .getString(
-                                                                              context)
+                                                                      ? "Fail"
                                                                       : '',
                                                       style: const TextStyle(
                                                         color: Colors.white,

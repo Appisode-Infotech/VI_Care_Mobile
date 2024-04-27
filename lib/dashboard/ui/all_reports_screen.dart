@@ -71,9 +71,9 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           items: <String>[
-                            AppLocale.thisWeek.getString(context),
-                            AppLocale.thisMonth.getString(context),
-                            AppLocale.thisYear.getString(context),
+                            "This Week",
+                            "This Month",
+                            "This Year"
 
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -121,11 +121,11 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           items: <String>[
-                            AppLocale.all.getString(context),
-                            AppLocale.newReport.getString(context),
-                            AppLocale.inProgress.getString(context),
-                            AppLocale.successReport.getString(context),
-                            AppLocale.failReport.getString(context),
+                            "All Reports",
+                            "New Reports",
+                            "In Progress",
+                            "Success Reports",
+                            "Failed Reports"
 
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
