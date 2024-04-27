@@ -223,8 +223,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         InkWell(
                             onTap: ()  async {
+                              showLoaderDialog(context);
                               authProvider.getRoleMasters(context);
                              await authProvider.getStateMaster(context);
+                             Navigator.pop(context);
                               Navigator.pushNamed(context, Routes.registerRoute);
                             },
                             child: Text(

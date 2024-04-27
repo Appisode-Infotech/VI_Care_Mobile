@@ -774,10 +774,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         firstDate: DateTime(1026),
                         lastDate: DateTime.now(),
                       );
-                      setState(() {
-                        authProvider.registerDobController.text =
-                            "${picked!.year}-${picked.month}-${picked.day}";
-                      });
+                      if(picked!=null){
+                        setState(() {
+                          authProvider.registerDobController.text =
+                          "${picked.year}-${picked.month}-${picked.day}";
+                        });
+                      }
                     },
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,

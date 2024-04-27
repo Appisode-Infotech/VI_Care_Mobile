@@ -107,6 +107,7 @@ class ProfileProvider extends ChangeNotifier {
 
 
   Future<void> editProfile() async {
+    showLoaderDialog(editProfilePageContext!);
       RegisterResponseModel response = await apiCalls.editProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
@@ -146,7 +147,10 @@ class ProfileProvider extends ChangeNotifier {
         AppPref.setPref(prefModel);
         Navigator.pop(editProfilePageContext!);
         showSuccessToast(editProfilePageContext!, response.message!);
+      }else{
+        showErrorToast(editProfilePageContext!, response.message!);
       }
+    Navigator.pop(editProfilePageContext!);
   }
 
   Future<SendOtpResponseModel> changePassword(BuildContext context) async {

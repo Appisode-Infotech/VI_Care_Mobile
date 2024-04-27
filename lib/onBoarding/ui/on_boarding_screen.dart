@@ -180,8 +180,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             TextSpan(
                               recognizer:  TapGestureRecognizer()
                                 ..onTap = () async {
+                                showLoaderDialog(context);
                                   await authProvider.getRoleMasters(context);
                                     await authProvider.getStateMaster(context);
+                                    Navigator.pop(context);
                                     Navigator.pushNamed(context, Routes.registerRoute);
                                 },
                               text: AppLocale.signUpNow.getString(context),

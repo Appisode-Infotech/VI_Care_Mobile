@@ -231,8 +231,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      SendOtpResponseModel response =
-                          await profileProvider.changePassword(context);
+                      showLoaderDialog(context);
+                      SendOtpResponseModel response = await profileProvider.changePassword(context);
                       profileProvider.resetPasswordOtp = response.result!.otp;
                       if (response.result != null) {
                         showSuccessToast(context, response.message!);
@@ -240,6 +240,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         showErrorToast(context, response.message!);
                       }
                       profileProvider.changePasswordOtpController.clear();
+                      Navigator.pop(context);
                       Navigator.pushNamed(context, Routes.changePasswordRoute);
                     },
                     child: Row(
