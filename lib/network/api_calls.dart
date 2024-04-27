@@ -335,7 +335,6 @@ class ApiCalls {
   }
 
   resetPassword(String email, String password, BuildContext buildContext) async {
-
     var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
     request.fields['Email'] = email.toString();
     request.fields['NewPassword'] = password.toString();
