@@ -1160,19 +1160,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         fontSize: 15),
                                                   ),
                                                   const SizedBox(height: 5),
-                                                  Text(
-                                                    reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .roleId ==
-                                                            2
-                                                        ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}Years"
-                                                        : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}Years",
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12),
-                                                  ),
-                                                  const SizedBox(height: 5),
+                                                  // Text(
+                                                  //   reportsSnapshot
+                                                  //               .data!
+                                                  //               .result![index]
+                                                  //               .roleId ==
+                                                  //           2
+                                                  //       ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}Years"
+                                                  //       : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}Years",
+                                                  //   style: const TextStyle(
+                                                  //       color: Colors.black,
+                                                  //       fontSize: 12),
+                                                  // ),
+                                                  // const SizedBox(height: 5),
                                                   // Text(
                                                   //   patientReports[index]["description"],
                                                   //   style: const TextStyle(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -883,6 +884,7 @@ class ApiCalls {
     print(pId);
     if(prefModel.userData!.roleId==2){
       http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?individualProfileId=$pId");
+      log(response.body);
       if(response.statusCode==200){
         return MyReportsResponseModel.fromJson(json.decode(response.body));
       }else{
