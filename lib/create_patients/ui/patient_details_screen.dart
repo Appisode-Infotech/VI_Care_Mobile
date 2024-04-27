@@ -775,7 +775,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   fontWeight: FontWeight.bold,
                                                                   fontSize: 15),
                                                             ),
-                                                            // const SizedBox(height: 5),
+                                                            const SizedBox(height: 5),
+                                                            Text("${patientSnapshot.data!.result![index].durationName!} Test"),
                                                             // Text(
                                                             //   patientSnapshot.data!.result![index].roleId==2?
                                                             //   "${calculateAge(patientSnapshot.data!.result![index].individualProfile!.contact!.doB!)} Years":
