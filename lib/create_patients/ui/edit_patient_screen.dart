@@ -581,7 +581,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   "B+ve",
                                   "O-ve",
                                   "A+ve",
-                                  "A-ve"
+                                  "A-ve",
+                                  "B-ve",
+                                  "AB-ve"
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -1399,7 +1401,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   "B+ve",
                                   "O-ve",
                                   "A+ve",
-                                  "A-ve"
+                                  "A-ve",
+                                  "B-ve",
+                                  "AB-ve"
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,

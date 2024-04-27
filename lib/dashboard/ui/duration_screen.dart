@@ -19,7 +19,6 @@ class DurationScreen extends StatefulWidget {
 class _DurationScreenState extends State<DurationScreen> {
   @override
   void didChangeDependencies() {
-    Provider.of<DeviceProvider>(context, listen: false).getAllDuration();
     super.didChangeDependencies();
   }
 
@@ -47,7 +46,7 @@ class _DurationScreenState extends State<DurationScreen> {
             ),
           ),
           body: FutureBuilder(
-            future: deviceProvider.allDurations,
+            future: deviceProvider.getAllDuration(),
             builder: (BuildContext context,
                 AsyncSnapshot<DurationResponseModel> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -104,8 +103,7 @@ class _DurationScreenState extends State<DurationScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 16),
                         decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +133,8 @@ class _DurationScreenState extends State<DurationScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return  Center(child: Text(AppLocale.loading.getString(context)));
+                return Center(
+                    child: Text(AppLocale.loading.getString(context)));
               }
             },
           ),
