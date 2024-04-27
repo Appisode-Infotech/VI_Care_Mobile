@@ -344,143 +344,146 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
 
       return Consumer(
         builder: (BuildContext consumerContext, NewTestLeProvider newTestLeProvider, Widget? child) {
-          return  Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            width: screenSize!.width,
-            child: Form(
-              key: testFormKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                       Text(
-                        AppLocale.selectOption.getString(context),
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        onPressed: (){
-                          Navigator.pop(bottomSheetContext);
-                        },
-                        icon: const Icon(Icons.close),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child:  Text(AppLocale.selectDevice.getString(context)),
-                  ),
-                  DropdownButtonFormField<Device>(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null) {
-                        return AppLocale.pleaseSelectDevice.getString(context);
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: AppLocale.device.getString(context),
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade50,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                      focusColor: Colors.transparent,
-                      errorStyle: TextStyle(color: Colors.red.shade400),
+          return  SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              width: screenSize!.width,
+              child: Form(
+                key: testFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
-                    items: myDevices.result!.devices!.map((device) {
-                      return DropdownMenuItem<Device>(
-                        value: device,
-                        child: Text("${device.name!} - ${device.serialNumber!}"),
-                      );
-                    }).toList(),
-                    onChanged: (val) {
-                      selectedDevice = val;
-                    },
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child:  Text(AppLocale.selectDuration.getString(context)),
-                  ),
-                  DropdownButtonFormField<DurationClass>(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null) {
-                        return AppLocale.pleaseSelectDuration.getString(context);
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: AppLocale.duration.getString(context),
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade50,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                         Text(
+                          AppLocale.selectOption.getString(context),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                      focusColor: Colors.transparent,
-                      errorStyle: TextStyle(color: Colors.red.shade400),
-                    ),
-                    items: myDurations.result!.map((duration) {
-                      return DropdownMenuItem<DurationClass>(
-                        value: duration,
-                        child: Text(duration.name!),
-                      );
-                    }).toList(),
-                    onChanged: (val) {
-                      selectedDuration = val;
-                    },
-                  ),
-                  Container(
-                    width: screenSize!.width,
-                    margin: const EdgeInsets.symmetric(vertical: 20),
-                    child:  Text(AppLocale.devicePoweredOn.getString(context)),
-                  ),
-                  getPrimaryAppButton(
-                    context,
-                    AppLocale.connect.getString(context),
-                    onPressed: () async {
-                      if (testFormKey.currentState!.validate()) {
-                        if(selectedDevice!.deviceCategory==2){
-                          newTestLeProvider.connectToDevice((bool isConnected) {
-                            Navigator.pop(consumerContext);
+                        IconButton(
+                          onPressed: (){
                             Navigator.pop(bottomSheetContext);
-                            if (isConnected) {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.newTestLeRoute,
-                                arguments: {
-                                  'individualPatientData': individualPatientData,
-                                  'enterprisePatientData': enterprisePatientData,
-                                  'selectedDuration': selectedDuration,
-                                  'selectedDevice': selectedDevice
-                                },
-                              );
-                            }
-                          },selectedDevice,consumerContext);
-                        }else{
-                          showErrorToast(context, AppLocale.deviceTypeNotSupported.getString(context));
+                          },
+                          icon: const Icon(Icons.close),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child:  Text(AppLocale.selectDevice.getString(context)),
+                    ),
+                    DropdownButtonFormField<Device>(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value == null) {
+                          return AppLocale.pleaseSelectDevice.getString(context);
                         }
-                      }
-                    },
-                  )
-                ],
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: AppLocale.device.getString(context),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade50,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                        focusColor: Colors.transparent,
+                        errorStyle: TextStyle(color: Colors.red.shade400),
+                      ),
+                      items: myDevices.result!.devices!.map((device) {
+                        return DropdownMenuItem<Device>(
+                          value: device,
+                          child: Text("${device.name!} - ${device.serialNumber!}"),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        selectedDevice = val;
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child:  Text(AppLocale.selectDuration.getString(context)),
+                    ),
+                    DropdownButtonFormField<DurationClass>(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value == null) {
+                          return AppLocale.pleaseSelectDuration.getString(context);
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: AppLocale.duration.getString(context),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade50,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                        focusColor: Colors.transparent,
+                        errorStyle: TextStyle(color: Colors.red.shade400),
+                      ),
+                      items: myDurations.result!.map((duration) {
+                        return DropdownMenuItem<DurationClass>(
+                          value: duration,
+                          child: Text(duration.name!),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        selectedDuration = val;
+                      },
+                    ),
+                    Container(
+                      width: screenSize!.width,
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child:  Text(AppLocale.devicePoweredOn.getString(context)),
+                    ),
+                    getPrimaryAppButton(
+                      context,
+                      AppLocale.connect.getString(context),
+                      onPressed: () async {
+                        if (testFormKey.currentState!.validate()) {
+                          if(selectedDevice!.deviceCategory==2){
+                            newTestLeProvider.connectToDevice((bool isConnected) {
+                              Navigator.pop(consumerContext);
+                              Navigator.pop(bottomSheetContext);
+                              if (isConnected) {
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.newTestLeRoute,
+                                  arguments: {
+                                    'individualPatientData': individualPatientData,
+                                    'enterprisePatientData': enterprisePatientData,
+                                    'selectedDuration': selectedDuration,
+                                    'selectedDevice': selectedDevice
+                                  },
+                                );
+                              }
+                            },selectedDevice,consumerContext);
+                          }else{
+                            showErrorToast(context, AppLocale.deviceTypeNotSupported.getString(context));
+                          }
+                        }
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           );

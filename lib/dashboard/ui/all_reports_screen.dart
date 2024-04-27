@@ -1,8 +1,6 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -236,18 +234,19 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 style: const TextStyle(
                                                     color: Colors.black, fontSize: 12),
                                               ),
-                                              // const SizedBox(height: 5),
+                                              const SizedBox(height: 5),
                                               // Text(
-                                              //   patientReports[index]["description"],
+                                              //   snapshot.data!.result![index].user!.contact!.toJson().toString(),
                                               //   style: const TextStyle(
                                               //       color: Colors.black, fontSize: 12),
                                               // ),
-                                              const SizedBox(height: 5),
+                                              // const SizedBox(height: 5),
                                               Text(
                                                 "${parseDate(snapshot.data!.result![index].requestDateTime!)}",
                                                 style: const TextStyle(
                                                     color: Colors.black, fontSize: 12),
                                               ),
+
                                             ],
                                           ),
                                         ],
