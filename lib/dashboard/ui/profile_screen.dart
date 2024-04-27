@@ -72,45 +72,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.shade200,
                   ),
                   const SizedBox(height: 10),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.durationsRoute);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: Colors.teal.shade100,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: const Icon(
-                                Icons.settings_outlined,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              AppLocale.scanSettings.getString(context),
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                        const Icon(
-                          Icons.arrow_forward,
-                          color: Colors.grey,
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, Routes.durationsRoute);
+                  //   },
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Container(
+                  //             padding: const EdgeInsets.all(6),
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.teal.shade100,
+                  //               borderRadius:
+                  //                   const BorderRadius.all(Radius.circular(5)),
+                  //             ),
+                  //             child: const Icon(
+                  //               Icons.settings_outlined,
+                  //               color: AppColors.primaryColor,
+                  //             ),
+                  //           ),
+                  //           const SizedBox(width: 10),
+                  //           Text(
+                  //             AppLocale.scanSettings.getString(context),
+                  //             style: const TextStyle(
+                  //                 fontSize: 15, fontWeight: FontWeight.w600),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       const Icon(
+                  //         Icons.arrow_forward,
+                  //         color: Colors.grey,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.devicesRoute);
@@ -470,7 +470,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ))),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
+                  ),
+                  const Center(child: Text("V1.0.1"),),
+                  const SizedBox(
+                    height: 20,
                   ),
                 ],
               ),
