@@ -584,7 +584,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve"]
+          items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve","B-ve","AB-ve"]
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
