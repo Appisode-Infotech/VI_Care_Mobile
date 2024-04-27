@@ -16,6 +16,10 @@ import '../model/state_master_response_model.dart';
 class ProfileProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
 
+  TextEditingController changePasswordOneController = TextEditingController();
+  TextEditingController changePasswordTwoController = TextEditingController();
+
+
   //edit profile declarations
   bool isNotValidContactNumber(String contactNumber) {
     if (contactNumber.length == 10) {
@@ -162,8 +166,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> resetNewPassword(BuildContext context) async {
-    ResetPasswordResponseModel response = await apiCalls.resetNewPassword(
-        changePasswordIsShowPassword, prefModel.userData!.email, context);
+    ResetPasswordResponseModel response = await apiCalls.resetNewPassword(changePasswordTwoController.text, prefModel.userData!.email, context);
     if (response.result != null && response.result == true) {
       Navigator.pop(changePasswordPageContext!);
       showSuccessToast(changePasswordPageContext!, response.message!);
