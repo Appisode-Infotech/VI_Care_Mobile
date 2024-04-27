@@ -195,6 +195,11 @@ mixin AppLocale {
 
   static const String chooseDeviceModel = 'chooseDeviceModel';
   static const String loading = 'loading';
+  static const String all = 'all';
+  static const String newReport = 'newReport';
+  static const String inProgress = 'inProgress';
+  static const String successReport = 'successReport';
+  static const String failReport = 'failReport';
   static const String noReportFound = 'noReportFound';
   static const String scanning = 'scanning';
   static const String detailReport = 'detailReport';
@@ -247,6 +252,9 @@ mixin AppLocale {
   static const String proceedToAdd = 'proceedToAdd';
   static const String testSuccessSendHRV = 'testSuccessSendHRV';
   static const String testSuccessfulCheck = 'testSuccessfulCheck';
+  static const String thisYear = 'thisYear';
+  static const String thisMonth = 'thisMonth';
+  static const String thisWeek = 'thisWeek';
 
   static const String thisIs = 'thisIs';
 
@@ -445,6 +453,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'Choose your device',
     loading: 'loading',
+    all:"All Reports",
+    newReport:"New",
+    inProgress:"In Progress",
+    successReport:"Success",
+    failReport:"Fail",
     noReportFound:"No reports found",
     scanning:"Scanning...",
     detailReport:"Detailed report",
@@ -498,6 +511,9 @@ mixin AppLocale {
     testSuccessSendHRV: "Test successfully sent to hrv server.You can check the reports in some time",
     testSuccessfulCheck:  "Test successfully sent to hrv server.You can check the reports in some time",
 
+    thisWeek:"All Time",
+    thisMonth:"This Week",
+    thisYear:"This Month",
     thisIs: 'This is %a package, version %a.',
   };
 
@@ -698,6 +714,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'ನಿಮ್ಮ ಸಾಧನವನ್ನು ಆಯ್ಕೆಮಾಡಿ',
     loading: 'ಲೋಡಿಂಗ್',
+    all:"ಎಲ್ಲಾ ವರದಿಗಳು",
+    newReport:"ಹೊಸ",
+    inProgress:"ಸಾಗಾತ್ಮಕ",
+    successReport:"ಯಶಸ್ವಿ",
+    failReport:"ವಿಫಲವಾದ",
     noReportFound:"ಯಾವುದೇ ವರದಿಗಳು ಸಿಗಲಿಲ್ಲ",
     scanning:"ಸ್ಕ್ಯಾನಿಂಗ್...",
     detailReport:"ವಿವರವಾದ ವರದಿ",
@@ -749,6 +770,10 @@ mixin AppLocale {
     proceedToAdd: "ಸೇರಿಸಲು ಮುಂದುವರಿಯಿರಿ",
     testSuccessSendHRV: "ಟೆಸ್ಟ್ ಯಶಸ್ವಿಯಾಗಿ HRV ಗಣಕಕ್ಕೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ಸ್ಥಳೀಯ ಕಾಲದಲ್ಲಿ ವರದಿಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು",
     testSuccessfulCheck:  "ಟೆಸ್ಟ್ ಯಶಸ್ವಿಯಾಗಿ HRV ಗಣಕಕ್ಕೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ಸ್ಥಳೀಯ ಕಾಲದಲ್ಲಿ ವರದಿಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು",
+    thisWeek:"ಎಲ್ಲಾ ಸಮಯ",
+    thisMonth:"ಈ ವಾರ",
+    thisYear:"ಈ ತಿಂಗಳು",
+
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -947,6 +972,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'अपने डिवाइस का चयन करें',
     loading: 'लोड हो रहा है',
+    all:"सभी रिपोर्ट्स",
+    newReport:"नया",
+    inProgress:"कार्यारंभ",
+    successReport:"सफलता",
+    failReport:"विफल",
     noReportFound:"कोई रिपोर्ट नहीं मिली",
     scanning:"स्कैनिंग...",
     detailReport:"विस्तृत रिपोर्ट",
@@ -999,6 +1029,9 @@ mixin AppLocale {
     proceedToAdd: "जोड़ने के लिए आगे बढ़ें",
     testSuccessSendHRV: "टेस्ट सफलतापूर्वक hrv सर्वर को भेजा गया। आप कुछ समय में रिपोर्ट देख सकते हैं",
     testSuccessfulCheck:  "टेस्ट सफलतापूर्वक hrv सर्वर को भेजा गया। आप कुछ समय में रिपोर्ट देख सकते हैं",
+    thisWeek:"सभी समय",
+    thisMonth:"इस सप्ताह",
+    thisYear:"इस महीने",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1197,6 +1230,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'Wählen Sie Ihr Gerät',
     loading: 'laden',
+    all:"Alle Berichte",
+    newReport:"Neu",
+    inProgress:"In Bearbeitung",
+    successReport:"Erfolg",
+    failReport:"Fehlgeschlagen",
     noReportFound:"Keine Berichte gefunden",
     scanning:"Scannen...",
     detailReport:"Detailbericht",
@@ -1249,6 +1287,9 @@ mixin AppLocale {
     proceedToAdd: "Weiter zur Hinzufügung",
     testSuccessSendHRV: "Test erfolgreich an hrv Server gesendet. Sie können die Berichte in Kürze überprüfen",
     testSuccessfulCheck:  "Test erfolgreich an hrv Server gesendet. Sie können die Berichte in Kürze überprüfen",
+    thisWeek:"Alle Zeit",
+    thisMonth:"Diese Woche",
+    thisYear:"Dieser Monat",
 
     logOut: 'Ausloggen',
   };
@@ -1449,6 +1490,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'మీ పరికరంను ఎంచుకోండి',
     loading: 'లోడ్ అవుతోంది',
+    all:"అన్ని నివేదికలు",
+    newReport:"కొత్త",
+    inProgress:"ప్రగతిలో",
+    successReport:"విజయవంతమైన",
+    failReport:"విఫలమైన",
     noReportFound:"ఏమిటీ నివేదికలు కనిపించలేదు",
     scanning:"స్క్యాన్ చేస్తోంది...",
     detailReport:"వివరమైన నివేదిక",
@@ -1501,7 +1547,9 @@ mixin AppLocale {
     proceedToAdd: "జోడించడానికి ముందుకు వెళ్ళు",
     testSuccessSendHRV: "టెస్ట్ యశస్వితంగా hrv సర్వర్‌కు పంపబడింది. కొనసాగించుకోవడానికి మీరు కొనసాగాల్సిన సమయంలో నివేదికలను తనిఖీ చేయవచ్చు",
     testSuccessfulCheck:  "టెస్ట్ యశస్వితంగా hrv సర్వర్‌కు పంపబడింది. కొనసాగించుకోవడానికి మీరు కొనసాగాల్సిన సమయంలో నివేదికలను తనిఖీ చేయవచ్చు",
-
+    thisWeek:"అన్నీ సమయం",
+    thisMonth:"ఈ వారం",
+    thisYear:"ఈ నెల",
 
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
@@ -1704,6 +1752,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'உங்கள் சாதனத்தை தேர்ந்தெடுக்கவும்',
     loading: 'ஏற்றுதல்',
+    all:"அனைத்து அறிக்கைகள்",
+    newReport:"புதிய",
+    inProgress:"நடப்பு",
+    successReport:"வெற்றி",
+    failReport:"தோல்வி",
     noReportFound:"எந்த அறிக்கையும் கிடைக்கவில்லை",
     scanning:"தேடுதல்...",
     detailReport:"விவரமான அறிக்கை",
@@ -1756,6 +1809,9 @@ mixin AppLocale {
     proceedToAdd: "சேர்க்க தொடர்க",
     testSuccessSendHRV: "சோதனை வெற்றிகரமாக hrv சேவையில் அனுப்பப்பட்டுள்ளது. நீங்கள் கொழுப்பு நேரத்தில் அறிக்கைகளை சரிபார்க்கலாம்",
     testSuccessfulCheck:  "சோதனை வெற்றிகரமாக hrv சேவையில் அனுப்பப்பட்டுள்ளது. நீங்கள் கொழுப்பு நேரத்தில் அறிக்கைகளை சரிபார்க்கலாம்",
+    thisWeek:"அனைத்து நேரங்கள்",
+    thisMonth:"இந்த வாரம்",
+    thisYear:"இந்த மாதம்",
 
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
@@ -1952,6 +2008,11 @@ mixin AppLocale {
 
     chooseDeviceModel: 'നിങ്ങളുടെ ഉപകരണം തിരഞ്ഞെടുക്കുക',
     loading: 'ലോഡിംഗ്',
+    all:"എല്ലാ റിപ്പോർടുകൾ",
+    newReport:"പുതിയത്",
+    inProgress:"പുരോഗമിച്ചു",
+    successReport:"വിജയകരമായ",
+    failReport:"പരാജയപ്പെട്ടു",
     noReportFound:"ഒന്നും കണ്ടെത്തിയില്ല",
     scanning:"സ്കാൻ ചെയ്യുന്നു...",
     detailReport:"വിശദാംശ റിപ്പോർട്ട്",
@@ -2004,6 +2065,9 @@ mixin AppLocale {
     proceedToAdd: "ചേർക്കാനും തുടരുക",
     testSuccessSendHRV: "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
     testSuccessfulCheck:  "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
+    thisWeek:"Alle Zeit",
+    thisMonth:"Diese Woche",
+    thisYear:"Dieser Monat",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

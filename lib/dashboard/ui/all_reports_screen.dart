@@ -117,7 +117,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         items: <String>[
                           "All Reports",
                           "New",
-                          "In Progress"
+                          "In Progress",
                           "Success",
                           "Fail",
                         ].map<DropdownMenuItem<String>>((String value) {
