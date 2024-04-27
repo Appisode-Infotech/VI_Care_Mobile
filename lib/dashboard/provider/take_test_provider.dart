@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -8,14 +7,12 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
-import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_locale.dart';
 
 import '../../network/api_calls.dart';
 import '../../utils/app_colors.dart';
 import '../model/detailed_report_ddf_model.dart';
-import '../model/device_data_response_model.dart';
 import '../model/my_reports_response_model.dart';
 
 class TakeTestProvider extends ChangeNotifier {
@@ -311,32 +308,6 @@ class TakeTestProvider extends ChangeNotifier {
   void dispose() {
     _bluetoothStateSubscription?.cancel();
     super.dispose();
-  }
-
-  requestDeviceData(BuildContext dataContext, File payload,
-      String? deviceSerialNo, int? userAndDeviceId, String deviceId) async {
-    showLoaderDialog(dataContext);
-    // DeviceDataResponseModel response = await
-    DeviceDataResponseModel response = await apiCalls.requestDeviceData(
-        context: dataContext,
-        details: "abc",
-        fileType: "1",
-        // durationName: prefModel.selectedDuration!.name,
-        deviceSerialNumber: deviceSerialNo!,
-        ipAddress: "192.168.0.1",
-        userAndDeviceId: userAndDeviceId.toString(),
-        subscriberGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        deviceId: deviceId,
-        // durationId: prefModel.selectedDuration!.id,
-        userId: prefModel.userData!.id,
-        roleId: prefModel.userData!.roleId,
-        individualProfileId: prefModel.userData!.individualProfileId,
-        enterpriseProfileId: prefModel.userData!.enterpriseUserId,
-        uploadFile: payload);
-    Navigator.pop(dataContext);
-    if (response.result != null) {
-      showSuccessToast(dataContext, AppLocale.testSuccessSendHRV);
-    }
   }
 
   Future<MyReportsResponseModel>? myReports;

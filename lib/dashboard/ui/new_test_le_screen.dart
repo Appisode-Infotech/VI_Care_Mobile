@@ -225,13 +225,16 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       children: [
                         SizedBox(
                           width: screenSize!.width * .15,
-                          child: Text(
-                            '${(elapsedSeconds ~/ 60).toString().padLeft(2, '0')}:${(elapsedSeconds % 60).toString().padLeft(2, '0')}',
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
+                          child: FittedBox(
+                            child: Text(
+                              maxLines: 1,
+                              '${(elapsedSeconds ~/ 60).toString().padLeft(2, '0')}:${(elapsedSeconds % 60).toString().padLeft(2, '0')}',
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
                         GestureDetector(
@@ -485,11 +488,13 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                         var timestamp = now.millisecondsSinceEpoch;
                         var filename = 'data_$timestamp.json';
                         var filePath = '${viCareDirectory.path}/$filename';
-
                         File payload = File(filePath);
                         await payload.writeAsString(jsonString);
                         if (await payload.exists()) {
-                          await newTestLeProvider.requestDeviceData(context, payload, selectedDevice!.serialNumber, selectedDevice!.id, connectedDevice!.id.id,selectedDuration!.id,selectedDuration!.name);
+                         String pId =  prefModel.userData!.roleId == 2
+                              ? individualPatientData!.result!.id.toString()
+                              : enterprisePatientData!.result!.id.toString();
+                          await newTestLeProvider.requestDeviceData(context, payload, selectedDevice!.serialNumber, selectedDevice!.id, connectedDevice!.id.id,selectedDuration!.id,selectedDuration!.name,pId);
                         } else {
                           showErrorToast(context, AppLocale.somethingWentWrong.getString(context));
                         }

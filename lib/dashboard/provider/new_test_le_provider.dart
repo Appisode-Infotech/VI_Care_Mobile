@@ -54,7 +54,7 @@ class NewTestLeProvider extends ChangeNotifier {
     }
   }
 
-  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName) async {
+  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId) async {
     DeviceDataResponseModel response = await apiCalls.requestDeviceData(
         context: dataContext,
         details: "abc",
@@ -68,8 +68,7 @@ class NewTestLeProvider extends ChangeNotifier {
         durationId: durationId,
         userId: prefModel.userData!.id,
         roleId: prefModel.userData!.roleId,
-        individualProfileId: prefModel.userData!.individualProfileId,
-        enterpriseProfileId: prefModel.userData!.enterpriseUserId,
+        pId: pId,
         uploadFile: payload);
     Navigator.pop(dataContext);
     if (response.result != null) {

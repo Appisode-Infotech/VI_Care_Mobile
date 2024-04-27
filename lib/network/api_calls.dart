@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -722,12 +721,10 @@ class ApiCalls {
     int? durationId,
     int? userId,
     int? roleId,
-    int? individualProfileId,
-    int? enterpriseProfileId,
+    String? pId,
     required File uploadFile,
   }) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(UrlConstants.requestDeviceData));
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstants.requestDeviceData));
     request.fields['Details'] = details;
     request.fields['FileType'] = fileType;
     request.fields['DurationName'] = durationName!;
@@ -739,10 +736,10 @@ class ApiCalls {
     request.fields['DurationId'] = durationId.toString();
     request.fields['UserId'] = userId.toString();
     request.fields['RoleId'] = roleId.toString();
-    if(individualProfileId!=null){
-      request.fields['IndividualProfileId'] = individualProfileId.toString();
-    }if(enterpriseProfileId!=null){
-      request.fields['EnterpriseProfileId'] = enterpriseProfileId.toString();
+    if(prefModel.userData!.roleId==2){
+      request.fields['IndividualProfileId'] = pId.toString();
+    }else{
+      request.fields['EnterpriseProfileId'] = pId.toString();
     }
     var jsonStream = http.ByteStream(uploadFile.openRead());
     var jsonDataBytes = await uploadFile.readAsBytes();
@@ -759,6 +756,7 @@ class ApiCalls {
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
     var response = await request.send();
+    print(request.fields);
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
@@ -854,7 +852,6 @@ class ApiCalls {
     }
 
     http.Response response = await hitApiGet(true, url);
-
     if (response.statusCode == 200) {
       return MyReportsResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -883,6 +880,7 @@ class ApiCalls {
   }
 
   Future<MyReportsResponseModel> getAllReportsByProfileId(int? pId) async {
+    print(pId);
     if(prefModel.userData!.roleId==2){
       http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?individualProfileId=$pId");
       if(response.statusCode==200){
@@ -902,7 +900,6 @@ class ApiCalls {
 
   Future<DetailedReportPdfModel> getReportPdf(int? requestDeviceDataId, BuildContext context) async {
     http.Response response = await hitApiGet(true, "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
-    log(response.body);
     if(response.statusCode==200){
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
     }else{
