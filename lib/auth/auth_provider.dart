@@ -209,17 +209,16 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<ResetPasswordResponseModel> resetPassword() async {
-    showLoaderDialog(forgotPageContext!);
+  Future<ResetPasswordResponseModel> resetPassword(BuildContext? coContext) async {
+    showLoaderDialog(coContext!);
     ResetPasswordResponseModel response = await apiCalls.resetPassword(
         forgotPasswordEmailController.text,
         forgotPasswordNewPasswordController.text,
-        forgotPageContext!);
+        coContext);
     if (response.result != null && response.result == true) {
-      Navigator.pop(forgotPageContext!);
-      showSuccessToast(forgotPageContext!, response.message!);
-      Navigator.pushNamed(
-          forgotPageContext!, Routes.loginRoute);
+      Navigator.pop(coContext);
+      showSuccessToast(coContext, response.message!);
+      Navigator.pushNamed(coContext, Routes.loginRoute);
     } else {
       showErrorToast(forgotPageContext!, response.message!);
     }

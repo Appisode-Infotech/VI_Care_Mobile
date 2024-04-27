@@ -173,7 +173,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                                   if (resetPasswordOtp ==
                                       authProvider
                                           .forgotPasswordOtpController.text) {
-                                    authProvider.resetPassword();
+                                    authProvider.resetPassword(context);
                                   } else {
                                     showErrorToast(
                                         context, AppLocale.validOtp.getString(context));
