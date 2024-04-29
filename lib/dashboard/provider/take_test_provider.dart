@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -123,19 +125,22 @@ class TakeTestProvider extends ChangeNotifier {
                       Text(device.name),
                     ],
                   ),
-                   Row(
-                    children: [
-                      Text(
-                        "${AppLocale.deviceManufacturer.getString(dialogContext)} : ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(AppLocale.smartLab.getString(dialogContext)),
-                    ],
-                  ),
+                   FittedBox(
+                     child: Row(
+                      children: [
+                        Text(
+                          "${AppLocale.deviceManufacturer.getString(dialogContext)} : ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(AppLocale.smartLab.getString(dialogContext)),
+                      ],
+                                       ),
+                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                    Text(AppLocale.serialNumber.getString(dialogContext)),
+                  SizedBox(height: 5,),
                   Form(
                     key: addDeviceFormKey,
                     child: TextFormField(
