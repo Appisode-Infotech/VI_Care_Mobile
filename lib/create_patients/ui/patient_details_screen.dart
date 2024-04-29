@@ -218,38 +218,38 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Text(
-                                          AppLocale.viewCompleteDetails
-                                              .getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              decoration:
-                                              TextDecoration.underline,
-                                              decorationColor:
-                                              Colors.white),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Container(
-                                            padding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 18,
-                                                vertical: 12),
-                                            decoration: const BoxDecoration(
-                                                color: Color(0xffdbeeee),
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius.circular(
-                                                        10))),
-                                            child: Text(
-                                              AppLocale.viewSummary
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight:
-                                                  FontWeight.w600),
-                                            )),
+                                        // Text(
+                                        //   AppLocale.viewCompleteDetails
+                                        //       .getString(context),
+                                        //   style: const TextStyle(
+                                        //       color: Colors.white,
+                                        //       fontWeight: FontWeight.w500,
+                                        //       fontSize: 12,
+                                        //       decoration:
+                                        //       TextDecoration.underline,
+                                        //       decorationColor:
+                                        //       Colors.white),
+                                        // ),
+                                        // const SizedBox(height: 10),
+                                        // Container(
+                                        //     padding:
+                                        //     const EdgeInsets.symmetric(
+                                        //         horizontal: 18,
+                                        //         vertical: 12),
+                                        //     decoration: const BoxDecoration(
+                                        //         color: Color(0xffdbeeee),
+                                        //         borderRadius:
+                                        //         BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 10))),
+                                        //     child: Text(
+                                        //       AppLocale.viewSummary
+                                        //           .getString(context),
+                                        //       style: const TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight:
+                                        //           FontWeight.w600),
+                                        //     )),
                                         const SizedBox(
                                           height: 20,
                                         ),
@@ -1031,38 +1031,38 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        Text(
-                                          AppLocale.viewCompleteDetails
-                                              .getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              decoration:
-                                              TextDecoration.underline,
-                                              decorationColor:
-                                              Colors.white),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Container(
-                                            padding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 18,
-                                                vertical: 12),
-                                            decoration: const BoxDecoration(
-                                                color: Color(0xffdbeeee),
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius.circular(
-                                                        10))),
-                                            child: Text(
-                                              AppLocale.viewSummary
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight:
-                                                  FontWeight.w600),
-                                            )),
+                                        // Text(
+                                        //   AppLocale.viewCompleteDetails
+                                        //       .getString(context),
+                                        //   style: const TextStyle(
+                                        //       color: Colors.white,
+                                        //       fontWeight: FontWeight.w500,
+                                        //       fontSize: 12,
+                                        //       decoration:
+                                        //       TextDecoration.underline,
+                                        //       decorationColor:
+                                        //       Colors.white),
+                                        // ),
+                                        // const SizedBox(height: 10),
+                                        // Container(
+                                        //     padding:
+                                        //     const EdgeInsets.symmetric(
+                                        //         horizontal: 18,
+                                        //         vertical: 12),
+                                        //     decoration: const BoxDecoration(
+                                        //         color: Color(0xffdbeeee),
+                                        //         borderRadius:
+                                        //         BorderRadius.all(
+                                        //             Radius.circular(
+                                        //                 10))),
+                                        //     child: Text(
+                                        //       AppLocale.viewSummary
+                                        //           .getString(context),
+                                        //       style: const TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight:
+                                        //           FontWeight.w600),
+                                        //     )),
                                         const SizedBox(
                                           height: 20,
                                         ),

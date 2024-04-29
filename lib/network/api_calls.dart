@@ -638,7 +638,6 @@ class ApiCalls {
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
     var response = await request.send();
-    print(request.fields);
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
@@ -755,7 +754,6 @@ class ApiCalls {
       "Authorization": "Bearer ${prefModel.userData!.token}",
     });
     var response = await request.send();
-    print(request.fields);
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
@@ -879,7 +877,6 @@ class ApiCalls {
   }
 
   Future<MyReportsResponseModel> getAllReportsByProfileId(int? pId) async {
-    print(pId);
     if(prefModel.userData!.roleId==2){
       http.Response response = await hitApiGet(true, "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?individualProfileId=$pId");
       if(response.statusCode==200){

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -73,10 +72,37 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 );
               }
               if (snapshot.hasData) {
-                ReportsProcessedDataModel processedData =
-                    ReportsProcessedDataModel.fromJson(
-                        jsonDecode(snapshot.data!.result![0].processedData!));
-                log(processedData.toJson().toString());
+                ReportsProcessedDataModel processedData = ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result![0].processedData!));
+                List additionalInfo = [
+                  {
+                    "name":"RMSSD",
+                    "value":processedData.rmssdrr
+                  },
+                  {
+                    "name":"SDRR",
+                    "value":processedData.sdrr
+                  },
+                  {
+                    "name":"TP(ms)",
+                    "value":processedData.totalPower
+                  },
+                  {
+                    "name":"LF(ms)",
+                    "value":processedData.lfPowerMs
+                  },
+                  {
+                    "name":"HF(ms)",
+                    "value":processedData.hfPowerMs
+                  },
+                  {
+                    "name":"LF/HF",
+                    "value":processedData.lFtoHf
+                  },
+                  {
+                    "name":"Breath < 9",
+                    "value":processedData.breathRateLess9Possible
+                  },
+                ];
                 return SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -308,28 +334,25 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         ),
                         GridView.builder(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          itemCount: 9,
+                          itemCount: additionalInfo.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 3,
-                            mainAxisSpacing: 3,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
                           ),
                           itemBuilder: (BuildContext context, int index) {
-                            return const Column(
+                            return Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "RMSSD",
+                                  "${additionalInfo[index]['name']}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
                                 Text(
-                                  "28.8",
+                                  "${additionalInfo[index]['value']}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14),

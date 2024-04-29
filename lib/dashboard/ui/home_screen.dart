@@ -75,44 +75,44 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: const TextStyle(color: Colors.white, fontSize: 12)),
           ],
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              color: Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            padding: const EdgeInsets.all(10),
-            child: Stack(
-              children: [
-                const Icon(
-                  size: 27,
-                  Icons.notifications,
-                  color: Colors.white,
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    width: 15,
-                    height: 15,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: Colors.red),
-                    child: const Center(
-                        child: Text(
-                      "0",
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    )),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
+        // actions: [
+        //   Container(
+        //     margin: const EdgeInsets.symmetric(horizontal: 10),
+        //     decoration: const BoxDecoration(
+        //       color: Color(0xFFD9D9D9),
+        //       borderRadius: BorderRadius.all(Radius.circular(10)),
+        //     ),
+        //     padding: const EdgeInsets.all(10),
+        //     child: Stack(
+        //       children: [
+        //         const Icon(
+        //           size: 27,
+        //           Icons.notifications,
+        //           color: Colors.white,
+        //         ),
+        //         Positioned(
+        //           right: 0,
+        //           top: 0,
+        //           child: Container(
+        //             width: 15,
+        //             height: 15,
+        //             decoration: const BoxDecoration(
+        //                 borderRadius: BorderRadius.all(Radius.circular(8)),
+        //                 color: Colors.red),
+        //             child: const Center(
+        //                 child: Text(
+        //               "0",
+        //               style: TextStyle(
+        //                   fontSize: 10,
+        //                   color: Colors.white,
+        //                   fontWeight: FontWeight.bold),
+        //             )),
+        //           ),
+        //         )
+        //       ],
+        //     ),
+        //   ),
+        // ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
