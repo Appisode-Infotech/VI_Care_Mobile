@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -900,7 +899,6 @@ class ApiCalls {
 
   Future<DetailedReportPdfModel> getReportPdf(int? requestDeviceDataId, BuildContext context) async {
     http.Response response = await hitApiGet(true, "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
-    log(response.body);
     if(response.statusCode==200){
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
     }else{

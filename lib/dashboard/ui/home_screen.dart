@@ -315,24 +315,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 ),
                                                                 const SizedBox(
                                                                     height: 5),
-                                                                FittedBox(
-                                                                  child: Text(
-                                                                    reportsSnapshot
-                                                                                .data!
-                                                                                .result![index]
-                                                                                .roleId ==
-                                                                            2
-                                                                        ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}${AppLocale.years.getString(context)}"
-                                                                        : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}${AppLocale.years.getString(context)}",
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            10),
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                    height: 5),
+                                                                Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
+
+                                                                // FittedBox(
+                                                                //   child: Text(
+                                                                //     reportsSnapshot
+                                                                //                 .data!
+                                                                //                 .result![index]
+                                                                //                 .roleId ==
+                                                                //             2
+                                                                //         ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}${AppLocale.years.getString(context)}"
+                                                                //         : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}${AppLocale.years.getString(context)}",
+                                                                //     style: const TextStyle(
+                                                                //         color: Colors
+                                                                //             .black,
+                                                                //         fontSize:
+                                                                //             10),
+                                                                //   ),
+                                                                // ),
+                                                                // const SizedBox(
+                                                                //     height: 5),
                                                                 // Text(
                                                                 //   patientReports[index]["description"],
                                                                 //   style: const TextStyle(
@@ -608,8 +610,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                           if (snapshot.hasData) {
                             return GridView.builder(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               itemCount: snapshot.data!.result!.length + 1,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
