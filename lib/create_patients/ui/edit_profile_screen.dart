@@ -182,6 +182,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           return null;
                         },
                         keyboardType: TextInputType.text,
+                        maxLength: 74,
                         decoration: InputDecoration(
                           errorMaxLines: 2,
                           fillColor: Colors.white,
@@ -224,6 +225,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           return null;
                         },
                         keyboardType: TextInputType.text,
+                        maxLength: 74,
                         decoration: InputDecoration(
                           errorMaxLines: 2,
                           fillColor: Colors.white,
@@ -336,7 +338,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           "B+ve",
                           "O-ve",
                           "A+ve",
-                          "A-ve"
+                          "A-ve",
+                          "B+ve",
+                          "AB-ve"
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -480,7 +484,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     if (value == null) {
                                     return prefModel.userData!.contact!.address!.stateId.toString();
                                     }
-                                      return "please enter valid state";
+                                      return AppLocale.stateValid.getString(context);
                                   },
                                   decoration: InputDecoration(
                                     filled: true,
@@ -545,6 +549,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.streetAddress,
+                                  maxLength: 74,
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
@@ -592,6 +597,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.streetAddress,
+                                  maxLength: 74,
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
@@ -687,6 +693,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.streetAddress,
+                                  maxLength: 74,
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,

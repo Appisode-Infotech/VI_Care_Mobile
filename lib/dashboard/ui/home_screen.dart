@@ -1,6 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -313,19 +315,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 ),
                                                                 const SizedBox(
                                                                     height: 5),
-                                                                Text(
-                                                                  reportsSnapshot
-                                                                              .data!
-                                                                              .result![index]
-                                                                              .roleId ==
-                                                                          2
-                                                                      ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}Years"
-                                                                      : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}Years",
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          12),
+                                                                FittedBox(
+                                                                  child: Text(
+                                                                    reportsSnapshot
+                                                                                .data!
+                                                                                .result![index]
+                                                                                .roleId ==
+                                                                            2
+                                                                        ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}${AppLocale.years.getString(context)}"
+                                                                        : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}${AppLocale.years.getString(context)}",
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            10),
+                                                                  ),
                                                                 ),
                                                                 const SizedBox(
                                                                     height: 5),
@@ -748,12 +752,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           const SizedBox(
                                             height: 3,
                                           ),
-                                          Text(
-                                            "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
-                                            style: const TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
+                                          FittedBox(
+                                            child: Text(
+                                              "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -958,12 +964,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           const SizedBox(
                                             height: 3,
                                           ),
-                                          Text(
-                                            "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} Years",
-                                            style: const TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
+                                          FittedBox(
+                                            child: Text(
+                                              "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -995,10 +1003,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      AppLocale.allReports.getString(context),
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w700),
+                    FittedBox(
+                      child: Text(
+                        AppLocale.allReports.getString(context),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700),
+                      ),
                     ),
                     InkWell(
                       onTap: () {

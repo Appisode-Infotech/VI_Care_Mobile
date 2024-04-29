@@ -87,7 +87,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           color: Colors.white,
                         ),
                         hint: Text(
-                          AppLocale.allTime.getString(context),
+                          "All Time",
                           style:
                           const TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -133,7 +133,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           color: Colors.white,
                         ),
                         hint: Text(
-                          AppLocale.allReports.getString(context),
+                          "All Reports",
                           style:
                           const TextStyle(color: Colors.white, fontSize: 15),
                         ),

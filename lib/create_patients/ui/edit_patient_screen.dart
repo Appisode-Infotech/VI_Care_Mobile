@@ -402,6 +402,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 controller: patientProvider
                                     .editPatientFirstNameController,
                                 keyboardType: TextInputType.text,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -450,6 +451,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 controller: patientProvider
                                     .editPatientLastNameController,
                                 keyboardType: TextInputType.text,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -679,6 +681,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -726,6 +729,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -821,6 +825,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1040,6 +1045,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 controller:
                                     patientProvider.editPatientMobileController,
                                 keyboardType: TextInputType.number,
+                                maxLength: 10,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1222,6 +1228,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 controller: patientProvider
                                     .editPatientFirstNameController,
                                 keyboardType: TextInputType.text,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1270,6 +1277,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 controller: patientProvider
                                     .editPatientLastNameController,
                                 keyboardType: TextInputType.text,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1501,6 +1509,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1548,6 +1557,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1595,6 +1605,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1643,6 +1654,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,

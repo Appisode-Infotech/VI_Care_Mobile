@@ -255,6 +255,8 @@ mixin AppLocale {
   static const String thisYear = 'thisYear';
   static const String thisMonth = 'thisMonth';
   static const String thisWeek = 'thisWeek';
+  static const String notAddedDevice = 'notAddedDevice';
+  static const String never = 'never';
 
   static const String thisIs = 'thisIs';
 
@@ -449,8 +451,6 @@ mixin AppLocale {
     otpSuccessful:"Otp verified successfully",
     invalidOtp:"invalidOtp",
     logOut: 'Logout',
-
-
     chooseDeviceModel: 'Choose your device',
     loading: 'loading',
     all:"All Reports",
@@ -514,6 +514,8 @@ mixin AppLocale {
     thisWeek:"All Time",
     thisMonth:"This Week",
     thisYear:"This Month",
+    never: "Never",
+    notAddedDevice: "You have not added any devices yet. Please add the device to continue.",
     thisIs: 'This is %a package, version %a.',
   };
 
@@ -773,7 +775,8 @@ mixin AppLocale {
     thisWeek:"ಎಲ್ಲಾ ಸಮಯ",
     thisMonth:"ಈ ವಾರ",
     thisYear:"ಈ ತಿಂಗಳು",
-
+    never: "ಎಂದೂ ಅಲ್ಲ",
+    notAddedDevice: "ನೀವು ಇನ್ನು ಯಾವ ಯಂತ್ರಗಳನ್ನು ಸೇರಿಸಿದ್ದೀರಿ ಅಲ್ಲ. ಮುಂದುವರಿಸಲು ಯಂತ್ರವನ್ನು ಸೇರಿಸಿ.",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1032,6 +1035,8 @@ mixin AppLocale {
     thisWeek:"सभी समय",
     thisMonth:"इस सप्ताह",
     thisYear:"इस महीने",
+    never: "कभी नहीं",
+    notAddedDevice: "आपने अभी तक कोई डिवाइस नहीं जोड़ा है। कृपया जारी रखने के लिए डिवाइस जोड़ें।",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1290,6 +1295,8 @@ mixin AppLocale {
     thisWeek:"Alle Zeit",
     thisMonth:"Diese Woche",
     thisYear:"Dieser Monat",
+    never: "Nie",
+    notAddedDevice: "Sie haben noch keine Geräte hinzugefügt. Bitte fügen Sie das Gerät hinzu, um fortzufahren.",
 
     logOut: 'Ausloggen',
   };
@@ -1362,18 +1369,18 @@ mixin AppLocale {
     recentReports: 'ఇటీవల నివేదికలు',
     patients: 'రోగులు',
     viewAll: 'అన్నీ చూడండి',
-    newPatient: 'కొత్త రోగిని జోడించండి',
+    newPatient: 'కొత్త రోగిని జోడి',
     allReports: 'అన్నీ నివేదికలు',
     waitScanning: 'దయచేసి స్కానింగ్ నడుస్తోంది!',
     undefined: 'అపరిగ్రహితం',
     player: 'వారులు',
     members: 'సభ్యులు',
-    newPlayer: 'కొత్త వారిని జోడించండి',
-    newMember: 'కొత్త సభ్యుని జోడించండి',
+    newPlayer: 'కొత్త వారిని జోడి',
+    newMember: 'కొత్త సభ్యుని జోడి',
     managePlayers: 'వారులను నిర్వహించండి',
     manageMembers: 'సభ్యులను నిర్వహించండి',
-    addPlayer: 'కొత్త వారిని జోడించండి',
-    addMember: 'కొత్త సభ్యుని జోడించండి',
+    addPlayer: 'కొత్త వారిని జోడి',
+    addMember: 'కొత్త సభ్యుని జోడిి',
     playerDetails: 'వారి వివరాలు',
     memberDetails: 'సభ్యుల వివరాలు',
     editPlayers: "ప్రస్తుత వారిని సవరించండి",
@@ -1406,7 +1413,7 @@ mixin AppLocale {
     abortMessage:
         'టెస్ట్ నుండి మధ్యలో తప్పనిసరిగా బయటకు వచ్చినప్పుడు నమోదించిన డేటాను నష్టపెడతాం',
     abortConfirm: 'టెస్ట్ నిరసనించాలని ఖచ్చితంగా ఉందా?',
-    addPatients: 'కొత్త రోగిని జోడించండి',
+    addPatients: 'కొత్త రోగిని జోడ',
     fillNewPatients:
         'దయచేసి వివరాలను నమోదు చేయడానికి రోగి/సభ్యు/వారి ప్రయోజనాలను ఉపయోగించడానికి వివరాలను నమోదు చేయండి',
     editPatientsDetails:
@@ -1550,6 +1557,8 @@ mixin AppLocale {
     thisWeek:"అన్నీ సమయం",
     thisMonth:"ఈ వారం",
     thisYear:"ఈ నెల",
+    never: "ఎప్పుడూ కాదు",
+    notAddedDevice: "మీరు ఇంకా ఎటువంటి పరికరాన్ని జోడించలేదు. కొన్ని పరికరాన్ని జోడించండి కొనసాగించడానికి.",
 
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
@@ -1623,7 +1632,7 @@ mixin AppLocale {
     recentReports: 'சமீபத்திய அறிக்கைகள்',
     viewAll: 'அனைத்தும் பார்',
     newPatient: 'புதியவரை\nசேர்க்கவும்',
-    allReports: 'அறிக்கைகள்',
+    allReports: 'அறிக்கை',
     waitScanning: 'சரிபார்க்கும் நிலையில் காத்திருக்கவும்!',
     undefined: 'ஒருபெயரில்லை',
     player: 'விளை',
@@ -1671,8 +1680,8 @@ mixin AppLocale {
     questionarie2: 'கேள்விப்பத்திருவினை 2',
     viewCompleteDetails: 'முழு விவரங்களைக் காண்க >',
     viewSummary: 'சுருக்கம் காண்',
-    lastTested: 'கடைசியாக சோதனை செய்யப்பட்டது',
-    totalTested: 'மொத்த சோதனைகள்',
+    lastTested: "கடை\nசோதனை",
+    totalTested: 'மொத்த\nசோதனை',
     reports: 'அறிக்கைகள்',
     minutes: "நிமிடங்கள்",
     deviceSetup:
@@ -1722,7 +1731,7 @@ mixin AppLocale {
     cancel: "ரத்து செய்க",
     profile: 'சுயவிவரம்',
     scanSettings: 'ஸ்கேன் அமைப்புகள்',
-    offlineSaved: 'ஆஃப்லைன் சேமிக்கப்பட்ட சோதனைகள்',
+    offlineSaved: 'ஆஃப்லைன் சோதனை',
     devices: 'சாதன நிர்வகனம்',
     duration: 'காலம்',
     chooseDuration: 'காலத்தைத் தேர்ந்தெடுக்கவும்',
@@ -1733,7 +1742,7 @@ mixin AppLocale {
     editProfile: 'சுயவிவரத்தை திருத்து',
     changePassword: 'கடவுச்சொல்லை மாற்று',
     changeLanguage: 'மொழியை மாற்று',
-    termsConditions: 'விதிமுறைகள் & நடப்புப் பலன்கள்',
+    termsConditions: 'விதிமுறைகள் & பலன்கள்',
     newsBlog: 'செய்திகள் & வலைப்பகுதிகள்',
     support: 'ஆதரவு',
     street: "தெரு",
@@ -1767,7 +1776,7 @@ mixin AppLocale {
     startPairing: "பேயிங் ஆரம்பிக்கவும்",
     startPairingError: "தற்காலிகமாக ஆதரிக்கப்படவில்லை, விரைவில் கிடைக்கும்",
     created: "உருவாக்கப்பட்டது",
-    years: "ஆண்டுகள்",
+    years: "ஆண்டு",
     deviceDisconnectedRange: "சாதனம் எதிர்காலத்தில் இணைக்கப்படவில்லை. உறுதிப்படுத்துகிறது சாதனம் பரப்பப்பட்டிருக்கின்றது.",
     reconnect: 'மீண்டும் இணைக்கவும்',
     rrInterval: "RR இடைவெளிகள்",
@@ -1790,7 +1799,7 @@ mixin AppLocale {
     chooseImageSource: "படத்தின் மூலத்தைத் தேர்வுசெய்க",
     cropImage:'படத்தை கட்டுப்படுத்து',
     testNext:"சோதனை வெற்றிகரமாக முடிந்தது, நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?",
-    selectOption:"விருப்பங்களைத் தேர்வுசெய்க",
+    selectOption:'விருப்பங்கள்',
     selectDevice: "சாதனத்தைத் தேர்ந்தெடுங்கள்",
     selectDuration: "கால அளவைத் தேர்ந்தெடுக்கவும்",
     pleaseSelectDevice: "தயவுசெய்து சாதனத்தைத் தேர்ந்தெடுக்கவும்",
@@ -1812,12 +1821,14 @@ mixin AppLocale {
     thisWeek:"அனைத்து நேரங்கள்",
     thisMonth:"இந்த வாரம்",
     thisYear:"இந்த மாதம்",
+    never: "எப்போதும் இல்லை",
+    notAddedDevice: "நீங்கள் இன்னும் எந்த சாதனங்களையும் சேர்க்கவில்லை. தொடர்ந்து செல்கிறது சாதனத்தைச் சேர்க்கவும்.",
 
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
 
   static const Map<String, dynamic> ML = {
-    selectLanguage:'ഭാഷ തിരഞ്ഞെടുക്കുക',
+    selectLanguage:'ഭാഷ തിരഞ്ഞെടു',
     getStartedBtnTitle: 'ആരംഭിക്കാൻ ലോഗിൻ ചെയ്യുക',
     connectMeasure: 'കണക്കിക്കുക, മാപ്പുകൾ \nലഭിക്കുകയും സമൃദ്ധമാകുക!',
     joinHruday:
@@ -1881,17 +1892,17 @@ mixin AppLocale {
     letsUnlock: "നിങ്ങളുടെ ഹൃദയത്തിന്റെ ആരോഗ്യ യാത്ര തുറക്കൂ",
     recentReports: 'അവസാന റിപ്പോർട്ടുകൾ',
     patients: 'രോഗികൾ',
-    viewAll: 'എല്ലാം കാണുക',
+    viewAll: 'എല്ലാം',
     newPatient: 'പുതിയത്\nരോഗി',
-    allReports: 'എല്ലാ റിപ്പോർട്ടുകൾ',
+    allReports: 'റിപ്പോർട്ടുകൾ',
     player: 'കളിക്കാരൻ',
     members: 'അംഗങ്ങൾ',
     newPlayer: 'പുതിയത്\nആടിനുള്ളി',
     newMember: 'പുതിയത്\nഅംഗം',
     managePlayers: 'ആടിനുള്ളികൾ നിയന്ത്രിക്കുക',
     manageMembers: 'അംഗങ്ങൾ നിയന്ത്രിക്കുക',
-    addPlayer: 'പുതിയ ആടിനുള്ളി ചേർക്കുക',
-    addMember: 'പുതിയ അംഗം ചേർക്കുക',
+    addPlayer: 'പുതിയ ആടി',
+    addMember: 'പുതിയ അംഗം',
     playerDetails: 'ആടിനുള്ളി വിശദാംശങ്ങൾ',
     memberDetails: 'അംഗം വിശദാംശങ്ങൾ',
     editPlayers: "ആടിനുള്ളി എഡിറ്റ്",
@@ -1904,7 +1915,7 @@ mixin AppLocale {
     managePatients: 'രോഗികളെ നിയന്ത്രിക്കുക',
     noConnectedDevice: "ഒരു ബന്ധിപ്പിച്ച ഉപകരണം ഇല്ല",
     connectNow: "ഇപ്പോൾ ബന്ധിപ്പിക്കുക",
-    scanDevices: "ഉപകരണങ്ങൾ സ്കാൻ ചെയ്യുക",
+    scanDevices: "ഉപകരണങ്ങൾ",
     bluetoothClassic: "ബ്ലൂടൂത്ത് ക്ലാസിക്",
     bluetoothLe: "ബ്ലൂടൂത്ത് LE",
     noDevicesFound: "ഉപകരണങ്ങൾ കണ്ടെത്തിയില്ല",
@@ -1917,7 +1928,7 @@ mixin AppLocale {
     abortMessage:
         'ടെസ്റ്റിന്റെ മധ്യത്തിൽ നിരീക്ഷണം നിർത്തുന്നത് ഈ ടെസ്റ്റിനു സംഗ്രഹിച്ച ഡാറ്റ നഷ്ടപ്പെടുത്തും',
     abortConfirm: 'നിങ്ങൾ ടെസ്റ്റ് നിർത്താൻ ഉറപ്പാണോ?',
-    addPatients: 'പുതിയ രോഗി ചേർക്കുക',
+    addPatients: 'പുതിയ രോഗി',
     fillNewPatients: 'ദയവായി രോഗി/അംഗം/ആടിനുള്ളി ചേർക്കുവാൻ വിശദാംശങ്ങൾ നൽകുക',
     editPatientsDetails: 'ദയവായി രോഗി/അംഗം/ആടിനുള്ളി വിശദാംശങ്ങൾ നൽകുക',
     mobile: 'മൊബൈൽ',
@@ -1929,9 +1940,9 @@ mixin AppLocale {
     questionarie2: 'ചോദ്യവേദി 2',
     viewCompleteDetails: 'പൂർണ്ണ വിശദാംശങ്ങൾ കാണുക >',
     viewSummary: 'സംഗ്രഹം കാണുക',
-    lastTested: 'അവസാനം പരീക്ഷിച്ചത്',
-    totalTested: 'ആൽക്കുള്ള പരീക്ഷണങ്ങൾ',
-    reports: 'റിപ്പോർട്ടുകൾ',
+    lastTested: 'അവസാനം',
+    totalTested: 'പരീക്ഷ',
+    reports: 'റിപ്പേ',
     minutes: "മിനിറ്റ്",
     deviceSetup:
         'നിങ്ങൾക്ക് അല്ലെങ്കിൽ ഡിവൈസ് സെറ്റപ്പ് ചെയ്യാൻ അനുവദിക്കില്ലാതെ കാണിച്ചിട്ടില്ല. പരീക്ഷണങ്ങൾ ആരംഭിക്കാൻ ഇപ്പോൾ സെറ്റപ്പ് ചെയ്യുക',
@@ -1972,7 +1983,7 @@ mixin AppLocale {
     editPatients: "രോഗി എഡിറ്റ്",
     profile: 'പ്രൊഫൈൽ',
     scanSettings: 'സ്കാൻ സെറ്റിംഗുകൾ',
-    offlineSaved: 'ഓഫ്‌ലൈൻ സേവ് ചെയ്ത പരീക്ഷണങ്ങൾ',
+    offlineSaved: 'പരീക്ഷണങ്ങൾ',
     devices: 'ഉപകരണങ്ങൾ',
     duration: 'സമയം',
     chooseDuration: 'സമയം തിരഞ്ഞെടുക്കുക',
@@ -2023,7 +2034,7 @@ mixin AppLocale {
     startPairing: "പാരിംഗ് ആരംഭിക്കുക",
     startPairingError: "ഇപ്പോൾ പിന്തുണയ്ക്കപ്പെടുന്നില്ല, ഉടൻ ലഭ്യമാകും",
     created: "സൃഷ്ടിച്ചു",
-    years: "വർഷങ്ങൾ",
+    years: "വർഷ",
     deviceDisconnectedRange: "ഉപകരണം പ്രത്യാശിച്ചിരിക്കുന്നത് അപ്രത്യാശത്തിലും അംഗീകരിച്ചില്ല. ഉപകരണം അടയാളം പരിധിയിലാണെങ്കിൽ ഉറപ്പാക്കുക.",
     reconnect: 'വീണ്ടും കണക്ട് ചെയ്യുക',
     rrInterval: "RR ഇടലുകൾ",
@@ -2046,7 +2057,7 @@ mixin AppLocale {
     chooseImageSource: "ചിത്രം മൂലം തിരഞ്ഞെടുക്കുക",
     cropImage:'ചിത്രം ക്രോപ്പ് ചെയ്യുക',
     testNext:"ടെസ്റ്റ് വിജയകരമായി പൂർത്തിയായിരിക്കുന്നു, നിങ്ങൾ എന്തെങ്കിലും ചെയ്യാനോ?",
-    selectOption:"ഓപ്ഷനുകൾ തിരഞ്ഞെടുക്കുക",
+    selectOption:"ഓപ്ഷനുകൾ",
     selectDevice: "ഉപകരണം തിരഞ്ഞെടുക്കുക",
     selectDuration: "അവധി തിരഞ്ഞെടുക്കുക",
     pleaseSelectDevice: "ദയവായി ഉപകരണം തിരഞ്ഞെടുക്കുക",
@@ -2065,9 +2076,11 @@ mixin AppLocale {
     proceedToAdd: "ചേർക്കാനും തുടരുക",
     testSuccessSendHRV: "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
     testSuccessfulCheck:  "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
-    thisWeek:"Alle Zeit",
-    thisMonth:"Diese Woche",
-    thisYear:"Dieser Monat",
+    thisWeek: "എല്ലാ സമയവും",
+    thisMonth: "ഈ ആഴ്ച",
+    thisYear: "ഈ മാസം",
+    never: "എപ്പോഴായിരിക്കും ഇല്ല",
+    notAddedDevice: "നിങ്ങൾക്ക് ഇതൊന്നും ചേർത്തിട്ടില്ല. തുടരുകയാണെങ്കിൽ ഉപകരണം ചേർക്കുക.",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

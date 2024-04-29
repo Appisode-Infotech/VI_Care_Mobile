@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -189,7 +191,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               fontSize: 20),
                                         ),
                                         Text(
-                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} Years",
+                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -400,7 +402,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                           .data!
                                                           .result!
                                                           .lastTested!)
-                                                      : "Never",
+                                                      : AppLocale.never.getString(context),
                                                   textAlign:
                                                   TextAlign.center,
                                                   style: const TextStyle(
@@ -413,14 +415,16 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Text(
-                                              AppLocale.lastTested
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  overflow: TextOverflow
-                                                      .ellipsis),
+                                            FittedBox(
+                                              child: Text(
+                                                AppLocale.lastTested
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    overflow: TextOverflow
+                                                        .ellipsis),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -460,14 +464,16 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Text(
-                                              AppLocale.totalTested
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  overflow: TextOverflow
-                                                      .ellipsis),
+                                            FittedBox(
+                                              child: Text(
+                                                AppLocale.totalTested
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    overflow: TextOverflow
+                                                        .ellipsis),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -509,14 +515,16 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Text(
-                                              AppLocale.reports
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  overflow: TextOverflow
-                                                      .ellipsis),
+                                            FittedBox(
+                                              child: Text(
+                                                AppLocale.reports
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    overflow: TextOverflow
+                                                        .ellipsis),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -529,8 +537,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       Text(snapshot.error.toString()),
                                     );
                                   } else {
-                                    return const Center(
-                                        child: Text("loading"));
+                                    return  Center(
+                                        child: Text(AppLocale.loading.getString(context)));
                                   }
                                 },
                               )
@@ -594,7 +602,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     null);
                                               } else {
                                                 showErrorToast(context,
-                                                    "You have not added any devices yet. Please add the device to continue.");
+                                                   AppLocale.notAddedDevice.getString(context));
                                               }
                                               // if (myDevices
                                               //     .result!.devices!.isEmpty) {
@@ -900,8 +908,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       Text(snapshot.error.toString()),
                                     );
                                   } else {
-                                    return const Center(
-                                        child: Text("loading"));
+                                    return Center(
+                                        child: Text(AppLocale.loading.getString(context)));
                                   }
                                 },
                               ),
@@ -919,7 +927,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                       child: Text(snapshot.error.toString()),
                     );
                   } else {
-                    return const Center(child: Text("loading"));
+                    return  Center(child: Text(AppLocale.loading.getString(context)));
                   }
                 },
               )
@@ -996,7 +1004,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               fontSize: 20),
                                         ),
                                         Text(
-                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} Years",
+                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -1388,7 +1396,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 showTestFormBottomSheet(context, myDevices, myDurations,null, snapshot.data!);
                                               } else {
                                                 showErrorToast(context,
-                                                    "You have not added any devices yet. Please add the device to continue.");
+                                                    AppLocale.notAddedDevice.getString(context));
                                               }
                                             },
                                             child: Container(
@@ -1554,8 +1562,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             const SizedBox(height: 5),
                                                             Text(
                                                               patientSnapshot.data!.result![index].roleId==2?
-                                                              "${calculateAge(patientSnapshot.data!.result![index].individualProfile!.contact!.doB!)} Years":
-                                                              "${calculateAge(patientSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} Years",
+                                                              "${calculateAge(patientSnapshot.data!.result![index].individualProfile!.contact!.doB!)} ${AppLocale.years.getString(context)}":
+                                                              "${calculateAge(patientSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} ${AppLocale.years.getString(context)}",
                                                               style: const TextStyle(
                                                                   color: Colors.black, fontSize: 12),
                                                             ),

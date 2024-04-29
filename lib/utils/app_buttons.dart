@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -51,58 +52,60 @@ showLanguageBottomSheet(
   showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          width: screenSize!.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-               Text(
-                AppLocale.selectLanguage.getString(context),
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: localization.supportedLanguageCodes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        onLanguageChange(
-                            localization.supportedLanguageCodes[index]);
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${localization.getLanguageName(languageCode: localization.supportedLanguageCodes[index].toString())} - ${localization.supportedLanguageCodes[index]} ",
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                              localization.supportedLanguageCodes[index] ==
-                                      localization.currentLocale!.languageCode
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: AppColors.primaryColor,
-                                    )
-                                  : const SizedBox.shrink()
-                            ],
-                          )),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider();
-                  }),
-            ],
+        return SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            width: screenSize!.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                 Text(
+                  AppLocale.selectLanguage.getString(context),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: localization.supportedLanguageCodes.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          onLanguageChange(
+                              localization.supportedLanguageCodes[index]);
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${localization.getLanguageName(languageCode: localization.supportedLanguageCodes[index].toString())} - ${localization.supportedLanguageCodes[index]} ",
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                localization.supportedLanguageCodes[index] ==
+                                        localization.currentLocale!.languageCode
+                                    ? const Icon(
+                                        Icons.check,
+                                        color: AppColors.primaryColor,
+                                      )
+                                    : const SizedBox.shrink()
+                              ],
+                            )),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider();
+                    }),
+              ],
+            ),
           ),
         );
       });
@@ -122,7 +125,7 @@ void showImageSourceDialog(BuildContext context,
               Navigator.pop(context);
             },
             child:  ListTile(
-              leading: Icon(Icons.camera),
+              leading: const Icon(Icons.camera),
               title: Text(AppLocale.camera.getString(context)),
             ),
           ),
@@ -132,7 +135,7 @@ void showImageSourceDialog(BuildContext context,
               Navigator.pop(context);
             },
             child:  ListTile(
-              leading: Icon(Icons.image),
+              leading: const Icon(Icons.image),
               title: Text(AppLocale.gallery.getString(context)),
             ),
           ),
@@ -205,7 +208,7 @@ void showLoaderDialog(BuildContext context) {
             const SizedBox(height: 8),
              Text(
              AppLocale.loading.getString(context),
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -319,13 +322,13 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
                     Navigator.pop(context, false);
                   },
                   child:  Text(AppLocale.close.getString(context),
-                      style: TextStyle(color: Colors.red))),
+                      style: const TextStyle(color: Colors.red))),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
                   child:  Text(AppLocale.saveOffline.getString(context),
-                      style: TextStyle(color: Colors.green)))
+                      style: const TextStyle(color: Colors.green)))
             ],
           ),
         );
@@ -362,10 +365,12 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         Text(
-                          AppLocale.selectOption.getString(context),
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
+                         FittedBox(
+                           child: Text(
+                            AppLocale.selectOption.getString(context),
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                                   ),
+                         ),
                         IconButton(
                           onPressed: (){
                             Navigator.pop(bottomSheetContext);

@@ -213,6 +213,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
             }
+            if (!profileProvider.isStrongPassword(value)) {
+              return AppLocale.strongPassword.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
@@ -267,6 +270,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
             }
+            if (!profileProvider.isStrongPassword(value)) {
+              return AppLocale.strongPassword.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.visiblePassword,
@@ -308,4 +314,5 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ],
     );
   }
+
 }

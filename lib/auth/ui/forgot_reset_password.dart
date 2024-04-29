@@ -256,6 +256,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
             }
+            if(!authProvider.isStrongPassword(value)){
+              return AppLocale.strongPassword.getString(context);
+            }
             if (value != resetPasswordOtp) {
               return AppLocale.validOtp.getString(context);
             }
@@ -360,7 +363,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validPassword.getString(context);
             }
-
+            if(!authProvider.isStrongPassword(value)){
+              return AppLocale.strongPassword.getString(context);
+            }
             if (value !=
                 authProvider.forgotPasswordNewPasswordController.text) {
               return AppLocale.passwordsDoNotMatch.getString(context);

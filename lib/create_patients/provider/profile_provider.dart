@@ -29,6 +29,17 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
+  bool isStrongPassword(String password) {
+    if (password.length < 8) {
+      return false;
+    }
+    bool hasCapitalLetter = password.contains(RegExp(r'[A-Z]'));
+    bool hasSpecialCharacter =
+    password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    bool hasNumber = password.contains(RegExp(r'[0-9]'));
+    return hasCapitalLetter && hasSpecialCharacter && hasNumber;
+  }
+
   Future<void> preFillEditProfile(BuildContext context) async {
     showLoaderDialog(context);
       editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";

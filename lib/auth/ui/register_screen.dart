@@ -532,6 +532,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.text,
+          maxLength: 74,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -551,6 +552,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            counter: SizedBox.shrink(),
           ),
         ),
         const SizedBox(
@@ -575,6 +577,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.text,
+          maxLength: 74,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -942,6 +945,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          maxLength: 74,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -1018,6 +1022,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          maxLength: 74,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
