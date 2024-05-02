@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
+
 DetailedReportPdfModel detailedReportPdfModelFromJson(String str) => DetailedReportPdfModel.fromJson(json.decode(str));
 
 String detailedReportPdfModelToJson(DetailedReportPdfModel data) => json.encode(data.toJson());
@@ -135,7 +137,7 @@ class RequestDeviceData {
   int? individualProfileId;
   IndividualProfile? individualProfile;
   dynamic enterpriseProfileId;
-  dynamic enterpriseProfile;
+  EnterpriseProfile? enterpriseProfile;
   String? uniqueGuid;
   int? id;
 
@@ -198,7 +200,7 @@ class RequestDeviceData {
     individualProfileId: json["individualProfileId"],
     individualProfile: json["individualProfile"] == null ? null : IndividualProfile.fromJson(json["individualProfile"]),
     enterpriseProfileId: json["enterpriseProfileId"],
-    enterpriseProfile: json["enterpriseProfile"],
+    enterpriseProfile: json["enterpriseProfile"] == null ? null : EnterpriseProfile.fromJson(json["enterpriseProfile"]),
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -230,7 +232,7 @@ class RequestDeviceData {
     "individualProfileId": individualProfileId,
     "individualProfile": individualProfile?.toJson(),
     "enterpriseProfileId": enterpriseProfileId,
-    "enterpriseProfile": enterpriseProfile,
+    "enterpriseProfile": enterpriseProfile?.toJson(),
     "uniqueGuid": uniqueGuid,
     "id": id,
   };

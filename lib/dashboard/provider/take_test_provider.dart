@@ -37,7 +37,7 @@ class TakeTestProvider extends ChangeNotifier {
   List<StreamSubscription> subscriptions = [];
   DetailedReportPdfModel? documentResp;
 
-  dynamic reportUserData;
+  Map? reportUserData;
   void listenToConnectedDevice() {
     _bluetoothStateSubscription =
         flutterBlue.state.listen((BluetoothState state) async {
@@ -330,11 +330,11 @@ class TakeTestProvider extends ChangeNotifier {
     for(int i = 0;i<documentResp!.result!.length;i++){
       if(prefModel.userData!.roleId==2){
         if(documentResp!.result![i].fileType==2){
-          reportUserData = documentResp!.result![i].requestDeviceData!.individualProfile;
+          reportUserData = documentResp!.result![i].requestDeviceData!.individualProfile!.toJson();
         }
       }else{
         if(documentResp!.result![i].fileType==2){
-          reportUserData = documentResp!.result![i].requestDeviceData!.enterpriseProfile;
+          reportUserData = documentResp!.result![i].requestDeviceData!.enterpriseProfile!.toJson();
         }
       }
     }

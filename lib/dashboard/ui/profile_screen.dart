@@ -473,7 +473,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Center(child: Text("V1.0.1"),),
+                  const Center(child: Text("V1.0.4"),),
                   const SizedBox(
                     height: 20,
                   ),

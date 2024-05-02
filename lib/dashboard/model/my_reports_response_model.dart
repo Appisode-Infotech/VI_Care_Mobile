@@ -67,7 +67,7 @@ class Result {
   int? individualProfileId;
   IndividualProfile? individualProfile;
   dynamic enterpriseProfileId;
-  dynamic enterpriseProfile;
+  EnterpriseProfile? enterpriseProfile;
   String? uniqueGuid;
   int? id;
 
@@ -130,7 +130,7 @@ class Result {
     individualProfileId: json["individualProfileId"],
     individualProfile: json["individualProfile"] == null ? null : IndividualProfile.fromJson(json["individualProfile"]),
     enterpriseProfileId: json["enterpriseProfileId"],
-    enterpriseProfile: json["enterpriseProfile"],
+    enterpriseProfile: json["enterpriseProfile"] == null ? null : EnterpriseProfile.fromJson(json["enterpriseProfile"]),
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -227,6 +227,59 @@ class IndividualProfile {
     "id": id,
   };
 }
+
+class EnterpriseProfile {
+  String? firstName;
+  String? lastName;
+  String? emailId;
+  int? contactId;
+  dynamic contact;
+  int? profilePictureId;
+  ProfilePicture? profilePicture;
+  int? enterpriseUserId;
+  String? uniqueGuid;
+  int? id;
+
+  EnterpriseProfile({
+    this.firstName,
+    this.lastName,
+    this.emailId,
+    this.contactId,
+    this.contact,
+    this.profilePictureId,
+    this.profilePicture,
+    this.enterpriseUserId,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory EnterpriseProfile.fromJson(Map<String, dynamic> json) => EnterpriseProfile(
+    firstName: json["firstName"],
+    lastName: json["lastName"],
+    emailId: json["emailId"],
+    contactId: json["contactId"],
+    contact: json["contact"],
+    profilePictureId: json["profilePictureId"],
+    profilePicture: json["profilePicture"] == null ? null : ProfilePicture.fromJson(json["profilePicture"]),
+    enterpriseUserId: json["enterpriseUserId"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "firstName": firstName,
+    "lastName": lastName,
+    "emailId": emailId,
+    "contactId": contactId,
+    "contact": contact,
+    "profilePictureId": profilePictureId,
+    "profilePicture": profilePicture?.toJson(),
+    "enterpriseUserId": enterpriseUserId,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
 
 class Contact {
   String? firstname;

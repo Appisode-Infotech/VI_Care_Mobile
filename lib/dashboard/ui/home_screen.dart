@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           .data!
                                                                           .result![
                                                                               index]
-                                                                          .enterpriseProfile!['profilePicture']['url']
+                                                                          .enterpriseProfile!.profilePicture!.url!
                                                                       : ''),
                                                               radius: 30,
                                                             ),
@@ -1133,8 +1133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         ? reportsSnapshot
                                                                 .data!
                                                                 .result![index]
-                                                                .enterpriseProfile![
-                                                            'profilePicture']['url']
+                                                                .enterpriseProfile!.profilePicture!.url!
                                                         : ''),
                                                 radius: 30,
                                               ),

@@ -37,7 +37,9 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    takeTestProvider.downloadReportPdf(takeTestProvider.documentResp!.result![0].url!,context);
+                    takeTestProvider.downloadReportPdf(
+                        takeTestProvider.documentResp!.result![0].url!,
+                        context);
                   },
                   icon: const Icon(Icons.download))
             ],
@@ -72,36 +74,24 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 );
               }
               if (snapshot.hasData) {
-                ReportsProcessedDataModel processedData = ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result![0].processedData!));
+                ReportsProcessedDataModel processedData =
+                    ReportsProcessedDataModel.fromJson(
+                        jsonDecode(snapshot.data!.result![0].processedData!));
                 List additionalInfo = [
+                  {"name": "RMSSDRR", "value": processedData.rmssdrr},
+                  {"name": "SDRR", "value": processedData.sdrr},
+                  {"name": "TP(ms)", "value": processedData.totalPower},
+                  {"name": "LF(ms)", "value": processedData.lfPowerMs},
+                  {"name": "HF(ms)", "value": processedData.hfPowerMs},
+                  {"name": "LF/HF", "value": processedData.lFtoHf},
                   {
-                    "name":"RMSSD",
-                    "value":processedData.rmssdrr
+                    "name": "Breath < 9",
+                    "value": processedData.breathRateLess9Possible
                   },
-                  {
-                    "name":"SDRR",
-                    "value":processedData.sdrr
-                  },
-                  {
-                    "name":"TP(ms)",
-                    "value":processedData.totalPower
-                  },
-                  {
-                    "name":"LF(ms)",
-                    "value":processedData.lfPowerMs
-                  },
-                  {
-                    "name":"HF(ms)",
-                    "value":processedData.hfPowerMs
-                  },
-                  {
-                    "name":"LF/HF",
-                    "value":processedData.lFtoHf
-                  },
-                  {
-                    "name":"Breath < 9",
-                    "value":processedData.breathRateLess9Possible
-                  },
+                  {"name": "VLF Power(ms)", "value": processedData.vlfPowerMs},
+                  {"name": "LF Power(ms)", "value": processedData.lfPowerMs},
+                  {"name": "HF Power(ms)", "value": processedData.hfPowerMs},
+                  {"name": "Total Power", "value": processedData.totalPower},
                 ];
                 return SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
@@ -117,7 +107,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            "Name : ${takeTestProvider.reportUserData!.firstName} ${takeTestProvider.reportUserData!.lastName}"),
+                            "Name : ${takeTestProvider.reportUserData!['firstName']} ${takeTestProvider.reportUserData!['lastName']}"),
                         // Text("Age : ${calculateAge(takeTestProvider.reportUserData!.doB!)}"),
                         // Text("Gender : ${takeTestProvider.reportUserData!.gender.toString()}"),
                         Row(
@@ -191,10 +181,11 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      processedData.rrTotal!,
+                                      double.parse(processedData.ari!)
+                                          .toStringAsFixed(0),
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                          fontSize: 22),
                                     ),
                                   )),
                               const SizedBox(
@@ -255,13 +246,15 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                 activeColor: Colors.transparent,
                                 thumbIcon: const Icon(Icons.arrow_drop_up),
                                 min: 0.0,
-                                max: 100.0,
+                                max: 120.0,
                                 interval: 2,
                                 showTicks: false,
                                 showLabels: false,
                                 enableTooltip: true,
                                 shouldAlwaysShowTooltip: true,
-                                value: 80,
+                                value: int.parse(
+                                    double.parse(processedData.bpmMean!)
+                                        .toStringAsFixed(0)),
                                 onChanged: (value) {},
                               ),
                               Row(
@@ -337,27 +330,37 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           itemCount: additionalInfo.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                                crossAxisSpacing: 3,
+                                mainAxisSpacing: 3
                           ),
                           itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${additionalInfo[index]['name']}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  "${additionalInfo[index]['value']}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14),
-                                )
-                              ],
+                            return Container(
+                              padding: const EdgeInsets.all(8), // Adjust padding here
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey), // Add borders for clearer separation
+                                borderRadius: BorderRadius.circular(8), // Add rounded corners
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${additionalInfo[index]['name']}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    "${additionalInfo[index]['value']}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14),
+                                  )
+                                ],
+                              ),
                             );
                           },
                         ),
@@ -406,7 +409,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     AppLocale.low.getString(context),
@@ -434,9 +437,9 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           width: screenSize!.width,
                           padding: const EdgeInsets.all(20),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: AppColors.primaryColor
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: AppColors.primaryColor),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -445,24 +448,48 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('KG',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
-                                  Text('Weight',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
+                                  Text('KG',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('Weight',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                 ],
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('CM',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
-                                  Text('Height',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
+                                  Text('CM',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('Height',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                 ],
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('0',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
-                                  Text('BMI',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
+                                  Text('0',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('BMI',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                 ],
                               )
                             ],

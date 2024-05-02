@@ -765,7 +765,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       children: [
                                                         CircleAvatar(
                                                           backgroundImage: patientSnapshot.data!.result![index].roleId==2?NetworkImage(patientSnapshot.data!.result![index].individualProfile!.profilePicture!=null?patientSnapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
-                                                              :NetworkImage(patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?patientSnapshot.data!.result![index].enterpriseProfile!['profilePicture']!['url']!:''),
+                                                              :NetworkImage(patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!:''),
                                                           radius: 30,
                                                         ),
                                                         const SizedBox(
@@ -1541,7 +1541,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       children: [
                                                         CircleAvatar(
                                                           backgroundImage: patientSnapshot.data!.result![index].roleId==2?NetworkImage(patientSnapshot.data!.result![index].individualProfile!.profilePicture!=null?patientSnapshot.data!.result![index].individualProfile!.profilePicture!.url!:'')
-                                                              :NetworkImage(patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?patientSnapshot.data!.result![index].enterpriseProfile!['profilePicture']!['url']!:''),
+                                                              :NetworkImage(patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!=null?patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!:''),
                                                           radius: 30,
                                                         ),
                                                         const SizedBox(
@@ -1560,13 +1560,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   fontSize: 15),
                                                             ),
                                                             const SizedBox(height: 5),
-                                                            Text(
-                                                              patientSnapshot.data!.result![index].roleId==2?
-                                                              "${calculateAge(patientSnapshot.data!.result![index].individualProfile!.contact!.doB!)} ${AppLocale.years.getString(context)}":
-                                                              "${calculateAge(patientSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} ${AppLocale.years.getString(context)}",
-                                                              style: const TextStyle(
-                                                                  color: Colors.black, fontSize: 12),
-                                                            ),
+                                                            Text("${patientSnapshot.data!.result![index].durationName!} Test"),
+                                                            // Text(
+                                                            //   patientSnapshot.data!.result![index].roleId==2?
+                                                            //   "${calculateAge(patientSnapshot.data!.result![index].individualProfile!.contact!.doB!)} ${AppLocale.years.getString(context)}":
+                                                            //   "${calculateAge(patientSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)} ${AppLocale.years.getString(context)}",
+                                                            //   style: const TextStyle(
+                                                            //       color: Colors.black, fontSize: 12),
+                                                            // ),
                                                             // const SizedBox(height: 5),
                                                             // Text(
                                                             //   patientReports[index]["description"],
