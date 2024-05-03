@@ -323,7 +323,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  snapshot.data!.result![index].processingStatus==1?'New':snapshot.data!.result![index].processingStatus==2?'In Progress':snapshot.data!.result![index].processingStatus==3?'Success':snapshot.data!.result![index].processingStatus==4?'Fail':'',
+                                                  snapshot.data!.result![index].processingStatus==1?AppLocale.newReport.getString(context):snapshot.data!.result![index].processingStatus==2?AppLocale.inProgress.getString(context):snapshot.data!.result![index].processingStatus==3?AppLocale.successReport.getString(context):snapshot.data!.result![index].processingStatus==4?AppLocale.failReport.getString(context):'',
                                                   style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 10,

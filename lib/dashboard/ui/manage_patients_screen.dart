@@ -214,14 +214,16 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          Text(
-                                            maxLines: 1,
-                                            "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12,
-                                                color: Colors.white),
+                                          FittedBox(
+                                            child: Text(
+                                              maxLines: 1,
+                                              "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                              style: const TextStyle(
+                                                  // overflow: TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 3,

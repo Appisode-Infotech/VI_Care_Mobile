@@ -878,7 +878,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             ),
                                                             child: Center(
                                                               child: Text(
-                                                                patientSnapshot.data!.result![index].processingStatus==1?'New':patientSnapshot.data!.result![index].processingStatus==2?'In Progress':patientSnapshot.data!.result![index].processingStatus==3?'Success':patientSnapshot.data!.result![index].processingStatus==4?'Fail':'',
+                                                                patientSnapshot.data!.result![index].processingStatus==1?AppLocale.newReport.getString(context):patientSnapshot.data!.result![index].processingStatus==2?AppLocale.inProgress.getString(context):patientSnapshot.data!.result![index].processingStatus==3?AppLocale.successReport.getString(context):patientSnapshot.data!.result![index].processingStatus==4?AppLocale.failReport.getString(context):'',
                                                                 style: const TextStyle(
                                                                   color: Colors.white,
                                                                   fontSize: 10,
@@ -1654,7 +1654,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             ),
                                                             child: Center(
                                                               child: Text(
-                                                                patientSnapshot.data!.result![index].processingStatus==1?'New':patientSnapshot.data!.result![index].processingStatus==2?'In Progress':patientSnapshot.data!.result![index].processingStatus==3?'Success':patientSnapshot.data!.result![index].processingStatus==4?'Fail':'',
+                                                                patientSnapshot.data!.result![index].processingStatus==1?AppLocale.newReport.getString(context):patientSnapshot.data!.result![index].processingStatus==2?AppLocale.inProgress.getString(context):patientSnapshot.data!.result![index].processingStatus==3?AppLocale.successReport.getString(context):patientSnapshot.data!.result![index].processingStatus==4?AppLocale.failReport.getString(context):'',
                                                                 style: const TextStyle(
                                                                   color: Colors.white,
                                                                   fontSize: 10,

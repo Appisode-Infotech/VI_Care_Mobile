@@ -228,246 +228,250 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             12)),
                                                             color:
                                                                 Colors.white),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            CircleAvatar(
-                                                              backgroundImage: reportsSnapshot
-                                                                          .data!
-                                                                          .result![
-                                                                              index]
-                                                                          .roleId ==
-                                                                      2
-                                                                  ? NetworkImage(reportsSnapshot
-                                                                              .data!
-                                                                              .result![
-                                                                                  index]
-                                                                              .individualProfile!
-                                                                              .profilePicture !=
-                                                                          null
-                                                                      ? reportsSnapshot
-                                                                          .data!
-                                                                          .result![
-                                                                              index]
-                                                                          .individualProfile!
-                                                                          .profilePicture!
-                                                                          .url!
-                                                                      : '')
-                                                                  : NetworkImage(reportsSnapshot
-                                                                              .data!
-                                                                              .result![
-                                                                                  index]
-                                                                              .enterpriseProfile!
-                                                                              .profilePicture !=
-                                                                          null
-                                                                      ? reportsSnapshot
-                                                                          .data!
-                                                                          .result![
-                                                                              index]
-                                                                          .enterpriseProfile!.profilePicture!.url!
-                                                                      : ''),
-                                                              radius: 30,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  reportsSnapshot
-                                                                              .data!
-                                                                              .result![
-                                                                                  index]
-                                                                              .roleId ==
-                                                                          2
-                                                                      ? "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
-                                                                      : reportsSnapshot
-                                                                              .data!
-                                                                              .result![
-                                                                                  index]
-                                                                              .enterpriseProfile!
-                                                                              .firstName! +
-                                                                          " " +
-                                                                          reportsSnapshot
-                                                                              .data!
-                                                                              .result![index]
-                                                                              .enterpriseProfile!
-                                                                              .lastName!,
-                                                                  style: const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          15),
-                                                                ),
-                                                                const SizedBox(
-                                                                    height: 5),
-                                                                Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
-
-                                                                // FittedBox(
-                                                                //   child: Text(
-                                                                //     reportsSnapshot
-                                                                //                 .data!
-                                                                //                 .result![index]
-                                                                //                 .roleId ==
-                                                                //             2
-                                                                //         ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}${AppLocale.years.getString(context)}"
-                                                                //         : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}${AppLocale.years.getString(context)}",
-                                                                //     style: const TextStyle(
-                                                                //         color: Colors
-                                                                //             .black,
-                                                                //         fontSize:
-                                                                //             10),
-                                                                //   ),
-                                                                // ),
-                                                                // const SizedBox(
-                                                                //     height: 5),
-                                                                // Text(
-                                                                //   patientReports[index]["description"],
-                                                                //   style: const TextStyle(
-                                                                //       color: Colors.black, fontSize: 12),
-                                                                // ),
-                                                                const SizedBox(
-                                                                    height: 5),
-                                                                Text(
-                                                                  "${parseDate(reportsSnapshot.data!.result![index].requestDateTime!)}",
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          12),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Container(
-                                                          child:
-                                                              // (patientReports[index]["receivedReport"] == true)
-                                                              //     ? Column(
-                                                              //   mainAxisAlignment:
-                                                              //   MainAxisAlignment.center,
-                                                              //   children: [
-                                                              //     SizedBox(
-                                                              //       width: 50,
-                                                              //       height: 50,
-                                                              //       child: Stack(
-                                                              //         children: [
-                                                              //           CircularStepProgressIndicator(
-                                                              //             totalSteps: 200,
-                                                              //             currentStep: int.parse(
-                                                              //                 patientReports[index]
-                                                              //                 ["repData"]["bpm"]),
-                                                              //             stepSize: 5,
-                                                              //             selectedColor:
-                                                              //             patientReports[index]
-                                                              //             ["repData"]["color"],
-                                                              //             unselectedColor:
-                                                              //             Colors.grey[200],
-                                                              //             padding: 0,
-                                                              //             selectedStepSize: 6,
-                                                              //             roundedCap: (_, __) => true,
-                                                              //           ),
-                                                              //           Center(
-                                                              //             child: Text(
-                                                              //               patientReports[index]
-                                                              //               ["repData"]["bpm"],
-                                                              //               style: const TextStyle(
-                                                              //                 color: Colors.black,
-                                                              //                 fontWeight: FontWeight.bold,
-                                                              //                 fontSize: 10,
-                                                              //               ),
-                                                              //             ),
-                                                              //           ),
-                                                              //         ],
-                                                              //       ),
-                                                              //     ),
-                                                              //     const SizedBox(height: 10),
-                                                              //     Text(
-                                                              //       patientReports[index]["repData"]
-                                                              //       ["status"],
-                                                              //       style: TextStyle(
-                                                              //           fontSize: 12,
-                                                              //           color: patientReports[index]
-                                                              //           ["repData"]["color"]),
-                                                              //     )
-                                                              //   ],
-                                                              // )
-                                                              //     :
-                                                              Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
+                                                    child: FittedBox(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Row(
                                                             children: [
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    5,
-                                                                height: 30,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .all(
-                                                                          Radius.circular(
-                                                                              20)),
-                                                                  color: getChipColor(reportsSnapshot
-                                                                      .data!
-                                                                      .result![
-                                                                          index]
-                                                                      .processingStatus),
-                                                                ),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    reportsSnapshot.data!.result![index].processingStatus ==
-                                                                            1
-                                                                        ? AppLocale
-                                                                            .newReport
-                                                                            .getString(
-                                                                                context)
-                                                                        : reportsSnapshot.data!.result![index].processingStatus ==
-                                                                                2
-                                                                            ? AppLocale.inProgress.getString(context)
-                                                                            : reportsSnapshot.data!.result![index].processingStatus == 3
-                                                                                ? AppLocale.successReport.getString(context)
-                                                                                : reportsSnapshot.data!.result![index].processingStatus == 4
-                                                                                    ? AppLocale.failReport.getString(context)
-                                                                                    : '',
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          10,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
+                                                              CircleAvatar(
+                                                                backgroundImage: reportsSnapshot
+                                                                            .data!
+                                                                            .result![
+                                                                                index]
+                                                                            .roleId ==
+                                                                        2
+                                                                    ? NetworkImage(reportsSnapshot
+                                                                                .data!
+                                                                                .result![
+                                                                                    index]
+                                                                                .individualProfile!
+                                                                                .profilePicture !=
+                                                                            null
+                                                                        ? reportsSnapshot
+                                                                            .data!
+                                                                            .result![
+                                                                                index]
+                                                                            .individualProfile!
+                                                                            .profilePicture!
+                                                                            .url!
+                                                                        : '')
+                                                                    : NetworkImage(reportsSnapshot
+                                                                                .data!
+                                                                                .result![
+                                                                                    index]
+                                                                                .enterpriseProfile!
+                                                                                .profilePicture !=
+                                                                            null
+                                                                        ? reportsSnapshot
+                                                                            .data!
+                                                                            .result![
+                                                                                index]
+                                                                            .enterpriseProfile!.profilePicture!.url!
+                                                                        : ''),
+                                                                radius: 30,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 20,
+                                                              ),
+                                                              FittedBox(
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      reportsSnapshot
+                                                                                  .data!
+                                                                                  .result![
+                                                                                      index]
+                                                                                  .roleId ==
+                                                                              2
+                                                                          ? "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
+                                                                          : reportsSnapshot
+                                                                                  .data!
+                                                                                  .result![
+                                                                                      index]
+                                                                                  .enterpriseProfile!
+                                                                                  .firstName! +
+                                                                              " " +
+                                                                              reportsSnapshot
+                                                                                  .data!
+                                                                                  .result![index]
+                                                                                  .enterpriseProfile!
+                                                                                  .lastName!,
+                                                                      style: const TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .bold,
+                                                                          fontSize:
+                                                                              15),
                                                                     ),
-                                                                  ),
+                                                                    const SizedBox(
+                                                                        height: 5),
+                                                                    Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
+                                                                
+                                                                    // FittedBox(
+                                                                    //   child: Text(
+                                                                    //     reportsSnapshot
+                                                                    //                 .data!
+                                                                    //                 .result![index]
+                                                                    //                 .roleId ==
+                                                                    //             2
+                                                                    //         ? "${calculateAge(reportsSnapshot.data!.result![index].individualProfile!.contact!.doB!)}${AppLocale.years.getString(context)}"
+                                                                    //         : "${calculateAge(reportsSnapshot.data!.result![index].enterpriseProfile!.contact!.doB!)}${AppLocale.years.getString(context)}",
+                                                                    //     style: const TextStyle(
+                                                                    //         color: Colors
+                                                                    //             .black,
+                                                                    //         fontSize:
+                                                                    //             10),
+                                                                    //   ),
+                                                                    // ),
+                                                                    // const SizedBox(
+                                                                    //     height: 5),
+                                                                    // Text(
+                                                                    //   patientReports[index]["description"],
+                                                                    //   style: const TextStyle(
+                                                                    //       color: Colors.black, fontSize: 12),
+                                                                    // ),
+                                                                    const SizedBox(
+                                                                        height: 5),
+                                                                    Text(
+                                                                      "${parseDate(reportsSnapshot.data!.result![index].requestDateTime!)}",
+                                                                      style: const TextStyle(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontSize:
+                                                                              12),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
-                                                      ],
+                                                          Container(
+                                                            child:
+                                                                // (patientReports[index]["receivedReport"] == true)
+                                                                //     ? Column(
+                                                                //   mainAxisAlignment:
+                                                                //   MainAxisAlignment.center,
+                                                                //   children: [
+                                                                //     SizedBox(
+                                                                //       width: 50,
+                                                                //       height: 50,
+                                                                //       child: Stack(
+                                                                //         children: [
+                                                                //           CircularStepProgressIndicator(
+                                                                //             totalSteps: 200,
+                                                                //             currentStep: int.parse(
+                                                                //                 patientReports[index]
+                                                                //                 ["repData"]["bpm"]),
+                                                                //             stepSize: 5,
+                                                                //             selectedColor:
+                                                                //             patientReports[index]
+                                                                //             ["repData"]["color"],
+                                                                //             unselectedColor:
+                                                                //             Colors.grey[200],
+                                                                //             padding: 0,
+                                                                //             selectedStepSize: 6,
+                                                                //             roundedCap: (_, __) => true,
+                                                                //           ),
+                                                                //           Center(
+                                                                //             child: Text(
+                                                                //               patientReports[index]
+                                                                //               ["repData"]["bpm"],
+                                                                //               style: const TextStyle(
+                                                                //                 color: Colors.black,
+                                                                //                 fontWeight: FontWeight.bold,
+                                                                //                 fontSize: 10,
+                                                                //               ),
+                                                                //             ),
+                                                                //           ),
+                                                                //         ],
+                                                                //       ),
+                                                                //     ),
+                                                                //     const SizedBox(height: 10),
+                                                                //     Text(
+                                                                //       patientReports[index]["repData"]
+                                                                //       ["status"],
+                                                                //       style: TextStyle(
+                                                                //           fontSize: 12,
+                                                                //           color: patientReports[index]
+                                                                //           ["repData"]["color"]),
+                                                                //     )
+                                                                //   ],
+                                                                // )
+                                                                //     :
+                                                                Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Container(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width /
+                                                                      5,
+                                                                  height: 30,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        const BorderRadius
+                                                                            .all(
+                                                                            Radius.circular(
+                                                                                20)),
+                                                                    color: getChipColor(reportsSnapshot
+                                                                        .data!
+                                                                        .result![
+                                                                            index]
+                                                                        .processingStatus),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      reportsSnapshot.data!.result![index].processingStatus ==
+                                                                              1
+                                                                          ? AppLocale
+                                                                              .newReport
+                                                                              .getString(
+                                                                                  context)
+                                                                          : reportsSnapshot.data!.result![index].processingStatus ==
+                                                                                  2
+                                                                              ? AppLocale.inProgress.getString(context)
+                                                                              : reportsSnapshot.data!.result![index].processingStatus == 3
+                                                                                  ? AppLocale.successReport.getString(context)
+                                                                                  : reportsSnapshot.data!.result![index].processingStatus == 4
+                                                                                      ? AppLocale.failReport.getString(context)
+                                                                                      : '',
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            10,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 );

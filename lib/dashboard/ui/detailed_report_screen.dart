@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
@@ -161,55 +162,57 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
-                        Container(
-                          width: screenSize?.width,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: const BoxDecoration(
-                              color: Colors.orangeAccent,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              )),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                  radius: 40,
-                                  backgroundColor: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      double.parse(processedData.ari!)
-                                          .toStringAsFixed(0),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22),
+                        FittedBox(
+                          child: Container(
+                            width: screenSize?.width,
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            decoration: const BoxDecoration(
+                                color: Colors.orangeAccent,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                )),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                    radius: 40,
+                                    backgroundColor: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        double.parse(processedData.ari!)
+                                            .toStringAsFixed(0),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22),
+                                      ),
+                                    )),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Text goes here",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  )),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Text goes here",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Text goes here for description",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              )
-                            ],
+                                    Text(
+                                      "Text goes here for description",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         const Text(
@@ -330,18 +333,16 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           itemCount: additionalInfo.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                                crossAxisSpacing: 3,
-                                mainAxisSpacing: 3
+                            crossAxisSpacing: 3,
+                            mainAxisSpacing: 2,
                           ),
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
-                              padding: const EdgeInsets.all(8), // Adjust padding here
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey), // Add borders for clearer separation
-                                borderRadius: BorderRadius.circular(8), // Add rounded corners
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -349,16 +350,18 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                 children: [
                                   Text(
                                     "${additionalInfo[index]['name']}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   Text(
                                     "${additionalInfo[index]['value']}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14),
-                                  )
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
