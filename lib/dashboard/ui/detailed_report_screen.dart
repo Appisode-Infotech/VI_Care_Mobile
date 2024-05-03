@@ -33,7 +33,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: const Text("Detailed report"),
+            title:  Text(AppLocale.detailReport.getString(context)),
             actions: [
               IconButton(
                   onPressed: () {
@@ -109,15 +109,15 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Patient details ",
+                         Text(
+                          AppLocale.patientDetails.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            "Name : ${takeTestProvider.reportUserData!.firstName} ${takeTestProvider.reportUserData!.lastName}"),
+                            "${AppLocale.name.getString(context)}: ${takeTestProvider.reportUserData!.firstName} ${takeTestProvider.reportUserData!.lastName}"),
                         // Text("Age : ${calculateAge(takeTestProvider.reportUserData!.doB!)}"),
                         // Text("Gender : ${takeTestProvider.reportUserData!.gender.toString()}"),
                         Row(
@@ -125,7 +125,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                                "Report Date : ${parseDate(snapshot.data!.result![0].processedDateTime.toString())}"),
+                                "${AppLocale.reportDate.getString(context)} : ${parseDate(snapshot.data!.result![0].processedDateTime.toString())}"),
                             Container(
                               width: MediaQuery.of(context).size.width / 5,
                               height: 30,
@@ -164,8 +164,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           ],
                         ),
                         const Divider(),
-                        const Text(
-                          "Readiness Score ",
+                         Text(
+                          AppLocale.readiness.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -200,18 +200,18 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               const SizedBox(
                                 width: 20,
                               ),
-                              const Column(
+                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Text goes here",
+                                    AppLocale.testGoesHere.getString(context),
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    "Text goes here for description",
+                                   AppLocale.testGoesHereDesc.getString(context),
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal),
@@ -221,8 +221,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                             ],
                           ),
                         ),
-                        const Text(
-                          "Resting Heart Rate ",
+                         Text(
+                          AppLocale.restingHeartRate.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -290,8 +290,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          "Body-Mind Balance",
+                         Text(
+                          AppLocale.bodyMindBalance.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -306,8 +306,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          "Heart Rhythm Diagram",
+                         Text(
+                          AppLocale.heartRhythmDiagram.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -322,8 +322,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          "Additional Parameters",
+                         Text(
+                          AppLocale.additionalPara.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -361,8 +361,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                             );
                           },
                         ),
-                        const Text(
-                          "Weight & BMI",
+                         Text(
+                          AppLocale.weightBMI.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -471,8 +471,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          "Results",
+                         Text(
+                          AppLocale.results.getString(context),
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -487,7 +487,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return const Center(child: Text("loading"));
+                return  Center(child: Text(AppLocale.loading.getString(context)));
               }
             },
           ),

@@ -192,7 +192,6 @@ mixin AppLocale {
   static const String support = 'support';
   static const String logOut = 'logOut';
 
-
   static const String chooseDeviceModel = 'chooseDeviceModel';
   static const String loading = 'loading';
   static const String all = 'all';
@@ -257,6 +256,16 @@ mixin AppLocale {
   static const String thisWeek = 'thisWeek';
   static const String notAddedDevice = 'notAddedDevice';
   static const String never = 'never';
+
+  static const String reportDate = 'reportDate';
+  static const String testGoesHere = 'testGoesHere';
+  static const String testGoesHereDesc = 'testGoesHereDesc';
+  static const String restingHeartRate = 'restingHeartRate';
+  static const String bodyMindBalance = 'bodyMindBalance';
+  static const String heartRhythmDiagram = 'heartRhythmDiagram';
+  static const String additionalPara = 'additionalPara';
+  static const String weightBMI = 'weightBMI';
+  static const String results = 'results';
 
   static const String thisIs = 'thisIs';
 
@@ -510,11 +519,20 @@ mixin AppLocale {
     proceedToAdd: "Proceed to add",
     testSuccessSendHRV: "Test successfully sent to hrv server.You can check the reports in some time",
     testSuccessfulCheck:  "Test successfully sent to hrv server.You can check the reports in some time",
-
     thisWeek:"All Time",
     thisMonth:"This Week",
     thisYear:"This Month",
     never: "Never",
+    reportDate: "Report Date",
+    testGoesHere: "Text goes here",
+    testGoesHereDesc: "Text goes here for description",
+    restingHeartRate: "Resting Heart Rate ",
+    bodyMindBalance: "Body-Mind Balance",
+    heartRhythmDiagram: "Heart Rhythm Diagram",
+    additionalPara: "Additional Parameters",
+    weightBMI: "Weight & BMI",
+    results: "Results",
+
     notAddedDevice: "You have not added any devices yet. Please add the device to continue.",
     thisIs: 'This is %a package, version %a.',
   };
@@ -777,6 +795,15 @@ mixin AppLocale {
     thisYear:"ಈ ತಿಂಗಳು",
     never: "ಎಂದೂ ಅಲ್ಲ",
     notAddedDevice: "ನೀವು ಇನ್ನು ಯಾವ ಯಂತ್ರಗಳನ್ನು ಸೇರಿಸಿದ್ದೀರಿ ಅಲ್ಲ. ಮುಂದುವರಿಸಲು ಯಂತ್ರವನ್ನು ಸೇರಿಸಿ.",
+    reportDate: "ವರದಿ ದಿನಾಂಕ",
+    testGoesHere: "ಟೆಕ್ಸ್ಟ್ ಇಲ್ಲಿ ಹೋಗುತ್ತದೆ",
+    testGoesHereDesc: "ವಿವರಣೆಗಾಗಿ ಟೆಕ್ಸ್ಟ್ ಇಲ್ಲಿ ಹೋಗುತ್ತದೆ",
+    restingHeartRate: "ಶಾಂತ ಹೃದಯ ದರ",
+    bodyMindBalance: "ದೇಹ-ಮನಸ್ಸು ಸಂತುಲನ",
+    heartRhythmDiagram: "ಹೃದಯ ನಡುವಿನ ಚಿತ್ರದಲ್ಲಿ ನಡುವೆ",
+    additionalPara: "ಅತಿಥೇಯ ಪರಿಮಾಣಗಳು",
+    weightBMI: "ತೂಕ ಮತ್ತು ಬಿಎಂಐ",
+    results: "ಫಲಿತಾಂಶ",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1036,6 +1063,15 @@ mixin AppLocale {
     thisMonth:"इस सप्ताह",
     thisYear:"इस महीने",
     never: "कभी नहीं",
+    reportDate: "रिपोर्ट दिनांक",
+    testGoesHere: "यहाँ टेक्स्ट जाता है",
+    testGoesHereDesc: "विवरण के लिए यहाँ टेक्स्ट जाता है",
+    restingHeartRate: "विश्रांत हृदय दर",
+    bodyMindBalance: "शरीर-मन संतुलन",
+    heartRhythmDiagram: "हृदय ध्वनि चित्र",
+    additionalPara: "अतिरिक्त पैरामीटर्स",
+    weightBMI: "वजन और बीएमआई",
+    results: "परिणाम",
     notAddedDevice: "आपने अभी तक कोई डिवाइस नहीं जोड़ा है। कृपया जारी रखने के लिए डिवाइस जोड़ें।",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
@@ -1296,6 +1332,15 @@ mixin AppLocale {
     thisMonth:"Diese Woche",
     thisYear:"Dieser Monat",
     never: "Nie",
+    reportDate: "Berichtsdatum",
+    testGoesHere: "Text geht hier",
+    testGoesHereDesc: "Text geht hier für Beschreibung",
+    restingHeartRate: "Ruheherzfrequenz",
+    bodyMindBalance: "Körper-Geist-Balance",
+    heartRhythmDiagram: "Herzrhythmusdiagramm",
+    additionalPara: "Zusätzliche Parameter",
+    weightBMI: "Gewicht & BMI",
+    results: "Ergebnisse",
     notAddedDevice: "Sie haben noch keine Geräte hinzugefügt. Bitte fügen Sie das Gerät hinzu, um fortzufahren.",
 
     logOut: 'Ausloggen',
@@ -1558,6 +1603,15 @@ mixin AppLocale {
     thisMonth:"ఈ వారం",
     thisYear:"ఈ నెల",
     never: "ఎప్పుడూ కాదు",
+    reportDate: "నివేదిక తేదీ",
+    testGoesHere: "ఇక్కడ వచ్చే వచనం",
+    testGoesHereDesc: "వివరణకు ఇక్కడ వచ్చే వచనం",
+    restingHeartRate: "అవసాన హృదయ నిరత్త",
+    bodyMindBalance: "శరీర-మనస్సు సమన్వయం",
+    heartRhythmDiagram: "హృదయ రితి చిత్రం",
+    additionalPara: "అదనపు పారామీటర్లు",
+    weightBMI: "భారం & బిఎంఐ",
+    results: "ఫలితాలు",
     notAddedDevice: "మీరు ఇంకా ఎటువంటి పరికరాన్ని జోడించలేదు. కొన్ని పరికరాన్ని జోడించండి కొనసాగించడానికి.",
 
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
@@ -1822,6 +1876,15 @@ mixin AppLocale {
     thisMonth:"இந்த வாரம்",
     thisYear:"இந்த மாதம்",
     never: "எப்போதும் இல்லை",
+    reportDate: "அறிக்கை தேதி",
+    testGoesHere: "இங்கே உரை செல்லுங்கள்",
+    testGoesHereDesc: "விளக்கம் செய்ய இங்கே உரை செல்லுங்கள்",
+    restingHeartRate: "ஓய்வு இதய வீதம்",
+    bodyMindBalance: "உடல்-உள்ளம் சமநிலை",
+    heartRhythmDiagram: "இதய இரும்பு வரைபடம்",
+    additionalPara: "கூடுதல் அளவுகள்",
+    weightBMI: "எடை & உடலுக்குத் தொடர்பு அளவு",
+    results: "முடிவுகள்",
     notAddedDevice: "நீங்கள் இன்னும் எந்த சாதனங்களையும் சேர்க்கவில்லை. தொடர்ந்து செல்கிறது சாதனத்தைச் சேர்க்கவும்.",
 
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
@@ -2080,6 +2143,15 @@ mixin AppLocale {
     thisMonth: "ഈ ആഴ്ച",
     thisYear: "ഈ മാസം",
     never: "എപ്പോഴായിരിക്കും ഇല്ല",
+    reportDate: "റിപ്പോർട്ട് തേതി",
+    testGoesHere: "ഇവിടെ ടെക്സ്റ്റ് പോകുന്നു",
+    testGoesHereDesc: "വിവരണത്തിനായി ഇവിടെ ടെക്സ്റ്റ് പോകുന്നു",
+    restingHeartRate: "അവസാന ഹൃദയ നിര",
+    bodyMindBalance: "ശരീര-മനസ്സ് സമത്വം",
+    heartRhythmDiagram: "ഹൃദയ രിതി ചിത്രം",
+    additionalPara: "കൂടുതൽ പാരാമീറ്റേറ്റുകൾ",
+    weightBMI: "ഭാരം & ബിഎംഐ",
+    results: "ഫലങ്ങൾ",
     notAddedDevice: "നിങ്ങൾക്ക് ഇതൊന്നും ചേർത്തിട്ടില്ല. തുടരുകയാണെങ്കിൽ ഉപകരണം ചേർക്കുക.",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
