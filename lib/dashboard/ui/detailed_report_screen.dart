@@ -33,11 +33,13 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title:  Text(AppLocale.detailReport.getString(context)),
+            title: const Text("Detailed report"),
             actions: [
               IconButton(
                   onPressed: () {
-                    takeTestProvider.downloadReportPdf(takeTestProvider.documentResp!.result![0].url!,context);
+                    takeTestProvider.downloadReportPdf(
+                        takeTestProvider.documentResp!.result![0].url!,
+                        context);
                   },
                   icon: const Icon(Icons.download))
             ],
@@ -72,36 +74,24 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 );
               }
               if (snapshot.hasData) {
-                ReportsProcessedDataModel processedData = ReportsProcessedDataModel.fromJson(jsonDecode(snapshot.data!.result![0].processedData!));
+                ReportsProcessedDataModel processedData =
+                    ReportsProcessedDataModel.fromJson(
+                        jsonDecode(snapshot.data!.result![0].processedData!));
                 List additionalInfo = [
+                  {"name": "RMSSDRR", "value": processedData.rmssdrr},
+                  {"name": "SDRR", "value": processedData.sdrr},
+                  {"name": "TP(ms)", "value": processedData.totalPower},
+                  {"name": "LF(ms)", "value": processedData.lfPowerMs},
+                  {"name": "HF(ms)", "value": processedData.hfPowerMs},
+                  {"name": "LF/HF", "value": processedData.lFtoHf},
                   {
-                    "name":"RMSSD",
-                    "value":processedData.rmssdrr
+                    "name": "Breath < 9",
+                    "value": processedData.breathRateLess9Possible
                   },
-                  {
-                    "name":"SDRR",
-                    "value":processedData.sdrr
-                  },
-                  {
-                    "name":"TP(ms)",
-                    "value":processedData.totalPower
-                  },
-                  {
-                    "name":"LF(ms)",
-                    "value":processedData.lfPowerMs
-                  },
-                  {
-                    "name":"HF(ms)",
-                    "value":processedData.hfPowerMs
-                  },
-                  {
-                    "name":"LF/HF",
-                    "value":processedData.lFtoHf
-                  },
-                  {
-                    "name":"Breath < 9",
-                    "value":processedData.breathRateLess9Possible
-                  },
+                  {"name": "VLF Power(ms)", "value": processedData.vlfPowerMs},
+                  {"name": "LF Power(ms)", "value": processedData.lfPowerMs},
+                  {"name": "HF Power(ms)", "value": processedData.hfPowerMs},
+                  {"name": "Total Power", "value": processedData.totalPower},
                 ];
                 return SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
@@ -109,15 +99,15 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text(
-                          AppLocale.patientDetails.getString(context),
+                        const Text(
+                          "Patient details ",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            "${AppLocale.name.getString(context)}: ${takeTestProvider.reportUserData!.firstName} ${takeTestProvider.reportUserData!.lastName}"),
+                            "Name : ${takeTestProvider.reportUserData!['firstName']} ${takeTestProvider.reportUserData!['lastName']}"),
                         // Text("Age : ${calculateAge(takeTestProvider.reportUserData!.doB!)}"),
                         // Text("Gender : ${takeTestProvider.reportUserData!.gender.toString()}"),
                         Row(
@@ -125,7 +115,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                                "${AppLocale.reportDate.getString(context)} : ${parseDate(snapshot.data!.result![0].processedDateTime.toString())}"),
+                                "Report Date : ${parseDate(snapshot.data!.result![0].processedDateTime.toString())}"),
                             Container(
                               width: MediaQuery.of(context).size.width / 5,
                               height: 30,
@@ -164,8 +154,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           ],
                         ),
                         const Divider(),
-                         Text(
-                          AppLocale.readiness.getString(context),
+                        const Text(
+                          "Readiness Score ",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -191,27 +181,28 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      processedData.rrTotal!,
+                                      double.parse(processedData.ari!)
+                                          .toStringAsFixed(0),
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                          fontSize: 22),
                                     ),
                                   )),
                               const SizedBox(
                                 width: 20,
                               ),
-                               Column(
+                              const Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppLocale.testGoesHere.getString(context),
+                                    "Text goes here",
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                   AppLocale.testGoesHereDesc.getString(context),
+                                    "Text goes here for description",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal),
@@ -221,8 +212,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                             ],
                           ),
                         ),
-                         Text(
-                          AppLocale.restingHeartRate.getString(context),
+                        const Text(
+                          "Resting Heart Rate ",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -230,6 +221,158 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         ),
                         const SizedBox(
                           height: 20,
+                        ),
+                        Container(
+                          height: 50,
+                          padding: const EdgeInsets.all(15),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFFD32F2F),
+                                Color(0xFFFFD600),
+                                Color(0xFF0094FF),
+                                Color(0xFF0BC612),
+                              ],
+                              stops: [0.0, 0.2, 0.76, 1.0],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              SfSlider(
+                                inactiveColor: Colors.transparent,
+                                activeColor: Colors.transparent,
+                                thumbIcon: const Icon(Icons.arrow_drop_up),
+                                min: 0.0,
+                                max: 120.0,
+                                interval: 2,
+                                showTicks: false,
+                                showLabels: false,
+                                enableTooltip: true,
+                                shouldAlwaysShowTooltip: true,
+                                value: int.parse(
+                                    double.parse(processedData.bpmMean!)
+                                        .toStringAsFixed(0)),
+                                onChanged: (value) {},
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppLocale.low.getString(context),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    AppLocale.high.getString(context),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Body-Mind Balance",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Image.network(takeTestProvider
+                            .documentResp!.result![3].url
+                            .toString()),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Heart Rhythm Diagram",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Image.network(takeTestProvider
+                            .documentResp!.result![2].url
+                            .toString()),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Additional Parameters",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          itemCount: additionalInfo.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                                crossAxisSpacing: 3,
+                                mainAxisSpacing: 3
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              padding: const EdgeInsets.all(8), // Adjust padding here
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey), // Add borders for clearer separation
+                                borderRadius: BorderRadius.circular(8), // Add rounded corners
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${additionalInfo[index]['name']}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    "${additionalInfo[index]['value']}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        const Text(
+                          "Weight & BMI",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Container(
                           height: 50,
@@ -290,153 +433,13 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                         Text(
-                          AppLocale.bodyMindBalance.getString(context),
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Image.network(takeTestProvider
-                            .documentResp!.result![3].url
-                            .toString()),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                         Text(
-                          AppLocale.heartRhythmDiagram.getString(context),
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Image.network(takeTestProvider
-                            .documentResp!.result![2].url
-                            .toString()),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                         Text(
-                          AppLocale.additionalPara.getString(context),
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GridView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          itemCount: additionalInfo.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${additionalInfo[index]['name']}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  "${additionalInfo[index]['value']}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14),
-                                )
-                              ],
-                            );
-                          },
-                        ),
-                         Text(
-                          AppLocale.weightBMI.getString(context),
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 50,
-                          padding: const EdgeInsets.all(15),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xFFD32F2F),
-                                Color(0xFFFFD600),
-                                Color(0xFF0094FF),
-                                Color(0xFF0BC612),
-                              ],
-                              stops: [0.0, 0.2, 0.76, 1.0],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                          ),
-                          child: Stack(
-                            children: [
-                              SfSlider(
-                                inactiveColor: Colors.transparent,
-                                activeColor: Colors.transparent,
-                                thumbIcon: const Icon(Icons.arrow_drop_up),
-                                min: 0.0,
-                                max: 100.0,
-                                interval: 2,
-                                showTicks: false,
-                                showLabels: false,
-                                enableTooltip: true,
-                                shouldAlwaysShowTooltip: true,
-                                value: 80,
-                                onChanged: (value) {},
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    AppLocale.low.getString(context),
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
-                                  ),
-                                  Text(
-                                    AppLocale.high.getString(context),
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Container(
                           width: screenSize!.width,
                           padding: const EdgeInsets.all(20),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: AppColors.primaryColor
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: AppColors.primaryColor),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -445,24 +448,48 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('KG',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
-                                  Text('Weight',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
+                                  Text('KG',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('Weight',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                 ],
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('CM',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
-                                  Text('Height',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
+                                  Text('CM',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('Height',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                 ],
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('0',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
-                                  Text('BMI',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white)),
+                                  Text('0',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('BMI',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                 ],
                               )
                             ],
@@ -471,8 +498,8 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                         Text(
-                          AppLocale.results.getString(context),
+                        const Text(
+                          "Results",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
@@ -487,7 +514,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return  Center(child: Text(AppLocale.loading.getString(context)));
+                return const Center(child: Text("loading"));
               }
             },
           ),
