@@ -183,7 +183,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   child:  Text(
                     AppLocale.deviceDisconnectedRange.getString(context),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: AppColors.fontShadeColor, fontSize: 16),
                   ),
                 ),
@@ -284,45 +284,47 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-              rrIntervalChartData.isNotEmpty
-                  ? SingleChildScrollView(
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                    child: LineChart(
-                      LineChartData(
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: rrIntervalChartData,
-                            isCurved: true,
-                            barWidth: 2.0,
-                            color: Colors.teal.withOpacity(0.7), // Adjust fill color with transparency
+                  rrIntervalChartData.isNotEmpty
+                      ? Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16.0),
+                            child: LineChart(
+                              LineChartData(
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: rrIntervalChartData,
+                                    isCurved: true,
+                                    barWidth: 2.0,
+                                    color: Colors.teal.withOpacity(0.7), // Adjust fill color with transparency
+                                  ),
+                                ],
+                                borderData: FlBorderData(
+                                  show: true,
+                                  border: const Border(
+                                    left: BorderSide(
+                                        width: 1, color: Colors.grey),
+                                    // Adjust border color for better contrast
+                                    bottom: BorderSide(
+                                        width: 1, color: Colors.grey),
+                                  ),
+                                ),
+                                titlesData:  FlTitlesData(
+                                  rightTitles: AxisTitles(
+                                    axisNameSize: 28,
+                                    axisNameWidget: Text(AppLocale.rrInterval.getString(context)),
+                                  ),
+                                  topTitles: AxisTitles(
+                                    axisNameSize: 28,
+                                    axisNameWidget: Text(AppLocale.seconds.getString(context)),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ],
-                        borderData: FlBorderData(
-                          show: true,
-                          border: const Border(
-                            left: BorderSide(width: 1, color: Colors.grey), // Adjust border color for better contrast
-                            bottom: BorderSide(width: 1, color: Colors.grey),
-                          ),
-                        ),
-                        titlesData: FlTitlesData(
-                          rightTitles: AxisTitles(
-                            axisNameSize: 28,
-                            axisNameWidget: Text(AppLocale.rrInterval.getString(context)),
-                          ),
-                          topTitles: AxisTitles(
-                            axisNameSize: 28,
-                            axisNameWidget: Text(AppLocale.seconds.getString(context)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-                  : const SizedBox.shrink(),
-              ],
+                        )
+                      : const SizedBox(),
+                ],
               ),
             );
           }
