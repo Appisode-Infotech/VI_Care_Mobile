@@ -1060,6 +1060,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             }
             return null;
           },
+          maxLength: 6,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(

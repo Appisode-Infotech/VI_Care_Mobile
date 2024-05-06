@@ -214,16 +214,14 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          FittedBox(
-                                            child: Text(
-                                              maxLines: 1,
-                                              "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                              style: const TextStyle(
-                                                  // overflow: TextOverflow.ellipsis,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  color: Colors.white),
-                                            ),
+                                          Text(
+                                            // maxLines: 1,
+                                            "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                            style: const TextStyle(
+                                                // overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.white),
                                           ),
                                           const SizedBox(
                                             height: 3,
@@ -403,16 +401,14 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          FittedBox(
-                                            child: Text(
-                                              maxLines: 2,
-                                              "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                              style: const TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  color: Colors.white),
-                                            ),
+                                          Text(
+                                            // maxLines: 2,
+                                            "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.white),
                                           ),
                                           const SizedBox(
                                             height: 3,

@@ -37,7 +37,7 @@ class NewTestLeProvider extends ChangeNotifier {
           await device.connect(autoConnect: false);
           connectedDevice = device;
           onConnectionResult(true);
-          showSuccessToast(consumerContext, "${AppLocale.connectedTo}: ${device.name}");
+          showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${device.name}");
           return;
         } else {
           onConnectionResult(false);

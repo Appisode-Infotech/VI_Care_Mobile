@@ -1715,6 +1715,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   }
                                   return null;
                                 },
+                                maxLength: 6,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,

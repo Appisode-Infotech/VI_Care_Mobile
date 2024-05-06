@@ -183,12 +183,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
+                                        FittedBox(
+                                          child: Text(
+                                            "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20),
+                                          ),
                                         ),
                                         Text(
                                           "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
@@ -996,12 +998,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
+                                        Container(
+                                          width: screenSize!.width/2,
+                                          child: Text(
+                                            "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20),
+                                          ),
                                         ),
                                         Text(
                                           "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",

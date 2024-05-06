@@ -740,6 +740,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     }
                                     return null;
                                   },
+                                  maxLength: 6,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,

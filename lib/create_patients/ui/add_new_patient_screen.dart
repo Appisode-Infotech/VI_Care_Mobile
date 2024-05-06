@@ -824,6 +824,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             }
             return null;
           },
+          maxLength: 6,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(

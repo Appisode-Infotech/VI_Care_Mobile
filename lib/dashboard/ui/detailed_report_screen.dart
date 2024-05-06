@@ -260,20 +260,20 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                         .toStringAsFixed(0)),
                                 onChanged: (value) {},
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    AppLocale.low.getString(context),
-                                    style: const TextStyle(
+                                    "Low",
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15),
                                   ),
                                   Text(
-                                    AppLocale.high.getString(context),
-                                    style: const TextStyle(
+                                   "High",
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15),
@@ -410,20 +410,20 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                 value: 80,
                                 onChanged: (value) {},
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    AppLocale.low.getString(context),
-                                    style: const TextStyle(
+                                    "Low",
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15),
                                   ),
                                   Text(
-                                    AppLocale.high.getString(context),
-                                    style: const TextStyle(
+                                    "High",
+                                    style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15),
