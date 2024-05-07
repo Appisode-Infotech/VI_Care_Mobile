@@ -266,6 +266,8 @@ mixin AppLocale {
   static const String additionalPara = 'additionalPara';
   static const String weightBMI = 'weightBMI';
   static const String results = 'results';
+  static const String confirmLogout = 'confirmLogout';
+  static const String sureLogout = 'sureLogout';
 
   static const String thisIs = 'thisIs';
 
@@ -532,6 +534,8 @@ mixin AppLocale {
     additionalPara: "Additional Parameters",
     weightBMI: "Weight & BMI",
     results: "Results",
+    confirmLogout: "Confirm Logout",
+    sureLogout: "Are you sure you want to logout?",
 
     notAddedDevice: "You have not added any devices yet. Please add the device to continue.",
     thisIs: 'This is %a package, version %a.',
@@ -804,6 +808,8 @@ mixin AppLocale {
     additionalPara: "ಅತಿಥೇಯ ಪರಿಮಾಣಗಳು",
     weightBMI: "ತೂಕ ಮತ್ತು ಬಿಎಂಐ",
     results: "ಫಲಿತಾಂಶ",
+    confirmLogout: "ಲಾಗೌಟ್ ಖಚಿತಪಡಿಸಿ",
+    sureLogout: "ನೀವು ಖರೀದು ಮಾಡಲು ಖಚಿತರಾಗಿದ್ದೀರಾ?",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1073,6 +1079,8 @@ mixin AppLocale {
     weightBMI: "वजन और बीएमआई",
     results: "परिणाम",
     notAddedDevice: "आपने अभी तक कोई डिवाइस नहीं जोड़ा है। कृपया जारी रखने के लिए डिवाइस जोड़ें।",
+    confirmLogout: "लॉगआउट की पुष्टि करें",
+    sureLogout: "क्या आप लॉगआउट करना चाहते हैं?",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1342,7 +1350,8 @@ mixin AppLocale {
     weightBMI: "Gewicht & BMI",
     results: "Ergebnisse",
     notAddedDevice: "Sie haben noch keine Geräte hinzugefügt. Bitte fügen Sie das Gerät hinzu, um fortzufahren.",
-
+    confirmLogout: "Abmeldung bestätigen",
+    sureLogout: "Sind Sie sicher, dass Sie sich abmelden möchten?",
     logOut: 'Ausloggen',
   };
 
@@ -1613,6 +1622,8 @@ mixin AppLocale {
     weightBMI: "భారం & బిఎంఐ",
     results: "ఫలితాలు",
     notAddedDevice: "మీరు ఇంకా ఎటువంటి పరికరాన్ని జోడించలేదు. కొన్ని పరికరాన్ని జోడించండి కొనసాగించడానికి.",
+    confirmLogout: "లాగ్ అవుట్ ధృవీకరించండి",
+    sureLogout: "మీరు లాగ్ అవుట్ చేయాలనుకుంటున్నారా?",
 
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
@@ -1886,6 +1897,8 @@ mixin AppLocale {
     weightBMI: "எடை & உடலுக்குத் தொடர்பு அளவு",
     results: "முடிவுகள்",
     notAddedDevice: "நீங்கள் இன்னும் எந்த சாதனங்களையும் சேர்க்கவில்லை. தொடர்ந்து செல்கிறது சாதனத்தைச் சேர்க்கவும்.",
+    confirmLogout: "வெளியேற்று உறுதிப்படுத்துக",
+    sureLogout: "நீங்கள் வெளியேற விரும்புகின்றீர்களா?",
 
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
@@ -2153,6 +2166,8 @@ mixin AppLocale {
     weightBMI: "ഭാരം & ബിഎംഐ",
     results: "ഫലങ്ങൾ",
     notAddedDevice: "നിങ്ങൾക്ക് ഇതൊന്നും ചേർത്തിട്ടില്ല. തുടരുകയാണെങ്കിൽ ഉപകരണം ചേർക്കുക.",
+    confirmLogout: "ലോഗ്‌ഔട്ട് സ്ഥിരീകരിക്കുക",
+    sureLogout: "നിങ്ങൾ ലോഗ്‌ഔട്ട് ചെയ്യണമോ?",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

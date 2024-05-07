@@ -1210,9 +1210,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               width: screenSize!.width / 4,
                                               child: Center(
                                                 child: Text(
-                                                  countSnapshot.data!.result!.lastTested != null ? parseDate(countSnapshot
-                                                          .data!.result!.lastTested!)
-                                                      : "Never",
+                                                  countSnapshot
+                                                      .data!
+                                                      .result!
+                                                      .lastTested !=
+                                                      null
+                                                      ? parseDateMonth(
+                                                      countSnapshot
+                                                          .data!
+                                                          .result!
+                                                          .lastTested!)
+                                                      : AppLocale.never.getString(context),
                                                   textAlign:
                                                   TextAlign.center,
                                                   style: const TextStyle(
@@ -1225,14 +1233,16 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Text(
-                                              AppLocale.lastTested
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,
-                                                  overflow: TextOverflow
-                                                      .ellipsis),
+                                            FittedBox(
+                                              child: Text(
+                                                AppLocale.lastTested
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    overflow: TextOverflow
+                                                        .ellipsis),
+                                              ),
                                             )
                                           ],
                                         ),

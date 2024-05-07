@@ -183,7 +183,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   child:  Text(
                     AppLocale.deviceDisconnectedRange.getString(context),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: AppColors.fontShadeColor, fontSize: 16),
                   ),
                 ),
@@ -225,18 +225,17 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       children: [
                         SizedBox(
                           width: screenSize!.width * .15,
-                          child: FittedBox(
-                            child: Text(
-                              maxLines: 1,
-                              '${(elapsedSeconds ~/ 60).toString().padLeft(2, '0')}:${(elapsedSeconds % 60).toString().padLeft(2, '0')}',
-                              style: const TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
+                          child: Text(
+                            maxLines: 1,
+                            '${(elapsedSeconds ~/ 60).toString().padLeft(2, '0')}:${(elapsedSeconds % 60).toString().padLeft(2, '0')}',
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
+                        const SizedBox(width: 5,),
                         GestureDetector(
                             onTap: () {},
                             child: const Icon(
