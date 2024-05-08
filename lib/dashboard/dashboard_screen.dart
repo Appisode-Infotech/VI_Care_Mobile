@@ -38,15 +38,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
+    return WillPopScope(
+      onWillPop: () async {
+        if (selectedItemPosition != 0) {
+          changeScreen(0);
+          return false;
+        }else{
+          return true;
+        }
       },
-      child: Scaffold(
-        body: screens[selectedItemPosition],
-        floatingActionButton: _buildFloatingActionButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: _buildBottomNavigationBar(),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          body: screens[selectedItemPosition],
+          floatingActionButton: _buildFloatingActionButton(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: _buildBottomNavigationBar(),
+        ),
       ),
     );
   }
@@ -77,7 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               setState(() => selectedItemPosition = index);
             }
           },
-          items:  [
+          items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: AppLocale.home.getString(context),
@@ -104,8 +115,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildFloatingActionButton() {
     return Consumer(
-      builder: (BuildContext context, DeviceProvider deviceProvider,
-          Widget? child) {
+      builder:
+          (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
@@ -114,15 +125,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: FloatingActionButton(
               onPressed: () async {
                 showLoaderDialog(context);
-                DeviceResponseModel myDevices = await deviceProvider
-                    .getMyDevices();
-                DurationResponseModel myDurations = await deviceProvider
-                    .getAllDuration();
+                DeviceResponseModel myDevices =
+                    await deviceProvider.getMyDevices();
+                DurationResponseModel myDurations =
+                    await deviceProvider.getAllDuration();
                 Navigator.pop(context);
-                if(myDevices.result!=null && myDevices.result!.devices!.isNotEmpty){
-                  showTestFormBottomSheet(context,myDevices,myDurations,null,null);
-                }else{
-                  showErrorToast(context, AppLocale.deviceNotAdded.getString(context));
+                if (myDevices.result != null &&
+                    myDevices.result!.devices!.isNotEmpty) {
+                  showTestFormBottomSheet(
+                      context, myDevices, myDurations, null, null);
+                } else {
+                  showErrorToast(
+                      context, AppLocale.deviceNotAdded.getString(context));
                 }
                 // if (myDevices.result!.devices!.isEmpty) {
                 //   showErrorToast(context, myDevices.message!);

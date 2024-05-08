@@ -71,7 +71,10 @@ class ProfileProvider extends ChangeNotifier {
 
       notifyListeners();
       Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editProfileRoute);
+      Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
+        notifyListeners();
+        return null;
+      });
   }
 
 

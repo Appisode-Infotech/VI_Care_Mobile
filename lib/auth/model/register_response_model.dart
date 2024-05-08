@@ -49,6 +49,7 @@ class UserData {
   int? status;
   dynamic remarks;
   String? token;
+  String? refreshToken;
   int? contactId;
   Contact? contact;
   int? roleId;
@@ -72,6 +73,7 @@ class UserData {
     this.status,
     this.remarks,
     this.token,
+    this.refreshToken,
     this.contactId,
     this.contact,
     this.roleId,
@@ -96,6 +98,7 @@ class UserData {
     status: json["status"],
     remarks: json["remarks"],
     token: json["token"],
+    refreshToken: json["refreshToken"],
     contactId: json["contactId"],
     contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     roleId: json["roleId"],
@@ -120,6 +123,7 @@ class UserData {
     "status": status,
     "remarks": remarks,
     "token": token,
+    "refreshToken": refreshToken,
     "contactId": contactId,
     "contact": contact?.toJson(),
     "roleId": roleId,

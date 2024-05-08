@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -275,14 +276,20 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   const Divider(),
                   getPrimaryAppButton(context, AppLocale.startPairing.getString(context),
                       onPressed: () async {
-                    if (selectedDeviceIndex == 0) {
-                      Navigator.pushNamed(
-                              context, Routes.scanLeDevicesToAddRoute)
-                          .then((value) => null);
-                    } else {
-                      showErrorToast(
-                          context, AppLocale.startPairingError.getString(context));
-                    }
+                        FlutterBlue flutterBlue = FlutterBlue.instance;
+                        if(await flutterBlue.isOn){
+                          if (selectedDeviceIndex == 0) {
+                            Navigator.pushNamed(
+                                context, Routes.scanLeDevicesToAddRoute)
+                                .then((value) => null);
+                          } else {
+                            showErrorToast(
+                                context, AppLocale.startPairingError.getString(context));
+                          }
+                        }else{
+                          showErrorToast(context, AppLocale.bluetoothIsOff.getString(context));
+                        }
+
                   }),
                   const SizedBox(
                     height: 20,

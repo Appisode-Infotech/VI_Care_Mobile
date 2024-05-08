@@ -505,6 +505,13 @@
                             style: const TextStyle(
                                 color: Colors.red, fontWeight: FontWeight.w600),
                           )))),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text("V 1.0.5",style: TextStyle(color: Colors.grey),),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ]),
               ),
             ),
