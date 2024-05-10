@@ -990,13 +990,14 @@ class ApiCalls {
     }
   }
 
-  Future<SummaryReportResponseModel> getSummaryReports() async {
+  Future<SummaryReportResponseModel>getSummaryReports(BuildContext context) async {
     if (prefModel.userData!.roleId == 2) {
       http.Response response = await hitApiGet(true,
         "${UrlConstants.getSummaryReport}/${prefModel.userData!
             .id}?individualProfileId=${prefModel.userData!
             .individualProfileId}&type=1");
     if (response.statusCode == 200) {
+      print(response.body);
       return SummaryReportResponseModel.fromJson(json.decode(response.body));
     } else {
       throw "could not fetch data ${response.statusCode}";
@@ -1007,6 +1008,7 @@ class ApiCalls {
               .id}?enterpriseProfileId=${prefModel.userData!
               .enterpriseUserId}&type=1");
       if (response.statusCode == 200) {
+        print(response.body);
         return SummaryReportResponseModel.fromJson(json.decode(response.body));
       } else {
         throw "could not fetch data ${response.statusCode}";

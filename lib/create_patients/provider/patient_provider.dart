@@ -355,6 +355,6 @@ class PatientProvider extends ChangeNotifier {
   }
 
   Future<SummaryReportResponseModel> getSummaryReport(BuildContext context) {
-    return apiCalls.getSummaryReports();
+    return apiCalls.getSummaryReports(context);
   }
 }
