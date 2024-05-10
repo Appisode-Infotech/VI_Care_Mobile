@@ -28,6 +28,7 @@ import '../create_patients/model/dashboard_count_response_model.dart';
 import '../dashboard/model/detailed_report_ddf_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
+import '../dashboard/model/summary_report_response_model.dart';
 import '../main.dart';
 import '../utils/url_constants.dart';
 
@@ -986,6 +987,30 @@ class ApiCalls {
       return ReportsDetailModel.fromJson(json.decode(response.body));
     } else {
       throw "could not fetch devices ${response.statusCode}";
+    }
+  }
+
+  Future<SummaryReportResponseModel> getSummaryReports() async {
+    if (prefModel.userData!.roleId == 2) {
+      http.Response response = await hitApiGet(true,
+        "${UrlConstants.getSummaryReport}/${prefModel.userData!
+            .id}?individualProfileId=${prefModel.userData!
+            .individualProfileId}&type=1");
+    if (response.statusCode == 200) {
+      return SummaryReportResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw "could not fetch data ${response.statusCode}";
+    }
+  } else {
+      http.Response response = await hitApiGet(true,
+          "${UrlConstants.getSummaryReport}/${prefModel.userData!
+              .id}?enterpriseProfileId=${prefModel.userData!
+              .enterpriseUserId}&type=1");
+      if (response.statusCode == 200) {
+        return SummaryReportResponseModel.fromJson(json.decode(response.body));
+      } else {
+        throw "could not fetch data ${response.statusCode}";
+      }
     }
   }
 }

@@ -220,38 +220,46 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                         const SizedBox(
                                           height: 5,
                                         ),
-                                        // Text(
-                                        //   AppLocale.viewCompleteDetails
-                                        //       .getString(context),
-                                        //   style: const TextStyle(
-                                        //       color: Colors.white,
-                                        //       fontWeight: FontWeight.w500,
-                                        //       fontSize: 12,
-                                        //       decoration:
-                                        //       TextDecoration.underline,
-                                        //       decorationColor:
-                                        //       Colors.white),
-                                        // ),
-                                        // const SizedBox(height: 10),
-                                        // Container(
-                                        //     padding:
-                                        //     const EdgeInsets.symmetric(
-                                        //         horizontal: 18,
-                                        //         vertical: 12),
-                                        //     decoration: const BoxDecoration(
-                                        //         color: Color(0xffdbeeee),
-                                        //         borderRadius:
-                                        //         BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 10))),
-                                        //     child: Text(
-                                        //       AppLocale.viewSummary
-                                        //           .getString(context),
-                                        //       style: const TextStyle(
-                                        //           fontSize: 13,
-                                        //           fontWeight:
-                                        //           FontWeight.w600),
-                                        //     )),
+                                        Text(
+                                          AppLocale.viewCompleteDetails
+                                              .getString(context),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                              decoration:
+                                              TextDecoration.underline,
+                                              decorationColor:
+                                              Colors.white),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.summaryRoute,
+                                            );
+                                          },
+                                          child: Container(
+                                              padding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 18,
+                                                  vertical: 12),
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0xffdbeeee),
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(
+                                                          10))),
+                                              child: Text(
+                                                AppLocale.viewSummary
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                    FontWeight.w600),
+                                              )),
+                                        ),
                                         const SizedBox(
                                           height: 20,
                                         ),
@@ -739,10 +747,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       itemBuilder: (BuildContext context, int index) {
                                         return GestureDetector(
                                           onTap: (){
-                                            Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
-                                              "requestDeviceDataId":patientSnapshot.data!.result![index].id,
-                                            });
-                                          },
+                                            if (patientSnapshot.data!.result![index].processingStatus == 3){
+                                              Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
+                                                "requestDeviceDataId":patientSnapshot.data!.result![index].id,
+                                              });
+                                            }
+                                            },
                                           child: Column(
                                             children: [
                                               Container(
@@ -985,94 +995,95 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Routes.summaryRoute,
-                                      );
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: screenSize!.width/2,
-                                          child: Text(
-                                            "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 20),
-                                          ),
-                                        ),
-                                        Text(
-                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: screenSize!.width/2,
+                                        child: Text(
+                                          "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 18),
+                                              fontSize: 20),
                                         ),
-                                        Text(
-                                          snapshot.data!.result!.contact!
-                                              .gender ==
-                                              1
-                                              ? "Male"
-                                              : snapshot
-                                              .data!
-                                              .result!
-                                              .contact!
-                                              .gender ==
-                                              2
-                                              ? "Female"
-                                              : "Do not wish to specify",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        // Text(
-                                        //   AppLocale.viewCompleteDetails
-                                        //       .getString(context),
-                                        //   style: const TextStyle(
-                                        //       color: Colors.white,
-                                        //       fontWeight: FontWeight.w500,
-                                        //       fontSize: 12,
-                                        //       decoration:
-                                        //       TextDecoration.underline,
-                                        //       decorationColor:
-                                        //       Colors.white),
-                                        // ),
-                                        // const SizedBox(height: 10),
-                                        // Container(
-                                        //     padding:
-                                        //     const EdgeInsets.symmetric(
-                                        //         horizontal: 18,
-                                        //         vertical: 12),
-                                        //     decoration: const BoxDecoration(
-                                        //         color: Color(0xffdbeeee),
-                                        //         borderRadius:
-                                        //         BorderRadius.all(
-                                        //             Radius.circular(
-                                        //                 10))),
-                                        //     child: Text(
-                                        //       AppLocale.viewSummary
-                                        //           .getString(context),
-                                        //       style: const TextStyle(
-                                        //           fontSize: 13,
-                                        //           fontWeight:
-                                        //           FontWeight.w600),
-                                        //     )),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Text(
+                                        "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                      Text(
+                                        snapshot.data!.result!.contact!
+                                            .gender ==
+                                            1
+                                            ? "Male"
+                                            : snapshot
+                                            .data!
+                                            .result!
+                                            .contact!
+                                            .gender ==
+                                            2
+                                            ? "Female"
+                                            : "Do not wish to specify",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        AppLocale.viewCompleteDetails
+                                            .getString(context),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            decoration:
+                                            TextDecoration.underline,
+                                            decorationColor:
+                                            Colors.white),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      InkWell(
+                                        onTap: () {
+                                          patientProvider.getSummaryReport(context);
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.summaryRoute,
+                                          );
+                                        },
+                                        child: Container(
+                                            padding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 18,
+                                                vertical: 12),
+                                            decoration: const BoxDecoration(
+                                                color: Color(0xffdbeeee),
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                    Radius.circular(
+                                                        10))),
+                                            child: Text(
+                                              AppLocale.viewSummary
+                                                  .getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight:
+                                                  FontWeight.w600),
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -1528,9 +1539,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       itemBuilder: (BuildContext context, int index) {
                                         return GestureDetector(
                                           onTap: (){
-                                            Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
-                                              "requestDeviceDataId":patientSnapshot.data!.result![index].id,
-                                            });
+                                            if (patientSnapshot.data!.result![index].processingStatus == 3){
+                                              Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
+                                                "requestDeviceDataId":patientSnapshot.data!.result![index].id,
+                                              });
+                                            }
                                           },
                                           child: Column(
                                             children: [
@@ -1566,13 +1579,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
-                                                            Text(
-                                                              patientSnapshot.data!.result![index].roleId==2?
-                                                              "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}"
-                                                                  :patientSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " +patientSnapshot.data!.result![index].enterpriseProfile!.lastName!,
-                                                              style: const TextStyle(
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 15),
+                                                            Container(
+                                                              width:screenSize!.width / 3,
+                                                              child: Text(
+                                                                patientSnapshot.data!.result![index].roleId==2?
+                                                                "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}"
+                                                                    :patientSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " +patientSnapshot.data!.result![index].enterpriseProfile!.lastName!,
+                                                                style: const TextStyle(
+                                                                  // overflow: TextOverflow.ellipsis,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 15),
+                                                              ),
                                                             ),
                                                             const SizedBox(height: 5),
                                                             Text("${patientSnapshot.data!.result![index].durationName!} Test"),
@@ -1730,19 +1747,19 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
   }
 
   int calculateAge(String dateOfBirthString) {
-    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
-    DateTime currentDate = DateTime.now();
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toLocal();
+    DateTime currentDate = DateTime.now().toLocal();
     Duration difference = currentDate.difference(dateOfBirth);
     int ageInYears = (difference.inDays / 365).floor();
     return ageInYears;
   }
 
   parseDate(String timestampString){
-    DateTime parsedDateTime = DateTime.parse(timestampString);
+    DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
     return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
   }
   parseDateMonth(String timestampString){
-    DateTime parsedDateTime = DateTime.parse(timestampString);
+    DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
     return DateFormat('dd\nMM\nyyyy').format(parsedDateTime);
   }
 

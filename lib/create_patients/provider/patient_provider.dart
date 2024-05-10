@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
+import 'package:vicare/dashboard/model/summary_report_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../dashboard/model/device_response_model.dart';
@@ -115,12 +116,13 @@ class PatientProvider extends ChangeNotifier {
   }
 
   int calculateAge(String dateOfBirthString) {
-    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
-    DateTime currentDate = DateTime.now();
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toUtc();
+    DateTime currentDate = DateTime.now().toUtc();
     Duration difference = currentDate.difference(dateOfBirth);
     int ageInYears = (difference.inDays / 365).floor();
     return ageInYears;
   }
+
 
   addNewPatient() async {
     showLoaderDialog(addNewPatientContext!);
@@ -350,5 +352,9 @@ class PatientProvider extends ChangeNotifier {
   }
   Future<DurationResponseModel> getAllDuration() async {
     return await apiCalls.getAllDurations();
+  }
+
+  Future<SummaryReportResponseModel> getSummaryReport(BuildContext context) {
+    return apiCalls.getSummaryReports();
   }
 }

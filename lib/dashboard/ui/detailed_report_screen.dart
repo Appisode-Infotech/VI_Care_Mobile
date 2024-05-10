@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -13,7 +12,6 @@ import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
-import '../../utils/app_locale.dart';
 
 class DetailedReportScreen extends StatefulWidget {
   const DetailedReportScreen({super.key});
@@ -82,17 +80,19 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   {"name": "RMSSDRR", "value": processedData.rmssdrr},
                   {"name": "SDRR", "value": processedData.sdrr},
                   {"name": "TP(ms)", "value": processedData.totalPower},
+                  {"name": "VLF Power(ms)", "value": processedData.vlfPowerMs},
                   {"name": "LF(ms)", "value": processedData.lfPowerMs},
                   {"name": "HF(ms)", "value": processedData.hfPowerMs},
                   {"name": "LF/HF", "value": processedData.lFtoHf},
-                  {
-                    "name": "Breath < 9",
-                    "value": processedData.breathRateLess9Possible
-                  },
-                  {"name": "VLF Power(ms)", "value": processedData.vlfPowerMs},
-                  {"name": "LF Power(ms)", "value": processedData.lfPowerMs},
-                  {"name": "HF Power(ms)", "value": processedData.hfPowerMs},
                   {"name": "Total Power", "value": processedData.totalPower},
+                  // {
+                  //   "name": "Breath < 9",
+                  //   "value": processedData.breathRateLess9Possible
+                  // },
+                  //
+                  // {"name": "LF Power(ms)", "value": processedData.lfPowerMs},
+                  // {"name": "HF Power(ms)", "value": processedData.hfPowerMs},
+
                 ];
                 return SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
@@ -539,15 +539,15 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
   }
 
   int calculateAge(String dateOfBirthString) {
-    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
-    DateTime currentDate = DateTime.now();
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toLocal();
+    DateTime currentDate = DateTime.now().toLocal();
     Duration difference = currentDate.difference(dateOfBirth);
     int ageInYears = (difference.inDays / 365).floor();
     return ageInYears;
   }
 
   parseDate(String timestampString) {
-    DateTime parsedDateTime = DateTime.parse(timestampString);
+    DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
     return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
   }
 }

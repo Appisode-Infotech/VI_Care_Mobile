@@ -66,8 +66,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                   borderRadius: BorderRadius.circular(12),
                   color: AppColors.primaryColor,
                 ),
-                indicatorPadding:
-                    const EdgeInsets.symmetric(horizontal: -10, vertical: 5),
+                indicatorPadding: const EdgeInsets.symmetric(horizontal: -10, vertical: 5),
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.black,
                 tabs: [
@@ -155,7 +154,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                               xValueMapper: (ScatterPoint point, _) => point.x,
                               yValueMapper: (ScatterPoint point, _) => point.y,
                               pointColorMapper: (ScatterPoint point, _) =>
-                                  point.y < 15 ? Colors.yellow : Colors.green,
+                              point.y < 15 ? Colors.yellow : Colors.green,
                               markerSettings: const MarkerSettings(),
                             ),
                           ],
@@ -228,7 +227,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                               xValueMapper: (ScatterPoint point, _) => point.x,
                               yValueMapper: (ScatterPoint point, _) => point.y,
                               pointColorMapper: (ScatterPoint point, _) =>
-                                  point.y < 15 ? Colors.yellow : Colors.green,
+                              point.y < 15 ? Colors.yellow : Colors.green,
                               markerSettings: const MarkerSettings(),
                             ),
                           ],

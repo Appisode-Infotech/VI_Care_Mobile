@@ -189,18 +189,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       int index) {
                                                 return GestureDetector(
                                                   onTap: () {
-                                                    Navigator.pushNamed(
-                                                        context,
-                                                        Routes
-                                                            .detailedReportRoute,
-                                                        arguments: {
-                                                          "requestDeviceDataId":
-                                                              reportsSnapshot
-                                                                  .data!
-                                                                  .result![
-                                                                      index]
-                                                                  .id,
-                                                        });
+                                                    if (reportsSnapshot.data!.result![index].processingStatus == 3) {
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          Routes
+                                                              .detailedReportRoute,
+                                                          arguments: {
+                                                            "requestDeviceDataId":
+                                                            reportsSnapshot
+                                                                .data!
+                                                                .result![
+                                                            index]
+                                                                .id,
+                                                          });
+                                                    }
                                                   },
                                                   child: Container(
                                                     padding: const EdgeInsets
@@ -1072,13 +1074,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.detailedReportRoute,
-                                          arguments: {
-                                            "requestDeviceDataId":
-                                                reportsSnapshot
-                                                    .data!.result![index].id,
-                                          });
+                                      if (reportsSnapshot.data!.result![index].processingStatus == 3) {
+                                        Navigator.pushNamed(
+                                            context,
+                                            Routes
+                                                .detailedReportRoute,
+                                            arguments: {
+                                              "requestDeviceDataId":
+                                              reportsSnapshot
+                                                  .data!
+                                                  .result![
+                                              index]
+                                                  .id,
+                                            });
+                                      }
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
@@ -1145,28 +1154,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .roleId ==
-                                                            2
-                                                        ? "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
-                                                        : reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .enterpriseProfile!
-                                                                .firstName! +
-                                                            " " +
-                                                            reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .enterpriseProfile!
-                                                                .lastName!,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15),
+                                                  Container(
+                                                    width:screenSize!.width/3,
+                                                    child: Text(
+                                                      reportsSnapshot
+                                                                  .data!
+                                                                  .result![index]
+                                                                  .roleId ==
+                                                              2
+                                                          ? "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
+                                                          : reportsSnapshot
+                                                                  .data!
+                                                                  .result![index]
+                                                                  .enterpriseProfile!
+                                                                  .firstName! +
+                                                              " " +
+                                                              reportsSnapshot
+                                                                  .data!
+                                                                  .result![index]
+                                                                  .enterpriseProfile!
+                                                                  .lastName!,
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15),
+                                                    ),
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
@@ -1360,15 +1372,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int calculateAge(String dateOfBirthString) {
-    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
-    DateTime currentDate = DateTime.now();
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toLocal();
+    DateTime currentDate = DateTime.now().toLocal();
     Duration difference = currentDate.difference(dateOfBirth);
     int ageInYears = (difference.inDays / 365).floor();
     return ageInYears;
   }
 
+
   parseDate(String timestampString) {
-    DateTime parsedDateTime = DateTime.parse(timestampString);
+    DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
     return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
   }
 
@@ -1383,4 +1396,5 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? Colors.red
                     : Colors.black;
   }
+
 }

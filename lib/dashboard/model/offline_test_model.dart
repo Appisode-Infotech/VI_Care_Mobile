@@ -18,8 +18,11 @@ class OfflineTestModel {
   List<int>? bpmList;
   List<int>? rrIntervalList;
   int? scanDuration;
+  String? scanDurationName;
   String? deviceName;
   String? deviceId;
+  int? userAndDeviceId;
+  int? selectedDurationId;
   EnterpriseResponseModel? enterprisePatientData;
   IndividualResponseModel? individualPatientData;
   DateTime? created;
@@ -30,8 +33,11 @@ class OfflineTestModel {
     this.bpmList,
     this.rrIntervalList,
     this.scanDuration,
+    this.scanDurationName,
     this.deviceName,
     this.deviceId,
+    this.userAndDeviceId,
+    this.selectedDurationId,
     this.enterprisePatientData,
     this.individualPatientData,
     this.created,
@@ -48,8 +54,11 @@ class OfflineTestModel {
             : List<int>.from(
                 json["rrIntervalList"]!.map((x) => x)),
         scanDuration: json["scanDuration"],
+        scanDurationName: json["scanDurationName"],
         deviceName: json["deviceName"],
         deviceId: json["deviceId"],
+        userAndDeviceId: json["userAndDeviceId"],
+        selectedDurationId: json["selectedDurationId"],
         enterprisePatientData: json["enterprisePatientData"]== null ? null :EnterpriseResponseModel.fromJson(json["enterprisePatientData"]),
         individualPatientData: json["individualPatientData"]== null ? null :IndividualResponseModel.fromJson(json["individualPatientData"]),
         created: json["created"] == null ? null : DateTime.parse(json["created"]),
@@ -64,8 +73,11 @@ class OfflineTestModel {
             ? []
             : List<dynamic>.from(rrIntervalList!.map((x) => x)),
         "scanDuration": scanDuration,
+        "scanDurationName": scanDurationName,
         "deviceName": deviceName,
         "deviceId": deviceId,
+        "userAndDeviceId": userAndDeviceId,
+        "selectedDurationId": selectedDurationId,
         "enterprisePatientData": enterprisePatientData?.toJson(),
         "individualPatientData": individualPatientData?.toJson(),
     "created": created?.toIso8601String(),

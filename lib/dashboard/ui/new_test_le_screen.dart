@@ -415,8 +415,11 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             bpmList: bpmList,
             rrIntervalList: rrIntervalList,
             scanDuration: selectedDuration!.durationInMinutes,
+            scanDurationName: selectedDuration!.name,
             deviceName: selectedDevice!.name,
             deviceId: selectedDevice!.serialNumber,
+            selectedDurationId: selectedDuration!.id,
+            userAndDeviceId: selectedDevice!.id,
             enterprisePatientData: enterprisePatientData,
             individualPatientData: individualPatientData,
             created: DateTime.now()));
@@ -482,7 +485,6 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                         if (!(await viCareDirectory.exists())) {
                           await viCareDirectory.create(recursive: true);
                         }
-
                         var now = DateTime.now();
                         var timestamp = now.millisecondsSinceEpoch;
                         var filename = 'data_$timestamp.json';
@@ -508,10 +510,11 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   }
 
   int calculateAge(String dateOfBirthString) {
-    DateTime dateOfBirth = DateTime.parse(dateOfBirthString);
-    DateTime currentDate = DateTime.now();
+    DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toLocal();
+    DateTime currentDate = DateTime.now().toLocal();
     Duration difference = currentDate.difference(dateOfBirth);
     int ageInYears = (difference.inDays / 365).floor();
     return ageInYears;
   }
+
 }
