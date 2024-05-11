@@ -143,7 +143,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             color: Colors.white,
                           ),
                           hint: Text(
-                            "All Reports",
+                            AppLocale.allReports.getString(context),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -196,9 +196,9 @@ class _ReportScreenState extends State<ReportScreen> {
                                     "requestDeviceDataId": snapshot.data!.result![index].id,
                                   });
                                 }else if(snapshot.data!.result![index].processingStatus == 2){
-                                  showErrorToast(context, "Report is not ready yet. Please check back in some time");
+                                  showErrorToast(context, AppLocale.reportsFailed.getString(context));
                                 }else{
-                                  showErrorToast(context, "Looks like report failed to generate. Please take a test again");
+                                  showErrorToast(context, AppLocale.reportsFailed.getString(context));
                                 }
                               },
                               child: Column(

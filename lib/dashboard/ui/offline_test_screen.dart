@@ -85,13 +85,13 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Test ${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
+                                  "${AppLocale.test.getString(context)} ${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
                                   style: const TextStyle(
                                       color: AppColors.fontShadeColor,
                                       fontSize: 14),
                                 ),
-                                const Text(
-                                  "No Patient Data Linked With this Test",
+                                 Text(
+                                 AppLocale.noPatientDate.getString(context),
                                   style: TextStyle(
                                       color: AppColors.fontShadeColor,
                                       fontSize: 12,
@@ -107,19 +107,19 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                         });
                                       });
                                     },
-                                    child: const Row(
+                                    child:  Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.link,
                                           color: AppColors.primaryColor,
                                           size: 18,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 3,
                                         ),
                                         Text(
-                                          "Link Now",
-                                          style: TextStyle(
+                                          AppLocale.linkNow.getString(context),
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: AppColors.primaryColor),
                                         ),
@@ -208,9 +208,9 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                                     .myRoleId ==
                                                 2
                                             ? Text(
-                                                "${calculateAge("${prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.doB!}")} Years")
+                                                "${calculateAge("${prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}")
                                             : Text(
-                                                "${calculateAge("${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB!}")} Years"),
+                                                "${calculateAge("${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}"),
                                         const SizedBox(height: 5),
                                         Text(
                                           "${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",

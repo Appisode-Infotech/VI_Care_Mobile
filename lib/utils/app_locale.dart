@@ -257,6 +257,8 @@ mixin AppLocale {
   static const String thisWeek = 'thisWeek';
   static const String notAddedDevice = 'notAddedDevice';
   static const String never = 'never';
+  static const String test = 'test';
+  static const String linkNow = 'linkNow';
 
   static const String reportDate = 'reportDate';
   static const String testGoesHere = 'testGoesHere';
@@ -269,6 +271,9 @@ mixin AppLocale {
   static const String results = 'results';
   static const String confirmLogout = 'confirmLogout';
   static const String sureLogout = 'sureLogout';
+  static const String reportsFailed = 'reportsFailed';
+  static const String reportNotReady = 'reportNotReady';
+  static const String noPatientDate = 'noPatientDate';
 
   static const String thisIs = 'thisIs';
 
@@ -538,6 +543,11 @@ mixin AppLocale {
     results: "Results",
     confirmLogout: "Confirm Logout",
     sureLogout: "Are you sure you want to logout?",
+    test: "Test",
+    linkNow: "Link Now",
+    noPatientDate:  "No Patient Data Linked With this Test",
+    reportNotReady:  "Report is not ready yet. Please check back in some time",
+    reportsFailed:  "Looks like report failed to generate. Please take a test again",
 
     notAddedDevice: "You have not added any devices yet. Please add the device to continue.",
     thisIs: 'This is %a package, version %a.',
@@ -813,6 +823,11 @@ mixin AppLocale {
     results: "ಫಲಿತಾಂಶ",
     confirmLogout: "ಲಾಗೌಟ್ ಖಚಿತಪಡಿಸಿ",
     sureLogout: "ನೀವು ಖರೀದು ಮಾಡಲು ಖಚಿತರಾಗಿದ್ದೀರಾ?",
+    test: "ಪರೀಕ್ಷೆ",
+    linkNow: "ಈಗ ಲಿಂಕ್ ಮಾಡಿ",
+    noPatientDate: "ಈ ಪರೀಕ್ಷೆಯ ಜೊತೆ ಯಾವುದೇ ರೋಗಿ ಡೇಟಾ ಲಿಂಕ್ ಆಗಿಲ್ಲ",
+    reportNotReady: "ಅರಿವಿಗೆ ಬರುವವರೆಗೆ ವರದಿ ಸಿದ್ಧವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಪರಿಶೀಲಿಸಿ",
+    reportsFailed: "ರಿಪೋರ್ಟ್ ರಚಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪರೀಕ್ಷೆ ಮಾಡಿ",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1085,7 +1100,11 @@ mixin AppLocale {
     notAddedDevice: "आपने अभी तक कोई डिवाइस नहीं जोड़ा है। कृपया जारी रखने के लिए डिवाइस जोड़ें।",
     confirmLogout: "लॉगआउट की पुष्टि करें",
     sureLogout: "क्या आप लॉगआउट करना चाहते हैं?",
-
+    test: "परीक्षण",
+    linkNow: "अब लिंक करें",
+    noPatientDate: "इस परीक्षण के साथ कोई रोगी डेटा लिंक नहीं किया गया है",
+    reportNotReady: "रिपोर्ट अभी तैयार नहीं है। कृपया कुछ समय बाद जांच करें",
+    reportsFailed: "लगता है रिपोर्ट तैयार करने में विफल रही। कृपया पुनः परीक्षण लें",
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
 
@@ -1358,6 +1377,11 @@ mixin AppLocale {
     confirmLogout: "Abmeldung bestätigen",
     sureLogout: "Sind Sie sicher, dass Sie sich abmelden möchten?",
     logOut: 'Ausloggen',
+    test: "Test",
+    linkNow: "Jetzt verlinken",
+    noPatientDate: "Mit diesem Test ist keine Patientendaten verknüpft",
+    reportNotReady: "Der Bericht ist noch nicht bereit. Bitte überprüfen Sie später erneut",
+    reportsFailed: "Es scheint, dass der Bericht nicht erstellt werden konnte. Bitte machen Sie einen erneuten Test",
   };
 
   static const Map<String, dynamic> TE = {
@@ -1630,6 +1654,11 @@ mixin AppLocale {
     notAddedDevice: "మీరు ఇంకా ఎటువంటి పరికరాన్ని జోడించలేదు. కొన్ని పరికరాన్ని జోడించండి కొనసాగించడానికి.",
     confirmLogout: "లాగ్ అవుట్ ధృవీకరించండి",
     sureLogout: "మీరు లాగ్ అవుట్ చేయాలనుకుంటున్నారా?",
+    test: "పరీక్ష",
+    linkNow: "ఇప్పుడు లింక్ చేయండి",
+    noPatientDate: "ఈ పరీక్షతో ఎవరైనా రోగి డేటా లింక్ చేయబడలేదు",
+    reportNotReady: "నిర్వచిత సమయంలో అరచేత సమాచారం లేదు. దయచేసి సమయం తర్వాత తిరిగి తనిఖీ చేయండి",
+    reportsFailed: "రిపోర్టు తయారు చేయడం విఫలమైంది. దయచేసి మళ్ళీ పరీక్ష చేయండి",
 
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
@@ -1906,6 +1935,11 @@ mixin AppLocale {
     notAddedDevice: "நீங்கள் இன்னும் எந்த சாதனங்களையும் சேர்க்கவில்லை. தொடர்ந்து செல்கிறது சாதனத்தைச் சேர்க்கவும்.",
     confirmLogout: "வெளியேற்று உறுதிப்படுத்துக",
     sureLogout: "நீங்கள் வெளியேற விரும்புகின்றீர்களா?",
+    test: "சேர்க்கை",
+    linkNow: "இப்போது இணைக்க",
+    noPatientDate: "இந்த சேர்க்கையுடன் எந்த நோயாளி தரவு இணைக்கப்படவில்லை",
+    reportNotReady: "அறிக்கை தயாராக இல்லை. தயவு செய்து சிறிய நேரம் பின்னூட்டவும் சரிபார்க்கவும்",
+    reportsFailed: "அறிக்கை உருவாக்குதல் தோல்வியடைந்துள்ளது போல தெரியும். மீண்டும் சேர்க்கையைச் செய்யுங்கள்",
 
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
@@ -2176,6 +2210,11 @@ mixin AppLocale {
     notAddedDevice: "നിങ്ങൾക്ക് ഇതൊന്നും ചേർത്തിട്ടില്ല. തുടരുകയാണെങ്കിൽ ഉപകരണം ചേർക്കുക.",
     confirmLogout: "ലോഗ്‌ഔട്ട് സ്ഥിരീകരിക്കുക",
     sureLogout: "നിങ്ങൾ ലോഗ്‌ഔട്ട് ചെയ്യണമോ?",
+    test: "പരീക്ഷ",
+    linkNow: "ഇപ്പോൾ ലിങ്ക് ചെയ്യുക",
+    noPatientDate: "ഈ പരീക്ഷയുടെയോളം പേര് ഡാറ്റ ലിങ്ക് ചെയ്തിട്ടില്ല",
+    reportNotReady: "റിപ്പോർട്ട് ഇപ്പോൾ തയ്യാറായിരിക്കില്ല. ചെക്ക് ചെയ്യുക",
+    reportsFailed: "റിപ്പോർട്ട് നിർമ്മിക്കൽ താളിക്കുന്നു. അപ്പോൾ വീണ്ടും പരീക്ഷിക്കുക",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };
