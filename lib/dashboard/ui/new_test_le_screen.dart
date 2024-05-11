@@ -109,7 +109,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
 
   void _stopTimer() async {
     _timer.cancel();
-    if(mounted){
+    if (mounted) {
       setState(() {
         isRunning = false;
         elapsedSeconds = 0;
@@ -180,7 +180,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: screenSize!.width * .2),
-                  child:  Text(
+                  child: Text(
                     AppLocale.deviceDisconnectedRange.getString(context),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -191,7 +191,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
-                    child: getPrimaryAppButton(context, AppLocale.reconnect.getString(context),
+                    child: getPrimaryAppButton(
+                        context, AppLocale.reconnect.getString(context),
                         onPressed: () async {
                       newTestLeProvider.connectToDevice((isConnected) {
                         Navigator.pop(context);
@@ -235,7 +236,9 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(width: 5,),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         GestureDetector(
                             onTap: () {},
                             child: const Icon(
@@ -260,7 +263,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       ? Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenSize!.width * .3),
-                          child: getPrimaryAppButton(context, AppLocale.stop.getString(context),
+                          child: getPrimaryAppButton(
+                              context, AppLocale.stop.getString(context),
                               onPressed: () async {
                             bool userWantsToAbort =
                                 await showStopTestWarningDialog(context);
@@ -274,7 +278,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       : Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenSize!.width * .3),
-                          child: getPrimaryAppButton(context, AppLocale.start.getString(context),
+                          child: getPrimaryAppButton(
+                              context, AppLocale.start.getString(context),
                               onPressed: () async {
                             await startRecordingReadings();
                             _startTimer(newTestLeProvider);
@@ -295,7 +300,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                     spots: rrIntervalChartData,
                                     isCurved: true,
                                     barWidth: 2.0,
-                                    color: Colors.teal.withOpacity(0.7), // Adjust fill color with transparency
+                                    color: Colors.teal.withOpacity(
+                                        0.7), // Adjust fill color with transparency
                                   ),
                                 ],
                                 borderData: FlBorderData(
@@ -308,14 +314,16 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                         width: 1, color: Colors.grey),
                                   ),
                                 ),
-                                titlesData:  FlTitlesData(
+                                titlesData: FlTitlesData(
                                   rightTitles: AxisTitles(
                                     axisNameSize: 28,
-                                    axisNameWidget: Text(AppLocale.rrInterval.getString(context)),
+                                    axisNameWidget: Text(AppLocale.rrInterval
+                                        .getString(context)),
                                   ),
                                   topTitles: AxisTitles(
                                     axisNameSize: 28,
-                                    axisNameWidget: Text(AppLocale.seconds.getString(context)),
+                                    axisNameWidget: Text(
+                                        AppLocale.seconds.getString(context)),
                                   ),
                                 ),
                               ),
@@ -386,7 +394,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   offset += 2;
                 }
                 rrIntervalList.add(rrValue);
-                rrIntervalChartData.add(FlSpot(elapsedSeconds.toDouble(), rrValue.toDouble()));
+                rrIntervalChartData
+                    .add(FlSpot(elapsedSeconds.toDouble(), rrValue.toDouble()));
               }
             }
           });
@@ -410,7 +419,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     if (enterprisePatientData == null && individualPatientData == null) {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {
-        prefModel.offlineSavedTests!.add(OfflineTestModel(
+        OfflineTestModel testDetails = OfflineTestModel(
             myRoleId: prefModel.userData!.roleId,
             bpmList: bpmList,
             rrIntervalList: rrIntervalList,
@@ -422,9 +431,11 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             userAndDeviceId: selectedDevice!.id,
             enterprisePatientData: enterprisePatientData,
             individualPatientData: individualPatientData,
-            created: DateTime.now()));
-        AppPref.setPref(prefModel);
-        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
+            created: DateTime.now());
+        prefModel.offlineSavedTests!.add(testDetails);
+        await AppPref.setPref(prefModel);
+        showSuccessToast(
+            context, AppLocale.testSavedOffline.getString(context));
       } else {
         showErrorToast(context, AppLocale.testDiscarded.getString(context));
       }
@@ -435,9 +446,9 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             return PopScope(
               canPop: false,
               child: AlertDialog(
-                title:  Text(AppLocale.testCompleted.getString(context)),
-                content:  Text(
-                    AppLocale.testCompletedSuccessful.getString(context)),
+                title: Text(AppLocale.testCompleted.getString(context)),
+                content:
+                    Text(AppLocale.testCompletedSuccessful.getString(context)),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -445,19 +456,23 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       },
                       child: Text(AppLocale.close.getString(context))),
                   TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         prefModel.offlineSavedTests!.add(OfflineTestModel(
                             myRoleId: prefModel.userData!.roleId,
                             bpmList: bpmList,
                             rrIntervalList: rrIntervalList,
                             scanDuration: selectedDuration!.durationInMinutes,
+                            scanDurationName: selectedDuration!.name,
                             deviceName: selectedDevice!.name,
                             deviceId: selectedDevice!.serialNumber,
+                            selectedDurationId: selectedDuration!.id,
+                            userAndDeviceId: selectedDevice!.id,
                             enterprisePatientData: enterprisePatientData,
                             individualPatientData: individualPatientData,
                             created: DateTime.now()));
-                        AppPref.setPref(prefModel);
-                        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
+                        await AppPref.setPref(prefModel);
+                        showSuccessToast(context,
+                            AppLocale.testSavedOffline.getString(context));
                         Navigator.pop(context);
                       },
                       child: const Text("Save offline")),
@@ -469,9 +484,13 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                           "appVersion": "ViCare_1.0.0",
                           "serialNumber": selectedDevice!.serialNumber,
                           "guid": "46184141-00c6-46ee-b927-4218085e85fd",
-                          "age": prefModel.userData!.roleId == 2 ?
-                          calculateAge(individualPatientData!.result!.contact!.doB.toString()):
-                          calculateAge(enterprisePatientData!.result!.contact!.doB.toString()),
+                          "age": prefModel.userData!.roleId == 2
+                              ? calculateAge(individualPatientData!
+                                  .result!.contact!.doB
+                                  .toString())
+                              : calculateAge(enterprisePatientData!
+                                  .result!.contact!.doB
+                                  .toString()),
                           "gender": prefModel.userData!.roleId == 2
                               ? individualPatientData!.result!.contact!.gender
                               : enterprisePatientData!.result!.contact!.gender,
@@ -480,7 +499,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                           "intervals": rrIntervalList
                         });
                         var directory = await getExternalStorageDirectory();
-                        var viCareDirectory = Directory('${directory!.path}/vicare');
+                        var viCareDirectory =
+                            Directory('${directory!.path}/vicare');
 
                         if (!(await viCareDirectory.exists())) {
                           await viCareDirectory.create(recursive: true);
@@ -492,16 +512,25 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                         File payload = File(filePath);
                         await payload.writeAsString(jsonString);
                         if (await payload.exists()) {
-                         String pId =  prefModel.userData!.roleId == 2
+                          String pId = prefModel.userData!.roleId == 2
                               ? individualPatientData!.result!.id.toString()
                               : enterprisePatientData!.result!.id.toString();
-                          await newTestLeProvider.requestDeviceData(context, payload, selectedDevice!.serialNumber, selectedDevice!.id, connectedDevice!.id.id,selectedDuration!.id,selectedDuration!.name,pId);
+                          await newTestLeProvider.requestDeviceData(
+                              context,
+                              payload,
+                              selectedDevice!.serialNumber,
+                              selectedDevice!.id,
+                              connectedDevice!.id.id,
+                              selectedDuration!.id,
+                              selectedDuration!.name,
+                              pId);
                         } else {
-                          showErrorToast(context, AppLocale.somethingWentWrong.getString(context));
+                          showErrorToast(context,
+                              AppLocale.somethingWentWrong.getString(context));
                         }
                         Navigator.pop(context);
                       },
-                      child:  Text(AppLocale.upload.getString(context)))
+                      child: Text(AppLocale.upload.getString(context)))
                 ],
               ),
             );
@@ -516,5 +545,4 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     int ageInYears = (difference.inDays / 365).floor();
     return ageInYears;
   }
-
 }

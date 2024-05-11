@@ -751,6 +751,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
                                                 "requestDeviceDataId":patientSnapshot.data!.result![index].id,
                                               });
+                                            }else if(patientSnapshot.data!.result![index].processingStatus == 2){
+                                              showErrorToast(context, "Report is not ready yet. Please check back in some time");
+                                            }else{
+                                              showErrorToast(context, "Looks like report failed to generate. Please take a test again");
                                             }
                                             },
                                           child: Column(
@@ -1543,6 +1547,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               Navigator.pushNamed(context, Routes.detailedReportRoute,arguments: {
                                                 "requestDeviceDataId":patientSnapshot.data!.result![index].id,
                                               });
+                                            }else if(patientSnapshot.data!.result![index].processingStatus == 2){
+                                              showErrorToast(context, "Report is not ready yet. Please check back in some time");
+                                            }else{
+                                              showErrorToast(context, "Looks like report failed to generate. Please take a test again");
                                             }
                                           },
                                           child: Column(

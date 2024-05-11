@@ -357,4 +357,8 @@ class PatientProvider extends ChangeNotifier {
   Future<SummaryReportResponseModel> getSummaryReport(BuildContext context) {
     return apiCalls.getSummaryReports(context);
   }
+
+  Future<IndividualResponseModel>selectIndividualUserData(String? pId) async {
+    return apiCalls.getIndividualUserData(pId);
+  }
 }

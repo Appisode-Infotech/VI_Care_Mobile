@@ -1,14 +1,24 @@
-import 'dart:developer';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:vicare/create_patients/model/individual_response_model.dart';
+import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/dashboard/provider/new_test_le_provider.dart';
+import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
-import '../../database/app_pref.dart';
-import '../../database/models/pref_model.dart';
+
+import '../../create_patients/model/all_enterprise_users_response_model.dart';
+import '../../create_patients/model/all_patients_response_model.dart';
+import '../../utils/app_buttons.dart';
 
 class OfflineTestScreen extends StatefulWidget {
   const OfflineTestScreen({super.key});
@@ -18,14 +28,12 @@ class OfflineTestScreen extends StatefulWidget {
 }
 
 class _OfflineTestScreenState extends State<OfflineTestScreen> {
-
   @override
   Widget build(BuildContext context) {
-    PrefModel offlinePrefModel = AppPref.getPref();
-
     return Consumer(
-      builder: (BuildContext context, NewTestLeProvider newTestLeProvider, Widget? child) {
-        return  Scaffold(
+      builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
+          Widget? child) {
+        return Scaffold(
             appBar: AppBar(
               title: Text(
                 AppLocale.offlineTests.getString(context),
@@ -45,111 +53,297 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
             ),
             body: Padding(
               padding: const EdgeInsets.all(15),
-              child: offlinePrefModel.offlineSavedTests!.isNotEmpty
+              child: prefModel.offlineSavedTests!.isNotEmpty
                   ? ListView.builder(
-                itemCount: offlinePrefModel.offlineSavedTests!.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        width: screenSize!.width,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        margin: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 5,
-                                color: Colors.grey,
-                                offset: Offset(2, 2),
-                              ),
-                            ],
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(12)),
-                            color: Colors.white),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // CircleAvatar(
-                            //   backgroundImage:
-                            //       AssetImage(offlineTestData[index]["image"]),
-                            //   radius: 30,
-                            // ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            SizedBox(
-                              width: screenSize!.width - 90,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  (offlinePrefModel.offlineSavedTests![index].individualPatientData!=null && offlinePrefModel.offlineSavedTests![index].enterprisePatientData!=null)?
-                                  Column(
-                                    children: [
-                                      offlinePrefModel.offlineSavedTests![index].myRoleId==2?Text("${offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.firstName!} ${offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.lastName!}"):
-                                      Text("${offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.firstName!} ${offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.lastName!}"),
-                                    ],
-                                  ):Center(child: Column(
-                                    children: [
-                                      Text(AppLocale.noProfileLinked.getString(context)),
-                                      TextButton(onPressed: (){
-                                         // _showPatientBottomSheet(context);
-                                      }, child: const Text("Link now"))
-                                    ],
-                                  ),),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    "${AppLocale.created.getString(context)}: ${offlinePrefModel.offlineSavedTests![index].created}",
-                                    style: const TextStyle(
-                                        color: AppColors.fontShadeColor,
-                                        fontSize: 14),
+                      itemCount: prefModel.offlineSavedTests!.length,
+                      itemBuilder: (context, index) {
+                        if (prefModel.offlineSavedTests![index]
+                                    .individualPatientData ==
+                                null &&
+                            prefModel.offlineSavedTests![index]
+                                    .enterprisePatientData ==
+                                null) {
+                          return Container(
+                            width: screenSize!.width,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
+                            margin: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    color: Colors.grey,
+                                    offset: Offset(2, 2),
                                   ),
-                                  const SizedBox(height: 10),
-                                  Row(children: [
-                                        TextButton(
-                                            onPressed: () async {
-                                              log(offlinePrefModel.offlineSavedTests![index].toJson().toString());
-                                              // showLoaderDialog(context);
-                                              // var jsonString = jsonEncode({
-                                              //   "fileVersion": "IBIPOLAR",
-                                              //   "appVersion": "ViCare_1.0.0",
-                                              //   "serialNumber": offlinePrefModel.offlineSavedTests![index].deviceId!,
-                                              //   "guid": "46184141-00c6-46ee-b927-4218085e85fd",
-                                              //   "age": prefModel.userData!.roleId == 2 ?
-                                              //   calculateAge(offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.doB.toString()):
-                                              //   calculateAge(offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB.toString()),
-                                              //   "gender": prefModel.userData!.roleId == 2
-                                              //       ? offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender
-                                              //       : offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender,
-                                              //   "date": DateTime.now().toIso8601String(),
-                                              //   "countryCode": "IN",
-                                              //   "intervals": offlinePrefModel.offlineSavedTests![index].rrIntervalList
-                                              // });
-                                              // var directory = await getExternalStorageDirectory();
-                                              // var viCareDirectory = Directory('${directory!.path}/vicare');
-                                              //
-                                              // if (!(await viCareDirectory.exists())) {
-                                              //   await viCareDirectory.create(recursive: true);
-                                              // }
-                                              // var now = DateTime.now();
-                                              // var timestamp = now.millisecondsSinceEpoch;
-                                              // var filename = 'data_$timestamp.json';
-                                              // var filePath = '${viCareDirectory.path}/$filename';
-                                              // File payload = File(filePath);
-                                              // await payload.writeAsString(jsonString);
-                                              // if (await payload.exists()) {
-                                              //   String pId =  prefModel.userData!.roleId == 2
-                                              //       ? offlinePrefModel.offlineSavedTests![index].individualPatientData!.result!.id.toString()
-                                              //       : offlinePrefModel.offlineSavedTests![index].enterprisePatientData!.result!.id.toString();
-                                              //   await newTestLeProvider.requestDeviceData(context, payload, offlinePrefModel.offlineSavedTests![index].deviceId!, offlinePrefModel.offlineSavedTests![index].userAndDeviceId!, "",offlinePrefModel.offlineSavedTests![index].selectedDurationId,offlinePrefModel.offlineSavedTests![index].scanDurationName,pId);
-                                              // } else {
-                                              //   showErrorToast(context, AppLocale.somethingWentWrong.getString(context));
-                                              // }
-                                              // Navigator.pop(context);
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
+                                color: Colors.white),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Test ${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
+                                  style: const TextStyle(
+                                      color: AppColors.fontShadeColor,
+                                      fontSize: 14),
+                                ),
+                                const Text(
+                                  "No Patient Data Linked With this Test",
+                                  style: TextStyle(
+                                      color: AppColors.fontShadeColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 10),
+                                Row(children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showPatientBottomSheet(context,index,(bool a){
+                                        setState(() {
+
+                                        });
+                                      });
+                                    },
+                                    child: const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.link,
+                                          color: AppColors.primaryColor,
+                                          size: 18,
+                                        ),
+                                        SizedBox(
+                                          width: 3,
+                                        ),
+                                        Text(
+                                          "Link Now",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.primaryColor),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        prefModel.offlineSavedTests!
+                                            .removeAt(index);
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.delete_outline,
+                                          color: Colors.red,
+                                          size: 18,
+                                        ),
+                                        Text(
+                                          AppLocale.delete.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12, color: Colors.red),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ])
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Column(
+                            children: [
+                              Container(
+                                width: screenSize!.width,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15),
+                                margin: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 5,
+                                        color: Colors.grey,
+                                        offset: Offset(2, 2),
+                                      ),
+                                    ],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                    color: Colors.white),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(prefModel
+                                                  .offlineSavedTests![index]
+                                                  .myRoleId ==
+                                              2
+                                          ? '${prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture!.url}'
+                                          : '${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture!.url}'),
+                                      radius: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        prefModel.offlineSavedTests![index]
+                                                    .myRoleId ==
+                                                2
+                                            ? Text(
+                                                "${prefModel.offlineSavedTests![index].individualPatientData!.result!.firstName!} ${prefModel.offlineSavedTests![index].individualPatientData!.result!.lastName!}")
+                                            : Text(
+                                                "${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.firstName!} ${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.lastName!}"),
+                                        const SizedBox(height: 5),
+                                        prefModel.offlineSavedTests![index]
+                                                    .myRoleId ==
+                                                2
+                                            ? Text(
+                                                "${calculateAge("${prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.doB!}")} Years")
+                                            : Text(
+                                                "${calculateAge("${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB!}")} Years"),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          "${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
+                                          style: const TextStyle(
+                                              color: AppColors.fontShadeColor,
+                                              fontSize: 14),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              showLoaderDialog(context);
+                                              var jsonString = jsonEncode({
+                                                "fileVersion": "IBIPOLAR",
+                                                "appVersion": "ViCare_1.0.0",
+                                                "serialNumber": prefModel
+                                                    .offlineSavedTests![index]
+                                                    .deviceId,
+                                                "guid":
+                                                    "46184141-00c6-46ee-b927-4218085e85fd",
+                                                "age": prefModel
+                                                            .userData!.roleId ==
+                                                        2
+                                                    ? calculateAge(prefModel
+                                                        .offlineSavedTests![
+                                                            index]
+                                                        .individualPatientData!
+                                                        .result!
+                                                        .contact!
+                                                        .doB
+                                                        .toString())
+                                                    : calculateAge(prefModel
+                                                        .offlineSavedTests![
+                                                            index]
+                                                        .enterprisePatientData!
+                                                        .result!
+                                                        .contact!
+                                                        .doB
+                                                        .toString()),
+                                                "gender": prefModel
+                                                            .userData!.roleId ==
+                                                        2
+                                                    ? prefModel
+                                                        .offlineSavedTests![
+                                                            index]
+                                                        .individualPatientData!
+                                                        .result!
+                                                        .contact!
+                                                        .gender
+                                                    : prefModel
+                                                        .offlineSavedTests![
+                                                            index]
+                                                        .enterprisePatientData!
+                                                        .result!
+                                                        .contact!
+                                                        .gender,
+                                                "date": DateTime.now()
+                                                    .toIso8601String(),
+                                                "countryCode": "IN",
+                                                "intervals": prefModel
+                                                    .offlineSavedTests![index]
+                                                    .rrIntervalList
+                                              });
+                                              var directory =
+                                                  await getExternalStorageDirectory();
+                                              var viCareDirectory = Directory(
+                                                  '${directory!.path}/vicare');
+
+                                              if (!(await viCareDirectory
+                                                  .exists())) {
+                                                await viCareDirectory.create(
+                                                    recursive: true);
+                                              }
+                                              var now = DateTime.now();
+                                              var timestamp =
+                                                  now.millisecondsSinceEpoch;
+                                              var filename =
+                                                  'data_$timestamp.json';
+                                              var filePath =
+                                                  '${viCareDirectory.path}/$filename';
+                                              File payload = File(filePath);
+                                              await payload
+                                                  .writeAsString(jsonString);
+                                              if (await payload.exists()) {
+                                                String pId = prefModel
+                                                            .userData!.roleId ==
+                                                        2
+                                                    ? prefModel
+                                                        .offlineSavedTests![
+                                                            index]
+                                                        .individualPatientData!
+                                                        .result!
+                                                        .id
+                                                        .toString()
+                                                    : prefModel
+                                                        .offlineSavedTests![
+                                                            index]
+                                                        .enterprisePatientData!
+                                                        .result!
+                                                        .id
+                                                        .toString();
+                                                await newTestLeProvider
+                                                    .requestDeviceData(
+                                                        context,
+                                                        payload,
+                                                        prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .deviceId,
+                                                        prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .userAndDeviceId,
+                                                        '',
+                                                        prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .selectedDurationId,
+                                                        prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .scanDurationName,
+                                                        pId);
+                                                prefModel.offlineSavedTests!
+                                                    .removeAt(index);
+                                              } else {
+                                                showErrorToast(
+                                                    context,
+                                                    AppLocale.somethingWentWrong
+                                                        .getString(context));
+                                              }
+                                              Navigator.pop(context);
                                             },
-                                            child:Row(
+                                            child: Row(
                                               children: [
                                                 const Icon(
                                                   Icons.refresh_outlined,
@@ -159,89 +353,373 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                                 const SizedBox(
                                                   width: 3,
                                                 ),
-                                            Text(AppLocale.upload.getString(context),style: const TextStyle(
-                                            fontSize: 12,
-                                            color: AppColors.primaryColor),),
+                                                Text(
+                                                  AppLocale.upload
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      color: AppColors
+                                                          .primaryColor),
+                                                ),
                                               ],
                                             ),
-                                        ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          offlinePrefModel.offlineSavedTests!.removeAt(index);
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.delete_outline,
-                                            color: Colors.red,
-                                            size: 18,
                                           ),
-                                          Text(
-                                            AppLocale.delete
-                                                .getString(context),
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.red),
-                                          )
-                                        ],
-                                      ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                prefModel.offlineSavedTests!
+                                                    .removeAt(index);
+                                              });
+                                            },
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.delete_outline,
+                                                  color: Colors.red,
+                                                  size: 18,
+                                                ),
+                                                Text(
+                                                  AppLocale.delete
+                                                      .getString(context),
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.red),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ])
+                                      ],
                                     ),
-                                  ])
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        AppLocale.noSavedYet.getString(context),
+                        style: const TextStyle(
+                            fontSize: 18, color: AppColors.fontShadeColor),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  );
-                },
-              )
-                  :  Center(
-                child: Text(
-                  AppLocale.noSavedYet.getString(context),
-                  style: TextStyle(
-                      fontSize: 18, color: AppColors.fontShadeColor),
-                ),
-              ),
+                    ),
             ));
       },
     );
   }
-
-  int calculateAge(String dateOfBirthString) {
-    DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toUtc();
-    DateTime currentDate = DateTime.now().toUtc();
-    Duration difference = currentDate.difference(dateOfBirth);
-    int ageInYears = (difference.inDays / 365).floor();
-    return ageInYears;
-  }
-
-
 }
 
-void _showPatientBottomSheet(BuildContext context) {
+String parseDate(String timestampString) {
+  DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
+  return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+}
+
+int calculateAge(String dateOfBirthString) {
+  DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toUtc();
+  DateTime currentDate = DateTime.now().toUtc();
+  Duration difference = currentDate.difference(dateOfBirth);
+  int ageInYears = (difference.inDays / 365).floor();
+  return ageInYears;
+}
+
+void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null Function(bool a) onSelected) {
   showModalBottomSheet(
     context: context,
-    builder: (BuildContext context) {
-      return Container(
-        child: ListView.builder(
-          // itemCount: ,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              // title: Text(),
-              // Add other details as needed
-            );
-          },
-        ),
+    builder: (BuildContext bottomSheetContext) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20,left: 10,bottom: 10,right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("Select patient",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                GestureDetector(
+                    onTap: (){
+                      Navigator.pop(bottomSheetContext);
+                    },
+                    child: const Icon(Icons.close))
+              ],
+            ),
+          ),
+          const Divider(),
+          Consumer(
+            builder: (BuildContext context, PatientProvider patientProvider,
+                Widget? child) {
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: prefModel.userData!.roleId == 2
+                    ? FutureBuilder(
+                        future: patientProvider.individualPatients,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return SizedBox(
+                                width: screenSize!.width,
+                                child: Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade300,
+                                    highlightColor: Colors.grey.shade100,
+                                    enabled: true,
+                                    child: GridView.builder(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      itemCount: 9,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                      ),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Container(
+                                          width: 100,
+                                          height: 100,
+                                          color: Colors.grey.shade300,
+                                        );
+                                      },
+                                    )));
+                          }
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              itemCount: snapshot.data!.result!.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                              itemBuilder: (BuildContext gridContext, int index) {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    showLoaderDialog(bottomSheetContext);
+                                    IndividualResponseModel userData = await patientProvider.selectIndividualUserData(snapshot.data!.result![index].id.toString());
+                                    prefModel.offlineSavedTests![offlineSavedTestIndex].individualPatientData = userData;
+                                    await AppPref.setPref(prefModel);
+                                    Navigator.pop(bottomSheetContext);
+                                    Navigator.pop(bottomSheetContext);
+                                    onSelected(true);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    height: 100,
+                                    width: 100,
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        snapshot.data!.result![index]
+                                                    .profilePicture !=
+                                                null
+                                            ? CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                backgroundImage: NetworkImage(
+                                                  snapshot.data!.result![index]
+                                                      .profilePicture!.url
+                                                      .toString(),
+                                                ),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          // maxLines: 1,
+                                          "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                          style: const TextStyle(
+                                              // overflow: TextOverflow.ellipsis,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: Colors.white),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                          style: const TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(snapshot.error.toString()),
+                            );
+                          } else {
+                            return Center(
+                                child:
+                                    Text(AppLocale.loading.getString(context)));
+                          }
+                        },
+                      )
+                    : FutureBuilder(
+                        future: patientProvider.enterprisePatients,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<AllEnterpriseUsersResponseModel>
+                                snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return SizedBox(
+                                width: screenSize!.width,
+                                child: Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade300,
+                                    highlightColor: Colors.grey.shade100,
+                                    enabled: true,
+                                    child: GridView.builder(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      itemCount: 9,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                      ),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Container(
+                                          width: 100,
+                                          height: 100,
+                                          color: Colors.grey.shade300,
+                                        );
+                                      },
+                                    )));
+                          }
+
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              itemCount: snapshot.data!.result!.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 5),
+                                  height: 100,
+                                  width: 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                    color: AppColors.primaryColor,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      snapshot.data!.result![index]
+                                                  .profilePicture !=
+                                              null
+                                          ? CircleAvatar(
+                                              radius: 22,
+                                              backgroundColor: Colors.grey,
+                                              backgroundImage: NetworkImage(
+                                                snapshot.data!.result![index]
+                                                    .profilePicture!.url
+                                                    .toString(),
+                                              ),
+                                            )
+                                          : const CircleAvatar(
+                                              radius: 22,
+                                              backgroundColor: Colors.grey,
+                                              child: Icon(
+                                                Icons.person,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        // maxLines: 2,
+                                        "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                            color: Colors.white),
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                        style: const TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(snapshot.error.toString()),
+                            );
+                          } else {
+                            return Center(
+                                child:
+                                    Text(AppLocale.loading.getString(context)));
+                          }
+                        },
+                      ),
+              );
+            },
+          ),
+        ],
       );
     },
   );
