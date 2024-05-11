@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:lottie/lottie.dart';
@@ -30,11 +31,15 @@ class _SummaryScreenState extends State<SummaryScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    String pId = arguments['pId'].toString();
+
     return Consumer(
       builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
         return Scaffold(
@@ -78,199 +83,281 @@ class _SummaryScreenState extends State<SummaryScreen>
                     tabs: [
                       Tab(text: AppLocale.oneWeek.getString(context)),
                       Tab(text: AppLocale.oneMonth.getString(context)),
+                      Tab(text: AppLocale.threeMonth.getString(context)),
                       Tab(text: AppLocale.sixMonth.getString(context)),
                       Tab(text: AppLocale.oneYear.getString(context)),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      SingleChildScrollView(
-                        child: FutureBuilder(
-                          // future: patientProvider.summaryData,
-                          future: null,
-                          builder: (BuildContext summaryContext, AsyncSnapshot<SummaryReportResponseModel> snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 150,
-                                  height: 150,
-                                  child: Lottie.asset('assets/lottie/loading.json'),
-                                ),
-                              );
-                            }
-                            if (snapshot.hasData){
-                              return  Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    AppLocale.readiness.getString(context),
-                                    style: const TextStyle(
-                                        fontSize: 18, fontWeight: FontWeight.w700),
+                      for(int j = 1;j<6;j++ )
+                        SingleChildScrollView(
+                          child: FutureBuilder(
+                            future: patientProvider.getSummaryReport(context,pId,j),
+                            builder: (BuildContext summaryContext, AsyncSnapshot<SummaryReportResponseModel> snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 150,
+                                    height: 150,
+                                    child: Lottie.asset('assets/lottie/loading.json'),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(15),
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xFFD32F2F),
-                                          Color(0xFFFFD600),
-                                          Color(0xFF0094FF),
-                                          Color(0xFF0BC612),
-                                        ],
-                                        stops: [0.0, 0.2, 0.76, 1.0],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          AppLocale.low.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15),
-                                        ),
-                                        Text(
-                                          AppLocale.high.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  SfCartesianChart(
-                                    primaryXAxis: const NumericAxis(),
-                                    primaryYAxis: const NumericAxis(),
-                                    series: <ScatterSeries<ScatterPoint, double>>[
-                                      ScatterSeries<ScatterPoint, double>(
-                                        dataSource: [
-                                          ScatterPoint(0, 5),
-                                          ScatterPoint(1, 25),
-                                          ScatterPoint(2, 13),
-                                          ScatterPoint(3, 2),
-                                          ScatterPoint(4, 21),
-                                          ScatterPoint(5, 18),
-                                          ScatterPoint(6, 9),
-                                        ],
-                                        xValueMapper: (ScatterPoint point, _) => point.x,
-                                        yValueMapper: (ScatterPoint point, _) => point.y,
-                                        pointColorMapper: (ScatterPoint point, _) =>
-                                        point.y < 15 ? Colors.yellow : Colors.green,
-                                        markerSettings: const MarkerSettings(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    AppLocale.resting.getString(context),
-                                    style: const TextStyle(
-                                        fontSize: 18, fontWeight: FontWeight.w700),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(15),
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xFFD32F2F),
-                                          Color(0xFFFFD600),
-                                          Color(0xFF0094FF),
-                                          Color(0xFF0BC612),
-                                        ],
-                                        stops: [0.0, 0.2, 0.76, 1.0],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          AppLocale.low.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15),
-                                        ),
-                                        Text(
-                                          AppLocale.high.getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15),
+                                );
+                              }
+                              if (snapshot.hasData){
+                                return  Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Text(
+                                    //   AppLocale.readiness.getString(context),
+                                    //   style: const TextStyle(
+                                    //       fontSize: 18, fontWeight: FontWeight.w700),
+                                    // ),
+                                    // const SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // Container(
+                                    //   padding: const EdgeInsets.all(15),
+                                    //   decoration: const BoxDecoration(
+                                    //     borderRadius: BorderRadius.all(Radius.circular(12)),
+                                    //     gradient: LinearGradient(
+                                    //       colors: [
+                                    //         Color(0xFFD32F2F),
+                                    //         Color(0xFFFFD600),
+                                    //         Color(0xFF0094FF),
+                                    //         Color(0xFF0BC612),
+                                    //       ],
+                                    //       stops: [0.0, 0.2, 0.76, 1.0],
+                                    //       begin: Alignment.centerLeft,
+                                    //       end: Alignment.centerRight,
+                                    //     ),
+                                    //   ),
+                                    //   child: Row(
+                                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //     children: [
+                                    //       Text(
+                                    //         AppLocale.low.getString(context),
+                                    //         style: const TextStyle(
+                                    //             color: Colors.white,
+                                    //             fontWeight: FontWeight.w600,
+                                    //             fontSize: 15),
+                                    //       ),
+                                    //       Text(
+                                    //         AppLocale.high.getString(context),
+                                    //         style: const TextStyle(
+                                    //             color: Colors.white,
+                                    //             fontWeight: FontWeight.w600,
+                                    //             fontSize: 15),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    // const SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['bpM_Mean']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['bpM_Mean']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  SfCartesianChart(
-                                    primaryXAxis: const NumericAxis(),
-                                    primaryYAxis: const NumericAxis(),
-                                    series: <ScatterSeries<ScatterPoint, double>>[
-                                      ScatterSeries<ScatterPoint, double>(
-                                        dataSource: [
-                                          ScatterPoint(0, 5),
-                                          ScatterPoint(1, 25),
-                                          ScatterPoint(2, 13),
-                                          ScatterPoint(3, 2),
-                                          ScatterPoint(4, 21),
-                                          ScatterPoint(5, 18),
-                                          ScatterPoint(6, 9),
-                                          // Add more points as needed
-                                        ],
-                                        xValueMapper: (ScatterPoint point, _) => point.x,
-                                        yValueMapper: (ScatterPoint point, _) => point.y,
-                                        pointColorMapper: (ScatterPoint point, _) =>
-                                        point.y < 15 ? Colors.yellow : Colors.green,
-                                        markerSettings: const MarkerSettings(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              );
-                          }
-                            if (snapshot.hasError) {
-                              return Center(
-                                child: Text(snapshot.error.toString()),
-                              );
-                            } else {
-                              return  Center(child: Text(AppLocale.loading.getString(context)));
-                            }
-                          },
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['ari']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['ari']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['vlF_Power_ms']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['vlF_Power_ms']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['lF_Power_ms']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['lF_Power_ms']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['hF_Power_ms']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['hF_Power_ms']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['total_Power']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['total_Power']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['lFtoHF']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['lFtoHF']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['sdrr']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['sdrr']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SfCartesianChart(
+                                      primaryXAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(),
+                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                        ScatterSeries<ScatterPoint, double>(
+                                          dataSource: [
+                                            for(int i = 0;i<snapshot.data!.result!['rmssdrr']!.length;i++)
+                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['rmssdrr']![i]),
+                                          ],
+                                          xValueMapper: (ScatterPoint point, _) => point.x,
+                                          yValueMapper: (ScatterPoint point, _) => point.y,
+                                          pointColorMapper: (ScatterPoint point, _) =>
+                                          point.y < 15 ? Colors.yellow : Colors.green,
+                                          markerSettings: const MarkerSettings(),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                );
+                              }
+                              if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(snapshot.error.toString()),
+                                );
+                              } else {
+                                return  Center(child: Text(AppLocale.loading.getString(context)));
+                              }
+                            },
+                          ),
+                          // Content for the "One Week" tab
                         ),
-                      ),
-                      //Tabs content here//
                     ],
                   ),
                 ),
+
+
               ],
             ),
           ),

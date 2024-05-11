@@ -170,101 +170,96 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Routes.summaryRoute,
-                                      );
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        FittedBox(
-                                          child: Text(
-                                            "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 20),
-                                          ),
-                                        ),
-                                        Text(
-                                          "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      FittedBox(
+                                        child: Text(
+                                          "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 18),
+                                              fontSize: 20),
                                         ),
-                                        Text(
-                                          snapshot.data!.result!.contact!
-                                              .gender ==
-                                              1
-                                              ? "Male"
-                                              : snapshot
-                                              .data!
-                                              .result!
-                                              .contact!
-                                              .gender ==
-                                              2
-                                              ? "Female"
-                                              : "Do not wish to specify",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          AppLocale.viewCompleteDetails
-                                              .getString(context),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              decoration:
-                                              TextDecoration.underline,
-                                              decorationColor:
-                                              Colors.white),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              Routes.summaryRoute,
-                                            );
-                                          },
-                                          child: Container(
-                                              padding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 18,
-                                                  vertical: 12),
-                                              decoration: const BoxDecoration(
-                                                  color: Color(0xffdbeeee),
-                                                  borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(
-                                                          10))),
-                                              child: Text(
-                                                AppLocale.viewSummary
-                                                    .getString(context),
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                    FontWeight.w600),
-                                              )),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Text(
+                                        "${patientProvider.calculateAge(snapshot.data!.result!.contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                      Text(
+                                        snapshot.data!.result!.contact!
+                                            .gender ==
+                                            1
+                                            ? "Male"
+                                            : snapshot
+                                            .data!
+                                            .result!
+                                            .contact!
+                                            .gender ==
+                                            2
+                                            ? "Female"
+                                            : "Do not wish to specify",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        AppLocale.viewCompleteDetails
+                                            .getString(context),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            decoration:
+                                            TextDecoration.underline,
+                                            decorationColor:
+                                            Colors.white),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.summaryRoute,
+                                              arguments: {
+                                                'pId':pId
+                                              }
+                                          );
+                                        },
+                                        child: Container(
+                                            padding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 18,
+                                                vertical: 12),
+                                            decoration: const BoxDecoration(
+                                                color: Color(0xffdbeeee),
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                    Radius.circular(
+                                                        10))),
+                                            child: Text(
+                                              AppLocale.viewSummary
+                                                  .getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight:
+                                                  FontWeight.w600),
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -1058,10 +1053,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       const SizedBox(height: 10),
                                       InkWell(
                                         onTap: () {
-                                          patientProvider.getSummaryReport(context);
                                           Navigator.pushNamed(
                                             context,
                                             Routes.summaryRoute,
+                                              arguments: {
+                                                'pId':pId
+                                              }
                                           );
                                         },
                                         child: Container(

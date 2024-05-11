@@ -990,12 +990,11 @@ class ApiCalls {
     }
   }
 
-  Future<SummaryReportResponseModel>getSummaryReports(BuildContext context) async {
+  Future<SummaryReportResponseModel>getSummaryReports(BuildContext context, String pId, int type) async {
     if (prefModel.userData!.roleId == 2) {
       http.Response response = await hitApiGet(true,
         "${UrlConstants.getSummaryReport}/${prefModel.userData!
-            .id}?individualProfileId=${prefModel.userData!
-            .individualProfileId}&type=1");
+            .id}?individualProfileId=$pId&type=$type");
     if (response.statusCode == 200) {
       print(response.body);
       return SummaryReportResponseModel.fromJson(json.decode(response.body));
@@ -1005,8 +1004,7 @@ class ApiCalls {
   } else {
       http.Response response = await hitApiGet(true,
           "${UrlConstants.getSummaryReport}/${prefModel.userData!
-              .id}?enterpriseProfileId=${prefModel.userData!
-              .enterpriseUserId}&type=1");
+              .id}?enterpriseProfileId=${pId}&type=1");
       if (response.statusCode == 200) {
         print(response.body);
         return SummaryReportResponseModel.fromJson(json.decode(response.body));

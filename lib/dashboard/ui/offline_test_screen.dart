@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:vicare/create_patients/model/enterprise_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/dashboard/provider/new_test_le_provider.dart';
@@ -643,63 +644,74 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                                 mainAxisSpacing: 10,
                               ),
                               itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 5),
-                                  height: 100,
-                                  width: 100,
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                    color: AppColors.primaryColor,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      snapshot.data!.result![index]
-                                                  .profilePicture !=
-                                              null
-                                          ? CircleAvatar(
-                                              radius: 22,
-                                              backgroundColor: Colors.grey,
-                                              backgroundImage: NetworkImage(
-                                                snapshot.data!.result![index]
-                                                    .profilePicture!.url
-                                                    .toString(),
+                                return GestureDetector(
+                                  onTap: () async {
+                                    showLoaderDialog(bottomSheetContext);
+                                    EnterpriseResponseModel userData = await patientProvider.selectEnterpriseUserData(snapshot.data!.result![index].id.toString());
+                                    prefModel.offlineSavedTests![offlineSavedTestIndex].enterprisePatientData = userData;
+                                    await AppPref.setPref(prefModel);
+                                    Navigator.pop(bottomSheetContext);
+                                    Navigator.pop(bottomSheetContext);
+                                    onSelected(true);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    height: 100,
+                                    width: 100,
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        snapshot.data!.result![index]
+                                                    .profilePicture !=
+                                                null
+                                            ? CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                backgroundImage: NetworkImage(
+                                                  snapshot.data!.result![index]
+                                                      .profilePicture!.url
+                                                      .toString(),
+                                                ),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: Colors.grey,
+                                                child: Icon(
+                                                  Icons.person,
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            )
-                                          : const CircleAvatar(
-                                              radius: 22,
-                                              backgroundColor: Colors.grey,
-                                              child: Icon(
-                                                Icons.person,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        // maxLines: 2,
-                                        "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                        style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            color: Colors.white),
-                                      ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
-                                      Text(
-                                        "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
-                                        style: const TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ],
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          // maxLines: 2,
+                                          "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: Colors.white),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                          style: const TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
