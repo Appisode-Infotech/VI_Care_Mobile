@@ -1,8 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -147,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     reportsSnapshot) {
                               if (reportsSnapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return SizedBox();
+                                return const SizedBox();
                               }
                               if (reportsSnapshot.hasData) {
                                 return Column(
@@ -189,18 +187,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       int index) {
                                                 return GestureDetector(
                                                   onTap: () {
-                                                    if (reportsSnapshot.data!.result![index].processingStatus == 3) {
+                                                    if (reportsSnapshot
+                                                            .data!
+                                                            .result![index]
+                                                            .processingStatus ==
+                                                        3) {
                                                       Navigator.pushNamed(
                                                           context,
                                                           Routes
                                                               .detailedReportRoute,
                                                           arguments: {
                                                             "requestDeviceDataId":
-                                                            reportsSnapshot
-                                                                .data!
-                                                                .result![
-                                                            index]
-                                                                .id,
+                                                                reportsSnapshot
+                                                                    .data!
+                                                                    .result![
+                                                                        index]
+                                                                    .id,
                                                           });
                                                     }
                                                   },
@@ -248,12 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 index]
                                                                             .roleId ==
                                                                         2
-                                                                    ? NetworkImage(reportsSnapshot
-                                                                                .data!
-                                                                                .result![
-                                                                                    index]
-                                                                                .individualProfile!
-                                                                                .profilePicture !=
+                                                                    ? NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture !=
                                                                             null
                                                                         ? reportsSnapshot
                                                                             .data!
@@ -263,18 +260,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             .profilePicture!
                                                                             .url!
                                                                         : '')
-                                                                    : NetworkImage(reportsSnapshot
-                                                                                .data!
-                                                                                .result![
-                                                                                    index]
-                                                                                .enterpriseProfile!
-                                                                                .profilePicture !=
+                                                                    : NetworkImage(reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture !=
                                                                             null
                                                                         ? reportsSnapshot
                                                                             .data!
-                                                                            .result![
-                                                                                index]
-                                                                            .enterpriseProfile!.profilePicture!.url!
+                                                                            .result![index]
+                                                                            .enterpriseProfile!
+                                                                            .profilePicture!
+                                                                            .url!
                                                                         : ''),
                                                                 radius: 30,
                                                               ),
@@ -291,36 +284,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           .start,
                                                                   children: [
                                                                     Text(
-                                                                      reportsSnapshot
-                                                                                  .data!
-                                                                                  .result![
-                                                                                      index]
-                                                                                  .roleId ==
+                                                                      reportsSnapshot.data!.result![index].roleId ==
                                                                               2
                                                                           ? "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
-                                                                          : reportsSnapshot
-                                                                                  .data!
-                                                                                  .result![
-                                                                                      index]
-                                                                                  .enterpriseProfile!
-                                                                                  .firstName! +
-                                                                              " " +
-                                                                              reportsSnapshot
-                                                                                  .data!
-                                                                                  .result![index]
-                                                                                  .enterpriseProfile!
-                                                                                  .lastName!,
+                                                                          : "${reportsSnapshot.data!.result![index].enterpriseProfile!.firstName!} ${reportsSnapshot.data!.result![index].enterpriseProfile!.lastName!}",
                                                                       style: const TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .bold,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
                                                                           fontSize:
                                                                               15),
                                                                     ),
                                                                     const SizedBox(
-                                                                        height: 5),
-                                                                    Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
-                                                                
+                                                                        height:
+                                                                            5),
+                                                                    Text(
+                                                                        "${reportsSnapshot.data!.result![index].durationName!} Test"),
+
                                                                     // FittedBox(
                                                                     //   child: Text(
                                                                     //     reportsSnapshot
@@ -345,7 +324,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     //       color: Colors.black, fontSize: 12),
                                                                     // ),
                                                                     const SizedBox(
-                                                                        height: 5),
+                                                                        height:
+                                                                            5),
                                                                     Text(
                                                                       "${parseDate(reportsSnapshot.data!.result![index].requestDateTime!)}",
                                                                       style: const TextStyle(
@@ -359,118 +339,64 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ),
                                                             ],
                                                           ),
-                                                          Container(
-                                                            child:
-                                                                // (patientReports[index]["receivedReport"] == true)
-                                                                //     ? Column(
-                                                                //   mainAxisAlignment:
-                                                                //   MainAxisAlignment.center,
-                                                                //   children: [
-                                                                //     SizedBox(
-                                                                //       width: 50,
-                                                                //       height: 50,
-                                                                //       child: Stack(
-                                                                //         children: [
-                                                                //           CircularStepProgressIndicator(
-                                                                //             totalSteps: 200,
-                                                                //             currentStep: int.parse(
-                                                                //                 patientReports[index]
-                                                                //                 ["repData"]["bpm"]),
-                                                                //             stepSize: 5,
-                                                                //             selectedColor:
-                                                                //             patientReports[index]
-                                                                //             ["repData"]["color"],
-                                                                //             unselectedColor:
-                                                                //             Colors.grey[200],
-                                                                //             padding: 0,
-                                                                //             selectedStepSize: 6,
-                                                                //             roundedCap: (_, __) => true,
-                                                                //           ),
-                                                                //           Center(
-                                                                //             child: Text(
-                                                                //               patientReports[index]
-                                                                //               ["repData"]["bpm"],
-                                                                //               style: const TextStyle(
-                                                                //                 color: Colors.black,
-                                                                //                 fontWeight: FontWeight.bold,
-                                                                //                 fontSize: 10,
-                                                                //               ),
-                                                                //             ),
-                                                                //           ),
-                                                                //         ],
-                                                                //       ),
-                                                                //     ),
-                                                                //     const SizedBox(height: 10),
-                                                                //     Text(
-                                                                //       patientReports[index]["repData"]
-                                                                //       ["status"],
-                                                                //       style: TextStyle(
-                                                                //           fontSize: 12,
-                                                                //           color: patientReports[index]
-                                                                //           ["repData"]["color"]),
-                                                                //     )
-                                                                //   ],
-                                                                // )
-                                                                //     :
-                                                                Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Container(
-                                                                  width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width /
-                                                                      5,
-                                                                  height: 30,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        const BorderRadius
-                                                                            .all(
-                                                                            Radius.circular(
-                                                                                20)),
-                                                                    color: getChipColor(reportsSnapshot
-                                                                        .data!
-                                                                        .result![
-                                                                            index]
-                                                                        .processingStatus),
-                                                                  ),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      reportsSnapshot.data!.result![index].processingStatus ==
-                                                                              1
-                                                                          ? AppLocale
-                                                                              .newReport
-                                                                              .getString(
-                                                                                  context)
-                                                                          : reportsSnapshot.data!.result![index].processingStatus ==
-                                                                                  2
-                                                                              ? AppLocale.inProgress.getString(context)
-                                                                              : reportsSnapshot.data!.result![index].processingStatus == 3
-                                                                                  ? AppLocale.successReport.getString(context)
-                                                                                  : reportsSnapshot.data!.result![index].processingStatus == 4
-                                                                                      ? AppLocale.failReport.getString(context)
-                                                                                      : '',
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            10,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                      ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    5,
+                                                                height: 30,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      const BorderRadius
+                                                                          .all(
+                                                                          Radius.circular(
+                                                                              20)),
+                                                                  color: getChipColor(reportsSnapshot
+                                                                      .data!
+                                                                      .result![
+                                                                          index]
+                                                                      .processingStatus),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    reportsSnapshot.data!.result![index].processingStatus ==
+                                                                            1
+                                                                        ? AppLocale
+                                                                            .newReport
+                                                                            .getString(
+                                                                                context)
+                                                                        : reportsSnapshot.data!.result![index].processingStatus ==
+                                                                                2
+                                                                            ? AppLocale.inProgress.getString(context)
+                                                                            : reportsSnapshot.data!.result![index].processingStatus == 3
+                                                                                ? AppLocale.successReport.getString(context)
+                                                                                : reportsSnapshot.data!.result![index].processingStatus == 4
+                                                                                    ? AppLocale.failReport.getString(context)
+                                                                                    : '',
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          10,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
@@ -522,7 +448,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Text(reportsSnapshot.error.toString()),
                                 );
                               } else {
-                                return SizedBox();
+                                return const SizedBox();
                               }
                             },
                           );
@@ -616,7 +542,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                           if (snapshot.hasData) {
                             return GridView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               itemCount: snapshot.data!.result!.length + 1,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
@@ -957,8 +884,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             // maxLines: 1,
                                             "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
                                             style: const TextStyle(
-                                                overflow:
-                                                    TextOverflow.ellipsis,
+                                                overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12,
                                                 color: Colors.white),
@@ -1074,18 +1000,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      if (reportsSnapshot.data!.result![index].processingStatus == 3) {
+                                      if (reportsSnapshot.data!.result![index]
+                                              .processingStatus ==
+                                          3) {
                                         Navigator.pushNamed(
-                                            context,
-                                            Routes
-                                                .detailedReportRoute,
+                                            context, Routes.detailedReportRoute,
                                             arguments: {
                                               "requestDeviceDataId":
-                                              reportsSnapshot
-                                                  .data!
-                                                  .result![
-                                              index]
-                                                  .id,
+                                                  reportsSnapshot
+                                                      .data!.result![index].id,
                                             });
                                       }
                                     },
@@ -1139,9 +1062,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 .profilePicture !=
                                                             null
                                                         ? reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .enterpriseProfile!.profilePicture!.url!
+                                                            .data!
+                                                            .result![index]
+                                                            .enterpriseProfile!
+                                                            .profilePicture!
+                                                            .url!
                                                         : ''),
                                                 radius: 30,
                                               ),
@@ -1155,25 +1080,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    width:screenSize!.width/3,
+                                                    width:
+                                                        screenSize!.width / 3,
                                                     child: Text(
                                                       reportsSnapshot
                                                                   .data!
-                                                                  .result![index]
+                                                                  .result![
+                                                                      index]
                                                                   .roleId ==
                                                               2
                                                           ? "${reportsSnapshot.data!.result![index].individualProfile!.firstName!} ${reportsSnapshot.data!.result![index].individualProfile!.lastName!}"
-                                                          : reportsSnapshot
-                                                                  .data!
-                                                                  .result![index]
-                                                                  .enterpriseProfile!
-                                                                  .firstName! +
-                                                              " " +
-                                                              reportsSnapshot
-                                                                  .data!
-                                                                  .result![index]
-                                                                  .enterpriseProfile!
-                                                                  .lastName!,
+                                                          : "${reportsSnapshot.data!.result![index].enterpriseProfile!.firstName!} ${reportsSnapshot.data!.result![index].enterpriseProfile!.lastName!}",
                                                       style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -1181,7 +1098,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 5),
-                                                  Text("${reportsSnapshot.data!.result![index].durationName!} Test"),
+                                                  Text(
+                                                      "${reportsSnapshot.data!.result![index].durationName!} Test"),
                                                   // Text(
                                                   //   reportsSnapshot
                                                   //               .data!
@@ -1211,135 +1129,74 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ],
                                           ),
-                                          Container(
-                                            child:
-                                                // (patientReports[index]["receivedReport"] == true)
-                                                //     ? Column(
-                                                //   mainAxisAlignment:
-                                                //   MainAxisAlignment.center,
-                                                //   children: [
-                                                //     SizedBox(
-                                                //       width: 50,
-                                                //       height: 50,
-                                                //       child: Stack(
-                                                //         children: [
-                                                //           CircularStepProgressIndicator(
-                                                //             totalSteps: 200,
-                                                //             currentStep: int.parse(
-                                                //                 patientReports[index]
-                                                //                 ["repData"]["bpm"]),
-                                                //             stepSize: 5,
-                                                //             selectedColor:
-                                                //             patientReports[index]
-                                                //             ["repData"]["color"],
-                                                //             unselectedColor:
-                                                //             Colors.grey[200],
-                                                //             padding: 0,
-                                                //             selectedStepSize: 6,
-                                                //             roundedCap: (_, __) => true,
-                                                //           ),
-                                                //           Center(
-                                                //             child: Text(
-                                                //               patientReports[index]
-                                                //               ["repData"]["bpm"],
-                                                //               style: const TextStyle(
-                                                //                 color: Colors.black,
-                                                //                 fontWeight: FontWeight.bold,
-                                                //                 fontSize: 10,
-                                                //               ),
-                                                //             ),
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //     const SizedBox(height: 10),
-                                                //     Text(
-                                                //       patientReports[index]["repData"]
-                                                //       ["status"],
-                                                //       style: TextStyle(
-                                                //           fontSize: 12,
-                                                //           color: patientReports[index]
-                                                //           ["repData"]["color"]),
-                                                //     )
-                                                //   ],
-                                                // )
-                                                //     :
-                                                Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      5,
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                20)),
-                                                    color: getChipColor(
-                                                        reportsSnapshot
-                                                            .data!
-                                                            .result![index]
-                                                            .processingStatus),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    5,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                  color: getChipColor(
                                                       reportsSnapshot
-                                                                  .data!
-                                                                  .result![
-                                                                      index]
-                                                                  .processingStatus ==
-                                                              1
-                                                          ? AppLocale.newReport
-                                                              .getString(
-                                                                  context)
-                                                          : reportsSnapshot
-                                                                      .data!
-                                                                      .result![
-                                                                          index]
-                                                                      .processingStatus ==
-                                                                  2
-                                                              ? AppLocale
-                                                                  .inProgress
-                                                                  .getString(
-                                                                      context)
-                                                              : reportsSnapshot
-                                                                          .data!
-                                                                          .result![
-                                                                              index]
-                                                                          .processingStatus ==
-                                                                      3
-                                                                  ? AppLocale
-                                                                      .successReport
-                                                                      .getString(
-                                                                          context)
-                                                                  : reportsSnapshot
-                                                                              .data!
-                                                                              .result![
-                                                                                  index]
-                                                                              .processingStatus ==
-                                                                          4
-                                                                      ? AppLocale
-                                                                          .failReport
-                                                                          .getString(
-                                                                              context)
-                                                                      : '',
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                          .data!
+                                                          .result![index]
+                                                          .processingStatus),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    reportsSnapshot
+                                                                .data!
+                                                                .result![index]
+                                                                .processingStatus ==
+                                                            1
+                                                        ? AppLocale.newReport
+                                                            .getString(context)
+                                                        : reportsSnapshot.data!.result![index].processingStatus ==
+                                                                2
+                                                            ? AppLocale
+                                                                .inProgress
+                                                                .getString(
+                                                                    context)
+                                                            : reportsSnapshot
+                                                                        .data!
+                                                                        .result![
+                                                                            index]
+                                                                        .processingStatus ==
+                                                                    3
+                                                                ? AppLocale
+                                                                    .successReport
+                                                                    .getString(
+                                                                        context)
+                                                                : reportsSnapshot
+                                                                            .data!
+                                                                            .result![
+                                                                                index]
+                                                                            .processingStatus ==
+                                                                        4
+                                                                    ? AppLocale
+                                                                        .failReport
+                                                                        .getString(
+                                                                            context)
+                                                                    : '',
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -1379,7 +1236,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return ageInYears;
   }
 
-
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
     return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
@@ -1396,5 +1252,4 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? Colors.red
                     : Colors.black;
   }
-
 }

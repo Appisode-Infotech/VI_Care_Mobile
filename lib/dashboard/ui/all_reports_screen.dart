@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
+import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/routes.dart';
 
@@ -194,6 +195,10 @@ class _ReportScreenState extends State<ReportScreen> {
                                   Navigator.pushNamed(context, Routes.detailedReportRoute, arguments: {
                                     "requestDeviceDataId": snapshot.data!.result![index].id,
                                   });
+                                }else if(snapshot.data!.result![index].processingStatus == 2){
+                                  showErrorToast(context, "Report is not ready yet. Please check back in some time");
+                                }else{
+                                  showErrorToast(context, "Looks like report failed to generate. Please take a test again");
                                 }
                               },
                               child: Column(

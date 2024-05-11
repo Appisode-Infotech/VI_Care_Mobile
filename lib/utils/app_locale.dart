@@ -125,6 +125,7 @@ mixin AppLocale {
   static const String high = 'high';
   static const String oneWeek = 'oneWeek';
   static const String oneMonth = 'oneMonth';
+  static const String threeMonth = 'threeMonth';
   static const String sixMonth = 'sixMonth';
   static const String oneYear = 'oneYear';
   static const String takeTest = 'takeTest';
@@ -417,6 +418,7 @@ mixin AppLocale {
     high: "High",
     oneWeek: "1 Week",
     oneMonth: "1 Month",
+    threeMonth: "3 Month",
     sixMonth: "6 Month",
     oneYear: "1 Year",
     takeTest: "Take a Test",
@@ -680,6 +682,7 @@ mixin AppLocale {
     high: "ಹೆಚ್ಚು",
     oneWeek: "1 ವಾರ",
     oneMonth: "1 ತಿಂಗಳು",
+    threeMonth: "3 ತಿಂಗಳು",
     sixMonth: "6 ತಿಂಗಳು",
     oneYear: "1 ವರ್ಷ",
     takeTest: "ಪರೀಕ್ಷೆಯನ್ನು ತೆಗೆದುಕೋ",
@@ -966,6 +969,7 @@ mixin AppLocale {
     high: "अधिक",
     oneWeek: "1 सप्ताह",
     oneMonth: "1 महीना",
+    threeMonth: "3 महीना",
     sixMonth: "6 महीने",
     oneYear: "1 साल",
     takeTest: "परीक्षण लें",
@@ -1236,6 +1240,7 @@ mixin AppLocale {
     high: "Hoch",
     oneWeek: "1 Woche",
     oneMonth: "1 Monat",
+    threeMonth: "3 Monat",
     sixMonth: "6 Monate",
     oneYear: "1 Jahr",
     takeTest: "Test durchführen",
@@ -1514,6 +1519,7 @@ mixin AppLocale {
     disconnectConfirm: 'నిశ్చితంగా వియుక్తి చేయాలా?',
     oneWeek: "1 వారం",
     oneMonth: "1 నెల",
+    threeMonth: "3 నెల",
     sixMonth: "6 నెలలు",
     oneYear: "1 సంవత్సరం",
     takeTest: "పరీక్ష తీసుకోండి",
@@ -1774,6 +1780,7 @@ mixin AppLocale {
     high: "உயர்ந்தது",
     oneWeek: "1 வாரம்",
     oneMonth: "1 மாதம்",
+    threeMonth: "3 மாதம்",
     sixMonth: "6 மாதம்",
     oneYear: "1 வருடம்",
     takeTest: "சோதனை செய்க",
@@ -2047,6 +2054,7 @@ mixin AppLocale {
     high: "ഉയർന്നത്",
     oneWeek: "1 ആഴ്ച",
     oneMonth: "1 മാസം",
+    threeMonth: "3 മാസം",
     sixMonth: "6 മാസം",
     oneYear: "1 വർഷം",
     takeTest: "ഒരു പരീക്ഷ എടുക്കുക",

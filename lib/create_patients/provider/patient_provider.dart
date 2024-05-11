@@ -354,7 +354,17 @@ class PatientProvider extends ChangeNotifier {
     return await apiCalls.getAllDurations();
   }
 
-  Future<SummaryReportResponseModel> getSummaryReport(BuildContext context) {
-    return apiCalls.getSummaryReports(context);
+  Future<SummaryReportResponseModel> getSummaryReport(BuildContext context, String pId, int type) {
+    return apiCalls.getSummaryReports(context,pId,type);
   }
+
+  Future<IndividualResponseModel>selectIndividualUserData(String? pId) async {
+    return apiCalls.getIndividualUserData(pId);
+  }
+
+
+  Future<EnterpriseResponseModel>selectEnterpriseUserData(String? eId) async {
+    return apiCalls.getEnterpriseUserData(eId);
+  }
+
 }
