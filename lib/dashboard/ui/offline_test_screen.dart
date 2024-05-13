@@ -92,7 +92,7 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                 ),
                                  Text(
                                  AppLocale.noPatientDate.getString(context),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: AppColors.fontShadeColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -512,13 +512,38 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                               itemBuilder: (BuildContext gridContext, int index) {
                                 return GestureDetector(
                                   onTap: () async {
-                                    showLoaderDialog(bottomSheetContext);
-                                    IndividualResponseModel userData = await patientProvider.selectIndividualUserData(snapshot.data!.result![index].id.toString());
-                                    prefModel.offlineSavedTests![offlineSavedTestIndex].individualPatientData = userData;
-                                    await AppPref.setPref(prefModel);
-                                    Navigator.pop(bottomSheetContext);
-                                    Navigator.pop(bottomSheetContext);
-                                    onSelected(true);
+                                    bool confirm = await showDialog(
+                                      context: bottomSheetContext,
+                                      builder: (BuildContext dialogContext) {
+                                        return AlertDialog(
+                                          title: const Text("Confirm assign"),
+                                          content: Text("Are you sure you want to assign the test to ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(dialogContext).pop(false);
+                                              },
+                                              child: const Text("Cancel"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(dialogContext).pop(true);
+                                              },
+                                              child: const Text("Yes"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    if (confirm) {
+                                      showLoaderDialog(bottomSheetContext);
+                                      IndividualResponseModel userData = await patientProvider.selectIndividualUserData(snapshot.data!.result![index].id.toString());
+                                      prefModel.offlineSavedTests![offlineSavedTestIndex].individualPatientData = userData;
+                                      await AppPref.setPref(prefModel);
+                                      Navigator.pop(bottomSheetContext);
+                                      Navigator.pop(bottomSheetContext);
+                                      onSelected(true);
+                                    }
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -561,7 +586,7 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                                           // maxLines: 1,
                                           "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
                                           style: const TextStyle(
-                                              // overflow: TextOverflow.ellipsis,
+                                              overflow: TextOverflow.ellipsis,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 12,
                                               color: Colors.white),
@@ -646,13 +671,39 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () async {
-                                    showLoaderDialog(bottomSheetContext);
-                                    EnterpriseResponseModel userData = await patientProvider.selectEnterpriseUserData(snapshot.data!.result![index].id.toString());
-                                    prefModel.offlineSavedTests![offlineSavedTestIndex].enterprisePatientData = userData;
-                                    await AppPref.setPref(prefModel);
-                                    Navigator.pop(bottomSheetContext);
-                                    Navigator.pop(bottomSheetContext);
-                                    onSelected(true);
+                                    bool confirm = await showDialog(
+                                      context: bottomSheetContext,
+                                      builder: (BuildContext dialogContext) {
+                                        return AlertDialog(
+                                          title: const Text("Confirm assign"),
+                                          content: Text("Are you sure you want to assign the test to ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(dialogContext).pop(false);
+                                              },
+                                              child: const Text("Cancel"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(dialogContext).pop(true);
+                                              },
+                                              child: const Text("Yes"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+
+                                    if (confirm) {
+                                      showLoaderDialog(bottomSheetContext);
+                                      EnterpriseResponseModel userData = await patientProvider.selectEnterpriseUserData(snapshot.data!.result![index].id.toString());
+                                      prefModel.offlineSavedTests![offlineSavedTestIndex].enterprisePatientData = userData;
+                                      await AppPref.setPref(prefModel);
+                                      Navigator.pop(bottomSheetContext);
+                                      Navigator.pop(bottomSheetContext);
+                                      onSelected(true);
+                                    }
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(

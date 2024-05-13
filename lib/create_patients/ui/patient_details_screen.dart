@@ -213,18 +213,18 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
-                                        AppLocale.viewCompleteDetails
-                                            .getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            decoration:
-                                            TextDecoration.underline,
-                                            decorationColor:
-                                            Colors.white),
-                                      ),
+                                      // Text(
+                                      //   AppLocale.viewCompleteDetails
+                                      //       .getString(context),
+                                      //   style: const TextStyle(
+                                      //       color: Colors.white,
+                                      //       fontWeight: FontWeight.w500,
+                                      //       fontSize: 12,
+                                      //       decoration:
+                                      //       TextDecoration.underline,
+                                      //       decorationColor:
+                                      //       Colors.white),
+                                      // ),
                                       const SizedBox(height: 10),
                                       InkWell(
                                         onTap: () {
@@ -1038,18 +1038,18 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
-                                        AppLocale.viewCompleteDetails
-                                            .getString(context),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            decoration:
-                                            TextDecoration.underline,
-                                            decorationColor:
-                                            Colors.white),
-                                      ),
+                                      // Text(
+                                      //   AppLocale.viewCompleteDetails
+                                      //       .getString(context),
+                                      //   style: const TextStyle(
+                                      //       color: Colors.white,
+                                      //       fontWeight: FontWeight.w500,
+                                      //       fontSize: 12,
+                                      //       decoration:
+                                      //       TextDecoration.underline,
+                                      //       decorationColor:
+                                      //       Colors.white),
+                                      // ),
                                       const SizedBox(height: 10),
                                       InkWell(
                                         onTap: () {

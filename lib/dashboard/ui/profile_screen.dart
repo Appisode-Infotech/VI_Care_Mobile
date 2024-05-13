@@ -466,6 +466,7 @@
                                   onPressed: () {
                                     // Perform logout operation here
                                     prefModel.userData = null;
+                                    prefModel.offlineSavedTests!.clear();
                                     AppPref.setPref(prefModel);
                                     Navigator.of(context).pushNamedAndRemoveUntil(
                                         Routes.loginRoute, (route) => false);
@@ -508,7 +509,7 @@
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text("V 1.0.5",style: TextStyle(color: Colors.grey),),
+                  const Text("V 1.0.6",style: TextStyle(color: Colors.grey),),
                   const SizedBox(
                     height: 20,
                   ),

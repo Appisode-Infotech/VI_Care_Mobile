@@ -159,6 +159,9 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     // const SizedBox(
                                     //   height: 10,
                                     // ),
+                                    SizedBox(height: 15,),
+                                    const Text(" BPM Mean",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -179,6 +182,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" ARI",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -199,6 +204,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" vlF Power ms",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -219,6 +226,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" lF Power ms",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -239,6 +248,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" hF Power ms",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -259,6 +270,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" Total Power",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -279,6 +292,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" LF to HF",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -299,6 +314,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" sdrr",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
@@ -319,6 +336,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                     const SizedBox(
                                       height: 10,
                                     ),
+                                    const Text(" rmssdrr",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                    SizedBox(height: 5,),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
