@@ -79,10 +79,10 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                 List additionalInfo = [
                   {"name": "RMSSDRR", "value": processedData.rmssdrr},
                   {"name": "SDRR", "value": processedData.sdrr},
-                  {"name": "TP(ms)", "value": processedData.totalPower},
-                  {"name": "VLF Power(ms)", "value": processedData.vlfPowerMs},
-                  {"name": "LF(ms)", "value": processedData.lfPowerMs},
-                  {"name": "HF(ms)", "value": processedData.hfPowerMs},
+                  {"name": "TP", "value": processedData.totalPower},
+                  {"name": "VLF", "value": processedData.vlfPowerMs},
+                  {"name": "LF", "value": processedData.lfPowerMs},
+                  {"name": "HF", "value": processedData.hfPowerMs},
                   {"name": "LF/HF", "value": processedData.lFtoHf},
                   {"name": "Total Power", "value": processedData.totalPower},
                   // {
