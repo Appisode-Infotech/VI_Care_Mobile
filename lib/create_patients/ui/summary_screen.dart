@@ -134,8 +134,17 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         InkWell(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(
+                                                  context,'''What is the Readyness Score?
+                                                  
+Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate.
+                                                 
+With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent.
+                                                 
+The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement.
+The Readyness Score shows you how well you can cope with your day.
+                                                  
+What Influences your ANS and thus your Readyness Score?''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -194,8 +203,21 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(context, '''
+What resting heart rate is normal? 
+                                              
+The heart rate describes the number of measured beats per minute (bpm). A difference is made between:
+- Low heart rate (bradycardia)
+- Normal heart rate (normofrequency)
+- Increased heart rate (tachycardia)
+
+The heart rate is changed by various influences. These are, in particular, age, physical (fitness) condition, and any illnesses.
+
+As a simple comparison, the heart rate at physical rest is used first. This is also called the resting heart rate.
+Measure heart rate only at rest to get comparable values.
+
+The following list shows orientation values for the resting pulse rate depending on age and fitness.
+                                                ''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -252,8 +274,11 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(context, '''Ratio of Stress towards Relaxation:
+                                              
+Degree of expression of the sympathetic towards the parasympathetic activation.
+
+Normal Range: 0.7-3 (higher values are not good).''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -313,8 +338,15 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(context, '''Low Frequency indicates the stress state of the individual.
+                                              
+LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value 
+may indicate increased sympathetic activity, which is associated with the body's "fight or flight" response to stress. Conversely, a lower LF power value may indicate 
+increased parasympathetic activity, which is associated with the body's "rest and digest" 
+response and can be a positive indicator of heart health and overall fitness.
+                                               
+Normal Range: 100-500 ms² (higher values are not good).''');
+
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -374,7 +406,9 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         GestureDetector(
                                             onTap: () {
                                               showInfoDiog(context,
-                                                  "This is the test description");
+                                                  '''High Frequency indicates the state of relaxation or the regeneration capacity of the individual.
+                                                  
+Normal Range: 100-500 ms2 (higher values are better)''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -433,8 +467,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(context, '''
+Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
+
+Normal Range: 1000-2000 ms² (higher values are better).
+''');
+
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -493,8 +531,10 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                                  showInfoDiog(context, '''Ratio of Stress towards Relaxation:
+                                              
+Degree of expression of the sympathetic towards the parasympathetic activation.
+Normal Range: 0.7-3 (higher values are not good).''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -553,8 +593,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(context, '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.
+''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -613,8 +653,15 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
-                                                  "This is the test description");
+                                              showInfoDiog(context, '''
+RMSSD is a standard HRV measure analyzing RR-Interval differences.
+Higher values suggest good heart health and fitness.
+Lower values may indicate stress, fatigue, or other factors.
+Impact of training loads and recovery can be derived from RMSSD.
+Normal Range: 20-150 ms (higher values are better).
+''');
+
+
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))

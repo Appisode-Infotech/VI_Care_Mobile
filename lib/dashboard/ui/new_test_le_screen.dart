@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -132,7 +133,28 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
         actions: [
           IconButton(onPressed: (){
             showModalBottomSheet(context: context, builder: (BuildContext infoSheetContext){
-              return Container();
+              return SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                 child: Column(
+                   children: [
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Text("FAQ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+                         GestureDetector(
+                             onTap: (){
+                               Navigator.pop(context);
+                             },
+                             child: Icon(Icons.close)),
+                       ],
+                     ),
+                     SizedBox(height: 10,),
+                     Text("Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
+                   ],
+                 )
+                ),
+              );
             });
           }, icon: Icon(Icons.info_outline_rounded))
         ],
@@ -508,9 +530,9 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                   .toString())
                               : calculateAge(enterprisePatientData!
                                   .result!.contact!.doB
-                                  .toString()),
+                              .toString()),
                           "gender": prefModel.userData!.roleId == 2
-                              ? (individualPatientData!.result!.contact!.gender == 1 ? 0 : 1)
+                              ? ( individualPatientData!.result!.contact!.gender == 1 ? 0 : 1)
                               : (enterprisePatientData!.result!.contact!.gender == 1 ? 0 : 1),
                           "date": DateTime.now().toIso8601String(),
                           "countryCode": "IN",
