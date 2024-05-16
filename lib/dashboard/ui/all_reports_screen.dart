@@ -36,7 +36,8 @@ class _ReportScreenState extends State<ReportScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Consumer(
-        builder: (BuildContext context, TakeTestProvider takeTestProvider, Widget? child) {
+        builder: (BuildContext context, TakeTestProvider takeTestProvider,
+            Widget? child) {
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -155,8 +156,10 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
                   const SizedBox(height: 20),
                   FutureBuilder(
-                    future: takeTestProvider.getMyReportsWithFilter(reportTime, reportStatus),
-                    builder: (BuildContext context, AsyncSnapshot<MyReportsResponseModel> snapshot) {
+                    future: takeTestProvider.getMyReportsWithFilter(
+                        reportTime, reportStatus),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<MyReportsResponseModel> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
                           width: screenSize!.width,
@@ -165,13 +168,15 @@ class _ReportScreenState extends State<ReportScreen> {
                             highlightColor: Colors.grey.shade100,
                             enabled: true,
                             child: ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               itemCount: 4,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 10),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   width: 100,
                                   height: 80,
                                   color: Colors.grey.shade300,
@@ -184,153 +189,259 @@ class _ReportScreenState extends State<ReportScreen> {
                       if (snapshot.hasData) {
                         return snapshot.data!.result!.isNotEmpty
                             ? ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data!.result!.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                if (snapshot.data!.result![index].processingStatus == 3) {
-                                  Navigator.pushNamed(context, Routes.detailedReportRoute, arguments: {
-                                    "requestDeviceDataId": snapshot.data!.result![index].id,
-                                  });
-                                }else if(snapshot.data!.result![index].processingStatus == 2){
-                                  showErrorToast(context, AppLocale.reportsFailed.getString(context));
-                                }else{
-                                  showErrorToast(context, AppLocale.reportsFailed.getString(context));
-                                }
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                                    margin: const EdgeInsets.all(5),
-                                    decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 2,
-                                          color: Colors.grey,
-                                          offset: Offset(1, 1),
-                                        ),
-                                      ],
-                                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                                      color: Colors.white,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.result!.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (snapshot.data!.result![index]
+                                              .processingStatus ==
+                                          3) {
+                                        Navigator.pushNamed(
+                                            context, Routes.detailedReportRoute,
+                                            arguments: {
+                                              "requestDeviceDataId": snapshot
+                                                  .data!.result![index].id,
+                                            });
+                                      } else if (snapshot.data!.result![index]
+                                              .processingStatus ==
+                                          2) {
+                                        showErrorToast(
+                                            context,
+                                            'Report is still processing. Please wait');
+                                      } else {
+                                        showErrorToast(
+                                            context,
+                                            AppLocale.reportsFailed
+                                                .getString(context));
+                                      }
+                                    },
+                                    child: Column(
                                       children: [
-                                        Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundImage: snapshot.data!.result![index].roleId == 2
-                                                  ? NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture != null
-                                                  ? snapshot.data!.result![index].individualProfile!.profilePicture!.url!
-                                                  : '')
-                                                  : NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture != null
-                                                  ? snapshot.data!.result![index].enterpriseProfile!.profilePicture!.url!
-                                                  : ''),
-                                              radius: 30,
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: screenSize!.width / 3,
-                                                  child: Text(
-                                                    snapshot.data!.result![index].roleId == 2
-                                                        ? "${snapshot.data!.result![index].individualProfile!.firstName!} ${snapshot.data!.result![index].individualProfile!.lastName!}"
-                                                        : snapshot.data!.result![index].enterpriseProfile!.firstName! +
-                                                        " " +
-                                                        snapshot.data!.result![index].enterpriseProfile!.lastName!,
-                                                    style: const TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text("${snapshot.data!.result![index].durationName!} Test"),
-                                                Text(
-                                                  "${parseDate(snapshot.data!.result![index].requestDateTime!)}",
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
                                         Container(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 15),
+                                          margin: const EdgeInsets.all(5),
+                                          decoration: const BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 2,
+                                                color: Colors.grey,
+                                                offset: Offset(1, 1),
+                                              ),
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12)),
+                                            color: Colors.white,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
+                                              Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundImage: snapshot
+                                                                .data!
+                                                                .result![index]
+                                                                .roleId ==
+                                                            2
+                                                        ? NetworkImage(snapshot
+                                                                    .data!
+                                                                    .result![
+                                                                        index]
+                                                                    .individualProfile!
+                                                                    .profilePicture !=
+                                                                null
+                                                            ? snapshot
+                                                                .data!
+                                                                .result![index]
+                                                                .individualProfile!
+                                                                .profilePicture!
+                                                                .url!
+                                                            : '')
+                                                        : NetworkImage(snapshot
+                                                                    .data!
+                                                                    .result![
+                                                                        index]
+                                                                    .enterpriseProfile!
+                                                                    .profilePicture !=
+                                                                null
+                                                            ? snapshot
+                                                                .data!
+                                                                .result![index]
+                                                                .enterpriseProfile!
+                                                                .profilePicture!
+                                                                .url!
+                                                            : ''),
+                                                    radius: 30,
+                                                  ),
+                                                  const SizedBox(width: 20),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            screenSize!.width /
+                                                                3,
+                                                        child: Text(
+                                                          snapshot
+                                                                      .data!
+                                                                      .result![
+                                                                          index]
+                                                                      .roleId ==
+                                                                  2
+                                                              ? "${snapshot.data!.result![index].individualProfile!.firstName!} ${snapshot.data!.result![index].individualProfile!.lastName!}"
+                                                              : snapshot
+                                                                      .data!
+                                                                      .result![
+                                                                          index]
+                                                                      .enterpriseProfile!
+                                                                      .firstName! +
+                                                                  " " +
+                                                                  snapshot
+                                                                      .data!
+                                                                      .result![
+                                                                          index]
+                                                                      .enterpriseProfile!
+                                                                      .lastName!,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 5),
+                                                      Text(
+                                                          "${snapshot.data!.result![index].durationName!} Test"),
+                                                      Text(
+                                                        "${parseDate(snapshot.data!.result![index].requestDateTime!)}",
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                               Container(
-                                                width: MediaQuery.of(context).size.width / 5,
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.all(
-                                                    Radius.circular(20),
-                                                  ),
-                                                  color: getChipColor(snapshot.data!.result![index].processingStatus),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    snapshot.data!.result![index].processingStatus == 1
-                                                        ? AppLocale.newReport.getString(context)
-                                                        : snapshot.data!.result![index].processingStatus == 2
-                                                        ? AppLocale.inProgress.getString(context)
-                                                        : snapshot.data!.result![index].processingStatus == 3
-                                                        ? AppLocale.successReport.getString(context)
-                                                        : snapshot.data!.result![index].processingStatus == 4
-                                                        ? AppLocale.failReport.getString(context)
-                                                        : '',
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10,
-                                                      fontWeight: FontWeight.w600,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .all(
+                                                          Radius.circular(20),
+                                                        ),
+                                                        color: getChipColor(
+                                                            snapshot
+                                                                .data!
+                                                                .result![index]
+                                                                .processingStatus),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          snapshot
+                                                                      .data!
+                                                                      .result![
+                                                                          index]
+                                                                      .processingStatus ==
+                                                                  1
+                                                              ? AppLocale
+                                                                  .newReport
+                                                                  .getString(
+                                                                      context)
+                                                              : snapshot
+                                                                          .data!
+                                                                          .result![
+                                                                              index]
+                                                                          .processingStatus ==
+                                                                      2
+                                                                  ? AppLocale
+                                                                      .inProgress
+                                                                      .getString(
+                                                                          context)
+                                                                  : snapshot.data!.result![index].processingStatus ==
+                                                                          3
+                                                                      ? AppLocale
+                                                                          .successReport
+                                                                          .getString(
+                                                                              context)
+                                                                      : snapshot.data!.result![index].processingStatus ==
+                                                                              4
+                                                                          ? AppLocale
+                                                                              .failReport
+                                                                              .getString(context)
+                                                                          : '',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 10,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                ],
-                              ),
-                            );
-                          },
-                        )
+                                  );
+                                },
+                              )
                             : RefreshIndicator(
-                          onRefresh: () async {
-                            setState(() {});
-                          },
-                          child: SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child: SizedBox(
-                              height: screenSize!.height * .5,
-                              child: Center(
-                                child: Text(AppLocale.noReportFound.getString(context)),
-                              ),
-                            ),
-                          ),
-                        );
+                                onRefresh: () async {
+                                  setState(() {});
+                                },
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  child: SizedBox(
+                                    height: screenSize!.height * .5,
+                                    child: Center(
+                                      child: Text(AppLocale.noReportFound
+                                          .getString(context)),
+                                    ),
+                                  ),
+                                ),
+                              );
                       }
                       if (snapshot.hasError) {
                         return Center(
                           child: Text(snapshot.error.toString()),
                         );
                       } else {
-                        return Center(child: Text(AppLocale.loading.getString(context)));
+                        return Center(
+                            child: Text(AppLocale.loading.getString(context)));
                       }
                     },
                   ),
@@ -360,11 +471,11 @@ class _ReportScreenState extends State<ReportScreen> {
     return processingStatus == 1
         ? Colors.deepOrange
         : processingStatus == 2
-        ? Colors.teal
-        : processingStatus == 3
-        ? Colors.green
-        : processingStatus == 4
-        ? Colors.red
-        : Colors.black;
+            ? Colors.teal
+            : processingStatus == 3
+                ? Colors.green
+                : processingStatus == 4
+                    ? Colors.red
+                    : Colors.black;
   }
 }

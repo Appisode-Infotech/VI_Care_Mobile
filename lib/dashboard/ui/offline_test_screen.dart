@@ -90,7 +90,7 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                       color: AppColors.fontShadeColor,
                                       fontSize: 14),
                                 ),
-                                 Text(
+                                Text(
                                  AppLocale.noPatientDate.getString(context),
                                   style: const TextStyle(
                                       color: AppColors.fontShadeColor,

@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Consumer(
       builder:
           (BuildContext context, AuthProvider authProvider, Widget? child) {
-        authProvider.loginPageContext = context;
         return Scaffold(
           body: SafeArea(
             child: Form(
@@ -204,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () async {
                             if (authProvider.loginFormKey.currentState!
                                 .validate()) {
-                              authProvider.login();
+                              authProvider.login(context);
                             }
                           }),
                         ],
@@ -258,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushNamed(
                                       context, Routes.webViewRoute,
                                       arguments: {
-                                        'url': "https://www.google.com",
+                                        'url': "https://www.vcnrtech.in/ViCareterms.html",
                                         'title': AppLocale.termsAndConditions
                                             .getString(context),
                                       });
@@ -285,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushNamed(
                                       context, Routes.webViewRoute,
                                       arguments: {
-                                        'url': "https://www.google.com",
+                                        'url': "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
                                         'title': AppLocale.privacyPolicy
                                             .getString(context),
                                       });

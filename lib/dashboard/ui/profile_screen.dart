@@ -323,7 +323,7 @@
                     onTap: () {
                       Navigator.pushNamed(context, Routes.webViewRoute,
                           arguments: {
-                            'url': "https://www.google.com",
+                            'url': "https://www.vcnrtech.in/ViCareterms.html",
                             'title':
                                 AppLocale.termsAndConditions.getString(context),
                           });
@@ -348,6 +348,50 @@
                             const SizedBox(width: 10),
                             Text(
                               AppLocale.termsConditions.getString(context),
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                        const Icon(
+                          Icons.call_made,
+                          color: Colors.grey,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.webViewRoute,
+                          arguments: {
+                            'url': "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
+                            'title':
+                            AppLocale.privacyPolicy.getString(context),
+                          });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.teal.shade100,
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: const Icon(
+                                Icons.privacy_tip_outlined,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              AppLocale.privacyPolicy.getString(context),
                               style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w600),
                             ),

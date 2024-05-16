@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -30,7 +29,7 @@ getPrimaryAppButton(BuildContext context, String label,
         borderRadius: BorderRadius.circular(10.0),
       ),
     ),
-    child: Container(
+    child: SizedBox(
       // margin: const EdgeInsets.symmetric(horizontal: 2),
       width: screenSize!.width,
       height: 50,
@@ -321,8 +320,8 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child:  Text(AppLocale.close.getString(context),
-                      style: const TextStyle(color: Colors.red))),
+                  child:  const Text('Discard',
+                      style: TextStyle(color: Colors.red))),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
@@ -408,10 +407,10 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                         focusColor: Colors.transparent,
                         errorStyle: TextStyle(color: Colors.red.shade400),
                       ),
-                      items: myDevices.result!.devices!.map((device) {
+                      items: myDevices.result!.map((device) {
                         return DropdownMenuItem<Device>(
-                          value: device,
-                          child: Text("${device.name!} - ${device.serialNumber!}"),
+                          value: device.device,
+                          child: Text("${device.device!.name} - ${device.device!.serialNumber}"),
                         );
                       }).toList(),
                       onChanged: (val) {
@@ -496,4 +495,17 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
       );
     },
   );
+}
+
+showInfoDiog(BuildContext context,String message){
+  showDialog(context: context, builder: (BuildContext context){
+    return AlertDialog(
+      content: Text(message),
+      actions: [
+        TextButton(onPressed: (){
+          Navigator.pop(context);
+        }, child: Text("close"))
+      ],
+    );
+  });
 }

@@ -37,7 +37,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Consumer(
       builder:
           (BuildContext context, AuthProvider authProvider, Widget? child) {
-        authProvider.registerPageContext = context;
         return Scaffold(
           body: Form(
             key: authProvider.registerFormKey,
@@ -133,7 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .validate()) {
                                             if (currentStep == 1) {
                                               SendOtpResponseModel response =
-                                                  await authProvider.sendOtp();
+                                                  await authProvider.sendOtp(context);
                                               authProvider.otpReceived =
                                                   response.result!.otp;
                                               authProvider.registerOtpController
@@ -175,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   AppLocale.validImage.getString(context));
                                               return;
                                             }
-                                            authProvider.register();
+                                            authProvider.register(context);
                                           }
                                         },
                                       ),
@@ -1111,7 +1110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ..onTap = () {
                           Navigator.pushNamed(context, Routes.webViewRoute,
                               arguments: {
-                                'url': "https://www.google.com",
+                                'url': "https://www.vcnrtech.in/ViCareterms.html",
                                 'title': AppLocale.termsAndConditions
                                     .getString(context),
                               });
@@ -1136,7 +1135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ..onTap = () {
                           Navigator.pushNamed(context, Routes.webViewRoute,
                               arguments: {
-                                'url': "https://www.google.com",
+                                'url': "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
                                 'title':
                                     AppLocale.privacyPolicy.getString(context),
                               });

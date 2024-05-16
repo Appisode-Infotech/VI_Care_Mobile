@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:lottie/lottie.dart';
@@ -7,6 +6,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/dashboard/model/summary_report_response_model.dart';
 
+import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
 
@@ -41,7 +41,8 @@ class _SummaryScreenState extends State<SummaryScreen>
     String pId = arguments['pId'].toString();
 
     return Consumer(
-      builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
+      builder: (BuildContext context, PatientProvider patientProvider,
+          Widget? child) {
         return Scaffold(
           appBar: AppBar(
             leading: InkWell(
@@ -77,7 +78,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                       borderRadius: BorderRadius.circular(12),
                       color: AppColors.primaryColor,
                     ),
-                    indicatorPadding: const EdgeInsets.symmetric(horizontal: -10, vertical: 5),
+                    indicatorPadding: const EdgeInsets.symmetric(
+                        horizontal: -10, vertical: 5),
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.black,
                     tabs: [
@@ -93,265 +95,566 @@ class _SummaryScreenState extends State<SummaryScreen>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      for(int j = 1;j<6;j++ )
+                      for (int j = 1; j < 6; j++)
                         SingleChildScrollView(
                           child: FutureBuilder(
-                            future: patientProvider.getSummaryReport(context,pId,j),
-                            builder: (BuildContext summaryContext, AsyncSnapshot<SummaryReportResponseModel> snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
+                            future: patientProvider.getSummaryReport(
+                                context, pId, j),
+                            builder: (BuildContext summaryContext,
+                                AsyncSnapshot<SummaryReportResponseModel>
+                                    snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return Center(
                                   child: SizedBox(
                                     width: 150,
                                     height: 150,
-                                    child: Lottie.asset('assets/lottie/loading.json'),
+                                    child: Lottie.asset(
+                                        'assets/lottie/loading.json'),
                                   ),
                                 );
                               }
-                              if (snapshot.hasData){
-                                return  Column(
+                              if (snapshot.hasData) {
+                                return Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Text(
-                                    //   AppLocale.readiness.getString(context),
-                                    //   style: const TextStyle(
-                                    //       fontSize: 18, fontWeight: FontWeight.w700),
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 10,
-                                    // ),
-                                    // Container(
-                                    //   padding: const EdgeInsets.all(15),
-                                    //   decoration: const BoxDecoration(
-                                    //     borderRadius: BorderRadius.all(Radius.circular(12)),
-                                    //     gradient: LinearGradient(
-                                    //       colors: [
-                                    //         Color(0xFFD32F2F),
-                                    //         Color(0xFFFFD600),
-                                    //         Color(0xFF0094FF),
-                                    //         Color(0xFF0BC612),
-                                    //       ],
-                                    //       stops: [0.0, 0.2, 0.76, 1.0],
-                                    //       begin: Alignment.centerLeft,
-                                    //       end: Alignment.centerRight,
-                                    //     ),
-                                    //   ),
-                                    //   child: Row(
-                                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    //     children: [
-                                    //       Text(
-                                    //         AppLocale.low.getString(context),
-                                    //         style: const TextStyle(
-                                    //             color: Colors.white,
-                                    //             fontWeight: FontWeight.w600,
-                                    //             fontSize: 15),
-                                    //       ),
-                                    //       Text(
-                                    //         AppLocale.high.getString(context),
-                                    //         style: const TextStyle(
-                                    //             color: Colors.white,
-                                    //             fontWeight: FontWeight.w600,
-                                    //             fontSize: 15),
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 10,
-                                    // ),
-                                    SizedBox(height: 15,),
-                                    const Text(" BPM Mean",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "BPM Mean",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        InkWell(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['bpM_Mean']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['bpM_Mean']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['bpM_Mean']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!
+                                                      .result!['bpM_Mean']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" ARI",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          " ARI",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['ari']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['ari']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot.data!
+                                                        .result!['ari']!.length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!
+                                                      .result!['ari']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" vlF Power ms",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "VLF Power ms",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['vlF_Power_ms']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['vlF_Power_ms']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result![
+                                                            'vlF_Power_ms']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!.result![
+                                                      'vlF_Power_ms']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" lF Power ms",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "LF Power ms",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['lF_Power_ms']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['lF_Power_ms']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['lF_Power_ms']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!.result![
+                                                      'lF_Power_ms']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" hF Power ms",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "HF Power ms",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['hF_Power_ms']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['hF_Power_ms']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['hF_Power_ms']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!.result![
+                                                      'hF_Power_ms']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" Total Power",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Total Power",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['total_Power']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['total_Power']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['total_Power']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!.result![
+                                                      'total_Power']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" LF to HF",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "LF to HF",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['lFtoHF']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['lFtoHF']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['lFtoHF']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!
+                                                      .result!['lFtoHF']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" sdrr",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "SDRR",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['sdrr']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['sdrr']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['sdrr']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!
+                                                      .result!['sdrr']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(" rmssdrr",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
-                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "RMSSDRR",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              showInfoDiog(context,
+                                                  "This is the test description");
+                                            },
+                                            child:
+                                                const Icon(Icons.info_outline))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     SfCartesianChart(
                                       primaryXAxis: const NumericAxis(),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint, double>>[
+                                      series: <ScatterSeries<ScatterPoint,
+                                          double>>[
                                         ScatterSeries<ScatterPoint, double>(
                                           dataSource: [
-                                            for(int i = 0;i<snapshot.data!.result!['rmssdrr']!.length;i++)
-                                              ScatterPoint(i.toDouble(), snapshot.data!.result!['rmssdrr']![i]),
+                                            for (int i = 0;
+                                                i <
+                                                    snapshot
+                                                        .data!
+                                                        .result!['rmssdrr']!
+                                                        .length;
+                                                i++)
+                                              ScatterPoint(
+                                                  i.toDouble(),
+                                                  snapshot.data!
+                                                      .result!['rmssdrr']![i]),
                                           ],
-                                          xValueMapper: (ScatterPoint point, _) => point.x,
-                                          yValueMapper: (ScatterPoint point, _) => point.y,
-                                          pointColorMapper: (ScatterPoint point, _) =>
-                                          point.y < 15 ? Colors.yellow : Colors.green,
-                                          markerSettings: const MarkerSettings(),
+                                          xValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.x,
+                                          yValueMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y,
+                                          pointColorMapper:
+                                              (ScatterPoint point, _) =>
+                                                  point.y < 15
+                                                      ? Colors.yellow
+                                                      : Colors.green,
+                                          markerSettings:
+                                              const MarkerSettings(),
                                         ),
                                       ],
                                     ),
@@ -366,7 +669,9 @@ class _SummaryScreenState extends State<SummaryScreen>
                                   child: Text(snapshot.error.toString()),
                                 );
                               } else {
-                                return  Center(child: Text(AppLocale.loading.getString(context)));
+                                return Center(
+                                    child: Text(
+                                        AppLocale.loading.getString(context)));
                               }
                             },
                           ),
@@ -375,8 +680,6 @@ class _SummaryScreenState extends State<SummaryScreen>
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),

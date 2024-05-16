@@ -27,7 +27,6 @@ class OfflineTestModel {
   IndividualResponseModel? individualPatientData;
   DateTime? created;
 
-
   OfflineTestModel({
     this.myRoleId,
     this.bpmList,
@@ -51,18 +50,21 @@ class OfflineTestModel {
             : List<int>.from(json["bpmList"]!.map((x) => x)),
         rrIntervalList: json["rrIntervalList"] == null
             ? []
-            : List<int>.from(
-                json["rrIntervalList"]!.map((x) => x)),
+            : List<int>.from(json["rrIntervalList"]!.map((x) => x)),
         scanDuration: json["scanDuration"],
         scanDurationName: json["scanDurationName"],
         deviceName: json["deviceName"],
         deviceId: json["deviceId"],
         userAndDeviceId: json["userAndDeviceId"],
         selectedDurationId: json["selectedDurationId"],
-        enterprisePatientData: json["enterprisePatientData"]== null ? null :EnterpriseResponseModel.fromJson(json["enterprisePatientData"]),
-        individualPatientData: json["individualPatientData"]== null ? null :IndividualResponseModel.fromJson(json["individualPatientData"]),
-        created: json["created"] == null ? null : DateTime.parse(json["created"]),
-
+        enterprisePatientData: json["enterprisePatientData"] == null
+            ? null
+            : EnterpriseResponseModel.fromJson(json["enterprisePatientData"]),
+        individualPatientData: json["individualPatientData"] == null
+            ? null
+            : IndividualResponseModel.fromJson(json["individualPatientData"]),
+        created:
+            json["created"] == null ? null : DateTime.parse(json["created"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,7 +82,6 @@ class OfflineTestModel {
         "selectedDurationId": selectedDurationId,
         "enterprisePatientData": enterprisePatientData?.toJson(),
         "individualPatientData": individualPatientData?.toJson(),
-    "created": created?.toIso8601String(),
-
-  };
+        "created": created?.toIso8601String(),
+      };
 }

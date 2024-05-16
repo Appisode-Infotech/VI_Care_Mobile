@@ -129,6 +129,13 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocale.takeTest.getString(context)),
+        actions: [
+          IconButton(onPressed: (){
+            showModalBottomSheet(context: context, builder: (BuildContext infoSheetContext){
+              return Container();
+            });
+          }, icon: Icon(Icons.info_outline_rounded))
+        ],
       ),
       body: Consumer(
         builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
@@ -419,23 +426,27 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     if (enterprisePatientData == null && individualPatientData == null) {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {
-        OfflineTestModel testDetails = OfflineTestModel(
-            myRoleId: prefModel.userData!.roleId,
-            bpmList: bpmList,
-            rrIntervalList: rrIntervalList,
-            scanDuration: selectedDuration!.durationInMinutes,
-            scanDurationName: selectedDuration!.name,
-            deviceName: selectedDevice!.name,
-            deviceId: selectedDevice!.serialNumber,
-            selectedDurationId: selectedDuration!.id,
-            userAndDeviceId: selectedDevice!.id,
-            enterprisePatientData: enterprisePatientData,
-            individualPatientData: individualPatientData,
-            created: DateTime.now());
+
+        final Map<String, dynamic> jsonData = {
+          "MyRoleId": prefModel.userData!.roleId,
+          "bpmList": bpmList,
+          "rrIntervalList": rrIntervalList,
+          "scanDuration": selectedDuration!.durationInMinutes,
+          "scanDurationName": selectedDuration!.name,
+          "deviceName": selectedDevice!.name,
+          "deviceId": selectedDevice!.serialNumber,
+          "userAndDeviceId": selectedDevice!.id,
+          "selectedDurationId": selectedDuration!.id,
+          "enterprisePatientData": enterprisePatientData,
+          "individualPatientData": individualPatientData,
+          "created": DateTime.now().toIso8601String() // Convert DateTime to String
+        };
+
+        final String jsonString = json.encode(jsonData);
+        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
         prefModel.offlineSavedTests!.add(testDetails);
         await AppPref.setPref(prefModel);
-        showSuccessToast(
-            context, AppLocale.testSavedOffline.getString(context));
+        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
       } else {
         showErrorToast(context, AppLocale.testDiscarded.getString(context));
       }
@@ -454,23 +465,30 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(AppLocale.close.getString(context))),
+                      child: const Text('Discard')),
                   TextButton(
                       onPressed: () async {
-                        prefModel.offlineSavedTests!.add(OfflineTestModel(
-                            myRoleId: prefModel.userData!.roleId,
-                            bpmList: bpmList,
-                            rrIntervalList: rrIntervalList,
-                            scanDuration: selectedDuration!.durationInMinutes,
-                            scanDurationName: selectedDuration!.name,
-                            deviceName: selectedDevice!.name,
-                            deviceId: selectedDevice!.serialNumber,
-                            selectedDurationId: selectedDuration!.id,
-                            userAndDeviceId: selectedDevice!.id,
-                            enterprisePatientData: enterprisePatientData,
-                            individualPatientData: individualPatientData,
-                            created: DateTime.now()));
+
+                        final Map<String, dynamic> jsonData = {
+                          "MyRoleId": prefModel.userData!.roleId,
+                          "bpmList": bpmList,
+                          "rrIntervalList": rrIntervalList,
+                          "scanDuration": selectedDuration!.durationInMinutes,
+                          "scanDurationName": selectedDuration!.name,
+                          "deviceName": selectedDevice!.name,
+                          "deviceId": selectedDevice!.serialNumber,
+                          "userAndDeviceId": selectedDevice!.id,
+                          "selectedDurationId": selectedDuration!.id,
+                          "enterprisePatientData": enterprisePatientData,
+                          "individualPatientData": individualPatientData,
+                          "created": DateTime.now().toIso8601String() // Convert DateTime to String
+                        };
+
+                        final String jsonString = json.encode(jsonData);
+                        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+                        prefModel.offlineSavedTests!.add(testDetails);
                         await AppPref.setPref(prefModel);
+
                         showSuccessToast(context,
                             AppLocale.testSavedOffline.getString(context));
                         Navigator.pop(context);
@@ -492,8 +510,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                   .result!.contact!.doB
                                   .toString()),
                           "gender": prefModel.userData!.roleId == 2
-                              ? individualPatientData!.result!.contact!.gender
-                              : enterprisePatientData!.result!.contact!.gender,
+                              ? (individualPatientData!.result!.contact!.gender == 1 ? 0 : 1)
+                              : (enterprisePatientData!.result!.contact!.gender == 1 ? 0 : 1),
                           "date": DateTime.now().toIso8601String(),
                           "countryCode": "IN",
                           "intervals": rrIntervalList
