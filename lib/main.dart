@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/auth/ui/forgot_reset_password.dart';
 import 'package:vicare/create_patients/ui/change_password_screen.dart';
@@ -42,13 +43,20 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppPref.getInstance();
-  runApp(
-    const MyApp(),
-  );
+  var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+  var bluetoothScanStatus = await Permission.bluetoothScan.request();
+
+  if (bluetoothConnectStatus == PermissionStatus.granted &&
+      bluetoothScanStatus == PermissionStatus.granted) {
+    runApp(const MyApp());
+  } else {
+
+  }
 }
 
 Size? screenSize;
