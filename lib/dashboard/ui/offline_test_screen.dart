@@ -212,6 +212,15 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                             : Text(
                                                 "${calculateAge("${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}"),
                                         const SizedBox(height: 5),
+                                        prefModel.offlineSavedTests![index]
+                                            .myRoleId ==
+                                            2
+                                            ? Text(
+                                            "${(prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender==1?"Male":"Female")}")
+                                            : Text(
+                                            "${(prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender==1?"Male":"Female")}"),
+                                        const SizedBox(height: 5),
+
                                         Text(
                                           "${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
                                           style: const TextStyle(

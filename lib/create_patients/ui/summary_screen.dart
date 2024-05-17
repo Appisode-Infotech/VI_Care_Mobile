@@ -134,16 +134,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         InkWell(
                                             onTap: () {
-                                              showInfoDiog(
-                                                  context,'''What is the Readyness Score?
-                                                  
+                                              showInfoDiog(context,
+                                                  '''What is the Readyness Score?
+
 Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate.
-                                                 
+
 With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent.
-                                                 
+
 The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement.
 The Readyness Score shows you how well you can cope with your day.
-                                                  
+
 What Influences your ANS and thus your Readyness Score?''');
                                             },
                                             child:
@@ -154,11 +154,13 @@ What Influences your ANS and thus your Readyness Score?''');
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                          maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -184,7 +186,16 @@ What Influences your ANS and thus your Readyness Score?''');
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                  isVisible: true),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -204,8 +215,8 @@ What Influences your ANS and thus your Readyness Score?''');
                                         GestureDetector(
                                             onTap: () {
                                               showInfoDiog(context, '''
-What resting heart rate is normal? 
-                                              
+What resting heart rate is normal?
+
 The heart rate describes the number of measured beats per minute (bpm). A difference is made between:
 - Low heart rate (bradycardia)
 - Normal heart rate (normofrequency)
@@ -227,11 +238,13 @@ The following list shows orientation values for the resting pulse rate depending
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis: NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -239,9 +252,10 @@ The following list shows orientation values for the resting pulse rate depending
                                                         .result!['ari']!.length;
                                                 i++)
                                               ScatterPoint(
-                                                  i.toDouble(),
-                                                  snapshot.data!
-                                                      .result!['ari']![i]),
+                                                i.toDouble(),
+                                                snapshot
+                                                    .data!.result!['ari']![i],
+                                              ),
                                           ],
                                           xValueMapper:
                                               (ScatterPoint point, _) =>
@@ -249,13 +263,16 @@ The following list shows orientation values for the resting pulse rate depending
                                           yValueMapper:
                                               (ScatterPoint point, _) =>
                                                   point.y,
-                                          pointColorMapper:
-                                              (ScatterPoint point, _) =>
-                                                  point.y < 15
-                                                      ? Colors.yellow
-                                                      : Colors.green,
-                                          markerSettings:
-                                              const MarkerSettings(),
+                                          markerSettings: const MarkerSettings(
+                                              isVisible: true),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -274,8 +291,9 @@ The following list shows orientation values for the resting pulse rate depending
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context, '''Ratio of Stress towards Relaxation:
-                                              
+                                              showInfoDiog(context,
+                                                  '''Ratio of Stress towards Relaxation:
+
 Degree of expression of the sympathetic towards the parasympathetic activation.
 
 Normal Range: 0.7-3 (higher values are not good).''');
@@ -288,11 +306,13 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -318,8 +338,16 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                                   point.y < 15
                                                       ? Colors.yellow
                                                       : Colors.green,
-                                          markerSettings:
-                                              const MarkerSettings(),
+                                          markerSettings: const MarkerSettings(
+                                              isVisible: true),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -338,15 +366,15 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context, '''Low Frequency indicates the stress state of the individual.
-                                              
-LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value 
-may indicate increased sympathetic activity, which is associated with the body's "fight or flight" response to stress. Conversely, a lower LF power value may indicate 
-increased parasympathetic activity, which is associated with the body's "rest and digest" 
-response and can be a positive indicator of heart health and overall fitness.
-                                               
-Normal Range: 100-500 ms² (higher values are not good).''');
+                                              showInfoDiog(context,
+                                                  '''Low Frequency indicates the stress state of the individual.
 
+LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value
+may indicate increased sympathetic activity, which is associated with the body's "fight or flight" response to stress. Conversely, a lower LF power value may indicate
+increased parasympathetic activity, which is associated with the body's "rest and digest"
+response and can be a positive indicator of heart health and overall fitness.
+
+Normal Range: 100-500 ms² (higher values are not good).''');
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -356,11 +384,13 @@ Normal Range: 100-500 ms² (higher values are not good).''');
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -386,7 +416,17 @@ Normal Range: 100-500 ms² (higher values are not good).''');
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                isVisible:true
+                                              ),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -407,7 +447,7 @@ Normal Range: 100-500 ms² (higher values are not good).''');
                                             onTap: () {
                                               showInfoDiog(context,
                                                   '''High Frequency indicates the state of relaxation or the regeneration capacity of the individual.
-                                                  
+
 Normal Range: 100-500 ms2 (higher values are better)''');
                                             },
                                             child:
@@ -418,11 +458,13 @@ Normal Range: 100-500 ms2 (higher values are better)''');
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -448,7 +490,17 @@ Normal Range: 100-500 ms2 (higher values are better)''');
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                isVisible:true
+                                              ),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -472,7 +524,6 @@ Total Power is the measure of the overall status of the autonomous-nervous regul
 
 Normal Range: 1000-2000 ms² (higher values are better).
 ''');
-
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -482,11 +533,13 @@ Normal Range: 1000-2000 ms² (higher values are better).
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -512,7 +565,17 @@ Normal Range: 1000-2000 ms² (higher values are better).
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                isVisible:true
+                                              ),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -531,8 +594,9 @@ Normal Range: 1000-2000 ms² (higher values are better).
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                                  showInfoDiog(context, '''Ratio of Stress towards Relaxation:
-                                              
+                                              showInfoDiog(context,
+                                                  '''Ratio of Stress towards Relaxation:
+
 Degree of expression of the sympathetic towards the parasympathetic activation.
 Normal Range: 0.7-3 (higher values are not good).''');
                                             },
@@ -544,11 +608,13 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -574,7 +640,17 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                isVisible:true
+                                              ),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -593,7 +669,8 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context, '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.
+                                              showInfoDiog(context,
+                                                  '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.
 ''');
                                             },
                                             child:
@@ -604,11 +681,13 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -634,7 +713,17 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                isVisible:true
+                                              ),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -660,8 +749,6 @@ Lower values may indicate stress, fatigue, or other factors.
 Impact of training loads and recovery can be derived from RMSSD.
 Normal Range: 20-150 ms (higher values are better).
 ''');
-
-
                                             },
                                             child:
                                                 const Icon(Icons.info_outline))
@@ -671,11 +758,13 @@ Normal Range: 20-150 ms (higher values are better).
                                       height: 5,
                                     ),
                                     SfCartesianChart(
-                                      primaryXAxis: const NumericAxis(),
+                                      primaryXAxis:  NumericAxis(
+                                        maximum: _calculateMaxCount(j).toDouble(),
+                                      ),
                                       primaryYAxis: const NumericAxis(),
-                                      series: <ScatterSeries<ScatterPoint,
+                                      series: <LineSeries<ScatterPoint,
                                           double>>[
-                                        ScatterSeries<ScatterPoint, double>(
+                                        LineSeries<ScatterPoint, double>(
                                           dataSource: [
                                             for (int i = 0;
                                                 i <
@@ -701,7 +790,17 @@ Normal Range: 20-150 ms (higher values are better).
                                                       ? Colors.yellow
                                                       : Colors.green,
                                           markerSettings:
-                                              const MarkerSettings(),
+                                              const MarkerSettings(
+                                                isVisible:true
+                                              ),
+                                          dataLabelSettings: const DataLabelSettings(
+                                            isVisible: true,
+                                            labelAlignment: ChartDataLabelAlignment.auto,
+                                            textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -733,5 +832,22 @@ Normal Range: 20-150 ms (higher values are better).
         );
       },
     );
+  }
+
+  int _calculateMaxCount(int period) {
+    switch (period) {
+      case 1: // 1 week
+        return 7;
+      case 2: // 1 month
+        return 30;
+      case 3: // 3 months
+        return 90;
+      case 4: // 6 months
+        return 180;
+      case 5: // 1 year
+        return 365;
+      default:
+        return 7;
+    }
   }
 }
