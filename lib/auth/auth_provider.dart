@@ -51,7 +51,6 @@ class AuthProvider extends ChangeNotifier {
   bool loginIsShowPassword = true;
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
-  BuildContext? loginPageContext;
 
   // Register page declarations
   final registerFormKey = GlobalKey<FormState>();
@@ -79,7 +78,6 @@ class AuthProvider extends ChangeNotifier {
   String? registerAs;
   String? registerStateAs;
   String? gender;
-  BuildContext? registerPageContext;
 
   // Forgot password page declarations
   final forgotPasswordFormKey = GlobalKey<FormState>();
@@ -127,27 +125,27 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login() async {
-    showLoaderDialog(loginPageContext!);
+  Future<void> login(BuildContext context) async {
+    showLoaderDialog(context);
     RegisterResponseModel response = await apiCalls.loginUser(
         loginEmailController.text,
         loginPasswordController.text,
-        loginPageContext!);
+        context);
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
-      Navigator.pop(loginPageContext!);
+      Navigator.pop(context);
       Navigator.pushNamedAndRemoveUntil(
-          loginPageContext!, Routes.dashboardRoute, (route) => false);
+          context, Routes.dashboardRoute, (route) => false);
       clearLoginForm();
     } else {
-      Navigator.pop(loginPageContext!);
-      showErrorToast(loginPageContext!, response.message!);
+      Navigator.pop(context);
+      showErrorToast(context, response.message!);
     }
   }
 
-   register() async {
-    showLoaderDialog(registerPageContext!);
+   register(BuildContext context) async {
+    showLoaderDialog(context);
     RegisterResponseModel response = await apiCalls.registerNewUser(
         profilePic: registerSelectedImage,
         dob: registerDobController.text,
@@ -159,7 +157,7 @@ class AuthProvider extends ChangeNotifier {
         bloodGroup: registerBloodGroup,
         contact: registerContactNumberController.text,
         password: registerPasswordController.text,
-        context: registerPageContext!,
+        context: context,
         state: selectedStateId,
         street: registerStreetController.text,
         area: registerAreaController.text,
@@ -170,25 +168,25 @@ class AuthProvider extends ChangeNotifier {
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
-      Navigator.pop(registerPageContext!);
-      Navigator.pushReplacementNamed(registerPageContext!, Routes.loginRoute);
-      showSuccessToast(registerPageContext!, response.message!);
+      Navigator.pop(context);
+      showSuccessToast(context, response.message!);
       clearRegisterForm();
+      Navigator.pop(context);
     } else {
-      Navigator.pop(registerPageContext!);
-      showErrorToast(registerPageContext!, response.message!);
+      showErrorToast(context, response.message!);
+      Navigator.pop(context);
     }
   }
 
-  Future<SendOtpResponseModel> sendOtp() async {
-    showLoaderDialog(registerPageContext!);
+  Future<SendOtpResponseModel> sendOtp(BuildContext context) async {
+    showLoaderDialog(context);
     SendOtpResponseModel response = await apiCalls.sendOtpToRegister(
-        registerEmailController.text, registerPageContext!);
-    Navigator.pop(registerPageContext!);
+        registerEmailController.text, context);
+    Navigator.pop(context);
     if (response.result == null) {
-      showErrorToast(registerPageContext!, response.message!);
+      showErrorToast(context, response.message!);
     } else {
-      showSuccessToast(registerPageContext!, response.message!);
+      showSuccessToast(context, response.message!);
     }
     return response;
   }

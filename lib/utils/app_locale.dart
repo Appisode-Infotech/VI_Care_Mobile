@@ -274,6 +274,7 @@ mixin AppLocale {
   static const String reportsFailed = 'reportsFailed';
   static const String reportNotReady = 'reportNotReady';
   static const String noPatientDate = 'noPatientDate';
+  static const String deviceKey = 'deviceKey';
 
   static const String thisIs = 'thisIs';
 
@@ -282,7 +283,7 @@ mixin AppLocale {
     getStartedBtnTitle: 'Login to get started',
     connectMeasure: 'Connect, Measure \nand Thrive!',
     joinHruday:
-        "Join Hrudayin for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!",
+        "Join Vi Care for a heart-healthy journey. \nConnect your device, measure your \nheart rate, and thrive with \npersonalized insights!",
     dntHaveAnAccount: 'Dont have an account ? ',
     signUpNow: ' Sign Up Now',
     signIn: 'Sign in',
@@ -550,6 +551,7 @@ mixin AppLocale {
     reportsFailed:  "Looks like report failed to generate. Please take a test again",
 
     notAddedDevice: "You have not added any devices yet. Please add the device to continue.",
+    deviceKey: "Device Key",
     thisIs: 'This is %a package, version %a.',
   };
 
@@ -578,7 +580,7 @@ mixin AppLocale {
     privacyPolicy: 'ಗೌಪ್ಯತಾ ನೀತಿ',
     connectMeasure: 'ಸಂಪರ್ಕಿಸಿ, ಅಳತೆ ಮಾಡಿ \nಮತ್ತು ವೃದ್ಧಿ!',
     joinHruday:
-        "ಹೃದಯ-ಆರೋಗ್ಯಕರ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಹೃದಯಿನ್‌ಗೆ ಸೇರಿಕೊಳ್ಳಿ. \nನಿಮ್ಮ ಸಾಧನವನ್ನು ಸಂಪರ್ಕಿಸಿ, ನಿಮ್ಮ ಹೃದಯ ಬಡಿತವನ್ನು ಅಳೆಯಿರಿ ಮತ್ತು \nವೈಯಕ್ತಿಕ ಒಳನೋಟಗಳೊಂದಿಗೆ ಅಭಿವೃದ್ಧಿ ಹೊಂದಿ!",
+        "ಹೃದಯ-ಆರೋಗ್ಯಕರ ಪ್ರಯಾಣಕ್ಕಾಗಿ ವಿ ಕೇರ್‌ಗೆ ಸೇರಿ. \nನಿಮ್ಮ ಸಾಧನವನ್ನು ಸಂಪರ್ಕಿಸಿ, ನಿಮ್ಮ ಹೃದಯ ಬಡಿತವನ್ನು ಅಳೆಯಿರಿ ಮತ್ತು \nವೈಯಕ್ತಿಕ ಒಳನೋಟಗಳೊಂದಿಗೆ ಅಭಿವೃದ್ಧಿ ಹೊಂದಿ!",
     previous: 'ಹಿಂದಿನ',
     next: 'ಮುಂದೆ',
     and: 'ಮತ್ತು \n',
@@ -828,6 +830,7 @@ mixin AppLocale {
     noPatientDate: "ಈ ಪರೀಕ್ಷೆಯ ಜೊತೆ ಯಾವುದೇ ರೋಗಿ ಡೇಟಾ ಲಿಂಕ್ ಆಗಿಲ್ಲ",
     reportNotReady: "ಅರಿವಿಗೆ ಬರುವವರೆಗೆ ವರದಿ ಸಿದ್ಧವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಪರಿಶೀಲಿಸಿ",
     reportsFailed: "ರಿಪೋರ್ಟ್ ರಚಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪರೀಕ್ಷೆ ಮಾಡಿ",
+    deviceKey: "ಸಾಧನ ಕೀ",
 
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
@@ -1105,7 +1108,9 @@ mixin AppLocale {
     noPatientDate: "इस परीक्षण के साथ कोई रोगी डेटा लिंक नहीं किया गया है",
     reportNotReady: "रिपोर्ट अभी तैयार नहीं है। कृपया कुछ समय बाद जांच करें",
     reportsFailed: "लगता है रिपोर्ट तैयार करने में विफल रही। कृपया पुनः परीक्षण लें",
+    deviceKey: "डिवाइस कुंजी",
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
+
   };
 
   static const Map<String, dynamic> de = {
@@ -1382,6 +1387,8 @@ mixin AppLocale {
     noPatientDate: "Mit diesem Test ist keine Patientendaten verknüpft",
     reportNotReady: "Der Bericht ist noch nicht bereit. Bitte überprüfen Sie später erneut",
     reportsFailed: "Es scheint, dass der Bericht nicht erstellt werden konnte. Bitte machen Sie einen erneuten Test",
+    deviceKey: "Geräteschlüssel",
+
   };
 
   static const Map<String, dynamic> TE = {
@@ -1659,7 +1666,7 @@ mixin AppLocale {
     noPatientDate: "ఈ పరీక్షతో ఎవరైనా రోగి డేటా లింక్ చేయబడలేదు",
     reportNotReady: "నిర్వచిత సమయంలో అరచేత సమాచారం లేదు. దయచేసి సమయం తర్వాత తిరిగి తనిఖీ చేయండి",
     reportsFailed: "రిపోర్టు తయారు చేయడం విఫలమైంది. దయచేసి మళ్ళీ పరీక్ష చేయండి",
-
+    deviceKey:"పరికర కీ",
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
 
@@ -1940,7 +1947,7 @@ mixin AppLocale {
     noPatientDate: "இந்த சேர்க்கையுடன் எந்த நோயாளி தரவு இணைக்கப்படவில்லை",
     reportNotReady: "அறிக்கை தயாராக இல்லை. தயவு செய்து சிறிய நேரம் பின்னூட்டவும் சரிபார்க்கவும்",
     reportsFailed: "அறிக்கை உருவாக்குதல் தோல்வியடைந்துள்ளது போல தெரியும். மீண்டும் சேர்க்கையைச் செய்யுங்கள்",
-
+    deviceKey:"சாதன விசை",
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
 
@@ -2215,6 +2222,7 @@ mixin AppLocale {
     noPatientDate: "ഈ പരീക്ഷയുടെയോളം പേര് ഡാറ്റ ലിങ്ക് ചെയ്തിട്ടില്ല",
     reportNotReady: "റിപ്പോർട്ട് ഇപ്പോൾ തയ്യാറായിരിക്കില്ല. ചെക്ക് ചെയ്യുക",
     reportsFailed: "റിപ്പോർട്ട് നിർമ്മിക്കൽ താളിക്കുന്നു. അപ്പോൾ വീണ്ടും പരീക്ഷിക്കുക",
+    deviceKey:"ഉപകരണ കീ",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

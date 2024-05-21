@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -129,6 +130,34 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocale.takeTest.getString(context)),
+        actions: [
+          IconButton(onPressed: (){
+            showModalBottomSheet(context: context, builder: (BuildContext infoSheetContext){
+              return SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                 child: Column(
+                   children: [
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Text("FAQ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+                         GestureDetector(
+                             onTap: (){
+                               Navigator.pop(context);
+                             },
+                             child: Icon(Icons.close)),
+                       ],
+                     ),
+                     SizedBox(height: 10,),
+                     Text("Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
+                   ],
+                 )
+                ),
+              );
+            });
+          }, icon: Icon(Icons.info_outline_rounded))
+        ],
       ),
       body: Consumer(
         builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
@@ -425,23 +454,27 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     if (enterprisePatientData == null && individualPatientData == null) {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {
-        OfflineTestModel testDetails = OfflineTestModel(
-            myRoleId: prefModel.userData!.roleId,
-            bpmList: bpmList,
-            rrIntervalList: rrIntervalList,
-            scanDuration: selectedDuration!.durationInMinutes,
-            scanDurationName: selectedDuration!.name,
-            deviceName: selectedDevice!.name,
-            deviceId: selectedDevice!.serialNumber,
-            selectedDurationId: selectedDuration!.id,
-            userAndDeviceId: selectedDevice!.id,
-            enterprisePatientData: enterprisePatientData,
-            individualPatientData: individualPatientData,
-            created: DateTime.now());
+
+        final Map<String, dynamic> jsonData = {
+          "MyRoleId": prefModel.userData!.roleId,
+          "bpmList": bpmList,
+          "rrIntervalList": rrIntervalList,
+          "scanDuration": selectedDuration!.durationInMinutes,
+          "scanDurationName": selectedDuration!.name,
+          "deviceName": selectedDevice!.name,
+          "deviceId": selectedDevice!.serialNumber,
+          "userAndDeviceId": selectedDevice!.id,
+          "selectedDurationId": selectedDuration!.id,
+          "enterprisePatientData": enterprisePatientData,
+          "individualPatientData": individualPatientData,
+          "created": DateTime.now().toIso8601String() // Convert DateTime to String
+        };
+
+        final String jsonString = json.encode(jsonData);
+        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
         prefModel.offlineSavedTests!.add(testDetails);
         await AppPref.setPref(prefModel);
-        showSuccessToast(
-            context, AppLocale.testSavedOffline.getString(context));
+        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
       } else {
         showErrorToast(context, AppLocale.testDiscarded.getString(context));
       }
@@ -460,23 +493,30 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(AppLocale.close.getString(context))),
+                      child: const Text('Discard')),
                   TextButton(
                       onPressed: () async {
-                        prefModel.offlineSavedTests!.add(OfflineTestModel(
-                            myRoleId: prefModel.userData!.roleId,
-                            bpmList: bpmList,
-                            rrIntervalList: rrIntervalList,
-                            scanDuration: selectedDuration!.durationInMinutes,
-                            scanDurationName: selectedDuration!.name,
-                            deviceName: selectedDevice!.name,
-                            deviceId: selectedDevice!.serialNumber,
-                            selectedDurationId: selectedDuration!.id,
-                            userAndDeviceId: selectedDevice!.id,
-                            enterprisePatientData: enterprisePatientData,
-                            individualPatientData: individualPatientData,
-                            created: DateTime.now()));
+
+                        final Map<String, dynamic> jsonData = {
+                          "MyRoleId": prefModel.userData!.roleId,
+                          "bpmList": bpmList,
+                          "rrIntervalList": rrIntervalList,
+                          "scanDuration": selectedDuration!.durationInMinutes,
+                          "scanDurationName": selectedDuration!.name,
+                          "deviceName": selectedDevice!.name,
+                          "deviceId": selectedDevice!.serialNumber,
+                          "userAndDeviceId": selectedDevice!.id,
+                          "selectedDurationId": selectedDuration!.id,
+                          "enterprisePatientData": enterprisePatientData,
+                          "individualPatientData": individualPatientData,
+                          "created": DateTime.now().toIso8601String() // Convert DateTime to String
+                        };
+
+                        final String jsonString = json.encode(jsonData);
+                        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+                        prefModel.offlineSavedTests!.add(testDetails);
                         await AppPref.setPref(prefModel);
+
                         showSuccessToast(context,
                             AppLocale.testSavedOffline.getString(context));
                         Navigator.pop(context);
@@ -496,10 +536,10 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                   .toString())
                               : calculateAge(enterprisePatientData!
                                   .result!.contact!.doB
-                                  .toString()),
+                              .toString()),
                           "gender": prefModel.userData!.roleId == 2
-                              ? individualPatientData!.result!.contact!.gender
-                              : enterprisePatientData!.result!.contact!.gender,
+                              ? ( individualPatientData!.result!.contact!.gender == 1 ? 0 : 1)
+                              : (enterprisePatientData!.result!.contact!.gender == 1 ? 0 : 1),
                           "date": DateTime.now().toIso8601String(),
                           "countryCode": "IN",
                           "intervals": rrIntervalList

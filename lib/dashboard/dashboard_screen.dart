@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
 import 'package:vicare/dashboard/model/duration_response_model.dart';
@@ -10,6 +11,7 @@ import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../main.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_locale.dart';
 
@@ -43,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         if (selectedItemPosition != 0) {
           changeScreen(0);
           return false;
-        }else{
+        } else {
           return true;
         }
       },
@@ -90,19 +92,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               label: AppLocale.home.getString(context),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart),
+              icon: const Icon(Icons.bar_chart),
               label: AppLocale.reports.getString(context),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.airline_seat_recline_extra_outlined),
-              label: AppLocale.patients.getString(context),
+              icon: const Icon(Icons.airline_seat_recline_extra_outlined),
+              label: prefModel.userData!.roleId == 2
+                  ? AppLocale.members.getString(context)
+                  : prefModel.userData!.roleId == 3
+                      ? AppLocale.patients.getString(context)
+                      : prefModel.userData!.roleId == 4
+                          ? AppLocale.player.getString(context)
+                          : "",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: const Icon(Icons.person),
               label: AppLocale.profile.getString(context),
             ),
           ],
@@ -124,29 +132,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
             height: 50.0,
             child: FloatingActionButton(
               onPressed: () async {
-                showLoaderDialog(context);
-                DeviceResponseModel myDevices =
-                    await deviceProvider.getMyDevices();
-                DurationResponseModel myDurations =
-                    await deviceProvider.getAllDuration();
-                Navigator.pop(context);
-                if (myDevices.result != null &&
-                    myDevices.result!.devices!.isNotEmpty) {
-                  showTestFormBottomSheet(
-                      context, myDevices, myDurations, null, null);
-                } else {
-                  showErrorToast(
-                      context, AppLocale.deviceNotAdded.getString(context));
+                var bluetoothConnectStatus =
+                    await Permission.bluetoothConnect.request();
+                var bluetoothScanStatus =
+                    await Permission.bluetoothScan.request();
+                if (bluetoothConnectStatus == PermissionStatus.granted &&
+                    bluetoothScanStatus == PermissionStatus.granted) {
+                  showLoaderDialog(context);
+                  DeviceResponseModel myDevices =
+                      await deviceProvider.getMyDevices();
+                  DurationResponseModel myDurations =
+                      await deviceProvider.getAllDuration();
+                  Navigator.pop(context);
+                  if (myDevices.result != null &&
+                      myDevices.result!.isNotEmpty) {
+                    showTestFormBottomSheet(
+                        context, myDevices, myDurations, null, null);
+                  } else {
+                    showErrorToast(
+                        context, AppLocale.deviceNotAdded.getString(context));
+                  }
                 }
-                // if (myDevices.result!.devices!.isEmpty) {
-                //   showErrorToast(context, myDevices.message!);
-                // } else {
-                //   Navigator.pushNamed(context, Routes.takeTestRoute,
-                //       arguments: {
-                //         'enterprisePatientData': null,
-                //         'deviceData': myDevices.result!.devices![0]
-                //       });
-                // }
               },
               backgroundColor: AppColors.primaryColor,
               child: const Icon(Icons.monitor_heart_outlined,

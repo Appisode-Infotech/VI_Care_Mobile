@@ -16,19 +16,14 @@ class PrefModel {
       userData: parsedJson["userData"] == null
           ? null
           : UserData.fromJson(parsedJson["userData"]),
-      offlineSavedTests: parsedJson["offlineSavedTests"] == null
-          ? []
-          : List<OfflineTestModel>.from(parsedJson["offlineSavedTests"]
-              .map((x) => OfflineTestModel.fromJson(x))),
+      offlineSavedTests: parsedJson["offlineSavedTests"] == null ? [] : List<OfflineTestModel>.from(parsedJson["offlineSavedTests"].map((x) => OfflineTestModel.fromJson(x))),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "userData": userData?.toJson(),
-      "offlineSavedTests": offlineSavedTests == null
-          ? null
-          : List<dynamic>.from(offlineSavedTests!.map((x) => x.toJson())),
+      "offlineSavedTests": offlineSavedTests == null ? [] : List<dynamic>.from(offlineSavedTests!.map((x) => x.toJson())),
     };
   }
 }

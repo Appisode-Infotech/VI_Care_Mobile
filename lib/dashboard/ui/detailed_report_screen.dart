@@ -343,6 +343,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
+                                border: Border.all(width: 1,color: Colors.grey)
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,

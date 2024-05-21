@@ -12,7 +12,7 @@ class DeviceResponseModel {
   String? message;
   bool? isSuccess;
   dynamic pageResult;
-  Result? result;
+  List<Result>? result;
   dynamic errors;
 
   DeviceResponseModel({
@@ -27,7 +27,7 @@ class DeviceResponseModel {
     message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
+    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
     errors: json["errors"],
   );
 
@@ -35,28 +35,64 @@ class DeviceResponseModel {
     "message": message,
     "isSuccess": isSuccess,
     "pageResult": pageResult,
-    "result": result?.toJson(),
+    "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
     "errors": errors,
   };
 }
 
 class Result {
+  String? type;
+  String? deviceSerialNo;
+  bool? isPaired;
+  int? roleId;
+  Role? role;
+  int? userId;
   User? user;
-  List<Device>? devices;
+  int? deviceId;
+  Device? device;
+  String? uniqueGuid;
+  int? id;
 
   Result({
+    this.type,
+    this.deviceSerialNo,
+    this.isPaired,
+    this.roleId,
+    this.role,
+    this.userId,
     this.user,
-    this.devices,
+    this.deviceId,
+    this.device,
+    this.uniqueGuid,
+    this.id,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
+    type: json["type"],
+    deviceSerialNo: json["deviceSerialNo"],
+    isPaired: json["isPaired"],
+    roleId: json["roleId"],
+    role: json["role"] == null ? null : Role.fromJson(json["role"]),
+    userId: json["userId"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
-    devices: json["devices"] == null ? [] : List<Device>.from(json["devices"]!.map((x) => Device.fromJson(x))),
+    deviceId: json["deviceId"],
+    device: json["device"] == null ? null : Device.fromJson(json["device"]),
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
+    "type": type,
+    "deviceSerialNo": deviceSerialNo,
+    "isPaired": isPaired,
+    "roleId": roleId,
+    "role": role?.toJson(),
+    "userId": userId,
     "user": user?.toJson(),
-    "devices": devices == null ? [] : List<dynamic>.from(devices!.map((x) => x.toJson())),
+    "deviceId": deviceId,
+    "device": device?.toJson(),
+    "uniqueGuid": uniqueGuid,
+    "id": id,
   };
 }
 
@@ -65,23 +101,26 @@ class Device {
   String? serialNumber;
   String? manufacturer;
   bool? isPaired;
-  dynamic model;
-  String? pairedDate;
+  String? model;
   String? deviceKey;
+  String? pairedDate;
   int? deviceStatus;
   String? description;
-  double? purchaseCost;
-  double? sellingCost;
+  String? purchaseCost;
+  String? sellingCost;
   String? warrantyDuration;
   int? validity;
   int? deviceType;
   String? ipAddress;
-  int? allocationStatus;
   int? deviceCategory;
-  String? remarks;
+  int? allocationStatus;
+  dynamic remarks;
   int? subscriberDeviceId;
   int? userId;
+  dynamic user;
   int? subscriberId;
+  dynamic subscriber;
+  List<dynamic>? documents;
   String? uniqueGuid;
   int? id;
 
@@ -91,8 +130,8 @@ class Device {
     this.manufacturer,
     this.isPaired,
     this.model,
-    this.pairedDate,
     this.deviceKey,
+    this.pairedDate,
     this.deviceStatus,
     this.description,
     this.purchaseCost,
@@ -101,12 +140,15 @@ class Device {
     this.validity,
     this.deviceType,
     this.ipAddress,
-    this.allocationStatus,
     this.deviceCategory,
+    this.allocationStatus,
     this.remarks,
     this.subscriberDeviceId,
     this.userId,
+    this.user,
     this.subscriberId,
+    this.subscriber,
+    this.documents,
     this.uniqueGuid,
     this.id,
   });
@@ -117,22 +159,25 @@ class Device {
     manufacturer: json["manufacturer"],
     isPaired: json["isPaired"],
     model: json["model"],
-    pairedDate: json["pairedDate"],
     deviceKey: json["deviceKey"],
+    pairedDate: json["pairedDate"],
     deviceStatus: json["deviceStatus"],
     description: json["description"],
-    purchaseCost: json["purchaseCost"].toDouble(),
-    sellingCost: json["sellingCost"].toDouble(),
+    purchaseCost: json["purchaseCost"].toString(),
+    sellingCost: json["sellingCost"].toString(),
     warrantyDuration: json["warrantyDuration"],
     validity: json["validity"],
     deviceType: json["deviceType"],
     ipAddress: json["ipAddress"],
-    allocationStatus: json["allocationStatus"],
     deviceCategory: json["deviceCategory"],
+    allocationStatus: json["allocationStatus"],
     remarks: json["remarks"],
     subscriberDeviceId: json["subscriberDeviceId"],
     userId: json["userId"],
+    user: json["user"],
     subscriberId: json["subscriberId"],
+    subscriber: json["subscriber"],
+    documents: json["documents"] == null ? [] : List<dynamic>.from(json["documents"]!.map((x) => x)),
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -143,8 +188,8 @@ class Device {
     "manufacturer": manufacturer,
     "isPaired": isPaired,
     "model": model,
-    "pairedDate": pairedDate,
     "deviceKey": deviceKey,
+    "pairedDate": pairedDate,
     "deviceStatus": deviceStatus,
     "description": description,
     "purchaseCost": purchaseCost,
@@ -153,12 +198,51 @@ class Device {
     "validity": validity,
     "deviceType": deviceType,
     "ipAddress": ipAddress,
-    "allocationStatus": allocationStatus,
     "deviceCategory": deviceCategory,
+    "allocationStatus": allocationStatus,
     "remarks": remarks,
     "subscriberDeviceId": subscriberDeviceId,
     "userId": userId,
+    "user": user,
     "subscriberId": subscriberId,
+    "subscriber": subscriber,
+    "documents": documents == null ? [] : List<dynamic>.from(documents!.map((x) => x)),
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
+class Role {
+  String? name;
+  dynamic maximumMembers;
+  dynamic profileName;
+  bool? isAdmin;
+  String? uniqueGuid;
+  int? id;
+
+  Role({
+    this.name,
+    this.maximumMembers,
+    this.profileName,
+    this.isAdmin,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
+    name: json["name"],
+    maximumMembers: json["maximumMembers"],
+    profileName: json["profileName"],
+    isAdmin: json["isAdmin"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "maximumMembers": maximumMembers,
+    "profileName": profileName,
+    "isAdmin": isAdmin,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };
@@ -167,12 +251,11 @@ class Device {
 class User {
   String? email;
   String? contactNumber;
-  String? passwordHash;
-  String? passwordSalt;
   dynamic type;
   int? status;
   dynamic remarks;
   dynamic token;
+  String? refreshToken;
   int? contactId;
   Contact? contact;
   int? roleId;
@@ -190,12 +273,11 @@ class User {
   User({
     this.email,
     this.contactNumber,
-    this.passwordHash,
-    this.passwordSalt,
     this.type,
     this.status,
     this.remarks,
     this.token,
+    this.refreshToken,
     this.contactId,
     this.contact,
     this.roleId,
@@ -214,12 +296,11 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
     email: json["email"],
     contactNumber: json["contactNumber"],
-    passwordHash: json["passwordHash"],
-    passwordSalt: json["passwordSalt"],
     type: json["type"],
     status: json["status"],
     remarks: json["remarks"],
     token: json["token"],
+    refreshToken: json["refreshToken"],
     contactId: json["contactId"],
     contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     roleId: json["roleId"],
@@ -238,12 +319,11 @@ class User {
   Map<String, dynamic> toJson() => {
     "email": email,
     "contactNumber": contactNumber,
-    "passwordHash": passwordHash,
-    "passwordSalt": passwordSalt,
     "type": type,
     "status": status,
     "remarks": remarks,
     "token": token,
+    "refreshToken": refreshToken,
     "contactId": contactId,
     "contact": contact?.toJson(),
     "roleId": roleId,
@@ -261,7 +341,7 @@ class User {
 }
 
 class Contact {
-  String? firstname;
+  String? firstName;
   String? lastName;
   String? email;
   String? contactNumber;
@@ -274,7 +354,7 @@ class Contact {
   int? id;
 
   Contact({
-    this.firstname,
+    this.firstName,
     this.lastName,
     this.email,
     this.contactNumber,
@@ -288,7 +368,7 @@ class Contact {
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-    firstname: json["firstname"],
+    firstName: json["firstName"],
     lastName: json["lastName"],
     email: json["email"],
     contactNumber: json["contactNumber"],
@@ -302,7 +382,7 @@ class Contact {
   );
 
   Map<String, dynamic> toJson() => {
-    "firstname": firstname,
+    "firstName": firstName,
     "lastName": lastName,
     "email": email,
     "contactNumber": contactNumber,
@@ -367,42 +447,6 @@ class Address {
     "latitude": latitude,
     "stateId": stateId,
     "state": state,
-    "uniqueGuid": uniqueGuid,
-    "id": id,
-  };
-}
-
-class Role {
-  String? name;
-  dynamic maximumMembers;
-  dynamic profileName;
-  bool? isAdmin;
-  String? uniqueGuid;
-  int? id;
-
-  Role({
-    this.name,
-    this.maximumMembers,
-    this.profileName,
-    this.isAdmin,
-    this.uniqueGuid,
-    this.id,
-  });
-
-  factory Role.fromJson(Map<String, dynamic> json) => Role(
-    name: json["name"],
-    maximumMembers: json["maximumMembers"],
-    profileName: json["profileName"],
-    isAdmin: json["isAdmin"],
-    uniqueGuid: json["uniqueGuid"],
-    id: json["id"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "maximumMembers": maximumMembers,
-    "profileName": profileName,
-    "isAdmin": isAdmin,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };

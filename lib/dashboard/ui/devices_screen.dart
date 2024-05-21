@@ -1,9 +1,7 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
@@ -49,6 +47,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       builder:
           (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
         deviceProvider.devicePageContext = context;
+        deviceProvider.getMyDevices();
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -94,7 +93,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         )));
               }
               if (snapshot.hasData) {
-                return (snapshot.data!.result!=null && snapshot.data!.result!.devices!.isNotEmpty)? ListView.separated(
+                return (snapshot.data!.result != null &&
+                        snapshot.data!.result!.isNotEmpty)
+                    ? ListView.separated(
                         itemBuilder: (BuildContext listViewContext, int index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(
@@ -103,7 +104,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                 horizontal: 10, vertical: 16),
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,19 +114,40 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                   width: screenSize!.width * 0.7,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      _buildRow(AppLocale.deviceScreenName.getString(context), snapshot.data!.result!.devices![index].name!),
-                                      _buildRow(AppLocale.deviceScreenSNum.getString(context), snapshot.data!.result!.devices![index].serialNumber!),
-                                      _buildRow(AppLocale.bluetoothType.getString(context), snapshot.data!.result!.devices![index].deviceCategory == 2 ? 'LE' : 'Classic'),
+                                      _buildRow(
+                                          AppLocale.deviceScreenName
+                                              .getString(context),
+                                          snapshot.data!.result![index].device!
+                                              .name!),
+                                      _buildRow(
+                                          AppLocale.deviceScreenSNum
+                                              .getString(context),
+                                          snapshot.data!.result![index].device!
+                                              .serialNumber!),
+                                      _buildRow(
+                                          AppLocale.bluetoothType
+                                              .getString(context),
+                                          snapshot.data!.result![index].device!
+                                                      .deviceCategory ==
+                                                  2
+                                              ? 'LE'
+                                              : 'Classic'),
+                                      // _buildRow(AppLocale.deviceKey.getString(context), snapshot.data!.result![index].device!.deviceKey!),
                                     ],
                                   ),
                                 ),
                                 GestureDetector(
-                                    onTap: (){
-                                      deviceProvider.deleteDevice(snapshot.data!.result!.devices![index].id,context);
+                                    onTap: () {
+                                      deviceProvider.deleteDevice(
+                                          snapshot.data!.result![index].id,
+                                          context);
                                     },
-                                    child: const CircleAvatar(child: Icon(Icons.delete_outline_rounded)))
+                                    child: const CircleAvatar(
+                                        child:
+                                            Icon(Icons.delete_outline_rounded)))
                               ],
                             ),
                           );
@@ -134,7 +156,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                             (BuildContext listViewContext, int index) {
                           return const SizedBox();
                         },
-                        itemCount: snapshot.data!.result!.devices!.length)
+                        itemCount: snapshot.data!.result!.length)
                     : Center(
                         child: Text(
                           AppLocale.noDevicesFound.getString(context),
@@ -148,7 +170,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                return  Center(child: Text(AppLocale.loading.getString(context)));
+                return Center(
+                    child: Text(AppLocale.loading.getString(context)));
               }
             },
           ),
@@ -259,8 +282,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     },
                   ),
                   const Divider(),
-                   Text(
-                   AppLocale.instructions.getString(context),
+                  Text(
+                    AppLocale.instructions.getString(context),
                     style: const TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 16,
@@ -274,22 +297,30 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     ),
                   ),
                   const Divider(),
-                  getPrimaryAppButton(context, AppLocale.startPairing.getString(context),
+                  getPrimaryAppButton(
+                      context, AppLocale.startPairing.getString(context),
                       onPressed: () async {
-                        FlutterBlue flutterBlue = FlutterBlue.instance;
-                        if(await flutterBlue.isOn){
-                          if (selectedDeviceIndex == 0) {
-                            Navigator.pushNamed(
-                                context, Routes.scanLeDevicesToAddRoute)
-                                .then((value) => null);
-                          } else {
-                            showErrorToast(
-                                context, AppLocale.startPairingError.getString(context));
-                          }
-                        }else{
-                          showErrorToast(context, AppLocale.bluetoothIsOff.getString(context));
+                    var bluetoothConnectStatus =
+                        await Permission.bluetoothConnect.request();
+                    var bluetoothScanStatus =
+                        await Permission.bluetoothScan.request();
+                    if (bluetoothConnectStatus == PermissionStatus.granted &&
+                        bluetoothScanStatus == PermissionStatus.granted) {
+                      FlutterBlue flutterBlue = FlutterBlue.instance;
+                      if (await flutterBlue.isOn) {
+                        if (selectedDeviceIndex == 0) {
+                          Navigator.pushNamed(
+                                  context, Routes.scanLeDevicesToAddRoute)
+                              .then((value) => setState(() {}));
+                        } else {
+                          showErrorToast(context,
+                              AppLocale.startPairingError.getString(context));
                         }
-
+                      } else {
+                        showErrorToast(context,
+                            AppLocale.bluetoothIsOff.getString(context));
+                      }
+                    }
                   }),
                   const SizedBox(
                     height: 20,
@@ -302,6 +333,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       },
     );
   }
+
   Widget _buildRow(String label, String value) {
     return Row(
       children: [

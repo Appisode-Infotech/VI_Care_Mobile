@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     prefModel.offlineSavedTests ??= [];
+    AppPref.setPref(prefModel);
     localization.init(
       mapLocales: [
         const MapLocale(
