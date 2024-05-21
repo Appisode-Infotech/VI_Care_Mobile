@@ -232,7 +232,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(12)),
                             gradient: LinearGradient(
                               colors: [
-                                Color(0xFFD32F2F),
+                                Color(0xFFEC631B),
                                 Color(0xFFFFD600),
                                 Color(0xFF0094FF),
                                 Color(0xFF0BC612),

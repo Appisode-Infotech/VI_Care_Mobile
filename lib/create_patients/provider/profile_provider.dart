@@ -46,7 +46,7 @@ class ProfileProvider extends ChangeNotifier {
       editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
       editProfileFirstNameController.text = prefModel.userData!.contact!.firstname.toString();
       editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
-      editProfileStreetController.text=prefModel.userData!.contact!.address!.street!;
+      editProfileStreetController.text=prefModel.userData!.contact!.address!.street!=null?prefModel.userData!.contact!.address!.street!:"";
       editProfileAreaController.text=prefModel.userData!.contact!.address!.area!;
       editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!;
       editProfileCityController.text=prefModel.userData!.contact!.address!.city!;

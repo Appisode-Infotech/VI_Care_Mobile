@@ -506,7 +506,7 @@ mixin AppLocale {
     logoutSuccess: "Logout successful",
     findYourDevice: "Find your device",
     home: 'HOME',
-    deviceNotAdded: "You have not added any devices yet. Please add the device to continue.",
+    deviceNotAdded: "Device is not registered",
     chooseImageSource: "Choose Image Source",
     cropImage:'Crop Image',
     testNext:"Test completed successfully, what do you want to do?",
