@@ -644,7 +644,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: SizedBox(
+                  width: screenSize!.width*.75,
+                  child: Text(value)),
             );
           }).toList(),
         ),

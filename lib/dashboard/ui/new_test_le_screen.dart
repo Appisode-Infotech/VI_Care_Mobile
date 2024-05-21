@@ -493,7 +493,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Discard')),
+                      child: const Text('Cancel Test')),
                   TextButton(
                       onPressed: () async {
 
@@ -521,7 +521,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                             AppLocale.testSavedOffline.getString(context));
                         Navigator.pop(context);
                       },
-                      child: const Text("Save offline")),
+                      child: const Text("Save Offline")),
                   TextButton(
                       onPressed: () async {
                         showLoaderDialog(context);

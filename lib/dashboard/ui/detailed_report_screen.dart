@@ -198,7 +198,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Text goes here",
+                                      "Your Text goes here",
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -368,137 +368,137 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                             );
                           },
                         ),
-                        const Text(
-                          "Weight & BMI",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 50,
-                          padding: const EdgeInsets.all(15),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xFFD32F2F),
-                                Color(0xFFFFD600),
-                                Color(0xFF0094FF),
-                                Color(0xFF0BC612),
-                              ],
-                              stops: [0.0, 0.2, 0.76, 1.0],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                          ),
-                          child: Stack(
-                            children: [
-                              SfSlider(
-                                inactiveColor: Colors.transparent,
-                                activeColor: Colors.transparent,
-                                thumbIcon: const Icon(Icons.arrow_drop_up),
-                                min: 0.0,
-                                max: 100.0,
-                                interval: 2,
-                                showTicks: false,
-                                showLabels: false,
-                                enableTooltip: true,
-                                shouldAlwaysShowTooltip: true,
-                                value: 80,
-                                onChanged: (value) {},
-                              ),
-                              const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Low",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
-                                  ),
-                                  Text(
-                                    "High",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: screenSize!.width,
-                          padding: const EdgeInsets.all(20),
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: AppColors.primaryColor),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('KG',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                  Text('Weight',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('CM',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                  Text('Height',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('0',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                  Text('BMI',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                        // const Text(
+                        //   "Weight & BMI",
+                        //   style: TextStyle(
+                        //       decoration: TextDecoration.underline,
+                        //       fontSize: 18,
+                        //       fontWeight: FontWeight.bold),
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Container(
+                        //   height: 50,
+                        //   padding: const EdgeInsets.all(15),
+                        //   decoration: const BoxDecoration(
+                        //     borderRadius: BorderRadius.all(Radius.circular(12)),
+                        //     gradient: LinearGradient(
+                        //       colors: [
+                        //         Color(0xFFD32F2F),
+                        //         Color(0xFFFFD600),
+                        //         Color(0xFF0094FF),
+                        //         Color(0xFF0BC612),
+                        //       ],
+                        //       stops: [0.0, 0.2, 0.76, 1.0],
+                        //       begin: Alignment.centerLeft,
+                        //       end: Alignment.centerRight,
+                        //     ),
+                        //   ),
+                        //   child: Stack(
+                        //     children: [
+                        //       SfSlider(
+                        //         inactiveColor: Colors.transparent,
+                        //         activeColor: Colors.transparent,
+                        //         thumbIcon: const Icon(Icons.arrow_drop_up),
+                        //         min: 0.0,
+                        //         max: 100.0,
+                        //         interval: 2,
+                        //         showTicks: false,
+                        //         showLabels: false,
+                        //         enableTooltip: true,
+                        //         shouldAlwaysShowTooltip: true,
+                        //         value: 80,
+                        //         onChanged: (value) {},
+                        //       ),
+                        //       const Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             "Low",
+                        //             style: TextStyle(
+                        //                 color: Colors.white,
+                        //                 fontWeight: FontWeight.w600,
+                        //                 fontSize: 15),
+                        //           ),
+                        //           Text(
+                        //             "High",
+                        //             style: TextStyle(
+                        //                 color: Colors.white,
+                        //                 fontWeight: FontWeight.w600,
+                        //                 fontSize: 15),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Container(
+                        //   width: screenSize!.width,
+                        //   padding: const EdgeInsets.all(20),
+                        //   decoration: const BoxDecoration(
+                        //       borderRadius:
+                        //           BorderRadius.all(Radius.circular(10)),
+                        //       color: AppColors.primaryColor),
+                        //   child: const Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: [
+                        //       Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: [
+                        //           Text('KG',
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: Colors.white)),
+                        //           Text('Weight',
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: Colors.white)),
+                        //         ],
+                        //       ),
+                        //       Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: [
+                        //           Text('CM',
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: Colors.white)),
+                        //           Text('Height',
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: Colors.white)),
+                        //         ],
+                        //       ),
+                        //       Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: [
+                        //           Text('0',
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: Colors.white)),
+                        //           Text('BMI',
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: Colors.white)),
+                        //         ],
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -549,6 +549,6 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('MM/dd/yyyy hh:mm aa').format(parsedDateTime);
   }
 }

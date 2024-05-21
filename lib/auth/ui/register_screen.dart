@@ -167,13 +167,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           if (authProvider
                                               .registerFormKey.currentState!
                                               .validate()) {
-                                            if (authProvider
-                                                .registerSelectedImage ==
-                                                null) {
-                                              showErrorToast(context,
-                                                  AppLocale.validImage.getString(context));
-                                              return;
-                                            }
+                                            // if (authProvider
+                                            //     .registerSelectedImage ==
+                                            //     null) {
+                                            //   showErrorToast(context,
+                                            //       AppLocale.validImage.getString(context));
+                                            //   return;
+                                            // }
                                             authProvider.register(context);
                                           }
                                         },
@@ -551,12 +551,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            counter: SizedBox.shrink(),
+            counter: const SizedBox.shrink(),
           ),
         ),
         const SizedBox(
           height: 10,
         ),
+
         Text(AppLocale.lastName.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
@@ -805,7 +806,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         focusedBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: AppColors.primaryColor),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         border: OutlineInputBorder(
                           borderSide:
@@ -830,10 +831,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ],
         ),
+
         const SizedBox(
           height: 10,
         ),
-         Text(AppLocale.state.getString(context),
+        const Text("Country",
+            style: TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField<String>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please select country";
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: Colors.grey.shade50,
+              ),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            focusColor: Colors.transparent,
+            errorStyle: TextStyle(color: Colors.red.shade400),
+          ),
+          dropdownColor: Colors.white,
+          value: authProvider.registerCountryAs,
+          hint:  const Text("Country"),
+          onChanged: (String? value) {
+            for (var country in authProvider.countryMasterResponse!.result!) {
+              if (country.name == value) {
+                authProvider.selectedCountryId = country.id;
+                break;
+              }
+            }
+            setState(() {
+              authProvider.registerCountryAs = value!;
+            });
+          },
+          style: const TextStyle(color: Colors.black),
+          items: <String>[
+            for (int i = 0; i < authProvider.countryMasterResponse!.result!.length; i++)
+              authProvider.countryMasterResponse!.result![i].name.toString(),
+          ].map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.state.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -855,8 +913,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.grey.shade50,
               ),
             ),
-            contentPadding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),
@@ -881,53 +938,127 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: SizedBox(
+                  width: screenSize!.width*.75,
+                  child: Text(value)),
             );
           }).toList(),
         ),
-
         const SizedBox(
           height: 10,
         ),
-         Text(AppLocale.street.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          textCapitalization: TextCapitalization.sentences,
-          controller: authProvider.registerStreetController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.streetValid.getString(context);
-            }
-            return null;
-          },
-          keyboardType: TextInputType.streetAddress,
-          textInputAction: TextInputAction.next,
 
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintText: AppLocale.street.getString(context),
-            counterText: "",
-            isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
-            errorMaxLines: 2,
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black, width: 2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-          ),
-        ),
-         const SizedBox(height: 10,),
+        // const Text("Height",
+        //     style: TextStyle(fontWeight: FontWeight.w600)),
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        // TextFormField(
+        //   autovalidateMode: AutovalidateMode.onUserInteraction,
+        //   textCapitalization: TextCapitalization.sentences,
+        //   // controller: authProvider.registerStreetController,
+        //   keyboardType: TextInputType.number,
+        //   textInputAction: TextInputAction.next,
+        //
+        //   decoration: InputDecoration(
+        //     fillColor: Colors.white,
+        //     filled: true,
+        //     hintText: "Height",
+        //     counterText: "",
+        //     isCollapsed: true,
+        //     errorStyle: const TextStyle(color: Colors.red),
+        //     errorMaxLines: 2,
+        //     focusedBorder: OutlineInputBorder(
+        //       borderSide: const BorderSide(color: AppColors.primaryColor),
+        //       borderRadius: BorderRadius.circular(8),
+        //     ),
+        //     border: OutlineInputBorder(
+        //       borderSide: const BorderSide(color: Colors.black, width: 2),
+        //       borderRadius: BorderRadius.circular(8),
+        //     ),
+        //     contentPadding:
+        //     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        //   ),
+        // ),
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        //
+        // const Text("Weight",
+        //     style: TextStyle(fontWeight: FontWeight.w600)),
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        // TextFormField(
+        //   autovalidateMode: AutovalidateMode.onUserInteraction,
+        //   textCapitalization: TextCapitalization.sentences,
+        //   // controller: authProvider.registerStreetController,
+        //   keyboardType: TextInputType.number,
+        //   textInputAction: TextInputAction.next,
+        //
+        //   decoration: InputDecoration(
+        //     fillColor: Colors.white,
+        //     filled: true,
+        //     hintText: "Weight",
+        //     counterText: "",
+        //     isCollapsed: true,
+        //     errorStyle: const TextStyle(color: Colors.red),
+        //     errorMaxLines: 2,
+        //     focusedBorder: OutlineInputBorder(
+        //       borderSide: const BorderSide(color: AppColors.primaryColor),
+        //       borderRadius: BorderRadius.circular(8),
+        //     ),
+        //     border: OutlineInputBorder(
+        //       borderSide: const BorderSide(color: Colors.black, width: 2),
+        //       borderRadius: BorderRadius.circular(8),
+        //     ),
+        //     contentPadding:
+        //     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        //   ),
+        // ),
+        //
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        //  Text(AppLocale.street.getString(context),
+        //     style: const TextStyle(fontWeight: FontWeight.w600)),
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        // TextFormField(
+        //   autovalidateMode: AutovalidateMode.onUserInteraction,
+        //   textCapitalization: TextCapitalization.sentences,
+        //   controller: authProvider.registerStreetController,
+        //   // validator: (value) {
+        //   //   if (value!.isEmpty) {
+        //   //     return AppLocale.streetValid.getString(context);
+        //   //   }
+        //   //   return null;
+        //   // },
+        //   keyboardType: TextInputType.streetAddress,
+        //   textInputAction: TextInputAction.next,
+        //
+        //   decoration: InputDecoration(
+        //     fillColor: Colors.white,
+        //     filled: true,
+        //     hintText: AppLocale.street.getString(context),
+        //     counterText: "",
+        //     isCollapsed: true,
+        //     errorStyle: const TextStyle(color: Colors.red),
+        //     errorMaxLines: 2,
+        //     focusedBorder: OutlineInputBorder(
+        //       borderSide: const BorderSide(color: AppColors.primaryColor),
+        //       borderRadius: BorderRadius.circular(8),
+        //     ),
+        //     border: OutlineInputBorder(
+        //       borderSide: const BorderSide(color: Colors.black, width: 2),
+        //       borderRadius: BorderRadius.circular(8),
+        //     ),
+        //     contentPadding:
+        //     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        //   ),
+        // ),
+        //  const SizedBox(height: 10,),
          Text(AppLocale.area.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(

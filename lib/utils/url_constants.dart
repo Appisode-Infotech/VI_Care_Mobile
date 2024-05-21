@@ -2,8 +2,8 @@ class UrlConstants {
   // static const String imageBaseUrl = "http://52.172.157.45:92/";
   // static const String apiBaseUrl = "http://52.172.157.45:92/api/";
 
-  static const String imageBaseUrl = "http://52.172.157.45:91/";
-  static const String apiBaseUrl = "http://52.172.157.45:91/api/";
+  static const String imageBaseUrl = "http://52.172.157.45:92/";
+  static const String apiBaseUrl = "http://52.172.157.45:92/api/";
 
   static const String sendOtpToRegister = "${apiBaseUrl}Account/SendOtp/";
   static const String getRoleMaster = "${apiBaseUrl}Role";
@@ -27,4 +27,5 @@ class UrlConstants {
   static const String getResponseDocumentsByUserId = "${apiBaseUrl}ResponseDeviceDocument/GetResponseDocumentsByUserId";
   static const String getAllReportsByUserId = "${apiBaseUrl}ResponseReport/GetAllReportsByUserId";
   static const String getSummaryReport = "${apiBaseUrl}MResponseReport/GetSummaryReport";
+  static const String getCountryMaster = "${apiBaseUrl}Country";
 }
