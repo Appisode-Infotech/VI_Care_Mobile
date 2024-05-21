@@ -1020,45 +1020,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // const SizedBox(
         //   height: 10,
         // ),
-        //  Text(AppLocale.street.getString(context),
-        //     style: const TextStyle(fontWeight: FontWeight.w600)),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        // TextFormField(
-        //   autovalidateMode: AutovalidateMode.onUserInteraction,
-        //   textCapitalization: TextCapitalization.sentences,
-        //   controller: authProvider.registerStreetController,
-        //   // validator: (value) {
-        //   //   if (value!.isEmpty) {
-        //   //     return AppLocale.streetValid.getString(context);
-        //   //   }
-        //   //   return null;
-        //   // },
-        //   keyboardType: TextInputType.streetAddress,
-        //   textInputAction: TextInputAction.next,
-        //
-        //   decoration: InputDecoration(
-        //     fillColor: Colors.white,
-        //     filled: true,
-        //     hintText: AppLocale.street.getString(context),
-        //     counterText: "",
-        //     isCollapsed: true,
-        //     errorStyle: const TextStyle(color: Colors.red),
-        //     errorMaxLines: 2,
-        //     focusedBorder: OutlineInputBorder(
-        //       borderSide: const BorderSide(color: AppColors.primaryColor),
-        //       borderRadius: BorderRadius.circular(8),
-        //     ),
-        //     border: OutlineInputBorder(
-        //       borderSide: const BorderSide(color: Colors.black, width: 2),
-        //       borderRadius: BorderRadius.circular(8),
-        //     ),
-        //     contentPadding:
-        //     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        //   ),
-        // ),
-        //  const SizedBox(height: 10,),
+         Text(AppLocale.street.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
+          controller: authProvider.registerStreetController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.streetValid.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.streetAddress,
+          textInputAction: TextInputAction.next,
+
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.street.getString(context),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+         const SizedBox(height: 10,),
          Text(AppLocale.area.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
