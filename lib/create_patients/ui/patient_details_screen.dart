@@ -186,8 +186,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                width: screenSize!.width / 2,
+                                              FittedBox(
                                                 child: Text(
                                                   "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
                                                   style: const TextStyle(
@@ -916,16 +915,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                         crossAxisAlignment:
                                                                             CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Container(
-                                                                            width:
-                                                                            screenSize!.width / 3,
-                                                                            child: Text(
-                                                                              patientSnapshot.data!.result![index].roleId == 2
-                                                                                  ? "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}"
-                                                                                  : patientSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " + patientSnapshot.data!.result![index].enterpriseProfile!.lastName!,
-                                                                              style:
-                                                                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                                                            ),
+                                                                          Text(
+                                                                            patientSnapshot.data!.result![index].roleId == 2
+                                                                                ? "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}"
+                                                                                : patientSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " + patientSnapshot.data!.result![index].enterpriseProfile!.lastName!,
+                                                                            style:
+                                                                                const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                                                           ),
                                                                           const SizedBox(
                                                                               height: 5),
@@ -2076,7 +2071,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('MM/dd/yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
   }
 
   parseDateMonth(String timestampString) {

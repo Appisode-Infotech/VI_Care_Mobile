@@ -180,6 +180,7 @@ class ApiCalls {
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.CountryId'] = country.toString();
+    log(request.fields.toString());
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();

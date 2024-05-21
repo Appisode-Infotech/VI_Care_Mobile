@@ -20,7 +20,6 @@ class ProfileProvider extends ChangeNotifier {
   TextEditingController changePasswordTwoController = TextEditingController();
 
 
-  //edit profile declarations
   bool isNotValidContactNumber(String contactNumber) {
     if (contactNumber.length == 10) {
       return false;

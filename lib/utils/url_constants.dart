@@ -19,7 +19,7 @@ class UrlConstants {
   static const String userAndDevice = "${apiBaseUrl}UserAndDevice";
   static const String getAllDurations = "${apiBaseUrl}Duration";
   static const String updateProfile = "${apiBaseUrl}user";
-  static const String getStateMaster = "${apiBaseUrl}State";
+  static const String getStateMaster = "${apiBaseUrl}State/GetStatesByCountryId";
   static const String requestDeviceData = "${apiBaseUrl}RequestDeviceData";
   static const String getRequestBySearchFilter = "${apiBaseUrl}RequestDeviceData/GetRequestBySearchFilter";
   static const String mResponseReport = "${apiBaseUrl}MResponseReport/GetReportsBySearchFilter";

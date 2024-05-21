@@ -223,7 +223,6 @@ mixin AppLocale {
   static const String testDiscarded = 'testDiscarded';
   static const String somethingWentWrong = 'somethingWentWrong';
   static const String testCompletedSuccessful = 'testCompletedSuccessful';
-
   static const String noProfileLinked = 'noProfileLinked';
   static const String noSavedYet = 'noSavedYet';
   static const String logoutSuccess = 'logoutSuccess';
