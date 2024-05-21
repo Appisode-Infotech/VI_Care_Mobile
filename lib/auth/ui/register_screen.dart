@@ -835,8 +835,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text("Country",
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        const Text("Country",
+            style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -864,7 +864,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           dropdownColor: Colors.white,
           value: authProvider.registerCountryAs,
-          hint:  Text("Country"),
+          hint:  const Text("Country"),
           onChanged: (String? value) {
             for (var country in authProvider.countryMasterResponse!.result!) {
               if (country.name == value) {
@@ -1068,12 +1068,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerAreaController,
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     return AppLocale.areaValid.getString(context);
-          //   }
-          //   return null;
-          // },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.areaValid.getString(context);
+            }
+            return null;
+          },
           keyboardType: TextInputType.streetAddress,
           maxLength: 74,
           textInputAction: TextInputAction.next,
@@ -1107,12 +1107,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerLandmarkController,
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     return AppLocale.landMarkValid.getString(context);
-          //   }
-          //   return null;
-          // },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.landMarkValid.getString(context);
+            }
+            return null;
+          },
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
@@ -1145,12 +1145,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerCityController,
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     return AppLocale.cityValid.getString(context);
-          //   }
-          //   return null;
-          // },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.cityValid.getString(context);
+            }
+            return null;
+          },
           keyboardType: TextInputType.streetAddress,
           maxLength: 74,
           textInputAction: TextInputAction.next,
@@ -1184,12 +1184,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerPinCodeController,
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     return AppLocale.pinCodeValid.getString(context);
-          //   }
-          //   return null;
-          // },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.pinCodeValid.getString(context);
+            }
+            return null;
+          },
           maxLength: 6,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,

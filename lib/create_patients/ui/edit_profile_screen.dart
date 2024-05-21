@@ -522,7 +522,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ].map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
-                                      child: Text(value),
+                                      child: Container(
+                                         width: screenSize!.width*.75,
+                                          child: Text(value)),
                                     );
                                   }).toList(),
                                 ),

@@ -653,7 +653,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: Container(
+                                        width: screenSize!.width*.75,
+                                        child: Text(value)),
                                   );
                                 }).toList(),
                               ),
@@ -1495,7 +1497,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: Container(
+                                        width: screenSize!.width*.75,
+                                        child: Text(value)),
                                   );
                                 }).toList(),
                               ),
