@@ -11,6 +11,7 @@ import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/create_patients/model/all_patients_response_model.dart';
+import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/create_patients/model/enterprise_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/create_patients/model/state_master_response_model.dart';
@@ -159,7 +160,7 @@ class ApiCalls {
     required String area,
     required String landMark,
     required String city,
-    required String pinCode,
+    required String pinCode, int? country,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
@@ -178,6 +179,7 @@ class ApiCalls {
     request.fields['Contact.Address.Landmark'] = landMark;
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
+    request.fields['Contact.Address.CountryId'] = country.toString();
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -759,7 +761,7 @@ class ApiCalls {
 
   Future<StateMasterResponseModel> getStateMaster(BuildContext context) async {
     http.Response response =
-        await hitApiGet(false, UrlConstants.getStateMaster);
+        await hitApiGet(false, "${UrlConstants.getStateMaster}");
     if (response.statusCode == 200) {
       return StateMasterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -1012,6 +1014,17 @@ class ApiCalls {
       } else {
         throw "could not fetch data ${response.statusCode}";
       }
+    }
+  }
+
+  Future<CountryMasterResponseModel> getCountryMaster(BuildContext context) async {
+    http.Response response = await hitApiGet(false, UrlConstants.getCountryMaster);
+    if (response.statusCode == 200) {
+      return CountryMasterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
+      throw "could not get the states ${response.statusCode}";
     }
   }
 }

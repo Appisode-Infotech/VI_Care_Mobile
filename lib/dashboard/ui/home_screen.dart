@@ -1238,7 +1238,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('MM/dd/yyyy hh:mm aa').format(parsedDateTime);
   }
 
   getChipColor(int? processingStatus) {

@@ -5,6 +5,7 @@ import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/role_master_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
+import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/network/api_calls.dart';
 
@@ -71,12 +72,15 @@ class AuthProvider extends ChangeNotifier {
   String? otpReceived;
   int? selectedRoleId;
   int? selectedStateId;
+  int? selectedCountryId;
   int? selectedGender;
   StateMasterResponseModel? stateMasterResponse;
+  CountryMasterResponseModel? countryMasterResponse;
 
   File? registerSelectedImage;
   String? registerAs;
   String? registerStateAs;
+  String? registerCountryAs;
   String? gender;
 
   // Forgot password page declarations
@@ -163,7 +167,8 @@ class AuthProvider extends ChangeNotifier {
         area: registerAreaController.text,
         landMark: registerLandmarkController.text,
         city: registerCityController.text,
-        pinCode: registerPinCodeController.text
+        pinCode: registerPinCodeController.text,
+        country: selectedCountryId
     );
     if (response.result != null) {
       prefModel.userData = response.result;
@@ -229,4 +234,12 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }
   }
+
+  Future<void> getCountryMaster(BuildContext context) async {
+    countryMasterResponse = await apiCalls.getCountryMaster(context);
+    if (countryMasterResponse!.result!.isEmpty) {
+      showErrorToast(context, countryMasterResponse!.message.toString());
+    }
+  }
+
 }

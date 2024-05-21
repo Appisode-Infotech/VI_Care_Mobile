@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final stateMasterResponseModel = stateMasterResponseModelFromJson(jsonString);
+//     final countryMasterResponseModel = countryMasterResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
-StateMasterResponseModel stateMasterResponseModelFromJson(String str) => StateMasterResponseModel.fromJson(json.decode(str));
+CountryMasterResponseModel countryMasterResponseModelFromJson(String str) => CountryMasterResponseModel.fromJson(json.decode(str));
 
-String stateMasterResponseModelToJson(StateMasterResponseModel data) => json.encode(data.toJson());
+String countryMasterResponseModelToJson(CountryMasterResponseModel data) => json.encode(data.toJson());
 
-class StateMasterResponseModel {
+class CountryMasterResponseModel {
   String? message;
   bool? isSuccess;
   dynamic pageResult;
   List<Result>? result;
   dynamic errors;
 
-  StateMasterResponseModel({
+  CountryMasterResponseModel({
     this.message,
     this.isSuccess,
     this.pageResult,
@@ -23,7 +23,7 @@ class StateMasterResponseModel {
     this.errors,
   });
 
-  factory StateMasterResponseModel.fromJson(Map<String, dynamic> json) => StateMasterResponseModel(
+  factory CountryMasterResponseModel.fromJson(Map<String, dynamic> json) => CountryMasterResponseModel(
     message: json["message"],
     isSuccess: json["isSuccess"],
     pageResult: json["pageResult"],
@@ -42,60 +42,40 @@ class StateMasterResponseModel {
 
 class Result {
   String? name;
-  Code? code;
+  String? code;
+  String? twoLetterCode;
+  String? threeLetterCode;
   int? numericCode;
-  int? countryId;
-  dynamic country;
   String? uniqueGuid;
   int? id;
 
   Result({
     this.name,
     this.code,
+    this.twoLetterCode,
+    this.threeLetterCode,
     this.numericCode,
-    this.countryId,
-    this.country,
     this.uniqueGuid,
     this.id,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     name: json["name"],
-    code: codeValues.map[json["code"]]!,
+    code: json["code"],
+    twoLetterCode: json["twoLetterCode"],
+    threeLetterCode: json["threeLetterCode"],
     numericCode: json["numericCode"],
-    countryId: json["countryId"],
-    country: json["country"],
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "code": codeValues.reverse[code],
+    "code": code,
+    "twoLetterCode": twoLetterCode,
+    "threeLetterCode": threeLetterCode,
     "numericCode": numericCode,
-    "countryId": countryId,
-    "country": country,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };
-}
-
-enum Code {
-  EMPTY
-}
-
-final codeValues = EnumValues({
-  " ": Code.EMPTY
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

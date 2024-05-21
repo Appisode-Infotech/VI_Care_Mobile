@@ -218,7 +218,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                             // maxLines: 1,
                                             "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
                                             style: const TextStyle(
-                                                // overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12,
                                                 color: Colors.white),
