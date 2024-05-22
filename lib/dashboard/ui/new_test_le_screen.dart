@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:vicare/dashboard/model/offline_test_model.dart';
 import 'package:vicare/dashboard/provider/new_test_le_provider.dart';
 import 'package:vicare/database/app_pref.dart';
@@ -41,6 +40,16 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   BluetoothDeviceState? deviceStatus;
   StreamSubscription? _bluetoothStateSubscription;
   BluetoothState? bluetoothState = BluetoothState.on;
+  final TrackballBehavior _trackballBehavior = TrackballBehavior(
+    enable: true,
+    tooltipSettings: const InteractiveTooltip(
+      enable: true,
+      color: Colors.blue,
+      borderWidth: 1,
+      borderColor: Colors.black,
+    ),
+    activationMode: ActivationMode.singleTap,
+  );
 
   //timer declarations
   late Timer _timer;
@@ -54,7 +63,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   int heartRate = 0;
   int energy = 0;
   List<StreamSubscription> subscriptions = [];
-  List<FlSpot> rrIntervalChartData = [];
+  List<int> rrIntervalChartData = [];
 
   @override
   void initState() {
@@ -135,28 +144,28 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             showModalBottomSheet(context: context, builder: (BuildContext infoSheetContext){
               return SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                  child: Column(
                    children: [
                      Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
-                         Text("FAQ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+                         const Text("FAQ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
                          GestureDetector(
                              onTap: (){
                                Navigator.pop(context);
                              },
-                             child: Icon(Icons.close)),
+                             child: const Icon(Icons.close)),
                        ],
                      ),
-                     SizedBox(height: 10,),
-                     Text("Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
+                     const SizedBox(height: 10,),
+                     const Text("Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
                    ],
                  )
                 ),
               );
             });
-          }, icon: Icon(Icons.info_outline_rounded))
+          }, icon: const Icon(Icons.info_outline_rounded))
         ],
       ),
       body: Consumer(
@@ -318,47 +327,70 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                     height: 20,
                   ),
                   rrIntervalChartData.isNotEmpty
-                      ? Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 16.0),
-                            child: LineChart(
-                              LineChartData(
-                                lineBarsData: [
-                                  LineChartBarData(
-                                    spots: rrIntervalChartData,
-                                    isCurved: true,
-                                    barWidth: 2.0,
-                                    color: Colors.teal.withOpacity(
-                                        0.7), // Adjust fill color with transparency
-                                  ),
-                                ],
-                                borderData: FlBorderData(
-                                  show: true,
-                                  border: const Border(
-                                    left: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                    // Adjust border color for better contrast
-                                    bottom: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                  ),
-                                ),
-                                titlesData: FlTitlesData(
-                                  rightTitles: AxisTitles(
-                                    axisNameSize: 28,
-                                    axisNameWidget: Text(AppLocale.rrInterval
-                                        .getString(context)),
-                                  ),
-                                  topTitles: AxisTitles(
-                                    axisNameSize: 28,
-                                    axisNameWidget: Text(
-                                        AppLocale.seconds.getString(context)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                      // ? Expanded(
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(
+                      //           horizontal: 8.0, vertical: 16.0),
+                      //       child: LineChart(
+                      //         LineChartData(
+                      //           lineBarsData: [
+                      //             LineChartBarData(
+                      //               spots: rrIntervalChartData,
+                      //               isCurved: true,
+                      //               barWidth: 2.0,
+                      //               color: Colors.teal.withOpacity(
+                      //                   0.7), // Adjust fill color with transparency
+                      //             ),
+                      //           ],
+                      //           borderData: FlBorderData(
+                      //             show: true,
+                      //             border: const Border(
+                      //               left: BorderSide(
+                      //                   width: 1, color: Colors.grey),
+                      //               // Adjust border color for better contrast
+                      //               bottom: BorderSide(
+                      //                   width: 1, color: Colors.grey),
+                      //             ),
+                      //           ),
+                      //           titlesData: FlTitlesData(
+                      //             rightTitles: AxisTitles(
+                      //               axisNameSize: 28,
+                      //               axisNameWidget: Text(AppLocale.rrInterval
+                      //                   .getString(context)),
+                      //             ),
+                      //             topTitles: AxisTitles(
+                      //               axisNameSize: 28,
+                      //               axisNameWidget: Text(
+                      //                   AppLocale.seconds.getString(context)),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   )
+                  ? Expanded(
+                    child: SfCartesianChart(
+                      plotAreaBorderWidth: 0,
+                      primaryXAxis: const NumericAxis(
+                        title: AxisTitle(text: 'TIME IN SEC'),
+                        axisLine: AxisLine(width: 1),
+                        borderColor: Colors.black,
+                        majorGridLines: MajorGridLines(width: 0),
+                        autoScrollingDelta: 50, // Adjust this value as needed
+                        autoScrollingMode: AutoScrollingMode.end,
+                      ),
+                      primaryYAxis: const NumericAxis(
+                        title: AxisTitle(text: 'RR INTERVAL'),
+                        axisLine: AxisLine(width: 1),
+                        borderColor: Colors.black,
+                        majorTickLines: MajorTickLines(size: 0),
+                        rangePadding: ChartRangePadding.additional,
+                      ),
+                      series: _getLiveUpdateSeries(),
+                      trackballBehavior: _trackballBehavior,
+                    
+                    ),
+                  )
                       : const SizedBox(),
                 ],
               ),
@@ -367,6 +399,20 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
         },
       ),
     );
+  }
+  List<SplineSeries<int, int>> _getLiveUpdateSeries() {
+    return <SplineSeries<int, int>>[
+      SplineSeries<int, int>(
+        dataSource: rrIntervalChartData,
+        xValueMapper: (int sales, int index) {
+          return index; // X-axis value is the index of the data point
+        },
+        yValueMapper: (int sales, _) {
+          return sales; // Y-axis value is the data point itself
+        },
+        animationDuration: 0,
+      ),
+    ];
   }
 
   stopTestRecording() {
@@ -423,8 +469,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   offset += 2;
                 }
                 rrIntervalList.add(rrValue);
-                rrIntervalChartData
-                    .add(FlSpot(elapsedSeconds.toDouble(), rrValue.toDouble()));
+                rrIntervalChartData.add(rrValue);
               }
             }
           });
