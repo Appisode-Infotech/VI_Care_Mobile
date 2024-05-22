@@ -385,6 +385,7 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
+    log(responseJson.toString());
     if (response.statusCode == 200) {
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
@@ -678,7 +679,7 @@ class ApiCalls {
       String landMark,
       String pinCode,
       int? addressId,
-      int? state) async {
+      int? state, int?country, String height, String weight) async {
     var request =
         http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
     request.fields['FirstName'] = fName;
@@ -699,6 +700,9 @@ class ApiCalls {
     request.fields['Address.City'] = city;
     request.fields['Address.PinCode'] = pinCode;
     request.fields['Address.StateId'] = state.toString();
+    request.fields['Address.CountryId'] = country.toString();
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();

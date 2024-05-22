@@ -596,6 +596,80 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
+
+                              const Text("Height",
+                                  style: TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                textCapitalization: TextCapitalization.sentences,
+                                controller: patientProvider.editHeightController,
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.next,
+
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: "Height",
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle: const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              const Text("Weight",
+                                  style: TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                textCapitalization: TextCapitalization.sentences,
+                                controller: patientProvider.editWeightController,
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.next,
+
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: "Weight",
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle: const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                ),
+                              ),
+
+                              const SizedBox(
+                                height: 10,
+                              ),
+
                               const Text(
                                 "Country",
                                 style: TextStyle(fontWeight: FontWeight.w600),

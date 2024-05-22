@@ -69,6 +69,8 @@ class PatientProvider extends ChangeNotifier {
     addNewPatientLandmarkController.clear();
     addNewPatientCityController.clear();
     addNewPatientPinCodeController.clear();
+    heightController.clear();
+    weightController.clear();
     addNewPatientGender = null;
     stateAs = null;
     countryAs = null;
@@ -94,6 +96,8 @@ class PatientProvider extends ChangeNotifier {
       TextEditingController();
   TextEditingController editPatientLastNameController = TextEditingController();
   TextEditingController editPatientAddressController = TextEditingController();
+  TextEditingController editHeightController = TextEditingController();
+  TextEditingController editWeightController = TextEditingController();
   String? editPatientGender;
   String? editPatientBloodGroup;
   int? selectedGender;
@@ -116,6 +120,8 @@ class PatientProvider extends ChangeNotifier {
     editNewPatientLandmarkController.clear();
     editNewPatientCityController.clear();
     editNewPatientPinCodeController.clear();
+    editHeightController.clear();
+    editWeightController.clear();
     editPatientGender = null;
     editStateAs = null;
     editCountryAs = null;
@@ -201,8 +207,8 @@ class PatientProvider extends ChangeNotifier {
           individualPatientData.result!.firstName!;
       editPatientLastNameController.text =
           individualPatientData.result!.lastName!;
-      editPatientAddressController.text =
-          individualPatientData.result!.contact!.address.toString();
+      editPatientAddressController.text = individualPatientData.result!.contact!.address.toString();
+      // editHeightController.text=individualPatientData.result.
       editPatientGender = individualPatientData.result!.contact!.gender == 1
           ? "Male"
           : individualPatientData.result!.contact!.gender == 2
@@ -224,6 +230,12 @@ class PatientProvider extends ChangeNotifier {
           break;
         }
       }
+      // for (var country in countryMasterResponse!.result!) {
+      //   if (country.id == individualPatientData.result!.contact!.countryId) {
+      //     editStateAs = country.name;
+      //     break;
+      //   }
+      // }
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
       // editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData.result!.profilePicture!.url!);
     } else {

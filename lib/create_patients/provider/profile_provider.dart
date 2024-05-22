@@ -52,22 +52,22 @@ class ProfileProvider extends ChangeNotifier {
       editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
       editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!;
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
+      // for (var state in stateMasterResponse!.result!) {
+      //   if (state.id == prefModel.userData!.contact!.address!.stateId) {
+      //     editProfileStateAs = state.name;
+      //     break;
+      //   }
+      // }
+    if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
       for (var state in stateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
           editProfileStateAs = state.name;
           break;
         }
       }
-    // if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
-    //   for (var state in stateMasterResponse!.result!) {
-    //     if (state.id == prefModel.userData!.contact!.address!.stateId) {
-    //       editProfileStateAs = state.name;
-    //       break;
-    //     }
-    //   }
-    // }else{
-    //   "ftyuio";
-    // }
+    }else{
+      "";
+    }
       editProfileGender = prefModel.userData!.contact!.gender == 1
           ? "Male"
           : prefModel.userData!.contact!.gender == 2
@@ -98,6 +98,8 @@ class ProfileProvider extends ChangeNotifier {
   TextEditingController editProfileCityController = TextEditingController();
   TextEditingController editProfileLandMarkController = TextEditingController();
   TextEditingController editProfilePinCodeController = TextEditingController();
+  TextEditingController profileHeightController = TextEditingController();
+  TextEditingController profileWeightController = TextEditingController();
   String? editProfileBloodGroup;
   String? editProfileGender;
   int? selectedGender;
@@ -121,6 +123,8 @@ class ProfileProvider extends ChangeNotifier {
     editProfileAreaController.clear();
     editProfileCityController.clear();
     editProfileLandMarkController.clear();
+    profileHeightController.clear();
+    profileWeightController.clear();
     editProfilePinCodeController.clear();
     editProfileStateAs = null;
     editProfileCountryAs = null;
@@ -157,7 +161,8 @@ class ProfileProvider extends ChangeNotifier {
         editProfileLandMarkController.text,
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
-        editProfileSelectedStateId??prefModel.userData!.contact!.address!.stateId
+        editProfileSelectedStateId??prefModel.userData!.contact!.address!.stateId,
+        editProfileSelectedCountryId!,profileHeightController.text,profileWeightController.text
       );
       if (response.result != null) {
         prefModel.userData!.contact!.firstname =response.result!.contact!.firstname;

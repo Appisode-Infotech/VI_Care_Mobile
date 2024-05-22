@@ -473,6 +473,79 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
 
+                                const Text("Height",
+                                    style: TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  textCapitalization: TextCapitalization.sentences,
+                                  controller: profileProvider.profileHeightController,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "Height",
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle: const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding:
+                                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+
+                                const Text("Weight",
+                                    style: TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  textCapitalization: TextCapitalization.sentences,
+                                  controller: profileProvider.profileWeightController,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "Weight",
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    errorStyle: const TextStyle(color: Colors.red),
+                                    errorMaxLines: 2,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(color: AppColors.primaryColor),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding:
+                                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+
+                                const SizedBox(
+                                  height: 10,
+                                ),
+
                                 const Text(
                                   "Country",
                                   style: TextStyle(fontWeight: FontWeight.w600),
@@ -588,13 +661,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   textCapitalization:
                                   TextCapitalization.sentences,
                                   controller: profileProvider.editProfileStreetController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return AppLocale.streetValid
-                                          .getString(context);
-                                    }
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return AppLocale.streetValid
+                                  //         .getString(context);
+                                  //   }
+                                  //   return null;
+                                  // },
                                   keyboardType: TextInputType.streetAddress,
                                   maxLength: 74,
                                   decoration: InputDecoration(
@@ -636,13 +709,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   TextCapitalization.sentences,
                                   controller: profileProvider
                                       .editProfileAreaController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return AppLocale.areaValid
-                                          .getString(context);
-                                    }
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return AppLocale.areaValid
+                                  //         .getString(context);
+                                  //   }
+                                  //   return null;
+                                  // },
                                   keyboardType: TextInputType.streetAddress,
                                   maxLength: 74,
                                   decoration: InputDecoration(
@@ -684,13 +757,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   TextCapitalization.sentences,
                                   controller: profileProvider
                                       .editProfileLandMarkController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return AppLocale.landMarkValid
-                                          .getString(context);
-                                    }
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return AppLocale.landMarkValid
+                                  //         .getString(context);
+                                  //   }
+                                  //   return null;
+                                  // },
                                   keyboardType: TextInputType.streetAddress,
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
@@ -780,13 +853,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   TextCapitalization.sentences,
                                   controller: profileProvider
                                       .editProfilePinCodeController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return AppLocale.pinCodeValid
-                                          .getString(context);
-                                    }
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return AppLocale.pinCodeValid
+                                  //         .getString(context);
+                                  //   }
+                                  //   return null;
+                                  // },
                                   maxLength: 6,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
