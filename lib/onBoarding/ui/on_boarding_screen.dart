@@ -182,7 +182,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 ..onTap = () async {
                                 showLoaderDialog(context);
                                   await authProvider.getRoleMasters(context);
-                                    await authProvider.getStateMaster(context);
+                                    // await authProvider.getStateMaster(context);
                                     await authProvider.getCountryMaster(context);
                                     Navigator.pop(context);
                                     Navigator.pushNamed(context, Routes.registerRoute);

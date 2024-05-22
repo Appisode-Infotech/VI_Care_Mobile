@@ -835,16 +835,89 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("Country",
+
+        const Text("Height",
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
+          controller: authProvider.registerHeightController,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: "Height",
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+
+        const Text("Weight",
+            style: TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
+          controller: authProvider.registerWeightController,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: "Weight",
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+        const Text(
+          "Country",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 10),
         DropdownButtonFormField<String>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select country";
+              return "Please select a country";
             }
             return null;
           },
@@ -857,47 +930,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.grey.shade50,
               ),
             ),
-            contentPadding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 16.0, horizontal: 16),
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),
           dropdownColor: Colors.white,
           value: authProvider.registerCountryAs,
-          hint:  const Text("Country"),
-          onChanged: (String? value) {
-            for (var country in authProvider.countryMasterResponse!.result!) {
-              if (country.name == value) {
-                authProvider.selectedCountryId = country.id;
-                break;
-              }
-            }
+          hint: const Text("Country"),
+          onChanged: (String? value) async {
+            var selectedCountry = authProvider.countryMasterResponse!.result!
+                .firstWhere((country) => country.name == value);
+    authProvider.selectedCountryId = selectedCountry.id;
+            await authProvider.getStateMaster(context, selectedCountry.uniqueGuid);
             setState(() {
-              authProvider.registerCountryAs = value!;
+    authProvider.registerCountryAs = value!;
+              authProvider.registerStateAs = null;
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>[
-            for (int i = 0; i < authProvider.countryMasterResponse!.result!.length; i++)
-              authProvider.countryMasterResponse!.result![i].name.toString(),
-          ].map<DropdownMenuItem<String>>((String value) {
+          items: authProvider.countryMasterResponse!.result!
+              .map<DropdownMenuItem<String>>((country) {
             return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+              value: country.name,
+              child: Text(country.name.toString()),
             );
           }).toList(),
         ),
+        const SizedBox(height: 10),
 
-        const SizedBox(
-          height: 10,
-        ),
         Text(AppLocale.state.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
         DropdownButtonFormField<String>(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.stateValid.getString(context);
@@ -913,113 +980,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.grey.shade50,
               ),
             ),
-
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 16.0, horizontal: 16),
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),
           dropdownColor: Colors.white,
           value: authProvider.registerStateAs,
-          hint:  Text(AppLocale.state.getString(context)),
+          hint: Text(AppLocale.state.getString(context)),
           onChanged: (String? value) {
-            for (var state in authProvider.stateMasterResponse!.result!) {
-              if (state.name == value) {
-                authProvider.selectedStateId = state.id;
-                break;
-              }
-            }
+            var selectedState = authProvider.stateMasterResponse!.result!
+                .firstWhere((state) => state.name == value);
+
+    authProvider.selectedStateId = selectedState.id;
             setState(() {
-              authProvider.registerStateAs = value!;
+    authProvider.registerStateAs = value!;
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>[
-            for (int i = 0; i < authProvider.stateMasterResponse!.result!.length; i++)
-              authProvider.stateMasterResponse!.result![i].name.toString(),
-          ].map<DropdownMenuItem<String>>((String value) {
+          items: authProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
             return DropdownMenuItem<String>(
-              value: value,
+              value: state.name,
               child: SizedBox(
-                  width: screenSize!.width*.75,
-                  child: Text(value)),
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Text(state.name.toString()),
+              ),
             );
-          }).toList(),
-        ),
-        const SizedBox(
-          height: 10,
+          }).toList() ?? [],
         ),
 
-        // const Text("Height",
-        //     style: TextStyle(fontWeight: FontWeight.w600)),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        // TextFormField(
-        //   autovalidateMode: AutovalidateMode.onUserInteraction,
-        //   textCapitalization: TextCapitalization.sentences,
-        //   // controller: authProvider.registerStreetController,
-        //   keyboardType: TextInputType.number,
-        //   textInputAction: TextInputAction.next,
-        //
-        //   decoration: InputDecoration(
-        //     fillColor: Colors.white,
-        //     filled: true,
-        //     hintText: "Height",
-        //     counterText: "",
-        //     isCollapsed: true,
-        //     errorStyle: const TextStyle(color: Colors.red),
-        //     errorMaxLines: 2,
-        //     focusedBorder: OutlineInputBorder(
-        //       borderSide: const BorderSide(color: AppColors.primaryColor),
-        //       borderRadius: BorderRadius.circular(8),
-        //     ),
-        //     border: OutlineInputBorder(
-        //       borderSide: const BorderSide(color: Colors.black, width: 2),
-        //       borderRadius: BorderRadius.circular(8),
-        //     ),
-        //     contentPadding:
-        //     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        //   ),
-        // ),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        //
-        // const Text("Weight",
-        //     style: TextStyle(fontWeight: FontWeight.w600)),
-        // const SizedBox(
-        //   height: 10,
-        // ),
-        // TextFormField(
-        //   autovalidateMode: AutovalidateMode.onUserInteraction,
-        //   textCapitalization: TextCapitalization.sentences,
-        //   // controller: authProvider.registerStreetController,
-        //   keyboardType: TextInputType.number,
-        //   textInputAction: TextInputAction.next,
-        //
-        //   decoration: InputDecoration(
-        //     fillColor: Colors.white,
-        //     filled: true,
-        //     hintText: "Weight",
-        //     counterText: "",
-        //     isCollapsed: true,
-        //     errorStyle: const TextStyle(color: Colors.red),
-        //     errorMaxLines: 2,
-        //     focusedBorder: OutlineInputBorder(
-        //       borderSide: const BorderSide(color: AppColors.primaryColor),
-        //       borderRadius: BorderRadius.circular(8),
-        //     ),
-        //     border: OutlineInputBorder(
-        //       borderSide: const BorderSide(color: Colors.black, width: 2),
-        //       borderRadius: BorderRadius.circular(8),
-        //     ),
-        //     contentPadding:
-        //     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        //   ),
-        // ),
-        //
-        // const SizedBox(
-        //   height: 10,
-        // ),
+        const SizedBox(height: 10,),
+
+
          Text(AppLocale.street.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
@@ -1029,12 +1021,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerStreetController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.streetValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.streetValid.getString(context);
+          //   }
+          //   return null;
+          // },
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
 
@@ -1068,12 +1060,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerAreaController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.areaValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.areaValid.getString(context);
+          //   }
+          //   return null;
+          // },
           keyboardType: TextInputType.streetAddress,
           maxLength: 74,
           textInputAction: TextInputAction.next,
@@ -1107,12 +1099,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerLandmarkController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.landMarkValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.landMarkValid.getString(context);
+          //   }
+          //   return null;
+          // },
           keyboardType: TextInputType.streetAddress,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
@@ -1184,12 +1176,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerPinCodeController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.pinCodeValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.pinCodeValid.getString(context);
+          //   }
+          //   return null;
+          // },
           maxLength: 6,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,

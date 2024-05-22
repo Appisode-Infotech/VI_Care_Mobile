@@ -597,7 +597,133 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-         Text(AppLocale.state.getString(context),
+
+
+        const Text("Height",
+            style: TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
+          controller: patientProvider.heightController,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: "Height",
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+
+        const Text("Weight",
+            style: TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
+          controller: patientProvider.weightController,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: "Weight",
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red),
+            errorMaxLines: 2,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+
+        const Text(
+          "Country",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 10),
+        DropdownButtonFormField<String>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please select a country";
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: Colors.grey.shade50,
+              ),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 16.0, horizontal: 16),
+            focusColor: Colors.transparent,
+            errorStyle: TextStyle(color: Colors.red.shade400),
+          ),
+          dropdownColor: Colors.white,
+          value: patientProvider.countryAs,
+          hint: const Text("Country"),
+          onChanged: (String? value) async {
+            var selectedCountry = patientProvider.countryMasterResponse!.result!
+                .firstWhere((country) => country.name == value);
+            patientProvider.selectedCountryId = selectedCountry.id;
+            await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+            setState(() {
+              patientProvider.countryAs = value!;
+              patientProvider.stateAs = null;
+            });
+          },
+          style: const TextStyle(color: Colors.black),
+          items: patientProvider.countryMasterResponse!.result!
+              .map<DropdownMenuItem<String>>((country) {
+            return DropdownMenuItem<String>(
+              value: country.name,
+              child: Text(country.name.toString()),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 10),
+
+        Text(AppLocale.state.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -618,37 +744,33 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 color: Colors.grey.shade50,
               ),
             ),
-            contentPadding:
-            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            contentPadding: const EdgeInsets.symmetric(
+                vertical: 16.0, horizontal: 16),
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),
           dropdownColor: Colors.white,
           value: patientProvider.stateAs,
-          hint:  Text(AppLocale.state.getString(context)),
+          hint: Text(AppLocale.state.getString(context)),
           onChanged: (String? value) {
-            for (var state in patientProvider.stateMasterResponse!.result!) {
-              if (state.name == value) {
-                patientProvider.selectedStateId = state.id;
-                break;
-              }
-            }
+            var selectedState = patientProvider.stateMasterResponse!.result!
+                .firstWhere((state) => state.name == value);
+
+            patientProvider.selectedStateId = selectedState.id;
             setState(() {
               patientProvider.stateAs = value!;
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>[
-            for (int i = 0; i < patientProvider.stateMasterResponse!.result!.length; i++)
-              patientProvider.stateMasterResponse!.result![i].name.toString(),
-          ].map<DropdownMenuItem<String>>((String value) {
+          items: patientProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
             return DropdownMenuItem<String>(
-              value: value,
+              value: state.name,
               child: SizedBox(
-                  width: screenSize!.width*.75,
-                  child: Text(value)),
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Text(state.name.toString()),
+              ),
             );
-          }).toList(),
+          }).toList() ?? [],
         ),
 
         const SizedBox(
@@ -663,12 +785,12 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientStreetController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.streetValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.streetValid.getString(context);
+          //   }
+          //   return null;
+          // },
           keyboardType: TextInputType.streetAddress,
           maxLength: 74,
           textInputAction: TextInputAction.next,
@@ -702,12 +824,12 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientAreaController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.areaValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.areaValid.getString(context);
+          //   }
+          //   return null;
+          // },
           keyboardType: TextInputType.streetAddress,
           maxLength: 74,
           textInputAction: TextInputAction.next,
@@ -742,12 +864,12 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientLandmarkController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.landMarkValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.landMarkValid.getString(context);
+          //   }
+          //   return null;
+          // },
           keyboardType: TextInputType.streetAddress,
           maxLength: 74,
           textInputAction: TextInputAction.next,
@@ -820,12 +942,12 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientPinCodeController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.pinCodeValid.getString(context);
-            }
-            return null;
-          },
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return AppLocale.pinCodeValid.getString(context);
+          //   }
+          //   return null;
+          // },
           maxLength: 6,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,

@@ -596,19 +596,18 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.state.getString(context),
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 10,
+                              const Text(
+                                "Country",
+                                style: TextStyle(fontWeight: FontWeight.w600),
                               ),
+                              const SizedBox(height: 10),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return AppLocale.stateValid.getString(context);
+                                    return "Please select a country";
                                   }
                                   return null;
-                                  // individualUserData!.result!.contact!.address!.stateId;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
@@ -622,42 +621,87 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 16),
                                   focusColor: Colors.transparent,
-                                  errorStyle:
-                                      TextStyle(color: Colors.red.shade400),
+                                  errorStyle: TextStyle(color: Colors.red.shade400),
+                                ),
+                                dropdownColor: Colors.white,
+                                value: patientProvider.editCountryAs,
+                                hint: const Text("Country"),
+                                onChanged: (String? value) async {
+                                  var selectedCountry = patientProvider.countryMasterResponse!.result!
+                                      .firstWhere((country) => country.name == value);
+                                  patientProvider.editSelectedCountryId = selectedCountry.id;
+                                  await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+                                  setState(() {
+                                    patientProvider.editCountryAs = value!;
+                                    patientProvider.editStateAs = null;
+                                  });
+                                },
+                                style: const TextStyle(color: Colors.black),
+                                items: patientProvider.countryMasterResponse!.result!
+                                    .map<DropdownMenuItem<String>>((country) {
+                                  return DropdownMenuItem<String>(
+                                    value: country.name,
+                                    child: Text(country.name.toString()),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(height: 10),
+
+                              Text(AppLocale.state.getString(context),
+                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.stateValid.getString(context);
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade50,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 16),
+                                  focusColor: Colors.transparent,
+                                  errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
                                 value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
-                                onChanged: (String? value) {
-                                  for (var state in patientProvider
-                                      .stateMasterResponse!.result!) {
-                                    if (state.name == value) {
-                                      patientProvider.editSelectedStateId =
-                                          state.id;
-                                      break;
-                                    }
-                                  }
+                                onChanged: (String? value) async {
+                                  // Find the selected country by its name
+                                  var selectedCountry = patientProvider.countryMasterResponse!.result!
+                                      .firstWhere((country) => country.name == value);
+
+                                  // Set the selected country ID
+                                  patientProvider.selectedCountryId = selectedCountry.id;
+                                  // Fetch states based on the selected country's unique GUID
+                                  await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+
+                                  // Update the state with the selected country and reset the selected state
                                   setState(() {
-                                    patientProvider.editStateAs = value!;
+                                    patientProvider.countryAs = value!;
+                                    patientProvider.stateAs = null; // Reset state selection
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
-                                items: <String>[
-                                  for (int i = 0;
-                                      i < patientProvider.stateMasterResponse!
-                                              .result!.length;
-                                      i++)
-                                    patientProvider
-                                        .stateMasterResponse!.result![i].name
-                                        .toString(),
-                                ].map<DropdownMenuItem<String>>((String value) {
+                                items: patientProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
                                   return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Container(
-                                        width: screenSize!.width*.75,
-                                        child: Text(value)),
+                                    value: state.name,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.75,
+                                      child: Text(state.name.toString()),
+                                    ),
                                   );
-                                }).toList(),
+                                }).toList() ?? [],
                               ),
                               const SizedBox(
                                 height: 10,
@@ -675,13 +719,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientStreetController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.streetValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.streetValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.streetAddress,
                                 maxLength: 74,
                                 decoration: InputDecoration(
@@ -723,13 +767,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientAreaController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.areaValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.areaValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.streetAddress,
                                 maxLength: 74,
                                 decoration: InputDecoration(
@@ -771,13 +815,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientLandmarkController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.landMarkValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.landMarkValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.streetAddress,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -867,13 +911,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientPinCodeController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.pinCodeValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.pinCodeValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -1438,20 +1482,20 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.state.getString(context),
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 10,
+
+
+                              const Text(
+                                "Country",
+                                style: TextStyle(fontWeight: FontWeight.w600),
                               ),
+                              const SizedBox(height: 10),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return AppLocale.stateValid
-                                        .getString(context);
+                                    return "Please select a country";
                                   }
                                   return null;
-                                  // patientProvider.enterpriseUserData!.result!.contact!.address!.stateId;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
@@ -1465,44 +1509,82 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 16),
                                   focusColor: Colors.transparent,
-                                  errorStyle:
-                                      TextStyle(color: Colors.red.shade400),
+                                  errorStyle: TextStyle(color: Colors.red.shade400),
+                                ),
+                                dropdownColor: Colors.white,
+                                value: patientProvider.editCountryAs,
+                                hint: const Text("Country"),
+                                onChanged: (String? value) async {
+                                  var selectedCountry = patientProvider.countryMasterResponse!.result!
+                                      .firstWhere((country) => country.name == value);
+                                  patientProvider.editSelectedCountryId = selectedCountry.id;
+                                  await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+                                  setState(() {
+                                    patientProvider.editCountryAs = value!;
+                                    patientProvider.editStateAs = null;
+                                  });
+                                },
+                                style: const TextStyle(color: Colors.black),
+                                items: patientProvider.countryMasterResponse!.result!
+                                    .map<DropdownMenuItem<String>>((country) {
+                                  return DropdownMenuItem<String>(
+                                    value: country.name,
+                                    child: Text(country.name.toString()),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(height: 10),
+
+                              Text(AppLocale.state.getString(context),
+                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocale.stateValid.getString(context);
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade50,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 16),
+                                  focusColor: Colors.transparent,
+                                  errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
                                 value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
                                 onChanged: (String? value) {
-                                  for (var state in patientProvider
-                                      .stateMasterResponse!.result!) {
-                                    if (state.name == value) {
-                                      patientProvider.editSelectedStateId =
-                                          state.id;
-                                      break;
-                                    }
-                                  }
+                                  var selectedState = patientProvider.stateMasterResponse!.result!
+                                      .firstWhere((state) => state.name == value);
+
+                                  patientProvider.editSelectedStateId = selectedState.id;
                                   setState(() {
                                     patientProvider.editStateAs = value!;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
-                                items: <String>[
-                                  for (int i = 0;
-                                      i <
-                                          patientProvider.stateMasterResponse!
-                                              .result!.length;
-                                      i++)
-                                    patientProvider
-                                        .stateMasterResponse!.result![i].name
-                                        .toString(),
-                                ].map<DropdownMenuItem<String>>((String value) {
+                                items: patientProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
                                   return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Container(
-                                        width: screenSize!.width*.75,
-                                        child: Text(value)),
+                                    value: state.name,
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.75,
+                                      child: Text(state.name.toString()),
+                                    ),
                                   );
-                                }).toList(),
+                                }).toList() ?? [],
                               ),
+
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1519,13 +1601,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientStreetController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.streetValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.streetValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.streetAddress,
                                 maxLength: 74,
                                 decoration: InputDecoration(
@@ -1567,13 +1649,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientAreaController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.areaValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.areaValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.streetAddress,
                                 maxLength: 74,
                                 decoration: InputDecoration(
@@ -1615,13 +1697,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientLandmarkController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.landMarkValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.landMarkValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 keyboardType: TextInputType.streetAddress,
                                 maxLength: 74,
                                 decoration: InputDecoration(
@@ -1712,13 +1794,13 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientPinCodeController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.pinCodeValid
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return AppLocale.pinCodeValid
+                                //         .getString(context);
+                                //   }
+                                //   return null;
+                                // },
                                 maxLength: 6,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(

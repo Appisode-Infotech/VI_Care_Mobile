@@ -558,8 +558,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return InkWell(
                                     onTap: () async {
                                       showLoaderDialog(context);
-                                      await patientProvider
-                                          .getStateMaster(context);
+                                      await patientProvider.getCountryMaster(context);
                                       patientProvider.clearAddPatientForm();
                                       Navigator.pop(context);
                                       Navigator.pushNamed(context,
@@ -767,8 +766,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return InkWell(
                                     onTap: () async {
                                       showLoaderDialog(context);
-                                      await patientProvider
-                                          .getStateMaster(context);
+                                      // await patientProvider
+                                      //     .getStateMaster(context);
+                                      await patientProvider.getCountryMaster(context);
                                       patientProvider.clearAddPatientForm();
                                       Navigator.pop(context);
                                       Navigator.pushNamed(context,

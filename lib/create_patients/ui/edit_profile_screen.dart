@@ -473,18 +473,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
 
-                                Text(AppLocale.state.getString(context),
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
-                                const SizedBox(
-                                  height: 10,
+                                const Text(
+                                  "Country",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
+                                const SizedBox(height: 10),
                                 DropdownButtonFormField<String>(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
                                   validator: (value) {
-                                    if (value == null) {
-                                    return prefModel.userData!.contact!.address!.stateId.toString();
+                                    if (value == null || value.isEmpty) {
+                                      return "Please select a country";
                                     }
-                                      return AppLocale.stateValid.getString(context);
+                                    return null;
                                   },
                                   decoration: InputDecoration(
                                     filled: true,
@@ -498,35 +498,80 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 16.0, horizontal: 16),
                                     focusColor: Colors.transparent,
-                                    errorStyle:
-                                    TextStyle(color: Colors.red.shade400),
+                                    errorStyle: TextStyle(color: Colors.red.shade400),
+                                  ),
+                                  dropdownColor: Colors.white,
+                                  value: profileProvider.editProfileCountryAs,
+                                  hint: const Text("Country"),
+                                  onChanged: (String? value) async {
+                                    var selectedCountry = profileProvider.countryMasterResponse!.result!
+                                        .firstWhere((country) => country.name == value);
+                                    profileProvider.editProfileSelectedCountryId = selectedCountry.id;
+                                    await profileProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+                                    setState(() {
+                                      profileProvider.editProfileCountryAs = value!;
+                                      profileProvider.editProfileStateAs = null;
+                                    });
+                                  },
+                                  style: const TextStyle(color: Colors.black),
+                                  items: profileProvider.countryMasterResponse!.result!
+                                      .map<DropdownMenuItem<String>>((country) {
+                                    return DropdownMenuItem<String>(
+                                      value: country.name,
+                                      child: Text(country.name.toString()),
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(height: 10),
+
+                                Text(AppLocale.state.getString(context),
+                                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                DropdownButtonFormField<String>(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLocale.stateValid.getString(context);
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade50,
+                                      ),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 16.0, horizontal: 16),
+                                    focusColor: Colors.transparent,
+                                    errorStyle: TextStyle(color: Colors.red.shade400),
                                   ),
                                   dropdownColor: Colors.white,
                                   value: profileProvider.editProfileStateAs,
                                   hint: Text(AppLocale.state.getString(context)),
                                   onChanged: (String? value) {
-                                    for (var state in profileProvider.editStateMasterResponse!.result!) {
-                                      if (state.name == value) {
-                                        profileProvider.editProfileSelectedStateId = state.id;
-                                        break;
-                                      }
-                                    }
+                                    var selectedState = profileProvider.stateMasterResponse!.result!
+                                        .firstWhere((state) => state.name == value);
+
+                                    profileProvider.editProfileSelectedStateId = selectedState.id;
                                     setState(() {
                                       profileProvider.editProfileStateAs = value!;
                                     });
                                   },
                                   style: const TextStyle(color: Colors.black),
-                                  items: <String>[
-                                    for (int i = 0; i < profileProvider.editStateMasterResponse!.result!.length; i++)
-                                      profileProvider.editStateMasterResponse!.result![i].name.toString(),
-                                  ].map<DropdownMenuItem<String>>((String value) {
+                                  items: profileProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
                                     return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Container(
-                                         width: screenSize!.width*.75,
-                                          child: Text(value)),
+                                      value: state.name,
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.75,
+                                        child: Text(state.name.toString()),
+                                      ),
                                     );
-                                  }).toList(),
+                                  }).toList() ?? [],
                                 ),
                                 const SizedBox(
                                   height: 10,

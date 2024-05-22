@@ -111,8 +111,9 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                               itemBuilder: (BuildContext context, int index) {
                                 if (index == 0) {
                                   return InkWell(
-                                    onTap: () {
+                                    onTap: () async {
                                       patientProvider.clearAddPatientForm();
+                                      await patientProvider.getCountryMaster(context);
                                       Navigator.pushNamed(
                                               context, Routes.addNewPatientRoute)
                                           .then((value) {

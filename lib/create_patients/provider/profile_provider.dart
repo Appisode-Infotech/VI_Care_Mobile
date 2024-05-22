@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vicare/auth/model/register_response_model.dart';
+import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
 import '../../auth/model/reset_password_response_model.dart';
@@ -51,12 +52,22 @@ class ProfileProvider extends ChangeNotifier {
       editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
       editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!;
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
-      for (var state in editStateMasterResponse!.result!) {
+      for (var state in stateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
           editProfileStateAs = state.name;
           break;
         }
       }
+    // if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
+    //   for (var state in stateMasterResponse!.result!) {
+    //     if (state.id == prefModel.userData!.contact!.address!.stateId) {
+    //       editProfileStateAs = state.name;
+    //       break;
+    //     }
+    //   }
+    // }else{
+    //   "ftyuio";
+    // }
       editProfileGender = prefModel.userData!.contact!.gender == 1
           ? "Male"
           : prefModel.userData!.contact!.gender == 2
@@ -93,8 +104,11 @@ class ProfileProvider extends ChangeNotifier {
   File? editProfileSelectedImage;
   BuildContext? editProfilePageContext;
   int? editProfileSelectedStateId;
+  int? editProfileSelectedCountryId;
   String? editProfileStateAs;
-  StateMasterResponseModel? editStateMasterResponse;
+  String? editProfileCountryAs;
+  StateMasterResponseModel? stateMasterResponse;
+  CountryMasterResponseModel? countryMasterResponse;
 
   clearEditProfileForm() {
     editProfileDobController.clear();
@@ -109,6 +123,7 @@ class ProfileProvider extends ChangeNotifier {
     editProfileLandMarkController.clear();
     editProfilePinCodeController.clear();
     editProfileStateAs = null;
+    editProfileCountryAs = null;
     editProfileSelectedImage = null;
     notifyListeners();
   }
@@ -188,12 +203,18 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getStateMaster(BuildContext context) async {
-    editStateMasterResponse = await apiCalls.getStateMaster(context);
-    if (editStateMasterResponse!.result!.isNotEmpty) {
+  Future<void> getStateMaster(BuildContext context,String? uniqueGuid) async {
+    stateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
+    if (stateMasterResponse!.result!.isNotEmpty) {
     } else {
       Navigator.pop(context);
-      showErrorToast(context, editStateMasterResponse!.message.toString());
+      showErrorToast(context, stateMasterResponse!.message.toString());
+    }
+  }
+  Future<void> getCountryMaster(BuildContext context) async {
+    countryMasterResponse = await apiCalls.getCountryMaster(context);
+    if (countryMasterResponse!.result!.isEmpty) {
+      showErrorToast(context, countryMasterResponse!.message.toString());
     }
   }
 }

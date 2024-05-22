@@ -75,7 +75,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             actions: [
               GestureDetector(
                 onTap: () async {
-                  await patientProvider.getStateMaster(context);
+                  // await patientProvider.getStateMaster(context,);
+                  await patientProvider.getCountryMaster(context);
                   if (prefModel.userData!.roleId == 2 &&
                       individualPatientData?.result != null) {
                     await patientProvider.prefillEditPatientDetails(

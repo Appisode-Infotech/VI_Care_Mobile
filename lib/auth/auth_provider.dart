@@ -68,6 +68,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController registerCityController = TextEditingController();
   TextEditingController registerPinCodeController = TextEditingController();
   TextEditingController registerContactNumberController = TextEditingController();
+  TextEditingController registerWeightController = TextEditingController();
+  TextEditingController registerHeightController = TextEditingController();
   String? registerBloodGroup;
   String? otpReceived;
   int? selectedRoleId;
@@ -168,7 +170,9 @@ class AuthProvider extends ChangeNotifier {
         landMark: registerLandmarkController.text,
         city: registerCityController.text,
         pinCode: registerPinCodeController.text,
-        country: selectedCountryId
+        country: selectedCountryId,
+        height: registerHeightController.text,
+        weight: registerWeightController.text
     );
     if (response.result != null) {
       prefModel.userData = response.result;
@@ -228,8 +232,8 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<void> getStateMaster(BuildContext context) async {
-    stateMasterResponse = await apiCalls.getStateMaster(context);
+  Future<void> getStateMaster(BuildContext context, String? uniqueGuid) async {
+    stateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
     if (stateMasterResponse!.result!.isEmpty) {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }

@@ -160,7 +160,7 @@ class ApiCalls {
     required String area,
     required String landMark,
     required String city,
-    required String pinCode, int? country,
+    required String pinCode, int? country, required String height, required String weight,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
@@ -180,6 +180,8 @@ class ApiCalls {
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.CountryId'] = country.toString();
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     log(request.fields.toString());
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
@@ -197,6 +199,7 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
+      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
@@ -225,6 +228,7 @@ class ApiCalls {
           'password': password,
           'fcmToken': fcmToken
         }));
+    log(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -264,7 +268,7 @@ class ApiCalls {
       String landMark,
       String city,
       String pinCode,
-      int? stateId) async {
+      int? stateId, int? selectedCountryId, String height, String weight) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addIndividualProfile));
     request.fields['IsSelf'] = false.toString();
@@ -281,7 +285,11 @@ class ApiCalls {
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.CountryId'] = selectedCountryId.toString();
+    request.fields['height'] = height;
+    request.fields['weight'] = weight;
     request.fields['UserId'] = prefModel.userData!.id.toString();
+    log(request.fields.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -337,7 +345,7 @@ class ApiCalls {
       String landMark,
       String city,
       String pinCode,
-      int? stateId) async {
+      int? stateId, int? selectedCountryId, String height, String weight) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -353,8 +361,12 @@ class ApiCalls {
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.CountryId'] = selectedCountryId.toString();
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     request.fields['EnterpriseUserId'] =
         prefModel.userData!.enterpriseUserId.toString();
+    log(request.fields.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -760,9 +772,9 @@ class ApiCalls {
     }
   }
 
-  Future<StateMasterResponseModel> getStateMaster(BuildContext context) async {
+  Future<StateMasterResponseModel> getStateMaster(BuildContext context, String? uniqueGuid) async {
     http.Response response =
-        await hitApiGet(false, "${UrlConstants.getStateMaster}");
+        await hitApiGet(false, "${UrlConstants.getStateMaster}/$uniqueGuid");
     if (response.statusCode == 200) {
       return StateMasterResponseModel.fromJson(json.decode(response.body));
     } else {

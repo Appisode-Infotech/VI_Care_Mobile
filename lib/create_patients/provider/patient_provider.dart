@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
+import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/dashboard/model/summary_report_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
@@ -42,15 +43,19 @@ class PatientProvider extends ChangeNotifier {
       TextEditingController();
   TextEditingController addNewPatientLastNameController =
       TextEditingController();
-  TextEditingController addNewPatientAddressController =
-      TextEditingController();
+  TextEditingController addNewPatientAddressController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
   String? addNewPatientGender;
   String? addPatientBloodGroup;
   File? addPatientSelectedImage;
   BuildContext? addNewPatientContext;
   int? selectedStateId;
+  int? selectedCountryId;
   String? stateAs;
+  String? countryAs;
   StateMasterResponseModel? stateMasterResponse;
+  CountryMasterResponseModel? countryMasterResponse;
 
   clearAddPatientForm() {
     addNewPatientDobController.clear();
@@ -66,6 +71,7 @@ class PatientProvider extends ChangeNotifier {
     addNewPatientPinCodeController.clear();
     addNewPatientGender = null;
     stateAs = null;
+    countryAs = null;
     addPatientBloodGroup = null;
     addPatientSelectedImage = null;
     notifyListeners();
@@ -93,7 +99,9 @@ class PatientProvider extends ChangeNotifier {
   int? selectedGender;
   File? editPatientSelectedImage;
   int? editSelectedStateId;
+  int? editSelectedCountryId;
   String? editStateAs;
+  String? editCountryAs;
   BuildContext? editPatientPageContext;
 
   clearEditPatientForm() {
@@ -110,6 +118,7 @@ class PatientProvider extends ChangeNotifier {
     editNewPatientPinCodeController.clear();
     editPatientGender = null;
     editStateAs = null;
+    editCountryAs = null;
     editPatientBloodGroup = null;
     editPatientSelectedImage = null;
     notifyListeners();
@@ -143,7 +152,7 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientLandmarkController.text,
               addNewPatientCityController.text,
               addNewPatientPinCodeController.text,
-              selectedStateId);
+              selectedStateId,selectedCountryId,heightController.text,weightController.text);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -167,7 +176,7 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientLandmarkController.text,
               addNewPatientCityController.text,
               addNewPatientPinCodeController.text,
-              selectedStateId);
+              selectedStateId,selectedCountryId,heightController.text,weightController.text);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -200,15 +209,15 @@ class PatientProvider extends ChangeNotifier {
               ? "Female"
               : "Do not wish to specify";
       editNewPatientStreetController.text =
-          individualPatientData.result!.contact!.address!.street.toString();
+          individualPatientData.result!.contact!.address!.street!=null?individualPatientData.result!.contact!.address!.street.toString():"";
       editNewPatientAreaController.text =
-          individualPatientData.result!.contact!.address!.area.toString();
+          individualPatientData.result!.contact!.address!.area!=null?individualPatientData.result!.contact!.address!.area!.toString():"";
       editNewPatientLandmarkController.text =
-          individualPatientData.result!.contact!.address!.landmark.toString();
+      individualPatientData.result!.contact!.address!.landmark!=null?individualPatientData.result!.contact!.address!.landmark.toString():"";
       editNewPatientCityController.text =
           individualPatientData.result!.contact!.address!.city.toString();
-      editNewPatientPinCodeController.text =
-          individualPatientData.result!.contact!.address!.pinCode.toString();
+      editNewPatientPinCodeController.text =individualPatientData.result!.contact!.address!.pinCode!=null?
+          individualPatientData.result!.contact!.address!.pinCode.toString():"";
       for (var state in stateMasterResponse!.result!) {
         if (state.id == individualPatientData.result!.contact!.address!.stateId) {
           editStateAs = state.name;
@@ -216,7 +225,7 @@ class PatientProvider extends ChangeNotifier {
         }
       }
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
-      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData.result!.profilePicture!.url!);
+      // editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData.result!.profilePicture!.url!);
     } else {
       editPatientDobController.text =
           "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
@@ -228,15 +237,15 @@ class PatientProvider extends ChangeNotifier {
       editPatientLastNameController.text =
           enterpriseUserData.result!.lastName!;
       editNewPatientStreetController.text =
-          enterpriseUserData.result!.contact!.address!.street.toString();
+      enterpriseUserData.result!.contact!.address!.street!=null?enterpriseUserData.result!.contact!.address!.street.toString():"";
       editNewPatientAreaController.text =
-          enterpriseUserData.result!.contact!.address!.area.toString();
+      enterpriseUserData.result!.contact!.address!.area!=null?enterpriseUserData.result!.contact!.address!.area!.toString():"";
       editNewPatientLandmarkController.text =
-          enterpriseUserData.result!.contact!.address!.landmark.toString();
+      enterpriseUserData.result!.contact!.address!.landmark!=null?enterpriseUserData.result!.contact!.address!.landmark.toString():"";
       editNewPatientCityController.text =
           enterpriseUserData.result!.contact!.address!.city.toString();
-      editNewPatientPinCodeController.text =
-          enterpriseUserData.result!.contact!.address!.pinCode.toString();
+      editNewPatientPinCodeController.text =enterpriseUserData.result!.contact!.address!.pinCode!=null?
+      enterpriseUserData.result!.contact!.address!.pinCode.toString():"";
       for (var state in stateMasterResponse!.result!) {
         if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
           editStateAs = state.name;
@@ -275,7 +284,8 @@ class PatientProvider extends ChangeNotifier {
           editNewPatientCityController.text,
           editNewPatientLandmarkController.text,
           editSelectedStateId??individualPatientData.result!.contact!.address!.stateId,
-          individualPatientData.result!.contact!.addressId.toString()
+          individualPatientData.result!.contact!.addressId.toString(),
+          // editSelectedCountryId??individualPatientData.result!.contact!.address!.countryId,
       );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
@@ -332,8 +342,8 @@ class PatientProvider extends ChangeNotifier {
     enterpriseUserData = apiCalls.getEnterpriseUserData(eId);
   }
 
-  Future<void> getStateMaster(BuildContext context) async {
-    stateMasterResponse = await apiCalls.getStateMaster(context);
+  Future<void> getStateMaster(BuildContext context,String? uniqueGuid) async {
+    stateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
     if (stateMasterResponse!.result!.isEmpty) {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }
@@ -365,6 +375,13 @@ class PatientProvider extends ChangeNotifier {
 
   Future<EnterpriseResponseModel>selectEnterpriseUserData(String? eId) async {
     return apiCalls.getEnterpriseUserData(eId);
+  }
+
+  Future<void> getCountryMaster(BuildContext context) async {
+    countryMasterResponse = await apiCalls.getCountryMaster(context);
+    if (countryMasterResponse!.result!.isEmpty) {
+      showErrorToast(context, countryMasterResponse!.message.toString());
+    }
   }
 
 }
