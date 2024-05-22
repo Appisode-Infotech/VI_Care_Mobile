@@ -10,7 +10,6 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/dashboard/model/reports_processed_data_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
-import 'package:vicare/utils/app_colors.dart';
 
 import '../../main.dart';
 

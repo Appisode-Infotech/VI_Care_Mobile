@@ -10,12 +10,9 @@ import 'package:vicare/main.dart';
 import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
-import '../../create_patients/model/enterprise_response_model.dart';
-import '../../create_patients/model/individual_response_model.dart';
 import '../../database/app_pref.dart';
 import '../../utils/app_locale.dart';
 import '../model/device_data_response_model.dart';
-import '../model/duration_response_model.dart';
 import '../model/offline_test_model.dart';
 
 class NewTestLeProvider extends ChangeNotifier {
