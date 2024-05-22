@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/dashboard/model/reports_processed_data_model.dart';
@@ -162,59 +163,86 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
-                        FittedBox(
-                          child: Container(
-                            width: screenSize?.width,
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            decoration: const BoxDecoration(
-                                color: Colors.orangeAccent,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                )),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        double.parse(processedData.ari!)
-                                            .toStringAsFixed(0),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 22),
-                                      ),
-                                    )),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                const Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Your Text goes here",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Text goes here for description",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
+                        // FittedBox(
+                        //   child: Container(
+                        //     width: screenSize?.width,
+                        //     margin: const EdgeInsets.symmetric(vertical: 10),
+                        //     padding: const EdgeInsets.symmetric(
+                        //         horizontal: 10, vertical: 10),
+                        //     decoration: const BoxDecoration(
+                        //         color: Colors.orangeAccent,
+                        //         borderRadius: BorderRadius.all(
+                        //           Radius.circular(10),
+                        //         )),
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //       children: [
+                        //         CircleAvatar(
+                        //             radius: 40,
+                        //             backgroundColor: Colors.white,
+                        //             child: Padding(
+                        //               padding: const EdgeInsets.all(8.0),
+                        //               child: Text(
+                        //                 double.parse(processedData.ari!)
+                        //                     .toStringAsFixed(0),
+                        //                 style: const TextStyle(
+                        //                     fontWeight: FontWeight.bold,
+                        //                     fontSize: 22),
+                        //               ),
+                        //             )),
+                        //         const SizedBox(
+                        //           width: 20,
+                        //         ),
+                        //         const Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Your Text goes here",
+                        //               style: TextStyle(
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold),
+                        //             ),
+                        //             Text(
+                        //               "Text goes here for description",
+                        //               style: TextStyle(
+                        //                   fontSize: 14,
+                        //                   fontWeight: FontWeight.normal),
+                        //             ),
+                        //           ],
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+
+                        SizedBox(
+                            width: screenSize!.width/5,
+                            height: screenSize!.height/3,
+                            child: SfRadialGauge(
+                                axes: <RadialAxis>[
+                                  RadialAxis(minimum: 0, maximum: 900,
+                                      ranges: <GaugeRange>[
+                                        GaugeRange(startValue: 0, endValue: 300, color:Colors.green),
+                                        GaugeRange(startValue: 300,endValue: 600,color: Colors.orange),
+                                        GaugeRange(startValue: 600,endValue: 900,color: Colors.red)],
+                                      pointers: const <GaugePointer>[
+                                        NeedlePointer(
+                                          value: 695,
+                                          needleStartWidth: 1,
+                                          needleEndWidth: 4,
+                                          needleLength: 0.5,
+                                        ),
+                                      ],
+                                      annotations:  <GaugeAnnotation>[
+                                        GaugeAnnotation(
+                                            widget: Text(double.parse(processedData.ari!).toStringAsFixed(0),style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                                            angle: 90, positionFactor: 0.5
+                                        )]
+                                  )])
                         ),
+
                         const Text(
                           "Resting Heart Rate ",
                           style: TextStyle(

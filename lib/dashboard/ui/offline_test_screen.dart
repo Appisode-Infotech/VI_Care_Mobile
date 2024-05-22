@@ -342,7 +342,22 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                                             .offlineSavedTests![
                                                                 index]
                                                             .scanDurationName,
-                                                        pId);
+                                                        pId,
+                                                    {
+                                                      "MyRoleId": prefModel.userData!.roleId,
+                                                      "bpmList": prefModel.offlineSavedTests![index].bpmList,
+                                                      "rrIntervalList": prefModel.offlineSavedTests![index].rrIntervalList,
+                                                      "scanDuration": prefModel.offlineSavedTests![index].scanDuration,
+                                                      "scanDurationName": prefModel.offlineSavedTests![index].scanDurationName,
+                                                      "deviceName": prefModel.offlineSavedTests![index].deviceName,
+                                                      "deviceId": prefModel.offlineSavedTests![index].deviceId,
+                                                      "userAndDeviceId": prefModel.offlineSavedTests![index].userAndDeviceId,
+                                                      "selectedDurationId": prefModel.offlineSavedTests![index].selectedDurationId,
+                                                      "enterprisePatientData": prefModel.offlineSavedTests![index].enterprisePatientData,
+                                                      "individualPatientData": prefModel.offlineSavedTests![index].individualPatientData,
+                                                      "created": prefModel.offlineSavedTests![index].created // Convert DateTime to String
+                                                    }
+                                                );
                                                 prefModel.offlineSavedTests!
                                                     .removeAt(index);
                                               } else {

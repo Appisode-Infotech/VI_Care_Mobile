@@ -549,7 +549,7 @@ mixin AppLocale {
     reportNotReady:  "Report is not ready yet. Please check back in some time",
     reportsFailed:  "Looks like report failed to generate. Please take a test again",
 
-    notAddedDevice: "You have not added any devices yet. Please add the device to continue.",
+    notAddedDevice: "Device is not registered",
     deviceKey: "Device Key",
     thisIs: 'This is %a package, version %a.',
   };

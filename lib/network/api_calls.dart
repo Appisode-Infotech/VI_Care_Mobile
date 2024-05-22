@@ -588,6 +588,8 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getIndividualProfiles}/GetAllByUserId${prefModel.userData!.id}");
+    log(response.body);
+
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -600,6 +602,8 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.enterpriseUserId}");
+    log(response.body);
+
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
           json.decode(response.body));

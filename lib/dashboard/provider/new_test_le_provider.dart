@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,13 +10,20 @@ import 'package:vicare/main.dart';
 import 'package:vicare/network/api_calls.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../../create_patients/model/enterprise_response_model.dart';
+import '../../create_patients/model/individual_response_model.dart';
+import '../../database/app_pref.dart';
 import '../../utils/app_locale.dart';
 import '../model/device_data_response_model.dart';
+import '../model/duration_response_model.dart';
+import '../model/offline_test_model.dart';
 
 class NewTestLeProvider extends ChangeNotifier {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   BluetoothDevice? connectedDevice;
   ApiCalls apiCalls = ApiCalls();
+
+
 
   Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
     if(await flutterBlue.isOn){
@@ -54,7 +62,7 @@ class NewTestLeProvider extends ChangeNotifier {
     }
   }
 
-  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId) async {
+  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId, Map<String, Object?> jsonData) async {
     DeviceDataResponseModel response = await apiCalls.requestDeviceData(
         context: dataContext,
         details: "abc",
@@ -75,6 +83,13 @@ class NewTestLeProvider extends ChangeNotifier {
       showSuccessToast(dataContext, AppLocale.testSuccessfulCheck.getString(dataContext));
     }else{
       showErrorToast(dataContext, response.message!);
+            final String jsonString = json.encode(jsonData);
+            OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+            prefModel.offlineSavedTests!.add(testDetails);
+            await AppPref.setPref(prefModel);
+            showSuccessToast(dataContext,
+                AppLocale.testSavedOffline.getString(dataContext));
+            // Navigator.pop(dataContext);
     }
   }
 

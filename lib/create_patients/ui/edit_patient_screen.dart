@@ -1638,13 +1638,20 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 dropdownColor: Colors.white,
                                 value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
-                                onChanged: (String? value) {
-                                  var selectedState = patientProvider.stateMasterResponse!.result!
-                                      .firstWhere((state) => state.name == value);
+                                onChanged: (String? value) async {
+                                  // Find the selected country by its name
+                                  var selectedCountry = patientProvider.countryMasterResponse!.result!
+                                      .firstWhere((country) => country.name == value);
 
-                                  patientProvider.editSelectedStateId = selectedState.id;
+                                  // Set the selected country ID
+                                  patientProvider.selectedCountryId = selectedCountry.id;
+                                  // Fetch states based on the selected country's unique GUID
+                                  await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+
+                                  // Update the state with the selected country and reset the selected state
                                   setState(() {
-                                    patientProvider.editStateAs = value!;
+                                    patientProvider.countryAs = value!;
+                                    patientProvider.stateAs = null; // Reset state selection
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),

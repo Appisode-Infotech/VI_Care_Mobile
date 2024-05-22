@@ -237,7 +237,6 @@ class PatientProvider extends ChangeNotifier {
       //   }
       // }
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
-      // editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(individualPatientData.result!.profilePicture!.url!);
     } else {
       editPatientDobController.text =
           "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";

@@ -55,9 +55,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
         child: Scaffold(
           body: screens[selectedItemPosition],
-          floatingActionButton: _buildFloatingActionButton(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          // floatingActionButton: _buildFloatingActionButton(),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: _buildBottomNavigationBar(),
         ),
       ),

@@ -454,7 +454,6 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     if (enterprisePatientData == null && individualPatientData == null) {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {
-
         final Map<String, dynamic> jsonData = {
           "MyRoleId": prefModel.userData!.roleId,
           "bpmList": bpmList,
@@ -494,34 +493,33 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                         Navigator.pop(context);
                       },
                       child: const Text('Cancel Test')),
-                  TextButton(
-                      onPressed: () async {
-
-                        final Map<String, dynamic> jsonData = {
-                          "MyRoleId": prefModel.userData!.roleId,
-                          "bpmList": bpmList,
-                          "rrIntervalList": rrIntervalList,
-                          "scanDuration": selectedDuration!.durationInMinutes,
-                          "scanDurationName": selectedDuration!.name,
-                          "deviceName": selectedDevice!.name,
-                          "deviceId": selectedDevice!.serialNumber,
-                          "userAndDeviceId": selectedDevice!.id,
-                          "selectedDurationId": selectedDuration!.id,
-                          "enterprisePatientData": enterprisePatientData,
-                          "individualPatientData": individualPatientData,
-                          "created": DateTime.now().toIso8601String() // Convert DateTime to String
-                        };
-
-                        final String jsonString = json.encode(jsonData);
-                        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
-                        prefModel.offlineSavedTests!.add(testDetails);
-                        await AppPref.setPref(prefModel);
-
-                        showSuccessToast(context,
-                            AppLocale.testSavedOffline.getString(context));
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Save Offline")),
+                  // TextButton(
+                  //   onPressed: () async {
+                  //       final Map<String, dynamic> jsonData = {
+                  //         "MyRoleId": prefModel.userData!.roleId,
+                  //         "bpmList": bpmList,
+                  //         "rrIntervalList": rrIntervalList,
+                  //         "scanDuration": selectedDuration!.durationInMinutes,
+                  //         "scanDurationName": selectedDuration!.name,
+                  //         "deviceName": selectedDevice!.name,
+                  //         "deviceId": selectedDevice!.serialNumber,
+                  //         "userAndDeviceId": selectedDevice!.id,
+                  //         "selectedDurationId": selectedDuration!.id,
+                  //         "enterprisePatientData": enterprisePatientData,
+                  //         "individualPatientData": individualPatientData,
+                  //         "created": DateTime.now().toIso8601String() // Convert DateTime to String
+                  //       };
+                  //
+                  //       final String jsonString = json.encode(jsonData);
+                  //       OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+                  //       prefModel.offlineSavedTests!.add(testDetails);
+                  //       await AppPref.setPref(prefModel);
+                  //
+                  //       showSuccessToast(context,
+                  //           AppLocale.testSavedOffline.getString(context));
+                  //       Navigator.pop(context);
+                  //     },
+                  //     child: const Text("Save Offline")),
                   TextButton(
                       onPressed: () async {
                         showLoaderDialog(context);
@@ -569,7 +567,22 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                               connectedDevice!.id.id,
                               selectedDuration!.id,
                               selectedDuration!.name,
-                              pId);
+                              pId,
+                              {
+                                "MyRoleId": prefModel.userData!.roleId,
+                                "bpmList": bpmList,
+                                "rrIntervalList": rrIntervalList,
+                                "scanDuration": selectedDuration!.durationInMinutes,
+                                "scanDurationName": selectedDuration!.name,
+                                "deviceName": selectedDevice!.name,
+                                "deviceId": selectedDevice!.serialNumber,
+                                "userAndDeviceId": selectedDevice!.id,
+                                "selectedDurationId": selectedDuration!.id,
+                                "enterprisePatientData": enterprisePatientData,
+                                "individualPatientData": individualPatientData,
+                                "created": DateTime.now().toIso8601String() // Convert DateTime to String
+                              }
+                          );
                         } else {
                           showErrorToast(context,
                               AppLocale.somethingWentWrong.getString(context));

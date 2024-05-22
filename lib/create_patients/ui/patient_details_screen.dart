@@ -626,49 +626,49 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   GestureDetector(
                                                     onTap: () async {
                                                       var bluetoothConnectStatus =
-                                                          await Permission
-                                                              .bluetoothConnect
-                                                              .request();
+                                                      await Permission
+                                                          .bluetoothConnect
+                                                          .request();
                                                       var bluetoothScanStatus =
-                                                          await Permission
-                                                              .bluetoothScan
-                                                              .request();
+                                                      await Permission
+                                                          .bluetoothScan
+                                                          .request();
                                                       if (bluetoothConnectStatus ==
-                                                              PermissionStatus
-                                                                  .granted &&
+                                                          PermissionStatus
+                                                              .granted &&
                                                           bluetoothScanStatus ==
                                                               PermissionStatus
                                                                   .granted) {
                                                         showLoaderDialog(
                                                             context);
                                                         DeviceResponseModel
-                                                            myDevices =
-                                                            await patientProvider
-                                                                .getMyDevices();
+                                                        myDevices =
+                                                        await patientProvider
+                                                            .getMyDevices();
                                                         DurationResponseModel
-                                                            myDurations =
-                                                            await patientProvider
-                                                                .getAllDuration();
+                                                        myDurations =
+                                                        await patientProvider
+                                                            .getAllDuration();
                                                         Navigator.pop(context);
                                                         if (myDevices.result !=
-                                                                null &&
+                                                            null &&
                                                             myDevices.result!
                                                                 .isNotEmpty) {
                                                           showTestFormBottomSheet(
                                                               context,
                                                               myDevices,
                                                               myDurations,
-                                                              snapshot.data!,
-                                                              null);
+                                                              snapshot.data!,null);
+                                                        } else {
+                                                          showErrorToast(
+                                                              context,
+                                                              AppLocale
+                                                                  .notAddedDevice
+                                                                  .getString(
+                                                                  context));
                                                         }
-                                                      } else {
-                                                        showErrorToast(
-                                                            context,
-                                                            AppLocale
-                                                                .notAddedDevice
-                                                                .getString(
-                                                                    context));
                                                       }
+                                                    },
                                                       // if (myDevices
                                                       //     .result!.devices!.isEmpty) {
                                                       //   showErrorToast(context,
@@ -684,7 +684,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       //                 .result!.devices![0]
                                                       //       });
                                                       // }
-                                                    },
                                                     child: Container(
                                                         height: 50,
                                                         width:
@@ -2072,7 +2071,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('dd-MM-yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('MM/dd/yyyy hh:mm aa').format(parsedDateTime);
   }
 
   parseDateMonth(String timestampString) {

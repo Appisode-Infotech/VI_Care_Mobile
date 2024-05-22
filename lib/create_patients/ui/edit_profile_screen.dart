@@ -334,7 +334,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         items: <String>[
                           "O+ve",
                           "AB+ve",
-                          "B+ve",
+                          "B-ve",
                           "O-ve",
                           "A+ve",
                           "A-ve",
