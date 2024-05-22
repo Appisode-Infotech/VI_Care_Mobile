@@ -6,7 +6,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
-import 'package:vicare/main.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
