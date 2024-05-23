@@ -751,19 +751,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
                                 onChanged: (String? value) async {
-                                  // Find the selected country by its name
                                   var selectedCountry = patientProvider.countryMasterResponse!.result!
                                       .firstWhere((country) => country.name == value);
-
-                                  // Set the selected country ID
                                   patientProvider.selectedCountryId = selectedCountry.id;
-                                  // Fetch states based on the selected country's unique GUID
                                   await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
 
-                                  // Update the state with the selected country and reset the selected state
                                   setState(() {
                                     patientProvider.countryAs = value!;
-                                    patientProvider.stateAs = null; // Reset state selection
+                                    patientProvider.stateAs = null;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
@@ -1639,19 +1634,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
                                 onChanged: (String? value) async {
-                                  // Find the selected country by its name
                                   var selectedCountry = patientProvider.countryMasterResponse!.result!
                                       .firstWhere((country) => country.name == value);
 
-                                  // Set the selected country ID
                                   patientProvider.selectedCountryId = selectedCountry.id;
-                                  // Fetch states based on the selected country's unique GUID
                                   await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
-
-                                  // Update the state with the selected country and reset the selected state
                                   setState(() {
                                     patientProvider.countryAs = value!;
-                                    patientProvider.stateAs = null; // Reset state selection
+                                    patientProvider.stateAs = null;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),

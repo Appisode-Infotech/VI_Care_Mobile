@@ -46,7 +46,7 @@ class TakeTestProvider extends ChangeNotifier {
         isConnected = false;
         connectedDevice = null;
         for (var subscription in subscriptions) {
-          subscription.cancel(); // cancel all subscriptions
+          subscription.cancel();
         }
       } else {
         flutterBlue.connectedDevices.then((List<BluetoothDevice> devices) {

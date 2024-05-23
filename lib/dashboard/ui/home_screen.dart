@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(prefModel.userData!.token);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 8,
                 ),
                 Text(
-                    "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}",
+                    "${prefModel.userData!.contact!.firstName} ${prefModel.userData!.contact!.lastName}",
                     style: const TextStyle(color: Colors.white)),
               ],
             ),

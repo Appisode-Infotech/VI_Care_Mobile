@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -41,23 +42,36 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> preFillEditProfile(BuildContext context) async {
+    log(prefModel.userData!.toJson().toString());
     showLoaderDialog(context);
       editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
-      editProfileContactNumberController.text = prefModel.userData!.contactNumber!;
-      editProfileFirstNameController.text = prefModel.userData!.contact!.firstname.toString();
+      editProfileContactNumberController.text = prefModel.userData!.contactNumber.toString();
+      editProfileFirstNameController.text = prefModel.userData!.contact!.firstName!;
       editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
       editProfileStreetController.text=prefModel.userData!.contact!.address!.street!=null?prefModel.userData!.contact!.address!.street!:"";
-      editProfileAreaController.text=prefModel.userData!.contact!.address!.area!;
-      editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!;
+      editProfileAreaController.text=prefModel.userData!.contact!.address!.area!=null?prefModel.userData!.contact!.address!.area!:"";
+      editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!=null?prefModel.userData!.contact!.address!.landmark!:"";
       editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
-      editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!;
+      editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!=null?prefModel.userData!.contact!.address!.pinCode!:"";
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
+      profileHeightController.text = prefModel.userData!.height==null?'':prefModel.userData!.height.toString();
+      profileWeightController.text = prefModel.userData!.weight==null?'':prefModel.userData!.weight.toString();
       // for (var state in stateMasterResponse!.result!) {
       //   if (state.id == prefModel.userData!.contact!.address!.stateId) {
       //     editProfileStateAs = state.name;
       //     break;
       //   }
       // }
+    if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
+      for (var country in countryMasterResponse!.result!) {
+        if (country.id == prefModel.userData!.contact!.address!.countryId) {
+          editProfileCountryAs = country.name;
+          break;
+        }
+      }
+    }else{
+      "";
+    }
     if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
       for (var state in stateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
@@ -165,7 +179,7 @@ class ProfileProvider extends ChangeNotifier {
         editProfileSelectedCountryId!,profileHeightController.text,profileWeightController.text
       );
       if (response.result != null) {
-        prefModel.userData!.contact!.firstname =response.result!.contact!.firstname;
+        prefModel.userData!.contact!.firstName =response.result!.contact!.firstName;
         prefModel.userData!.contact!.lastName =response.result!.contact!.lastName;
         prefModel.userData!.contactNumber =response.result!.contactNumber;
         prefModel.userData!.contact!.bloodGroup =response.result!.contact!.bloodGroup;

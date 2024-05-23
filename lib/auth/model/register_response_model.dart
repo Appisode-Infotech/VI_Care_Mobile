@@ -50,6 +50,8 @@ class UserData {
   dynamic remarks;
   String? token;
   String? refreshToken;
+  String? height;
+  String? weight;
   int? contactId;
   Contact? contact;
   int? roleId;
@@ -74,6 +76,8 @@ class UserData {
     this.remarks,
     this.token,
     this.refreshToken,
+    this.height,
+    this.weight,
     this.contactId,
     this.contact,
     this.roleId,
@@ -99,6 +103,8 @@ class UserData {
     remarks: json["remarks"],
     token: json["token"],
     refreshToken: json["refreshToken"],
+    height: json["height"]?.toString(),
+    weight: json["weight"]?.toString(),
     contactId: json["contactId"],
     contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     roleId: json["roleId"],
@@ -141,7 +147,7 @@ class UserData {
 }
 
 class Contact {
-  String? firstname;
+  String? firstName;
   String? lastName;
   String? email;
   String? contactNumber;
@@ -154,7 +160,7 @@ class Contact {
   int? id;
 
   Contact({
-    this.firstname,
+    this.firstName,
     this.lastName,
     this.email,
     this.contactNumber,
@@ -168,7 +174,7 @@ class Contact {
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-    firstname: json["firstName"],
+    firstName: json["firstName"],
     lastName: json["lastName"],
     email: json["email"],
     contactNumber: json["contactNumber"],
@@ -182,7 +188,7 @@ class Contact {
   );
 
   Map<String, dynamic> toJson() => {
-    "firstName": firstname,
+    "firstName": firstName,
     "lastName": lastName,
     "email": email,
     "contactNumber": contactNumber,
@@ -204,6 +210,8 @@ class Address {
   String? pinCode;
   dynamic longitude;
   dynamic latitude;
+  int? countryId;
+  Country? country;
   int? stateId;
   dynamic state;
   String? uniqueGuid;
@@ -217,6 +225,8 @@ class Address {
     this.pinCode,
     this.longitude,
     this.latitude,
+    this.countryId,
+    this.country,
     this.stateId,
     this.state,
     this.uniqueGuid,
@@ -231,6 +241,8 @@ class Address {
     pinCode: json["pinCode"],
     longitude: json["longitude"],
     latitude: json["latitude"],
+    countryId: json["countryId"],
+    country: json["country"] == null ? null : Country.fromJson(json["country"]),
     stateId: json["stateId"],
     state: json["state"],
     uniqueGuid: json["uniqueGuid"],
@@ -245,6 +257,8 @@ class Address {
     "pinCode": pinCode,
     "longitude": longitude,
     "latitude": latitude,
+    "countryId": countryId,
+    "country": country?.toJson(),
     "stateId": stateId,
     "state": state,
     "uniqueGuid": uniqueGuid,
@@ -347,6 +361,47 @@ class Role {
     "maximumMembers": maximumMembers,
     "profileName": profileName,
     "isAdmin": isAdmin,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
+
+class Country {
+  String? name;
+  String? code;
+  String? twoLetterCode;
+  String? threeLetterCode;
+  int? numericCode;
+  String? uniqueGuid;
+  int? id;
+
+  Country({
+    this.name,
+    this.code,
+    this.twoLetterCode,
+    this.threeLetterCode,
+    this.numericCode,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
+    name: json["name"],
+    code: json["code"],
+    twoLetterCode: json["twoLetterCode"],
+    threeLetterCode: json["threeLetterCode"],
+    numericCode: json["numericCode"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "code": code,
+    "twoLetterCode": twoLetterCode,
+    "threeLetterCode": threeLetterCode,
+    "numericCode": numericCode,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };

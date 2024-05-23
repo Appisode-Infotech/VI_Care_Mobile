@@ -487,7 +487,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    hintText: "Height",
+                                    hintText: "Height (Cms)",
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle: const TextStyle(color: Colors.red),
@@ -508,7 +508,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
 
-                                const Text("Weight",
+                                const Text("Weight (Kgs)",
                                     style: TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,

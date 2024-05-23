@@ -110,7 +110,13 @@ class AuthProvider extends ChangeNotifier {
     registerEmailController.clear();
     registerPasswordController.clear();
     registerDobController.clear();
+    registerStreetController.clear();
+     registerAreaController .clear();
+     registerLandmarkController.clear();
+     registerCityController.clear();
     registerContactNumberController.clear();
+    registerWeightController.clear();
+    registerHeightController.clear();
     registerSelectedImage = null;
     registerAs = null;
     registerStateAs = null;

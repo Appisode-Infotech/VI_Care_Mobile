@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:vicare/dashboard/model/offline_test_model.dart';
 import 'package:vicare/dashboard/provider/new_test_le_provider.dart';
 import 'package:vicare/database/app_pref.dart';
@@ -54,7 +54,17 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   int heartRate = 0;
   int energy = 0;
   List<StreamSubscription> subscriptions = [];
-  List<FlSpot> rrIntervalChartData = [];
+  List<int> rrIntervalChartData = [];
+  final TrackballBehavior _trackballBehavior = TrackballBehavior(
+    enable: true,
+    tooltipSettings: const InteractiveTooltip(
+      enable: true,
+      color: Colors.blue,
+      borderWidth: 1,
+      borderColor: Colors.black,
+    ),
+    activationMode: ActivationMode.singleTap,
+  );
 
   @override
   void initState() {
@@ -131,32 +141,44 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
       appBar: AppBar(
         title: Text(AppLocale.takeTest.getString(context)),
         actions: [
-          IconButton(onPressed: (){
-            showModalBottomSheet(context: context, builder: (BuildContext infoSheetContext){
-              return SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                 child: Column(
-                   children: [
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         Text("FAQ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
-                         GestureDetector(
-                             onTap: (){
-                               Navigator.pop(context);
-                             },
-                             child: Icon(Icons.close)),
-                       ],
-                     ),
-                     SizedBox(height: 10,),
-                     Text("Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
-                   ],
-                 )
-                ),
-              );
-            });
-          }, icon: Icon(Icons.info_outline_rounded))
+          IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext infoSheetContext) {
+                      return SingleChildScrollView(
+                        child: Container(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "FAQ",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Icon(Icons.close)),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    "Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
+                              ],
+                            )),
+                      );
+                    });
+              },
+              icon: Icon(Icons.info_outline_rounded))
         ],
       ),
       body: Consumer(
@@ -319,50 +341,31 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   //   child: ,
                   // )
 
-
                   const SizedBox(
                     height: 20,
                   ),
                   rrIntervalChartData.isNotEmpty
                       ? Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 16.0),
-                            child: LineChart(
-                              LineChartData(
-                                lineBarsData: [
-                                  LineChartBarData(
-                                    spots: rrIntervalChartData,
-                                    isCurved: true,
-                                    barWidth: 2.0,
-                                    color: Colors.teal.withOpacity(
-                                        0.7), // Adjust fill color with transparency
-                                  ),
-                                ],
-                                borderData: FlBorderData(
-                                  show: true,
-                                  border: const Border(
-                                    left: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                    // Adjust border color for better contrast
-                                    bottom: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                  ),
-                                ),
-                                titlesData: FlTitlesData(
-                                  rightTitles: AxisTitles(
-                                    axisNameSize: 28,
-                                    axisNameWidget: Text(AppLocale.rrInterval
-                                        .getString(context)),
-                                  ),
-                                  topTitles: AxisTitles(
-                                    axisNameSize: 28,
-                                    axisNameWidget: Text(
-                                        AppLocale.seconds.getString(context)),
-                                  ),
-                                ),
-                              ),
+                          child: SfCartesianChart(
+                            plotAreaBorderWidth: 0,
+                            primaryXAxis: const NumericAxis(
+                              title: AxisTitle(text: 'TIME IN SEC'),
+                              axisLine: AxisLine(width: 1),
+                              borderColor: Colors.black,
+                              majorGridLines: MajorGridLines(width: 0),
+                              autoScrollingDelta: 50,
+                              // Adjust this value as needed
+                              autoScrollingMode: AutoScrollingMode.end,
                             ),
+                            primaryYAxis: const NumericAxis(
+                              title: AxisTitle(text: 'RR INTERVAL'),
+                              axisLine: AxisLine(width: 1),
+                              borderColor: Colors.black,
+                              majorTickLines: MajorTickLines(size: 0),
+                              rangePadding: ChartRangePadding.additional,
+                            ),
+                            series: _getLiveUpdateSeries(),
+                            trackballBehavior: _trackballBehavior,
                           ),
                         )
                       : const SizedBox(),
@@ -373,6 +376,21 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
         },
       ),
     );
+  }
+
+  List<SplineSeries<int, int>> _getLiveUpdateSeries() {
+    return <SplineSeries<int, int>>[
+      SplineSeries<int, int>(
+        dataSource: rrIntervalChartData,
+        xValueMapper: (int sales, int index) {
+          return index; // X-axis value is the index of the data point
+        },
+        yValueMapper: (int sales, _) {
+          return sales; // Y-axis value is the data point itself
+        },
+        animationDuration: 0,
+      ),
+    ];
   }
 
   stopTestRecording() {
@@ -429,8 +447,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                   offset += 2;
                 }
                 rrIntervalList.add(rrValue);
-                rrIntervalChartData
-                    .add(FlSpot(elapsedSeconds.toDouble(), rrValue.toDouble()));
+                rrIntervalChartData.add(rrValue);
               }
             }
           });
@@ -466,134 +483,91 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
           "selectedDurationId": selectedDuration!.id,
           "enterprisePatientData": enterprisePatientData,
           "individualPatientData": individualPatientData,
-          "created": DateTime.now().toIso8601String() // Convert DateTime to String
+          "created": DateTime.now().toIso8601String()
+          // Convert DateTime to String
         };
 
         final String jsonString = json.encode(jsonData);
-        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        OfflineTestModel testDetails =
+            OfflineTestModel.fromJson(json.decode(jsonString));
         prefModel.offlineSavedTests!.add(testDetails);
         await AppPref.setPref(prefModel);
-        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
+        showSuccessToast(
+            context, AppLocale.testSavedOffline.getString(context));
       } else {
         showErrorToast(context, AppLocale.testDiscarded.getString(context));
       }
     } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return PopScope(
-              canPop: false,
-              child: AlertDialog(
-                title: Text(AppLocale.testCompleted.getString(context)),
-                content:
-                    Text(AppLocale.testCompletedSuccessful.getString(context)),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancel Test')),
-                  // TextButton(
-                  //   onPressed: () async {
-                  //       final Map<String, dynamic> jsonData = {
-                  //         "MyRoleId": prefModel.userData!.roleId,
-                  //         "bpmList": bpmList,
-                  //         "rrIntervalList": rrIntervalList,
-                  //         "scanDuration": selectedDuration!.durationInMinutes,
-                  //         "scanDurationName": selectedDuration!.name,
-                  //         "deviceName": selectedDevice!.name,
-                  //         "deviceId": selectedDevice!.serialNumber,
-                  //         "userAndDeviceId": selectedDevice!.id,
-                  //         "selectedDurationId": selectedDuration!.id,
-                  //         "enterprisePatientData": enterprisePatientData,
-                  //         "individualPatientData": individualPatientData,
-                  //         "created": DateTime.now().toIso8601String() // Convert DateTime to String
-                  //       };
-                  //
-                  //       final String jsonString = json.encode(jsonData);
-                  //       OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
-                  //       prefModel.offlineSavedTests!.add(testDetails);
-                  //       await AppPref.setPref(prefModel);
-                  //
-                  //       showSuccessToast(context,
-                  //           AppLocale.testSavedOffline.getString(context));
-                  //       Navigator.pop(context);
-                  //     },
-                  //     child: const Text("Save Offline")),
-                  TextButton(
-                      onPressed: () async {
-                        showLoaderDialog(context);
-                        var jsonString = jsonEncode({
-                          "fileVersion": "IBIPOLAR",
-                          "appVersion": "ViCare_1.0.0",
-                          "serialNumber": selectedDevice!.serialNumber,
-                          "guid": "46184141-00c6-46ee-b927-4218085e85fd",
-                          "age": prefModel.userData!.roleId == 2
-                              ? calculateAge(individualPatientData!
-                                  .result!.contact!.doB
-                                  .toString())
-                              : calculateAge(enterprisePatientData!
-                                  .result!.contact!.doB
-                              .toString()),
-                          "gender": prefModel.userData!.roleId == 2
-                              ? ( individualPatientData!.result!.contact!.gender == 1 ? 0 : 1)
-                              : (enterprisePatientData!.result!.contact!.gender == 1 ? 0 : 1),
-                          "date": DateTime.now().toIso8601String(),
-                          "countryCode": "IN",
-                          "intervals": rrIntervalList
-                        });
-                        var directory = await getExternalStorageDirectory();
-                        var viCareDirectory =
-                            Directory('${directory!.path}/vicare');
+      showLoaderDialog(context);
+      var jsonString = jsonEncode({
+        "fileVersion": "IBIPOLAR",
+        "appVersion": "ViCare_1.0.0",
+        "serialNumber": selectedDevice!.serialNumber,
+        "guid": "46184141-00c6-46ee-b927-4218085e85fd",
+        "age": prefModel.userData!.roleId == 2
+            ? calculateAge(individualPatientData!
+            .result!.contact!.doB
+            .toString())
+            : calculateAge(enterprisePatientData!
+            .result!.contact!.doB
+            .toString()),
+        "gender": prefModel.userData!.roleId == 2
+            ? (individualPatientData!
+            .result!.contact!.gender ==
+            1
+            ? 0
+            : 1)
+            : (enterprisePatientData!
+            .result!.contact!.gender ==
+            1
+            ? 0
+            : 1),
+        "date": DateTime.now().toIso8601String(),
+        "countryCode": "IN",
+        "intervals": rrIntervalList
+      });
+      var directory = await getExternalStorageDirectory();
+      var viCareDirectory =
+      Directory('${directory!.path}/vicare');
 
-                        if (!(await viCareDirectory.exists())) {
-                          await viCareDirectory.create(recursive: true);
-                        }
-                        var now = DateTime.now();
-                        var timestamp = now.millisecondsSinceEpoch;
-                        var filename = 'data_$timestamp.json';
-                        var filePath = '${viCareDirectory.path}/$filename';
-                        File payload = File(filePath);
-                        await payload.writeAsString(jsonString);
-                        if (await payload.exists()) {
-                          String pId = prefModel.userData!.roleId == 2
-                              ? individualPatientData!.result!.id.toString()
-                              : enterprisePatientData!.result!.id.toString();
-                          await newTestLeProvider.requestDeviceData(
-                              context,
-                              payload,
-                              selectedDevice!.serialNumber,
-                              selectedDevice!.id,
-                              connectedDevice!.id.id,
-                              selectedDuration!.id,
-                              selectedDuration!.name,
-                              pId,
-                              {
-                                "MyRoleId": prefModel.userData!.roleId,
-                                "bpmList": bpmList,
-                                "rrIntervalList": rrIntervalList,
-                                "scanDuration": selectedDuration!.durationInMinutes,
-                                "scanDurationName": selectedDuration!.name,
-                                "deviceName": selectedDevice!.name,
-                                "deviceId": selectedDevice!.serialNumber,
-                                "userAndDeviceId": selectedDevice!.id,
-                                "selectedDurationId": selectedDuration!.id,
-                                "enterprisePatientData": enterprisePatientData,
-                                "individualPatientData": individualPatientData,
-                                "created": DateTime.now().toIso8601String() // Convert DateTime to String
-                              }
-                          );
-                        } else {
-                          showErrorToast(context,
-                              AppLocale.somethingWentWrong.getString(context));
-                        }
-                        Navigator.pop(context);
-                      },
-                      child: Text(AppLocale.upload.getString(context)))
-                ],
-              ),
-            );
-          });
+      if (!(await viCareDirectory.exists())) {
+        await viCareDirectory.create(recursive: true);
+      }
+      var now = DateTime.now();
+      var timestamp = now.millisecondsSinceEpoch;
+      var filename = 'data_$timestamp.json';
+      var filePath = '${viCareDirectory.path}/$filename';
+      File payload = File(filePath);
+      await payload.writeAsString(jsonString);
+      if (await payload.exists()) {
+        String pId = prefModel.userData!.roleId == 2
+            ? individualPatientData!.result!.id.toString()
+            : enterprisePatientData!.result!.id.toString();
+        await newTestLeProvider.requestDeviceData(
+            context,
+            payload,
+            selectedDevice!.serialNumber,
+            selectedDevice!.id,
+            connectedDevice!.id.id,
+            selectedDuration!.id,
+            selectedDuration!.name,
+            pId,
+            {
+              "MyRoleId": prefModel.userData!.roleId,
+              "bpmList": bpmList,
+              "rrIntervalList": rrIntervalList,
+              "scanDuration": selectedDuration!.durationInMinutes,
+              "scanDurationName": selectedDuration!.name,
+              "deviceName": selectedDevice!.name,
+              "deviceId": selectedDevice!.serialNumber,
+              "userAndDeviceId": selectedDevice!.id,
+              "selectedDurationId": selectedDuration!.id,
+              "enterprisePatientData": enterprisePatientData,
+              "individualPatientData": individualPatientData,
+              "created": DateTime.now().toIso8601String()
+              // Convert DateTime to String
+            });
+      }
     }
   }
 

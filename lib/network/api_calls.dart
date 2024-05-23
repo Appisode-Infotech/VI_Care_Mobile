@@ -195,6 +195,7 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
+    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
@@ -587,7 +588,7 @@ class ApiCalls {
   Future<AllPatientsResponseModel> getMyIndividualUsers(
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
-        "${UrlConstants.getIndividualProfiles}/GetAllByUserId${prefModel.userData!.id}");
+        "${UrlConstants.getIndividualProfiles}/GetAllByUserId/${prefModel.userData!.id}");
     log(response.body);
 
     if (response.statusCode == 200) {
@@ -601,7 +602,7 @@ class ApiCalls {
   Future<AllEnterpriseUsersResponseModel> getMyEnterpriseUsers(
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
-        "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId${prefModel.userData!.enterpriseUserId}");
+        "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId/${prefModel.userData!.enterpriseUserId}");
     log(response.body);
 
     if (response.statusCode == 200) {
@@ -996,6 +997,7 @@ class ApiCalls {
       int? requestDeviceDataId, BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
+    log(response.body);
     if (response.statusCode == 200) {
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
     } else {

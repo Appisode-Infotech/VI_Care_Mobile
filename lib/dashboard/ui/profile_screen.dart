@@ -60,7 +60,7 @@
                         width: 20,
                       ),
                       Text(
-                        "${prefModel.userData!.contact!.firstname} ${prefModel.userData!.contact!.lastName}",
+                        "${prefModel.userData!.contact!.firstName} ${prefModel.userData!.contact!.lastName}",
                         style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                       )

@@ -102,6 +102,8 @@ class Result {
   String? lastName;
   String? email;
   bool? isSelf;
+  String? height;
+  String? weight;
   int? contactId;
   Contact? contact;
   int? userId;
@@ -116,6 +118,8 @@ class Result {
     this.lastName,
     this.email,
     this.isSelf,
+    this.height,
+    this.weight,
     this.contactId,
     this.contact,
     this.userId,
@@ -131,6 +135,8 @@ class Result {
         lastName: json["lastName"],
         email: json["email"],
         isSelf: json["isSelf"],
+        height: json["height"]?.toString(),
+        weight: json["weight"]?.toString(),
         contactId: json["contactId"],
         contact:
             json["contact"] == null ? null : Contact.fromJson(json["contact"]),
@@ -149,6 +155,8 @@ class Result {
         "lastName": lastName,
         "email": email,
         "isSelf": isSelf,
+        "height":height,
+        "weight":weight,
         "contactId": contactId,
         "contact": contact?.toJson(),
         "userId": userId,
