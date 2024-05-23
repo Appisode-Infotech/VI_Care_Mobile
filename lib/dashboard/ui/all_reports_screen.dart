@@ -193,7 +193,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: snapshot.data!.result!.length,
-                                itemBuilder: (context, index) {
+                                itemBuilder: (listContext, index) {
                                   return GestureDetector(
                                     onTap: () {
                                       if (snapshot.data!.result![index]
