@@ -73,8 +73,6 @@ class ProfileProvider extends ChangeNotifier {
           break;
         }
       }
-    }else{
-      "";
     }
       editProfileGender = prefModel.userData!.contact!.gender == 1
           ? "Male"

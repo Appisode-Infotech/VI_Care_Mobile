@@ -227,6 +227,7 @@ class PatientProvider extends ChangeNotifier {
       // heightController.text=individualPatientData.result!.height!;
       // weightController.text=individualPatientData.result!.weight!;
       editStateAs = '';
+      editCountryAs='';
 
       // for (var country in countryMasterResponse!.result!) {
       //   if (country.id == individualPatientData.result!.contact!.countryId) {
@@ -269,7 +270,6 @@ class PatientProvider extends ChangeNotifier {
               ? "Female"
               : "Do not wish to specify";
       editPatientBloodGroup = enterpriseUserData.result!.contact!.bloodGroup;
-      editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(enterpriseUserData.result!.profilePicture!.url!);
     }
   }
 

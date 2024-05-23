@@ -242,7 +242,6 @@ class IndividualProfile {
   String? firstName;
   String? lastName;
   String? email;
-  String? bmi;
   bool? isSelf;
   int? contactId;
   dynamic contact;
@@ -257,7 +256,6 @@ class IndividualProfile {
     this.firstName,
     this.lastName,
     this.email,
-    this.bmi,
     this.isSelf,
     this.contactId,
     this.contact,
@@ -273,7 +271,6 @@ class IndividualProfile {
     firstName: json["firstName"],
     lastName: json["lastName"],
     email: json["email"],
-    bmi: json["bmi"],
     isSelf: json["isSelf"],
     contactId: json["contactId"],
     contact: json["contact"],
@@ -289,7 +286,6 @@ class IndividualProfile {
     "firstName": firstName,
     "lastName": lastName,
     "email": email,
-    "bmi": bmi,
     "isSelf": isSelf,
     "contactId": contactId,
     "contact": contact,
@@ -375,7 +371,6 @@ class User {
   int? status;
   dynamic remarks;
   dynamic token;
-  String? bmi;
   int? contactId;
   Contact? contact;
   int? roleId;
@@ -399,7 +394,6 @@ class User {
     this.status,
     this.remarks,
     this.token,
-    this.bmi,
     this.contactId,
     this.contact,
     this.roleId,
@@ -424,7 +418,6 @@ class User {
     status: json["status"],
     remarks: json["remarks"],
     token: json["token"],
-    bmi: json["bmi"],
     contactId: json["contactId"],
     contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     roleId: json["roleId"],
@@ -449,7 +442,6 @@ class User {
     "status": status,
     "remarks": remarks,
     "token": token,
-    "bmi":bmi,
     "contactId": contactId,
     "contact": contact?.toJson(),
     "roleId": roleId,

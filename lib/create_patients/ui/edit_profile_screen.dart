@@ -487,7 +487,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    hintText: "Height (Cms)",
+                                    hintText: "Height",
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle: const TextStyle(color: Colors.red),
@@ -891,10 +891,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
-                                      if (profileProvider.editProfileSelectedImage == null) {
-                                        showErrorToast(context, AppLocale.validImage.getString(context));
-                                        return;
-                                      }
+                                      // if (profileProvider.editProfileSelectedImage == null) {
+                                      //   showErrorToast(context, AppLocale.validImage.getString(context));
+                                      //   return;
+                                      // }
                                       profileProvider.editProfile();
                                     }),
                               ],

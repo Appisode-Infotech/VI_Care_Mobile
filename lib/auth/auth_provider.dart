@@ -120,11 +120,13 @@ class AuthProvider extends ChangeNotifier {
     registerSelectedImage = null;
     registerAs = null;
     registerStateAs = null;
+    registerCountryAs=null;
     gender = null;
     registerBloodGroup = null;
     otpReceived = null;
     selectedRoleId = null;
     selectedStateId=null;
+    selectedCountryId=null;
     selectedGender = null;
     notifyListeners();
   }
