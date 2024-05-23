@@ -554,7 +554,7 @@
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text("V 1.0.7",style: TextStyle(color: Colors.grey),),
+                  const Text("V 1.0.8",style: TextStyle(color: Colors.grey),),
                   const SizedBox(
                     height: 20,
                   ),
