@@ -117,13 +117,13 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                                         .addPatientFormKey.currentState!
                                         .validate()) {
                                       if (currentStep == 1) {
-                                        if (patientProvider
-                                                .addPatientSelectedImage ==
-                                            null) {
-                                          showErrorToast(context,
-                                              AppLocale.validImage.getString(context));
-                                          return;
-                                        }
+                                      //   if (patientProvider
+                                      //           .addPatientSelectedImage ==
+                                      //       null) {
+                                      //     showErrorToast(context,
+                                      //         AppLocale.validImage.getString(context));
+                                      //     return;
+                                      //   }
                                       }
                                       setState(() {
                                         currentStep = currentStep + 1;

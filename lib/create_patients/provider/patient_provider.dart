@@ -224,8 +224,8 @@ class PatientProvider extends ChangeNotifier {
           individualPatientData.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =individualPatientData.result!.contact!.address!.pinCode!=null?
           individualPatientData.result!.contact!.address!.pinCode.toString():"";
-      heightController.text=individualPatientData.result!.height!;
-      weightController.text=individualPatientData.result!.weight!;
+      // heightController.text=individualPatientData.result!.height!;
+      // weightController.text=individualPatientData.result!.weight!;
       editStateAs = '';
 
       // for (var country in countryMasterResponse!.result!) {
@@ -255,6 +255,8 @@ class PatientProvider extends ChangeNotifier {
           enterpriseUserData.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =enterpriseUserData.result!.contact!.address!.pinCode!=null?
       enterpriseUserData.result!.contact!.address!.pinCode.toString():"";
+      // heightController.text=enterpriseUserData.result!.height!;
+      // weightController.text=enterpriseUserData.result!.weight!;
       for (var state in stateMasterResponse!.result!) {
         if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
           editStateAs = state.name;

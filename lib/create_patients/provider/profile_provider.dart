@@ -56,12 +56,6 @@ class ProfileProvider extends ChangeNotifier {
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
       profileHeightController.text = prefModel.userData!.height==null?'':prefModel.userData!.height.toString();
       profileWeightController.text = prefModel.userData!.weight==null?'':prefModel.userData!.weight.toString();
-      // for (var state in stateMasterResponse!.result!) {
-      //   if (state.id == prefModel.userData!.contact!.address!.stateId) {
-      //     editProfileStateAs = state.name;
-      //     break;
-      //   }
-      // }
     if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
       for (var country in countryMasterResponse!.result!) {
         if (country.id == prefModel.userData!.contact!.address!.countryId) {
