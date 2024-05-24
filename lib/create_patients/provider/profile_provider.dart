@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -42,7 +41,6 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> preFillEditProfile(BuildContext context) async {
-    log(prefModel.userData!.toJson().toString());
     showLoaderDialog(context);
       editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
       editProfileContactNumberController.text = prefModel.userData!.contactNumber.toString();

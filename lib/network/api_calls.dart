@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -182,7 +181,6 @@ class ApiCalls {
     request.fields['Contact.Address.CountryId'] = country.toString();
     request.fields['Height'] = height;
     request.fields['Weight'] = weight;
-    log(request.fields.toString());
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -195,12 +193,10 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(request.fields);
     var response = await request.send();
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
@@ -229,7 +225,6 @@ class ApiCalls {
           'password': password,
           'fcmToken': fcmToken
         }));
-    log(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -290,7 +285,6 @@ class ApiCalls {
     request.fields['height'] = height;
     request.fields['weight'] = weight;
     request.fields['UserId'] = prefModel.userData!.id.toString();
-    log(request.fields.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -367,7 +361,6 @@ class ApiCalls {
     request.fields['Weight'] = weight;
     request.fields['EnterpriseUserId'] =
         prefModel.userData!.enterpriseUserId.toString();
-    log(request.fields.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -386,7 +379,6 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
-    log(responseJson.toString());
     if (response.statusCode == 200) {
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
@@ -589,7 +581,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getIndividualProfiles}/GetAllByUserId/${prefModel.userData!.id}");
-    log(response.body);
 
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
@@ -603,7 +594,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId/${prefModel.userData!.enterpriseUserId}");
-    log(response.body);
 
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
@@ -997,7 +987,6 @@ class ApiCalls {
       int? requestDeviceDataId, BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
-    log(response.body);
     if (response.statusCode == 200) {
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
     } else {
@@ -1022,7 +1011,6 @@ class ApiCalls {
         "${UrlConstants.getSummaryReport}/${prefModel.userData!
             .id}?individualProfileId=$pId&type=$type");
     if (response.statusCode == 200) {
-      print(response.body);
       return SummaryReportResponseModel.fromJson(json.decode(response.body));
     } else {
       throw "could not fetch data ${response.statusCode}";
@@ -1032,7 +1020,6 @@ class ApiCalls {
           "${UrlConstants.getSummaryReport}/${prefModel.userData!
               .id}?enterpriseProfileId=${pId}&type=1");
       if (response.statusCode == 200) {
-        print(response.body);
         return SummaryReportResponseModel.fromJson(json.decode(response.body));
       } else {
         throw "could not fetch data ${response.statusCode}";
