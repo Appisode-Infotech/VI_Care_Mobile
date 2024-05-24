@@ -56,23 +56,34 @@ class ProfileProvider extends ChangeNotifier {
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
       profileHeightController.text = prefModel.userData!.height==null?'':prefModel.userData!.height.toString();
       profileWeightController.text = prefModel.userData!.weight==null?'':prefModel.userData!.weight.toString();
+    if (prefModel.userData!.profilePicture != null) {
+      final imageUrl = prefModel.userData!.profilePicture!.url;
+      if (imageUrl != null && imageUrl.isNotEmpty) {
+        final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
+        editProfileSelectedImage = imagePath != null ? File(imagePath.toString()) : null;
+      }
+    }
+    await getCountryMaster(context);
+
     if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
       for (var country in countryMasterResponse!.result!) {
         if (country.id == prefModel.userData!.contact!.address!.countryId) {
           editProfileCountryAs = country.name;
+          editProfileSelectedCountryId = country.id;
+          await getStateMaster(context, country.uniqueGuid);
           break;
         }
       }
-    }else{
-      "";
     }
-    if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
-      for (var state in stateMasterResponse!.result!) {
+    if (editStateMasterResponse != null && editStateMasterResponse!.result!.isNotEmpty) {
+      for (var state in editStateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
           editProfileStateAs = state.name;
           break;
         }
       }
+    }else{
+      "";
     }
       editProfileGender = prefModel.userData!.contact!.gender == 1
           ? "Male"
@@ -85,7 +96,7 @@ class ProfileProvider extends ChangeNotifier {
             prefModel.userData!.profilePicture!.url.toString());
       }
 
-      notifyListeners();
+      // notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
         notifyListeners();
@@ -115,7 +126,7 @@ class ProfileProvider extends ChangeNotifier {
   int? editProfileSelectedCountryId;
   String? editProfileStateAs;
   String? editProfileCountryAs;
-  StateMasterResponseModel? stateMasterResponse;
+  StateMasterResponseModel? editStateMasterResponse;
   CountryMasterResponseModel? countryMasterResponse;
 
   clearEditProfileForm() {
@@ -168,7 +179,7 @@ class ProfileProvider extends ChangeNotifier {
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
         editProfileSelectedStateId??prefModel.userData!.contact!.address!.stateId,
-        editProfileSelectedCountryId!,profileHeightController.text,profileWeightController.text
+        editProfileSelectedCountryId??prefModel.userData!.contact!.address!.countryId,profileHeightController.text,profileWeightController.text
       );
       if (response.result != null) {
         prefModel.userData!.contact!.firstName =response.result!.contact!.firstName;
@@ -187,6 +198,9 @@ class ProfileProvider extends ChangeNotifier {
         prefModel.userData!.contact!.address!.pinCode =response.result!.contact!.address!.pinCode;
         prefModel.userData!.contact!.addressId =response.result!.contact!.addressId;
         prefModel.userData!.contact!.address!.stateId = response.result!.contact!.address!.stateId;
+        prefModel.userData!.contact!.address!.countryId = response.result!.contact!.address!.countryId;
+        prefModel.userData!.height = response.result!.height;
+        prefModel.userData!.weight = response.result!.weight;
         AppPref.setPref(prefModel);
         Navigator.pop(editProfilePageContext!);
         showSuccessToast(editProfilePageContext!, response.message!);
@@ -215,11 +229,11 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> getStateMaster(BuildContext context,String? uniqueGuid) async {
-    stateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
-    if (stateMasterResponse!.result!.isNotEmpty) {
+    editStateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
+    if (editStateMasterResponse!.result!.isNotEmpty) {
     } else {
       Navigator.pop(context);
-      showErrorToast(context, stateMasterResponse!.message.toString());
+      showErrorToast(context, editStateMasterResponse!.message.toString());
     }
   }
   Future<void> getCountryMaster(BuildContext context) async {

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:lottie/lottie.dart';
@@ -132,7 +133,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                                               fontWeight: FontWeight.w600,
                                               fontSize: 18),
                                         ),
-                                        InkWell(
+                                        GestureDetector(
                                             onTap: () {
                                               showInfoDiog(context,
                                                   '''What is the Readyness Score?

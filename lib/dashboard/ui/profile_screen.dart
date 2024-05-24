@@ -191,7 +191,7 @@
                   InkWell(
                     onTap: () async {
                       // await profileProvider.getStateMaster(context);
-                      await profileProvider.getCountryMaster(context);
+                      // await profileProvider.getCountryMaster(context);
                       await profileProvider.preFillEditProfile(context);
                     },
                     child: Row(
@@ -554,7 +554,7 @@
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text("V 1.0.9",style: TextStyle(color: Colors.grey),),
+                  const Text("V 1.1.0",style: TextStyle(color: Colors.grey),),
                   const SizedBox(
                     height: 20,
                   ),

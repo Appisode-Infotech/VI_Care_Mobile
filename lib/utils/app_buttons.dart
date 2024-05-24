@@ -504,7 +504,7 @@ showInfoDiog(BuildContext context,String message){
       actions: [
         TextButton(onPressed: (){
           Navigator.pop(context);
-        }, child: Text("close"))
+        }, child: Text("Close"))
       ],
     );
   });

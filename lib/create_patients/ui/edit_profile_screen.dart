@@ -626,7 +626,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   value: profileProvider.editProfileStateAs,
                                   hint: Text(AppLocale.state.getString(context)),
                                   onChanged: (String? value) {
-                                    var selectedState = profileProvider.stateMasterResponse!.result!
+                                    var selectedState = profileProvider.editStateMasterResponse!.result!
                                         .firstWhere((state) => state.name == value);
 
                                     profileProvider.editProfileSelectedStateId = selectedState.id;
@@ -635,7 +635,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     });
                                   },
                                   style: const TextStyle(color: Colors.black),
-                                  items: profileProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
+                                  items: profileProvider.editStateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
                                     return DropdownMenuItem<String>(
                                       value: state.name,
                                       child: SizedBox(

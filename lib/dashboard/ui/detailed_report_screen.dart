@@ -12,6 +12,7 @@ import 'package:vicare/dashboard/model/reports_processed_data_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
 
 import '../../main.dart';
+import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 
 class DetailedReportScreen extends StatefulWidget {
@@ -78,14 +79,43 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                     ReportsProcessedDataModel.fromJson(
                         jsonDecode(snapshot.data!.result![0].processedData!));
                 List additionalInfo = [
-                  {"name": "RMSSDRR", "value": processedData.rmssdrr},
-                  {"name": "SDRR", "value": processedData.sdrr},
-                  {"name": "TP", "value": processedData.totalPower},
-                  {"name": "VLF", "value": processedData.vlfPowerMs},
-                  {"name": "LF", "value": processedData.lfPowerMs},
-                  {"name": "HF", "value": processedData.hfPowerMs},
-                  {"name": "LF/HF", "value": processedData.lFtoHf},
-                  {"name": "Total Power", "value": processedData.totalPower},
+                  {"name": "RMSSDRR", "value": processedData.rmssdrr,"description":'''RMSSD is a standard HRV measure analyzing RR-Interval differences.
+Higher values suggest good heart health and fitness.
+
+Lower values may indicate stress, fatigue, or other factors.
+Impact of training loads and recovery can be derived from RMSSD.
+
+Normal Range: 20-150 ms (higher values are better).
+          '''},
+                  {"name": "SDRR", "value": processedData.sdrr,"description":'''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.'''},
+                  {"name": "TP", "value": processedData.totalPower,"description":'''
+Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
+
+Normal Range: 1000-2000 ms² (higher values are better).'''},
+                  {"name": "VLF", "value": processedData.vlfPowerMs,"description":'''Ratio of Stress towards Relaxation:
+
+Degree of expression of the sympathetic towards the parasympathetic activation.
+
+Normal Range: 0.7-3 (higher values are not good).'''},
+                  {"name": "LF", "value": processedData.lfPowerMs,"description":'''Low Frequency indicates the stress state of the individual.
+
+LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value
+may indicate increased sympathetic activity, which is associated with the body's "fight or flight" response to stress. Conversely, a lower LF power value may indicate
+increased parasympathetic activity, which is associated with the body's "rest and digest"
+response and can be a positive indicator of heart health and overall fitness.
+
+Normal Range: 100-500 ms² (higher values are not good).'''},
+                  {"name": "HF", "value": processedData.hfPowerMs,"description":'''High Frequency indicates the state of relaxation or the regeneration capacity of the individual.
+
+Normal Range: 100-500 ms2 (higher values are better)'''},
+                  {"name": "LF/HF", "value": processedData.lFtoHf,"description":'''Ratio of Stress towards Relaxation:
+
+Degree of expression of the sympathetic towards the parasympathetic activation.
+Normal Range: 0.7-3 (higher values are not good).'''},
+                  {"name": "Total Power", "value": processedData.totalPower,"description":'''
+Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
+
+Normal Range: 1000-2000 ms² (higher values are better'''},
                   // {
                   //   "name": "Breath < 9",
                   //   "value": processedData.breathRateLess9Possible
@@ -374,22 +404,36 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(width: 1,color: Colors.grey)
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Stack(
                                 children: [
-                                  Text(
-                                    "${additionalInfo[index]['name']}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${additionalInfo[index]['name']}",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "${additionalInfo[index]['value']}",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    "${additionalInfo[index]['value']}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showInfoDiog(context,"${additionalInfo[index]['description']}");
+                                      },
+                                      child: const Icon(Icons.info_outline),
                                     ),
                                   ),
                                 ],

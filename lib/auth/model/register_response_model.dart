@@ -130,6 +130,8 @@ class UserData {
     "remarks": remarks,
     "token": token,
     "refreshToken": refreshToken,
+    "height": height,
+    "weight": weight,
     "contactId": contactId,
     "contact": contact?.toJson(),
     "roleId": roleId,

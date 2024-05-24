@@ -258,12 +258,14 @@ class PatientProvider extends ChangeNotifier {
       enterpriseUserData.result!.contact!.address!.pinCode.toString():"";
       // heightController.text=enterpriseUserData.result!.height!;
       // weightController.text=enterpriseUserData.result!.weight!;
-      for (var state in stateMasterResponse!.result!) {
-        if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
-          editStateAs = state.name;
-          break;
-        }
-      }
+      // for (var state in stateMasterResponse!.result!) {
+      //   if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
+      //     editStateAs = state.name;
+      //     break;
+      //   }
+      // }
+      editStateAs = '';
+      editCountryAs='';
       editPatientGender = enterpriseUserData.result!.contact!.gender == 1
           ? "Male"
           : enterpriseUserData.result!.contact!.gender == 2
