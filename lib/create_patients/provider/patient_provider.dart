@@ -228,7 +228,7 @@ class PatientProvider extends ChangeNotifier {
       editHeightController.text = individualPatientData.result!.height==null?"":individualPatientData.result!.height!;
       editWeightController.text = individualPatientData.result!.weight==null?"":individualPatientData.result!.weight!;
 
-      if (individualPatientData!.result!.profilePicture != null) {
+      if (individualPatientData.result!.profilePicture != null) {
         final imageUrl = individualPatientData.result!.profilePicture!.url;
         if (imageUrl != null && imageUrl.isNotEmpty) {
           final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
@@ -297,7 +297,7 @@ class PatientProvider extends ChangeNotifier {
       //   editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
       //       prefModel.userData!.profilePicture!.url.toString());
       // }
-      if (enterpriseUserData!.result!.profilePicture != null) {
+      if (enterpriseUserData.result!.profilePicture != null) {
         final imageUrl = enterpriseUserData.result!.profilePicture!.url;
         if (imageUrl != null && imageUrl.isNotEmpty) {
           final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
