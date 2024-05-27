@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(prefModel.userData!.token);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
