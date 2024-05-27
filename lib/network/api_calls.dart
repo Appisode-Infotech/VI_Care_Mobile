@@ -182,7 +182,6 @@ class ApiCalls {
     request.fields['Contact.Address.CountryId'] = country.toString();
     request.fields['Height'] = height;
     request.fields['Weight'] = weight;
-    log(request.fields.toString());
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -200,7 +199,6 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
@@ -229,7 +227,7 @@ class ApiCalls {
           'password': password,
           'fcmToken': fcmToken
         }));
-    log(response.body);
+    // log(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -290,7 +288,6 @@ class ApiCalls {
     request.fields['height'] = height;
     request.fields['weight'] = weight;
     request.fields['UserId'] = prefModel.userData!.id.toString();
-    log(request.fields.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -367,7 +364,6 @@ class ApiCalls {
     request.fields['Weight'] = weight;
     request.fields['EnterpriseUserId'] =
         prefModel.userData!.enterpriseUserId.toString();
-    log(request.fields.toString());
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -386,7 +382,6 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
-    log(responseJson.toString());
     if (response.statusCode == 200) {
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
@@ -444,8 +439,7 @@ class ApiCalls {
     String pinCode,
     String city,
     String landMark,
-    int? stateId,
-    String addressId,
+    String addressId, String height,String weight, String editCountryId, String editStateId
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addIndividualProfile));
@@ -463,9 +457,15 @@ class ApiCalls {
     request.fields['Contact.Address.Area'] = area;
     request.fields['Contact.Address.Landmark'] = landMark;
     request.fields['Contact.Address.City'] = city;
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     request.fields['Contact.Address.PinCode'] = pinCode;
-    request.fields['Contact.Address.StateId'] = stateId.toString();
     request.fields['Contact.Address.Id'] = addressId;
+    request.fields['Contact.Address.CountryId'] = editCountryId;
+    request.fields['Contact.Address.StateId'] = editStateId;
+
+    log(request.fields.toString());
+
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -485,6 +485,9 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
+
+      log(responseJson.toString());
+
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -525,7 +528,7 @@ class ApiCalls {
     String city,
     String landMark,
     int? stateId,
-    String addressId,
+    String addressId, int? countryId,String height, String weight
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
@@ -545,7 +548,10 @@ class ApiCalls {
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.CountryId'] = countryId.toString();
     request.fields['Contact.Address.Id'] = addressId;
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -589,8 +595,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getIndividualProfiles}/GetAllByUserId/${prefModel.userData!.id}");
-    log(response.body);
-
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -603,8 +607,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId/${prefModel.userData!.enterpriseUserId}");
-    log(response.body);
-
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
           json.decode(response.body));
@@ -708,6 +710,9 @@ class ApiCalls {
     request.fields['Address.CountryId'] = country.toString();
     request.fields['Height'] = height;
     request.fields['Weight'] = weight;
+
+    log(request.fields.toString());
+
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -727,6 +732,8 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
+
+      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -997,7 +1004,7 @@ class ApiCalls {
       int? requestDeviceDataId, BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId");
-    log(response.body);
+    // log(response.body);
     if (response.statusCode == 200) {
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
     } else {

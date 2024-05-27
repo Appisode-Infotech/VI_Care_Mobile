@@ -122,6 +122,8 @@ class PatientProvider extends ChangeNotifier {
     editNewPatientPinCodeController.clear();
     editHeightController.clear();
     editWeightController.clear();
+    // editSelectedCountryId =null;
+    // editSelectedStateId =null;
     editPatientGender = null;
     editStateAs = null;
     editCountryAs = null;
@@ -158,7 +160,7 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientLandmarkController.text,
               addNewPatientCityController.text,
               addNewPatientPinCodeController.text,
-              selectedStateId,selectedCountryId,heightController.text,weightController.text);
+              selectedStateId!,selectedCountryId!,heightController.text,weightController.text);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -182,7 +184,7 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientLandmarkController.text,
               addNewPatientCityController.text,
               addNewPatientPinCodeController.text,
-              selectedStateId,selectedCountryId,heightController.text,weightController.text);
+              selectedStateId!,selectedCountryId!,heightController.text,weightController.text);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
@@ -208,7 +210,6 @@ class PatientProvider extends ChangeNotifier {
       editPatientLastNameController.text =
           individualPatientData.result!.lastName!;
       editPatientAddressController.text = individualPatientData.result!.contact!.address.toString();
-      // editHeightController.text=individualPatientData.result.
       editPatientGender = individualPatientData.result!.contact!.gender == 1
           ? "Male"
           : individualPatientData.result!.contact!.gender == 2
@@ -224,18 +225,45 @@ class PatientProvider extends ChangeNotifier {
           individualPatientData.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =individualPatientData.result!.contact!.address!.pinCode!=null?
           individualPatientData.result!.contact!.address!.pinCode.toString():"";
-      // heightController.text=individualPatientData.result!.height!;
-      // weightController.text=individualPatientData.result!.weight!;
-      editStateAs = '';
-      editCountryAs='';
+      editHeightController.text = individualPatientData.result!.height==null?"":individualPatientData.result!.height!;
+      editWeightController.text = individualPatientData.result!.weight==null?"":individualPatientData.result!.weight!;
 
-      // for (var country in countryMasterResponse!.result!) {
-      //   if (country.id == individualPatientData.result!.contact!.countryId) {
-      //     editStateAs = country.name;
-      //     break;
-      //   }
-      // }
+      if (individualPatientData!.result!.profilePicture != null) {
+        final imageUrl = individualPatientData.result!.profilePicture!.url;
+        if (imageUrl != null && imageUrl.isNotEmpty) {
+          final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
+          if (imagePath != null) {
+            editPatientSelectedImage = imagePath;
+          } else {
+            print('Error: Image file not found at path: $imagePath');
+          }
+        }
+      }
+      // editSelectedCountryId = individualPatientData.result!.contact!.address!.countryId;
+      // editSelectedStateId = individualPatientData.result!.contact!.address!.stateId;
+      await getCountryMaster(context);
+      if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
+        for (var country in countryMasterResponse!.result!) {
+          if (country.id == individualPatientData.result!.contact!.address!.countryId) {
+            editCountryAs = country.name;
+            editSelectedCountryId = country.id;
+            await getStateMaster(context, country.uniqueGuid);
+            break;
+          }
+        }
+      }
+      if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
+        for (var state in stateMasterResponse!.result!) {
+          if (state.id == individualPatientData.result!.contact!.address!.stateId) {
+            editStateAs = state.name;
+            editSelectedStateId = state.id;
+            break;
+          }
+        }
+      }
+
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
+
     } else {
       editPatientDobController.text =
           "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
@@ -256,16 +284,49 @@ class PatientProvider extends ChangeNotifier {
           enterpriseUserData.result!.contact!.address!.city.toString();
       editNewPatientPinCodeController.text =enterpriseUserData.result!.contact!.address!.pinCode!=null?
       enterpriseUserData.result!.contact!.address!.pinCode.toString():"";
-      // heightController.text=enterpriseUserData.result!.height!;
-      // weightController.text=enterpriseUserData.result!.weight!;
-      // for (var state in stateMasterResponse!.result!) {
-      //   if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
-      //     editStateAs = state.name;
-      //     break;
+      editHeightController.text = enterpriseUserData.result!.height==null?"":enterpriseUserData.result!.height!;
+      editWeightController.text = enterpriseUserData.result!.weight==null?"":enterpriseUserData.result!.weight!;
+      // if (enterpriseUserData.result!.profilePicture != null) {
+      //   final imageUrl = enterpriseUserData.result!.profilePicture!.url;
+      //   if (imageUrl != null && imageUrl.isNotEmpty) {
+      //     final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
+      //     editPatientSelectedImage = imagePath != null ? File(imagePath.toString()) : null;
       //   }
       // }
-      editStateAs = '';
-      editCountryAs='';
+      // if(enterpriseUserData.result!.profilePicture!=null){
+      //   editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
+      //       prefModel.userData!.profilePicture!.url.toString());
+      // }
+      if (enterpriseUserData!.result!.profilePicture != null) {
+        final imageUrl = enterpriseUserData.result!.profilePicture!.url;
+        if (imageUrl != null && imageUrl.isNotEmpty) {
+          final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
+          if (imagePath != null) {
+            editPatientSelectedImage = imagePath;
+          } else {
+            print('Error: Image file not found at path: $imagePath');
+          }
+        }
+      }
+      await getCountryMaster(context);
+      if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
+        for (var country in countryMasterResponse!.result!) {
+          if (country.id == enterpriseUserData.result!.contact!.address!.countryId) {
+            editCountryAs = country.name;
+            editSelectedCountryId = country.id;
+            await getStateMaster(context, country.uniqueGuid);
+            break;
+          }
+        }
+      }
+      if (stateMasterResponse != null && stateMasterResponse!.result!.isNotEmpty) {
+        for (var state in stateMasterResponse!.result!) {
+          if (state.id == enterpriseUserData.result!.contact!.address!.stateId) {
+            editStateAs = state.name;
+            break;
+          }
+        }
+      }
       editPatientGender = enterpriseUserData.result!.contact!.gender == 1
           ? "Male"
           : enterpriseUserData.result!.contact!.gender == 2
@@ -296,9 +357,10 @@ class PatientProvider extends ChangeNotifier {
           editNewPatientPinCodeController.text,
           editNewPatientCityController.text,
           editNewPatientLandmarkController.text,
-          editSelectedStateId??individualPatientData.result!.contact!.address!.stateId,
           individualPatientData.result!.contact!.addressId.toString(),
-          // editSelectedCountryId??individualPatientData.result!.contact!.address!.countryId,
+        editHeightController.text,
+        editWeightController.text,
+        editSelectedCountryId!.toString(),editSelectedStateId!.toString()
       );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);
@@ -315,7 +377,7 @@ class PatientProvider extends ChangeNotifier {
               editPatientAddressController.text,
               editPatientMobileController.text,
               editPatientGender!,
-              editPatientSelectedImage!,
+              editPatientSelectedImage,
               editPatientPageContext!,
               editPatientBloodGroup!,
               enterpriseUserData!.result!.enterpriseUserId.toString(),
@@ -327,7 +389,10 @@ class PatientProvider extends ChangeNotifier {
               editNewPatientCityController.text,
               editNewPatientLandmarkController.text,
               editSelectedStateId??enterpriseUserData.result!.contact!.address!.stateId,
-              enterpriseUserData.result!.contact!.addressId.toString()
+              enterpriseUserData.result!.contact!.addressId.toString(),
+            editSelectedCountryId??enterpriseUserData.result!.contact!.address!.countryId,
+            editHeightController.text,
+            editWeightController.text,
           );
       if (response.result != null) {
         showSuccessToast(editPatientPageContext!, response.message!);

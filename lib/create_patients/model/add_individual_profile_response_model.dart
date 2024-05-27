@@ -155,8 +155,8 @@ class Result {
         "lastName": lastName,
         "email": email,
         "isSelf": isSelf,
-        "height":height,
-        "weight":weight,
+        "height": height,
+        "weight": weight,
         "contactId": contactId,
         "contact": contact?.toJson(),
         "userId": userId,
@@ -233,6 +233,8 @@ class Address {
   String? pinCode;
   String? longitude;
   String? latitude;
+  int? countryId;
+  Country? country;
   int? stateId;
   States? state;
 
@@ -246,6 +248,8 @@ class Address {
     this.pinCode,
     this.longitude,
     this.latitude,
+    this.countryId,
+    this.country,
     this.stateId,
     this.state,
   });
@@ -260,6 +264,9 @@ class Address {
         pinCode: json["pinCode"],
         longitude: json["longitude"],
         latitude: json["latitude"],
+        countryId: json["countryId"],
+        country:
+            json["country"] == null ? null : Country.fromJson(json["country"]),
         stateId: json["stateId"],
         state: json["state"] == null ? null : States.fromJson(json["state"]),
       );
@@ -274,6 +281,8 @@ class Address {
         "pinCode": pinCode,
         "longitude": longitude,
         "latitude": latitude,
+        "countryId": countryId,
+        "country": country?.toJson(),
         "stateId": stateId,
         "state": state?.toJson(),
       };

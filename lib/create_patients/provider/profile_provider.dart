@@ -42,6 +42,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> preFillEditProfile(BuildContext context) async {
+    editProfileSelectedImage =null;
     log(prefModel.userData!.toJson().toString());
     showLoaderDialog(context);
       editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
@@ -56,15 +57,20 @@ class ProfileProvider extends ChangeNotifier {
       editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
       profileHeightController.text = prefModel.userData!.height==null?'':prefModel.userData!.height.toString();
       profileWeightController.text = prefModel.userData!.weight==null?'':prefModel.userData!.weight.toString();
-    if (prefModel.userData!.profilePicture != null) {
+
+      if (prefModel.userData!.profilePicture != null) {
       final imageUrl = prefModel.userData!.profilePicture!.url;
       if (imageUrl != null && imageUrl.isNotEmpty) {
         final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
-        editProfileSelectedImage = imagePath != null ? File(imagePath.toString()) : null;
+        if (imagePath != null) {
+          editProfileSelectedImage = imagePath;
+        } else {
+          print('Error: Image file not found at path: $imagePath');
+        }
       }
     }
-    await getCountryMaster(context);
 
+    await getCountryMaster(context);
     if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
       for (var country in countryMasterResponse!.result!) {
         if (country.id == prefModel.userData!.contact!.address!.countryId) {
@@ -95,7 +101,6 @@ class ProfileProvider extends ChangeNotifier {
         editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
             prefModel.userData!.profilePicture!.url.toString());
       }
-
       // notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
@@ -188,7 +193,7 @@ class ProfileProvider extends ChangeNotifier {
         prefModel.userData!.contact!.bloodGroup =response.result!.contact!.bloodGroup;
         prefModel.userData!.contact!.gender =response.result!.contact!.gender;
         prefModel.userData!.contact!.doB =response.result!.contact!.doB;
-        prefModel.userData!.profilePicture!.url = response.result!.profilePicture!.url;
+        prefModel.userData!.profilePicture?.url = response.result!.profilePicture!.url;
         prefModel.userData!.id =response.result!.id;
         prefModel.userData!.contactId =response.result!.contactId;
         prefModel.userData!.contact!.address!.street =response.result!.contact!.address!.street;

@@ -698,16 +698,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
-                                value: patientProvider.countryAs,
+                                value: patientProvider.editCountryAs,
                                 hint: const Text("Country"),
                                 onChanged: (String? value) async {
                                   var selectedCountry = patientProvider.countryMasterResponse!.result!
                                       .firstWhere((country) => country.name == value);
-                                  patientProvider.selectedCountryId = selectedCountry.id;
+                                  patientProvider.editSelectedCountryId = selectedCountry.id;
                                   await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
                                   setState(() {
-                                    patientProvider.countryAs = value!;
-                                    patientProvider.stateAs = null;
+                                    patientProvider.editCountryAs = value!;
+                                    patientProvider.editStateAs = null;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
@@ -748,14 +748,15 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
-                                value: patientProvider.stateAs,
+                                value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
                                 onChanged: (String? value) {
                                   var selectedState = patientProvider.stateMasterResponse!.result!
                                       .firstWhere((state) => state.name == value);
-                                  patientProvider.selectedStateId = selectedState.id;
+
+                                  patientProvider.editSelectedStateId = selectedState.id;
                                   setState(() {
-                                    patientProvider.stateAs = value!;
+                                    patientProvider.editStateAs = value!;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
@@ -1650,16 +1651,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
-                                value: patientProvider.countryAs,
+                                value: patientProvider.editCountryAs,
                                 hint: const Text("Country"),
                                 onChanged: (String? value) async {
                                   var selectedCountry = patientProvider.countryMasterResponse!.result!
                                       .firstWhere((country) => country.name == value);
-                                  patientProvider.selectedCountryId = selectedCountry.id;
+                                  patientProvider.editSelectedCountryId = selectedCountry.id;
                                   await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
                                   setState(() {
-                                    patientProvider.countryAs = value!;
-                                    patientProvider.stateAs = null;
+                                    patientProvider.editCountryAs = value!;
+                                    patientProvider.editStateAs = null;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),
@@ -1700,14 +1701,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   errorStyle: TextStyle(color: Colors.red.shade400),
                                 ),
                                 dropdownColor: Colors.white,
-                                value: patientProvider.stateAs,
+                                value: patientProvider.editStateAs,
                                 hint: Text(AppLocale.state.getString(context)),
                                 onChanged: (String? value) {
-                                  var selectedState = patientProvider.stateMasterResponse!.result!
+                                  var editSelectedState = patientProvider.stateMasterResponse!.result!
                                       .firstWhere((state) => state.name == value);
-                                  patientProvider.selectedStateId = selectedState.id;
+                                  patientProvider.editSelectedStateId = editSelectedState.id;
                                   setState(() {
-                                    patientProvider.stateAs = value!;
+                                    patientProvider.editStateAs = value!;
                                   });
                                 },
                                 style: const TextStyle(color: Colors.black),

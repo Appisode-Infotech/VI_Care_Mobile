@@ -45,6 +45,8 @@ class Result {
   String? lastName;
   String? email;
   bool? isSelf;
+  String?height;
+  String?weight;
   int? contactId;
   Contact? contact;
   int? userId;
@@ -59,6 +61,8 @@ class Result {
     this.lastName,
     this.email,
     this.isSelf,
+    this.height,
+    this.weight,
     this.contactId,
     this.contact,
     this.userId,
@@ -74,6 +78,8 @@ class Result {
     lastName: json["lastName"],
     email: json["email"],
     isSelf: json["isSelf"],
+    height: json["height"]?.toString(),
+    weight: json["weight"]?.toString(),
     contactId: json["contactId"],
     contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
     userId: json["userId"],
@@ -89,6 +95,8 @@ class Result {
     "lastName": lastName,
     "email": email,
     "isSelf": isSelf,
+    "height":height,
+    "weight":weight,
     "contactId": contactId,
     "contact": contact?.toJson(),
     "userId": userId,
@@ -164,8 +172,10 @@ class Address {
   String? pinCode;
   dynamic longitude;
   dynamic latitude;
+  int? countryId;
+  Country? country;
   int? stateId;
-  dynamic state;
+  States? state;
   String? uniqueGuid;
   int? id;
 
@@ -177,6 +187,8 @@ class Address {
     this.pinCode,
     this.longitude,
     this.latitude,
+    this.countryId,
+    this.country,
     this.stateId,
     this.state,
     this.uniqueGuid,
@@ -191,8 +203,10 @@ class Address {
     pinCode: json["pinCode"],
     longitude: json["longitude"],
     latitude: json["latitude"],
+    countryId: json["countryId"],
+    country: json["country"] == null ? null : Country.fromJson(json["country"]),
     stateId: json["stateId"],
-    state: json["state"],
+    state: json["state"] == null ? null : States.fromJson(json["state"]),
     uniqueGuid: json["uniqueGuid"],
     id: json["id"],
   );
@@ -205,8 +219,90 @@ class Address {
     "pinCode": pinCode,
     "longitude": longitude,
     "latitude": latitude,
+    "countryId": countryId,
+    "country": country?.toJson(),
     "stateId": stateId,
-    "state": state,
+    "state": state?.toJson(),
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
+class Country {
+  String? name;
+  String? code;
+  String? twoLetterCode;
+  String? threeLetterCode;
+  int? numericCode;
+  String? uniqueGuid;
+  int? id;
+
+  Country({
+    this.name,
+    this.code,
+    this.twoLetterCode,
+    this.threeLetterCode,
+    this.numericCode,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
+    name: json["name"],
+    code: json["code"],
+    twoLetterCode: json["twoLetterCode"],
+    threeLetterCode: json["threeLetterCode"],
+    numericCode: json["numericCode"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "code": code,
+    "twoLetterCode": twoLetterCode,
+    "threeLetterCode": threeLetterCode,
+    "numericCode": numericCode,
+    "uniqueGuid": uniqueGuid,
+    "id": id,
+  };
+}
+
+class States {
+  String? name;
+  String? code;
+  int? numericCode;
+  int? countryId;
+  dynamic country;
+  String? uniqueGuid;
+  int? id;
+
+  States({
+    this.name,
+    this.code,
+    this.numericCode,
+    this.countryId,
+    this.country,
+    this.uniqueGuid,
+    this.id,
+  });
+
+  factory States.fromJson(Map<String, dynamic> json) => States(
+    name: json["name"],
+    code: json["code"],
+    numericCode: json["numericCode"],
+    countryId: json["countryId"],
+    country: json["country"],
+    uniqueGuid: json["uniqueGuid"],
+    id: json["id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "code": code,
+    "numericCode": numericCode,
+    "countryId": countryId,
+    "country": country,
     "uniqueGuid": uniqueGuid,
     "id": id,
   };
