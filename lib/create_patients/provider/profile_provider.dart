@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/utils/app_buttons.dart';
@@ -20,7 +21,6 @@ class ProfileProvider extends ChangeNotifier {
 
   TextEditingController changePasswordOneController = TextEditingController();
   TextEditingController changePasswordTwoController = TextEditingController();
-
 
   bool isNotValidContactNumber(String contactNumber) {
     if (contactNumber.length == 10) {
@@ -41,14 +41,30 @@ class ProfileProvider extends ChangeNotifier {
     return hasCapitalLetter && hasSpecialCharacter && hasNumber;
   }
 
+  clearChangePassword(){
+    changePasswordOneController.clear();
+    changePasswordTwoController.clear();
+    notifyListeners();
+  }
+
   Future<void> preFillEditProfile(BuildContext context) async {
     editProfileSelectedImage =null;
     log(prefModel.userData!.toJson().toString());
     showLoaderDialog(context);
-      editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
+
+    final DateTime dob = DateTime(
+      prefModel.userData!.contact!.doB!.year,
+      prefModel.userData!.contact!.doB!.month,
+      prefModel.userData!.contact!.doB!.day,
+    );
+    final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
+
+      editProfileDobController.text = formattedDob;
+      // editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
       editProfileContactNumberController.text = prefModel.userData!.contactNumber.toString();
       editProfileFirstNameController.text = prefModel.userData!.contact!.firstName!;
       editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
+      editProfileEmailController.text=prefModel.userData!.email!;
       editProfileStreetController.text=prefModel.userData!.contact!.address!.street!=null?prefModel.userData!.contact!.address!.street!:"";
       editProfileAreaController.text=prefModel.userData!.contact!.address!.area!=null?prefModel.userData!.contact!.address!.area!:"";
       editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!=null?prefModel.userData!.contact!.address!.landmark!:"";
@@ -58,7 +74,7 @@ class ProfileProvider extends ChangeNotifier {
       profileHeightController.text = prefModel.userData!.height==null?'':prefModel.userData!.height.toString();
       profileWeightController.text = prefModel.userData!.weight==null?'':prefModel.userData!.weight.toString();
 
-      if (prefModel.userData!.profilePicture != null) {
+    if (prefModel.userData!.profilePicture != null) {
       final imageUrl = prefModel.userData!.profilePicture!.url;
       if (imageUrl != null && imageUrl.isNotEmpty) {
         final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
@@ -69,6 +85,7 @@ class ProfileProvider extends ChangeNotifier {
         }
       }
     }
+
 
     await getCountryMaster(context);
     if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
@@ -97,11 +114,6 @@ class ProfileProvider extends ChangeNotifier {
               ? "Female"
               : "Do not wish to specify";
 
-      if(prefModel.userData!.profilePicture!=null){
-        editProfileSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-            prefModel.userData!.profilePicture!.url.toString());
-      }
-      // notifyListeners();
       Navigator.pop(context);
       Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
         notifyListeners();
@@ -113,6 +125,7 @@ class ProfileProvider extends ChangeNotifier {
   final editProfileFormKey = GlobalKey<FormState>();
   TextEditingController editProfileDobController = TextEditingController();
   TextEditingController editProfileContactNumberController = TextEditingController();
+  TextEditingController editProfileEmailController = TextEditingController();
   TextEditingController editProfileFirstNameController = TextEditingController();
   TextEditingController editProfileLastNameController = TextEditingController();
   TextEditingController editProfileStreetController = TextEditingController();
@@ -139,6 +152,7 @@ class ProfileProvider extends ChangeNotifier {
     editProfileContactNumberController.clear();
     editProfileFirstNameController.clear();
     editProfileLastNameController.clear();
+    editProfileEmailController.clear();
     editProfileBloodGroup = null;
     editProfileGender = null;
     editProfileStreetController.clear();
@@ -184,7 +198,8 @@ class ProfileProvider extends ChangeNotifier {
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
         editProfileSelectedStateId??prefModel.userData!.contact!.address!.stateId,
-        editProfileSelectedCountryId??prefModel.userData!.contact!.address!.countryId,profileHeightController.text,profileWeightController.text
+        editProfileSelectedCountryId??prefModel.userData!.contact!.address!.countryId,profileHeightController.text,profileWeightController.text,
+          editProfileEmailController.text
       );
       if (response.result != null) {
         prefModel.userData!.contact!.firstName =response.result!.contact!.firstName;
@@ -193,7 +208,7 @@ class ProfileProvider extends ChangeNotifier {
         prefModel.userData!.contact!.bloodGroup =response.result!.contact!.bloodGroup;
         prefModel.userData!.contact!.gender =response.result!.contact!.gender;
         prefModel.userData!.contact!.doB =response.result!.contact!.doB;
-        prefModel.userData!.profilePicture?.url = response.result!.profilePicture!.url;
+        prefModel.userData!.profilePicture!.url = response.result!.profilePicture!.url;
         prefModel.userData!.id =response.result!.id;
         prefModel.userData!.contactId =response.result!.contactId;
         prefModel.userData!.contact!.address!.street =response.result!.contact!.address!.street;
@@ -206,6 +221,7 @@ class ProfileProvider extends ChangeNotifier {
         prefModel.userData!.contact!.address!.countryId = response.result!.contact!.address!.countryId;
         prefModel.userData!.height = response.result!.height;
         prefModel.userData!.weight = response.result!.weight;
+        prefModel.userData!.email=response.result!.email;
         AppPref.setPref(prefModel);
         Navigator.pop(editProfilePageContext!);
         showSuccessToast(editProfilePageContext!, response.message!);

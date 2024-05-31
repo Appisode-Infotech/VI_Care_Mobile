@@ -271,7 +271,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             hintText: AppLocale.otp.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
             errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
@@ -330,7 +330,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             ),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -392,7 +392,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             ),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),

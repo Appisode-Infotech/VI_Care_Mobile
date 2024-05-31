@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -125,8 +126,7 @@ class ApiCalls {
     if (response.statusCode == 200) {
       return SendOtpResponseModel.fromJson(json.decode(response.body));
     } else {
-      Navigator.pop(context!);
-      showErrorToast(context, "Something went wrong");
+      Navigator.pop(context!);showErrorToast(context, "Something went wrong");
       throw "could not send otp ${response.statusCode}";
     }
   }
@@ -226,6 +226,7 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
+      log(response.body);
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       Navigator.pop(buildContext);
@@ -436,8 +437,7 @@ class ApiCalls {
     String pinCode,
     String city,
     String landMark,
-    int? stateId,
-    String addressId,
+    String addressId, String height,String weight, String editCountryId, String editStateId
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addIndividualProfile));
@@ -455,9 +455,13 @@ class ApiCalls {
     request.fields['Contact.Address.Area'] = area;
     request.fields['Contact.Address.Landmark'] = landMark;
     request.fields['Contact.Address.City'] = city;
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     request.fields['Contact.Address.PinCode'] = pinCode;
-    request.fields['Contact.Address.StateId'] = stateId.toString();
     request.fields['Contact.Address.Id'] = addressId;
+    request.fields['Contact.Address.CountryId'] = editCountryId;
+    request.fields['Contact.Address.StateId'] = editStateId;
+
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -517,7 +521,7 @@ class ApiCalls {
     String city,
     String landMark,
     int? stateId,
-    String addressId,
+    String addressId, int? countryId,String height, String weight
   ) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
@@ -537,7 +541,10 @@ class ApiCalls {
     request.fields['Contact.Address.City'] = city;
     request.fields['Contact.Address.PinCode'] = pinCode;
     request.fields['Contact.Address.StateId'] = stateId.toString();
+    request.fields['Contact.Address.CountryId'] = countryId.toString();
     request.fields['Contact.Address.Id'] = addressId;
+    request.fields['Height'] = height;
+    request.fields['Weight'] = weight;
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -581,7 +588,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getIndividualProfiles}/GetAllByUserId/${prefModel.userData!.id}");
-
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -594,7 +600,6 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(true,
         "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId/${prefModel.userData!.enterpriseUserId}");
-
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
           json.decode(response.body));
@@ -674,7 +679,7 @@ class ApiCalls {
       String landMark,
       String pinCode,
       int? addressId,
-      int? state, int?country, String height, String weight) async {
+      int? state, int?country, String height, String weight, String email) async {
     var request =
         http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
     request.fields['FirstName'] = fName;
@@ -698,6 +703,7 @@ class ApiCalls {
     request.fields['Address.CountryId'] = country.toString();
     request.fields['Height'] = height;
     request.fields['Weight'] = weight;
+    request.fields['Email'] = email;
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -717,6 +723,7 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
+      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);

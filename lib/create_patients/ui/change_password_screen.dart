@@ -127,12 +127,41 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                       }
                                     })
                                   : getPrimaryAppButton(context,
-                                      AppLocale.submit.getString(context),
-                                      onPressed: () async {
-                                      profileProvider.resetNewPassword(context);
-                                      // Navigator.pushNamedAndRemoveUntil(
-                                      //     context, Routes.profileRoute, (route) => false);
-                                    }),
+                                  AppLocale.submit.getString(context),
+                                  onPressed: () async {
+                                    if (profileProvider
+                                        .changePasswordOneController
+                                        .text.isEmpty ||
+                                        profileProvider
+                                            .changePasswordTwoController
+                                            .text.isEmpty) {
+                                      showErrorToast(context,
+                                          'New password and confirm password are required.');
+                                      return;
+                                    }
+                                    if (!profileProvider.isStrongPassword(
+                                        profileProvider
+                                            .changePasswordOneController
+                                            .text)) {
+                                      showErrorToast(context,
+                                          'New password is not strong.');
+                                      return;
+                                    }
+                                    if (profileProvider
+                                        .changePasswordOneController
+                                        .text !=
+                                        profileProvider
+                                            .changePasswordTwoController
+                                            .text) {
+                                      showErrorToast(context,
+                                          'New password and confirm password do not match.');
+                                      return;
+                                    }
+                                    profileProvider.resetNewPassword(context);
+                                    profileProvider.clearChangePassword();
+                                    // Navigator.pushNamedAndRemoveUntil(
+                                    //     context, Routes.profileRoute, (route) => false);
+                                  }),
                             ],
                           ),
                         ],
@@ -177,7 +206,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             hintText: AppLocale.otp.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -240,7 +269,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -297,8 +326,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red),
-            errorMaxLines: 2,
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),

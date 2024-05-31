@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        AppLocale.createAccount.getString(context),
+                        _getHeading(currentStep),
                         style: const TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w600),
                       ),
@@ -204,8 +204,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppLocale.email.getString(context),
-                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Row(
+              children: [
+                Text(AppLocale.email.getString(context),
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  ' *',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -246,8 +254,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(
               height: 10,
             ),
-            Text(AppLocale.password.getString(context),
-                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Row(
+              children: [
+                Text(AppLocale.password.getString(context),
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  ' *',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -306,8 +322,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(
               height: 10,
             ),
-            Text(AppLocale.registerAs.getString(context),
-                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Row(
+              children: [
+                Text(AppLocale.registerAs.getString(context),
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  ' *',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -512,8 +536,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        Text(AppLocale.firstName.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.firstName.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -521,13 +553,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerFirstName,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')), // Allow only letters and spaces
+          ],
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validFirstName.getString(context);
             }
-            // if (authController.isNotValidName(value)) {
-            //   return AppLocale.validFirstName.getString(context);
-            // }
+            // Additional validation if needed
             return null;
           },
           keyboardType: TextInputType.text,
@@ -558,8 +591,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
 
-        Text(AppLocale.lastName.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.lastName.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -567,6 +608,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerLastName,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+          ],
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validLastName.getString(context);
@@ -603,14 +647,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.contactNumber.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.contactNumber.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerContactNumberController,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validContact.getString(context);
@@ -648,8 +701,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.bloodGroup.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.bloodGroup.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -696,8 +757,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.gender.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.gender.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -764,8 +833,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(AppLocale.dateOfBirth.getString(context),
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Row(
+                    children: [
+                      Text(AppLocale.dateOfBirth.getString(context),
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Text(
+                        ' *',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -908,16 +985,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text(
-          "Country",
-          style: TextStyle(fontWeight: FontWeight.w600),
+        Row(
+          children: [
+            Text(AppLocale.country.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         DropdownButtonFormField<String>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select a country";
+              return AppLocale.validCountry.getString(context);
             }
             return null;
           },
@@ -959,8 +1042,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         const SizedBox(height: 10),
 
-        Text(AppLocale.state.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.state.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -991,10 +1082,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onChanged: (String? value) {
             var selectedState = authProvider.stateMasterResponse!.result!
                 .firstWhere((state) => state.name == value);
-
-    authProvider.selectedStateId = selectedState.id;
+            authProvider.selectedStateId = selectedState.id;
             setState(() {
-    authProvider.registerStateAs = value!;
+              authProvider.registerStateAs = value!;
             });
           },
           style: const TextStyle(color: Colors.black),
@@ -1128,8 +1218,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-         Text(AppLocale.city.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.city.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -1137,6 +1235,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerCityController,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+          ],
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.cityValid.getString(context);
@@ -1184,6 +1285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           // },
           maxLength: 6,
           keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -1278,5 +1380,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ],
     );
+  }
+}
+
+String _getHeading(int currentStep) {
+  switch (currentStep) {
+    case 1:
+      return 'Registration';
+    case 2:
+      return 'Enter OTP';
+    case 3:
+      return 'Personal details';
+    default:
+      return '';
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -201,15 +202,141 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Text(AppLocale.mobile.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.firstName.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                TextCapitalization.sentences,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                ],
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.validFirstName
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                controller: patientProvider
+                                    .editPatientFirstNameController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 74,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                  AppLocale.firstName.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                  const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(AppLocale.lastName.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                TextCapitalization.sentences,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                ],
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.validLastName
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                controller: patientProvider
+                                    .editPatientLastNameController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 74,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                  AppLocale.lastName.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                  const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(AppLocale.mobile.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return AppLocale.validPhone
@@ -246,9 +373,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.email.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.email.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -301,11 +435,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                            AppLocale.dateOfBirth
-                                                .getString(context),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600)),
+                                        Row(
+                                          children: [
+                                            Text(AppLocale.dateOfBirth.getString(context),
+                                                style: const TextStyle(fontWeight: FontWeight.w600)),
+                                            Text(
+                                              ' *',
+                                              style: TextStyle(color: Colors.red),
+                                            ),
+                                          ],
+                                        ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -381,107 +520,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.firstName.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.validFirstName
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
-                                controller: patientProvider
-                                    .editPatientFirstNameController,
-                                keyboardType: TextInputType.text,
-                                maxLength: 74,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText:
-                                      AppLocale.firstName.getString(context),
-                                  counterText: "",
-                                  isCollapsed: true,
-                                  errorStyle:
-                                      const TextStyle(color: Colors.red),
-                                  errorMaxLines: 2,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primaryColor),
-                                    borderRadius: BorderRadius.circular(8),
+                              Row(
+                                children: [
+                                  Text(AppLocale.gender.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.black, width: 2),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                ),
+                                ],
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(AppLocale.lastName.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.validLastName
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
-                                controller: patientProvider
-                                    .editPatientLastNameController,
-                                keyboardType: TextInputType.text,
-                                maxLength: 74,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText:
-                                      AppLocale.lastName.getString(context),
-                                  counterText: "",
-                                  isCollapsed: true,
-                                  errorStyle:
-                                      const TextStyle(color: Colors.red),
-                                  errorMaxLines: 2,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primaryColor),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.black, width: 2),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(AppLocale.gender.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -537,9 +585,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.bloodGroup.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.bloodGroup.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -670,16 +725,22 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
 
-                              const Text(
-                                "Country",
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                              Row(
+                                children: [
+                                  Text(AppLocale.country.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 10),
                               DropdownButtonFormField<String>(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Please select a country";
+                                    return AppLocale.validCountry.getString(context);
                                   }
                                   return null;
                                 },
@@ -721,8 +782,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               const SizedBox(height: 10),
 
-                              Text(AppLocale.state.getString(context),
-                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.state.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -917,9 +986,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.city.getString(context),
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.city.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -938,6 +1014,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                ],
                                 maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -986,6 +1065,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 //   return null;
                                 // },
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1153,15 +1233,141 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Text(AppLocale.mobile.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.firstName.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                TextCapitalization.sentences,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                ],
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.validFirstName
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                controller: patientProvider
+                                    .editPatientFirstNameController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 74,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                  AppLocale.firstName.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                  const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(AppLocale.lastName.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                TextCapitalization.sentences,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                ],
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.validLastName
+                                        .getString(context);
+                                  }
+                                  return null;
+                                },
+                                controller: patientProvider
+                                    .editPatientLastNameController,
+                                keyboardType: TextInputType.text,
+                                maxLength: 74,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText:
+                                  AppLocale.lastName.getString(context),
+                                  counterText: "",
+                                  isCollapsed: true,
+                                  errorStyle:
+                                  const TextStyle(color: Colors.red),
+                                  errorMaxLines: 2,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(AppLocale.mobile.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return AppLocale.validPhone
@@ -1199,9 +1405,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.email.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.email.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1254,11 +1467,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                            AppLocale.dateOfBirth
-                                                .getString(context),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600)),
+                                        Row(
+                                          children: [
+                                            Text(AppLocale.dateOfBirth.getString(context),
+                                                style: const TextStyle(fontWeight: FontWeight.w600)),
+                                            Text(
+                                              ' *',
+                                              style: TextStyle(color: Colors.red),
+                                            ),
+                                          ],
+                                        ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -1334,107 +1552,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.firstName.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.validFirstName
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
-                                controller: patientProvider
-                                    .editPatientFirstNameController,
-                                keyboardType: TextInputType.text,
-                                maxLength: 74,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText:
-                                      AppLocale.firstName.getString(context),
-                                  counterText: "",
-                                  isCollapsed: true,
-                                  errorStyle:
-                                      const TextStyle(color: Colors.red),
-                                  errorMaxLines: 2,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primaryColor),
-                                    borderRadius: BorderRadius.circular(8),
+                              Row(
+                                children: [
+                                  Text(AppLocale.gender.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.black, width: 2),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                ),
+                                ],
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(AppLocale.lastName.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return AppLocale.validLastName
-                                        .getString(context);
-                                  }
-                                  return null;
-                                },
-                                controller: patientProvider
-                                    .editPatientLastNameController,
-                                keyboardType: TextInputType.text,
-                                maxLength: 74,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText:
-                                      AppLocale.lastName.getString(context),
-                                  counterText: "",
-                                  isCollapsed: true,
-                                  errorStyle:
-                                      const TextStyle(color: Colors.red),
-                                  errorMaxLines: 2,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primaryColor),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.black, width: 2),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(AppLocale.gender.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1490,9 +1617,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.bloodGroup.getString(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.bloodGroup.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1623,16 +1757,22 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
 
-                              const Text(
-                                "Country",
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                              Row(
+                                children: [
+                                  Text(AppLocale.country.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 10),
                               DropdownButtonFormField<String>(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Please select a country";
+                                    return AppLocale.validCountry.getString(context);
                                   }
                                   return null;
                                 },
@@ -1674,8 +1814,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               const SizedBox(height: 10),
 
-                              Text(AppLocale.state.getString(context),
-                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.state.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1872,9 +2020,16 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(AppLocale.city.getString(context),
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Text(AppLocale.city.getString(context),
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                  Text(
+                                    ' *',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -1893,6 +2048,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return null;
                                 },
                                 keyboardType: TextInputType.streetAddress,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                ],
                                 maxLength: 74,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -1942,6 +2100,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 // },
                                 maxLength: 6,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,

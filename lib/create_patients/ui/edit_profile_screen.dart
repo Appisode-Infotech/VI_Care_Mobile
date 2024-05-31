@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -164,8 +165,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(AppLocale.firstName.getString(context),
-                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Row(
+                        children: [
+                          Text(AppLocale.firstName.getString(context),
+                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -174,10 +183,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         controller:
                         profileProvider.editProfileFirstNameController,
                         textCapitalization: TextCapitalization.sentences,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        ],
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validFirstName.getString(context);
                           }
+                          // Additional validation if needed
                           return null;
                         },
                         keyboardType: TextInputType.text,
@@ -207,8 +220,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(AppLocale.lastName.getString(context),
-                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Row(
+                        children: [
+                          Text(AppLocale.lastName.getString(context),
+                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -217,6 +238,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         controller:
                         profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        ],
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validLastName.getString(context);
@@ -250,13 +274,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(AppLocale.contactNumber.getString(context),
-                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Row(
+                        children: [
+                          Text(AppLocale.contactNumber.getString(context),
+                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 10),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
                         profileProvider.editProfileContactNumberController,
+                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validContact.getString(context);
@@ -295,8 +328,68 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(AppLocale.bloodGroup.getString(context),
-                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Row(
+                        children: [
+                          Text(AppLocale.email.getString(context),
+                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        autovalidateMode:
+                        AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppLocale.validEmail
+                                .getString(context);
+                          }
+                          return null;
+                        },
+                        controller:
+                        profileProvider.editProfileEmailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: AppLocale.email.getString(context),
+                          counterText: "",
+                          isCollapsed: true,
+                          errorStyle:
+                          const TextStyle(color: Colors.red),
+                          errorMaxLines: 2,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Text(AppLocale.bloodGroup.getString(context),
+                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -350,8 +443,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(AppLocale.gender.getString(context),
-                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Row(
+                        children: [
+                          Text(AppLocale.gender.getString(context),
+                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                          Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -408,9 +509,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(AppLocale.dateOfBirth.getString(context),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600)),
+                                Row(
+                                  children: [
+                                    Text(AppLocale.dateOfBirth.getString(context),
+                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    Text(
+                                      ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -545,16 +653,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
 
-                                const Text(
-                                  "Country",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                Row(
+                                  children: [
+                                    Text(AppLocale.country.getString(context),
+                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    Text(
+                                      ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(height: 10),
                                 DropdownButtonFormField<String>(
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Please select a country";
+                                      return AppLocale.validCountry.getString(context);
                                     }
                                     return null;
                                   },
@@ -596,8 +710,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 const SizedBox(height: 10),
 
-                                Text(AppLocale.state.getString(context),
-                                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                                Row(
+                                  children: [
+                                    Text(AppLocale.state.getString(context),
+                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    Text(
+                                      ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -791,9 +913,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(AppLocale.city.getString(context),
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
+                                Row(
+                                  children: [
+                                    Text(AppLocale.city.getString(context),
+                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    Text(
+                                      ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -812,6 +941,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     return null;
                                   },
                                   keyboardType: TextInputType.streetAddress,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                  ],
                                   maxLength: 74,
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
@@ -861,6 +993,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   // },
                                   maxLength: 6,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,

@@ -45,7 +45,7 @@
                               radius: 30,
                               backgroundColor: Colors.grey,
                               backgroundImage: NetworkImage(prefModel
-                                  .userData!.profilePicture!.url
+                                  .userData!.profilePicture!.url!
                                   .toString()),
                             )
                           : const CircleAvatar(

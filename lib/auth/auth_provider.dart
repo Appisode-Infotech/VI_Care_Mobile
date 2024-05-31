@@ -233,7 +233,7 @@ class AuthProvider extends ChangeNotifier {
     if (response.result != null && response.result == true) {
       Navigator.pop(coContext);
       showSuccessToast(coContext, response.message!);
-      Navigator.pushNamed(coContext, Routes.loginRoute);
+      Navigator.pop(coContext);
     } else {
       showErrorToast(forgotPageContext!, response.message!);
     }

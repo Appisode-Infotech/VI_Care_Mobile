@@ -621,6 +621,6 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('MM/dd/yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('MMM/dd/yyyy hh:mm aa').format(parsedDateTime);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -262,8 +263,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        Text(AppLocale.firstName.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.firstName.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -271,6 +280,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientFirstNameController,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+          ],
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validFirstName.getString(context);
@@ -303,8 +315,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.lastName.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.lastName.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -312,6 +332,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientLastNameController,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+          ],
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validLastName.getString(context);
@@ -344,13 +367,22 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.mobile.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.mobile.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller: patientProvider.addNewPatientMobileController,
           validator: (value) {
             if (value!.isEmpty) {
@@ -384,8 +416,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.email.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.email.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -431,8 +471,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(AppLocale.dateOfBirth.getString(context),
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Row(
+                    children: [
+                      Text(AppLocale.dateOfBirth.getString(context),
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Text(
+                        ' *',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -500,8 +548,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
 
-        Text(AppLocale.gender.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.gender.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -552,8 +608,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         const SizedBox(
           height: 10,
         ),
-        Text(AppLocale.bloodGroup.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.bloodGroup.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -610,8 +674,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.heightController,
           keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.next,
-
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -646,8 +710,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.weightController,
           keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.next,
-
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -673,16 +737,22 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
 
-        const Text(
-          "Country",
-          style: TextStyle(fontWeight: FontWeight.w600),
+        Row(
+          children: [
+            Text(AppLocale.country.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         DropdownButtonFormField<String>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please select a country";
+              return AppLocale.validCountry.getString(context);
             }
             return null;
           },
@@ -724,8 +794,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
         const SizedBox(height: 10),
 
-        Text(AppLocale.state.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.state.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -895,8 +973,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-         Text(AppLocale.city.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.city.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),
@@ -911,6 +997,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             return null;
           },
           keyboardType: TextInputType.streetAddress,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+          ],
           maxLength: 74,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
@@ -950,6 +1039,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           //   return null;
           // },
           maxLength: 6,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(

@@ -187,13 +187,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              FittedBox(
+                                              Container(
+                                                width: screenSize!.width / 2,
                                                 child: Text(
                                                   "${snapshot.data!.result!.firstName} ${snapshot.data!.result!.lastName}",
                                                   style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
-                                                          FontWeight.w600,
+                                                      FontWeight.w600,
                                                       fontSize: 20),
                                                 ),
                                               ),
@@ -2071,12 +2072,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('MM/dd/yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('MMM/dd/yyyy hh:mm aa').format(parsedDateTime);
   }
 
   parseDateMonth(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('dd\nMM\nyyyy').format(parsedDateTime);
+    return DateFormat('MMM\ndd\nyyyy').format(parsedDateTime);
   }
 
   getChipColor(int? processingStatus) {
