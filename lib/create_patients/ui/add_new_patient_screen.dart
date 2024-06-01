@@ -6,7 +6,6 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
@@ -31,8 +30,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, PatientProvider patientProvider,
-          Widget? child) {
+      builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
         patientProvider.addNewPatientContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -40,10 +38,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
               prefModel.userData!.roleId == 2
                   ? AppLocale.addMember.getString(context)
                   : prefModel.userData!.roleId == 3
-                      ? AppLocale.addPatients.getString(context)
-                      : prefModel.userData!.roleId == 4
-                          ? AppLocale.addPlayer.getString(context)
-                          : "",
+                  ? AppLocale.addPatients.getString(context)
+                  : prefModel.userData!.roleId == 4
+                  ? AppLocale.addPlayer.getString(context)
+                  : "",
               style: const TextStyle(color: Colors.white),
             ),
             backgroundColor: AppColors.primaryColor,
@@ -62,30 +60,11 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             key: patientProvider.addPatientFormKey,
             child: SingleChildScrollView(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   children: [
-                    StepProgressIndicator(
-                      roundedEdges: const Radius.circular(20),
-                      size: 7,
-                      totalSteps: 3,
-                      currentStep: currentStep,
-                      selectedColor: AppColors.primaryColor,
-                      unselectedColor: Colors.grey,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    currentStep == 1
-                        ? patientDetails(patientProvider)
-                        : const SizedBox.shrink(),
-                    currentStep == 2
-                        ? firstQuestion(patientProvider)
-                        : const SizedBox.shrink(),
-                    currentStep == 3
-                        ? secondQuestion(patientProvider)
-                        : const SizedBox.shrink(),
+                    const SizedBox(height: 20),
+                    patientDetails(patientProvider),
                     const SizedBox(height: 10),
                     Container(
                       color: Colors.white,
@@ -94,58 +73,18 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          currentStep != 1
-                              ? getPrimaryAppButton(
-                                  context,
-                                  AppLocale.previous.getString(context),
-                                  onPressed: () async {
-                                    setState(() {
-                                      currentStep = currentStep - 1;
-                                    });
-                                  },
-                                  buttonColor: Colors.red.shade500,
-                                )
-                              : const SizedBox.shrink(),
-                          const SizedBox(
-                            height: 10,
+                          getPrimaryAppButton(
+                            context,
+                            AppLocale.submit.getString(context),
+                            onPressed: () async {
+                              if (patientProvider.addPatientFormKey.currentState!.validate()) {
+                                patientProvider.addNewPatient();
+                              }
+                            },
                           ),
-                          currentStep == 1 || currentStep == 2
-                              ? getPrimaryAppButton(
-                                  context,
-                                  AppLocale.next.getString(context),
-                                  onPressed: () async {
-                                    if (patientProvider
-                                        .addPatientFormKey.currentState!
-                                        .validate()) {
-                                      if (currentStep == 1) {
-                                      //   if (patientProvider
-                                      //           .addPatientSelectedImage ==
-                                      //       null) {
-                                      //     showErrorToast(context,
-                                      //         AppLocale.validImage.getString(context));
-                                      //     return;
-                                      //   }
-                                      }
-                                      setState(() {
-                                        currentStep = currentStep + 1;
-                                      });
-                                    }
-                                  },
-                                )
-                              : getPrimaryAppButton(
-                                  context,
-                                  AppLocale.submit.getString(context),
-                                  onPressed: () async {
-                                    if (patientProvider
-                                        .addPatientFormKey.currentState!
-                                        .validate()) {
-                                      patientProvider.addNewPatient();
-                                    }
-                                  },
-                                ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -562,6 +501,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         DropdownButtonFormField<String>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.validGender.getString(context);
@@ -578,8 +518,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                 color: Colors.green,
               ),
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
             errorStyle: TextStyle(color: Colors.red.shade400),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -593,7 +532,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           value: patientProvider.addNewPatientGender,
           onChanged: (String? value) {
             setState(() {
-              patientProvider.addNewPatientGender = value!;
+              patientProvider.addNewPatientGender = value;
             });
           },
           style: const TextStyle(color: Colors.black),
@@ -605,6 +544,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             );
           }).toList(),
         ),
+
         const SizedBox(
           height: 10,
         ),
@@ -622,6 +562,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         DropdownButtonFormField<String>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.validBloodGroup.getString(context);
@@ -808,6 +749,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
         DropdownButtonFormField<String>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.stateValid.getString(context);

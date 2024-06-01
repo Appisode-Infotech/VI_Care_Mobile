@@ -77,7 +77,7 @@ class NewTestLeProvider extends ChangeNotifier {
         uploadFile: payload);
     Navigator.pop(dataContext);
     if (response.result != null) {
-      showSuccessToast(dataContext, AppLocale.testSuccessfulCheck.getString(dataContext));
+      showSuccessToast(dataContext, AppLocale.testSuccessSendHRV.getString(dataContext));
     }else{
       showErrorToast(dataContext, response.message!);
             final String jsonString = json.encode(jsonData);

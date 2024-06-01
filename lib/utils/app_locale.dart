@@ -253,7 +253,6 @@ mixin AppLocale {
   static const String enterSNumber = 'enterSNumber';
   static const String proceedToAdd = 'proceedToAdd';
   static const String testSuccessSendHRV = 'testSuccessSendHRV';
-  static const String testSuccessfulCheck = 'testSuccessfulCheck';
   static const String thisYear = 'thisYear';
   static const String thisMonth = 'thisMonth';
   static const String thisWeek = 'thisWeek';
@@ -532,7 +531,6 @@ mixin AppLocale {
     enterSNumber:  "Please enter device serial number",
     proceedToAdd: "Proceed to add",
     testSuccessSendHRV: "Test successfully sent to hrv server.You can check the reports in some time",
-    testSuccessfulCheck:  "Test successfully sent to hrv server.You can check the reports in some time",
     thisWeek:"All Time",
     thisMonth:"This Week",
     thisYear:"This Month",
@@ -814,7 +812,6 @@ mixin AppLocale {
     enterSNumber:  "ದಯವಿಟ್ಟು ಉಪಕರಣ ಸರಣಿ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ",
     proceedToAdd: "ಸೇರಿಸಲು ಮುಂದುವರಿಯಿರಿ",
     testSuccessSendHRV: "ಟೆಸ್ಟ್ ಯಶಸ್ವಿಯಾಗಿ HRV ಗಣಕಕ್ಕೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ಸ್ಥಳೀಯ ಕಾಲದಲ್ಲಿ ವರದಿಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು",
-    testSuccessfulCheck:  "ಟೆಸ್ಟ್ ಯಶಸ್ವಿಯಾಗಿ HRV ಗಣಕಕ್ಕೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ಸ್ಥಳೀಯ ಕಾಲದಲ್ಲಿ ವರದಿಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು",
     thisWeek:"ಎಲ್ಲಾ ಸಮಯ",
     thisMonth:"ಈ ವಾರ",
     thisYear:"ಈ ತಿಂಗಳು",
@@ -1095,7 +1092,6 @@ mixin AppLocale {
     enterSNumber:  "कृपया डिवाइस का सीरियल नंबर दर्ज करें",
     proceedToAdd: "जोड़ने के लिए आगे बढ़ें",
     testSuccessSendHRV: "टेस्ट सफलतापूर्वक hrv सर्वर को भेजा गया। आप कुछ समय में रिपोर्ट देख सकते हैं",
-    testSuccessfulCheck:  "टेस्ट सफलतापूर्वक hrv सर्वर को भेजा गया। आप कुछ समय में रिपोर्ट देख सकते हैं",
     thisWeek:"सभी समय",
     thisMonth:"इस सप्ताह",
     thisYear:"इस महीने",
@@ -1375,7 +1371,6 @@ mixin AppLocale {
     enterSNumber:  "Bitte geben Sie die Seriennummer des Geräts ein",
     proceedToAdd: "Weiter zur Hinzufügung",
     testSuccessSendHRV: "Test erfolgreich an hrv Server gesendet. Sie können die Berichte in Kürze überprüfen",
-    testSuccessfulCheck:  "Test erfolgreich an hrv Server gesendet. Sie können die Berichte in Kürze überprüfen",
     thisWeek:"Alle Zeit",
     thisMonth:"Diese Woche",
     thisYear:"Dieser Monat",
@@ -1658,7 +1653,6 @@ mixin AppLocale {
     enterSNumber:  "దయచేసి పరికరం సీరియల్ నెంబర్ నమోదు చేయండి",
     proceedToAdd: "జోడించడానికి ముందుకు వెళ్ళు",
     testSuccessSendHRV: "టెస్ట్ యశస్వితంగా hrv సర్వర్‌కు పంపబడింది. కొనసాగించుకోవడానికి మీరు కొనసాగాల్సిన సమయంలో నివేదికలను తనిఖీ చేయవచ్చు",
-    testSuccessfulCheck:  "టెస్ట్ యశస్వితంగా hrv సర్వర్‌కు పంపబడింది. కొనసాగించుకోవడానికి మీరు కొనసాగాల్సిన సమయంలో నివేదికలను తనిఖీ చేయవచ్చు",
     thisWeek:"అన్నీ సమయం",
     thisMonth:"ఈ వారం",
     thisYear:"ఈ నెల",
@@ -1942,7 +1936,6 @@ mixin AppLocale {
     enterSNumber:  "தயவுசெய்து சாதன வரிசை எண்ணை உள்ளிடவும்",
     proceedToAdd: "சேர்க்க தொடர்க",
     testSuccessSendHRV: "சோதனை வெற்றிகரமாக hrv சேவையில் அனுப்பப்பட்டுள்ளது. நீங்கள் கொழுப்பு நேரத்தில் அறிக்கைகளை சரிபார்க்கலாம்",
-    testSuccessfulCheck:  "சோதனை வெற்றிகரமாக hrv சேவையில் அனுப்பப்பட்டுள்ளது. நீங்கள் கொழுப்பு நேரத்தில் அறிக்கைகளை சரிபார்க்கலாம்",
     thisWeek:"அனைத்து நேரங்கள்",
     thisMonth:"இந்த வாரம்",
     thisYear:"இந்த மாதம்",
@@ -2220,7 +2213,6 @@ mixin AppLocale {
     enterSNumber:  "ദയവായി ഉപകരണം വരിയിലാണോ എണ്ണം നൽകുക",
     proceedToAdd: "ചേർക്കാനും തുടരുക",
     testSuccessSendHRV: "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
-    testSuccessfulCheck:  "ടെസ്റ്റ് വിജയകരമായി hrv സെർവറിലേക്ക് അയയ്ക്കപ്പെട്ടു. നീണ്ടകാലം ശേഷം റിപ്പോർട്ടുകൾ പരിശോധിക്കാം",
     thisWeek: "എല്ലാ സമയവും",
     thisMonth: "ഈ ആഴ്ച",
     thisYear: "ഈ മാസം",

@@ -100,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               label: AppLocale.reports.getString(context),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.airline_seat_recline_extra_outlined),
+              icon:  Icon(prefModel.userData!.roleId==2?Icons.person_add_alt_1_outlined:Icons.airline_seat_recline_extra_outlined),
               label: prefModel.userData!.roleId == 2
                   ? AppLocale.members.getString(context)
                   : prefModel.userData!.roleId == 3

@@ -534,6 +534,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
                                   errorMaxLines: 2,
                                   filled: true,
@@ -599,6 +600,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return AppLocale.validBloodGroup
@@ -796,6 +798,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return AppLocale.stateValid.getString(context);
@@ -1566,6 +1569,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
                                   errorMaxLines: 2,
                                   filled: true,
@@ -1631,6 +1635,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return AppLocale.validBloodGroup
@@ -1828,6 +1833,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField<String>(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return AppLocale.stateValid.getString(context);

@@ -432,7 +432,6 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                 heartRate = value[offset];
                 offset += 1;
               }
-
               // Parse Energy
               if ((flag & 0x08) != 0) {
                 energy = (value[offset + 1] << 8) + value[offset];

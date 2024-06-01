@@ -772,7 +772,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         DropdownButtonFormField<String>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.validGender.getString(context);
@@ -1056,6 +1055,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         DropdownButtonFormField<String>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.stateValid.getString(context);

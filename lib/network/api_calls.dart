@@ -347,7 +347,7 @@ class ApiCalls {
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.Email'] = email;
-    request.fields['Contact.Gender'] = gender.toString();
+    request.fields['Contact.Gender'] = gender;
     request.fields['Contact.LastName'] = lName;
     request.fields['Contact.ContactNumber'] = mobile;
     request.fields['Contact.BloodGroup'] = bloodGroup;
@@ -446,7 +446,7 @@ class ApiCalls {
     request.fields['Contact.Email'] = email;
     request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.LastName'] = lName;
-    request.fields['Contact.Gender'] = gender;
+    request.fields['Contact.Gender'] = gender.toString();
     request.fields['UserId'] = userID;
     request.fields['Id'] = id;
     request.fields['Contact.Id'] = contactId;

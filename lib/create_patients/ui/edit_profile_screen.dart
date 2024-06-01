@@ -235,8 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller:
-                        profileProvider.editProfileLastNameController,
+                        controller: profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
@@ -328,20 +327,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        children: [
-                          Text(AppLocale.email.getString(context),
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
-                          Text(
-                            ' *',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ],
-                      ),
+                      Text(AppLocale.email.getString(context),
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
                       const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
+                        enabled: false,
                         autovalidateMode:
                         AutovalidateMode.onUserInteraction,
                         validator: (value) {
@@ -358,6 +350,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.email.getString(context),
+                          hintStyle: TextStyle(color: Colors.black),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle:
@@ -394,6 +387,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 10,
                       ),
                       DropdownButtonFormField<String>(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return AppLocale.validBloodGroup.getString(context);
@@ -457,6 +451,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 10,
                       ),
                       DropdownButtonFormField<String>(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           errorMaxLines: 2,
                           filled: true,
@@ -724,6 +719,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
                                 DropdownButtonFormField<String>(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return AppLocale.stateValid.getString(context);
