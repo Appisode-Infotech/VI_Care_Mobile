@@ -236,6 +236,8 @@ class AuthProvider extends ChangeNotifier {
       Navigator.pop(coContext);
     } else {
       showErrorToast(forgotPageContext!, response.message!);
+      Navigator.pop(coContext);
+
     }
     return response;
   }

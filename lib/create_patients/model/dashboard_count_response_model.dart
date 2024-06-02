@@ -46,23 +46,27 @@ class DashboardCountResponseModel {
 }
 
 class Result {
+  String? readinessScore;
   String? lastTested;
   int? totalTests;
   int? reportsCount;
 
   Result({
+    this.readinessScore,
     this.lastTested,
     this.totalTests,
     this.reportsCount,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
+    readinessScore: json["readinessScore"]==null?0.toString():json["readinessScore"].toString(),
     lastTested: json["lastTested"],
     totalTests: json["totalTests"],
     reportsCount: json["reportsCount"],
   );
 
   Map<String, dynamic> toJson() => {
+    "readinessScore": readinessScore,
     "lastTested": lastTested,
     "totalTests": totalTests,
     "reportsCount": reportsCount,

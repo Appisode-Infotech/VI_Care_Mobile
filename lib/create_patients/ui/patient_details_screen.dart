@@ -76,7 +76,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
               GestureDetector(
                 onTap: () async {
                   // await patientProvider.getStateMaster(context,);
-                // await patientProvider.getCountryMaster(context);
+                  // await patientProvider.getCountryMaster(context);
                   if (prefModel.userData!.roleId == 2 &&
                       individualPatientData?.result != null) {
                     await patientProvider.prefillEditPatientDetails(
@@ -194,7 +194,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
-                                                      FontWeight.w600,
+                                                          FontWeight.w600,
                                                       fontSize: 20),
                                                 ),
                                               ),
@@ -395,6 +395,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                .center,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                                   children: [
                                                     Container(
                                                       padding:
@@ -417,18 +422,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       child: Center(
                                                         child: Text(
                                                           countSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .lastTested !=
-                                                                  null
-                                                              ? parseDateMonth(
-                                                                  countSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .lastTested!)
-                                                              : AppLocale.never
-                                                                  .getString(
-                                                                      context),
+                                                              .data!
+                                                              .result!
+                                                              .readinessScore!,
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: const TextStyle(
@@ -444,7 +440,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     ),
                                                     FittedBox(
                                                       child: Text(
-                                                        AppLocale.lastTested
+                                                        AppLocale.readiness
                                                             .getString(context),
                                                         style: const TextStyle(
                                                             color: Colors.white,
@@ -627,64 +623,65 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   GestureDetector(
                                                     onTap: () async {
                                                       var bluetoothConnectStatus =
-                                                      await Permission
-                                                          .bluetoothConnect
-                                                          .request();
+                                                          await Permission
+                                                              .bluetoothConnect
+                                                              .request();
                                                       var bluetoothScanStatus =
-                                                      await Permission
-                                                          .bluetoothScan
-                                                          .request();
+                                                          await Permission
+                                                              .bluetoothScan
+                                                              .request();
                                                       if (bluetoothConnectStatus ==
-                                                          PermissionStatus
-                                                              .granted &&
+                                                              PermissionStatus
+                                                                  .granted &&
                                                           bluetoothScanStatus ==
                                                               PermissionStatus
                                                                   .granted) {
                                                         showLoaderDialog(
                                                             context);
                                                         DeviceResponseModel
-                                                        myDevices =
-                                                        await patientProvider
-                                                            .getMyDevices();
+                                                            myDevices =
+                                                            await patientProvider
+                                                                .getMyDevices();
                                                         DurationResponseModel
-                                                        myDurations =
-                                                        await patientProvider
-                                                            .getAllDuration();
+                                                            myDurations =
+                                                            await patientProvider
+                                                                .getAllDuration();
                                                         Navigator.pop(context);
                                                         if (myDevices.result !=
-                                                            null &&
+                                                                null &&
                                                             myDevices.result!
                                                                 .isNotEmpty) {
                                                           showTestFormBottomSheet(
                                                               context,
                                                               myDevices,
                                                               myDurations,
-                                                              snapshot.data!,null);
+                                                              snapshot.data!,
+                                                              null);
                                                         } else {
                                                           showErrorToast(
                                                               context,
                                                               AppLocale
                                                                   .notAddedDevice
                                                                   .getString(
-                                                                  context));
+                                                                      context));
                                                         }
                                                       }
                                                     },
-                                                      // if (myDevices
-                                                      //     .result!.devices!.isEmpty) {
-                                                      //   showErrorToast(context,
-                                                      //       myDevices.message!);
-                                                      // } else {
-                                                      //   Navigator.pushNamed(context,
-                                                      //       Routes.takeTestRoute,
-                                                      //       arguments: {
-                                                      //         'individualPatientData':
-                                                      //             snapshot.data!,
-                                                      //         'deviceData':
-                                                      //             myDevices
-                                                      //                 .result!.devices![0]
-                                                      //       });
-                                                      // }
+                                                    // if (myDevices
+                                                    //     .result!.devices!.isEmpty) {
+                                                    //   showErrorToast(context,
+                                                    //       myDevices.message!);
+                                                    // } else {
+                                                    //   Navigator.pushNamed(context,
+                                                    //       Routes.takeTestRoute,
+                                                    //       arguments: {
+                                                    //         'individualPatientData':
+                                                    //             snapshot.data!,
+                                                    //         'deviceData':
+                                                    //             myDevices
+                                                    //                 .result!.devices![0]
+                                                    //       });
+                                                    // }
                                                     child: Container(
                                                         height: 50,
                                                         width:
@@ -1370,6 +1367,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Column(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .center,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                                   children: [
                                                     Container(
                                                       padding:
@@ -1392,18 +1394,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       child: Center(
                                                         child: Text(
                                                           countSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .lastTested !=
-                                                                  null
-                                                              ? parseDateMonth(
-                                                                  countSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .lastTested!)
-                                                              : AppLocale.never
-                                                                  .getString(
-                                                                      context),
+                                                              .data!
+                                                              .result!
+                                                              .readinessScore!,
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: const TextStyle(
@@ -1419,7 +1412,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     ),
                                                     FittedBox(
                                                       child: Text(
-                                                        AppLocale.lastTested
+                                                        AppLocale.readiness
                                                             .getString(context),
                                                         style: const TextStyle(
                                                             color: Colors.white,

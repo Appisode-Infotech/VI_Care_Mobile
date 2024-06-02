@@ -923,7 +923,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: authProvider.registerHeightController,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -1277,12 +1276,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerPinCodeController,
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     return AppLocale.pinCodeValid.getString(context);
-          //   }
-          //   return null;
-          // },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.pinCodeValid.getString(context);
+            }
+            if (value.length<6) {
+              return AppLocale.pinCodeValid.getString(context);
+            }
+            return null;
+          },
           maxLength: 6,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],

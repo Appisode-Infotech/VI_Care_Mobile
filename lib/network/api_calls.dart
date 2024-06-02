@@ -226,7 +226,6 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
-      log(response.body);
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       Navigator.pop(buildContext);
@@ -723,7 +722,6 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseJson.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);

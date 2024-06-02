@@ -1,6 +1,7 @@
   import 'package:flutter/material.dart';
   import 'package:flutter_localization/flutter_localization.dart';
   import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
   import 'package:vicare/auth/model/send_otp_response_model.dart';
   import 'package:vicare/create_patients/provider/profile_provider.dart';
   import 'package:vicare/database/app_pref.dart';
@@ -59,10 +60,19 @@
                       const SizedBox(
                         width: 20,
                       ),
-                      Text(
-                        "${prefModel.userData!.contact!.firstName} ${prefModel.userData!.contact!.lastName}",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 20),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${prefModel.userData!.contact!.firstName} ${prefModel.userData!.contact!.lastName}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 20),
+                          ),
+                          Text('${prefModel.userData!.contact!.email}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 14)),
+                        ],
                       )
                     ],
                   ),
@@ -450,36 +460,41 @@
                   const SizedBox(
                     height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: Colors.teal.shade100,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
+                  InkWell(
+                    onTap: (){
+                      launchUrlString("tel://214324234");
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.teal.shade100,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: const Icon(
+                                Icons.headset_mic_outlined,
+                                color: AppColors.primaryColor,
+                              ),
                             ),
-                            child: const Icon(
-                              Icons.headset_mic_outlined,
-                              color: AppColors.primaryColor,
+                            const SizedBox(width: 10),
+                            Text(
+                              AppLocale.support.getString(context),
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w600),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            AppLocale.support.getString(context),
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                      const Icon(
-                        Icons.call_made,
-                        color: Colors.grey,
-                      )
-                    ],
+                          ],
+                        ),
+                        const Icon(
+                          Icons.call_made,
+                          color: Colors.grey,
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 30,
@@ -492,7 +507,7 @@
                             return AlertDialog(
                               title: Text(
                                 AppLocale.confirmLogout.getString(context),
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                               ),
                               content: Text(AppLocale.sureLogout.getString(context)),
                               actions: <Widget>[
@@ -503,7 +518,7 @@
                                   },
                                   child: Text(
                                     AppLocale.cancel.getString(context),
-                                    style: const TextStyle(color: Colors.red),
+                                    style: const TextStyle(color: Colors.red,fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 TextButton(
@@ -521,7 +536,7 @@
                                   },
                                   child: Text(
                                     AppLocale.logOut.getString(context),
-                                    style: const TextStyle(color: Colors.green),
+                                    style: const TextStyle(color: Colors.green,fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],

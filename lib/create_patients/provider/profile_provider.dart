@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -36,20 +35,19 @@ class ProfileProvider extends ChangeNotifier {
     }
     bool hasCapitalLetter = password.contains(RegExp(r'[A-Z]'));
     bool hasSpecialCharacter =
-    password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+        password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     bool hasNumber = password.contains(RegExp(r'[0-9]'));
     return hasCapitalLetter && hasSpecialCharacter && hasNumber;
   }
 
-  clearChangePassword(){
+  clearChangePassword() {
     changePasswordOneController.clear();
     changePasswordTwoController.clear();
     notifyListeners();
   }
 
   Future<void> preFillEditProfile(BuildContext context) async {
-    editProfileSelectedImage =null;
-    log(prefModel.userData!.toJson().toString());
+    editProfileSelectedImage = null;
     showLoaderDialog(context);
 
     final DateTime dob = DateTime(
@@ -59,25 +57,45 @@ class ProfileProvider extends ChangeNotifier {
     );
     final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
 
-      editProfileDobController.text = formattedDob;
-      // editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
-      editProfileContactNumberController.text = prefModel.userData!.contactNumber.toString();
-      editProfileFirstNameController.text = prefModel.userData!.contact!.firstName!;
-      editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
-      editProfileEmailController.text=prefModel.userData!.email!;
-      editProfileStreetController.text=prefModel.userData!.contact!.address!.street!=null?prefModel.userData!.contact!.address!.street!:"";
-      editProfileAreaController.text=prefModel.userData!.contact!.address!.area!=null?prefModel.userData!.contact!.address!.area!:"";
-      editProfileLandMarkController.text=prefModel.userData!.contact!.address!.landmark!=null?prefModel.userData!.contact!.address!.landmark!:"";
-      editProfileCityController.text=prefModel.userData!.contact!.address!.city!;
-      editProfilePinCodeController.text=prefModel.userData!.contact!.address!.pinCode!=null?prefModel.userData!.contact!.address!.pinCode!:"";
-      editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
-      profileHeightController.text = prefModel.userData!.height==null?'':prefModel.userData!.height.toString();
-      profileWeightController.text = prefModel.userData!.weight==null?'':prefModel.userData!.weight.toString();
+    editProfileDobController.text = formattedDob;
+    // editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
+    editProfileContactNumberController.text =
+        prefModel.userData!.contactNumber.toString();
+    editProfileFirstNameController.text =
+        prefModel.userData!.contact!.firstName!;
+    editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
+    editProfileEmailController.text = prefModel.userData!.email!;
+    editProfileStreetController.text =
+        prefModel.userData!.contact!.address!.street != null
+            ? prefModel.userData!.contact!.address!.street!
+            : "";
+    editProfileAreaController.text =
+        prefModel.userData!.contact!.address!.area != null
+            ? prefModel.userData!.contact!.address!.area!
+            : "";
+    editProfileLandMarkController.text =
+        prefModel.userData!.contact!.address!.landmark != null
+            ? prefModel.userData!.contact!.address!.landmark!
+            : "";
+    editProfileCityController.text =
+        prefModel.userData!.contact!.address!.city!;
+    editProfilePinCodeController.text =
+        prefModel.userData!.contact!.address!.pinCode != null
+            ? prefModel.userData!.contact!.address!.pinCode!
+            : "";
+    editProfileBloodGroup = prefModel.userData!.contact!.bloodGroup;
+    profileHeightController.text = prefModel.userData!.height == null
+        ? ''
+        : prefModel.userData!.height.toString();
+    profileWeightController.text = prefModel.userData!.weight == null
+        ? ''
+        : prefModel.userData!.weight.toString();
 
     if (prefModel.userData!.profilePicture != null) {
       final imageUrl = prefModel.userData!.profilePicture!.url;
       if (imageUrl != null && imageUrl.isNotEmpty) {
-        final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
+        final imagePath =
+            await apiCalls.downloadImageAndReturnFilePath(imageUrl);
         if (imagePath != null) {
           editProfileSelectedImage = imagePath;
         } else {
@@ -86,9 +104,9 @@ class ProfileProvider extends ChangeNotifier {
       }
     }
 
-
     await getCountryMaster(context);
-    if (countryMasterResponse != null && countryMasterResponse!.result!.isNotEmpty) {
+    if (countryMasterResponse != null &&
+        countryMasterResponse!.result!.isNotEmpty) {
       for (var country in countryMasterResponse!.result!) {
         if (country.id == prefModel.userData!.contact!.address!.countryId) {
           editProfileCountryAs = country.name;
@@ -98,35 +116,37 @@ class ProfileProvider extends ChangeNotifier {
         }
       }
     }
-    if (editStateMasterResponse != null && editStateMasterResponse!.result!.isNotEmpty) {
+    if (editStateMasterResponse != null &&
+        editStateMasterResponse!.result!.isNotEmpty) {
       for (var state in editStateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
           editProfileStateAs = state.name;
           break;
         }
       }
-    }else{
+    } else {
       "";
     }
-      editProfileGender = prefModel.userData!.contact!.gender == 1
-          ? "Male"
-          : prefModel.userData!.contact!.gender == 2
-              ? "Female"
-              : "Do not wish to specify";
+    editProfileGender = prefModel.userData!.contact!.gender == 1
+        ? "Male"
+        : prefModel.userData!.contact!.gender == 2
+            ? "Female"
+            : "Do not wish to specify";
 
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
-        notifyListeners();
-        return null;
-      });
+    Navigator.pop(context);
+    Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
+      notifyListeners();
+      return null;
+    });
   }
-
 
   final editProfileFormKey = GlobalKey<FormState>();
   TextEditingController editProfileDobController = TextEditingController();
-  TextEditingController editProfileContactNumberController = TextEditingController();
+  TextEditingController editProfileContactNumberController =
+      TextEditingController();
   TextEditingController editProfileEmailController = TextEditingController();
-  TextEditingController editProfileFirstNameController = TextEditingController();
+  TextEditingController editProfileFirstNameController =
+      TextEditingController();
   TextEditingController editProfileLastNameController = TextEditingController();
   TextEditingController editProfileStreetController = TextEditingController();
   TextEditingController editProfileAreaController = TextEditingController();
@@ -177,10 +197,9 @@ class ProfileProvider extends ChangeNotifier {
   String? resetPasswordOtp;
   BuildContext? changePasswordPageContext;
 
-
   Future<void> editProfile() async {
     showLoaderDialog(editProfilePageContext!);
-      RegisterResponseModel response = await apiCalls.editProfile(
+    RegisterResponseModel response = await apiCalls.editProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
         editProfileContactNumberController.text,
@@ -197,37 +216,52 @@ class ProfileProvider extends ChangeNotifier {
         editProfileLandMarkController.text,
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
-        editProfileSelectedStateId??prefModel.userData!.contact!.address!.stateId,
-        editProfileSelectedCountryId??prefModel.userData!.contact!.address!.countryId,profileHeightController.text,profileWeightController.text,
-          editProfileEmailController.text
-      );
-      if (response.result != null) {
-        prefModel.userData!.contact!.firstName =response.result!.contact!.firstName;
-        prefModel.userData!.contact!.lastName =response.result!.contact!.lastName;
-        prefModel.userData!.contactNumber =response.result!.contactNumber;
-        prefModel.userData!.contact!.bloodGroup =response.result!.contact!.bloodGroup;
-        prefModel.userData!.contact!.gender =response.result!.contact!.gender;
-        prefModel.userData!.contact!.doB =response.result!.contact!.doB;
-        prefModel.userData!.profilePicture!.url = response.result!.profilePicture!.url;
-        prefModel.userData!.id =response.result!.id;
-        prefModel.userData!.contactId =response.result!.contactId;
-        prefModel.userData!.contact!.address!.street =response.result!.contact!.address!.street;
-        prefModel.userData!.contact!.address!.area =response.result!.contact!.address!.area;
-        prefModel.userData!.contact!.address!.city =response.result!.contact!.address!.city;
-        prefModel.userData!.contact!.address!.landmark =response.result!.contact!.address!.landmark;
-        prefModel.userData!.contact!.address!.pinCode =response.result!.contact!.address!.pinCode;
-        prefModel.userData!.contact!.addressId =response.result!.contact!.addressId;
-        prefModel.userData!.contact!.address!.stateId = response.result!.contact!.address!.stateId;
-        prefModel.userData!.contact!.address!.countryId = response.result!.contact!.address!.countryId;
-        prefModel.userData!.height = response.result!.height;
-        prefModel.userData!.weight = response.result!.weight;
-        prefModel.userData!.email=response.result!.email;
-        AppPref.setPref(prefModel);
-        Navigator.pop(editProfilePageContext!);
-        showSuccessToast(editProfilePageContext!, response.message!);
-      }else{
-        showErrorToast(editProfilePageContext!, response.message!);
-      }
+        editProfileSelectedStateId ??
+            prefModel.userData!.contact!.address!.stateId,
+        editProfileSelectedCountryId ??
+            prefModel.userData!.contact!.address!.countryId,
+        profileHeightController.text,
+        profileWeightController.text,
+        editProfileEmailController.text);
+    if (response.result != null) {
+      prefModel.userData!.contact!.firstName =
+          response.result!.contact!.firstName;
+      prefModel.userData!.contact!.lastName =
+          response.result!.contact!.lastName;
+      prefModel.userData!.contactNumber = response.result!.contactNumber;
+      prefModel.userData!.contact!.bloodGroup =
+          response.result!.contact!.bloodGroup;
+      prefModel.userData!.contact!.gender = response.result!.contact!.gender;
+      prefModel.userData!.contact!.doB = response.result!.contact!.doB;
+      prefModel.userData!.profilePicture!.url =
+          response.result!.profilePicture!.url;
+      prefModel.userData!.id = response.result!.id;
+      prefModel.userData!.contactId = response.result!.contactId;
+      prefModel.userData!.contact!.address!.street =
+          response.result!.contact!.address!.street;
+      prefModel.userData!.contact!.address!.area =
+          response.result!.contact!.address!.area;
+      prefModel.userData!.contact!.address!.city =
+          response.result!.contact!.address!.city;
+      prefModel.userData!.contact!.address!.landmark =
+          response.result!.contact!.address!.landmark;
+      prefModel.userData!.contact!.address!.pinCode =
+          response.result!.contact!.address!.pinCode;
+      prefModel.userData!.contact!.addressId =
+          response.result!.contact!.addressId;
+      prefModel.userData!.contact!.address!.stateId =
+          response.result!.contact!.address!.stateId;
+      prefModel.userData!.contact!.address!.countryId =
+          response.result!.contact!.address!.countryId;
+      prefModel.userData!.height = response.result!.height;
+      prefModel.userData!.weight = response.result!.weight;
+      prefModel.userData!.email = response.result!.email;
+      AppPref.setPref(prefModel);
+      Navigator.pop(editProfilePageContext!);
+      showSuccessToast(editProfilePageContext!, response.message!);
+    } else {
+      showErrorToast(editProfilePageContext!, response.message!);
+    }
     Navigator.pop(editProfilePageContext!);
   }
 
@@ -240,23 +274,29 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> resetNewPassword(BuildContext context) async {
-    ResetPasswordResponseModel response = await apiCalls.resetNewPassword(changePasswordTwoController.text, prefModel.userData!.email, context);
+    showLoaderDialog(context);
+    ResetPasswordResponseModel response = await apiCalls.resetNewPassword(
+        changePasswordTwoController.text, prefModel.userData!.email, context);
     if (response.result != null && response.result == true) {
-      Navigator.pop(changePasswordPageContext!);
-      showSuccessToast(changePasswordPageContext!, response.message!);
+      Navigator.pop(context);
+      clearChangePassword();
+      Navigator.pop(context);
+      showSuccessToast(context, response.message!);
     } else {
-      showErrorToast(changePasswordPageContext!, response.message!);
+      showErrorToast(context!, response.message!);
     }
   }
 
-  Future<void> getStateMaster(BuildContext context,String? uniqueGuid) async {
-    editStateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
+  Future<void> getStateMaster(BuildContext context, String? uniqueGuid) async {
+    editStateMasterResponse =
+        await apiCalls.getStateMaster(context, uniqueGuid);
     if (editStateMasterResponse!.result!.isNotEmpty) {
     } else {
       Navigator.pop(context);
       showErrorToast(context, editStateMasterResponse!.message.toString());
     }
   }
+
   Future<void> getCountryMaster(BuildContext context) async {
     countryMasterResponse = await apiCalls.getCountryMaster(context);
     if (countryMasterResponse!.result!.isEmpty) {

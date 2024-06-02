@@ -19,6 +19,7 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   int currentStep = 1;
+  final changePasswordFormKey = GlobalKey<FormState>();
 
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
@@ -117,51 +118,31 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                           profileProvider
                                               .changePasswordOtpController
                                               .text) {
-                                        showSuccessToast(context,
-                                            AppLocale.otpSuccessful.getString(context));
+                                        showSuccessToast(
+                                            context,
+                                            AppLocale.otpSuccessful
+                                                .getString(context));
                                         setState(() {
                                           currentStep = currentStep + 1;
                                         });
                                       } else {
-                                        showErrorToast(context, AppLocale.invalidOtp.getString(context));
+                                        showErrorToast(
+                                            context,
+                                            AppLocale.invalidOtp
+                                                .getString(context));
                                       }
                                     })
                                   : getPrimaryAppButton(context,
-                                  AppLocale.submit.getString(context),
-                                  onPressed: () async {
-                                    if (profileProvider
-                                        .changePasswordOneController
-                                        .text.isEmpty ||
-                                        profileProvider
-                                            .changePasswordTwoController
-                                            .text.isEmpty) {
-                                      showErrorToast(context,
-                                          'New password and confirm password are required.');
-                                      return;
-                                    }
-                                    if (!profileProvider.isStrongPassword(
-                                        profileProvider
-                                            .changePasswordOneController
-                                            .text)) {
-                                      showErrorToast(context,
-                                          'New password is not strong.');
-                                      return;
-                                    }
-                                    if (profileProvider
-                                        .changePasswordOneController
-                                        .text !=
-                                        profileProvider
-                                            .changePasswordTwoController
-                                            .text) {
-                                      showErrorToast(context,
-                                          'New password and confirm password do not match.');
-                                      return;
-                                    }
-                                    profileProvider.resetNewPassword(context);
-                                    profileProvider.clearChangePassword();
-                                    // Navigator.pushNamedAndRemoveUntil(
-                                    //     context, Routes.profileRoute, (route) => false);
-                                  }),
+                                      AppLocale.submit.getString(context),
+                                      onPressed: () async {
+                                      if (changePasswordFormKey.currentState!
+                                          .validate()) {
+                                        profileProvider.resetNewPassword(context);
+                                      }
+
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //     context, Routes.profileRoute, (route) => false);
+                                    }),
                             ],
                           ),
                         ],
@@ -206,7 +187,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             hintText: AppLocale.otp.getString(context),
             counterText: "",
             isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
+            errorStyle: const TextStyle(
+                color: Colors.red, overflow: TextOverflow.ellipsis),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(8),
@@ -215,6 +197,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
+            errorMaxLines: 2,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
@@ -224,123 +207,129 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   changePassword(ProfileProvider profileProvider) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocale.newPassword.getString(context),
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          controller: profileProvider.changePasswordOneController,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.validPassword.getString(context);
-            }
-            if (!profileProvider.isStrongPassword(value)) {
-              return AppLocale.strongPassword.getString(context);
-            }
-            return null;
-          },
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: profileProvider.changePasswordIsShowPassword,
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintText: AppLocale.password.getString(context),
-            suffixIcon: CupertinoButton(
-              onPressed: () {
-                setState(() {
-                  profileProvider.changePasswordIsShowPassword =
-                      !profileProvider.changePasswordIsShowPassword;
-                });
-              },
-              child: Icon(
-                profileProvider.changePasswordIsShowPassword
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                color: Colors.grey,
-              ),
-            ),
-            counterText: "",
-            isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black, width: 2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+    return Form(
+      key: changePasswordFormKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocale.newPassword.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          AppLocale.confirmPassword.getString(context),
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          controller: profileProvider.changePasswordTwoController,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.validPassword.getString(context);
-            }
-            if (!profileProvider.isStrongPassword(value)) {
-              return AppLocale.strongPassword.getString(context);
-            }
-            return null;
-          },
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: profileProvider.changePasswordIsConfirmPassword,
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintText: AppLocale.password.getString(context),
-            suffixIcon: CupertinoButton(
-              onPressed: () {
-                setState(() {
-                  profileProvider.changePasswordIsConfirmPassword =
-                      !profileProvider.changePasswordIsConfirmPassword;
-                });
-              },
-              child: Icon(
-                profileProvider.changePasswordIsConfirmPassword
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                color: Colors.grey,
-              ),
-            ),
-            counterText: "",
-            isCollapsed: true,
-            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black, width: 2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          const SizedBox(
+            height: 10,
           ),
-        ),
-      ],
+          TextFormField(
+            controller: profileProvider.changePasswordOneController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return AppLocale.validPassword.getString(context);
+              }
+              if (!profileProvider.isStrongPassword(value)) {
+                return AppLocale.strongPassword.getString(context);
+              }
+              return null;
+            },
+            keyboardType: TextInputType.visiblePassword,
+            obscureText: profileProvider.changePasswordIsShowPassword,
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              hintText: AppLocale.password.getString(context),
+              suffixIcon: CupertinoButton(
+                onPressed: () {
+                  setState(() {
+                    profileProvider.changePasswordIsShowPassword =
+                        !profileProvider.changePasswordIsShowPassword;
+                  });
+                },
+                child: Icon(
+                  profileProvider.changePasswordIsShowPassword
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                  color: Colors.grey,
+                ),
+              ),
+              counterText: "",
+              isCollapsed: true,
+              errorStyle: const TextStyle(
+                  color: Colors.red, overflow: TextOverflow.ellipsis),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: AppColors.primaryColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              border: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorMaxLines: 2,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            AppLocale.confirmPassword.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: profileProvider.changePasswordTwoController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return AppLocale.validPassword.getString(context);
+              }
+              if (!profileProvider.isStrongPassword(value)) {
+                return AppLocale.strongPassword.getString(context);
+              }
+              return null;
+            },
+            keyboardType: TextInputType.visiblePassword,
+            obscureText: profileProvider.changePasswordIsConfirmPassword,
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              hintText: AppLocale.password.getString(context),
+              suffixIcon: CupertinoButton(
+                onPressed: () {
+                  setState(() {
+                    profileProvider.changePasswordIsConfirmPassword =
+                        !profileProvider.changePasswordIsConfirmPassword;
+                  });
+                },
+                child: Icon(
+                  profileProvider.changePasswordIsConfirmPassword
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                  color: Colors.grey,
+                ),
+              ),
+              counterText: "",
+              isCollapsed: true,
+              errorStyle: const TextStyle(
+                  color: Colors.red, overflow: TextOverflow.ellipsis),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: AppColors.primaryColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              border: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorMaxLines: 2,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            ),
+          ),
+        ],
+      ),
     );
   }
-
 }

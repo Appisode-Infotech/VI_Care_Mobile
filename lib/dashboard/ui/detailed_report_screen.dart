@@ -22,6 +22,8 @@ class DetailedReportScreen extends StatefulWidget {
 }
 
 class _DetailedReportScreenState extends State<DetailedReportScreen> {
+  Future<ReportsDetailModel>? reportDetails;
+  bool isFirstLoading = true;
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -30,6 +32,9 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
     return Consumer(
       builder: (BuildContext context, TakeTestProvider takeTestProvider,
           Widget? child) {
+        if(isFirstLoading){
+          reportDetails  = takeTestProvider.getReportDetails(requestDeviceDataId, context);
+        }
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -45,8 +50,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
             ],
           ),
           body: FutureBuilder(
-            future:
-                takeTestProvider.getReportDetails(requestDeviceDataId, context),
+            future: reportDetails,
             builder: (BuildContext context,
                 AsyncSnapshot<ReportsDetailModel> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

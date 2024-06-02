@@ -1060,13 +1060,15 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientPinCodeController,
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return AppLocale.pinCodeValid
-                                //         .getString(context);
-                                //   }
-                                //   return null;
-                                // },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocale.pinCodeValid.getString(context);
+                                  }
+                                  if (value.length<6) {
+                                    return AppLocale.pinCodeValid.getString(context);
+                                  }
+                                  return null;
+                                },
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 decoration: InputDecoration(

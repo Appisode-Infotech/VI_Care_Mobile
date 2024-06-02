@@ -974,12 +974,15 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientPinCodeController,
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     return AppLocale.pinCodeValid.getString(context);
-          //   }
-          //   return null;
-          // },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.pinCodeValid.getString(context);
+            }
+            if (value.length<6) {
+              return AppLocale.pinCodeValid.getString(context);
+            }
+            return null;
+          },
           maxLength: 6,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,

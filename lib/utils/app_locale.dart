@@ -322,7 +322,7 @@ mixin AppLocale {
     contactNumber: 'Contact Number',
     validContact: 'Please enter valid Contact Number',
     bloodGroup: 'Blood Group',
-    validBloodGroup: 'Please select valid BloodGroup',
+    validBloodGroup: 'Please select valid Blood Group',
     validFirstName: 'Please enter valid First Name',
     validLastName: 'Please enter valid Last Name',
     gender: 'Gender',
