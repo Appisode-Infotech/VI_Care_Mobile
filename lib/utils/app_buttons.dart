@@ -497,7 +497,7 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
   );
 }
 
-showInfoDiog(BuildContext context,String message){
+showInfoDialog(BuildContext context,String message){
   showDialog(context: context, builder: (BuildContext context){
     return AlertDialog(
       content: Text(message),

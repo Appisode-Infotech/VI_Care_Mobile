@@ -206,7 +206,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.firstName.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -265,7 +265,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.lastName.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -324,7 +324,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.mobile.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -377,7 +377,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.email.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -439,7 +439,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                           children: [
                                             Text(AppLocale.dateOfBirth.getString(context),
                                                 style: const TextStyle(fontWeight: FontWeight.w600)),
-                                            Text(
+                                            const Text(
                                               ' *',
                                               style: TextStyle(color: Colors.red),
                                             ),
@@ -524,7 +524,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.gender.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -590,7 +590,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.bloodGroup.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -654,7 +654,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
 
-                              const Text("Height (Cms)",
+                              const Text("Height (Metres)",
                                   style: TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
@@ -731,7 +731,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.country.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -788,7 +788,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.state.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -993,7 +993,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.city.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1242,7 +1242,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.firstName.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1301,7 +1301,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.lastName.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1360,7 +1360,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.mobile.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1414,7 +1414,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.email.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1476,7 +1476,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                           children: [
                                             Text(AppLocale.dateOfBirth.getString(context),
                                                 style: const TextStyle(fontWeight: FontWeight.w600)),
-                                            Text(
+                                            const Text(
                                               ' *',
                                               style: TextStyle(color: Colors.red),
                                             ),
@@ -1561,7 +1561,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.gender.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1627,7 +1627,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.bloodGroup.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1691,7 +1691,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 height: 10,
                               ),
 
-                              const Text("Height (Cms)",
+                              const Text("Height (Metres)",
                                   style: TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
@@ -1768,7 +1768,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.country.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -1825,7 +1825,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.state.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -2032,7 +2032,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 children: [
                                   Text(AppLocale.city.getString(context),
                                       style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  Text(
+                                  const Text(
                                     ' *',
                                     style: TextStyle(color: Colors.red),
                                   ),

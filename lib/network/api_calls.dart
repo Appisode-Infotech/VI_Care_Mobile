@@ -26,6 +26,7 @@ import 'package:vicare/utils/app_buttons.dart';
 import '../auth/model/register_response_model.dart';
 import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
+import '../create_patients/model/check_request_count_model.dart';
 import '../create_patients/model/dashboard_count_response_model.dart';
 import '../dashboard/model/detailed_report_ddf_model.dart';
 import '../dashboard/model/duration_response_model.dart';
@@ -1041,5 +1042,31 @@ class ApiCalls {
       showErrorToast(context, "Something went wrong");
       throw "could not get the states ${response.statusCode}";
     }
+  }
+
+  Future<CheckRequestCountModel> checkRequestCount(BuildContext context, int? individualId, int? enterpriseId) async {
+    String url = prefModel.userData!.roleId==2?"${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?individualProfileId=$individualId":"${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
+    http.Response response = await hitApiGet(true, url);
+    if (response.statusCode == 200) {
+      return CheckRequestCountModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not get the states ${response.statusCode}";
+    }
+  }
+
+  checkRequestDuration(BuildContext context, int? individualId, int? enterpriseId) async {
+    String url = prefModel.userData!.roleId==2?"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?individualProfileId=$individualId":"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
+    http.Response response = await hitApiGet(true, url);
+    print(response.body);
+    log(response.body);
+    print(url);
+    print(prefModel.userData!.token);
+    // if (response.statusCode == 200) {
+    //   return CheckRequestCountModel.fromJson(json.decode(response.body));
+    // } else {
+    //   showErrorToast(context, "Something went wrong");
+    //   throw "could not get the states ${response.statusCode}";
+    // }
   }
 }

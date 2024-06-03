@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:lottie/lottie.dart';
@@ -28,11 +27,19 @@ class SummaryScreen extends StatefulWidget {
 class _SummaryScreenState extends State<SummaryScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  Map<int, Future<SummaryReportResponseModel>> _summaryReports = {};
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+  }
+
+  Future<SummaryReportResponseModel>? _fetchSummaryReport(int tabIndex, String pId, PatientProvider patientProvider) {
+    if (!_summaryReports.containsKey(tabIndex)) {
+      _summaryReports[tabIndex] = patientProvider.getSummaryReport(context, pId, tabIndex + 1);
+    }
+    return _summaryReports[tabIndex];
   }
 
   @override
@@ -99,8 +106,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                       for (int j = 1; j < 6; j++)
                         SingleChildScrollView(
                           child: FutureBuilder(
-                            future: patientProvider.getSummaryReport(
-                                context, pId, j),
+                            future: _fetchSummaryReport(j - 1,pId,patientProvider),
                             builder: (BuildContext summaryContext,
                                 AsyncSnapshot<SummaryReportResponseModel>
                                     snapshot) {
@@ -135,7 +141,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
+                                              showInfoDialog(context,
                                                   '''What is the Readyness Score?
 
 Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate.
@@ -157,8 +163,11 @@ What Influences your ANS and thus your Readyness Score?''');
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
                                           maximum: _calculateMaxCount(j).toDouble(),
+                                        title: const AxisTitle(text: 'Days'),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'BPM'),
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -215,7 +224,7 @@ What Influences your ANS and thus your Readyness Score?''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context, '''
+                                              showInfoDialog(context, '''
 What resting heart rate is normal?
 
 The heart rate describes the number of measured beats per minute (bpm). A difference is made between:
@@ -240,9 +249,12 @@ The following list shows orientation values for the resting pulse rate depending
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis: NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'ARI'),
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -292,7 +304,7 @@ The following list shows orientation values for the resting pulse rate depending
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
+                                              showInfoDialog(context,
                                                   '''Ratio of Stress towards Relaxation:
 
 Degree of expression of the sympathetic towards the parasympathetic activation.
@@ -308,9 +320,14 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'VLF POWER ms'),
+
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -367,7 +384,7 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
+                                              showInfoDialog(context,
                                                   '''Low Frequency indicates the stress state of the individual.
 
 LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value
@@ -386,9 +403,13 @@ Normal Range: 100-500 ms² (higher values are not good).''');
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'LF POWER ms'),
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -446,7 +467,7 @@ Normal Range: 100-500 ms² (higher values are not good).''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
+                                              showInfoDialog(context,
                                                   '''High Frequency indicates the state of relaxation or the regeneration capacity of the individual.
 
 Normal Range: 100-500 ms2 (higher values are better)''');
@@ -460,9 +481,14 @@ Normal Range: 100-500 ms2 (higher values are better)''');
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'HF POWER ms'),
+
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -520,7 +546,7 @@ Normal Range: 100-500 ms2 (higher values are better)''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context, '''
+                                              showInfoDialog(context, '''
 Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
 
 Normal Range: 1000-2000 ms² (higher values are better).
@@ -535,9 +561,14 @@ Normal Range: 1000-2000 ms² (higher values are better).
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'TOTAL POWER'),
+
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -595,7 +626,7 @@ Normal Range: 1000-2000 ms² (higher values are better).
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
+                                              showInfoDialog(context,
                                                   '''Ratio of Stress towards Relaxation:
 
 Degree of expression of the sympathetic towards the parasympathetic activation.
@@ -610,9 +641,14 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'LF TO HF'),
+
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -670,7 +706,7 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context,
+                                              showInfoDialog(context,
                                                   '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.
 ''');
                                             },
@@ -683,9 +719,14 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'SDRR'),
+
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(
@@ -743,7 +784,7 @@ Normal Range: 0.7-3 (higher values are not good).''');
                                         ),
                                         GestureDetector(
                                             onTap: () {
-                                              showInfoDiog(context, '''
+                                              showInfoDialog(context, '''
 RMSSD is a standard HRV measure analyzing RR-Interval differences.
 Higher values suggest good heart health and fitness.
 Lower values may indicate stress, fatigue, or other factors.
@@ -760,9 +801,14 @@ Normal Range: 20-150 ms (higher values are better).
                                     ),
                                     SfCartesianChart(
                                       primaryXAxis:  NumericAxis(
+                                        title: const AxisTitle(text: 'Days'),
+
                                         maximum: _calculateMaxCount(j).toDouble(),
                                       ),
-                                      primaryYAxis: const NumericAxis(),
+                                      primaryYAxis: const NumericAxis(
+                                        title: const AxisTitle(text: 'RMSSDRR'),
+
+                                      ),
                                       series: <LineSeries<ScatterPoint,
                                           double>>[
                                         LineSeries<ScatterPoint, double>(

@@ -283,7 +283,7 @@ class ProfileProvider extends ChangeNotifier {
       Navigator.pop(context);
       showSuccessToast(context, response.message!);
     } else {
-      showErrorToast(context!, response.message!);
+      showErrorToast(context, response.message!);
     }
   }
 

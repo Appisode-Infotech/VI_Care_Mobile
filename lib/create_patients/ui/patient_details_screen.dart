@@ -16,6 +16,7 @@ import '../../dashboard/provider/devices_provider.dart';
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/routes.dart';
+import '../model/check_request_count_model.dart';
 import '../model/dashboard_count_response_model.dart';
 import '../model/enterprise_response_model.dart';
 import '../model/individual_response_model.dart';
@@ -45,8 +46,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
       builder: (BuildContext context, PatientProvider patientProvider,
           Widget? child) {
         if (!isLoaded) {
-          patientProvider.getIndividualUserData(pId);
-          patientProvider.getEnterpriseUserData(pId);
+          if(prefModel.userData!.roleId==2){
+            patientProvider.getIndividualUserData(pId);
+          }else{
+            patientProvider.getEnterpriseUserData(pId);
+          }
           isLoaded = true;
         }
         return Scaffold(
@@ -622,49 +626,37 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   const SizedBox(width: 5),
                                                   GestureDetector(
                                                     onTap: () async {
-                                                      var bluetoothConnectStatus =
-                                                          await Permission
-                                                              .bluetoothConnect
-                                                              .request();
-                                                      var bluetoothScanStatus =
-                                                          await Permission
-                                                              .bluetoothScan
-                                                              .request();
-                                                      if (bluetoothConnectStatus ==
-                                                              PermissionStatus
-                                                                  .granted &&
-                                                          bluetoothScanStatus ==
-                                                              PermissionStatus
-                                                                  .granted) {
-                                                        showLoaderDialog(
-                                                            context);
-                                                        DeviceResponseModel
-                                                            myDevices =
-                                                            await patientProvider
-                                                                .getMyDevices();
-                                                        DurationResponseModel
-                                                            myDurations =
-                                                            await patientProvider
-                                                                .getAllDuration();
-                                                        Navigator.pop(context);
-                                                        if (myDevices.result !=
-                                                                null &&
-                                                            myDevices.result!
-                                                                .isNotEmpty) {
-                                                          showTestFormBottomSheet(
-                                                              context,
-                                                              myDevices,
-                                                              myDurations,
-                                                              snapshot.data!,
-                                                              null);
-                                                        } else {
-                                                          showErrorToast(
-                                                              context,
-                                                              AppLocale
-                                                                  .notAddedDevice
-                                                                  .getString(
-                                                                      context));
+                                                      CheckRequestCountModel countRes = await patientProvider.checkRequestCount(context,individualPatientData?.result!.id,enterprisePatientData?.result!.id);
+                                                      await patientProvider.checkRequestDuration(context,individualPatientData?.result!.id,enterprisePatientData?.result!.id);
+                                                      if(countRes.result==true){
+                                                        var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+                                                        var bluetoothScanStatus = await Permission.bluetoothScan.request();
+                                                        if (bluetoothConnectStatus ==PermissionStatus.granted && bluetoothScanStatus ==PermissionStatus.granted) {
+                                                          showLoaderDialog(context);
+                                                          DeviceResponseModel
+                                                          myDevices = await patientProvider .getMyDevices();
+                                                          DurationResponseModel myDurations = await patientProvider.getAllDuration();
+                                                          Navigator.pop(context);
+                                                          if (myDevices.result !=null &&
+                                                              myDevices.result!.isNotEmpty) {
+                                                            showTestFormBottomSheet(
+                                                                context,
+                                                                myDevices,
+                                                                myDurations,
+                                                                snapshot.data!,
+                                                                null);
+                                                          } else
+                                                          {
+                                                            showErrorToast(
+                                                                context,
+                                                                AppLocale
+                                                                    .notAddedDevice
+                                                                    .getString(
+                                                                    context));
+                                                          }
                                                         }
+                                                      }else{
+                                                        showErrorToast(context, countRes.message!);
                                                       }
                                                     },
                                                     // if (myDevices

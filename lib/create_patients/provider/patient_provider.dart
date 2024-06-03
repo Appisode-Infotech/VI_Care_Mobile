@@ -14,6 +14,7 @@ import '../../main.dart';
 import '../../network/api_calls.dart';
 import '../model/all_enterprise_users_response_model.dart';
 import '../model/all_patients_response_model.dart';
+import '../model/check_request_count_model.dart';
 import '../model/dashboard_count_response_model.dart';
 import '../model/enterprise_response_model.dart';
 import '../model/state_master_response_model.dart';
@@ -459,6 +460,14 @@ class PatientProvider extends ChangeNotifier {
     if (countryMasterResponse!.result!.isEmpty) {
       showErrorToast(context, countryMasterResponse!.message.toString());
     }
+  }
+
+  Future<CheckRequestCountModel> checkRequestCount(BuildContext context, int? individualId, int? enterpriseId) async {
+    return await apiCalls.checkRequestCount(context,individualId,enterpriseId);
+  }
+
+  checkRequestDuration(BuildContext context, int? individualId, int? enterpriseId) async {
+    return await apiCalls.checkRequestDuration(context,individualId,enterpriseId);
   }
 
 }

@@ -258,10 +258,10 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
                                 axes: <RadialAxis>[
                                   RadialAxis(minimum: 0, maximum: 100,
                                       ranges: <GaugeRange>[
-                                        GaugeRange(startValue: 0, endValue: 25, color:Colors.orange),
-                                        GaugeRange(startValue: 25,endValue: 50,color: Colors.yellow),
-                                        GaugeRange(startValue: 50,endValue: 75,color: Colors.blue),
-                                        GaugeRange(startValue: 75,endValue: 100,color: Colors.green)],
+                                        GaugeRange(startValue: 0, endValue: 25, color:Colors.orange,label: 'Very Low',labelStyle: const GaugeTextStyle(fontWeight: FontWeight.bold),),
+                                        GaugeRange(startValue: 25,endValue: 50,color: Colors.yellow,label: 'Low',labelStyle: const GaugeTextStyle(fontWeight: FontWeight.bold),),
+                                        GaugeRange(startValue: 50,endValue: 75,color: Colors.blue,label: 'Moderate',labelStyle: const GaugeTextStyle(fontWeight: FontWeight.bold),),
+                                        GaugeRange(startValue: 75,endValue: 100,color: Colors.green,label: 'High',labelStyle: const GaugeTextStyle(fontWeight: FontWeight.bold),)],
                                       pointers:  <GaugePointer>[
                                         NeedlePointer(
                                           value: double.parse(processedData.ari!),
@@ -272,7 +272,7 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
                                       ],
                                       annotations:  <GaugeAnnotation>[
                                         GaugeAnnotation(
-                                            widget: Text(double.parse(processedData.ari!).toStringAsFixed(0),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
+                                            widget: Text(double.parse(processedData.ari!).toStringAsFixed(0),style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
                                             angle: 90, positionFactor: 0.5
                                         )]
                                   )])
@@ -435,7 +435,7 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
                                     right: 0,
                                     child: GestureDetector(
                                       onTap: () {
-                                        showInfoDiog(context,"${additionalInfo[index]['description']}");
+                                        showInfoDialog(context,"${additionalInfo[index]['description']}");
                                       },
                                       child: const Icon(Icons.info_outline),
                                     ),

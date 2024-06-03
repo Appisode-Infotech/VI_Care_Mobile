@@ -180,6 +180,7 @@ class TakeTestProvider extends ChangeNotifier {
               actions: [
                 TextButton(
                     onPressed: () {
+                      serialNumberController.clear();
                       Navigator.pop(dialogContext);
                       Navigator.pop(oldContext);
                     },
@@ -243,9 +244,15 @@ class TakeTestProvider extends ChangeNotifier {
       await flutterBlue.startScan(timeout: const Duration(seconds: 5));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult result in results) {
-          if (!leDevices.contains(result.device) &&
-              result.device.type == BluetoothDeviceType.le) {
-            leDevices.add(result.device);
+          final manufacturerData = result.advertisementData.manufacturerData;
+          const companyId = 65292; // This is the company identifier for your device
+
+          // Check if manufacturer data contains the desired company identifier
+          if (manufacturerData.containsKey(companyId)) {
+            if (!leDevices.contains(result.device) &&
+                result.device.type == BluetoothDeviceType.le) {
+              leDevices.add(result.device);
+            }
           }
         }
       });

@@ -575,7 +575,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
 
-                                const Text("Height (Cms)",
+                                const Text("Height (Metres)",
                                     style: TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
