@@ -34,6 +34,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
           Widget? child) {
         if(isFirstLoading){
           reportDetails  = takeTestProvider.getReportDetails(requestDeviceDataId, context);
+          isFirstLoading = false;
         }
         return Scaffold(
           backgroundColor: Colors.white,
