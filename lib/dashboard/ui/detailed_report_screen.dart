@@ -92,10 +92,10 @@ Impact of training loads and recovery can be derived from RMSSD.
 Normal Range: 20-150 ms (higher values are better).
           '''},
                   {"name": "SDRR", "value": processedData.sdrr,"description":'''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.'''},
-                  {"name": "TP", "value": processedData.totalPower,"description":'''
-Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
-
-Normal Range: 1000-2000 ms² (higher values are better).'''},
+//                   {"name": "TP", "value": processedData.totalPower,"description":'''
+// Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
+//
+// Normal Range: 1000-2000 ms² (higher values are better).'''},
                   {"name": "VLF", "value": processedData.vlfPowerMs,"description":'''Ratio of Stress towards Relaxation:
 
 Degree of expression of the sympathetic towards the parasympathetic activation.

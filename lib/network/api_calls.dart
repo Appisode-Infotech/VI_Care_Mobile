@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -286,6 +285,7 @@ class ApiCalls {
     request.fields['height'] = height;
     request.fields['weight'] = weight;
     request.fields['UserId'] = prefModel.userData!.id.toString();
+    print(request.fields);
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -1058,15 +1058,12 @@ class ApiCalls {
   checkRequestDuration(BuildContext context, int? individualId, int? enterpriseId) async {
     String url = prefModel.userData!.roleId==2?"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?individualProfileId=$individualId":"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
     http.Response response = await hitApiGet(true, url);
-    print(response.body);
-    log(response.body);
-    print(url);
-    print(prefModel.userData!.token);
-    // if (response.statusCode == 200) {
-    //   return CheckRequestCountModel.fromJson(json.decode(response.body));
-    // } else {
-    //   showErrorToast(context, "Something went wrong");
-    //   throw "could not get the states ${response.statusCode}";
-    // }
+    if (response.statusCode == 200) {
+      return CheckRequestCountModel.fromJson(json.decode(response.body));
+    } else {
+      showErrorToast(context, "Something went wrong");
+      throw "could not get the states ${response.statusCode}";
+    }
   }
+
 }
