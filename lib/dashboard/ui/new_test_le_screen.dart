@@ -565,6 +565,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
               "created": DateTime.now().toIso8601String()
               // Convert DateTime to String
             });
+        Navigator.pop(context);
       }
     }
   }

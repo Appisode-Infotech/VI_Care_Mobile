@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:vicare/main.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
@@ -165,6 +166,44 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       children: [
         Text(AppLocale.enterOtp.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          enabled: false,
+          initialValue: prefModel.userData!.email,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocale.validOtp.getString(context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.otp.getString(context),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(
+                color: Colors.red, overflow: TextOverflow.ellipsis),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            errorMaxLines: 2,
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
         const SizedBox(
           height: 10,
         ),

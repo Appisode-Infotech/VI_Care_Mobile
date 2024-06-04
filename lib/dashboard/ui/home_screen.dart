@@ -62,8 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 8,
                 ),
                 Text(
-                    "${prefModel.userData!.contact!.firstName} ${prefModel.userData!.contact!.lastName}",
+                    "${prefModel.userData!.contact!.firstName} ${prefModel.userData!.contact!.lastName} - ",
                     style: const TextStyle(color: Colors.white)),
+                Text(
+                    '(${prefModel.userData!.role!.name!})',
+                    style: const TextStyle(color: Colors.white,fontSize: 14)),
               ],
             ),
             const SizedBox(

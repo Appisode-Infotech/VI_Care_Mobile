@@ -33,7 +33,9 @@ class _ReportScreenState extends State<ReportScreen> {
         ),
         backgroundColor: AppColors.primaryColor,
         toolbarHeight: 75,
-        automaticallyImplyLeading: false,
+        iconTheme: const IconThemeData(
+          color: Colors.white, //change your color here
+        ),
       ),
       body: Consumer(
         builder: (BuildContext context, TakeTestProvider takeTestProvider,
@@ -90,9 +92,9 @@ class _ReportScreenState extends State<ReportScreen> {
                             Icons.arrow_drop_down,
                             color: Colors.white,
                           ),
-                          hint: Text(
+                          hint: const Text(
                             "All Time",
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
                             ),
@@ -123,7 +125,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           },
                           items: <String>[
                             "All Reports",
-                            "New",
+                            // "New",
                             "In Progress",
                             "Success",
                             "Fail",
