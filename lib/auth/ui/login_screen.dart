@@ -26,6 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
       builder:
           (BuildContext context, AuthProvider authProvider, Widget? child) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.scaffoldColor,
+          ),
           body: SafeArea(
             child: Form(
               key: authProvider.loginFormKey,
@@ -40,16 +43,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              size: 25,
-                            ),
-                          ),
-                          const SizedBox(height: 15),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.pop(context);
+                          //   },
+                          //   child: const Icon(
+                          //     Icons.arrow_back_ios,
+                          //     size: 25,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 15),
                           const Image(
                             image: AssetImage("assets/images/logo.png"),
                             width: 150,

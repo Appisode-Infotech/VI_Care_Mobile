@@ -38,27 +38,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
       builder:
           (BuildContext context, AuthProvider authProvider, Widget? child) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.scaffoldColor,
+          ),
           body: Form(
             key: authProvider.registerFormKey,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Non-scrollable part
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 80, left: 20, right: 20, bottom: 20),
+                      top: 20, left: 20, right: 20, bottom: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back_ios,
-                          size: 25,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.pop(context);
+                      //   },
+                      //   child: const Icon(
+                      //     Icons.arrow_back_ios,
+                      //     size: 25,
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 10),
                       Text(
                         _getHeading(currentStep),
                         style: const TextStyle(

@@ -35,26 +35,29 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.forgotPageContext = context;
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.scaffoldColor,
+          ),
           body: Form(
             key: authProvider.forgotPasswordFormKey,
             child: SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 80, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 25,
-                        weight: 45,
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    //   child: const Icon(
+                    //     Icons.arrow_back_ios,
+                    //     size: 25,
+                    //     weight: 45,
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 10,
                     ),
