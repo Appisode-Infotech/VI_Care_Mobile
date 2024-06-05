@@ -242,6 +242,9 @@ class IndividualProfile {
   String? firstName;
   String? lastName;
   String? email;
+  String? bmi;
+  String? height;
+  String? weight;
   bool? isSelf;
   int? contactId;
   dynamic contact;
@@ -256,6 +259,9 @@ class IndividualProfile {
     this.firstName,
     this.lastName,
     this.email,
+    this.bmi,
+    this.height,
+    this.weight,
     this.isSelf,
     this.contactId,
     this.contact,
@@ -271,6 +277,9 @@ class IndividualProfile {
     firstName: json["firstName"],
     lastName: json["lastName"],
     email: json["email"],
+    bmi: json["bmi"].toString(),
+    height: json["height"].toString(),
+    weight: json["weight"].toString(),
     isSelf: json["isSelf"],
     contactId: json["contactId"],
     contact: json["contact"],
@@ -286,6 +295,9 @@ class IndividualProfile {
     "firstName": firstName,
     "lastName": lastName,
     "email": email,
+    "bmi": bmi,
+    "height": height,
+    "weight": weight,
     "isSelf": isSelf,
     "contactId": contactId,
     "contact": contact,

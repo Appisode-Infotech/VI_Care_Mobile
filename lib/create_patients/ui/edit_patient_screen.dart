@@ -347,6 +347,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 },
                                 controller:
                                     patientProvider.editPatientMobileController,
+                                maxLength: 10,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
