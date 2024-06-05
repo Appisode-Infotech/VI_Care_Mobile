@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool eligibleToLoad  =  true;
   @override
   Widget build(BuildContext context) {
+    print(prefModel.userData!.token);
     return Consumer(
       builder: (BuildContext context, ProfileProvider profileProvider,
           Widget? child) {
@@ -623,7 +624,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text("V 1.1.0", style: TextStyle(
+                      const Text("V 1.1.1", style: TextStyle(
                           color: Colors.grey),),
                       const SizedBox(
                         height: 20,

@@ -610,7 +610,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
 
 
-        const Text("Height",
+        const Text("Height (Meters)",
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -620,7 +620,6 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.heightController,
           keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -646,7 +645,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
 
-        const Text("Weight",
+        const Text("Weight (Kgs)",
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -656,7 +655,6 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.weightController,
           keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,

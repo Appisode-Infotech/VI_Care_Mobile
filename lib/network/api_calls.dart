@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -253,7 +254,9 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
-      return RegisterResponseModel.fromJson(json.decode(response.body));
+      log(response.body);
+      return RegisterResponseModel.fromJson
+        (json.decode(response.body));
     } else {
       Navigator.pop(buildContext);
       showErrorToast(buildContext, "Something went wrong");
@@ -947,12 +950,11 @@ class ApiCalls {
         showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
         throw "could not fetch Data ${response.statusCode}";
       } else if (response.statusCode == 401) {
-        showErrorToast(context, "Invalid Data");
-        final String jsonString = json.encode(jsonData);
-        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
-        prefModel.offlineSavedTests!.add(testDetails);
-        await AppPref.setPref(prefModel);
-        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
+        // final String jsonString = json.encode(jsonData);
+        // OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        // prefModel.offlineSavedTests!.add(testDetails);
+        // await AppPref.setPref(prefModel);
+        // showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
         throw 'Unauthorized';
       } else {
         final String jsonString = json.encode(jsonData);
