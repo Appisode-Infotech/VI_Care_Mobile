@@ -227,7 +227,6 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
-      log(response.body);
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       Navigator.pop(buildContext);
@@ -463,8 +462,6 @@ class ApiCalls {
     request.fields['Contact.Address.Id'] = addressId;
     request.fields['Contact.Address.CountryId'] = editCountryId;
     request.fields['Contact.Address.StateId'] = editStateId;
-    print(request.fields);
-
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
       var length = await patientPic.length();
@@ -484,9 +481,6 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-
-     log(responseJson.toString());
-
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);

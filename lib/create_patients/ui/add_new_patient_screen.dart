@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
@@ -375,6 +376,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             if (value!.isEmpty) {
               return AppLocale.validEmail.getString(context);
             }
+            if (patientProvider.isNotValidEmail(value)) {
+              return AppLocale.validEmail.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.emailAddress,
@@ -433,7 +437,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                       );
                       setState(() {
                         patientProvider.addNewPatientDobController.text =
-                            "${picked!.year}-${picked.month}-${picked.day}";
+                            // "${picked!.year}-${picked.month}-${picked.day}";
+                        DateFormat('yyyy-MM-dd').format(picked!);
                       });
                     },
                     child: TextFormField(

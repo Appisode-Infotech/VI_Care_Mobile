@@ -177,6 +177,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
             }
+            if (profileProvider.isNotValidEmail(value)) {
+              return AppLocale.validEmail.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.number,
