@@ -275,7 +275,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
-            if (value!.isEmpty) {
+            if (value!.trim().isEmpty) {
               return AppLocale.validLastName.getString(context);
             }
             return null;
@@ -428,7 +428,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                       final DateTime? picked = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1026),
+                        firstDate: DateTime(1900),
                         lastDate: DateTime.now(),
                       );
                       setState(() {

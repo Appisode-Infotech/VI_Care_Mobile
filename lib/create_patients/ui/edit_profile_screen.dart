@@ -187,7 +187,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                         ],
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return AppLocale.validFirstName.getString(context);
                           }
                           // Additional validation if needed
@@ -241,7 +241,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                         ],
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return AppLocale.validLastName.getString(context);
                           }
                           return null;
@@ -523,7 +523,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
-                                      firstDate: DateTime(1026),
+                                      firstDate: DateTime(1900),
                                       lastDate: DateTime.now(),
                                     );
                                     setState(() {

@@ -456,7 +456,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                 await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime(1026),
+                                                  firstDate: DateTime(1900),
                                               lastDate: DateTime.now(),
                                             );
                                             setState(() {
@@ -1269,7 +1269,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return AppLocale.validFirstName
                                         .getString(context);
                                   }
@@ -1328,7 +1328,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return AppLocale.validLastName
                                         .getString(context);
                                   }
@@ -1500,7 +1500,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                 await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime(1026),
+                                                  firstDate: DateTime(1900),
                                               lastDate: DateTime.now(),
                                             );
                                             setState(() {

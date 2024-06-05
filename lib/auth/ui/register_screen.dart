@@ -562,7 +562,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')), // Allow only letters and spaces
           ],
           validator: (value) {
-            if (value!.isEmpty) {
+            if (value!.trim().isEmpty) {
               return AppLocale.validFirstName.getString(context);
             }
             // Additional validation if needed
@@ -855,7 +855,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       final DateTime? picked = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1026),
+                        firstDate: DateTime(1900),
                         lastDate: DateTime.now(),
                       );
                       if(picked!=null){
