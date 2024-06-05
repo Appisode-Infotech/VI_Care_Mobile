@@ -74,7 +74,9 @@ class NewTestLeProvider extends ChangeNotifier {
         userId: prefModel.userData!.id,
         roleId: prefModel.userData!.roleId,
         pId: pId,
-        uploadFile: payload);
+        uploadFile: payload,
+      jsonData:jsonData
+    );
     Navigator.pop(dataContext);
     if (response.result != null) {
       showSuccessToast(dataContext, AppLocale.testSuccessSendHRV.getString(dataContext));

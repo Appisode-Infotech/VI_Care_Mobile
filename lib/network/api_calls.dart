@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:vicare/auth/model/refresh_token_response_model.dart';
@@ -30,8 +31,10 @@ import '../create_patients/model/dashboard_count_response_model.dart';
 import '../dashboard/model/detailed_report_ddf_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
+import '../dashboard/model/offline_test_model.dart';
 import '../dashboard/model/summary_report_response_model.dart';
 import '../main.dart';
+import '../utils/app_locale.dart';
 import '../utils/url_constants.dart';
 
 String platform = Platform.isIOS ? "IOS" : "Android";
@@ -895,7 +898,7 @@ class ApiCalls {
     int? userId,
     int? roleId,
     String? pId,
-    required File uploadFile,
+    required File uploadFile, required Map<String, Object?> jsonData,
   }) async {
     Future<DeviceDataResponseModel> sendRequest() async {
       var request = http.MultipartRequest(
@@ -937,13 +940,28 @@ class ApiCalls {
         return DeviceDataResponseModel.fromJson(responseJson);
       } else if (response.statusCode == 400) {
         showErrorToast(context, "Invalid Data");
+        final String jsonString = json.encode(jsonData);
+        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        prefModel.offlineSavedTests!.add(testDetails);
+        await AppPref.setPref(prefModel);
+        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
         throw "could not fetch Data ${response.statusCode}";
       } else if (response.statusCode == 401) {
         showErrorToast(context, "Invalid Data");
+        final String jsonString = json.encode(jsonData);
+        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        prefModel.offlineSavedTests!.add(testDetails);
+        await AppPref.setPref(prefModel);
+        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
         throw 'Unauthorized';
       } else {
+        final String jsonString = json.encode(jsonData);
+        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        prefModel.offlineSavedTests!.add(testDetails);
+        await AppPref.setPref(prefModel);
         Navigator.pop(context);
         showErrorToast(context, "Something went wrong");
+        showSuccessToast(context, AppLocale.testSavedOffline.getString(context));
         throw "could not fetch data ${response.statusCode}";
       }
     }
