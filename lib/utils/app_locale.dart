@@ -499,7 +499,7 @@ mixin AppLocale {
     upload: "Upload",
     saveOffline: "Save offline",
     testCompleted: "Test completed",
-    testSavedOffline: "Test saved offline",
+    testSavedOffline: "Could not upload ! Test saved offline",
     testDiscarded: "Test discarded",
     somethingWentWrong: "Something went wrong could not form data",
     testCompletedSuccessful: "Test completed successfully. What do you want to do now?",

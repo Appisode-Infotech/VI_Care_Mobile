@@ -183,8 +183,8 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                                   .offlineSavedTests![index]
                                                   .myRoleId ==
                                               2
-                                          ? '${prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture!.url}'
-                                          : '${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture!.url}'),
+                                          ? '${prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture?.url}'
+                                          : '${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture?.url}'),
                                       radius: 30,
                                     ),
                                     const SizedBox(

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -60,36 +61,49 @@ class NewTestLeProvider extends ChangeNotifier {
   }
 
   requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId, Map<String, Object?> jsonData) async {
-    DeviceDataResponseModel response = await apiCalls.requestDeviceData(
-        context: dataContext,
-        details: "abc",
-        fileType: "1",
-        durationName: durationName,
-        deviceSerialNumber: deviceSerialNo!,
-        ipAddress: "192.168.0.1",
-        userAndDeviceId: userAndDeviceId.toString(),
-        subscriberGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        deviceId: deviceId,
-        durationId: durationId,
-        userId: prefModel.userData!.id,
-        roleId: prefModel.userData!.roleId,
-        pId: pId,
-        uploadFile: payload,
-      jsonData:jsonData
-    );
-    Navigator.pop(dataContext);
-    if (response.result != null) {
-      showSuccessToast(dataContext, AppLocale.testSuccessSendHRV.getString(dataContext));
-    }else{
-      showErrorToast(dataContext, response.message!);
-            final String jsonString = json.encode(jsonData);
-            OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
-            prefModel.offlineSavedTests!.add(testDetails);
-            await AppPref.setPref(prefModel);
-            showSuccessToast(dataContext,
-                AppLocale.testSavedOffline.getString(dataContext));
-            // Navigator.pop(dataContext);
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      // Mobile data or WiFi detected
+      DeviceDataResponseModel response = await apiCalls.requestDeviceData(
+          context: dataContext,
+          details: "abc",
+          fileType: "1",
+          durationName: durationName,
+          deviceSerialNumber: deviceSerialNo!,
+          ipAddress: "192.168.0.1",
+          userAndDeviceId: userAndDeviceId.toString(),
+          subscriberGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          deviceId: deviceId,
+          durationId: durationId,
+          userId: prefModel.userData!.id,
+          roleId: prefModel.userData!.roleId,
+          pId: pId,
+          uploadFile: payload,
+          jsonData:jsonData
+      );
+      Navigator.pop(dataContext);
+      if (response.result != null) {
+        showSuccessToast(dataContext, AppLocale.testSuccessSendHRV.getString(dataContext));
+      }else{
+        showErrorToast(dataContext, response.message!);
+        final String jsonString = json.encode(jsonData);
+        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        prefModel.offlineSavedTests!.add(testDetails);
+        await AppPref.setPref(prefModel);
+        showSuccessToast(dataContext,
+            AppLocale.testSavedOffline.getString(dataContext));
+        // Navigator.pop(dataContext);
+      }
+    } else {
+      final String jsonString = json.encode(jsonData);
+      OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+      prefModel.offlineSavedTests!.add(testDetails);
+      await AppPref.setPref(prefModel);
+      Navigator.pop(dataContext);
+      showSuccessToast(dataContext, AppLocale.testSavedOffline.getString(dataContext));
     }
+
   }
 
 }
