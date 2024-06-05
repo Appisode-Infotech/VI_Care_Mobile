@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
 
@@ -341,6 +342,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             return AppLocale.validEmail
                                 .getString(context);
                           }
+                          if (profileProvider.isNotValidEmail(value)) {
+                            return AppLocale.validEmail.getString(context);
+                          }
                           return null;
                         },
                         controller:
@@ -528,7 +532,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     );
                                     setState(() {
                                       profileProvider.editProfileDobController.text =
-                                      "${picked!.day} - ${picked.month} - ${picked.year}";
+                                      // "${picked!.day} - ${picked.month} - ${picked.year}";
+                                      DateFormat('dd-MM-yyyy').format(picked!);
                                     });
                                   },
                                   child: TextFormField(

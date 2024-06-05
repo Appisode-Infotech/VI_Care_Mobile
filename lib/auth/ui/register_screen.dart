@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:vicare/auth/auth_provider.dart';
@@ -861,7 +862,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if(picked!=null){
                         setState(() {
                           authProvider.registerDobController.text =
-                          "${picked.year}-${picked.month}-${picked.day}";
+                          // "${picked.year}-${picked.month}-${picked.day}";
+                          DateFormat('yyyy-MM-dd').format(picked!);
                         });
                       }
                     },

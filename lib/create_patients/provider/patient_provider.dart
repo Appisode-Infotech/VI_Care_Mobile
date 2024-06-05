@@ -136,6 +136,13 @@ class PatientProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isNotValidEmail(String email) {
+    const emailRegex =
+        r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$';
+    final regExp = RegExp(emailRegex);
+    return !regExp.hasMatch(email);
+  }
+
   int calculateAge(String dateOfBirthString) {
     DateTime dateOfBirth = DateTime.parse(dateOfBirthString).toUtc();
     DateTime currentDate = DateTime.now().toUtc();

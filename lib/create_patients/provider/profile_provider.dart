@@ -12,7 +12,6 @@ import '../../auth/model/send_otp_response_model.dart';
 import '../../database/app_pref.dart';
 import '../../main.dart';
 import '../../network/api_calls.dart';
-import '../../utils/routes.dart';
 import '../model/state_master_response_model.dart';
 
 class ProfileProvider extends ChangeNotifier {
@@ -27,6 +26,13 @@ class ProfileProvider extends ChangeNotifier {
     } else {
       return true;
     }
+  }
+
+  bool isNotValidEmail(String email) {
+    const emailRegex =
+        r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$';
+    final regExp = RegExp(emailRegex);
+    return !regExp.hasMatch(email);
   }
 
   bool isStrongPassword(String password) {

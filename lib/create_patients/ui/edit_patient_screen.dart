@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
@@ -396,6 +397,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     return AppLocale.validEmail
                                         .getString(context);
                                   }
+                                  if (patientProvider.isNotValidEmail(value)) {
+                                    return AppLocale.validEmail.getString(context);
+                                  }
                                   return null;
                                 },
                                 controller:
@@ -463,7 +467,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                               patientProvider
                                                       .editPatientDobController
                                                       .text =
-                                                  "${picked!.year} - ${picked.month} - ${picked.day}";
+                                                  // "${picked!.year} - ${picked.month} - ${picked.day}";
+                                              DateFormat('yyyy-MM-dd').format(picked!);
                                             });
                                           },
                                           child: TextFormField(
@@ -1440,6 +1445,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     return AppLocale.validEmail
                                         .getString(context);
                                   }
+                                  if (patientProvider.isNotValidEmail(value)) {
+                                    return AppLocale.validEmail.getString(context);
+                                  }
                                   return null;
                                 },
                                 controller:
@@ -1507,7 +1515,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                               patientProvider
                                                       .editPatientDobController
                                                       .text =
-                                                  "${picked!.year} - ${picked.month} - ${picked.day}";
+                                                  // "${picked!.year} - ${picked.month} - ${picked.day}";
+                                              DateFormat('yyyy-MM-dd').format(picked!);
+
                                             });
                                           },
                                           child: TextFormField(
