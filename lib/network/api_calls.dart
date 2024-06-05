@@ -1073,4 +1073,14 @@ class ApiCalls {
     }
   }
 
+  Future<RegisterResponseModel>getUserByGuid() async {
+    http.Response response = await hitApiGet(true, "${UrlConstants.getUserByGuid}${prefModel.userData!.uniqueGuid}");
+    if (response.statusCode == 200) {
+      print(response.body);
+      return RegisterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw "could not get the userdata ${response.statusCode}";
+    }
+  }
+
 }

@@ -98,6 +98,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         "enterPriseUserData": enterprisePatientData
                       }).then((value) {
                     setState(() {
+                      patientProvider.getUserDetails();
                       isLoaded = false;
                     });
                     return null;

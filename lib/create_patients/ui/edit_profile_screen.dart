@@ -527,8 +527,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       lastDate: DateTime.now(),
                                     );
                                     setState(() {
-                                      profileProvider
-                                          .editProfileDobController.text =
+                                      profileProvider.editProfileDobController.text =
                                       "${picked!.day} - ${picked.month} - ${picked.year}";
                                     });
                                   },
