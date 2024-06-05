@@ -5,8 +5,10 @@ import 'package:vicare/create_patients/model/add_individual_profile_response_mod
 import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/dashboard/model/summary_report_response_model.dart';
+import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../../auth/model/register_response_model.dart';
 import '../../dashboard/model/device_response_model.dart';
 import '../../dashboard/model/duration_response_model.dart';
 import '../../dashboard/model/my_reports_response_model.dart';
@@ -299,7 +301,8 @@ class PatientProvider extends ChangeNotifier {
         }
       }
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
-    } else {
+    } else
+    {
       editPatientDobController.text =
           "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
@@ -533,5 +536,13 @@ class PatientProvider extends ChangeNotifier {
       BuildContext context, int? individualId, int? enterpriseId) async {
     return await apiCalls.checkRequestDuration(
         context, individualId, enterpriseId);
+  }
+
+  Future<RegisterResponseModel>? getUserDetails() async {
+    RegisterResponseModel a = await apiCalls.getUserByGuid();
+    prefModel.userData!.contact!.firstName = a.result!.contact!.firstName;
+    prefModel.userData!.contact!.lastName = a.result!.contact!.lastName;
+    AppPref.setPref(prefModel);
+    return a;
   }
 }

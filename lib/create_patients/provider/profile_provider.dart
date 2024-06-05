@@ -134,10 +134,6 @@ class ProfileProvider extends ChangeNotifier {
             : "Do not wish to specify";
 
     Navigator.pop(context);
-    Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
-      notifyListeners();
-      return null;
-    });
   }
 
   final editProfileFormKey = GlobalKey<FormState>();
@@ -206,7 +202,7 @@ class ProfileProvider extends ChangeNotifier {
         editProfileBloodGroup!,
         editProfileGender!,
         editProfileDobController.text,
-        editProfileSelectedImage!,
+        editProfileSelectedImage,
         editProfilePageContext!,
         prefModel.userData!.id,
         prefModel.userData!.contactId,
@@ -302,5 +298,13 @@ class ProfileProvider extends ChangeNotifier {
     if (countryMasterResponse!.result!.isEmpty) {
       showErrorToast(context, countryMasterResponse!.message.toString());
     }
+  }
+
+  Future<RegisterResponseModel>? getUserProfile() async {
+    RegisterResponseModel a = await apiCalls.getUserByGuid();
+    prefModel.userData!.contact!.firstName = a.result!.contact!.firstName;
+    prefModel.userData!.contact!.lastName = a.result!.contact!.lastName;
+    AppPref.setPref(prefModel);
+    return a;
   }
 }

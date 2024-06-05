@@ -28,4 +28,6 @@ class UrlConstants {
   static const String getAllReportsByUserId = "${apiBaseUrl}ResponseReport/GetAllReportsByUserId";
   static const String getSummaryReport = "${apiBaseUrl}MResponseReport/GetSummaryReport";
   static const String getCountryMaster = "${apiBaseUrl}Country";
+  static const String getUserByGuid = "${apiBaseUrl}User/GetByGuid/";
+
 }
