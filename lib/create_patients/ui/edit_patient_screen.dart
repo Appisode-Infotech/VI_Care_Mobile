@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -1604,6 +1603,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 value: patientProvider.editPatientGender,
                                 onChanged: (String? value) {
                                   setState(() {
+                                    patientProvider.editPatientGender = value;
                                     patientProvider.selectedGender = value ==
                                             "Male"
                                         ? 1
