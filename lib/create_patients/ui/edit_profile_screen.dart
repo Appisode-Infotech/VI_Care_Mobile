@@ -169,7 +169,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           Text(AppLocale.firstName.getString(context),
                               style: const TextStyle(fontWeight: FontWeight.w600)),
-                          Text(
+                          const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
                           ),
@@ -224,7 +224,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           Text(AppLocale.lastName.getString(context),
                               style: const TextStyle(fontWeight: FontWeight.w600)),
-                          Text(
+                          const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
                           ),
@@ -277,7 +277,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           Text(AppLocale.contactNumber.getString(context),
                               style: const TextStyle(fontWeight: FontWeight.w600)),
-                          Text(
+                          const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
                           ),
@@ -350,7 +350,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           fillColor: Colors.white,
                           filled: true,
                           hintText: AppLocale.email.getString(context),
-                          hintStyle: TextStyle(color: Colors.black),
+                          hintStyle: const TextStyle(color: Colors.black),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle:
@@ -377,7 +377,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           Text(AppLocale.bloodGroup.getString(context),
                               style: const TextStyle(fontWeight: FontWeight.w600)),
-                          Text(
+                          const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
                           ),
@@ -441,7 +441,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: [
                           Text(AppLocale.gender.getString(context),
                               style: const TextStyle(fontWeight: FontWeight.w600)),
-                          Text(
+                          const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
                           ),
@@ -508,7 +508,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Text(AppLocale.dateOfBirth.getString(context),
                                         style: const TextStyle(fontWeight: FontWeight.w600)),
-                                    Text(
+                                    const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
                                     ),
@@ -529,7 +529,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     setState(() {
                                       profileProvider
                                           .editProfileDobController.text =
-                                      "${picked!.year} - ${picked.month} - ${picked.day}";
+                                      "${picked!.day} - ${picked.month} - ${picked.year}";
                                     });
                                   },
                                   child: TextFormField(
@@ -652,7 +652,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Text(AppLocale.country.getString(context),
                                         style: const TextStyle(fontWeight: FontWeight.w600)),
-                                    Text(
+                                    const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
                                     ),
@@ -709,7 +709,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Text(AppLocale.state.getString(context),
                                         style: const TextStyle(fontWeight: FontWeight.w600)),
-                                    Text(
+                                    const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
                                     ),
@@ -913,7 +913,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Text(AppLocale.city.getString(context),
                                         style: const TextStyle(fontWeight: FontWeight.w600)),
-                                    Text(
+                                    const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
                                     ),
@@ -967,9 +967,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(AppLocale.pinCode.getString(context),
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
+                                Row(
+                                  children: [
+                                    Text(AppLocale.pinCode.getString(context),
+                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    const Text(
+                                      ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),

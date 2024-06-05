@@ -206,7 +206,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.firstName.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -223,7 +223,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
-            if (value!.isEmpty) {
+            if (value!.trim().isEmpty) {
               return AppLocale.validFirstName.getString(context);
             }
             return null;
@@ -258,7 +258,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.lastName.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -310,7 +310,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.mobile.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -359,7 +359,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.email.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -414,7 +414,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                     children: [
                       Text(AppLocale.dateOfBirth.getString(context),
                           style: const TextStyle(fontWeight: FontWeight.w600)),
-                      Text(
+                      const Text(
                         ' *',
                         style: TextStyle(color: Colors.red),
                       ),
@@ -491,7 +491,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.gender.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -552,7 +552,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.bloodGroup.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -682,7 +682,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.country.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -739,7 +739,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.state.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -919,7 +919,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           children: [
             Text(AppLocale.city.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -965,8 +965,16 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-         Text(AppLocale.pinCode.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.pinCode.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            const Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),

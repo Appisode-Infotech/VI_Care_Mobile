@@ -213,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 Text(AppLocale.email.getString(context),
                     style: const TextStyle(fontWeight: FontWeight.w600)),
-                Text(
+                const Text(
                   ' *',
                   style: TextStyle(color: Colors.red),
                 ),
@@ -263,7 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 Text(AppLocale.password.getString(context),
                     style: const TextStyle(fontWeight: FontWeight.w600)),
-                Text(
+                const Text(
                   ' *',
                   style: TextStyle(color: Colors.red),
                 ),
@@ -331,7 +331,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 Text(AppLocale.registerAs.getString(context),
                     style: const TextStyle(fontWeight: FontWeight.w600)),
-                Text(
+                const Text(
                   ' *',
                   style: TextStyle(color: Colors.red),
                 ),
@@ -545,7 +545,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.firstName.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -600,7 +600,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.lastName.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -656,7 +656,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.contactNumber.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -710,7 +710,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.bloodGroup.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -766,7 +766,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.gender.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -841,7 +841,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Text(AppLocale.dateOfBirth.getString(context),
                           style: const TextStyle(fontWeight: FontWeight.w600)),
-                      Text(
+                      const Text(
                         ' *',
                         style: TextStyle(color: Colors.red),
                       ),
@@ -992,7 +992,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.country.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -1049,7 +1049,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.state.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -1226,7 +1226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Text(AppLocale.city.getString(context),
                 style: const TextStyle(fontWeight: FontWeight.w600)),
-            Text(
+            const Text(
               ' *',
               style: TextStyle(color: Colors.red),
             ),
@@ -1272,8 +1272,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-         Text(AppLocale.pinCode.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(AppLocale.pinCode.getString(context),
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            const Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         ),

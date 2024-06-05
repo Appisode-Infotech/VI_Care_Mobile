@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -226,6 +227,7 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
+      log(response.body);
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       Navigator.pop(buildContext);
@@ -461,6 +463,7 @@ class ApiCalls {
     request.fields['Contact.Address.Id'] = addressId;
     request.fields['Contact.Address.CountryId'] = editCountryId;
     request.fields['Contact.Address.StateId'] = editStateId;
+    print(request.fields);
 
     if (patientPic != null) {
       var picStream = http.ByteStream(patientPic.openRead());
@@ -481,6 +484,9 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
+
+     log(responseJson.toString());
+
       return AddIndividualProfileResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 401) {
       Navigator.pop(context!);
@@ -1057,6 +1063,7 @@ class ApiCalls {
 
   checkRequestDuration(BuildContext context, int? individualId, int? enterpriseId) async {
     String url = prefModel.userData!.roleId==2?"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?individualProfileId=$individualId":"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
+    print(url);
     http.Response response = await hitApiGet(true, url);
     if (response.statusCode == 200) {
       return CheckRequestCountModel.fromJson(json.decode(response.body));
