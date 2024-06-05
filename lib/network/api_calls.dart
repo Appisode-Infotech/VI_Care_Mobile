@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -120,6 +119,26 @@ class ApiCalls {
     return headers;
   }
 
+  getRefreshToken() async {
+    http.Response refreshTokenResponse = await http.post(
+      Uri.parse(UrlConstants.getRefreshToken),
+      headers: getHeaders(false),
+      body: jsonEncode({
+        "token": prefModel.userData!.token.toString(),
+        "refreshToken": prefModel.userData!.refreshToken.toString()
+      }),
+    );
+    RefreshTokenResponseModel resModel = RefreshTokenResponseModel.fromJson(
+        json.decode(refreshTokenResponse.body));
+    if (refreshTokenResponse.statusCode == 200 && resModel.result != null) {
+      prefModel.userData!.token = resModel.result!.token;
+      prefModel.userData!.refreshToken = resModel.result!.refreshToken;
+      await AppPref.setPref(prefModel);
+    } else {
+      throw resModel.message.toString();
+    }
+  }
+
   Future<SendOtpResponseModel> sendOtpToRegister(
       String email, BuildContext? context) async {
     http.Response response = await hitApiPost(false,
@@ -127,7 +146,8 @@ class ApiCalls {
     if (response.statusCode == 200) {
       return SendOtpResponseModel.fromJson(json.decode(response.body));
     } else {
-      Navigator.pop(context!);showErrorToast(context, "Something went wrong");
+      Navigator.pop(context!);
+      showErrorToast(context, "Something went wrong");
       throw "could not send otp ${response.statusCode}";
     }
   }
@@ -160,7 +180,10 @@ class ApiCalls {
     required String area,
     required String landMark,
     required String city,
-    required String pinCode, int? country, required String height, required String weight,
+    required String pinCode,
+    int? country,
+    required String height,
+    required String weight,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
@@ -265,64 +288,80 @@ class ApiCalls {
       String landMark,
       String city,
       String pinCode,
-      int? stateId, int? selectedCountryId, String height, String weight) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(UrlConstants.addIndividualProfile));
-    request.fields['IsSelf'] = false.toString();
-    request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.ContactNumber'] = mobile;
-    request.fields['Contact.Email'] = email;
-    request.fields['Contact.FirstName'] = fName;
-    request.fields['Contact.LastName'] = lName;
-    request.fields['Contact.Gender'] = gender.toString();
-    request.fields['Contact.BloodGroup'] = bloodGroup.toString();
-    request.fields['Contact.Address.Street'] = street;
-    request.fields['Contact.Address.Area'] = area;
-    request.fields['Contact.Address.Landmark'] = landMark;
-    request.fields['Contact.Address.City'] = city;
-    request.fields['Contact.Address.PinCode'] = pinCode;
-    request.fields['Contact.Address.StateId'] = stateId.toString();
-    request.fields['Contact.Address.CountryId'] = selectedCountryId.toString();
-    request.fields['height'] = height;
-    request.fields['weight'] = weight;
-    request.fields['UserId'] = prefModel.userData!.id.toString();
-    print(request.fields);
-    if (selectedImage != null) {
-      var picStream = http.ByteStream(selectedImage.openRead());
-      var length = await selectedImage.length();
-      var multipartFile = http.MultipartFile(
-        'uploadedFile',
-        picStream,
-        length,
-        filename: selectedImage.path.split('/').last,
-        contentType: MediaType('image', 'jpeg'),
-      );
-      request.files.add(multipartFile);
+      int? stateId,
+      int? selectedCountryId,
+      String height,
+      String weight) async {
+    Future<AddIndividualProfileResponseModel> sendRequest() async {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(UrlConstants.addIndividualProfile));
+      request.fields['IsSelf'] = false.toString();
+      request.fields['Contact.Dob'] = dob;
+      request.fields['Contact.ContactNumber'] = mobile;
+      request.fields['Contact.Email'] = email;
+      request.fields['Contact.FirstName'] = fName;
+      request.fields['Contact.LastName'] = lName;
+      request.fields['Contact.Gender'] = gender.toString();
+      request.fields['Contact.BloodGroup'] = bloodGroup.toString();
+      request.fields['Contact.Address.Street'] = street;
+      request.fields['Contact.Address.Area'] = area;
+      request.fields['Contact.Address.Landmark'] = landMark;
+      request.fields['Contact.Address.City'] = city;
+      request.fields['Contact.Address.PinCode'] = pinCode;
+      request.fields['Contact.Address.StateId'] = stateId.toString();
+      request.fields['Contact.Address.CountryId'] =
+          selectedCountryId.toString();
+      request.fields['height'] = height;
+      request.fields['weight'] = weight;
+      request.fields['UserId'] = prefModel.userData!.id.toString();
+      if (selectedImage != null) {
+        var picStream = http.ByteStream(selectedImage.openRead());
+        var length = await selectedImage.length();
+        var multipartFile = http.MultipartFile(
+          'uploadedFile',
+          picStream,
+          length,
+          filename: selectedImage.path.split('/').last,
+          contentType: MediaType('image', 'jpeg'),
+        );
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll({
+        "Authorization": "Bearer ${prefModel.userData!.token}",
+      });
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.toBytes();
+        var responseJson = json.decode(utf8.decode(responseData));
+        return AddIndividualProfileResponseModel.fromJson(responseJson);
+      } else if (response.statusCode == 401) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Unauthorized");
+        throw 'Unauthorized';
+      } else if (response.statusCode == 204) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Email or phone may exist.");
+        throw "could not add the profile ${response.statusCode}";
+      } else if (response.statusCode == 400) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Invalid data please check.");
+        throw "could not add the profile ${response.statusCode}";
+      } else {
+        Navigator.pop(context!);
+        showErrorToast(context, "Something went wrong");
+        throw "could not add the profile ${response.statusCode}";
+      }
     }
-    request.headers.addAll({
-      "Authorization": "Bearer ${prefModel.userData!.token}",
-    });
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      var responseData = await response.stream.toBytes();
-      var responseJson = json.decode(utf8.decode(responseData));
-      return AddIndividualProfileResponseModel.fromJson(responseJson);
-    } else if (response.statusCode == 401) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Unauthorized");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 204) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Email or phone may exist.");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 400) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Invalid data please check.");
-      throw "could not add the profile ${response.statusCode}";
-    } else {
-      Navigator.pop(context!);
-      showErrorToast(context, "Something went wrong");
-      throw "could not add the profile ${response.statusCode}";
+
+    try {
+      return await sendRequest();
+    } catch (e) {
+      if (e == 'Unauthorized') {
+        await getRefreshToken();
+        return await sendRequest();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -342,63 +381,80 @@ class ApiCalls {
       String landMark,
       String city,
       String pinCode,
-      int? stateId, int? selectedCountryId, String height, String weight) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
-    request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.FirstName'] = fName;
-    request.fields['Contact.Email'] = email;
-    request.fields['Contact.Gender'] = gender;
-    request.fields['Contact.LastName'] = lName;
-    request.fields['Contact.ContactNumber'] = mobile;
-    request.fields['Contact.BloodGroup'] = bloodGroup;
-    request.fields['Contact.Address.Street'] = street;
-    request.fields['Contact.Address.Area'] = area;
-    request.fields['Contact.Address.Landmark'] = landMark;
-    request.fields['Contact.Address.City'] = city;
-    request.fields['Contact.Address.PinCode'] = pinCode;
-    request.fields['Contact.Address.StateId'] = stateId.toString();
-    request.fields['Contact.Address.CountryId'] = selectedCountryId.toString();
-    request.fields['Height'] = height;
-    request.fields['Weight'] = weight;
-    request.fields['EnterpriseUserId'] =
-        prefModel.userData!.enterpriseUserId.toString();
-    if (selectedImage != null) {
-      var picStream = http.ByteStream(selectedImage.openRead());
-      var length = await selectedImage.length();
-      var multipartFile = http.MultipartFile(
-        'uploadedFile',
-        picStream,
-        length,
-        filename: selectedImage.path.split('/').last,
-        contentType: MediaType('image', 'jpeg'),
-      );
-      request.files.add(multipartFile);
+      int? stateId,
+      int? selectedCountryId,
+      String height,
+      String weight) async {
+    Future<AddIndividualProfileResponseModel> sendRequest() async {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(UrlConstants.addEnterpriseProfile));
+      request.fields['Contact.Dob'] = dob;
+      request.fields['Contact.FirstName'] = fName;
+      request.fields['Contact.Email'] = email;
+      request.fields['Contact.Gender'] = gender;
+      request.fields['Contact.LastName'] = lName;
+      request.fields['Contact.ContactNumber'] = mobile;
+      request.fields['Contact.BloodGroup'] = bloodGroup;
+      request.fields['Contact.Address.Street'] = street;
+      request.fields['Contact.Address.Area'] = area;
+      request.fields['Contact.Address.Landmark'] = landMark;
+      request.fields['Contact.Address.City'] = city;
+      request.fields['Contact.Address.PinCode'] = pinCode;
+      request.fields['Contact.Address.StateId'] = stateId.toString();
+      request.fields['Contact.Address.CountryId'] =
+          selectedCountryId.toString();
+      request.fields['Height'] = height;
+      request.fields['Weight'] = weight;
+      request.fields['EnterpriseUserId'] =
+          prefModel.userData!.enterpriseUserId.toString();
+      if (selectedImage != null) {
+        var picStream = http.ByteStream(selectedImage.openRead());
+        var length = await selectedImage.length();
+        var multipartFile = http.MultipartFile(
+          'uploadedFile',
+          picStream,
+          length,
+          filename: selectedImage.path.split('/').last,
+          contentType: MediaType('image', 'jpeg'),
+        );
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll({
+        "Authorization": "Bearer ${prefModel.userData!.token}",
+      });
+      var response = await request.send();
+      var responseData = await response.stream.toBytes();
+      var responseJson = json.decode(utf8.decode(responseData));
+      if (response.statusCode == 200) {
+        return AddIndividualProfileResponseModel.fromJson(responseJson);
+      } else if (response.statusCode == 401) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Unauthorized");
+        throw 'Unauthorized';
+      } else if (response.statusCode == 204) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Email or phone may exist.");
+        throw "could not add the profile ${response.statusCode}";
+      } else if (response.statusCode == 400) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Invalid data please check.");
+        throw "could not add the profile ${response.statusCode}";
+      } else {
+        Navigator.pop(context!);
+        showErrorToast(context, "Something went wrong");
+        throw "could not add the profile ${response.statusCode}";
+      }
     }
-    request.headers.addAll({
-      "Authorization": "Bearer ${prefModel.userData!.token}",
-    });
-    var response = await request.send();
-    var responseData = await response.stream.toBytes();
-    var responseJson = json.decode(utf8.decode(responseData));
-    if (response.statusCode == 200) {
-      return AddIndividualProfileResponseModel.fromJson(responseJson);
-    } else if (response.statusCode == 401) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Unauthorized");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 204) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Email or phone may exist.");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 400) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Invalid data please check.");
-      throw "could not add the profile ${response.statusCode}";
-    } else {
-      Navigator.pop(context!);
-      showErrorToast(context, "Something went wrong");
-      throw "could not add the profile ${response.statusCode}";
+
+    try {
+      return await sendRequest();
+    } catch (e) {
+      if (e == 'Unauthorized') {
+        await getRefreshToken();
+        return await sendRequest();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -421,108 +477,126 @@ class ApiCalls {
   }
 
   Future<AddIndividualProfileResponseModel> editPatient(
-    String dob,
-    String mobile,
-    String email,
-    String fName,
-    String lName,
-    String gender,
-    File? patientPic,
-    BuildContext? context,
-    String bloodGroup,
-    String userID,
-    String contactId,
-    String id,
-    String street,
-    String area,
-    String pinCode,
-    String city,
-    String landMark,
-    String addressId, String height,String weight, String editCountryId, String editStateId
-  ) async {
-    var request = http.MultipartRequest(
-        'PUT', Uri.parse(UrlConstants.addIndividualProfile));
-    request.fields['Contact.Dob'] = dob;
-    request.fields['Contact.ContactNumber'] = mobile;
-    request.fields['Contact.Email'] = email;
-    request.fields['Contact.FirstName'] = fName;
-    request.fields['Contact.LastName'] = lName;
-    request.fields['Contact.Gender'] = gender.toString();
-    request.fields['UserId'] = userID;
-    request.fields['Id'] = id;
-    request.fields['Contact.Id'] = contactId;
-    request.fields['Contact.BloodGroup'] = bloodGroup;
-    request.fields['Contact.Address.Street'] = street;
-    request.fields['Contact.Address.Area'] = area;
-    request.fields['Contact.Address.Landmark'] = landMark;
-    request.fields['Contact.Address.City'] = city;
-    request.fields['Height'] = height;
-    request.fields['Weight'] = weight;
-    request.fields['Contact.Address.PinCode'] = pinCode;
-    request.fields['Contact.Address.Id'] = addressId;
-    request.fields['Contact.Address.CountryId'] = editCountryId;
-    request.fields['Contact.Address.StateId'] = editStateId;
-    if (patientPic != null) {
-      var picStream = http.ByteStream(patientPic.openRead());
-      var length = await patientPic.length();
-      var multipartFile = http.MultipartFile(
-        'uploadedFile',
-        picStream,
-        length,
-        filename: patientPic.path.split('/').last,
-        contentType: MediaType('image', 'jpeg'),
-      );
-      request.files.add(multipartFile);
+      String dob,
+      String mobile,
+      String email,
+      String fName,
+      String lName,
+      String gender,
+      File? patientPic,
+      BuildContext? context,
+      String bloodGroup,
+      String userID,
+      String contactId,
+      String id,
+      String street,
+      String area,
+      String pinCode,
+      String city,
+      String landMark,
+      String addressId,
+      String height,
+      String weight,
+      String editCountryId,
+      String editStateId) async {
+    Future<AddIndividualProfileResponseModel> sendRequest() async {
+      var request = http.MultipartRequest(
+          'PUT', Uri.parse(UrlConstants.addIndividualProfile));
+      request.fields['Contact.Dob'] = dob;
+      request.fields['Contact.ContactNumber'] = mobile;
+      request.fields['Contact.Email'] = email;
+      request.fields['Contact.FirstName'] = fName;
+      request.fields['Contact.LastName'] = lName;
+      request.fields['Contact.Gender'] = gender.toString();
+      request.fields['UserId'] = userID;
+      request.fields['Id'] = id;
+      request.fields['Contact.Id'] = contactId;
+      request.fields['Contact.BloodGroup'] = bloodGroup;
+      request.fields['Contact.Address.Street'] = street;
+      request.fields['Contact.Address.Area'] = area;
+      request.fields['Contact.Address.Landmark'] = landMark;
+      request.fields['Contact.Address.City'] = city;
+      request.fields['Height'] = height;
+      request.fields['Weight'] = weight;
+      request.fields['Contact.Address.PinCode'] = pinCode;
+      request.fields['Contact.Address.Id'] = addressId;
+      request.fields['Contact.Address.CountryId'] = editCountryId;
+      request.fields['Contact.Address.StateId'] = editStateId;
+      if (patientPic != null) {
+        var picStream = http.ByteStream(patientPic.openRead());
+        var length = await patientPic.length();
+        var multipartFile = http.MultipartFile(
+          'uploadedFile',
+          picStream,
+          length,
+          filename: patientPic.path.split('/').last,
+          contentType: MediaType('image', 'jpeg'),
+        );
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll({
+        "Authorization": "Bearer ${prefModel.userData!.token}",
+      });
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.toBytes();
+        var responseJson = json.decode(utf8.decode(responseData));
+        return AddIndividualProfileResponseModel.fromJson(responseJson);
+      } else if (response.statusCode == 401) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Unauthorized");
+        throw "could not add the profile ${response.statusCode}";
+      } else if (response.statusCode == 204) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Email or phone may exist.");
+        throw "could not add the profile ${response.statusCode}";
+      } else if (response.statusCode == 405) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Invalid data please check.");
+        throw "could not add the profile ${response.statusCode}";
+      } else {
+        Navigator.pop(context!);
+        showErrorToast(context, "Something went wrong");
+        throw "could not add the profile ${response.statusCode}";
+      }
     }
-    request.headers.addAll({
-      "Authorization": "Bearer ${prefModel.userData!.token}",
-    });
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      var responseData = await response.stream.toBytes();
-      var responseJson = json.decode(utf8.decode(responseData));
-      return AddIndividualProfileResponseModel.fromJson(responseJson);
-    } else if (response.statusCode == 401) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Unauthorized");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 204) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Email or phone may exist.");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 405) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Invalid data please check.");
-      throw "could not add the profile ${response.statusCode}";
-    } else {
-      Navigator.pop(context!);
-      showErrorToast(context, "Something went wrong");
-      throw "could not add the profile ${response.statusCode}";
+
+    try {
+      return await sendRequest();
+    } catch (e) {
+      if (e == 'Unauthorized') {
+        await getRefreshToken();
+        return await sendRequest();
+      } else {
+        rethrow;
+      }
     }
   }
 
   Future<AddIndividualProfileResponseModel> editEnterprise(
-    String email,
-    String fName,
-    String lName,
-    String dob,
-    String address,
-    String mobile,
-    String gender,
-    File? patientPic,
-    BuildContext? context,
-    String bloodGroup,
-    String eUserId,
-    String id,
-    String contactId,
-    String street,
-    String area,
-    String pinCode,
-    String city,
-    String landMark,
-    int? stateId,
-    String addressId, int? countryId,String height, String weight
-  ) async {
+      String email,
+      String fName,
+      String lName,
+      String dob,
+      String address,
+      String mobile,
+      String gender,
+      File? patientPic,
+      BuildContext? context,
+      String bloodGroup,
+      String eUserId,
+      String id,
+      String contactId,
+      String street,
+      String area,
+      String pinCode,
+      String city,
+      String landMark,
+      int? stateId,
+      String addressId,
+      int? countryId,
+      String height,
+      String weight) async {
     var request = http.MultipartRequest(
         'PUT', Uri.parse(UrlConstants.addEnterpriseProfile));
     request.fields['Contact.Dob'] = dob;
@@ -679,67 +753,84 @@ class ApiCalls {
       String landMark,
       String pinCode,
       int? addressId,
-      int? state, int?country, String height, String weight, String email) async {
-    var request =
-        http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
-    request.fields['FirstName'] = fName;
-    request.fields['LastName'] = lName;
-    request.fields['BloodGroup'] = bloodGroup;
-    request.fields['Gender'] = gender == 'Female'
-        ? '2'
-        : gender == 'Male'
-            ? '1'
-            : '3';
-    request.fields['Dob'] = dob;
-    request.fields['UserId'] = userId.toString();
-    request.fields['ContactId'] = contactId.toString();
-    request.fields['AddressId'] = addressId.toString();
-    request.fields['Address.Street'] = street;
-    request.fields['Address.Area'] = area;
-    request.fields['Address.Landmark'] = landMark;
-    request.fields['Address.City'] = city;
-    request.fields['Address.PinCode'] = pinCode;
-    request.fields['Address.StateId'] = state.toString();
-    request.fields['Address.CountryId'] = country.toString();
-    request.fields['Height'] = height;
-    request.fields['Weight'] = weight;
-    request.fields['Email'] = email;
-    if (profilePic != null) {
-      var picStream = http.ByteStream(profilePic.openRead());
-      var length = await profilePic.length();
-      var multipartFile = http.MultipartFile(
-        'profilePic',
-        picStream,
-        length,
-        filename: profilePic.path.split('/').last,
-        contentType: MediaType('image', 'jpeg'),
-      );
-      request.files.add(multipartFile);
+      int? state,
+      int? country,
+      String height,
+      String weight,
+      String email) async {
+    Future<RegisterResponseModel> sendRequest() async {
+      var request =
+          http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
+      request.fields['FirstName'] = fName;
+      request.fields['LastName'] = lName;
+      request.fields['BloodGroup'] = bloodGroup;
+      request.fields['Gender'] = gender == 'Female'
+          ? '2'
+          : gender == 'Male'
+              ? '1'
+              : '3';
+      request.fields['Dob'] = dob;
+      request.fields['UserId'] = userId.toString();
+      request.fields['ContactId'] = contactId.toString();
+      request.fields['AddressId'] = addressId.toString();
+      request.fields['Address.Street'] = street;
+      request.fields['Address.Area'] = area;
+      request.fields['Address.Landmark'] = landMark;
+      request.fields['Address.City'] = city;
+      request.fields['Address.PinCode'] = pinCode;
+      request.fields['Address.StateId'] = state.toString();
+      request.fields['Address.CountryId'] = country.toString();
+      request.fields['Height'] = height;
+      request.fields['Weight'] = weight;
+      request.fields['Email'] = email;
+      if (profilePic != null) {
+        var picStream = http.ByteStream(profilePic.openRead());
+        var length = await profilePic.length();
+        var multipartFile = http.MultipartFile(
+          'profilePic',
+          picStream,
+          length,
+          filename: profilePic.path.split('/').last,
+          contentType: MediaType('image', 'jpeg'),
+        );
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll({
+        "Authorization": "Bearer ${prefModel.userData!.token}",
+      });
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.toBytes();
+        var responseJson = json.decode(utf8.decode(responseData));
+        return RegisterResponseModel.fromJson(responseJson);
+      } else if (response.statusCode == 401) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Unauthorized");
+        throw 'Unauthorized';
+      } else if (response.statusCode == 204) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Email or phone may exist.");
+        throw "could not add the profile ${response.statusCode}";
+      } else if (response.statusCode == 405) {
+        Navigator.pop(context!);
+        showErrorToast(context, "Invalid data please check.");
+        throw "could not add the profile ${response.statusCode}";
+      } else {
+        Navigator.pop(context!);
+        showErrorToast(context, "Something went wrong");
+        throw "could not add the profile ${response.statusCode}";
+      }
     }
-    request.headers.addAll({
-      "Authorization": "Bearer ${prefModel.userData!.token}",
-    });
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      var responseData = await response.stream.toBytes();
-      var responseJson = json.decode(utf8.decode(responseData));
-      return RegisterResponseModel.fromJson(responseJson);
-    } else if (response.statusCode == 401) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Unauthorized");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 204) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Email or phone may exist.");
-      throw "could not add the profile ${response.statusCode}";
-    } else if (response.statusCode == 405) {
-      Navigator.pop(context!);
-      showErrorToast(context, "Invalid data please check.");
-      throw "could not add the profile ${response.statusCode}";
-    } else {
-      Navigator.pop(context!);
-      showErrorToast(context, "Something went wrong");
-      throw "could not add the profile ${response.statusCode}";
+
+    try {
+      return await sendRequest();
+    } catch (e) {
+      if (e == 'Unauthorized') {
+        await getRefreshToken();
+        return await sendRequest();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -777,7 +868,8 @@ class ApiCalls {
     }
   }
 
-  Future<StateMasterResponseModel> getStateMaster(BuildContext context, String? uniqueGuid) async {
+  Future<StateMasterResponseModel> getStateMaster(
+      BuildContext context, String? uniqueGuid) async {
     http.Response response =
         await hitApiGet(false, "${UrlConstants.getStateMaster}/$uniqueGuid");
     if (response.statusCode == 200) {
@@ -805,50 +897,66 @@ class ApiCalls {
     String? pId,
     required File uploadFile,
   }) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(UrlConstants.requestDeviceData));
-    request.fields['Details'] = details;
-    request.fields['FileType'] = fileType;
-    request.fields['DurationName'] = durationName!;
-    request.fields['DeviceSerialNo'] = deviceSerialNumber;
-    request.fields['IPAddress'] = ipAddress;
-    request.fields['UserAndDeviceId'] = userAndDeviceId;
-    request.fields['SubscriberGuid'] = subscriberGuid;
-    request.fields['DeviceId'] = deviceId;
-    request.fields['DurationId'] = durationId.toString();
-    request.fields['UserId'] = userId.toString();
-    request.fields['RoleId'] = roleId.toString();
-    if (prefModel.userData!.roleId == 2) {
-      request.fields['IndividualProfileId'] = pId.toString();
-    } else {
-      request.fields['EnterpriseProfileId'] = pId.toString();
+    Future<DeviceDataResponseModel> sendRequest() async {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(UrlConstants.requestDeviceData));
+      request.fields['Details'] = details;
+      request.fields['FileType'] = fileType;
+      request.fields['DurationName'] = durationName!;
+      request.fields['DeviceSerialNo'] = deviceSerialNumber;
+      request.fields['IPAddress'] = ipAddress;
+      request.fields['UserAndDeviceId'] = userAndDeviceId;
+      request.fields['SubscriberGuid'] = subscriberGuid;
+      request.fields['DeviceId'] = deviceId;
+      request.fields['DurationId'] = durationId.toString();
+      request.fields['UserId'] = userId.toString();
+      request.fields['RoleId'] = roleId.toString();
+      if (prefModel.userData!.roleId == 2) {
+        request.fields['IndividualProfileId'] = pId.toString();
+      } else {
+        request.fields['EnterpriseProfileId'] = pId.toString();
+      }
+      var jsonStream = http.ByteStream(uploadFile.openRead());
+      var jsonDataBytes = await uploadFile.readAsBytes();
+      var jsonLength = jsonDataBytes.length;
+      var jsonMultipartFile = http.MultipartFile(
+        'uploadfile',
+        jsonStream,
+        jsonLength,
+        filename: uploadFile.path.split('/').last,
+        contentType: MediaType('application', 'json'),
+      );
+      request.files.add(jsonMultipartFile);
+      request.headers.addAll({
+        "Authorization": "Bearer ${prefModel.userData!.token}",
+      });
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.toBytes();
+        var responseJson = json.decode(utf8.decode(responseData));
+        return DeviceDataResponseModel.fromJson(responseJson);
+      } else if (response.statusCode == 400) {
+        showErrorToast(context, "Invalid Data");
+        throw "could not fetch Data ${response.statusCode}";
+      } else if (response.statusCode == 401) {
+        showErrorToast(context, "Invalid Data");
+        throw 'Unauthorized';
+      } else {
+        Navigator.pop(context);
+        showErrorToast(context, "Something went wrong");
+        throw "could not fetch data ${response.statusCode}";
+      }
     }
-    var jsonStream = http.ByteStream(uploadFile.openRead());
-    var jsonDataBytes = await uploadFile.readAsBytes();
-    var jsonLength = jsonDataBytes.length;
-    var jsonMultipartFile = http.MultipartFile(
-      'uploadfile',
-      jsonStream,
-      jsonLength,
-      filename: uploadFile.path.split('/').last,
-      contentType: MediaType('application', 'json'),
-    );
-    request.files.add(jsonMultipartFile);
-    request.headers.addAll({
-      "Authorization": "Bearer ${prefModel.userData!.token}",
-    });
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      var responseData = await response.stream.toBytes();
-      var responseJson = json.decode(utf8.decode(responseData));
-      return DeviceDataResponseModel.fromJson(responseJson);
-    } else if (response.statusCode == 400) {
-      showErrorToast(context, "Invalid Data");
-      throw "could not fetch Data ${response.statusCode}";
-    } else {
-      Navigator.pop(context);
-      showErrorToast(context, "Something went wrong");
-      throw "could not fetch data ${response.statusCode}";
+
+    try {
+      return await sendRequest();
+    } catch (e) {
+      if (e == 'Unauthorized') {
+        await getRefreshToken();
+        return await sendRequest();
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -1011,20 +1119,19 @@ class ApiCalls {
     }
   }
 
-  Future<SummaryReportResponseModel>getSummaryReports(BuildContext context, String pId, int type) async {
+  Future<SummaryReportResponseModel> getSummaryReports(
+      BuildContext context, String pId, int type) async {
     if (prefModel.userData!.roleId == 2) {
       http.Response response = await hitApiGet(true,
-        "${UrlConstants.getSummaryReport}/${prefModel.userData!
-            .id}?individualProfileId=$pId&type=$type");
-    if (response.statusCode == 200) {
-      return SummaryReportResponseModel.fromJson(json.decode(response.body));
+          "${UrlConstants.getSummaryReport}/${prefModel.userData!.id}?individualProfileId=$pId&type=$type");
+      if (response.statusCode == 200) {
+        return SummaryReportResponseModel.fromJson(json.decode(response.body));
+      } else {
+        throw "could not fetch data ${response.statusCode}";
+      }
     } else {
-      throw "could not fetch data ${response.statusCode}";
-    }
-  } else {
       http.Response response = await hitApiGet(true,
-          "${UrlConstants.getSummaryReport}/${prefModel.userData!
-              .id}?enterpriseProfileId=${pId}&type=1");
+          "${UrlConstants.getSummaryReport}/${prefModel.userData!.id}?enterpriseProfileId=${pId}&type=1");
       if (response.statusCode == 200) {
         return SummaryReportResponseModel.fromJson(json.decode(response.body));
       } else {
@@ -1033,8 +1140,10 @@ class ApiCalls {
     }
   }
 
-  Future<CountryMasterResponseModel> getCountryMaster(BuildContext context) async {
-    http.Response response = await hitApiGet(false, UrlConstants.getCountryMaster);
+  Future<CountryMasterResponseModel> getCountryMaster(
+      BuildContext context) async {
+    http.Response response =
+        await hitApiGet(false, UrlConstants.getCountryMaster);
     if (response.statusCode == 200) {
       return CountryMasterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -1044,8 +1153,11 @@ class ApiCalls {
     }
   }
 
-  Future<CheckRequestCountModel> checkRequestCount(BuildContext context, int? individualId, int? enterpriseId) async {
-    String url = prefModel.userData!.roleId==2?"${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?individualProfileId=$individualId":"${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
+  Future<CheckRequestCountModel> checkRequestCount(
+      BuildContext context, int? individualId, int? enterpriseId) async {
+    String url = prefModel.userData!.roleId == 2
+        ? "${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?individualProfileId=$individualId"
+        : "${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
     http.Response response = await hitApiGet(true, url);
     if (response.statusCode == 200) {
       return CheckRequestCountModel.fromJson(json.decode(response.body));
@@ -1055,9 +1167,11 @@ class ApiCalls {
     }
   }
 
-  checkRequestDuration(BuildContext context, int? individualId, int? enterpriseId) async {
-    String url = prefModel.userData!.roleId==2?"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?individualProfileId=$individualId":"${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
-    print(url);
+  checkRequestDuration(
+      BuildContext context, int? individualId, int? enterpriseId) async {
+    String url = prefModel.userData!.roleId == 2
+        ? "${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?individualProfileId=$individualId"
+        : "${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
     http.Response response = await hitApiGet(true, url);
     if (response.statusCode == 200) {
       return CheckRequestCountModel.fromJson(json.decode(response.body));
@@ -1067,14 +1181,13 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel>getUserByGuid() async {
-    http.Response response = await hitApiGet(true, "${UrlConstants.getUserByGuid}${prefModel.userData!.uniqueGuid}");
+  Future<RegisterResponseModel> getUserByGuid() async {
+    http.Response response = await hitApiGet(
+        true, "${UrlConstants.getUserByGuid}${prefModel.userData!.uniqueGuid}");
     if (response.statusCode == 200) {
-      print(response.body);
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       throw "could not get the userdata ${response.statusCode}";
     }
   }
-
 }
