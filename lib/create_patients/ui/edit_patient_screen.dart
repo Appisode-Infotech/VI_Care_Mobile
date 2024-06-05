@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -345,6 +347,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 },
                                 controller:
                                     patientProvider.editPatientMobileController,
+                                maxLength: 10,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,

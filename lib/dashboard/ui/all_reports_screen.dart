@@ -23,6 +23,9 @@ class _ReportScreenState extends State<ReportScreen> {
   String? reportTime = 'All Time';
   String? reportStatus = 'All Reports';
 
+  bool isLoadEligible = true;
+
+  Future<MyReportsResponseModel>? reportsData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +43,10 @@ class _ReportScreenState extends State<ReportScreen> {
       body: Consumer(
         builder: (BuildContext context, TakeTestProvider takeTestProvider,
             Widget? child) {
+          if(isLoadEligible){
+            reportsData = takeTestProvider.getMyReportsWithFilter(reportTime, reportStatus);
+            isLoadEligible = false;
+          }
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -68,6 +75,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           dropdownColor: AppColors.primaryColor,
                           value: reportTime,
                           onChanged: (String? value) {
+                            isLoadEligible = true;
                             setState(() {
                               reportTime = value!;
                             });
@@ -119,6 +127,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           dropdownColor: AppColors.primaryColor,
                           value: reportStatus,
                           onChanged: (String? value) {
+                            isLoadEligible = true;
                             setState(() {
                               reportStatus = value!;
                             });

@@ -485,8 +485,8 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
                                 showLabels: false,
                                 enableTooltip: true,
                                 shouldAlwaysShowTooltip: true,
-                                // value: int.parse(takeTestProvider.reportUserData!['bmi']),
-                                value: 80,
+                                value: double.parse(takeTestProvider.reportUserData!['bmi']),
+                                // value: '${takeTestProvider.reportUserData!['bmi']}',
                                 onChanged: (value) {},
                               ),
                               const Row(
@@ -521,20 +521,46 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                               color: AppColors.primaryColor),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Column(
+                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('KG',
+                                  Text(takeTestProvider.reportUserData!['weight'],
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  const Text('Weight',
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white)),
-                                  Text('Weight',
+                                  const Text('(KGs)',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                ],
+                              ),
+                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(takeTestProvider.reportUserData!['height'],
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  const Text('Height',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  const Text('(Meters)',
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -545,28 +571,12 @@ Normal Range: 1000-2000 ms² (higher values are better'''},
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('CM',
-                                      style: TextStyle(
+                                  Text(double.parse(takeTestProvider.reportUserData!['bmi']).toStringAsFixed(2),
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white)),
-                                  Text('Height',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('0',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                  Text('BMI',
+                                  const Text('BMI',
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
