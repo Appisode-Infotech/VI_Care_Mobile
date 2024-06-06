@@ -1,13 +1,11 @@
 import 'dart:developer';
 
-import 'package:delightful_toast/delight_toast.dart';
-import 'package:delightful_toast/toast/components/toast_card.dart';
-import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:toastification/toastification.dart';
 import 'package:vicare/create_patients/model/enterprise_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
@@ -145,47 +143,51 @@ void showImageSourceDialog(BuildContext context,
 }
 
 void showSuccessToast(BuildContext context, String content) {
-  return DelightToastBar(
-    position: DelightSnackbarPosition.top,
-    autoDismiss: true,
-    animationDuration: const Duration(seconds: 1),
-    snackbarDuration: const Duration(seconds: 3),
-    builder: (context) => ToastCard(
-      color: Colors.green,
-      leading: const Icon(
-        Icons.check_circle,
-        size: 28,
-        color: Colors.white,
-      ),
-      title: Text(
-        content,
-        style: const TextStyle(
-            fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
-      ),
-    ),
-  ).show(context);
+  toastification.show(
+    context: context, // optional if you use ToastificationWrapper
+    type: ToastificationType.success,
+    style: ToastificationStyle.fillColored,
+    autoCloseDuration: const Duration(seconds: 5),
+    title: const Text("Success"),
+    // you can also use RichText widget for title and description parameters
+    description: RichText(text: TextSpan(text: content)),
+    alignment: Alignment.topRight,
+    direction: TextDirection.ltr,
+    animationDuration: const Duration(milliseconds: 300),
+    icon: const Icon(Icons.check),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    borderRadius: BorderRadius.circular(12),
+    showProgressBar: true,
+    closeButtonShowType: CloseButtonShowType.onHover,
+    closeOnClick: false,
+    pauseOnHover: true,
+    dragToClose: true,
+  );
 }
 
 void showErrorToast(BuildContext context, String content) {
-  return DelightToastBar(
-    position: DelightSnackbarPosition.top,
-    autoDismiss: true,
-    animationDuration: const Duration(seconds: 1),
-    snackbarDuration: const Duration(seconds: 3),
-    builder: (context) => ToastCard(
-      color: Colors.red,
-      leading: const Icon(
-        Icons.error,
-        size: 28,
-        color: Colors.white,
-      ),
-      title: Text(
-        content,
-        style: const TextStyle(
-            fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
-      ),
-    ),
-  ).show(context);
+  toastification.show(
+    context: context, // optional if you use ToastificationWrapper
+    type: ToastificationType.error,
+    style: ToastificationStyle.fillColored,
+    autoCloseDuration: const Duration(seconds: 5),
+    title: const Text("Error"),
+    // you can also use RichText widget for title and description parameters
+    description: RichText(text: TextSpan(text: content)),
+    alignment: Alignment.topRight,
+    direction: TextDirection.ltr,
+    animationDuration: const Duration(milliseconds: 300),
+    icon: const Icon(Icons.error_outline),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    borderRadius: BorderRadius.circular(12),
+    showProgressBar: true,
+    closeButtonShowType: CloseButtonShowType.onHover,
+    closeOnClick: false,
+    pauseOnHover: true,
+    dragToClose: true,
+  );
 }
 
 void showLoaderDialog(BuildContext context) {
@@ -504,7 +506,7 @@ showInfoDialog(BuildContext context,String message){
       actions: [
         TextButton(onPressed: (){
           Navigator.pop(context);
-        }, child: Text("Close"))
+        }, child: const Text("Close"))
       ],
     );
   });

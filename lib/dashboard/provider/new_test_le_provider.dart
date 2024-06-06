@@ -61,9 +61,9 @@ class NewTestLeProvider extends ChangeNotifier {
   }
 
   requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId, Map<String, Object?> jsonData) async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
+    List<ConnectivityResult> connectivityResults = await Connectivity().checkConnectivity();
+    bool isConnected = connectivityResults.any((result) => result == ConnectivityResult.mobile || result == ConnectivityResult.wifi);
+    if (isConnected) {
       // Mobile data or WiFi detected
       DeviceDataResponseModel response = await apiCalls.requestDeviceData(
           context: dataContext,
@@ -101,7 +101,7 @@ class NewTestLeProvider extends ChangeNotifier {
       prefModel.offlineSavedTests!.add(testDetails);
       await AppPref.setPref(prefModel);
       Navigator.pop(dataContext);
-      showSuccessToast(dataContext, AppLocale.testSavedOffline.getString(dataContext));
+      showErrorToast(dataContext, AppLocale.testSavedOffline.getString(dataContext));
     }
 
   }

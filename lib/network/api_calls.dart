@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -41,74 +40,117 @@ import '../utils/url_constants.dart';
 String platform = Platform.isIOS ? "IOS" : "Android";
 
 class ApiCalls {
-  Future<http.Response> hitApiPost(
-      bool requiresAuth, String url, String body) async {
-    http.Response response = await http.post(
-      Uri.parse(url),
-      headers: getHeaders(requiresAuth),
-      body: body,
-    );
-    if (response.statusCode == 401) {
-      http.Response refreshTokenResponse = await http.post(
-        Uri.parse(UrlConstants.getRefreshToken),
-        headers: getHeaders(false),
-        body: jsonEncode({
-          "token": prefModel.userData!.token.toString(),
-          "refreshToken": prefModel.userData!.refreshToken.toString()
-        }),
+
+
+  Future<http.Response> hitApiPost(bool requiresAuth, String url, String body) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(url),
+        headers: getHeaders(requiresAuth),
+        body: body,
       );
-      RefreshTokenResponseModel resModel = RefreshTokenResponseModel.fromJson(
-          json.decode(refreshTokenResponse.body));
-      if (refreshTokenResponse.statusCode == 200 && resModel.result != null) {
-        prefModel.userData!.token = resModel.result!.token;
-        prefModel.userData!.refreshToken = resModel.result!.refreshToken;
-        await AppPref.setPref(prefModel);
-        http.Response response = await http.post(
-          Uri.parse(url),
-          headers: getHeaders(requiresAuth),
-          body: body,
+
+      if (response.statusCode == 401) {
+        // Attempt to refresh the token
+        http.Response refreshTokenResponse = await http.post(
+          Uri.parse(UrlConstants.getRefreshToken),
+          headers: getHeaders(false),
+          body: jsonEncode({
+            "token": prefModel.userData!.token.toString(),
+            "refreshToken": prefModel.userData!.refreshToken.toString(),
+          }),
         );
-        return response;
+
+        if (refreshTokenResponse.statusCode == 200) {
+          RefreshTokenResponseModel resModel = RefreshTokenResponseModel.fromJson(
+            json.decode(refreshTokenResponse.body),
+          );
+
+          if (resModel.result != null) {
+            // Update tokens
+            prefModel.userData!.token = resModel.result!.token;
+            prefModel.userData!.refreshToken = resModel.result!.refreshToken;
+            await AppPref.setPref(prefModel);
+
+            // Retry the original request with the new token
+            http.Response retryResponse = await http.post(
+              Uri.parse(url),
+              headers: getHeaders(requiresAuth),
+              body: body,
+            );
+
+            return retryResponse;
+          } else {
+            print("Failed to refresh token: ${resModel.message}");
+            throw Exception("Failed to refresh token: ${resModel.message}");
+          }
+        } else {
+          print("Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+          throw Exception("Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+        }
       } else {
-        throw resModel.message.toString();
+        return response;
       }
-    } else {
-      return response;
+    } catch (e) {
+      print("Error during POST request: $e");
+      rethrow;
     }
   }
 
   Future<http.Response> hitApiGet(bool requiresAuth, String url) async {
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: getHeaders(requiresAuth),
-    );
-    if (response.statusCode == 401) {
-      http.Response refreshTokenResponse = await http.post(
-        Uri.parse(UrlConstants.getRefreshToken),
-        headers: getHeaders(false),
-        body: jsonEncode({
-          "token": prefModel.userData!.token.toString(),
-          "refreshToken": prefModel.userData!.refreshToken.toString()
-        }),
+    try {
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: getHeaders(requiresAuth),
       );
-      RefreshTokenResponseModel resModel = RefreshTokenResponseModel.fromJson(
-          json.decode(refreshTokenResponse.body));
-      if (refreshTokenResponse.statusCode == 200 && resModel.result != null) {
-        prefModel.userData!.token = resModel.result!.token;
-        prefModel.userData!.refreshToken = resModel.result!.refreshToken;
-        await AppPref.setPref(prefModel);
-        http.Response response = await http.get(
-          Uri.parse(url),
-          headers: getHeaders(requiresAuth),
+
+      if (response.statusCode == 401) {
+        // Attempt to refresh the token
+        http.Response refreshTokenResponse = await http.post(
+          Uri.parse(UrlConstants.getRefreshToken),
+          headers: getHeaders(false),
+          body: jsonEncode({
+            "token": prefModel.userData!.token.toString(),
+            "refreshToken": prefModel.userData!.refreshToken.toString(),
+          }),
         );
-        return response;
+
+        if (refreshTokenResponse.statusCode == 200) {
+          RefreshTokenResponseModel resModel = RefreshTokenResponseModel.fromJson(
+            json.decode(refreshTokenResponse.body),
+          );
+
+          if (resModel.result != null) {
+            // Update tokens
+            prefModel.userData!.token = resModel.result!.token;
+            prefModel.userData!.refreshToken = resModel.result!.refreshToken;
+            await AppPref.setPref(prefModel);
+
+            // Retry the original request with the new token
+            http.Response retryResponse = await http.get(
+              Uri.parse(url),
+              headers: getHeaders(requiresAuth),
+            );
+
+            return retryResponse;
+          } else {
+            print("Failed to refresh token: ${resModel.message}");
+            throw Exception("Failed to refresh token: ${resModel.message}");
+          }
+        } else {
+          print("Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+          throw Exception("Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+        }
       } else {
-        throw resModel.message.toString();
+        return response;
       }
-    } else {
-      return response;
+    } catch (e) {
+      print("Error during GET request: $e");
+      rethrow;
     }
   }
+
+
 
   Map<String, String> getHeaders(bool isAuthEnabled) {
     var headers = <String, String>{};
@@ -254,7 +296,6 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
-      log(response.body);
       return RegisterResponseModel.fromJson
         (json.decode(response.body));
     } else {
