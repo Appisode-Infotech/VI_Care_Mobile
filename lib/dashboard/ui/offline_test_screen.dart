@@ -186,6 +186,17 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                           ? '${prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture?.url}'
                                           : '${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture?.url}'),
                                       radius: 30,
+                                      backgroundColor: Colors.grey.shade400,
+                                      child: (prefModel
+                                          .offlineSavedTests![index]
+                                          .myRoleId ==
+                                          2 && prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture?.url == null) ||
+                                          (prefModel
+                                              .offlineSavedTests![index]
+                                              .myRoleId !=
+                                              2 && prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture?.url == null)
+                                          ? const Icon(Icons.person, size: 30, color: Colors.white)
+                                          : null,
                                     ),
                                     const SizedBox(
                                       width: 10,
