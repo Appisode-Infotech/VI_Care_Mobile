@@ -234,7 +234,7 @@ class PatientProvider extends ChangeNotifier {
       editPatientDobController.text = formattedDob;
           // "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
-          individualPatientData!.result!.contact!.contactNumber!;
+          individualPatientData.result!.contact!.contactNumber!;
       editPatientEmailController.text = individualPatientData.result!.email!;
       editPatientFirstNameController.text =
           individualPatientData.result!.firstName!;

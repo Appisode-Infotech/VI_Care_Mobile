@@ -865,7 +865,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {
                           authProvider.registerDobController.text =
                           // "${picked.year}-${picked.month}-${picked.day}";
-                          DateFormat('yyyy-MM-dd').format(picked!);
+                          DateFormat('yyyy-MM-dd').format(picked);
                         });
                       }
                     },
