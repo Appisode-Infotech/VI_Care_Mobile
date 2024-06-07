@@ -185,6 +185,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         profileProvider.editProfileFirstNameController,
                         textCapitalization: TextCapitalization.sentences,
                         inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                         ],
                         validator: (value) {
@@ -239,6 +240,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         controller: profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
                         inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                         ],
                         validator: (value) {
@@ -532,7 +534,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     );
                                     setState(() {
                                       profileProvider.editProfileDobController.text =
-                                      // "${picked!.day} - ${picked.month} - ${picked.year}";
                                       DateFormat('dd-MM-yyyy').format(picked!);
                                     });
                                   },
@@ -586,11 +587,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 TextFormField(
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  textCapitalization: TextCapitalization.sentences,
                                   controller: profileProvider.profileHeightController,
-                                  keyboardType: TextInputType.number,
+                                  keyboardType:const TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                                  ],
                                   textInputAction: TextInputAction.next,
-
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
@@ -622,11 +624,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 TextFormField(
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  textCapitalization: TextCapitalization.sentences,
                                   controller: profileProvider.profileWeightController,
-                                  keyboardType: TextInputType.number,
+                                  keyboardType:const TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                                  ],
                                   textInputAction: TextInputAction.next,
-
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
@@ -942,6 +945,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   },
                                   keyboardType: TextInputType.streetAddress,
                                   inputFormatters: [
+                                    FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                   ],
                                   maxLength: 74,

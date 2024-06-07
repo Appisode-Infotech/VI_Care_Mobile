@@ -52,26 +52,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           //     size: 25,
                           //   ),
                           // ),
-                          // const SizedBox(height: 15),
+
+                          // const SizedBox(
+                          //   height: 20,
+                          // ),
+                          Text(
+                            AppLocale.welcomeTo.getString(context),
+                            style: const TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 5),
                           const Image(
                             image: AssetImage("assets/images/logo.png"),
                             width: 150,
                           ),
                           const SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            AppLocale.welcomeTo.getString(context),
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            AppLocale.viCare.getString(context),
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w600),
-                          ),
-                          const SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
                           Text(
                             AppLocale.enterEmailAndPasswordTitle

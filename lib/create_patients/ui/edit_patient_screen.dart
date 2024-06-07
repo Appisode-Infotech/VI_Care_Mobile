@@ -223,6 +223,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 textCapitalization:
                                 TextCapitalization.sentences,
                                 inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 validator: (value) {
@@ -282,6 +283,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 textCapitalization:
                                 TextCapitalization.sentences,
                                 inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 validator: (value) {
@@ -464,11 +466,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                               lastDate: DateTime.now(),
                                             );
                                             setState(() {
-                                              patientProvider
-                                                      .editPatientDobController
-                                                      .text =
+                                              patientProvider.editPatientDobController.text =
                                                   // "${picked!.year} - ${picked.month} - ${picked.day}";
-                                              DateFormat('yyyy-MM-dd').format(picked!);
+                                              DateFormat('dd-MM-yyyy').format(picked!);
                                             });
                                           },
                                           child: TextFormField(
@@ -668,11 +668,12 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               TextFormField(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                textCapitalization: TextCapitalization.sentences,
                                 controller: patientProvider.editHeightController,
-                                keyboardType: TextInputType.number,
+                                keyboardType:TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                                ],
                                 textInputAction: TextInputAction.next,
-
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -704,11 +705,12 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               TextFormField(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                textCapitalization: TextCapitalization.sentences,
                                 controller: patientProvider.editWeightController,
-                                keyboardType: TextInputType.number,
+                                keyboardType:TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                                ],
                                 textInputAction: TextInputAction.next,
-
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1025,6 +1027,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 },
                                 keyboardType: TextInputType.streetAddress,
                                 inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 maxLength: 74,
@@ -1271,6 +1274,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 textCapitalization:
                                 TextCapitalization.sentences,
                                 inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 validator: (value) {
@@ -1330,6 +1334,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 textCapitalization:
                                 TextCapitalization.sentences,
                                 inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 validator: (value) {
@@ -1516,8 +1521,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                                       .editPatientDobController
                                                       .text =
                                                   // "${picked!.year} - ${picked.month} - ${picked.day}";
-                                              DateFormat('yyyy-MM-dd').format(picked!);
-
+                                              DateFormat('dd-MM-yyyy').format(picked!);
                                             });
                                           },
                                           child: TextFormField(
@@ -1718,11 +1722,12 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               TextFormField(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                textCapitalization: TextCapitalization.sentences,
                                 controller: patientProvider.editHeightController,
-                                keyboardType: TextInputType.number,
+                                keyboardType:TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                                ],
                                 textInputAction: TextInputAction.next,
-
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -1754,11 +1759,12 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               ),
                               TextFormField(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                textCapitalization: TextCapitalization.sentences,
                                 controller: patientProvider.editWeightController,
-                                keyboardType: TextInputType.number,
+                                keyboardType:TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                                ],
                                 textInputAction: TextInputAction.next,
-
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
@@ -2077,6 +2083,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 },
                                 keyboardType: TextInputType.streetAddress,
                                 inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'^\s')),
                                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                                 ],
                                 maxLength: 74,

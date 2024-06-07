@@ -560,7 +560,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerFirstName,
           inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')), // Allow only letters and spaces
+            FilteringTextInputFormatter.deny(RegExp(r'^\s')),
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
             if (value!.trim().isEmpty) {
@@ -615,11 +616,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerLastName,
           inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp(r'^\s')),
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.validLastName.getString(context);
+            if (value!.trim().isEmpty) {
+              return AppLocale.validFirstName.getString(context);
             }
             // if (authController.isNotValidName(value)) {
             //   return AppLocale.validFirstName.getString(context);
@@ -926,9 +928,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerHeightController,
-          keyboardType: TextInputType.number,
+          keyboardType:TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+          ],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -961,9 +965,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerWeightController,
-          keyboardType: TextInputType.number,
+          keyboardType:TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+          ],
           textInputAction: TextInputAction.next,
 
           decoration: InputDecoration(
@@ -1242,11 +1248,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerCityController,
           inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp(r'^\s')),
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.cityValid.getString(context);
+            if (value!.trim().isEmpty) {
+              return AppLocale.validFirstName.getString(context);
             }
             return null;
           },

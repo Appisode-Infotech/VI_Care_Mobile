@@ -256,40 +256,15 @@ class _ReportScreenState extends State<ReportScreen> {
                                               Row(
                                                 children: [
                                                   CircleAvatar(
-                                                    backgroundImage: snapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .roleId ==
-                                                            2
-                                                        ? NetworkImage(snapshot
-                                                                    .data!
-                                                                    .result![
-                                                                        index]
-                                                                    .individualProfile!
-                                                                    .profilePicture !=
-                                                                null
-                                                            ? snapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .individualProfile!
-                                                                .profilePicture!
-                                                                .url!
-                                                            : '')
-                                                        : NetworkImage(snapshot
-                                                                    .data!
-                                                                    .result![
-                                                                        index]
-                                                                    .enterpriseProfile!
-                                                                    .profilePicture !=
-                                                                null
-                                                            ? snapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .enterpriseProfile!
-                                                                .profilePicture!
-                                                                .url!
-                                                            : ''),
+                                                    backgroundImage: snapshot.data!.result![index].roleId == 2
+                                                        ? NetworkImage(snapshot.data!.result![index].individualProfile!.profilePicture?.url ?? '')
+                                                        : NetworkImage(snapshot.data!.result![index].enterpriseProfile!.profilePicture?.url ?? ''),
                                                     radius: 30,
+                                                    backgroundColor: Colors.grey.shade400,
+                                                    child: (snapshot.data!.result![index].roleId == 2 && snapshot.data!.result![index].individualProfile!.profilePicture == null) ||
+                                                        (snapshot.data!.result![index].roleId != 2 && snapshot.data!.result![index].enterpriseProfile!.profilePicture == null)
+                                                        ? const Icon(Icons.person, size: 30, color: Colors.white)
+                                                        : null,
                                                   ),
                                                   const SizedBox(width: 20),
                                                   Column(

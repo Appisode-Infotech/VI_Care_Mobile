@@ -273,6 +273,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             .url!
                                                                         : ''),
                                                                 radius: 30,
+                                                                backgroundColor: Colors.grey.shade400,
+                                                                child: reportsSnapshot.data!.result![index].roleId == 2
+                                                                    ? reportsSnapshot.data!.result![index].individualProfile!.profilePicture == null
+                                                                    ? const Icon(Icons.person, size: 30,color: Colors.white)
+                                                                    : null
+                                                                    : reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture == null
+                                                                    ? const Icon(Icons.person, size: 30,color: Colors.white)
+                                                                    : null,
                                                               ),
                                                               const SizedBox(
                                                                 width: 20,
@@ -961,6 +969,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 10,),
               Consumer(
                 builder: (BuildContext context,
                     TakeTestProvider takeTestProvider, Widget? child) {
@@ -1039,45 +1048,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               CircleAvatar(
-                                                backgroundImage: reportsSnapshot
-                                                            .data!
-                                                            .result![index]
-                                                            .roleId ==
-                                                        2
-                                                    ? NetworkImage(reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .individualProfile!
-                                                                .profilePicture !=
-                                                            null
-                                                        ? reportsSnapshot
-                                                            .data!
-                                                            .result![index]
-                                                            .individualProfile!
-                                                            .profilePicture!
-                                                            .url!
-                                                        : '')
-                                                    : NetworkImage(reportsSnapshot
-                                                                .data!
-                                                                .result![index]
-                                                                .enterpriseProfile!
-                                                                .profilePicture !=
-                                                            null
-                                                        ? reportsSnapshot
-                                                            .data!
-                                                            .result![index]
-                                                            .enterpriseProfile!
-                                                            .profilePicture!
-                                                            .url!
-                                                        : ''),
+                                                backgroundImage: reportsSnapshot.data!.result![index].roleId == 2
+                                                    ? NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture?.url ?? '')
+                                                    : NetworkImage(reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture?.url ?? ''),
                                                 radius: 30,
+                                                backgroundColor: Colors.grey.shade400,
+                                                child: (reportsSnapshot.data!.result![index].roleId == 2 && reportsSnapshot.data!.result![index].individualProfile!.profilePicture == null) ||
+                                                    (reportsSnapshot.data!.result![index].roleId != 2 && reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture == null)
+                                                    ? const Icon(Icons.person, size: 30, color: Colors.white)
+                                                    : null,
                                               ),
                                               const SizedBox(
                                                 width: 20,
                                               ),
-                                              Column(
+
+                                            Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 crossAxisAlignment:

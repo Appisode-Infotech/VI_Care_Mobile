@@ -61,8 +61,7 @@ class ProfileProvider extends ChangeNotifier {
       prefModel.userData!.contact!.doB!.month,
       prefModel.userData!.contact!.doB!.day,
     );
-    final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
-
+    final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
     editProfileDobController.text = formattedDob;
     // editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
     editProfileContactNumberController.text =
@@ -235,7 +234,7 @@ class ProfileProvider extends ChangeNotifier {
           response.result!.contact!.bloodGroup;
       prefModel.userData!.contact!.gender = response.result!.contact!.gender;
       prefModel.userData!.contact!.doB = response.result!.contact!.doB;
-      prefModel.userData!.profilePicture!.url =
+      prefModel.userData!.profilePicture?.url =
           response.result!.profilePicture!.url;
       prefModel.userData!.id = response.result!.id;
       prefModel.userData!.contactId = response.result!.contactId;

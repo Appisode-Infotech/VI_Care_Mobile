@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:vicare/create_patients/model/add_individual_profile_response_model.dart';
 import 'package:vicare/create_patients/model/country_master_response_model.dart';
 import 'package:vicare/create_patients/model/individual_response_model.dart';
@@ -159,7 +160,6 @@ class PatientProvider extends ChangeNotifier {
     };
     showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {
-
       AddIndividualProfileResponseModel response =
           await apiCalls.addIndividualProfile(
               addNewPatientDobController.text,
@@ -225,10 +225,16 @@ class PatientProvider extends ChangeNotifier {
     showLoaderDialog(context);
     editPatientSelectedImage = null;
     if (prefModel.userData!.roleId == 2) {
-      editPatientDobController.text =
-          "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
+      final DateTime dob = DateTime(
+        individualPatientData!.result!.contact!.doB!.year,
+        individualPatientData.result!.contact!.doB!.month,
+        individualPatientData.result!.contact!.doB!.day,
+      );
+      final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
+      editPatientDobController.text = formattedDob;
+          // "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
-          individualPatientData.result!.contact!.contactNumber!;
+          individualPatientData!.result!.contact!.contactNumber!;
       editPatientEmailController.text = individualPatientData.result!.email!;
       editPatientFirstNameController.text =
           individualPatientData.result!.firstName!;
@@ -281,8 +287,6 @@ class PatientProvider extends ChangeNotifier {
           }
         }
       }
-      // editSelectedCountryId = individualPatientData.result!.contact!.address!.countryId;
-      // editSelectedStateId = individualPatientData.result!.contact!.address!.stateId;
       await getCountryMaster(context);
       if (countryMasterResponse != null &&
           countryMasterResponse!.result!.isNotEmpty) {
@@ -310,8 +314,14 @@ class PatientProvider extends ChangeNotifier {
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
     } else
     {
-      editPatientDobController.text =
-          "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
+      final DateTime dob = DateTime(
+        enterpriseUserData!.result!.contact!.doB!.year,
+        enterpriseUserData.result!.contact!.doB!.month,
+        enterpriseUserData.result!.contact!.doB!.day,
+      );
+      final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
+      editPatientDobController.text =formattedDob;
+          // "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
           enterpriseUserData.result!.contact!.contactNumber!;
       editPatientEmailController.text = enterpriseUserData.result!.emailId!;
@@ -342,17 +352,6 @@ class PatientProvider extends ChangeNotifier {
       editWeightController.text = enterpriseUserData.result!.weight == null
           ? ""
           : enterpriseUserData.result!.weight!;
-      // if (enterpriseUserData.result!.profilePicture != null) {
-      //   final imageUrl = enterpriseUserData.result!.profilePicture!.url;
-      //   if (imageUrl != null && imageUrl.isNotEmpty) {
-      //     final imagePath = await apiCalls.downloadImageAndReturnFilePath(imageUrl);
-      //     editPatientSelectedImage = imagePath != null ? File(imagePath.toString()) : null;
-      //   }
-      // }
-      // if(enterpriseUserData.result!.profilePicture!=null){
-      //   editPatientSelectedImage = await apiCalls.downloadImageAndReturnFilePath(
-      //       prefModel.userData!.profilePicture!.url.toString());
-      // }
       if (enterpriseUserData.result!.profilePicture != null) {
         final imageUrl = enterpriseUserData.result!.profilePicture!.url;
         if (imageUrl != null && imageUrl.isNotEmpty) {

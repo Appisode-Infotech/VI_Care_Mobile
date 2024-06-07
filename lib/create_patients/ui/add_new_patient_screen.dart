@@ -221,6 +221,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientFirstNameController,
           inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp(r'^\s')),
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
@@ -273,6 +274,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientLastNameController,
           inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp(r'^\s')),
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           validator: (value) {
@@ -438,7 +440,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
                       setState(() {
                         patientProvider.addNewPatientDobController.text =
                             // "${picked!.year}-${picked.month}-${picked.day}";
-                        DateFormat('yyyy-MM-dd').format(picked!);
+                        DateFormat('dd-MM-yyyy').format(picked!);
                       });
                     },
                     child: TextFormField(
@@ -617,9 +619,11 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.heightController,
-          keyboardType: TextInputType.number,
+          keyboardType:TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+          ],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -637,8 +641,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
               borderSide: const BorderSide(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
@@ -652,9 +655,11 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.weightController,
-          keyboardType: TextInputType.number,
+          keyboardType:TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+          ],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -943,6 +948,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           },
           keyboardType: TextInputType.streetAddress,
           inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp(r'^\s')),
             FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
           ],
           maxLength: 74,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -142,7 +143,12 @@ void showImageSourceDialog(BuildContext context,
   );
 }
 
+bool isToastShowing = false;
+late Timer _toastTimer;
+
 void showSuccessToast(BuildContext context, String content) {
+  if (!isToastShowing) {
+    isToastShowing = true;
   toastification.show(
     context: context, // optional if you use ToastificationWrapper
     type: ToastificationType.success,
@@ -164,30 +170,41 @@ void showSuccessToast(BuildContext context, String content) {
     pauseOnHover: true,
     dragToClose: true,
   );
+    _toastTimer = Timer(const Duration(seconds: 5), () {
+      isToastShowing = false;
+    });
+  }
 }
 
 void showErrorToast(BuildContext context, String content) {
-  toastification.show(
-    context: context, // optional if you use ToastificationWrapper
-    type: ToastificationType.error,
-    style: ToastificationStyle.fillColored,
-    autoCloseDuration: const Duration(seconds: 5),
-    title: const Text("Error"),
-    // you can also use RichText widget for title and description parameters
-    description: RichText(text: TextSpan(text: content)),
-    alignment: Alignment.topRight,
-    direction: TextDirection.ltr,
-    animationDuration: const Duration(milliseconds: 300),
-    icon: const Icon(Icons.error_outline),
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    borderRadius: BorderRadius.circular(12),
-    showProgressBar: true,
-    closeButtonShowType: CloseButtonShowType.onHover,
-    closeOnClick: false,
-    pauseOnHover: true,
-    dragToClose: true,
-  );
+  if (!isToastShowing) {
+    isToastShowing = true;
+    toastification.show(
+      context: context,
+      // optional if you use ToastificationWrapper
+      type: ToastificationType.error,
+      style: ToastificationStyle.fillColored,
+      autoCloseDuration: const Duration(seconds: 5),
+      title: const Text("Error"),
+      // you can also use RichText widget for title and description parameters
+      description: RichText(text: TextSpan(text: content)),
+      alignment: Alignment.topRight,
+      direction: TextDirection.ltr,
+      animationDuration: const Duration(milliseconds: 300),
+      icon: const Icon(Icons.error_outline),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      showProgressBar: true,
+      closeButtonShowType: CloseButtonShowType.onHover,
+      closeOnClick: false,
+      pauseOnHover: true,
+      dragToClose: true,
+    );
+    _toastTimer = Timer(const Duration(seconds: 5), () {
+      isToastShowing = false;
+    });
+  }
 }
 
 void showLoaderDialog(BuildContext context) {

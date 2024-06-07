@@ -948,6 +948,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                             : NetworkImage(patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture != null ? patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture!.url! : ''),
                                                                         radius:
                                                                             30,
+                                                                        backgroundColor: Colors.grey.shade400,
+                                                                        child: (patientSnapshot.data!.result![index].roleId == 2 && patientSnapshot.data!.result![index].individualProfile!.profilePicture == null) ||
+                                                                            (patientSnapshot.data!.result![index].roleId != 2 && patientSnapshot.data!.result![index].enterpriseProfile!.profilePicture == null)
+                                                                            ? const Icon(Icons.person, size: 30, color: Colors.white)
+                                                                            : null,
                                                                       ),
                                                                       const SizedBox(
                                                                         width:
@@ -959,7 +964,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                         crossAxisAlignment:
                                                                             CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Container(
+                                                                          SizedBox(
                                                                             width:
                                                                                 screenSize!.width / 3,
                                                                             child:
