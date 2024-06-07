@@ -6,7 +6,6 @@ import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
 import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
-import 'package:vicare/network/api_calls.dart';
 
 import '../../auth/model/register_response_model.dart';
 import '../../utils/app_buttons.dart';
@@ -28,7 +27,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool eligibleToLoad  =  true;
   @override
   Widget build(BuildContext context) {
-    print(prefModel.userData!.token);
     return Consumer(
       builder: (BuildContext context, ProfileProvider profileProvider,
           Widget? child) {
