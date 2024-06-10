@@ -314,6 +314,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal: screenSize!.width * .3),
                           child: getPrimaryAppButton(
+                              buttonColor: Colors.red,
                               context, AppLocale.stop.getString(context),
                               onPressed: () async {
                             bool userWantsToAbort =
@@ -329,6 +330,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal: screenSize!.width * .3),
                           child: getPrimaryAppButton(
+                            buttonColor: AppColors.primaryColor,
                               context, AppLocale.start.getString(context),
                               onPressed: () async {
                             await startRecordingReadings();

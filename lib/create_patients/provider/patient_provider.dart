@@ -158,6 +158,11 @@ class PatientProvider extends ChangeNotifier {
       "Female": "2",
       "Do not wish to specify": "3"
     };
+
+    String gender = genderMap.containsKey(addNewPatientGender)
+        ? genderMap[addNewPatientGender]!
+        : genderMap["Do not wish to specify"]!;
+
     showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response =
@@ -167,7 +172,8 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientEmailController.text,
               addNewPatientFirstNameController.text,
               addNewPatientLastNameController.text,
-              genderMap[addNewPatientGender] ?? "unknown",
+              // genderMap[addNewPatientGender] ?? "unknown",
+              gender,
               addPatientSelectedImage,
               addNewPatientContext!,
               addPatientBloodGroup!,
@@ -194,7 +200,8 @@ class PatientProvider extends ChangeNotifier {
               addNewPatientFirstNameController.text,
               addNewPatientLastNameController.text,
               addNewPatientAddressController.text,
-              genderMap[addNewPatientGender] ?? "unknown",
+              // genderMap[addNewPatientGender] ?? "unknown",
+              gender,
               addPatientSelectedImage,
               addNewPatientContext!,
               addPatientBloodGroup!,

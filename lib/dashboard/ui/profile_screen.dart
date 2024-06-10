@@ -227,6 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       InkWell(
                         onTap: () async {
+                          print(prefModel.userData!.token);
                           // await profileProvider.getCountryMaster(context);
                           await profileProvider.preFillEditProfile(context);
                           Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {

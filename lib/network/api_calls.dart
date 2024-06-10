@@ -40,8 +40,6 @@ import '../utils/url_constants.dart';
 String platform = Platform.isIOS ? "IOS" : "Android";
 
 class ApiCalls {
-
-
   Future<http.Response> hitApiPost(bool requiresAuth, String url, String body) async {
     try {
       http.Response response = await http.post(

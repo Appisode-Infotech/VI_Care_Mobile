@@ -247,21 +247,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           Row(
                                                             children: [
                                                               CircleAvatar(
-                                                                backgroundImage: reportsSnapshot
-                                                                            .data!
-                                                                            .result![
-                                                                                index]
-                                                                            .roleId ==
-                                                                        2
-                                                                    ? NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture !=
-                                                                            null
-                                                                        ? reportsSnapshot
-                                                                            .data!
-                                                                            .result![
-                                                                                index]
-                                                                            .individualProfile!
-                                                                            .profilePicture!
-                                                                            .url!
+                                                                backgroundImage: reportsSnapshot.data!.result![index].roleId == 2
+                                                                    ? NetworkImage(reportsSnapshot.data!.result![index].individualProfile!.profilePicture != null
+                                                                        ? reportsSnapshot.data!.result![index].individualProfile!.profilePicture!.url!
                                                                         : '')
                                                                     : NetworkImage(reportsSnapshot.data!.result![index].enterpriseProfile!.profilePicture !=
                                                                             null
@@ -429,27 +417,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                     reportsSnapshot.data!.result!.isNotEmpty
-                                        ? Align(
-                                            alignment: AlignmentDirectional
-                                                .bottomCenter,
-                                            child: DotsIndicator(
-                                              dotsCount: reportsSnapshot
-                                                  .data!.result!.length,
-                                              position: currentIndexPage,
-                                              decorator: DotsDecorator(
-                                                activeColor: Colors.white,
-                                                color: const Color(0xFFD9D9D9),
-                                                size: const Size.square(9.0),
-                                                activeSize:
-                                                    const Size(30.0, 9.0),
-                                                activeShape:
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0)),
+                                        ? FittedBox(
+                                          child: Align(
+                                              alignment: AlignmentDirectional
+                                                  .bottomCenter,
+                                              child: DotsIndicator(
+                                                dotsCount: reportsSnapshot
+                                                    .data!.result!.length,
+                                                position: currentIndexPage,
+                                                decorator: DotsDecorator(
+                                                  activeColor: Colors.white,
+                                                  color: const Color(0xFFD9D9D9),
+                                                  size: const Size.square(9.0),
+                                                  activeSize: const Size(30.0, 9.0),
+                                                  activeShape:
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5.0)),
+                                                ),
                                               ),
                                             ),
-                                          )
+                                        )
                                         : const SizedBox.shrink(),
                                   ],
                                 );

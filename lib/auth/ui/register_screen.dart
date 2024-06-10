@@ -921,7 +921,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
 
-        const Text("Height (Metres)",
+        const Text("Height (Meters)",
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
