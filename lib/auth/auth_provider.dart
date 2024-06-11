@@ -101,6 +101,7 @@ class AuthProvider extends ChangeNotifier {
   clearLoginForm() {
     loginEmailController.clear();
     loginPasswordController.clear();
+    loginFormKey.currentState?.reset();
     notifyListeners();
   }
 
@@ -188,6 +189,7 @@ class AuthProvider extends ChangeNotifier {
       Navigator.pop(context);
       showSuccessToast(context, response.message!);
       clearRegisterForm();
+      clearLoginForm();
       Navigator.pop(context);
     } else {
       showErrorToast(context, response.message!);

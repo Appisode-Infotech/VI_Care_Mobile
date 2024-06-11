@@ -93,11 +93,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               ? changePassword(profileProvider)
                               : const SizedBox.shrink(),
                           const SizedBox(height: 30),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               currentStep != 1
-                                  ? getPrimaryAppButton(
+                                  ? Expanded(
+                                      child: getPrimaryAppButton(
                                       context,
                                       AppLocale.previous.getString(context),
                                       onPressed: () async {
@@ -106,44 +107,47 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         });
                                       },
                                       buttonColor: Colors.red.shade500,
-                                    )
+                                    ))
                                   : const SizedBox.shrink(),
                               const SizedBox(
                                 height: 10,
                               ),
-                              (currentStep == 1)
-                                  ? getPrimaryAppButton(context,
-                                      AppLocale.next.getString(context),
-                                      onPressed: () async {
-                                      if (profileProvider.resetPasswordOtp ==
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: (currentStep == 1)
+                                    ? getPrimaryAppButton(context,
+                                        AppLocale.next.getString(context),
+                                        onPressed: () async {
+                                        if (profileProvider.resetPasswordOtp ==
+                                            profileProvider
+                                                .changePasswordOtpController
+                                                .text) {
+                                          showSuccessToast(
+                                              context,
+                                              AppLocale.otpSuccessful
+                                                  .getString(context));
+                                          setState(() {
+                                            currentStep = currentStep + 1;
+                                          });
+                                        } else {
+                                          showErrorToast(
+                                              context,
+                                              AppLocale.invalidOtp
+                                                  .getString(context));
+                                        }
+                                      })
+                                    : getPrimaryAppButton(context,
+                                        AppLocale.submit.getString(context),
+                                        onPressed: () async {
+                                        if (changePasswordFormKey.currentState!
+                                            .validate()) {
                                           profileProvider
-                                              .changePasswordOtpController
-                                              .text) {
-                                        showSuccessToast(
-                                            context,
-                                            AppLocale.otpSuccessful
-                                                .getString(context));
-                                        setState(() {
-                                          currentStep = currentStep + 1;
-                                        });
-                                      } else {
-                                        showErrorToast(
-                                            context,
-                                            AppLocale.invalidOtp
-                                                .getString(context));
-                                      }
-                                    })
-                                  : getPrimaryAppButton(context,
-                                      AppLocale.submit.getString(context),
-                                      onPressed: () async {
-                                      if (changePasswordFormKey.currentState!
-                                          .validate()) {
-                                        profileProvider.resetNewPassword(context);
-                                      }
-
-                                      // Navigator.pushNamedAndRemoveUntil(
-                                      //     context, Routes.profileRoute, (route) => false);
-                                    }),
+                                              .resetNewPassword(context);
+                                        }
+                                      }),
+                              )
                             ],
                           ),
                         ],
@@ -204,7 +208,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
             errorMaxLines: 2,
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(

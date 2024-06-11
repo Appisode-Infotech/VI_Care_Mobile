@@ -87,7 +87,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
-
                 // Scrollable part
                 Expanded(
                   child: SingleChildScrollView(
@@ -108,94 +107,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                currentStep != 1
-                                    ? getPrimaryAppButton(
-                                        context,
-                                        AppLocale.previous.getString(context),
-                                        onPressed: () async {
-                                          setState(() {
-                                            currentStep = currentStep - 1;
-                                          });
-                                        },
-                                        buttonColor: Colors.red.shade500,
-                                      )
-                                    : const SizedBox.shrink(),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                currentStep == 1 || currentStep == 2
-                                    ? getPrimaryAppButton(
-                                        context,
-                                        AppLocale.next.getString(context),
-                                        onPressed: () async {
-                                          if (authProvider
-                                              .registerFormKey.currentState!
-                                              .validate()) {
-                                            if (currentStep == 1) {
-                                              SendOtpResponseModel response =
-                                                  await authProvider.sendOtp(context);
-                                              authProvider.otpReceived =
-                                                  response.result!.otp;
-                                              authProvider.registerOtpController
-                                                  .clear();
-                                              setState(() {
-                                                currentStep = currentStep + 1;
-                                              });
-                                            } else if (currentStep == 2) {
-                                              if (authProvider.otpReceived ==
-                                                  authProvider
-                                                      .registerOtpController
-                                                      .text) {
-                                                showSuccessToast(context,
-                                                    AppLocale.otpSuccessful.getString(context));
-                                                setState(() {
-                                                  currentStep = currentStep + 1;
-                                                });
-                                              } else {
-                                                showErrorToast(
-                                                    context, AppLocale.invalidOtp.getString(context));
-                                                // show error toast invalid otp
-                                              }
-                                            }
-                                          }
-                                        },
-                                      )
-                                    : getPrimaryAppButton(
-                                        context,
-                                        AppLocale.proceedToSignUp
-                                            .getString(context),
-                                        onPressed: () async {
-                                          if (authProvider
-                                              .registerFormKey.currentState!
-                                              .validate()) {
-                                            // if (authProvider
-                                            //     .registerSelectedImage ==
-                                            //     null) {
-                                            //   showErrorToast(context,
-                                            //       AppLocale.validImage.getString(context));
-                                            //   return;
-                                            // }
-                                            authProvider.register(context);
-                                          }
-                                        },
-                                      ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                              ],
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          currentStep != 1
+                              ? Expanded(
+                              child:
+                              getPrimaryAppButton(
+                            context,
+                            AppLocale.previous.getString(context),
+                            onPressed: () async {
+                              setState(() {
+                                currentStep = currentStep - 1;
+                              });
+                            },
+                            buttonColor: Colors.red.shade500,
+                          )
+                          ): const SizedBox.shrink(),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: currentStep == 1 || currentStep == 2
+                                ? getPrimaryAppButton(
+                              context,
+                              AppLocale.next.getString(context),
+                              onPressed: () async {
+                                if (authProvider.registerFormKey.currentState!
+                                    .validate()) {
+                                  if (currentStep == 1) {
+                                    SendOtpResponseModel response =
+                                    await authProvider.sendOtp(context);
+                                    authProvider.otpReceived =
+                                        response.result!.otp;
+                                    authProvider.registerOtpController.clear();
+                                    setState(() {
+                                      currentStep = currentStep + 1;
+                                    });
+                                  } else if (currentStep == 2) {
+                                    if (authProvider.otpReceived ==
+                                        authProvider.registerOtpController.text) {
+                                      showSuccessToast(
+                                          context,
+                                          AppLocale.otpSuccessful.getString(
+                                              context));
+                                      setState(() {
+                                        currentStep = currentStep + 1;
+                                      });
+                                    } else {
+                                      showErrorToast(
+                                          context,
+                                          AppLocale.invalidOtp.getString(
+                                              context));
+                                    }
+                                  }
+                                }
+                              },
+                            ) : getPrimaryAppButton(
+                              context,
+                              AppLocale.proceedToSignUp.getString(context),
+                              onPressed: () async {
+                                if (authProvider.registerFormKey.currentState!
+                                    .validate()) {
+                                  // if (authProvider
+                                  //     .registerSelectedImage ==
+                                  //     null) {
+                                  //   showErrorToast(context,
+                                  //       AppLocale.validImage.getString(context));
+                                  //   return;
+                                  // }
+                                  authProvider.register(context);
+                                }
+                              },
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                    ])
                   ),
-                ),
-              ],
+                  ),),]
             ),
           ),
         );

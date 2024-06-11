@@ -181,7 +181,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               recognizer:  TapGestureRecognizer()
                                 ..onTap = () async {
                                 showLoaderDialog(context);
-                                  await authProvider.getRoleMasters(context);
+                                authProvider.clearRegisterForm();
+                                await authProvider.getRoleMasters(context);
                                     // await authProvider.getStateMaster(context);
                                     await authProvider.getCountryMaster(context);
                                     Navigator.pop(context);

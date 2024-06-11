@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -66,14 +67,49 @@ class _DeviceScreenState extends State<DeviceScreen> {
               },
             ),
           ),
-          body: FutureBuilder(
-            future: deviceProvider.getMyDevices(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DeviceResponseModel> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(
-                    width: screenSize!.width,
-                    child: Shimmer.fromColors(
+          body: OfflineBuilder(
+            connectivityBuilder: (BuildContext context,
+                ConnectivityResult connectivity, Widget child) {
+              final bool connected = connectivity != ConnectivityResult.none;
+              if (!connected) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.wifi_off,
+                        size: 80,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        "No Internet",
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Please check your internet\n connection and try again.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey.shade500
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return FutureBuilder(
+                future: deviceProvider.getMyDevices(),
+                builder: (BuildContext context, AsyncSnapshot<DeviceResponseModel> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      width: screenSize!.width,
+                      child: Shimmer.fromColors(
                         baseColor: Colors.grey.shade300,
                         highlightColor: Colors.grey.shade100,
                         enabled: true,
@@ -90,12 +126,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
                               color: Colors.grey.shade300,
                             );
                           },
-                        )));
-              }
-              if (snapshot.hasData) {
-                return (snapshot.data!.result != null &&
+                        ),
+                      ),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    return (snapshot.data!.result != null &&
                         snapshot.data!.result!.isNotEmpty)
-                    ? ListView.separated(
+                        ? ListView.separated(
                         itemBuilder: (BuildContext listViewContext, int index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(
@@ -104,18 +142,21 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                 horizontal: 10, vertical: 16),
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                                 color: Colors.white),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
                                   width: screenSize!.width * 0.7,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       _buildRow(
                                           AppLocale.deviceScreenName
@@ -131,11 +172,10 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                           AppLocale.bluetoothType
                                               .getString(context),
                                           snapshot.data!.result![index].device!
-                                                      .deviceCategory ==
-                                                  2
+                                              .deviceCategory ==
+                                              2
                                               ? 'LE'
                                               : 'Classic'),
-                                      // _buildRow(AppLocale.deviceKey.getString(context), snapshot.data!.result![index].device!.deviceKey!),
                                     ],
                                   ),
                                 ),
@@ -146,8 +186,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                           context);
                                     },
                                     child: const CircleAvatar(
-                                        child:
-                                            Icon(Icons.delete_outline_rounded)))
+                                        child: Icon(Icons.delete_outline_rounded)))
                               ],
                             ),
                           );
@@ -157,34 +196,41 @@ class _DeviceScreenState extends State<DeviceScreen> {
                           return const SizedBox();
                         },
                         itemCount: snapshot.data!.result!.length)
-                    : Center(
-                        child: Text(
-                          AppLocale.noDevicesFound.getString(context),
-                          style: const TextStyle(
-                              fontSize: 18, color: AppColors.fontShadeColor),
-                        ),
-                      );
-              }
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
-              } else {
-                return Center(
-                    child: Text(AppLocale.loading.getString(context)));
-              }
+                        : Center(
+                      child: Text(
+                        AppLocale.noDevicesFound.getString(context),
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: AppColors.fontShadeColor),
+                      ),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  } else {
+                    return Center(
+                      child: Text(AppLocale.loading.getString(context)),
+                    );
+                  }
+                },
+              );
             },
+            child: CircularProgressIndicator(),
           ),
           floatingActionButton: FloatingActionButton(
-              onPressed: showDeviceSelectionBottomSheet,
-              backgroundColor: Colors.teal.shade100,
-              child: Icon(
-                Icons.add,
-                color: Colors.teal.shade800,
-              )),
+            onPressed: showDeviceSelectionBottomSheet,
+            backgroundColor: Colors.teal.shade100,
+            child: Icon(
+              Icons.add,
+              color: Colors.teal.shade800,
+            ),
+          ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );
-      },
+
+          },
     );
   }
 

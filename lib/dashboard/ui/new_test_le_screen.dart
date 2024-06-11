@@ -136,245 +136,250 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     selectedDevice = arguments['selectedDevice'];
     selectedDuration = arguments['selectedDuration'];
     double progressPercent = elapsedSeconds / totalSeconds;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocale.takeTest.getString(context)),
-        actions: [
-          IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext infoSheetContext) {
-                      return SingleChildScrollView(
-                        child: Container(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "FAQ",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Icon(Icons.close)),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Text(
-                                    "Throughout the day, your body is exposed to a flood of constantly changing demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
-                              ],
-                            )),
-                      );
+    return WillPopScope(
+      onWillPop: () async {
+        return await showStopTestWarningDialog(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocale.takeTest.getString(context)),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext infoSheetContext) {
+                        return SingleChildScrollView(
+                          child: Container(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "FAQ",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Icon(Icons.close)),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Text(
+                                      "Throughout the day, your body is exposed to a flood of constantly changing demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate. With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent. The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement. The Readyness Score shows you how well you can cope with your day."),
+                                ],
+                              )),
+                        );
+                      });
+                },
+                icon: const Icon(Icons.info_outline_rounded))
+          ],
+        ),
+        body: Consumer(
+          builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
+              Widget? child) {
+            if (isFirstTimeLoading) {
+              connectedDevice = newTestLeProvider.connectedDevice;
+              totalSeconds = selectedDuration!.durationInMinutes! * 60;
+              newTestLeProvider.connectedDevice!.state.listen((state) {
+                if (mounted) {
+                  // Check if the widget is still mounted
+                  if (state == BluetoothDeviceState.disconnected) {
+                    clearRecordingsData();
+                    _stopTimer();
+                    // Await reset new test
+                    newTestLeProvider.connectedDevice!.disconnect().then((_) {
+                      if (mounted) {
+                        setState(() {
+                          deviceStatus = state;
+                        });
+                      }
                     });
-              },
-              icon: const Icon(Icons.info_outline_rounded))
-        ],
-      ),
-      body: Consumer(
-        builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
-            Widget? child) {
-          if (isFirstTimeLoading) {
-            connectedDevice = newTestLeProvider.connectedDevice;
-            totalSeconds = selectedDuration!.durationInMinutes! * 60;
-            newTestLeProvider.connectedDevice!.state.listen((state) {
-              if (mounted) {
-                // Check if the widget is still mounted
-                if (state == BluetoothDeviceState.disconnected) {
-                  clearRecordingsData();
-                  _stopTimer();
-                  // Await reset new test
-                  newTestLeProvider.connectedDevice!.disconnect().then((_) {
+                  } else {
                     if (mounted) {
                       setState(() {
                         deviceStatus = state;
                       });
                     }
-                  });
-                } else {
-                  if (mounted) {
-                    setState(() {
-                      deviceStatus = state;
-                    });
                   }
                 }
-              }
-            });
-            isFirstTimeLoading = false;
-          }
-          if (deviceStatus == BluetoothDeviceState.disconnected ||
-              bluetoothState == BluetoothState.off) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10),
-                  child: Center(
-                      child: Icon(
-                    Icons.bluetooth_disabled_outlined,
-                    size: screenSize!.width * .25,
-                    color: AppColors.primaryColor,
-                  )),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: screenSize!.width * .2),
-                  child: Text(
-                    AppLocale.deviceDisconnectedRange.getString(context),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        color: AppColors.fontShadeColor, fontSize: 16),
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: getPrimaryAppButton(
-                        context, AppLocale.reconnect.getString(context),
-                        onPressed: () async {
-                      newTestLeProvider.connectToDevice((isConnected) {
-                        Navigator.pop(context);
-                        if (isConnected) {
-                          setState(() {
-                            isFirstTimeLoading = true;
-                          });
-                        }
-                      }, selectedDevice, context);
-                    }),
-                  ),
-                )
-              ],
-            );
-          } else {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              });
+              isFirstTimeLoading = false;
+            }
+            if (deviceStatus == BluetoothDeviceState.disconnected ||
+                bluetoothState == BluetoothState.off) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 20,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
+                    child: Center(
+                        child: Icon(
+                      Icons.bluetooth_disabled_outlined,
+                      size: screenSize!.width * .25,
+                      color: AppColors.primaryColor,
+                    )),
                   ),
-                  CircularPercentIndicator(
-                    radius: 80.0,
-                    lineWidth: 15.0,
-                    percent: progressPercent,
-                    center: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: screenSize!.width * .15,
-                          child: Text(
-                            maxLines: 1,
-                            '${(elapsedSeconds ~/ 60).toString().padLeft(2, '0')}:${(elapsedSeconds % 60).toString().padLeft(2, '0')}',
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        GestureDetector(
-                            onTap: () {},
-                            child: const Icon(
-                              Icons.timer_outlined,
-                              color: AppColors.primaryColor,
-                            ))
-                      ],
-                    ),
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: AppColors.primaryColor,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '$heartRate BPM',
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w600,
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenSize!.width * .2),
+                    child: Text(
+                      AppLocale.deviceDisconnectedRange.getString(context),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: AppColors.fontShadeColor, fontSize: 16),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  isRunning
-                      ? Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenSize!.width * .3),
-                          child: getPrimaryAppButton(
-                              buttonColor: Colors.red,
-                              context, AppLocale.stop.getString(context),
-                              onPressed: () async {
-                            bool userWantsToAbort =
-                                await showStopTestWarningDialog(context);
-                            if (userWantsToAbort) {
-                              await stopTestRecording();
-                              await clearRecordingsData();
-                              _stopTimer();
-                            }
-                          }),
-                        )
-                      : Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenSize!.width * .3),
-                          child: getPrimaryAppButton(
-                            buttonColor: AppColors.primaryColor,
-                              context, AppLocale.start.getString(context),
-                              onPressed: () async {
-                            await startRecordingReadings();
-                            _startTimer(newTestLeProvider);
-                          }),
-                        ),
-
-                  // Container(
-                  //   child: ,
-                  // )
-
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  rrIntervalChartData.isNotEmpty
-                      ? Expanded(
-                          child: SfCartesianChart(
-                            plotAreaBorderWidth: 0,
-                            primaryXAxis: const NumericAxis(
-                              title: AxisTitle(text: 'TIME IN SEC'),
-                              axisLine: AxisLine(width: 1),
-                              borderColor: Colors.black,
-                              majorGridLines: MajorGridLines(width: 0),
-                              autoScrollingDelta: 50,
-                              // Adjust this value as needed
-                              autoScrollingMode: AutoScrollingMode.end,
-                            ),
-                            primaryYAxis: const NumericAxis(
-                              title: AxisTitle(text: 'RR INTERVAL'),
-                              axisLine: AxisLine(width: 1),
-                              borderColor: Colors.black,
-                              majorTickLines: MajorTickLines(size: 0),
-                              rangePadding: ChartRangePadding.additional,
-                            ),
-                            series: _getLiveUpdateSeries(),
-                            trackballBehavior: _trackballBehavior,
-                          ),
-                        )
-                      : const SizedBox(),
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: getPrimaryAppButton(
+                          context, AppLocale.reconnect.getString(context),
+                          onPressed: () async {
+                        newTestLeProvider.connectToDevice((isConnected) {
+                          Navigator.pop(context);
+                          if (isConnected) {
+                            setState(() {
+                              isFirstTimeLoading = true;
+                            });
+                          }
+                        }, selectedDevice, context);
+                      }),
+                    ),
+                  )
                 ],
-              ),
-            );
-          }
-        },
+              );
+            } else {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CircularPercentIndicator(
+                      radius: 80.0,
+                      lineWidth: 15.0,
+                      percent: progressPercent,
+                      center: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: screenSize!.width * .15,
+                            child: Text(
+                              maxLines: 1,
+                              '${(elapsedSeconds ~/ 60).toString().padLeft(2, '0')}:${(elapsedSeconds % 60).toString().padLeft(2, '0')}',
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.timer_outlined,
+                                color: AppColors.primaryColor,
+                              ))
+                        ],
+                      ),
+                      circularStrokeCap: CircularStrokeCap.round,
+                      progressColor: AppColors.primaryColor,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      '$heartRate BPM',
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    isRunning
+                        ? Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenSize!.width * .3),
+                            child: getPrimaryAppButton(
+                                buttonColor: Colors.red,
+                                context, AppLocale.stop.getString(context),
+                                onPressed: () async {
+                              bool userWantsToAbort =
+                                  await showStopTestWarningDialog(context);
+                              if (userWantsToAbort) {
+                                await stopTestRecording();
+                                await clearRecordingsData();
+                                _stopTimer();
+                              }
+                            }),
+                          )
+                        : Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenSize!.width * .3),
+                            child: getPrimaryAppButton(
+                              buttonColor: AppColors.primaryColor,
+                                context, AppLocale.start.getString(context),
+                                onPressed: () async {
+                              await startRecordingReadings();
+                              _startTimer(newTestLeProvider);
+                            }),
+                          ),
+      
+                    // Container(
+                    //   child: ,
+                    // )
+      
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    rrIntervalChartData.isNotEmpty
+                        ? Expanded(
+                            child: SfCartesianChart(
+                              plotAreaBorderWidth: 0,
+                              primaryXAxis: const NumericAxis(
+                                title: AxisTitle(text: 'TIME IN SEC'),
+                                axisLine: AxisLine(width: 1),
+                                borderColor: Colors.black,
+                                majorGridLines: MajorGridLines(width: 0),
+                                autoScrollingDelta: 50,
+                                // Adjust this value as needed
+                                autoScrollingMode: AutoScrollingMode.end,
+                              ),
+                              primaryYAxis: const NumericAxis(
+                                title: AxisTitle(text: 'RR INTERVAL'),
+                                axisLine: AxisLine(width: 1),
+                                borderColor: Colors.black,
+                                majorTickLines: MajorTickLines(size: 0),
+                                rangePadding: ChartRangePadding.additional,
+                              ),
+                              series: _getLiveUpdateSeries(),
+                              trackballBehavior: _trackballBehavior,
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

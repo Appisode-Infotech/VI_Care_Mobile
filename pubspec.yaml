@@ -66,6 +66,7 @@ dependencies:
   permission_handler: ^11.3.1
   connectivity_plus: ^6.0.3
   toastification: ^2.0.0
+  flutter_offline: ^2.0.0
 
 dev_dependencies:
   flutter_test:

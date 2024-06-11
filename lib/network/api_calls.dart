@@ -1072,49 +1072,58 @@ class ApiCalls {
     }
   }
 
-  Future<MyReportsResponseModel> getMyReports(
-      String? reportTime, String? reportStatus) async {
-    int timeType = 0;
-    int reportStatusType = 0;
+    Future<MyReportsResponseModel> getMyReports(
+        String? reportTime, String? reportStatus, String? pId) async {
+      int timeType = 0;
+      int reportStatusType = 0;
 
-    if (reportTime == 'This Week') {
-      timeType = 1;
-    } else if (reportTime == 'This Month') {
-      timeType = 2;
-    }
+      if (reportTime == 'This Week') {
+        timeType = 1;
+      } else if (reportTime == 'This Month') {
+        timeType = 2;
+      }
 
-    if (reportStatus == 'New') {
-      reportStatusType = 1;
-    } else if (reportStatus == 'In Progress') {
-      reportStatusType = 2;
-    } else if (reportStatus == 'Success') {
-      reportStatusType = 3;
-    } else if (reportStatus == 'Fail') {
-      reportStatusType = 4;
-    }
+      if (reportStatus == 'New') {
+        reportStatusType = 1;
+      } else if (reportStatus == 'In Progress') {
+        reportStatusType = 2;
+      } else if (reportStatus == 'Success') {
+        reportStatusType = 3;
+      } else if (reportStatus == 'Fail') {
+        reportStatusType = 4;
+      }
+      String url = "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
 
-    String url =
-        "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
-    if (timeType != 0 || reportStatusType != 0) {
-      url += "?";
-      if (timeType != 0) {
-        url += "time=$timeType";
+      if (timeType != 0 || reportStatusType != 0 || pId != null) {
+        url += "?";
+        if (timeType != 0) {
+          url += "time=$timeType";
+          if (reportStatusType != 0 || pId != null) {
+            url += "&";
+          }
+        }
         if (reportStatusType != 0) {
-          url += "&";
+          url += "statusType=$reportStatusType";
+          if (pId != null) {
+            url += "&";
+          }
+        }
+        if (pId != 'null') {
+          if (prefModel.userData!.roleId == 2) {
+            url += "individualProfileId=$pId";
+          } else {
+            url += "enterpriseProfileId=$pId";
+          }
         }
       }
-      if (reportStatusType != 0) {
-        url += "statusType=$reportStatusType";
+      http.Response response = await hitApiGet(true, url);
+      print(url);
+      if (response.statusCode == 200) {
+        return MyReportsResponseModel.fromJson(json.decode(response.body));
+      } else {
+        throw "could not fetch devices ${response.statusCode}";
       }
     }
-
-    http.Response response = await hitApiGet(true, url);
-    if (response.statusCode == 200) {
-      return MyReportsResponseModel.fromJson(json.decode(response.body));
-    } else {
-      throw "could not fetch devices ${response.statusCode}";
-    }
-  }
 
   Future<DashboardCountResponseModel> getDashboardCounts(int pId) async {
     if (prefModel.userData!.roleId == 2) {

@@ -144,7 +144,7 @@ void showImageSourceDialog(BuildContext context,
 }
 
 bool isToastShowing = false;
-late Timer _toastTimer;
+late Timer toastTimer;
 
 void showSuccessToast(BuildContext context, String content) {
   if (!isToastShowing) {
@@ -164,13 +164,13 @@ void showSuccessToast(BuildContext context, String content) {
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     borderRadius: BorderRadius.circular(12),
-    showProgressBar: true,
+    showProgressBar: false,
     closeButtonShowType: CloseButtonShowType.onHover,
     closeOnClick: false,
     pauseOnHover: true,
     dragToClose: true,
   );
-    _toastTimer = Timer(const Duration(seconds: 5), () {
+    toastTimer = Timer(const Duration(seconds: 5), () {
       isToastShowing = false;
     });
   }
@@ -195,13 +195,13 @@ void showErrorToast(BuildContext context, String content) {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       borderRadius: BorderRadius.circular(12),
-      showProgressBar: true,
+      showProgressBar: false,
       closeButtonShowType: CloseButtonShowType.onHover,
       closeOnClick: false,
       pauseOnHover: true,
       dragToClose: true,
     );
-    _toastTimer = Timer(const Duration(seconds: 5), () {
+    toastTimer = Timer(const Duration(seconds: 5), () {
       isToastShowing = false;
     });
   }
@@ -365,9 +365,10 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
 
       return Consumer(
         builder: (BuildContext consumerContext, NewTestLeProvider newTestLeProvider, Widget? child) {
-          return  SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Container(
+          return  ListView(
+            shrinkWrap: true,
+            children: [
+              Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               width: screenSize!.width,
               child: Form(
@@ -508,7 +509,7 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                   ],
                 ),
               ),
-            ),
+            ),]
           );
         },
       );

@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/create_patients/model/all_patients_response_model.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
-import 'package:vicare/main.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 import '../../create_patients/model/all_enterprise_users_response_model.dart';
+import '../../main.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
 import '../../utils/routes.dart';
@@ -22,425 +23,390 @@ class ManagePatientsScreen extends StatefulWidget {
 class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
   @override
   void didChangeDependencies() {
-    if (prefModel.userData!.roleId == 2) {
-      Provider.of<PatientProvider>(context, listen: false).getMyPatients(context);
-    } else {
-      Provider.of<PatientProvider>(context, listen: false).getEnterpriseProfiles(context);
-    }
     super.didChangeDependencies();
+    _fetchData();
+  }
+
+  void _fetchData() {
+    final patientProvider = Provider.of<PatientProvider>(context, listen: false);
+    if (prefModel.userData!.roleId == 2) {
+      patientProvider.getMyPatients(context);
+    } else {
+      patientProvider.getEnterpriseProfiles(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (BuildContext context, PatientProvider patientProvider,
-          Widget? child) {
+    return Consumer<PatientProvider>(
+      builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
         patientProvider.relGetPatientContext = context;
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              prefModel.userData!.roleId == 2
-                  ? AppLocale.manageMembers.getString(context)
-                  : prefModel.userData!.roleId == 3
-                  ? AppLocale.managePatients.getString(context)
-                  : prefModel.userData!.roleId == 4
-                  ? AppLocale.managePlayers.getString(context)
-                  : "",
-              style: const TextStyle(color: Colors.white),
-            ),
-            backgroundColor: AppColors.primaryColor,
-            toolbarHeight: 75,
-            automaticallyImplyLeading: false,
-          ),
-          body: RefreshIndicator(
-            onRefresh: ()async {
-              setState(() {
-                didChangeDependencies();
-              });
-            },
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                child: prefModel.userData!.roleId == 2
-                    ? FutureBuilder(
-                  future: patientProvider.individualPatients,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<AllPatientsResponseModel> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SizedBox(
-                          width: screenSize!.width,
-                          child: Shimmer.fromColors(
+        return OfflineBuilder(
+          connectivityBuilder: (BuildContext context,
+              ConnectivityResult connectivity, Widget child) {
+            final bool connected = connectivity != ConnectivityResult.none;
+            if(connected){
+              _fetchData();
+            }
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  prefModel.userData!.roleId == 2
+                      ? AppLocale.manageMembers.getString(context)
+                      : prefModel.userData!.roleId == 3
+                      ? AppLocale.managePatients.getString(context)
+                      : prefModel.userData!.roleId == 4
+                      ? AppLocale.managePlayers.getString(context)
+                      : "",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                backgroundColor: AppColors.primaryColor,
+                toolbarHeight: 75,
+                automaticallyImplyLeading: false,
+              ),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  _fetchData();
+                },
+                child: connected ? SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                    child: prefModel.userData!.roleId == 2
+                        ? FutureBuilder<AllPatientsResponseModel>(
+                      future: patientProvider.individualPatients,
+                      builder: (BuildContext context, AsyncSnapshot<AllPatientsResponseModel> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Shimmer.fromColors(
                               baseColor: Colors.grey.shade300,
                               highlightColor: Colors.grey.shade100,
                               enabled: true,
                               child: GridView.builder(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 itemCount: 9,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
                                 ),
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   return Container(
                                     width: 100,
                                     height: 100,
                                     color: Colors.grey.shade300,
                                   );
                                 },
-                              )));
-                    }
-                    if (snapshot.hasData) {
-                      return GridView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        itemCount: snapshot.data!.result!.length + 1,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          if (index == 0) {
-                            return InkWell(
-                              onTap: () async {
-                                patientProvider.clearAddPatientForm();
-                                await patientProvider.getCountryMaster(context);
-                                Navigator.pushNamed(
-                                    context, Routes.addNewPatientRoute)
-                                    .then((value) {
-                                  setState(() {
-                                    patientProvider.getMyPatients(context);
-                                    patientProvider
-                                        .getEnterpriseProfiles(context);
-                                  });
-                                  return null;
-                                });
-                              },
-                              child: DottedBorder(
-                                dashPattern: const [2, 2],
-                                color: Colors.black,
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(12),
-                                strokeWidth: 1,
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Center(
+                              ),
+                            ),
+                          );
+                        }
+                        if (snapshot.hasData) {
+                          return GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: snapshot.data!.result!.length + 1,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == 0) {
+                                return InkWell(
+                                  onTap: () async {
+                                    patientProvider.clearAddPatientForm();
+                                    await patientProvider.getCountryMaster(context);
+                                    Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                      _fetchData();
+                                    });
+                                  },
+                                  child: DottedBorder(
+                                    dashPattern: const [2, 2],
+                                    color: Colors.black,
+                                    borderType: BorderType.RRect,
+                                    radius: const Radius.circular(12),
+                                    strokeWidth: 1,
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            const Icon(Icons.add),
+                                            Text(
+                                              prefModel.userData!.roleId == 2
+                                                  ? AppLocale.newMember.getString(context)
+                                                  : prefModel.userData!.roleId == 3
+                                                  ? AppLocale.newPatient.getString(context)
+                                                  : prefModel.userData!.roleId == 4
+                                                  ? AppLocale.newPlayer.getString(context)
+                                                  : "",
+                                              style: const TextStyle(color: Colors.black, fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                index = index - 1;
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, Routes.patientDetailsRoute, arguments: {
+                                      "id": snapshot.data!.result![index].id,
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    height: 100,
+                                    width: 100,
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      color: AppColors.primaryColor,
+                                    ),
                                     child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Icon(Icons.add),
+                                        snapshot.data!.result![index].profilePicture != null
+                                            ? CircleAvatar(
+                                          radius: 22,
+                                          backgroundColor: Colors.grey,
+                                          backgroundImage: NetworkImage(
+                                            snapshot.data!.result![index].profilePicture!.url.toString(),
+                                          ),
+                                        )
+                                            : const CircleAvatar(
+                                          radius: 22,
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                                         Text(
-                                          prefModel.userData!.roleId == 2
-                                              ? AppLocale.newMember
-                                              .getString(context)
-                                              : prefModel.userData!.roleId ==
-                                              3
-                                              ? AppLocale.newPatient
-                                              .getString(context)
-                                              : prefModel.userData!
-                                              .roleId ==
-                                              4
-                                              ? AppLocale.newPlayer
-                                              .getString(context)
-                                              : "",
+                                          "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
                                           style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
+                                              overflow: TextOverflow.ellipsis,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: Colors.white),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                          style: const TextStyle(
+                                              fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            index = index - 1;
-                            return InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, Routes.patientDetailsRoute,arguments: {
-                                  "id":snapshot.data!.result![index].id,
-                                });
-                                // patientProvider.getIndividualUserData(
-                                //     snapshot.data!.result![index].id
-                                //         .toString(),
-                                //     context);
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 5),
-                                height: 100,
-                                width: 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                                  color: AppColors.primaryColor,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    snapshot.data!.result![index]
-                                        .profilePicture !=
-                                        null
-                                        ? CircleAvatar(
-                                      radius: 22,
-                                      backgroundColor: Colors.grey,
-                                      backgroundImage: NetworkImage(
-                                        snapshot.data!.result![index]
-                                            .profilePicture!.url
-                                            .toString(),
-                                      ),
-                                    )
-                                        : const CircleAvatar(
-                                      radius: 22,
-                                      backgroundColor: Colors.grey,
-                                      child: Icon(
-                                        Icons.person,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      // maxLines: 1,
-                                      "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                      style: const TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                          color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
-                                      style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else {
-                      return  Center(child: Text(AppLocale.loading.getString(context)));
-                    }
-                  },
-                )
-                    : FutureBuilder(
-                  future: patientProvider.enterprisePatients,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<AllEnterpriseUsersResponseModel>
-                      snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SizedBox(
-                          width: screenSize!.width,
-                          child: Shimmer.fromColors(
+                                );
+                              }
+                            },
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        } else {
+                          return Center(child: Text(AppLocale.loading.getString(context)));
+                        }
+                      },
+                    )
+                        : FutureBuilder<AllEnterpriseUsersResponseModel>(
+                      future: patientProvider.enterprisePatients,
+                      builder: (BuildContext context, AsyncSnapshot<AllEnterpriseUsersResponseModel> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Shimmer.fromColors(
                               baseColor: Colors.grey.shade300,
                               highlightColor: Colors.grey.shade100,
                               enabled: true,
                               child: GridView.builder(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 itemCount: 9,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
                                 ),
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   return Container(
                                     width: 100,
                                     height: 100,
                                     color: Colors.grey.shade300,
                                   );
                                 },
-                              )));
-                    }
-
-                    if (snapshot.hasData) {
-                      return GridView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        itemCount: snapshot.data!.result!.length + 1,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          if (index == 0) {
-                            return InkWell(
-                              onTap: () {
-                                patientProvider.clearAddPatientForm();
-                                Navigator.pushNamed(
-                                    context, Routes.addNewPatientRoute)
-                                    .then((value) {
-                                  setState(() {
-                                    patientProvider.getMyPatients(context);
-                                    patientProvider
-                                        .getEnterpriseProfiles(context);
-                                  });
-                                  return null;
-                                });
-                              },
-                              child: DottedBorder(
-                                dashPattern: const [2, 2],
-                                color: Colors.black,
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(12),
-                                strokeWidth: 1,
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Center(
+                              ),
+                            ),
+                          );
+                        }
+                        if (snapshot.hasData) {
+                          return GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: snapshot.data!.result!.length + 1,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == 0) {
+                                return InkWell(
+                                  onTap: () {
+                                    patientProvider.clearAddPatientForm();
+                                    Navigator.pushNamed(context, Routes.addNewPatientRoute).then((value) {
+                                      _fetchData();
+                                    });
+                                  },
+                                  child: DottedBorder(
+                                    dashPattern: const [2, 2],
+                                    color: Colors.black,
+                                    borderType: BorderType.RRect,
+                                    radius: const Radius.circular(12),
+                                    strokeWidth: 1,
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            const Icon(Icons.add),
+                                            Text(
+                                              prefModel.userData!.roleId == 2
+                                                  ? AppLocale.newMember.getString(context)
+                                                  : prefModel.userData!.roleId == 3
+                                                  ? AppLocale.newPatient.getString(context)
+                                                  : prefModel.userData!.roleId == 4
+                                                  ? AppLocale.newPlayer.getString(context)
+                                                  : "",
+                                              style: const TextStyle(color: Colors.black, fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                index = index - 1;
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, Routes.patientDetailsRoute, arguments: {
+                                      "id": snapshot.data!.result![index].id,
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    height: 100,
+                                    width: 100,
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      color: AppColors.primaryColor,
+                                    ),
                                     child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Icon(Icons.add),
+                                        snapshot.data!.result![index].profilePicture != null
+                                            ? CircleAvatar(
+                                          radius: 22,
+                                          backgroundColor: Colors.grey,
+                                          backgroundImage: NetworkImage(
+                                            snapshot.data!.result![index].profilePicture!.url.toString(),
+                                          ),
+                                        )
+                                            : const CircleAvatar(
+                                          radius: 22,
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
                                         Text(
-                                          prefModel.userData!.roleId == 2
-                                              ? AppLocale.newMember
-                                              .getString(context)
-                                              : prefModel.userData!.roleId ==
-                                              3
-                                              ? AppLocale.newPatient
-                                              .getString(context)
-                                              : prefModel.userData!
-                                              .roleId ==
-                                              4
-                                              ? AppLocale.newPlayer
-                                              .getString(context)
-                                              : "",
+                                          "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
                                           style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
+                                              overflow: TextOverflow.ellipsis,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: Colors.white),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
+                                          style: const TextStyle(
+                                              fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            index = index - 1;
-                            return InkWell(
-                              onTap: () async {
-                                Navigator.pushNamed(context, Routes.patientDetailsRoute,arguments: {
-                                  "id":snapshot.data!.result![index].id,
-                                });
-                                // patientProvider.getEnterpriseUserData(snapshot.data!.result![index].id.toString(), context);
-
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 5),
-                                height: 100,
-                                width: 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                                  color: AppColors.primaryColor,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    snapshot.data!.result![index]
-                                        .profilePicture !=
-                                        null
-                                        ? CircleAvatar(
-                                      radius: 22,
-                                      backgroundColor: Colors.grey,
-                                      backgroundImage: NetworkImage(
-                                        snapshot.data!.result![index]
-                                            .profilePicture!.url
-                                            .toString(),
-                                      ),
-                                    )
-                                        : const CircleAvatar(
-                                      radius: 22,
-                                      backgroundColor: Colors.grey,
-                                      child: Icon(
-                                        Icons.person,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      // maxLines: 2,
-                                      "${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!}",
-                                      style: const TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                          color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      "${patientProvider.calculateAge(snapshot.data!.result![index].contact!.doB.toString())} ${AppLocale.years.getString(context)}",
-                                      style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else {
-                      return  Center(child: Text(AppLocale.loading.getString(context)));
-                    }
-                  },
+                                );
+                              }
+                            },
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        } else {
+                          return Center(child: Text(AppLocale.loading.getString(context)));
+                        }
+                      },
+                    ),
+                  ),
+                ) : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.wifi_off,
+                      size: 80,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "No Internet",
+                      style: TextStyle(fontSize: 24, color: Colors.grey, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Please check your internet\n connection and try again.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ),
+              ));
+          },
+          child: const Center(child: CircularProgressIndicator()),
         );
       },
     );

@@ -419,7 +419,7 @@ mixin AppLocale {
     errorConnecting: 'Error connecting to',
     deviceDisconnected: 'Disconnected from device',
     summary: "Summary",
-    readiness: "Readiness scores",
+    readiness: "Latest readiness score",
     resting: "Resting heart rate",
     low: "Low",
     high: "High",

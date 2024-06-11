@@ -325,11 +325,11 @@ class TakeTestProvider extends ChangeNotifier {
 
   Future<MyReportsResponseModel>? myReports;
   getMyReports(String? reportTime, String? reportStatus) async {
-   myReports = apiCalls.getMyReports(reportTime,reportStatus);
+   myReports = apiCalls.getMyReports(reportTime,reportStatus,null);
   }
 
-  Future<MyReportsResponseModel>getMyReportsWithFilter(String? reportTime, String? reportStatus) async {
-    return apiCalls.getMyReports(reportTime,reportStatus);
+  Future<MyReportsResponseModel>getMyReportsWithFilter(String? reportTime, String? reportStatus, String? pId) async {
+    return apiCalls.getMyReports(reportTime,reportStatus,pId);
   }
 
   Future<ReportsDetailModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {

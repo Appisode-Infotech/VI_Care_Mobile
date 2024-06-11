@@ -127,71 +127,69 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                         ? resetPassword(screenSize!, authProvider)
                         : const SizedBox.shrink(),
                     const SizedBox(height: 30),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        currentStep != 1
-                            ? getPrimaryAppButton(
-                                context,
-                                AppLocale.previous.getString(context),
-                                onPressed: () async {
-                                  setState(() {
-                                    currentStep = currentStep - 1;
-                                  });
-                                },
-                                buttonColor: Colors.red.shade500,
-                              )
-                            : const SizedBox.shrink(),
-                        const SizedBox(
-                          height: 10,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      currentStep != 1
+                          ? Expanded(
+                        child: getPrimaryAppButton(
+                          context,
+                          AppLocale.previous.getString(context),
+                          onPressed: () async {
+                            setState(() {
+                              currentStep = currentStep - 1;
+                            });
+                          },
+                          buttonColor: Colors.red.shade500,
                         ),
-                        (currentStep == 1)
+                      ) : const SizedBox.shrink(),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: (currentStep == 1)
                             ? getPrimaryAppButton(
-                                context, AppLocale.next.getString(context),
-                                onPressed: () async {
-                                if (authProvider
-                                    .forgotPasswordFormKey.currentState!
-                                    .validate()) {
-                                  SendOtpResponseModel response =
-                                      await authProvider
-                                          .sendOtpForResetPassword();
-                                  if (response.result != null) {
-                                    showSuccessToast(
-                                        context, response.message!);
-                                    resetPasswordOtp = response.result!.otp;
-                                    setState(() {
-                                      currentStep = currentStep + 1;
-                                    });
-                                  } else {
-                                    showErrorToast(context, response.message!);
-                                  }
-                                }
-                              })
-                            : getPrimaryAppButton(
-                                context, AppLocale.next.getString(context),
-                                onPressed: () async {
-                                if (authProvider
-                                    .forgotPasswordFormKey.currentState!
-                                    .validate()) {
-                                  if (resetPasswordOtp ==
-                                      authProvider
-                                          .forgotPasswordOtpController.text) {
-                                    authProvider.resetPassword(context);
-                                  } else {
-                                    showErrorToast(
-                                        context, AppLocale.validOtp.getString(context));
-                                  }
-                                }
-                              }),
-                      ],
-                    ),
-                  ],
-                ),
+                          context,
+                          AppLocale.next.getString(context),
+                          onPressed: () async {
+                            if (authProvider.forgotPasswordFormKey.currentState!
+                                .validate()) {
+                              SendOtpResponseModel response =
+                              await authProvider.sendOtpForResetPassword();
+                              if (response.result != null) {
+                                showSuccessToast(context, response.message!);
+                                resetPasswordOtp = response.result!.otp;
+                                setState(() {
+                                  currentStep = currentStep + 1;
+                                });
+                              } else {
+                                showErrorToast(context, response.message!);
+                              }
+                            }
+                          },
+                        ) : getPrimaryAppButton(
+                          context,
+                          AppLocale.next.getString(context),
+                          onPressed: () async {
+                            if (authProvider.forgotPasswordFormKey.currentState!
+                                .validate()) {
+                              if (resetPasswordOtp ==
+                                  authProvider.forgotPasswordOtpController.text) {
+                                authProvider.resetPassword(context);
+                              } else {
+                                showErrorToast(context,
+                                    AppLocale.validOtp.getString(context));
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+              ]),
               ),
             ),
           ),
         );
-      },
+          },
     );
   }
 
