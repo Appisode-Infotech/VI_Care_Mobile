@@ -36,16 +36,16 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PatientProvider>(
       builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
         patientProvider.relGetPatientContext = context;
         return OfflineBuilder(
-          connectivityBuilder: (BuildContext context,
-              ConnectivityResult connectivity, Widget child) {
+          connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
             final bool connected = connectivity != ConnectivityResult.none;
-            if(connected){
+            if (connected) {
               _fetchData();
             }
             return Scaffold(
@@ -381,7 +381,8 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                       },
                     ),
                   ),
-                ) : Center(
+                )
+                    : Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

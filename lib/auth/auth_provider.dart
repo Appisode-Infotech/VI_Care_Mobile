@@ -101,7 +101,7 @@ class AuthProvider extends ChangeNotifier {
   clearLoginForm() {
     loginEmailController.clear();
     loginPasswordController.clear();
-    loginFormKey.currentState?.reset();
+    loginFormKey.currentState!.reset();
     notifyListeners();
   }
 
@@ -112,9 +112,9 @@ class AuthProvider extends ChangeNotifier {
     registerPasswordController.clear();
     registerDobController.clear();
     registerStreetController.clear();
-     registerAreaController .clear();
-     registerLandmarkController.clear();
-     registerCityController.clear();
+    registerAreaController .clear();
+    registerLandmarkController.clear();
+    registerCityController.clear();
     registerContactNumberController.clear();
     registerWeightController.clear();
     registerHeightController.clear();
@@ -150,9 +150,9 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
       Navigator.pop(context);
+      clearLoginForm();
       Navigator.pushNamedAndRemoveUntil(
           context, Routes.dashboardRoute, (route) => false);
-      clearLoginForm();
     } else {
       Navigator.pop(context);
       showErrorToast(context, response.message!);

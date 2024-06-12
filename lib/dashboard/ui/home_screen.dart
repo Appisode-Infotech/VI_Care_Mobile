@@ -50,6 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
       connectivityBuilder: (BuildContext context,
           ConnectivityResult connectivity, Widget child) {
         final bool connected = connectivity != ConnectivityResult.none;
+        // if (connected) {
+        //   didChangeDependencies();
+        // }
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 70,
@@ -197,11 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         },
                                                         scrollDirection:
                                                             Axis.horizontal,
-                                                        itemCount:
-                                                            reportsSnapshot
-                                                                .data!
-                                                                .result!
-                                                                .length,
+                                                        itemCount: reportsSnapshot.data!.result!.length > 5 ? 5 : reportsSnapshot.data!.result!.length,
                                                         physics:
                                                             const PageScrollPhysics(),
                                                         itemBuilder:
@@ -388,39 +387,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ),
                                               reportsSnapshot
                                                       .data!.result!.isNotEmpty
-                                                  ? FittedBox(
-                                                      child: Align(
-                                                        alignment:
-                                                            AlignmentDirectional
-                                                                .bottomCenter,
-                                                        child: DotsIndicator(
-                                                          dotsCount:
-                                                              reportsSnapshot
-                                                                  .data!
-                                                                  .result!
-                                                                  .length,
-                                                          position:
-                                                              currentIndexPage,
-                                                          decorator:
-                                                              DotsDecorator(
-                                                            activeColor:
-                                                                Colors.white,
-                                                            color: const Color(
-                                                                0xFFD9D9D9),
-                                                            size: const Size
-                                                                .square(9.0),
-                                                            activeSize:
-                                                                const Size(
-                                                                    30.0, 9.0),
-                                                            activeShape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5.0)),
-                                                          ),
-                                                        ),
+                                                  ? Align(
+                                                    alignment:
+                                                        AlignmentDirectional
+                                                            .bottomCenter,
+                                                    child: DotsIndicator(
+                                                      dotsCount:
+                                                      reportsSnapshot.data!.result!.length > 5 ? 5 : reportsSnapshot.data!.result!.length,
+                                                      position:
+                                                          currentIndexPage,
+                                                      decorator:
+                                                          DotsDecorator(
+                                                        activeColor:
+                                                            Colors.white,
+                                                        color: const Color(
+                                                            0xFFD9D9D9),
+                                                        size: const Size
+                                                            .square(9.0),
+                                                        activeSize:
+                                                            const Size(
+                                                                30.0, 9.0),
+                                                        activeShape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0)),
                                                       ),
-                                                    )
+                                                    ),
+                                                  )
                                                   : const SizedBox.shrink(),
                                             ],
                                           );

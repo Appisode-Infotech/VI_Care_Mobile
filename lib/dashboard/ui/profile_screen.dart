@@ -21,56 +21,56 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+  class _ProfileScreenState extends State<ProfileScreen> {
 
-  Future<RegisterResponseModel>? userData;
+    Future<RegisterResponseModel>? userData;
+    bool eligibleToLoad  =  true;
 
-  bool eligibleToLoad  =  true;
-  @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (BuildContext context, ProfileProvider profileProvider,
-          Widget? child) {
-        if(eligibleToLoad){
-          userData = profileProvider.getUserProfile();
-          eligibleToLoad = false;
-        }
-        return OfflineBuilder(
-          connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
-            final bool connected = connectivity != ConnectivityResult.none;
-         return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                AppLocale.profile.getString(context),
-                style: const TextStyle(color: Colors.white),
+    @override
+    Widget build(BuildContext context) {
+      return Consumer(
+        builder: (BuildContext context, ProfileProvider profileProvider,
+            Widget? child) {
+          if(eligibleToLoad){
+            userData = profileProvider.getUserProfile();
+            eligibleToLoad = false;
+          }
+          return OfflineBuilder(
+            connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
+              final bool connected = connectivity != ConnectivityResult.none;
+           return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  AppLocale.profile.getString(context),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                backgroundColor: AppColors.primaryColor,
+                toolbarHeight: 75,
+                automaticallyImplyLeading: false,
               ),
-              backgroundColor: AppColors.primaryColor,
-              toolbarHeight: 75,
-              automaticallyImplyLeading: false,
-            ),
-            body: connected ? FutureBuilder(
-              future: userData,
-              builder: (BuildContext context,
-                  AsyncSnapshot<RegisterResponseModel>
-                  snapshot) {
-                if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasData) {
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 20),
-                      child: Column(children: [
-                        Row(
-                          children: [
-                            prefModel.userData!.profilePicture != null
-                                ? CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.grey,
+              body: connected ? FutureBuilder(
+                future: userData,
+                builder: (BuildContext context,
+                    AsyncSnapshot<RegisterResponseModel>
+                    snapshot) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    return SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 20),
+                        child: Column(children: [
+                          Row(
+                            children: [
+                              prefModel.userData!.profilePicture != null
+                                  ? CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.grey,
                               backgroundImage: NetworkImage(snapshot.data!.result!.profilePicture!.url.toString()),
                             ) : const CircleAvatar(
                               radius: 30,
@@ -412,7 +412,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
+                          const SizedBox(
                           height: 30,
                         ),
                         InkWell(

@@ -138,7 +138,12 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     double progressPercent = elapsedSeconds / totalSeconds;
     return WillPopScope(
       onWillPop: () async {
-        return await showStopTestWarningDialog(context);
+        if(isRunning){
+          return await showStopTestWarningDialog(context);
+        }else{
+          Navigator.pop(context);
+          return false;
+        }
       },
       child: Scaffold(
         appBar: AppBar(
