@@ -623,7 +623,7 @@ class ProfileScreen extends StatefulWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text("V 1.1.1", style: TextStyle(
+                        const Text("V 1.1.2", style: TextStyle(
                             color: Colors.grey),),
                         const SizedBox(
                           height: 20,
