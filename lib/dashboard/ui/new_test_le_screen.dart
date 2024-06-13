@@ -16,6 +16,7 @@ import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../../create_patients/model/enterprise_response_model.dart';
 import '../../create_patients/model/individual_response_model.dart';
@@ -68,6 +69,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     // Subscribe to Bluetooth state changes
     _bluetoothStateSubscription =
         FlutterBlue.instance.state.listen((BluetoothState state) {
@@ -94,6 +96,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     connectedDevice?.disconnect();
     clearRecordingsData();
     _stopTimer(); // Stop the timer here
+    Wakelock.disable();
     super.dispose();
   }
 

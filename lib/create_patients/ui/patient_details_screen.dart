@@ -1569,6 +1569,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             ),
                                                             FittedBox(
                                                               child: Text(
+                                                                textAlign: TextAlign.center,
                                                                 AppLocale
                                                                     .readiness
                                                                     .getString(

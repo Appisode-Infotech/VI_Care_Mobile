@@ -2104,16 +2104,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                children: [
-                                  Text(AppLocale.pinCode.getString(context),
-                                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  const Text(
-                                    ' *',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ],
-                              ),
+                              Text(AppLocale.pinCode.getString(context),
+                                  style: const TextStyle(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 10,
                               ),

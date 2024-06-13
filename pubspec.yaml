@@ -52,7 +52,7 @@ dependencies:
   http_parser: ^4.0.2
   lottie: ^3.0.0
   shimmer: ^3.0.0
-  image_cropper: ^6.0.0
+  image_cropper: ^7.0.4
   flutter_blue: ^0.8.0
   real_time_chart: ^0.0.1
   fl_chart: ^0.68.0
@@ -68,6 +68,8 @@ dependencies:
   toastification: ^2.0.0
   flutter_offline: ^2.0.0
   location: ^6.0.2
+  wakelock: ^0.6.2
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
