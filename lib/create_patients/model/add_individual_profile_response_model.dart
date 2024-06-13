@@ -873,6 +873,9 @@ class EnterpriseProfile {
   String? firstName;
   String? lastName;
   String? emailId;
+  String? bmi;
+  String? height;
+  String? weight;
   int? contactId;
   Contact? contact;
   int? profilePictureId;
@@ -885,6 +888,9 @@ class EnterpriseProfile {
     this.firstName,
     this.lastName,
     this.emailId,
+    this.bmi,
+    this.height,
+    this.weight,
     this.contactId,
     this.contact,
     this.profilePictureId,
@@ -899,6 +905,9 @@ class EnterpriseProfile {
         firstName: json["firstName"],
         lastName: json["lastName"],
         emailId: json["emailId"],
+        bmi: json["bmi"].toString(),
+        height: json["height"].toString(),
+        weight: json["weight"].toString(),
         contactId: json["contactId"],
         contact:
             json["contact"] == null ? null : Contact.fromJson(json["contact"]),
@@ -915,6 +924,9 @@ class EnterpriseProfile {
         "firstName": firstName,
         "lastName": lastName,
         "emailId": emailId,
+        "bmi": bmi,
+        "height": height,
+        "weight": weight,
         "contactId": contactId,
         "contact": contact?.toJson(),
         "profilePictureId": profilePictureId,

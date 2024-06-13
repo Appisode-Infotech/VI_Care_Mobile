@@ -482,7 +482,6 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   }
 
   Future<void> saveRecording(NewTestLeProvider newTestLeProvider) async {
-    showSuccessToast(context, AppLocale.testCompleted.getString(context));
     if (enterprisePatientData == null && individualPatientData == null) {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {

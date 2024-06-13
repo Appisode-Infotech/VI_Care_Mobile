@@ -580,7 +580,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
 
-                                const Text("Height (Meter s)",
+                                const Text("Height (Meters)",
                                     style: TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
@@ -975,16 +975,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: [
-                                    Text(AppLocale.pinCode.getString(context),
-                                        style: const TextStyle(fontWeight: FontWeight.w600)),
-                                    const Text(
-                                      ' *',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ],
-                                ),
+                                Text(AppLocale.pinCode.getString(context),
+                                    style: const TextStyle(fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -996,11 +988,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   controller: profileProvider
                                       .editProfilePinCodeController,
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return AppLocale.pinCodeValid.getString(context);
-                                    }
-                                    if (value.length<6) {
-                                      return AppLocale.pinCodeValid.getString(context);
+                                    if (value!.isNotEmpty) {
+                                      if (value.length<4) {
+                                        return AppLocale.pinCodeValid.getString(context);
+                                      }
                                     }
                                     return null;
                                   },

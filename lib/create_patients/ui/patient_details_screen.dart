@@ -37,6 +37,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
   String? pId;
 
   bool isLoaded = false;
+  bool isCountsLoaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +154,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   }
                                   if (snapshot.hasData) {
                                     individualPatientData = snapshot.data;
+                                    Future<DashboardCountResponseModel>? countsData;
+                                    if(isCountsLoaded!=true){
+                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!);
+                                      isCountsLoaded = true;
+                                    }
                                     return Column(
                                       children: [
                                         Container(
@@ -315,9 +321,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 ],
                                               ),
                                               FutureBuilder(
-                                                future: patientProvider
-                                                    .getCounts(snapshot
-                                                        .data!.result!.id!),
+                                                future: countsData,
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<
                                                             DashboardCountResponseModel>
@@ -1230,6 +1234,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   }
                                   if (snapshot.hasData) {
                                     enterprisePatientData = snapshot.data;
+                                    Future<DashboardCountResponseModel>? countsData;
+                                    if(isCountsLoaded!=true){
+                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!);
+                                      isCountsLoaded = true;
+                                    }
                                     return Column(
                                       children: [
                                         Container(
@@ -1392,9 +1401,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                 ],
                                               ),
                                               FutureBuilder(
-                                                future: patientProvider
-                                                    .getCounts(snapshot
-                                                        .data!.result!.id!),
+                                                future: countsData,
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<
                                                             DashboardCountResponseModel>

@@ -407,6 +407,10 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                       child:  Text(AppLocale.selectDevice.getString(context)),
                     ),
                     DropdownButtonFormField<Device>(
+                      isExpanded: true,
+                      hint: Align(
+                        alignment: Alignment.centerLeft,
+                          child:Text(AppLocale.device.getString(context))),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value == null) {
@@ -415,7 +419,7 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: AppLocale.device.getString(context),
+
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -443,6 +447,10 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                       child:  Text(AppLocale.selectDuration.getString(context)),
                     ),
                     DropdownButtonFormField<DurationClass>(
+                      isExpanded: true,
+                      hint: Align(
+                          alignment: Alignment.centerLeft,
+                          child:Text(AppLocale.duration.getString(context))),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value == null) {
@@ -451,7 +459,6 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: AppLocale.duration.getString(context),
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(

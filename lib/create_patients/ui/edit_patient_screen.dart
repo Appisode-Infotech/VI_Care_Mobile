@@ -2116,13 +2116,14 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     TextCapitalization.sentences,
                                 controller: patientProvider
                                     .editNewPatientPinCodeController,
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return AppLocale.pinCodeValid
-                                //         .getString(context);
-                                //   }
-                                //   return null;
-                                // },
+                                validator: (value) {
+                                  if (value!.isNotEmpty) {
+                                    if (value.length<4) {
+                                      return AppLocale.pinCodeValid.getString(context);
+                                    }
+                                  }
+                                  return null;
+                                },
                                 maxLength: 6,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
