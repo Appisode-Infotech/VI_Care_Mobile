@@ -187,6 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                                 onTap: () {
+                                  authProvider.loginEmailController.clear();
+                                  authProvider.loginPasswordController.clear();                                  authProvider.loginPasswordController.clear();
+
                                   authProvider.clearForgotPasswordForm();
                                   Navigator.pushNamed(
                                       context, Routes.forgotResetPasswordRoute);
@@ -224,7 +227,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         InkWell(
                             onTap: ()  async {
                               showLoaderDialog(context);
-                              authProvider.clearLoginForm();
+                              authProvider.loginEmailController.clear();
+                              authProvider.loginPasswordController.clear();
                               authProvider.clearRegisterForm();
                               await authProvider.getRoleMasters(context);
                              await authProvider.getCountryMaster(context);

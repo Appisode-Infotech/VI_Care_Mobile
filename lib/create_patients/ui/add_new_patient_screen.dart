@@ -974,16 +974,8 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
         ),
         const SizedBox(height: 10,),
-        Row(
-          children: [
-            Text(AppLocale.pinCode.getString(context),
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-            const Text(
-              ' *',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
+        Text(AppLocale.pinCode.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -992,11 +984,10 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: patientProvider.addNewPatientPinCodeController,
           validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.pinCodeValid.getString(context);
-            }
-            if (value.length<6) {
-              return AppLocale.pinCodeValid.getString(context);
+            if (value!.isNotEmpty) {
+              if (value.length<4) {
+                return AppLocale.pinCodeValid.getString(context);
+              }
             }
             return null;
           },

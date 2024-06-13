@@ -471,10 +471,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   4,
                                                               child: Center(
                                                                 child: Text(
-                                                                  countSnapshot
+                                                                  double.parse(countSnapshot
                                                                       .data!
                                                                       .result!
-                                                                      .readinessScore!,
+                                                                      .readinessScore!).toStringAsFixed(0),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -1548,10 +1548,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   4,
                                                               child: Center(
                                                                 child: Text(
-                                                                  countSnapshot
+                                                                  double.parse(countSnapshot
                                                                       .data!
                                                                       .result!
-                                                                      .readinessScore!,
+                                                                      .readinessScore!).toStringAsFixed(0),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,

@@ -146,6 +146,8 @@ class AuthProvider extends ChangeNotifier {
         loginEmailController.text,
         loginPasswordController.text,
         context);
+    loginEmailController.clear();
+    loginPasswordController.clear();
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
@@ -186,11 +188,11 @@ class AuthProvider extends ChangeNotifier {
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
+      // clearRegisterForm();
+      // clearLoginForm();
+      Navigator.pop(context);
       Navigator.pop(context);
       showSuccessToast(context, response.message!);
-      clearRegisterForm();
-      clearLoginForm();
-      Navigator.pop(context);
     } else {
       showErrorToast(context, response.message!);
       Navigator.pop(context);

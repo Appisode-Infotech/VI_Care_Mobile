@@ -309,6 +309,7 @@ class ProfileProvider extends ChangeNotifier {
     RegisterResponseModel a = await apiCalls.getUserByGuid();
     prefModel.userData!.contact!.firstName = a.result!.contact!.firstName;
     prefModel.userData!.contact!.lastName = a.result!.contact!.lastName;
+    prefModel.userData!.profilePicture = a.result!.profilePicture;
     AppPref.setPref(prefModel);
     return a;
   }

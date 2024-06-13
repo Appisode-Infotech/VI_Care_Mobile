@@ -153,6 +153,13 @@ class PatientProvider extends ChangeNotifier {
   }
 
   addNewPatient() async {
+    DateFormat inputFormat = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = inputFormat.parse(addNewPatientDobController.text);
+
+    // Format the date in the desired output format
+    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+    String formattedDate = outputFormat.format(dateTime);
+
     Map<String, String> genderMap = {
       "Male": "1",
       "Female": "2",
@@ -167,7 +174,7 @@ class PatientProvider extends ChangeNotifier {
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response =
           await apiCalls.addIndividualProfile(
-              addNewPatientDobController.text,
+              formattedDate,
               addNewPatientMobileController.text,
               addNewPatientEmailController.text,
               addNewPatientFirstNameController.text,
@@ -194,7 +201,7 @@ class PatientProvider extends ChangeNotifier {
     } else {
       AddIndividualProfileResponseModel response =
           await apiCalls.addEnterpriseProfile(
-              addNewPatientDobController.text,
+              formattedDate,
               addNewPatientMobileController.text,
               addNewPatientEmailController.text,
               addNewPatientFirstNameController.text,
