@@ -28,7 +28,8 @@ getPrimaryAppButton(BuildContext context, String label,
         borderRadius: BorderRadius.circular(10.0),
       ),
     ),
-    child: SizedBox(
+    child: Container(
+     alignment: Alignment.center,
       // margin: const EdgeInsets.symmetric(horizontal: 2),
       width: screenSize!.width,
       height: 50,

@@ -538,8 +538,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     });
                                   },
                                   child: TextFormField(
-                                    autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                    // autovalidateMode:
+                                    // AutovalidateMode.onUserInteraction,
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(

@@ -472,8 +472,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                             });
                                           },
                                           child: TextFormField(
-                                            autovalidateMode: AutovalidateMode
-                                                .onUserInteraction,
+                                            // autovalidateMode: AutovalidateMode
+                                            //     .onUserInteraction,
                                             enabled: false,
                                             style: const TextStyle(
                                                 color: Colors.black),
@@ -1525,8 +1525,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                             });
                                           },
                                           child: TextFormField(
-                                            autovalidateMode: AutovalidateMode
-                                                .onUserInteraction,
+                                            // autovalidateMode: AutovalidateMode
+                                            //     .onUserInteraction,
                                             enabled: false,
                                             style: const TextStyle(
                                                 color: Colors.black),

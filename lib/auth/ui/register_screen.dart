@@ -860,7 +860,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                     child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      // autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return AppLocale.validDate.getString(context);

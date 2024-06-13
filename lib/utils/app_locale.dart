@@ -306,7 +306,7 @@ mixin AppLocale {
     previous: 'Previous',
     next: 'Next',
     and: 'and \n',
-    proceedToSignUp: 'Proceed to signup',
+    proceedToSignUp: 'SignUp',
     createAccount: 'Create account',
     pleaseFillToRegister:
         'Please fill in the details to sign up and continue using the application',
