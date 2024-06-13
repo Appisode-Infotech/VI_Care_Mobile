@@ -342,8 +342,10 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                               buttonColor: AppColors.primaryColor,
                                 context, AppLocale.start.getString(context),
                                 onPressed: () async {
+                                showLoaderDialog(context);
                               await startRecordingReadings();
                               _startTimer(newTestLeProvider);
+                              Navigator.pop(context);
                             }),
                           ),
       

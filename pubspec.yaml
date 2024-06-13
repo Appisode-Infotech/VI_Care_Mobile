@@ -67,6 +67,7 @@ dependencies:
   connectivity_plus: ^6.0.3
   toastification: ^2.0.0
   flutter_offline: ^2.0.0
+  location: ^6.0.2
 
 dev_dependencies:
   flutter_test:

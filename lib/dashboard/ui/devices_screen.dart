@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_offline/flutter_offline.dart';
+import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -346,10 +347,17 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   getPrimaryAppButton(
                       context, AppLocale.startPairing.getString(context),
                       onPressed: () async {
-                    var bluetoothConnectStatus =
-                        await Permission.bluetoothConnect.request();
-                    var bluetoothScanStatus =
-                        await Permission.bluetoothScan.request();
+                    var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+                    var bluetoothScanStatus = await Permission.bluetoothScan.request();
+                    loc.Location location = new loc.Location();
+                    bool _serviceEnabled;
+                    _serviceEnabled = await location.serviceEnabled();
+                    if (!_serviceEnabled) {
+                      _serviceEnabled = await location.requestService();
+                      if (!_serviceEnabled) {
+                        return;
+                      }
+                    }
                     if (bluetoothConnectStatus == PermissionStatus.granted &&
                         bluetoothScanStatus == PermissionStatus.granted) {
                       FlutterBlue flutterBlue = FlutterBlue.instance;
