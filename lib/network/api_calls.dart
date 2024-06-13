@@ -1117,7 +1117,6 @@ class ApiCalls {
         }
       }
       http.Response response = await hitApiGet(true, url);
-      print(url);
       if (response.statusCode == 200) {
         return MyReportsResponseModel.fromJson(json.decode(response.body));
       } else {
