@@ -15,25 +15,29 @@ class ScanLeDevicesToAddScreen extends StatefulWidget {
 
 class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
   bool isFirstOpen = true;
-
-  @override
-  void didChangeDependencies() {
-    Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('1');
-    super.didChangeDependencies();
-  }
+  //
+  // @override
+  // void didChangeDependencies() {
+  //   Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('1');
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, TakeTestProvider takeTestProvider,
           Widget? child) {
+        if(isFirstOpen){
+          takeTestProvider.scanLeDevices('1');
+          isFirstOpen = false;
+        }
         return Scaffold(
           appBar: AppBar(
-            title: Text(takeTestProvider.isScanning?AppLocale.scanning.getString(context):AppLocale.findYourDevice.getString(context),style: const TextStyle(fontSize: 22),),
+            title: Text(AppLocale.scanning.getString(context),style: const TextStyle(fontSize: 22),),
             actions: [
-              !takeTestProvider.isScanning?TextButton(onPressed: (){
+              TextButton(onPressed: (){
                 scanLeDevices(takeTestProvider);
-              }, child: Text(AppLocale.scanDevices.getString(context),style: const TextStyle(fontSize: 16),)):const SizedBox.shrink()
+              }, child: Text(AppLocale.scanDevices.getString(context),style: const TextStyle(fontSize: 16),))
             ],
           ),
           body: RefreshIndicator(
@@ -51,17 +55,13 @@ class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          takeTestProvider.leDevices[index].name.isEmpty
+                          takeTestProvider.leDevices[index].platformName.isEmpty
                               ? AppLocale.undefined.getString(context)
-                              : takeTestProvider.leDevices[index].name,
+                              : takeTestProvider.leDevices[index].platformName,
                           style: const TextStyle(fontSize: 16),
                         ),
                         Text(
-                          takeTestProvider.leDevices[index].type.toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          takeTestProvider.leDevices[index].id.toString(),
+                          takeTestProvider.leDevices[index].remoteId.str,
                           style: const TextStyle(fontSize: 14),
                         )
                       ],

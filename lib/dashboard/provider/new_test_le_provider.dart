@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:vicare/dashboard/model/device_response_model.dart';
 import 'package:vicare/main.dart';
@@ -17,85 +17,90 @@ import '../model/device_data_response_model.dart';
 import '../model/offline_test_model.dart';
 
 class NewTestLeProvider extends ChangeNotifier {
-  FlutterBlue flutterBlue = FlutterBlue.instance;
+  FlutterBluePlus flutterBlue = FlutterBluePlus();
   BluetoothDevice? connectedDevice;
   ApiCalls apiCalls = ApiCalls();
+  bool isScanning = false;
+  List<ScanResult>scanResults=[];
 
+  // Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
+  //   if(await flutterBlue.isOn){
+  //     showLoaderDialog(consumerContext);
+  //     for(var device in await flutterBlue.connectedDevices){
+  //       await device.disconnect();
+  //     }
+  //     connectedDevice = null;
+  //     try {
+  //       List<ScanResult> scanResults = await flutterBlue.scan(timeout: const Duration(seconds: 5)).toList();
+  //       BluetoothDevice? device;
+  //       for (var result in scanResults) {
+  //         if (result.device.id.id == selectedDevice!.deviceKey) {
+  //           device = result.device;
+  //           break;
+  //         }
+  //       }
+  //       if (device != null) {
+  //         await device.connect(autoConnect: false);
+  //         connectedDevice = device;
+  //         onConnectionResult(true);
+  //         showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${device.name}");
+  //         return;
+  //       } else {
+  //         onConnectionResult(false);
+  //         showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
+  //         return;
+  //       }
+  //     } catch (e) {
+  //       onConnectionResult(false);
+  //       showErrorToast(consumerContext,"${AppLocale.couldNotConnect.getString}: $e");
+  //       return;
+  //     }
+  //   }else{
+  //     showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
+  //   }
+  // }
 
 
   Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
-    if(await flutterBlue.isOn){
-      showLoaderDialog(consumerContext);
-      for(var device in await flutterBlue.connectedDevices){
-        await device.disconnect();
-      }
-      connectedDevice = null;
-      try {
-        List<ScanResult> scanResults = await flutterBlue.scan(timeout: const Duration(seconds: 5)).toList();
-        BluetoothDevice? device;
-        for (var result in scanResults) {
-          if (result.device.id.id == selectedDevice!.deviceKey) {
-            device = result.device;
-            break;
+    try {
+      if (await FlutterBluePlus.isOn) {
+        for (var device in await FlutterBluePlus.connectedDevices) {
+          await device.disconnect();
+        }
+        print("case1");
+        FlutterBluePlus.startScan(timeout: const Duration(seconds: 15));
+        isScanning = true;
+        scanResults.clear();
+        print("case2");
+
+        FlutterBluePlus.scanResults.listen((scanResult) async {
+          for (var result in scanResult) {
+            print("case3");
+            print(result.device.remoteId.str);
+            print(selectedDevice!.deviceKey);
+            print("===============");
+            if (result.device.remoteId.str == selectedDevice!.deviceKey) {
+              print("case4");
+              await result.device.connect(autoConnect: false);
+              connectedDevice = result.device;
+              onConnectionResult(true);
+              showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${connectedDevice!.name}");
+              return;
+            }
           }
-        }
-        if (device != null) {
-          await device.connect(autoConnect: false);
-          connectedDevice = device;
-          onConnectionResult(true);
-          showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${device.name}");
-          return;
-        } else {
-          onConnectionResult(false);
-          showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
-          return;
-        }
-      } catch (e) {
+        });
         onConnectionResult(false);
-        showErrorToast(consumerContext,"${AppLocale.couldNotConnect.getString}: $e");
-        return;
+        showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
+      } else {
+        showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
       }
-    }else{
-      showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
+    } catch (e) {
+      onConnectionResult(false);
+      showErrorToast(consumerContext, "${AppLocale.couldNotConnect.getString(consumerContext)}: $e");
     }
   }
 
 
-  // Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
-  //   try {
-  //     if (await FlutterBluePlus.isOn) {
-  //       for (var device in await FlutterBluePlus.connectedDevices) {
-  //         await device.disconnect();
-  //       }
-  //       print("case1");
-  //       FlutterBluePlus.startScan(timeout: const Duration(seconds: 15));
-  //       isScanning = true;
-  //       scanResults.clear();
-  //       print("case2");
-  //
-  //       FlutterBluePlus.scanResults.listen((scanResult) async {
-  //         for (var result in scanResult) {
-  //           print("case3");
-  //
-  //           if (result.device.id.id == selectedDevice!.deviceKey) {
-  //             await result.device.connect(autoConnect: false);
-  //             connectedDevice = result.device;
-  //             onConnectionResult(true);
-  //             showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${connectedDevice!.name}");
-  //             return;
-  //           }
-  //         }
-  //       });
-  //       onConnectionResult(false);
-  //       showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
-  //     } else {
-  //       showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
-  //     }
-  //   } catch (e) {
-  //     onConnectionResult(false);
-  //     showErrorToast(consumerContext, "${AppLocale.couldNotConnect.getString(consumerContext)}: $e");
-  //   }
-  // }
 
   requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId, Map<String, Object?> jsonData) async {
     List<ConnectivityResult> connectivityResults = await Connectivity().checkConnectivity();

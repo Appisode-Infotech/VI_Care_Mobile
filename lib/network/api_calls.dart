@@ -295,7 +295,6 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
-      log(response.body);
       return RegisterResponseModel.fromJson
         (json.decode(response.body));
     } else {

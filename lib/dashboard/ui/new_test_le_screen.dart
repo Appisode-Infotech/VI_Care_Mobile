@@ -4,7 +4,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+// import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -38,9 +39,9 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   DurationClass? selectedDuration;
   bool isFirstTimeLoading = true;
   BluetoothDevice? connectedDevice;
-  BluetoothDeviceState? deviceStatus;
+  BluetoothConnectionState? deviceStatus;
   StreamSubscription? _bluetoothStateSubscription;
-  BluetoothState? bluetoothState = BluetoothState.on;
+  BluetoothAdapterState? bluetoothState = BluetoothAdapterState.on;
 
   //timer declarations
   late Timer _timer;
@@ -72,11 +73,11 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     Wakelock.enable();
     // Subscribe to Bluetooth state changes
     _bluetoothStateSubscription =
-        FlutterBlue.instance.state.listen((BluetoothState state) {
+        FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) {
       setState(() {
-        bluetoothState = state;
+        bluetoothState = state as BluetoothAdapterState?;
         // Reset device status when Bluetooth is turned off
-        if (bluetoothState == BluetoothState.off) {
+        if (bluetoothState == BluetoothAdapterState.off) {
           connectedDevice = null;
           deviceStatus = null;
           isFirstTimeLoading = true;
@@ -208,14 +209,14 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                     newTestLeProvider.connectedDevice!.disconnect().then((_) {
                       if (mounted) {
                         setState(() {
-                          deviceStatus = state as BluetoothDeviceState?;
+                          deviceStatus = state as BluetoothConnectionState?;
                         });
                       }
                     });
                   } else {
                     if (mounted) {
                       setState(() {
-                        deviceStatus = state as BluetoothDeviceState?;
+                        deviceStatus = state as BluetoothConnectionState?;
                       });
                     }
                   }
@@ -223,8 +224,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
               });
               isFirstTimeLoading = false;
             }
-            if (deviceStatus == BluetoothDeviceState.disconnected ||
-                bluetoothState == BluetoothState.off) {
+            if (deviceStatus == BluetoothAdapterState.turningOff ||
+                bluetoothState == BluetoothAdapterState.off) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

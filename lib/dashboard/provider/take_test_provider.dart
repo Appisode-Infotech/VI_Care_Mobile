@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vicare/dashboard/model/add_device_response_model.dart';
@@ -21,10 +19,9 @@ import '../model/my_reports_response_model.dart';
 class TakeTestProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
 
-  FlutterBlue flutterBlue = FlutterBlue.instance;
+  FlutterBluePlus flutterBluePlus = FlutterBluePlus();
   bool isConnected = false;
   bool bluetoothStatus = false;
-
   // Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
@@ -39,9 +36,8 @@ class TakeTestProvider extends ChangeNotifier {
 
   Map? reportUserData;
   void listenToConnectedDevice() {
-    _bluetoothStateSubscription =
-        flutterBlue.state.listen((BluetoothState state) async {
-      bluetoothStatus = state == BluetoothState.on;
+    _bluetoothStateSubscription = FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) async {
+      bluetoothStatus = state == BluetoothAdapterState.on;
       if (!bluetoothStatus) {
         isConnected = false;
         connectedDevice = null;
@@ -49,7 +45,7 @@ class TakeTestProvider extends ChangeNotifier {
           subscription.cancel();
         }
       } else {
-        flutterBlue.connectedDevices.then((List<BluetoothDevice> devices) {
+        List devices = FlutterBluePlus.connectedDevices;
           if (devices.isNotEmpty) {
             connectedDevice = devices.first;
             isConnected = true;
@@ -60,7 +56,6 @@ class TakeTestProvider extends ChangeNotifier {
               subscription.cancel(); // cancel all subscriptions
             }
           }
-        });
       }
       notifyListeners();
     });
@@ -190,8 +185,8 @@ class TakeTestProvider extends ChangeNotifier {
                       if (addDeviceFormKey.currentState!.validate()) {
                         showLoaderDialog(dialogContext);
                         AddDeviceResponseModel res = await apiCalls.addDevice(
-                            device.name,
-                            device.id.id,
+                            device.platformName,
+                            device.remoteId.str,
                             "le",
                             serialNumberController.text,
                             dialogContext,
@@ -236,28 +231,31 @@ class TakeTestProvider extends ChangeNotifier {
 
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
-    if (scanType != '1') {
-      notifyListeners();
-    }
+    notifyListeners();
     leDevices.clear();
+
     try {
-      await flutterBlue.startScan(timeout: const Duration(seconds: 5));
-      flutterBlue.scanResults.listen((results) {
+      FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+      FlutterBluePlus.scanResults.listen((results) {
         for (ScanResult result in results) {
           final manufacturerData = result.advertisementData.manufacturerData;
-          const companyId = 65292; // This is the company identifier for your device
-
-          // Check if manufacturer data contains the desired company identifier
+          const companyId = 65292;
           if (manufacturerData.containsKey(companyId)) {
-            if (!leDevices.contains(result.device) &&
-                result.device.type == BluetoothDeviceType.le) {
+            if (!leDevices.any((r) {
+              return r.remoteId.str == result.device.remoteId.str;
+            })) {
               leDevices.add(result.device);
+              notifyListeners();
             }
           }
         }
-      });
-      isScanning = false;
-      notifyListeners();
+      },onDone: (){
+        isScanning = false;
+        notifyListeners();
+      },onError: (var e){
+        log(e.toString());
+      }
+      );
     } catch (e) {
       isScanning = false;
       notifyListeners();

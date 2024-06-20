@@ -16,17 +16,20 @@ class BluetoothSerialScan extends StatefulWidget {
 class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
   bool isFirstOpen = true;
 
-  @override
-  void didChangeDependencies() {
-    Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('1');
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('1');
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, TakeTestProvider takeTestProvider,
           Widget? child) {
+        // if(isFirstOpen){
+        //   takeTestProvider.scanLeDevices('1');
+        // }
         return Scaffold(
           body: RefreshIndicator(
             onRefresh: () => scanLeDevices(takeTestProvider),
@@ -43,17 +46,17 @@ class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          takeTestProvider.leDevices[index].name.isEmpty
+                          takeTestProvider.leDevices[index].platformName.isEmpty
                               ? AppLocale.undefined.getString(context)
-                              : takeTestProvider.leDevices[index].name,
+                              : takeTestProvider.leDevices[index].platformName,
                           style: const TextStyle(fontSize: 16),
                         ),
+                        // Text(
+                        //   takeTestProvider.leDevices[index].type.toString(),
+                        //   style: const TextStyle(fontSize: 16),
+                        // ),
                         Text(
-                          takeTestProvider.leDevices[index].type.toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          takeTestProvider.leDevices[index].id.toString(),
+                          takeTestProvider.leDevices[index].remoteId.toString(),
                           style: const TextStyle(fontSize: 14),
                         )
                       ],
