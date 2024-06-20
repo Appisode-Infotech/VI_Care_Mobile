@@ -1779,53 +1779,90 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               width: 5),
                                                           GestureDetector(
                                                             onTap: () async {
-                                                              var bluetoothConnectStatus =
+                                                              CheckRequestCountModel
+                                                              countRes =
+                                                              await patientProvider.checkRequestCount(
+                                                                  context,
+                                                                  individualPatientData
+                                                                      ?.result!
+                                                                      .id,
+                                                                  enterprisePatientData
+                                                                      ?.result!
+                                                                      .id);
+                                                              CheckRequestCountModel
+                                                              requestDurationRes =
+                                                              await patientProvider.checkRequestDuration(
+                                                                  context,
+                                                                  individualPatientData
+                                                                      ?.result!
+                                                                      .id,
+                                                                  enterprisePatientData
+                                                                      ?.result!
+                                                                      .id);
+                                                              if (countRes
+                                                                  .result ==
+                                                                  true) {
+                                                                if (requestDurationRes
+                                                                    .result ==
+                                                                    true) {
+                                                                  var bluetoothConnectStatus =
                                                                   await Permission
                                                                       .bluetoothConnect
                                                                       .request();
-                                                              var bluetoothScanStatus =
+                                                                  var bluetoothScanStatus =
                                                                   await Permission
                                                                       .bluetoothScan
                                                                       .request();
-                                                              if (bluetoothConnectStatus ==
+                                                                  if (bluetoothConnectStatus ==
                                                                       PermissionStatus
                                                                           .granted &&
-                                                                  bluetoothScanStatus ==
-                                                                      PermissionStatus
-                                                                          .granted) {
-                                                                showLoaderDialog(
-                                                                    context);
-                                                                DeviceResponseModel
+                                                                      bluetoothScanStatus ==
+                                                                          PermissionStatus
+                                                                              .granted) {
+                                                                    showLoaderDialog(
+                                                                        context);
+                                                                    DeviceResponseModel
                                                                     myDevices =
                                                                     await patientProvider
                                                                         .getMyDevices();
-                                                                DurationResponseModel
+                                                                    DurationResponseModel
                                                                     myDurations =
                                                                     await patientProvider
                                                                         .getAllDuration();
-                                                                Navigator.pop(
-                                                                    context);
-                                                                if (myDevices
-                                                                            .result !=
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    if (myDevices
+                                                                        .result !=
                                                                         null &&
-                                                                    myDevices
-                                                                        .result!
-                                                                        .isNotEmpty) {
-                                                                  showTestFormBottomSheet(
-                                                                      context,
-                                                                      myDevices,
-                                                                      myDurations,
-                                                                      null,
-                                                                      snapshot
-                                                                          .data!);
-                                                                } else {
-                                                                  showErrorToast(
-                                                                      context,
-                                                                      AppLocale
-                                                                          .notAddedDevice
-                                                                          .getString(
+                                                                        myDevices
+                                                                            .result!
+                                                                            .isNotEmpty) {
+                                                                      showTestFormBottomSheet(
+                                                                          context,
+                                                                          myDevices,
+                                                                          myDurations,
+                                                                          null,
+                                                                          snapshot
+                                                                              .data!);
+                                                                    } else {
+                                                                      showErrorToast(
+                                                                          context,
+                                                                          AppLocale.notAddedDevice
+                                                                              .getString(
                                                                               context));
+                                                                    }
+                                                                  }
+                                                                }  else {
+                                                                  showErrorToast(
+                                                                      takeTestContext,
+                                                                      requestDurationRes
+                                                                          .message!);
                                                                 }
+                                                              } else {
+                                                                showErrorToast(
+                                                                    takeTestContext,
+                                                                    countRes
+                                                                        .message!);
                                                               }
                                                             },
                                                             child: Container(

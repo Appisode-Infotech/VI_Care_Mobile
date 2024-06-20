@@ -196,7 +196,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
           builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
               Widget? child) {
             if (isFirstTimeLoading) {
-              connectedDevice = newTestLeProvider.connectedDevice;
+              connectedDevice = newTestLeProvider.connectedDevice as BluetoothDevice?;
               totalSeconds = selectedDuration!.durationInMinutes! * 60;
               newTestLeProvider.connectedDevice!.state.listen((state) {
                 if (mounted) {
@@ -208,14 +208,14 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                     newTestLeProvider.connectedDevice!.disconnect().then((_) {
                       if (mounted) {
                         setState(() {
-                          deviceStatus = state;
+                          deviceStatus = state as BluetoothDeviceState?;
                         });
                       }
                     });
                   } else {
                     if (mounted) {
                       setState(() {
-                        deviceStatus = state;
+                        deviceStatus = state as BluetoothDeviceState?;
                       });
                     }
                   }
@@ -351,11 +351,11 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                               Navigator.pop(context);
                             }),
                           ),
-      
+
                     // Container(
                     //   child: ,
                     // )
-      
+
                     const SizedBox(
                       height: 20,
                     ),

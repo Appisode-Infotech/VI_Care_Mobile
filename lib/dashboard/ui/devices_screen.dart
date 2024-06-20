@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:location/location.dart' as loc;
@@ -347,35 +347,31 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   getPrimaryAppButton(
                       context, AppLocale.startPairing.getString(context),
                       onPressed: () async {
-                    var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
-                    var bluetoothScanStatus = await Permission.bluetoothScan.request();
-                    loc.Location location = new loc.Location();
-                    bool _serviceEnabled;
-                    _serviceEnabled = await location.serviceEnabled();
-                    if (!_serviceEnabled) {
-                      _serviceEnabled = await location.requestService();
-                      if (!_serviceEnabled) {
-                        return;
-                      }
-                    }
-                    if (bluetoothConnectStatus == PermissionStatus.granted &&
-                        bluetoothScanStatus == PermissionStatus.granted) {
-                      FlutterBlue flutterBlue = FlutterBlue.instance;
-                      if (await flutterBlue.isOn) {
-                        if (selectedDeviceIndex == 0) {
-                          Navigator.pushNamed(
-                                  context, Routes.scanLeDevicesToAddRoute)
-                              .then((value) => setState(() {}));
-                        } else {
-                          showErrorToast(context,
-                              AppLocale.startPairingError.getString(context));
+                        var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+                        var bluetoothScanStatus = await Permission.bluetoothScan.request();
+                        loc.Location location = loc.Location();
+                        bool _serviceEnabled;
+                        _serviceEnabled = await location.serviceEnabled();
+                        if (!_serviceEnabled) {
+                          _serviceEnabled = await location.requestService();
+                          if (!_serviceEnabled) {
+                            return;
+                          }
                         }
-                      } else {
-                        showErrorToast(context,
-                            AppLocale.bluetoothIsOff.getString(context));
-                      }
-                    }
-                  }),
+                        if (bluetoothConnectStatus == PermissionStatus.granted &&
+                            bluetoothScanStatus == PermissionStatus.granted) {
+                          FlutterBluePlus flutterBluePlus = FlutterBluePlus();
+                          if (await FlutterBluePlus.isOn) {
+                            if (selectedDeviceIndex == 0) {
+                              Navigator.pushNamed(context, Routes.scanLeDevicesToAddRoute).then((value) => setState(() {}));
+                            } else {
+                              showErrorToast(context, AppLocale.startPairingError.getString(context));
+                            }
+                          } else {
+                            showErrorToast(context, AppLocale.bluetoothIsOff.getString(context));
+                          }
+                        }
+                      }),
                   const SizedBox(
                     height: 20,
                   ),
