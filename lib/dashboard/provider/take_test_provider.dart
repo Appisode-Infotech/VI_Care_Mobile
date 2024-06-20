@@ -70,11 +70,11 @@ class TakeTestProvider extends ChangeNotifier {
       isConnected = true;
       Navigator.pop(context); // Dismiss the loader
       Navigator.pop(context); // Back to test screen
-      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.name}");
+      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.platformName}");
     } catch (e) {
       Navigator.pop(context); // Dismiss the loader
       showErrorToast(context,
-          '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
+          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}: $e');
     }
   }
 
@@ -94,7 +94,7 @@ class TakeTestProvider extends ChangeNotifier {
     } catch (e) {
       Navigator.pop(context); // Dismiss the loader
       showErrorToast(context,
-          '${AppLocale.errorConnecting.getString(context)} ${device.name}: $e');
+          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}: $e');
     }
   }
 
@@ -117,7 +117,7 @@ class TakeTestProvider extends ChangeNotifier {
                         "${AppLocale.deviceName.getString(dialogContext)}: ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(device.name),
+                      Text(device.platformName),
                     ],
                   ),
                    FittedBox(
