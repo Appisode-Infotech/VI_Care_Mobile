@@ -360,8 +360,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         }
                         if (bluetoothConnectStatus == PermissionStatus.granted &&
                             bluetoothScanStatus == PermissionStatus.granted) {
-                          FlutterBluePlus flutterBluePlus = FlutterBluePlus();
-                          if (await FlutterBluePlus.isOn) {
+                          if (await FlutterBluePlus.adapterState.first == BluetoothAdapterState.on) {
                             if (selectedDeviceIndex == 0) {
                               Navigator.pushNamed(context, Routes.scanLeDevicesToAddRoute).then((value) => setState(() {}));
                             } else {

@@ -426,7 +426,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
 
     List<BluetoothService> services = await connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
-      if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
+      if (service.uuid.toString() == Guid("0000180d-0000-1000-8000-00805f9b34fb").toString()) {
         for (BluetoothCharacteristic characteristic
             in service.characteristics) {
           try {
@@ -435,7 +435,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             log(e.toString());
           }
           StreamSubscription subscription =
-              characteristic.value.listen((value) {
+              characteristic.lastValueStream.listen((value) {
+                print(value);
             if (value.isNotEmpty) {
               int flag = value[0];
               bpmList.add(value[1]);

@@ -17,94 +17,82 @@ import '../model/device_data_response_model.dart';
 import '../model/offline_test_model.dart';
 
 class NewTestLeProvider extends ChangeNotifier {
-  FlutterBluePlus flutterBlue = FlutterBluePlus();
   BluetoothDevice? connectedDevice;
   ApiCalls apiCalls = ApiCalls();
   bool isScanning = false;
-  List<ScanResult>scanResults=[];
+  List<ScanResult> scanResults = [];
 
-  // Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
-  //   if(await flutterBlue.isOn){
-  //     showLoaderDialog(consumerContext);
-  //     for(var device in await flutterBlue.connectedDevices){
-  //       await device.disconnect();
-  //     }
-  //     connectedDevice = null;
-  //     try {
-  //       List<ScanResult> scanResults = await flutterBlue.scan(timeout: const Duration(seconds: 5)).toList();
-  //       BluetoothDevice? device;
-  //       for (var result in scanResults) {
-  //         if (result.device.id.id == selectedDevice!.deviceKey) {
-  //           device = result.device;
-  //           break;
-  //         }
-  //       }
-  //       if (device != null) {
-  //         await device.connect(autoConnect: false);
-  //         connectedDevice = device;
-  //         onConnectionResult(true);
-  //         showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${device.name}");
-  //         return;
-  //       } else {
-  //         onConnectionResult(false);
-  //         showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
-  //         return;
-  //       }
-  //     } catch (e) {
-  //       onConnectionResult(false);
-  //       showErrorToast(consumerContext,"${AppLocale.couldNotConnect.getString}: $e");
-  //       return;
-  //     }
-  //   }else{
-  //     showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
-  //   }
-  // }
-
-
-  Future<void> connectToDevice(void Function(bool isConnected) onConnectionResult, Device? selectedDevice, BuildContext consumerContext) async {
-    try {
-      if (await FlutterBluePlus.isOn) {
-        for (var device in await FlutterBluePlus.connectedDevices) {
-          await device.disconnect();
-        }
-        print("case1");
-        FlutterBluePlus.startScan(timeout: const Duration(seconds: 15));
-        isScanning = true;
-        scanResults.clear();
-        print("case2");
+  Future<void> connectToDevice(
+      void Function(bool isConnected) onConnectionResult,
+      Device? selectedDevice,
+      BuildContext consumerContext) async {
+    if (await FlutterBluePlus.adapterState.first == BluetoothAdapterState.on) {
+      showLoaderDialog(consumerContext);
+      for (var device in await FlutterBluePlus.connectedDevices) {
+        await device.disconnect();
+      }
+      connectedDevice = null;
+      try {
+        FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+        BluetoothDevice? device;
 
         FlutterBluePlus.scanResults.listen((scanResult) async {
-          for (var result in scanResult) {
-            print("case3");
-            print(result.device.remoteId.str);
-            print(selectedDevice!.deviceKey);
-            print("===============");
-            if (result.device.remoteId.str == selectedDevice!.deviceKey) {
-              print("case4");
-              await result.device.connect(autoConnect: false);
-              connectedDevice = result.device;
-              onConnectionResult(true);
-              showSuccessToast(consumerContext, "${AppLocale.connectedTo.getString(consumerContext)}: ${connectedDevice!.name}");
+          for (ScanResult result in scanResult) {
+            if (result.device.remoteId.str ==
+                selectedDevice!.deviceKey.toString()) {
+              device = result.device;
+              print("got ittttttttttttttt");
+              FlutterBluePlus.stopScan();
+              await device!.connect(autoConnect: false);
+          connectedDevice = device;
+          onConnectionResult(true);
+          showSuccessToast(consumerContext,
+          "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}");
               return;
+              break;
             }
           }
         });
+        // if (device != null) {
+        //   await device!.connect(autoConnect: false);
+        //   connectedDevice = device;
+        //   onConnectionResult(true);
+        //   showSuccessToast(consumerContext,
+        //       "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}");
+        //   return;
+        // } else {
+        //   onConnectionResult(false);
+        //   showErrorToast(consumerContext,
+        //       AppLocale.deviceNotInTheRange.getString(consumerContext));
+        //   return;
+        // }
+      } catch (e) {
         onConnectionResult(false);
-        showErrorToast(consumerContext, AppLocale.deviceNotInTheRange.getString(consumerContext));
-      } else {
-        showErrorToast(consumerContext, AppLocale.bluetoothOffTurn.getString(consumerContext));
+        showErrorToast(
+            consumerContext, "${AppLocale.couldNotConnect.getString}: $e");
+        return;
       }
-    } catch (e) {
-      onConnectionResult(false);
-      showErrorToast(consumerContext, "${AppLocale.couldNotConnect.getString(consumerContext)}: $e");
+    } else {
+      showErrorToast(consumerContext,
+          AppLocale.bluetoothOffTurn.getString(consumerContext));
     }
   }
 
-
-
-  requestDeviceData(BuildContext dataContext, File payload, String? deviceSerialNo, int? userAndDeviceId, String deviceId, int? durationId, String? durationName, String pId, Map<String, Object?> jsonData) async {
-    List<ConnectivityResult> connectivityResults = await Connectivity().checkConnectivity();
-    bool isConnected = connectivityResults.any((result) => result == ConnectivityResult.mobile || result == ConnectivityResult.wifi);
+  requestDeviceData(
+      BuildContext dataContext,
+      File payload,
+      String? deviceSerialNo,
+      int? userAndDeviceId,
+      String deviceId,
+      int? durationId,
+      String? durationName,
+      String pId,
+      Map<String, Object?> jsonData) async {
+    List<ConnectivityResult> connectivityResults =
+        await Connectivity().checkConnectivity();
+    bool isConnected = connectivityResults.any((result) =>
+        result == ConnectivityResult.mobile ||
+        result == ConnectivityResult.wifi);
     if (isConnected) {
       // Mobile data or WiFi detected
       DeviceDataResponseModel response = await apiCalls.requestDeviceData(
@@ -122,30 +110,31 @@ class NewTestLeProvider extends ChangeNotifier {
           roleId: prefModel.userData!.roleId,
           pId: pId,
           uploadFile: payload,
-          jsonData:jsonData
-      );
+          jsonData: jsonData);
       Navigator.pop(dataContext);
       if (response.result != null) {
-        showSuccessToast(dataContext, AppLocale.testSuccessSendHRV.getString(dataContext));
-      }else{
+        showSuccessToast(
+            dataContext, AppLocale.testSuccessSendHRV.getString(dataContext));
+      } else {
         showErrorToast(dataContext, response.message!);
         final String jsonString = json.encode(jsonData);
-        OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+        OfflineTestModel testDetails =
+            OfflineTestModel.fromJson(json.decode(jsonString));
         prefModel.offlineSavedTests!.add(testDetails);
         await AppPref.setPref(prefModel);
-        showSuccessToast(dataContext,
-            AppLocale.testSavedOffline.getString(dataContext));
+        showSuccessToast(
+            dataContext, AppLocale.testSavedOffline.getString(dataContext));
         // Navigator.pop(dataContext);
       }
     } else {
       final String jsonString = json.encode(jsonData);
-      OfflineTestModel testDetails = OfflineTestModel.fromJson(json.decode(jsonString));
+      OfflineTestModel testDetails =
+          OfflineTestModel.fromJson(json.decode(jsonString));
       prefModel.offlineSavedTests!.add(testDetails);
       await AppPref.setPref(prefModel);
       Navigator.pop(dataContext);
-      showErrorToast(dataContext, AppLocale.testSavedOffline.getString(dataContext));
+      showErrorToast(
+          dataContext, AppLocale.testSavedOffline.getString(dataContext));
     }
-
   }
-
 }

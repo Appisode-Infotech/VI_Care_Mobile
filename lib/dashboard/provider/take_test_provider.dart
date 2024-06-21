@@ -33,8 +33,8 @@ class TakeTestProvider extends ChangeNotifier {
   TextEditingController serialNumberController = TextEditingController();
   List<StreamSubscription> subscriptions = [];
   DetailedReportPdfModel? documentResp;
-
   Map? reportUserData;
+
   void listenToConnectedDevice() {
     _bluetoothStateSubscription = FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) async {
       bluetoothStatus = state == BluetoothAdapterState.on;
@@ -53,7 +53,7 @@ class TakeTestProvider extends ChangeNotifier {
             isConnected = false;
             connectedDevice = null;
             for (var subscription in subscriptions) {
-              subscription.cancel(); // cancel all subscriptions
+              subscription.cancel();
             }
           }
       }
@@ -68,11 +68,11 @@ class TakeTestProvider extends ChangeNotifier {
       await device.connect();
       connectedDevice = device;
       isConnected = true;
-      Navigator.pop(context); // Dismiss the loader
-      Navigator.pop(context); // Back to test screen
+      Navigator.pop(context);
+      Navigator.pop(context);
       showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.platformName}");
     } catch (e) {
-      Navigator.pop(context); // Dismiss the loader
+      Navigator.pop(context);
       showErrorToast(context,
           '${AppLocale.errorConnecting.getString(context)} ${device.platformName}: $e');
     }
@@ -85,14 +85,14 @@ class TakeTestProvider extends ChangeNotifier {
       await device.connect();
       List<BluetoothService> services = await device.discoverServices();
       for (BluetoothService service in services) {
-        if (service.uuid.toString() == "0000180d-0000-1000-8000-00805f9b34fb") {
-          Navigator.pop(context); // Dismiss the loader
+        if (service.uuid.str == Guid("0000180d-0000-1000-8000-00805f9b34fb").str) {
+          Navigator.pop(context);
           askDeviceDetails(context, device);
         }
       }
       device.disconnect();
     } catch (e) {
-      Navigator.pop(context); // Dismiss the loader
+      Navigator.pop(context);
       showErrorToast(context,
           '${AppLocale.errorConnecting.getString(context)} ${device.platformName}: $e');
     }
@@ -229,37 +229,71 @@ class TakeTestProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  // Future<void> scanLeDevices(String scanType) async {
+  //   isScanning = true;
+  //   notifyListeners();
+  //   leDevices.clear();
+  //
+  //   try {
+  //     FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+  //     FlutterBluePlus.scanResults.listen((results) {
+  //       for (ScanResult result in results) {
+  //         final manufacturerData = result.advertisementData.manufacturerData;
+  //         const companyId = 65292;
+  //         if (manufacturerData.containsKey(companyId)) {
+  //           if (!leDevices.any((r) {
+  //             return r.remoteId.str == result.device.remoteId.str;
+  //           })) {
+  //             leDevices.add(result.device);
+  //             notifyListeners();
+  //           }
+  //         }
+  //       }
+  //     },onDone: (){
+  //       isScanning = false;
+  //       notifyListeners();
+  //     },onError: (var e){
+  //       log(e.toString());
+  //     }
+  //     );
+  //   } catch (e) {
+  //     isScanning = false;
+  //     notifyListeners();
+  //     log('Error scanning for devices: $e');
+  //   }
+  // }
+
+
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
-    notifyListeners();
+    // notifyListeners();
     leDevices.clear();
 
     try {
-      FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
-      FlutterBluePlus.scanResults.listen((results) {
-        for (ScanResult result in results) {
+      await FlutterBluePlus.startScan(timeout: const Duration(seconds: 6));
+      FlutterBluePlus.scanResults.listen((scanResult) {
+        for (ScanResult result in scanResult) {
           final manufacturerData = result.advertisementData.manufacturerData;
           const companyId = 65292;
+
           if (manufacturerData.containsKey(companyId)) {
-            if (!leDevices.any((r) {
-              return r.remoteId.str == result.device.remoteId.str;
-            })) {
-              leDevices.add(result.device);
+            final device = result.device;
+            if (!leDevices.any((r) => r.remoteId == result.device.remoteId)) {
+              leDevices.add(device);
+              print("lol"+device.remoteId.str);
               notifyListeners();
             }
           }
         }
-      },onDone: (){
-        isScanning = false;
-        notifyListeners();
-      },onError: (var e){
-        log(e.toString());
-      }
-      );
+      });
+      await Future.delayed(const Duration(seconds: 3));
+      await FlutterBluePlus.stopScan();
+      isScanning = false;
+      notifyListeners();
     } catch (e) {
       isScanning = false;
       notifyListeners();
-      log('Error scanning for devices: $e');
+      print('Error scanning for devices: $e');
     }
   }
 
