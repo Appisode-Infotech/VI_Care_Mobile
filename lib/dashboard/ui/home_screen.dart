@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .getEnterpriseProfiles(context);
     }
     Provider.of<TakeTestProvider>(context, listen: false)
-        .getMyReports('All Time', 'All reports');
+        .getMyReports('All Time', 'All reports',context);
     super.didChangeDependencies();
   }
 

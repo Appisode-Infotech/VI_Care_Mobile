@@ -25,12 +25,12 @@ class DeviceProvider extends ChangeNotifier {
 
   //duration page declarations
 
-  Future<DurationResponseModel> getAllDuration() async {
-    return await apiCalls.getAllDurations();
+  Future<DurationResponseModel> getAllDuration(BuildContext context) async {
+    return await apiCalls.getAllDurations(context);
   }
 
-  Future<DeviceResponseModel>getMyDevices() async {
-    return await apiCalls.getMyDevices();
+  Future<DeviceResponseModel>getMyDevices(BuildContext context) async {
+    return await apiCalls.getMyDevices(context);
   }
 
   Future<void> deleteDevice(int? userAndDeviceId, BuildContext context) async {

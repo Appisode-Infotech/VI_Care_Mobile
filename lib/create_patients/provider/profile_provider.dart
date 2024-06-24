@@ -305,8 +305,8 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<RegisterResponseModel>? getUserProfile() async {
-    RegisterResponseModel a = await apiCalls.getUserByGuid();
+  Future<RegisterResponseModel>? getUserProfile(BuildContext context) async {
+    RegisterResponseModel a = await apiCalls.getUserByGuid(context);
     prefModel.userData!.contact!.firstName = a.result!.contact!.firstName;
     prefModel.userData!.contact!.lastName = a.result!.contact!.lastName;
     prefModel.userData!.profilePicture = a.result!.profilePicture;

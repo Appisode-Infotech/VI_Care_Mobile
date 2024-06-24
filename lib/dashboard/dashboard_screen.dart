@@ -140,9 +140,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     bluetoothScanStatus == PermissionStatus.granted) {
                   showLoaderDialog(context);
                   DeviceResponseModel myDevices =
-                      await deviceProvider.getMyDevices();
+                      await deviceProvider.getMyDevices(context);
                   DurationResponseModel myDurations =
-                      await deviceProvider.getAllDuration();
+                      await deviceProvider.getAllDuration(context);
                   Navigator.pop(context);
                   if (myDevices.result != null &&
                       myDevices.result!.isNotEmpty) {

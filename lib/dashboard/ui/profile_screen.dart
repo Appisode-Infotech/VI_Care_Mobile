@@ -32,7 +32,7 @@ class ProfileScreen extends StatefulWidget {
         builder: (BuildContext context, ProfileProvider profileProvider,
             Widget? child) {
           if(eligibleToLoad){
-            userData = profileProvider.getUserProfile();
+            userData = profileProvider.getUserProfile(context);
             eligibleToLoad = false;
           }
           return OfflineBuilder(
