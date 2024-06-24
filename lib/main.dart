@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/auth/ui/forgot_reset_password.dart';
 import 'package:vicare/create_patients/ui/change_password_screen.dart';
@@ -13,6 +12,7 @@ import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import 'package:vicare/dashboard/ui/manage_patients_screen.dart';
 import 'package:vicare/dashboard/ui/offline_test_screen.dart';
 import 'package:vicare/dashboard/ui/profile_screen.dart';
+import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
 import 'package:vicare/utils/routes.dart';
@@ -49,15 +49,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppPref.getInstance();
-  var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
-  var bluetoothScanStatus = await Permission.bluetoothScan.request();
-
-  if (bluetoothConnectStatus == PermissionStatus.granted &&
-      bluetoothScanStatus == PermissionStatus.granted) {
-    runApp(const MyApp());
-  } else {
-
-  }
+  getRequiredPermissions();
+  runApp(const MyApp());
 }
 
 Size? screenSize;
