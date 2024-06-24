@@ -49,23 +49,9 @@ class NewTestLeProvider extends ChangeNotifier {
           showSuccessToast(consumerContext,
           "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}");
               return;
-              break;
             }
           }
         });
-        // if (device != null) {
-        //   await device!.connect(autoConnect: false);
-        //   connectedDevice = device;
-        //   onConnectionResult(true);
-        //   showSuccessToast(consumerContext,
-        //       "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}");
-        //   return;
-        // } else {
-        //   onConnectionResult(false);
-        //   showErrorToast(consumerContext,
-        //       AppLocale.deviceNotInTheRange.getString(consumerContext));
-        //   return;
-        // }
       } catch (e) {
         onConnectionResult(false);
         showErrorToast(

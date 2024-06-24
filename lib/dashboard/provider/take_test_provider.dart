@@ -46,16 +46,16 @@ class TakeTestProvider extends ChangeNotifier {
         }
       } else {
         List devices = FlutterBluePlus.connectedDevices;
-          if (devices.isNotEmpty) {
-            connectedDevice = devices.first;
-            isConnected = true;
-          } else {
-            isConnected = false;
-            connectedDevice = null;
-            for (var subscription in subscriptions) {
-              subscription.cancel();
-            }
+        if (devices.isNotEmpty) {
+          connectedDevice = devices.first;
+          isConnected = true;
+        } else {
+          isConnected = false;
+          connectedDevice = null;
+          for (var subscription in subscriptions) {
+            subscription.cancel();
           }
+        }
       }
       notifyListeners();
     });
@@ -113,15 +113,15 @@ class TakeTestProvider extends ChangeNotifier {
                 children: [
                   Row(
                     children: [
-                       Text(
+                      Text(
                         "${AppLocale.deviceName.getString(dialogContext)}: ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(device.platformName),
                     ],
                   ),
-                   FittedBox(
-                     child: Row(
+                  FittedBox(
+                    child: Row(
                       children: [
                         Text(
                           "${AppLocale.deviceManufacturer.getString(dialogContext)} : ",
@@ -129,12 +129,12 @@ class TakeTestProvider extends ChangeNotifier {
                         ),
                         Text(AppLocale.smartLab.getString(dialogContext)),
                       ],
-                                       ),
-                   ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
-                   Text(AppLocale.serialNumber.getString(dialogContext)),
+                  Text(AppLocale.serialNumber.getString(dialogContext)),
                   SizedBox(height: 5,),
                   Form(
                     key: addDeviceFormKey,
@@ -157,12 +157,12 @@ class TakeTestProvider extends ChangeNotifier {
                         errorMaxLines: 2,
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: AppColors.primaryColor),
+                          const BorderSide(color: AppColors.primaryColor),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
+                          const BorderSide(color: Colors.black, width: 2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -275,12 +275,11 @@ class TakeTestProvider extends ChangeNotifier {
         for (ScanResult result in scanResult) {
           final manufacturerData = result.advertisementData.manufacturerData;
           const companyId = 65292;
-
           if (manufacturerData.containsKey(companyId)) {
             final device = result.device;
             if (!leDevices.any((r) => r.remoteId == result.device.remoteId)) {
               leDevices.add(device);
-              print("lol"+device.remoteId.str);
+              print("-----------------");
               notifyListeners();
             }
           }
@@ -311,7 +310,7 @@ class TakeTestProvider extends ChangeNotifier {
               return null;
             });
             for (var subscription in subscriptions) {
-              subscription.cancel(); // cancel all subscriptions
+              subscription.cancel();
             }
             isConnected = false;
             connectedDevice = null;
@@ -357,7 +356,7 @@ class TakeTestProvider extends ChangeNotifier {
 
   Future<MyReportsResponseModel>? myReports;
   getMyReports(String? reportTime, String? reportStatus) async {
-   myReports = apiCalls.getMyReports(reportTime,reportStatus,null);
+    myReports = apiCalls.getMyReports(reportTime,reportStatus,null);
   }
 
   Future<MyReportsResponseModel>getMyReportsWithFilter(String? reportTime, String? reportStatus, String? pId) async {

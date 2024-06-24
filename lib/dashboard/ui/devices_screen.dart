@@ -350,11 +350,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
                         var bluetoothScanStatus = await Permission.bluetoothScan.request();
                         loc.Location location = loc.Location();
-                        bool _serviceEnabled;
-                        _serviceEnabled = await location.serviceEnabled();
-                        if (!_serviceEnabled) {
-                          _serviceEnabled = await location.requestService();
-                          if (!_serviceEnabled) {
+                        bool serviceEnabled;
+                        serviceEnabled = await location.serviceEnabled();
+                        if (!serviceEnabled) {
+                          serviceEnabled = await location.requestService();
+                          if (!serviceEnabled) {
                             return;
                           }
                         }

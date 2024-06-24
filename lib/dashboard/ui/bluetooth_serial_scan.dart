@@ -16,11 +16,11 @@ class BluetoothSerialScan extends StatefulWidget {
 class _BluetoothSerialScanState extends State<BluetoothSerialScan> {
   bool isFirstOpen = true;
 
-  // @override
-  // void didChangeDependencies() {
-  //   Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('1');
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    Provider.of<TakeTestProvider>(context, listen: false).scanLeDevices('2');
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

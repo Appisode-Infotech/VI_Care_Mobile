@@ -285,7 +285,7 @@ class ApiCalls {
   Future<RegisterResponseModel> loginUser(
       String email, String password, BuildContext buildContext) async {
     String? fcmToken =
-        await FirebaseMessaging.instance.getToken(); // fcm token imp
+        await FirebaseMessaging.instance.getToken();
     http.Response response = await hitApiPost(
         false,
         UrlConstants.loginUser,
@@ -295,6 +295,7 @@ class ApiCalls {
           'fcmToken': fcmToken
         }));
     if (response.statusCode == 200) {
+      log(response.body);
       return RegisterResponseModel.fromJson
         (json.decode(response.body));
     } else {
