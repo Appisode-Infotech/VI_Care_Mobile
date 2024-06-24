@@ -266,7 +266,9 @@ class TakeTestProvider extends ChangeNotifier {
 
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
-    // notifyListeners();
+    if(scanType == '2'){
+      notifyListeners();
+    }
     leDevices.clear();
 
     try {
@@ -286,7 +288,7 @@ class TakeTestProvider extends ChangeNotifier {
           }
         }
       });
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 6));
       await FlutterBluePlus.stopScan();
       isScanning = false;
       notifyListeners();
