@@ -197,7 +197,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
           builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
               Widget? child) {
             if (isFirstTimeLoading) {
-              connectedDevice = newTestLeProvider.connectedDevice as BluetoothDevice?;
+              connectedDevice = newTestLeProvider.connectedDevice;
               totalSeconds = selectedDuration!.durationInMinutes! * 60;
               newTestLeProvider.connectedDevice!.state.listen((state) {
                 if (mounted) {

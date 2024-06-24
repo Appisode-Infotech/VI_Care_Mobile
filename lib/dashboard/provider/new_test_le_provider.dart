@@ -33,7 +33,7 @@ class NewTestLeProvider extends ChangeNotifier {
       }
       connectedDevice = null;
       try {
-        FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+        FlutterBluePlus.startScan(timeout: const Duration(seconds: 10));
         BluetoothDevice? device;
 
         FlutterBluePlus.scanResults.listen((scanResult) async {
@@ -41,7 +41,7 @@ class NewTestLeProvider extends ChangeNotifier {
             if (result.device.remoteId.str ==
                 selectedDevice!.deviceKey.toString()) {
               device = result.device;
-              print("got ittttttttttttttt");
+              print("Device found");
               FlutterBluePlus.stopScan();
               await device!.connect(autoConnect: false);
           connectedDevice = device;
