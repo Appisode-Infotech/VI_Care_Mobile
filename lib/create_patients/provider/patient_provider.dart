@@ -246,7 +246,7 @@ class PatientProvider extends ChangeNotifier {
       );
       final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
       editPatientDobController.text = formattedDob;
-          // "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
+      // "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
           individualPatientData.result!.contact!.contactNumber!;
       editPatientEmailController.text = individualPatientData.result!.email!;
@@ -326,16 +326,15 @@ class PatientProvider extends ChangeNotifier {
         }
       }
       editPatientBloodGroup = individualPatientData.result!.contact!.bloodGroup;
-    } else
-    {
+    } else {
       final DateTime dob = DateTime(
         enterpriseUserData!.result!.contact!.doB!.year,
         enterpriseUserData.result!.contact!.doB!.month,
         enterpriseUserData.result!.contact!.doB!.day,
       );
       final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
-      editPatientDobController.text =formattedDob;
-          // "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
+      editPatientDobController.text = formattedDob;
+      // "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
           enterpriseUserData.result!.contact!.contactNumber!;
       editPatientEmailController.text = enterpriseUserData.result!.emailId!;
@@ -456,7 +455,7 @@ class PatientProvider extends ChangeNotifier {
         editPatientDobController.text,
         editPatientAddressController.text,
         editPatientMobileController.text,
-            genderMap[editPatientGender]!,
+        genderMap[editPatientGender]!,
         editPatientSelectedImage,
         editPatientPageContext!,
         editPatientBloodGroup!,
@@ -495,12 +494,12 @@ class PatientProvider extends ChangeNotifier {
   Future<IndividualResponseModel>? individualUserData;
   Future<EnterpriseResponseModel>? enterpriseUserData;
 
-  getIndividualUserData(String? pId) async {
-    individualUserData = apiCalls.getIndividualUserData(pId);
+  getIndividualUserData(String? pId, BuildContext context) async {
+    individualUserData = apiCalls.getIndividualUserData(pId, context);
   }
 
-  getEnterpriseUserData(String? eId) async {
-    enterpriseUserData = apiCalls.getEnterpriseUserData(eId);
+  getEnterpriseUserData(String? eId, BuildContext context) async {
+    enterpriseUserData = apiCalls.getEnterpriseUserData(eId, context);
   }
 
   Future<void> getStateMaster(BuildContext context, String? uniqueGuid) async {
@@ -510,20 +509,21 @@ class PatientProvider extends ChangeNotifier {
     }
   }
 
-  Future<DashboardCountResponseModel> getCounts(int pId) {
-    return apiCalls.getDashboardCounts(pId);
+  Future<DashboardCountResponseModel> getCounts(int pId, BuildContext context) {
+    return apiCalls.getDashboardCounts(pId, context);
   }
 
-  Future<MyReportsResponseModel> getPatientReports(int? pId) async {
-    return await apiCalls.getAllReportsByProfileId(pId);
+  Future<MyReportsResponseModel> getPatientReports(
+      int? pId, BuildContext context) async {
+    return await apiCalls.getAllReportsByProfileId(pId, context);
   }
 
-  Future<DeviceResponseModel> getMyDevices() {
-    return apiCalls.getMyDevices();
+  Future<DeviceResponseModel> getMyDevices(BuildContext context) {
+    return apiCalls.getMyDevices(context);
   }
 
-  Future<DurationResponseModel> getAllDuration() async {
-    return await apiCalls.getAllDurations();
+  Future<DurationResponseModel> getAllDuration(BuildContext context) async {
+    return await apiCalls.getAllDurations(context);
   }
 
   Future<SummaryReportResponseModel> getSummaryReport(
@@ -531,12 +531,14 @@ class PatientProvider extends ChangeNotifier {
     return apiCalls.getSummaryReports(context, pId, type);
   }
 
-  Future<IndividualResponseModel> selectIndividualUserData(String? pId) async {
-    return apiCalls.getIndividualUserData(pId);
+  Future<IndividualResponseModel> selectIndividualUserData(
+      String? pId, BuildContext context) async {
+    return apiCalls.getIndividualUserData(pId, context);
   }
 
-  Future<EnterpriseResponseModel> selectEnterpriseUserData(String? eId) async {
-    return apiCalls.getEnterpriseUserData(eId);
+  Future<EnterpriseResponseModel> selectEnterpriseUserData(
+      String? eId, BuildContext context) async {
+    return apiCalls.getEnterpriseUserData(eId, context);
   }
 
   Future<void> getCountryMaster(BuildContext context) async {
@@ -558,8 +560,8 @@ class PatientProvider extends ChangeNotifier {
         context, individualId, enterpriseId);
   }
 
-  Future<RegisterResponseModel>? getUserDetails() async {
-    RegisterResponseModel a = await apiCalls.getUserByGuid();
+  Future<RegisterResponseModel>? getUserDetails(BuildContext context) async {
+    RegisterResponseModel a = await apiCalls.getUserByGuid(context);
     prefModel.userData!.contact!.firstName = a.result!.contact!.firstName;
     prefModel.userData!.contact!.lastName = a.result!.contact!.lastName;
     AppPref.setPref(prefModel);

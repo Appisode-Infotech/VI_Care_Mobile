@@ -46,7 +46,7 @@ class _DurationScreenState extends State<DurationScreen> {
             ),
           ),
           body: FutureBuilder(
-            future: deviceProvider.getAllDuration(),
+            future: deviceProvider.getAllDuration(context),
             builder: (BuildContext context,
                 AsyncSnapshot<DurationResponseModel> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

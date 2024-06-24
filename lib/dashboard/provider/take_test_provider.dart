@@ -22,6 +22,7 @@ class TakeTestProvider extends ChangeNotifier {
   FlutterBluePlus flutterBluePlus = FlutterBluePlus();
   bool isConnected = false;
   bool bluetoothStatus = false;
+
   // Timer? _timer;
   bool isScanning = false;
   List<BluetoothDevice> leDevices = [];
@@ -36,7 +37,8 @@ class TakeTestProvider extends ChangeNotifier {
   Map? reportUserData;
 
   void listenToConnectedDevice() {
-    _bluetoothStateSubscription = FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) async {
+    _bluetoothStateSubscription = FlutterBluePlus.adapterState
+        .listen((BluetoothAdapterState state) async {
       bluetoothStatus = state == BluetoothAdapterState.on;
       if (!bluetoothStatus) {
         isConnected = false;
@@ -70,7 +72,8 @@ class TakeTestProvider extends ChangeNotifier {
       isConnected = true;
       Navigator.pop(context);
       Navigator.pop(context);
-      showSuccessToast(context, "${AppLocale.connectedTo.getString(context)} ${device.platformName}");
+      showSuccessToast(context,
+          "${AppLocale.connectedTo.getString(context)} ${device.platformName}");
     } catch (e) {
       Navigator.pop(context);
       showErrorToast(context,
@@ -85,7 +88,8 @@ class TakeTestProvider extends ChangeNotifier {
       await device.connect();
       List<BluetoothService> services = await device.discoverServices();
       for (BluetoothService service in services) {
-        if (service.uuid.str == Guid("0000180d-0000-1000-8000-00805f9b34fb").str) {
+        if (service.uuid.str ==
+            Guid("0000180d-0000-1000-8000-00805f9b34fb").str) {
           Navigator.pop(context);
           askDeviceDetails(context, device);
         }
@@ -105,7 +109,7 @@ class TakeTestProvider extends ChangeNotifier {
           return PopScope(
             canPop: false,
             child: AlertDialog(
-              title:  Text(AppLocale.addDeviceDetails.getString(dialogContext)),
+              title: Text(AppLocale.addDeviceDetails.getString(dialogContext)),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +139,9 @@ class TakeTestProvider extends ChangeNotifier {
                     height: 15,
                   ),
                   Text(AppLocale.serialNumber.getString(dialogContext)),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Form(
                     key: addDeviceFormKey,
                     child: TextFormField(
@@ -143,26 +149,28 @@ class TakeTestProvider extends ChangeNotifier {
                       controller: serialNumberController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return AppLocale.enterSNumber.getString(dialogContext);
+                          return AppLocale.enterSNumber
+                              .getString(dialogContext);
                         }
                         return null;
                       },
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
-                        hintText: AppLocale.serialNumber.getString(dialogContext),
+                        hintText:
+                            AppLocale.serialNumber.getString(dialogContext),
                         counterText: "",
                         isCollapsed: true,
                         errorStyle: const TextStyle(color: Colors.red),
                         errorMaxLines: 2,
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          const BorderSide(color: AppColors.primaryColor),
+                              const BorderSide(color: AppColors.primaryColor),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                          const BorderSide(color: Colors.black, width: 2),
+                              const BorderSide(color: Colors.black, width: 2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -195,14 +203,15 @@ class TakeTestProvider extends ChangeNotifier {
                         Navigator.pop(dialogContext);
                         Navigator.pop(oldContext);
                         Navigator.pop(oldContext);
-                        if(res.result==null){
+                        if (res.result == null) {
                           showErrorToast(oldContext, res.message!);
-                        }else{
+                        } else {
                           showSuccessToast(oldContext, res.message!);
                         }
                       }
                     },
-                    child:  Text(AppLocale.proceedToAdd.getString(dialogContext))),
+                    child:
+                        Text(AppLocale.proceedToAdd.getString(dialogContext))),
               ],
             ),
           );
@@ -263,10 +272,11 @@ class TakeTestProvider extends ChangeNotifier {
   //   }
   // }
 
-
   Future<void> scanLeDevices(String scanType) async {
     isScanning = true;
-    // notifyListeners();
+    if (scanType == '2') {
+      notifyListeners();
+    }
     leDevices.clear();
 
     try {
@@ -275,17 +285,18 @@ class TakeTestProvider extends ChangeNotifier {
         for (ScanResult result in scanResult) {
           final manufacturerData = result.advertisementData.manufacturerData;
           const companyId = 65292;
+
           if (manufacturerData.containsKey(companyId)) {
             final device = result.device;
             if (!leDevices.any((r) => r.remoteId == result.device.remoteId)) {
               leDevices.add(device);
-              print("-----------------");
+              print("lol" + device.remoteId.str);
               notifyListeners();
             }
           }
         }
       });
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 6));
       await FlutterBluePlus.stopScan();
       isScanning = false;
       notifyListeners();
@@ -310,7 +321,7 @@ class TakeTestProvider extends ChangeNotifier {
               return null;
             });
             for (var subscription in subscriptions) {
-              subscription.cancel();
+              subscription.cancel(); // cancel all subscriptions
             }
             isConnected = false;
             connectedDevice = null;
@@ -355,30 +366,39 @@ class TakeTestProvider extends ChangeNotifier {
   }
 
   Future<MyReportsResponseModel>? myReports;
-  getMyReports(String? reportTime, String? reportStatus) async {
-    myReports = apiCalls.getMyReports(reportTime,reportStatus,null);
+
+  getMyReports(
+      String? reportTime, String? reportStatus, BuildContext context) async {
+    myReports = apiCalls.getMyReports(reportTime, reportStatus, null, context);
   }
 
-  Future<MyReportsResponseModel>getMyReportsWithFilter(String? reportTime, String? reportStatus, String? pId) async {
-    return apiCalls.getMyReports(reportTime,reportStatus,pId);
+  Future<MyReportsResponseModel> getMyReportsWithFilter(String? reportTime,
+      String? reportStatus, String? pId, BuildContext context) async {
+    return apiCalls.getMyReports(reportTime, reportStatus, pId, context);
   }
 
-  Future<ReportsDetailModel> getReportDetails(int? requestDeviceDataId, BuildContext context) async {
-    documentResp = await apiCalls.getReportPdf(requestDeviceDataId,context);
-    for(int i = 0;i<documentResp!.result!.length;i++){
-      if(prefModel.userData!.roleId==2){
-        if(documentResp!.result![i].fileType==2){
-          reportUserData = documentResp!.result![i].requestDeviceData!.individualProfile!.toJson();
+  Future<ReportsDetailModel> getReportDetails(
+      int? requestDeviceDataId, BuildContext context) async {
+    documentResp = await apiCalls.getReportPdf(requestDeviceDataId, context);
+    for (int i = 0; i < documentResp!.result!.length; i++) {
+      if (prefModel.userData!.roleId == 2) {
+        if (documentResp!.result![i].fileType == 2) {
+          reportUserData = documentResp!
+              .result![i].requestDeviceData!.individualProfile!
+              .toJson();
         }
-      }else{
-        if(documentResp!.result![i].fileType==2){
-          reportUserData = documentResp!.result![i].requestDeviceData!.enterpriseProfile!.toJson();
+      } else {
+        if (documentResp!.result![i].fileType == 2) {
+          reportUserData = documentResp!
+              .result![i].requestDeviceData!.enterpriseProfile!
+              .toJson();
         }
       }
     }
 
-    return await apiCalls.getReport(requestDeviceDataId,context);
+    return await apiCalls.getReport(requestDeviceDataId, context);
   }
+
   downloadReportPdf(String url, BuildContext context) async {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');

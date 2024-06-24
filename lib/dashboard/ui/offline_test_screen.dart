@@ -614,7 +614,7 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                                     );
                                     if (confirm) {
                                       showLoaderDialog(bottomSheetContext);
-                                      IndividualResponseModel userData = await patientProvider.selectIndividualUserData(snapshot.data!.result![index].id.toString());
+                                      IndividualResponseModel userData = await patientProvider.selectIndividualUserData(snapshot.data!.result![index].id.toString(),context);
                                       prefModel.offlineSavedTests![offlineSavedTestIndex].individualPatientData = userData;
                                       await AppPref.setPref(prefModel);
                                       Navigator.pop(bottomSheetContext);
@@ -774,7 +774,7 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
 
                                     if (confirm) {
                                       showLoaderDialog(bottomSheetContext);
-                                      EnterpriseResponseModel userData = await patientProvider.selectEnterpriseUserData(snapshot.data!.result![index].id.toString());
+                                      EnterpriseResponseModel userData = await patientProvider.selectEnterpriseUserData(snapshot.data!.result![index].id.toString(),context);
                                       prefModel.offlineSavedTests![offlineSavedTestIndex].enterprisePatientData = userData;
                                       await AppPref.setPref(prefModel);
                                       Navigator.pop(bottomSheetContext);

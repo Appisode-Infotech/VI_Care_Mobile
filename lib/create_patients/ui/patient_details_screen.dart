@@ -50,9 +50,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
           Widget? child) {
         if (!isLoaded) {
           if (prefModel.userData!.roleId == 2) {
-            patientProvider.getIndividualUserData(pId);
+            patientProvider.getIndividualUserData(pId,context);
           } else {
-            patientProvider.getEnterpriseUserData(pId);
+            patientProvider.getEnterpriseUserData(pId,context);
           }
           isLoaded = true;
         }
@@ -105,7 +105,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                             "enterPriseUserData": enterprisePatientData
                           }).then((value) {
                         setState(() {
-                          patientProvider.getUserDetails();
+                          patientProvider.getUserDetails(context);
                           isLoaded = false;
                         });
                         return null;
@@ -156,7 +156,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     individualPatientData = snapshot.data;
                                     Future<DashboardCountResponseModel>? countsData;
                                     if(isCountsLoaded!=true){
-                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!);
+                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!,context);
                                       isCountsLoaded = true;
                                     }
                                     return Column(
@@ -760,11 +760,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                     DeviceResponseModel
                                                                         myDevices =
                                                                         await patientProvider
-                                                                            .getMyDevices();
+                                                                            .getMyDevices(context);
                                                                     DurationResponseModel
                                                                         myDurations =
                                                                         await patientProvider
-                                                                            .getAllDuration();
+                                                                            .getAllDuration(context);
                                                                     Navigator.pop(
                                                                         context);
                                                                     if (myDevices.result !=
@@ -903,7 +903,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               FutureBuilder(
                                                 future: patientProvider
                                                     .getPatientReports(snapshot
-                                                        .data!.result!.id),
+                                                        .data!.result!.id,context),
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<
                                                             MyReportsResponseModel>
@@ -1236,7 +1236,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     enterprisePatientData = snapshot.data;
                                     Future<DashboardCountResponseModel>? countsData;
                                     if(isCountsLoaded!=true){
-                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!);
+                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!,context);
                                       isCountsLoaded = true;
                                     }
                                     return Column(
@@ -1824,11 +1824,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                     DeviceResponseModel
                                                                     myDevices =
                                                                     await patientProvider
-                                                                        .getMyDevices();
+                                                                        .getMyDevices(context);
                                                                     DurationResponseModel
                                                                     myDurations =
                                                                     await patientProvider
-                                                                        .getAllDuration();
+                                                                        .getAllDuration(context);
                                                                     Navigator.pop(
                                                                         context);
                                                                     if (myDevices
@@ -1948,7 +1948,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               FutureBuilder(
                                                 future: patientProvider
                                                     .getPatientReports(snapshot
-                                                        .data!.result!.id),
+                                                        .data!.result!.id,context),
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<
                                                             MyReportsResponseModel>

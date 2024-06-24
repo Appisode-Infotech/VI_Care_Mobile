@@ -49,7 +49,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       builder:
           (BuildContext context, DeviceProvider deviceProvider, Widget? child) {
         deviceProvider.devicePageContext = context;
-        deviceProvider.getMyDevices();
+        deviceProvider.getMyDevices(context);
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -105,7 +105,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 );
               }
               return FutureBuilder(
-                future: deviceProvider.getMyDevices(),
+                future: deviceProvider.getMyDevices(context),
                 builder: (BuildContext context, AsyncSnapshot<DeviceResponseModel> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SizedBox(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
-
 import '../../utils/app_buttons.dart';
 import '../../utils/app_locale.dart';
 import '../provider/take_test_provider.dart';
@@ -27,25 +26,25 @@ class _ScanLeDevicesToAddScreenState extends State<ScanLeDevicesToAddScreen> {
   Widget build(BuildContext context) {
     return Consumer(builder: (BuildContext context,
         TakeTestProvider takeTestProvider, Widget? child) {
-      // if(isFirstOpen){
-      //   takeTestProvider.scanLeDevices('1');
-      //   isFirstOpen = false;
-      // }
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            AppLocale.chooseDeviceModel.getString(context),
+            takeTestProvider.isScanning
+                ? AppLocale.scanning.getString(context)
+                : AppLocale.chooseDeviceModel.getString(context),
             style: const TextStyle(fontSize: 22),
           ),
           actions: [
-            TextButton(
-                onPressed: () {
-                  scanLeDevices(takeTestProvider);
-                },
-                child: Text(
-                  AppLocale.scanDevices.getString(context),
-                  style: const TextStyle(fontSize: 16),
-                ))
+            !takeTestProvider.isScanning
+                ? TextButton(
+                    onPressed: () {
+                      scanLeDevices(takeTestProvider);
+                    },
+                    child: Text(
+                      AppLocale.scanDevices.getString(context),
+                      style: const TextStyle(fontSize: 16),
+                    ))
+                : const SizedBox.shrink()
           ],
         ),
         body: RefreshIndicator(

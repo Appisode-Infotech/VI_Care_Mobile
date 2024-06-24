@@ -32,37 +32,56 @@ class NewTestLeProvider extends ChangeNotifier {
         await device.disconnect();
       }
       connectedDevice = null;
-      try {
-        FlutterBluePlus.startScan(timeout: const Duration(seconds: 10));
-        BluetoothDevice? device;
 
+      bool deviceFound = false;
+
+      try {
+        FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+
+        BluetoothDevice? device;
         FlutterBluePlus.scanResults.listen((scanResult) async {
           for (ScanResult result in scanResult) {
-            if (result.device.remoteId.str ==
-                selectedDevice!.deviceKey.toString()) {
+            if (result.device.remoteId.str == selectedDevice!.deviceKey.toString()) {
               device = result.device;
-              print("Device found");
+              deviceFound = true;
               FlutterBluePlus.stopScan();
               await device!.connect(autoConnect: false);
-          connectedDevice = device;
-          onConnectionResult(true);
-          showSuccessToast(consumerContext,
-          "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}");
+              connectedDevice = device;
+              onConnectionResult(true);
+              showSuccessToast(
+                consumerContext,
+                "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}",
+              );
               return;
             }
           }
         });
+
+        // Wait for the scan to complete
+        await Future.delayed(const Duration(seconds: 5));
+
+        if (!deviceFound) {
+          onConnectionResult(false);
+          showErrorToast(
+            consumerContext,
+            AppLocale.deviceNotInTheRange.getString(consumerContext),
+          );
+        }
       } catch (e) {
         onConnectionResult(false);
         showErrorToast(
-            consumerContext, "${AppLocale.couldNotConnect.getString}: $e");
-        return;
+          consumerContext,
+          "${AppLocale.couldNotConnect.getString(consumerContext)}: $e",
+        );
       }
     } else {
-      showErrorToast(consumerContext,
-          AppLocale.bluetoothOffTurn.getString(consumerContext));
+      showErrorToast(
+        consumerContext,
+        AppLocale.bluetoothOffTurn.getString(consumerContext),
+      );
     }
   }
+
 
   requestDeviceData(
       BuildContext dataContext,

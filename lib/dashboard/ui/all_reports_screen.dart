@@ -55,7 +55,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       TakeTestProvider takeTestProvider, Widget? child) {
                     if (isLoadEligible) {
                       reportsData = takeTestProvider.getMyReportsWithFilter(
-                          reportTime, reportStatus,patientId);
+                          reportTime, reportStatus,patientId,context);
                       isLoadEligible = false;
                     }
                     return SingleChildScrollView(
@@ -183,7 +183,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             ),
                             const SizedBox(height: 20),
                             FutureBuilder(
-                              future: takeTestProvider.getMyReportsWithFilter(reportTime, reportStatus,patientId),
+                              future: takeTestProvider.getMyReportsWithFilter(reportTime, reportStatus,patientId,context),
                               builder: (BuildContext context,
                                   AsyncSnapshot<MyReportsResponseModel>
                                       snapshot) {
