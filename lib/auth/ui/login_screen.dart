@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -229,6 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               showLoaderDialog(context);
                               authProvider.loginEmailController.clear();
                               authProvider.loginPasswordController.clear();
+                              authProvider.loginFormKey.currentState!.reset();
                               authProvider.clearRegisterForm();
                               await authProvider.getRoleMasters(context);
                              await authProvider.getCountryMaster(context);
