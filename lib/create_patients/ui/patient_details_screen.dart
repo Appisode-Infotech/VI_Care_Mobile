@@ -50,9 +50,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
           Widget? child) {
         if (!isLoaded) {
           if (prefModel.userData!.roleId == 2) {
-            patientProvider.getIndividualUserData(pId,context);
+            patientProvider.getIndividualUserData(pId, context);
           } else {
-            patientProvider.getEnterpriseUserData(pId,context);
+            patientProvider.getEnterpriseUserData(pId, context);
           }
           isLoaded = true;
         }
@@ -154,9 +154,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   }
                                   if (snapshot.hasData) {
                                     individualPatientData = snapshot.data;
-                                    Future<DashboardCountResponseModel>? countsData;
-                                    if(isCountsLoaded!=true){
-                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!,context);
+                                    Future<DashboardCountResponseModel>?
+                                        countsData;
+                                    if (isCountsLoaded != true) {
+                                      countsData = patientProvider.getCounts(
+                                          snapshot.data!.result!.id!, context);
                                       isCountsLoaded = true;
                                     }
                                     return Column(
@@ -476,9 +478,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               child: Center(
                                                                 child: Text(
                                                                   double.parse(countSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .readinessScore!).toStringAsFixed(0),
+                                                                          .data!
+                                                                          .result!
+                                                                          .readinessScore!)
+                                                                      .toStringAsFixed(
+                                                                          0),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -715,90 +719,62 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               width: 5),
                                                           GestureDetector(
                                                             onTap: () async {
-                                                              CheckRequestCountModel
-                                                                  countRes =
-                                                                  await patientProvider.checkRequestCount(
+                                                              showDialog(
+                                                                  context:
                                                                       context,
-                                                                      individualPatientData
-                                                                          ?.result!
-                                                                          .id,
-                                                                      enterprisePatientData
-                                                                          ?.result!
-                                                                          .id);
-                                                              CheckRequestCountModel
-                                                                  requestDurationRes =
-                                                                  await patientProvider.checkRequestDuration(
-                                                                      context,
-                                                                      individualPatientData
-                                                                          ?.result!
-                                                                          .id,
-                                                                      enterprisePatientData
-                                                                          ?.result!
-                                                                          .id);
-                                                              if (countRes
-                                                                      .result ==
-                                                                  true) {
-                                                                if (requestDurationRes
-                                                                        .result ==
-                                                                    true) {
-                                                                  var bluetoothConnectStatus =
-                                                                      await Permission
-                                                                          .bluetoothConnect
-                                                                          .request();
-                                                                  var bluetoothScanStatus =
-                                                                      await Permission
-                                                                          .bluetoothScan
-                                                                          .request();
-                                                                  if (bluetoothConnectStatus ==
-                                                                          PermissionStatus
-                                                                              .granted &&
-                                                                      bluetoothScanStatus ==
-                                                                          PermissionStatus
-                                                                              .granted) {
-                                                                    showLoaderDialog(
-                                                                        context);
-                                                                    DeviceResponseModel
-                                                                        myDevices =
-                                                                        await patientProvider
-                                                                            .getMyDevices(context);
-                                                                    DurationResponseModel
-                                                                        myDurations =
-                                                                        await patientProvider
-                                                                            .getAllDuration(context);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    if (myDevices.result !=
-                                                                            null &&
-                                                                        myDevices
-                                                                            .result!
-                                                                            .isNotEmpty) {
-                                                                      showTestFormBottomSheet(
-                                                                          context,
-                                                                          myDevices,
-                                                                          myDurations,
-                                                                          snapshot
-                                                                              .data!,
-                                                                          null);
-                                                                    } else {
-                                                                      showErrorToast(
-                                                                          context,
-                                                                          AppLocale
-                                                                              .notAddedDevice
-                                                                              .getString(context));
-                                                                    }
-                                                                  }
-                                                                } else {
-                                                                  showErrorToast(
-                                                                      takeTestContext,
-                                                                      requestDurationRes
-                                                                          .message!);
-                                                                }
-                                                              } else {
-                                                                showErrorToast(
-                                                                    takeTestContext,
-                                                                    countRes
-                                                                        .message!);
-                                                              }
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          alertContext) {
+                                                                    return AlertDialog(
+                                                                      title: Text(
+                                                                          "Concent"),
+                                                                      content: Text(
+                                                                          "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Text("Cancel")),
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () async {
+                                                                              Navigator.pop(alertContext);
+                                                                              var locationWhenInUse = await Permission.locationWhenInUse.request();
+                                                                              if (locationWhenInUse == PermissionStatus.granted) {
+                                                                                CheckRequestCountModel countRes = await patientProvider.checkRequestCount(context, individualPatientData?.result!.id, enterprisePatientData?.result!.id);
+                                                                                CheckRequestCountModel requestDurationRes = await patientProvider.checkRequestDuration(context, individualPatientData?.result!.id, enterprisePatientData?.result!.id);
+                                                                                if (countRes.result == true) {
+                                                                                  if (requestDurationRes.result == true) {
+                                                                                    var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+                                                                                    var bluetoothScanStatus = await Permission.bluetoothScan.request();
+                                                                                    if (bluetoothConnectStatus == PermissionStatus.granted && bluetoothScanStatus == PermissionStatus.granted) {
+                                                                                      showLoaderDialog(context);
+                                                                                      DeviceResponseModel myDevices = await patientProvider.getMyDevices(context);
+                                                                                      DurationResponseModel myDurations = await patientProvider.getAllDuration(context);
+                                                                                      Navigator.pop(context);
+                                                                                      if (myDevices.result != null && myDevices.result!.isNotEmpty) {
+                                                                                        showTestFormBottomSheet(context, myDevices, myDurations, snapshot.data!, null);
+                                                                                      } else {
+                                                                                        showErrorToast(context, AppLocale.notAddedDevice.getString(context));
+                                                                                      }
+                                                                                    }
+                                                                                  } else {
+                                                                                    showErrorToast(takeTestContext, requestDurationRes.message!);
+                                                                                  }
+                                                                                } else {
+                                                                                  showErrorToast(takeTestContext, countRes.message!);
+                                                                                }
+                                                                              } else {
+                                                                                showErrorToast(context, "Location permission is required to proceed. Please enable and try again");
+                                                                              }
+                                                                            },
+                                                                            child: Text("Agree")),
+                                                                      ],
+                                                                    );
+                                                                  });
                                                             },
                                                             // if (myDevices
                                                             //     .result!.devices!.isEmpty) {
@@ -902,8 +878,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               ),
                                               FutureBuilder(
                                                 future: patientProvider
-                                                    .getPatientReports(snapshot
-                                                        .data!.result!.id,context),
+                                                    .getPatientReports(
+                                                        snapshot
+                                                            .data!.result!.id,
+                                                        context),
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<
                                                             MyReportsResponseModel>
@@ -953,8 +931,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     return patientSnapshot.data!
                                                             .result!.isNotEmpty
                                                         ? ListView.separated(
-                                                            itemCount: patientSnapshot.data!.result!.length > 5 ? 5 : patientSnapshot.data!.result!.length,
-                                                      shrinkWrap: true,
+                                                            itemCount: patientSnapshot
+                                                                        .data!
+                                                                        .result!
+                                                                        .length >
+                                                                    5
+                                                                ? 5
+                                                                : patientSnapshot
+                                                                    .data!
+                                                                    .result!
+                                                                    .length,
+                                                            shrinkWrap: true,
                                                             physics:
                                                                 const NeverScrollableScrollPhysics(),
                                                             separatorBuilder:
@@ -1049,7 +1036,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                   SizedBox(
                                                                                     width: screenSize!.width / 3,
                                                                                     child: Text(
-                                                                                      patientSnapshot.data!.result![index].roleId == 2 ? "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}" : patientSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " + patientSnapshot.data!.result![index].enterpriseProfile!.lastName!,
+                                                                                      patientSnapshot.data!.result![index].roleId == 2 ? "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}" : "${patientSnapshot.data!.result![index].enterpriseProfile!.firstName!} ${patientSnapshot.data!.result![index].enterpriseProfile!.lastName!}",
                                                                                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                                                                     ),
                                                                                   ),
@@ -1234,9 +1221,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   }
                                   if (snapshot.hasData) {
                                     enterprisePatientData = snapshot.data;
-                                    Future<DashboardCountResponseModel>? countsData;
-                                    if(isCountsLoaded!=true){
-                                      countsData = patientProvider.getCounts(snapshot.data!.result!.id!,context);
+                                    Future<DashboardCountResponseModel>?
+                                        countsData;
+                                    if (isCountsLoaded != true) {
+                                      countsData = patientProvider.getCounts(
+                                          snapshot.data!.result!.id!, context);
                                       isCountsLoaded = true;
                                     }
                                     return Column(
@@ -1556,9 +1545,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               child: Center(
                                                                 child: Text(
                                                                   double.parse(countSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .readinessScore!).toStringAsFixed(0),
+                                                                          .data!
+                                                                          .result!
+                                                                          .readinessScore!)
+                                                                      .toStringAsFixed(
+                                                                          0),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -1576,7 +1567,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             ),
                                                             FittedBox(
                                                               child: Text(
-                                                                textAlign: TextAlign.center,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
                                                                 AppLocale
                                                                     .readiness
                                                                     .getString(
@@ -1779,104 +1772,77 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               width: 5),
                                                           GestureDetector(
                                                             onTap: () async {
-                                                              CheckRequestCountModel
-                                                              countRes =
-                                                              await patientProvider.checkRequestCount(
+                                                              showDialog(
+                                                                  context:
                                                                   context,
-                                                                  individualPatientData
-                                                                      ?.result!
-                                                                      .id,
-                                                                  enterprisePatientData
-                                                                      ?.result!
-                                                                      .id);
-                                                              CheckRequestCountModel
-                                                              requestDurationRes =
-                                                              await patientProvider.checkRequestDuration(
-                                                                  context,
-                                                                  individualPatientData
-                                                                      ?.result!
-                                                                      .id,
-                                                                  enterprisePatientData
-                                                                      ?.result!
-                                                                      .id);
-                                                              if (countRes
-                                                                  .result ==
-                                                                  true) {
-                                                                if (requestDurationRes
-                                                                    .result ==
-                                                                    true) {
-                                                                  var bluetoothConnectStatus =
-                                                                  await Permission
-                                                                      .bluetoothConnect
-                                                                      .request();
-                                                                  var bluetoothScanStatus =
-                                                                  await Permission
-                                                                      .bluetoothScan
-                                                                      .request();
-                                                                  if (bluetoothConnectStatus ==
-                                                                      PermissionStatus
-                                                                          .granted &&
-                                                                      bluetoothScanStatus ==
-                                                                          PermissionStatus
-                                                                              .granted) {
-                                                                    showLoaderDialog(
-                                                                        context);
-                                                                    DeviceResponseModel
-                                                                    myDevices =
-                                                                    await patientProvider
-                                                                        .getMyDevices(context);
-                                                                    DurationResponseModel
-                                                                    myDurations =
-                                                                    await patientProvider
-                                                                        .getAllDuration(context);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    if (myDevices
-                                                                        .result !=
-                                                                        null &&
-                                                                        myDevices
-                                                                            .result!
-                                                                            .isNotEmpty) {
-                                                                      showTestFormBottomSheet(
-                                                                          context,
-                                                                          myDevices,
-                                                                          myDurations,
-                                                                          null,
-                                                                          snapshot
-                                                                              .data!);
-                                                                    } else {
-                                                                      showErrorToast(
-                                                                          context,
-                                                                          AppLocale.notAddedDevice
-                                                                              .getString(
-                                                                              context));
-                                                                    }
-                                                                  }
-                                                                }  else {
-                                                                  showErrorToast(
-                                                                      takeTestContext,
-                                                                      requestDurationRes
-                                                                          .message!);
-                                                                }
-                                                              } else {
-                                                                showErrorToast(
-                                                                    takeTestContext,
-                                                                    countRes
-                                                                        .message!);
-                                                              }
+                                                                  builder:
+                                                                      (BuildContext
+                                                                  alertContext) {
+                                                                    return AlertDialog(
+                                                                      title: Text(
+                                                                          "Concent"),
+                                                                      content: Text(
+                                                                          "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                            Text("Cancel")),
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () async {
+                                                                                  Navigator.pop(alertContext);
+
+                                                                              var locationWhenInUse = await Permission.locationWhenInUse.request();
+                                                                              if (locationWhenInUse == PermissionStatus.granted) {
+                                                                                CheckRequestCountModel countRes = await patientProvider.checkRequestCount(context, individualPatientData?.result!.id, enterprisePatientData?.result!.id);
+                                                                                CheckRequestCountModel requestDurationRes = await patientProvider.checkRequestDuration(context, individualPatientData?.result!.id, enterprisePatientData?.result!.id);
+                                                                                if (countRes.result == true) {
+                                                                                  if (requestDurationRes.result == true) {
+                                                                                    var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+                                                                                    var bluetoothScanStatus = await Permission.bluetoothScan.request();
+                                                                                    if (bluetoothConnectStatus == PermissionStatus.granted && bluetoothScanStatus == PermissionStatus.granted) {
+                                                                                      showLoaderDialog(context);
+                                                                                      DeviceResponseModel myDevices = await patientProvider.getMyDevices(context);
+                                                                                      DurationResponseModel myDurations = await patientProvider.getAllDuration(context);
+                                                                                      Navigator.pop(context);
+                                                                                      if (myDevices.result != null && myDevices.result!.isNotEmpty) {
+                                                                                        showTestFormBottomSheet(context, myDevices, myDurations,  null,snapshot.data!);
+                                                                                      } else {
+                                                                                        showErrorToast(context, AppLocale.notAddedDevice.getString(context));
+                                                                                      }
+                                                                                    }
+                                                                                  } else {
+                                                                                    showErrorToast(takeTestContext, requestDurationRes.message!);
+                                                                                  }
+                                                                                } else {
+                                                                                  showErrorToast(takeTestContext, countRes.message!);
+                                                                                }
+                                                                              } else {
+                                                                                showErrorToast(context, "Location permission is required to proceed. Please enable and try again");
+                                                                              }
+                                                                            },
+                                                                            child:
+                                                                            Text("Agree")),
+                                                                      ],
+                                                                    );
+                                                                  });
                                                             },
                                                             child: Container(
                                                                 height: 50,
                                                                 width: screenSize!
-                                                                        .width *
+                                                                    .width *
                                                                     0.2,
                                                                 padding:
-                                                                    const EdgeInsets
-                                                                        .all(8),
+                                                                const EdgeInsets
+                                                                    .all(8),
                                                                 decoration: const BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius.all(Radius.circular(
-                                                                            12)),
+                                                                    BorderRadius.all(Radius.circular(
+                                                                        12)),
                                                                     color: Colors
                                                                         .white),
                                                                 child: Center(
@@ -1884,17 +1850,135 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                     AppLocale
                                                                         .start
                                                                         .getString(
-                                                                            context),
+                                                                        context),
                                                                     style: const TextStyle(
                                                                         color: Colors
                                                                             .black,
                                                                         fontSize:
-                                                                            12,
+                                                                        12,
                                                                         fontWeight:
-                                                                            FontWeight.w600),
+                                                                        FontWeight.w600),
                                                                   ),
                                                                 )),
-                                                          )
+                                                          ),
+
+                                                          // GestureDetector(
+                                                          //   onTap: () async {
+                                                          //     CheckRequestCountModel
+                                                          //         countRes =
+                                                          //         await patientProvider.checkRequestCount(
+                                                          //             context,
+                                                          //             individualPatientData
+                                                          //                 ?.result!
+                                                          //                 .id,
+                                                          //             enterprisePatientData
+                                                          //                 ?.result!
+                                                          //                 .id);
+                                                          //     CheckRequestCountModel
+                                                          //         requestDurationRes =
+                                                          //         await patientProvider.checkRequestDuration(
+                                                          //             context,
+                                                          //             individualPatientData
+                                                          //                 ?.result!
+                                                          //                 .id,
+                                                          //             enterprisePatientData
+                                                          //                 ?.result!
+                                                          //                 .id);
+                                                          //     if (countRes
+                                                          //             .result ==
+                                                          //         true) {
+                                                          //       if (requestDurationRes
+                                                          //               .result ==
+                                                          //           true) {
+                                                          //         var bluetoothConnectStatus =
+                                                          //             await Permission
+                                                          //                 .bluetoothConnect
+                                                          //                 .request();
+                                                          //         var bluetoothScanStatus =
+                                                          //             await Permission
+                                                          //                 .bluetoothScan
+                                                          //                 .request();
+                                                          //         if (bluetoothConnectStatus ==
+                                                          //                 PermissionStatus
+                                                          //                     .granted &&
+                                                          //             bluetoothScanStatus ==
+                                                          //                 PermissionStatus
+                                                          //                     .granted) {
+                                                          //           showLoaderDialog(
+                                                          //               context);
+                                                          //           DeviceResponseModel
+                                                          //               myDevices =
+                                                          //               await patientProvider
+                                                          //                   .getMyDevices(context);
+                                                          //           DurationResponseModel
+                                                          //               myDurations =
+                                                          //               await patientProvider
+                                                          //                   .getAllDuration(context);
+                                                          //           Navigator.pop(
+                                                          //               context);
+                                                          //           if (myDevices.result !=
+                                                          //                   null &&
+                                                          //               myDevices
+                                                          //                   .result!
+                                                          //                   .isNotEmpty) {
+                                                          //             showTestFormBottomSheet(
+                                                          //                 context,
+                                                          //                 myDevices,
+                                                          //                 myDurations,
+                                                          //                 null,
+                                                          //                 snapshot
+                                                          //                     .data!);
+                                                          //           } else {
+                                                          //             showErrorToast(
+                                                          //                 context,
+                                                          //                 AppLocale
+                                                          //                     .notAddedDevice
+                                                          //                     .getString(context));
+                                                          //           }
+                                                          //         }
+                                                          //       } else {
+                                                          //         showErrorToast(
+                                                          //             takeTestContext,
+                                                          //             requestDurationRes
+                                                          //                 .message!);
+                                                          //       }
+                                                          //     } else {
+                                                          //       showErrorToast(
+                                                          //           takeTestContext,
+                                                          //           countRes
+                                                          //               .message!);
+                                                          //     }
+                                                          //   },
+                                                          //   child: Container(
+                                                          //       height: 50,
+                                                          //       width: screenSize!
+                                                          //               .width *
+                                                          //           0.2,
+                                                          //       padding:
+                                                          //           const EdgeInsets
+                                                          //               .all(8),
+                                                          //       decoration: const BoxDecoration(
+                                                          //           borderRadius:
+                                                          //               BorderRadius.all(Radius.circular(
+                                                          //                   12)),
+                                                          //           color: Colors
+                                                          //               .white),
+                                                          //       child: Center(
+                                                          //         child: Text(
+                                                          //           AppLocale
+                                                          //               .start
+                                                          //               .getString(
+                                                          //                   context),
+                                                          //           style: const TextStyle(
+                                                          //               color: Colors
+                                                          //                   .black,
+                                                          //               fontSize:
+                                                          //                   12,
+                                                          //               fontWeight:
+                                                          //                   FontWeight.w600),
+                                                          //         ),
+                                                          //       )),
+                                                          // )
                                                         ],
                                                       ));
                                                 },
@@ -1947,8 +2031,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                               ),
                                               FutureBuilder(
                                                 future: patientProvider
-                                                    .getPatientReports(snapshot
-                                                        .data!.result!.id,context),
+                                                    .getPatientReports(
+                                                        snapshot
+                                                            .data!.result!.id,
+                                                        context),
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<
                                                             MyReportsResponseModel>
@@ -2096,7 +2182,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                   SizedBox(
                                                                                     width: screenSize!.width / 3,
                                                                                     child: Text(
-                                                                                      patientSnapshot.data!.result![index].roleId == 2 ? "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}" : patientSnapshot.data!.result![index].enterpriseProfile!.firstName! + " " + patientSnapshot.data!.result![index].enterpriseProfile!.lastName!,
+                                                                                      patientSnapshot.data!.result![index].roleId == 2 ? "${patientSnapshot.data!.result![index].individualProfile!.firstName!} ${patientSnapshot.data!.result![index].individualProfile!.lastName!}" : "${patientSnapshot.data!.result![index].enterpriseProfile!.firstName!} ${patientSnapshot.data!.result![index].enterpriseProfile!.lastName!}",
                                                                                       style: const TextStyle(
                                                                                           // overflow: TextOverflow.ellipsis,
                                                                                           fontWeight: FontWeight.bold,

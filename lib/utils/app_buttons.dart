@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:vicare/create_patients/model/enterprise_response_model.dart';
@@ -535,4 +536,18 @@ showInfoDialog(BuildContext context,String message){
       ],
     );
   });
+}
+
+
+getRequiredPermissions() async {
+  var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
+  var bluetoothScanStatus = await Permission.bluetoothScan.request();
+  var locationWhenInUse = await Permission.locationWhenInUse.request();
+
+  if (bluetoothConnectStatus == PermissionStatus.granted &&
+      bluetoothScanStatus == PermissionStatus.granted && locationWhenInUse == PermissionStatus.granted) {
+    return true;
+  } else {
+    return false;
+  }
 }

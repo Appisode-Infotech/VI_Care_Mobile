@@ -45,148 +45,156 @@ class _RegisterScreenState extends State<RegisterScreen> {
           body: Form(
             key: authProvider.registerFormKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Non-scrollable part
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20, left: 20, right: 20, bottom: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // InkWell(
-                      //   onTap: () {
-                      //     Navigator.pop(context);
-                      //   },
-                      //   child: const Icon(
-                      //     Icons.arrow_back_ios,
-                      //     size: 25,
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 10),
-                      Text(
-                        _getHeading(currentStep),
-                        style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        AppLocale.pleaseFillToRegister.getString(context),
-                        style: const TextStyle(color: AppColors.fontShadeColor),
-                      ),
-                      const SizedBox(height: 10),
-                      StepProgressIndicator(
-                        roundedEdges: const Radius.circular(20),
-                        size: 7,
-                        totalSteps: 3,
-                        currentStep: currentStep,
-                        selectedColor: AppColors.primaryColor,
-                        unselectedColor: Colors.grey,
-                      ),
-                    ],
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Non-scrollable part
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20, left: 20, right: 20, bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // InkWell(
+                        //   onTap: () {
+                        //     Navigator.pop(context);
+                        //   },
+                        //   child: const Icon(
+                        //     Icons.arrow_back_ios,
+                        //     size: 25,
+                        //   ),
+                        // ),
+                        // const SizedBox(height: 10),
+                        Text(
+                          _getHeading(currentStep),
+                          style: const TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          AppLocale.pleaseFillToRegister.getString(context),
+                          style:
+                              const TextStyle(color: AppColors.fontShadeColor),
+                        ),
+                        const SizedBox(height: 10),
+                        StepProgressIndicator(
+                          roundedEdges: const Radius.circular(20),
+                          size: 7,
+                          totalSteps: 3,
+                          currentStep: currentStep,
+                          selectedColor: AppColors.primaryColor,
+                          unselectedColor: Colors.grey,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                // Scrollable part
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: Column(
-                        children: [
-                          currentStep == 1
-                              ? emailPassword(authProvider)
-                              : const SizedBox.shrink(),
-                          currentStep == 2
-                              ? otpScreen(authProvider)
-                              : const SizedBox.shrink(),
-                          currentStep == 3
-                              ? personalDetails(authProvider)
-                              : const SizedBox.shrink(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          currentStep != 1
-                              ? Expanded(
-                              child:
-                              getPrimaryAppButton(
-                            context,
-                            AppLocale.previous.getString(context),
-                            onPressed: () async {
-                              setState(() {
-                                currentStep = currentStep - 1;
-                              });
-                            },
-                            buttonColor: Colors.red.shade500,
-                          )
-                          ): const SizedBox.shrink(),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: currentStep == 1 || currentStep == 2
-                                ? getPrimaryAppButton(
-                              context,
-                              AppLocale.next.getString(context),
-                              onPressed: () async {
-                                if (authProvider.registerFormKey.currentState!
-                                    .validate()) {
-                                  if (currentStep == 1) {
-                                    SendOtpResponseModel response =
-                                    await authProvider.sendOtp(context);
-                                    authProvider.otpReceived =
-                                        response.result!.otp;
-                                    authProvider.registerOtpController.clear();
-                                    setState(() {
-                                      currentStep = currentStep + 1;
-                                    });
-                                  } else if (currentStep == 2) {
-                                    if (authProvider.otpReceived ==
-                                        authProvider.registerOtpController.text) {
-                                      showSuccessToast(
-                                          context,
-                                          AppLocale.otpSuccessful.getString(
-                                              context));
-                                      setState(() {
-                                        currentStep = currentStep + 1;
-                                      });
-                                    } else {
-                                      showErrorToast(
-                                          context,
-                                          AppLocale.invalidOtp.getString(
-                                              context));
-                                    }
-                                  }
-                                }
-                              },
-                            ) : getPrimaryAppButton(
-                              context,
-                              AppLocale.proceedToSignUp.getString(context),
-                              onPressed: () async {
-                                if (authProvider.registerFormKey.currentState!
-                                    .validate()) {
-                                  // if (authProvider
-                                  //     .registerSelectedImage ==
-                                  //     null) {
-                                  //   showErrorToast(context,
-                                  //       AppLocale.validImage.getString(context));
-                                  //   return;
-                                  // }
-                                  authProvider.register(context);
-                                }
-                              },
+                  // Scrollable part
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          child: Column(children: [
+                            currentStep == 1
+                                ? emailPassword(authProvider)
+                                : const SizedBox.shrink(),
+                            currentStep == 2
+                                ? otpScreen(authProvider)
+                                : const SizedBox.shrink(),
+                            currentStep == 3
+                                ? personalDetails(authProvider)
+                                : const SizedBox.shrink(),
+                            const SizedBox(
+                              height: 20,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                    ])
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                currentStep != 1
+                                    ? Expanded(
+                                        child: getPrimaryAppButton(
+                                        context,
+                                        AppLocale.previous.getString(context),
+                                        onPressed: () async {
+                                          setState(() {
+                                            currentStep = currentStep - 1;
+                                          });
+                                        },
+                                        buttonColor: Colors.red.shade500,
+                                      ))
+                                    : const SizedBox.shrink(),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: currentStep == 1 || currentStep == 2
+                                      ? getPrimaryAppButton(
+                                          context,
+                                          AppLocale.next.getString(context),
+                                          onPressed: () async {
+                                            if (authProvider
+                                                .registerFormKey.currentState!
+                                                .validate()) {
+                                              if (currentStep == 1) {
+                                                SendOtpResponseModel response =
+                                                    await authProvider
+                                                        .sendOtp(context);
+                                                authProvider.otpReceived =
+                                                    response.result!.otp;
+                                                authProvider
+                                                    .registerOtpController
+                                                    .clear();
+                                                setState(() {
+                                                  currentStep = currentStep + 1;
+                                                });
+                                              } else if (currentStep == 2) {
+                                                if (authProvider.otpReceived ==
+                                                    authProvider
+                                                        .registerOtpController
+                                                        .text) {
+                                                  showSuccessToast(
+                                                      context,
+                                                      AppLocale.otpSuccessful
+                                                          .getString(context));
+                                                  setState(() {
+                                                    currentStep =
+                                                        currentStep + 1;
+                                                  });
+                                                } else {
+                                                  showErrorToast(
+                                                      context,
+                                                      AppLocale.invalidOtp
+                                                          .getString(context));
+                                                }
+                                              }
+                                            }
+                                          },
+                                        )
+                                      : getPrimaryAppButton(
+                                          context,
+                                          AppLocale.proceedToSignUp
+                                              .getString(context),
+                                          onPressed: () async {
+                                            if (authProvider
+                                                .registerFormKey.currentState!
+                                                .validate()) {
+                                              // if (authProvider
+                                              //     .registerSelectedImage ==
+                                              //     null) {
+                                              //   showErrorToast(context,
+                                              //       AppLocale.validImage.getString(context));
+                                              //   return;
+                                              // }
+                                              authProvider.register(context);
+                                            }
+                                          },
+                                        ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                          ])),
+                    ),
                   ),
-                  ),),]
-            ),
+                ]),
           ),
         );
       },
@@ -422,7 +430,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
@@ -524,7 +532,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onPressed: () {
                               showImageSourceDialog(context,
                                   onOptionSelected: (value) async {
-                                if (value == AppLocale.camera.getString(context)) {
+                                if (value ==
+                                    AppLocale.camera.getString(context)) {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.camera);
                                   if (image != null) {
@@ -537,7 +546,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       });
                                     }
                                   }
-                                } else if (value == AppLocale.gallery.getString(context)) {
+                                } else if (value ==
+                                    AppLocale.gallery.getString(context)) {
                                   final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
@@ -618,7 +628,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-
         Row(
           children: [
             Text(AppLocale.lastName.getString(context),
@@ -704,7 +713,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           },
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
-
           maxLength: 10,
           decoration: InputDecoration(
             fillColor: Colors.white,
@@ -745,7 +753,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         DropdownButtonFormField<String>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppLocale.validBloodGroup.getString(context);
@@ -775,8 +782,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>["O+ve", "AB+ve", "B+ve", "O-ve", "A+ve", "A-ve","B-ve","AB-ve"]
-              .map<DropdownMenuItem<String>>((String value) {
+          items: <String>[
+            "O+ve",
+            "AB+ve",
+            "B+ve",
+            "O-ve",
+            "A+ve",
+            "A-ve",
+            "B-ve",
+            "AB-ve"
+          ].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -882,11 +897,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime.now(),
                       );
-                      if(picked!=null){
+                      if (picked != null) {
                         setState(() {
                           authProvider.registerDobController.text =
-                          // "${picked.year}-${picked.month}-${picked.day}";
-                          DateFormat('yyyy-MM-dd').format(picked);
+                              // "${picked.year}-${picked.month}-${picked.day}";
+                              DateFormat('yyyy-MM-dd').format(picked);
                         });
                       }
                     },
@@ -937,11 +952,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ],
         ),
-
         const SizedBox(
           height: 10,
         ),
-
         const Text("Height (Meters)",
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
@@ -950,7 +963,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerHeightController,
-          keyboardType:TextInputType.number,
+          keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
           ],
@@ -972,13 +985,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-
         const Text("Weight (Kgs)",
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
@@ -987,12 +999,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerWeightController,
-          keyboardType:TextInputType.number,
+          keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
           ],
           textInputAction: TextInputAction.next,
-
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
@@ -1010,10 +1021,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-
         const SizedBox(
           height: 10,
         ),
@@ -1045,8 +1055,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.grey.shade50,
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 16.0, horizontal: 16),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),
@@ -1056,10 +1066,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onChanged: (String? value) async {
             var selectedCountry = authProvider.countryMasterResponse!.result!
                 .firstWhere((country) => country.name == value);
-    authProvider.selectedCountryId = selectedCountry.id;
-            await authProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+            authProvider.selectedCountryId = selectedCountry.id;
+            await authProvider.getStateMaster(
+                context, selectedCountry.uniqueGuid);
             setState(() {
-    authProvider.registerCountryAs = value!;
+              authProvider.registerCountryAs = value!;
               authProvider.registerStateAs = null;
             });
           },
@@ -1073,7 +1084,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }).toList(),
         ),
         const SizedBox(height: 10),
-
         Row(
           children: [
             Text(AppLocale.state.getString(context),
@@ -1104,8 +1114,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.grey.shade50,
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-                vertical: 16.0, horizontal: 16),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
             focusColor: Colors.transparent,
             errorStyle: TextStyle(color: Colors.red.shade400),
           ),
@@ -1121,21 +1131,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: authProvider.stateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
-            return DropdownMenuItem<String>(
-              value: state.name,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.75,
-                child: Text(state.name.toString()),
-              ),
-            );
-          }).toList() ?? [],
+          items: authProvider.stateMasterResponse?.result
+                  ?.map<DropdownMenuItem<String>>((state) {
+                return DropdownMenuItem<String>(
+                  value: state.name,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    child: Text(state.name.toString()),
+                  ),
+                );
+              }).toList() ??
+              [],
         ),
-
-        const SizedBox(height: 10,),
-
-
-         Text(AppLocale.street.getString(context),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.street.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -1170,11 +1181,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-         const SizedBox(height: 10,),
-         Text(AppLocale.area.getString(context),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.area.getString(context),
             style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -1209,12 +1222,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-
-        const SizedBox(height: 10,),
-         Text(AppLocale.landMark.getString(context), style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(AppLocale.landMark.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -1247,10 +1262,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             Text(AppLocale.city.getString(context),
@@ -1298,20 +1315,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
-        const SizedBox(height: 10,),
-        Row(
-          children: [
-            Text(AppLocale.pinCode.getString(context),
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-            const Text(
-              ' *',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
+        const SizedBox(
+          height: 10,
         ),
+        Text(AppLocale.pinCode.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -1323,7 +1334,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (value!.isEmpty) {
               return AppLocale.pinCodeValid.getString(context);
             }
-            if (value.length<6) {
+            if (value.length < 6) {
               return AppLocale.pinCodeValid.getString(context);
             }
             return null;
@@ -1349,7 +1360,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
         ),
         const SizedBox(
@@ -1380,7 +1391,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ..onTap = () {
                           Navigator.pushNamed(context, Routes.webViewRoute,
                               arguments: {
-                                'url': "https://www.vcnrtech.in/ViCareterms.html",
+                                'url':
+                                    "https://www.vcnrtech.in/ViCareterms.html",
                                 'title': AppLocale.termsAndConditions
                                     .getString(context),
                               });
@@ -1405,7 +1417,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ..onTap = () {
                           Navigator.pushNamed(context, Routes.webViewRoute,
                               arguments: {
-                                'url': "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
+                                'url':
+                                    "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
                                 'title':
                                     AppLocale.privacyPolicy.getString(context),
                               });
