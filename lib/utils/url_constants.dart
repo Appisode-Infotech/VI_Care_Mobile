@@ -1,9 +1,9 @@
 class UrlConstants {
-  static const String imageBaseUrl = "http://52.172.157.45:98/";
-  static const String apiBaseUrl = "http://52.172.157.45:98/api/";
+  // static const String imageBaseUrl = "http://52.172.157.45:98/";
+  // static const String apiBaseUrl = "http://52.172.157.45:98/api/";
 
-  // static const String imageBaseUrl = "http://52.172.157.45:92/";
-  // static const String apiBaseUrl = "http://52.172.157.45:92/api/";
+  static const String imageBaseUrl = "http://52.172.157.45:92/";
+  static const String apiBaseUrl = "http://52.172.157.45:92/api/";
 
   // static const String imageBaseUrl = "http://52.172.157.45:91/";
   // static const String apiBaseUrl = "http://52.172.157.45:91/api/";

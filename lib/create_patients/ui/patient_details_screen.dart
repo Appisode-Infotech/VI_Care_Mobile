@@ -33,6 +33,7 @@ class PatientDetailsScreen extends StatefulWidget {
 class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
   IndividualResponseModel? individualPatientData;
   EnterpriseResponseModel? enterprisePatientData;
+  Future<DashboardCountResponseModel>? countsData;
 
   String? pId;
 
@@ -88,6 +89,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     onTap: () async {
                       // await patientProvider.getStateMaster(context,);
                       // await patientProvider.getCountryMaster(context);
+                      print(prefModel.userData!.roleId);
                       if (prefModel.userData!.roleId == 2 &&
                           individualPatientData?.result != null) {
                         await patientProvider.prefillEditPatientDetails(context,
@@ -98,6 +100,13 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         await patientProvider.prefillEditPatientDetails(context,
                             individualPatientData, enterprisePatientData);
                       }
+
+                      if (prefModel.userData!.roleId == 4 &&
+                          enterprisePatientData?.result != null) {
+                        await patientProvider.prefillEditPatientDetails(context,
+                            individualPatientData, enterprisePatientData);
+                      }
+
                       Navigator.pop(context);
                       Navigator.pushNamed(context, Routes.editPatientsRoute,
                           arguments: {
@@ -107,6 +116,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                         setState(() {
                           patientProvider.getUserDetails(context);
                           isLoaded = false;
+                          isCountsLoaded = false;
                         });
                         return null;
                       });
@@ -154,8 +164,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                   }
                                   if (snapshot.hasData) {
                                     individualPatientData = snapshot.data;
-                                    Future<DashboardCountResponseModel>?
-                                        countsData;
                                     if (isCountsLoaded != true) {
                                       countsData = patientProvider.getCounts(
                                           snapshot.data!.result!.id!, context);
@@ -771,7 +779,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                 showErrorToast(context, "Location permission is required to proceed. Please enable and try again");
                                                                               }
                                                                             },
-                                                                            child: Text("Agree")),
+                                                                            child:
+                                                                                Text("Agree")),
                                                                       ],
                                                                     );
                                                                   });
@@ -1774,10 +1783,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             onTap: () async {
                                                               showDialog(
                                                                   context:
-                                                                  context,
+                                                                      context,
                                                                   builder:
                                                                       (BuildContext
-                                                                  alertContext) {
+                                                                          alertContext) {
                                                                     return AlertDialog(
                                                                       title: Text(
                                                                           "Concent"),
@@ -1790,11 +1799,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               Navigator.pop(context);
                                                                             },
                                                                             child:
-                                                                            Text("Cancel")),
+                                                                                Text("Cancel")),
                                                                         TextButton(
                                                                             onPressed:
                                                                                 () async {
-                                                                                  Navigator.pop(alertContext);
+                                                                              Navigator.pop(alertContext);
 
                                                                               var locationWhenInUse = await Permission.locationWhenInUse.request();
                                                                               if (locationWhenInUse == PermissionStatus.granted) {
@@ -1810,7 +1819,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                       DurationResponseModel myDurations = await patientProvider.getAllDuration(context);
                                                                                       Navigator.pop(context);
                                                                                       if (myDevices.result != null && myDevices.result!.isNotEmpty) {
-                                                                                        showTestFormBottomSheet(context, myDevices, myDurations,  null,snapshot.data!);
+                                                                                        showTestFormBottomSheet(context, myDevices, myDurations, null, snapshot.data!);
                                                                                       } else {
                                                                                         showErrorToast(context, AppLocale.notAddedDevice.getString(context));
                                                                                       }
@@ -1826,7 +1835,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               }
                                                                             },
                                                                             child:
-                                                                            Text("Agree")),
+                                                                                Text("Agree")),
                                                                       ],
                                                                     );
                                                                   });
@@ -1834,15 +1843,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             child: Container(
                                                                 height: 50,
                                                                 width: screenSize!
-                                                                    .width *
+                                                                        .width *
                                                                     0.2,
                                                                 padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
+                                                                    const EdgeInsets
+                                                                        .all(8),
                                                                 decoration: const BoxDecoration(
                                                                     borderRadius:
-                                                                    BorderRadius.all(Radius.circular(
-                                                                        12)),
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            12)),
                                                                     color: Colors
                                                                         .white),
                                                                 child: Center(
@@ -1850,14 +1859,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                     AppLocale
                                                                         .start
                                                                         .getString(
-                                                                        context),
+                                                                            context),
                                                                     style: const TextStyle(
                                                                         color: Colors
                                                                             .black,
                                                                         fontSize:
-                                                                        12,
+                                                                            12,
                                                                         fontWeight:
-                                                                        FontWeight.w600),
+                                                                            FontWeight.w600),
                                                                   ),
                                                                 )),
                                                           ),
