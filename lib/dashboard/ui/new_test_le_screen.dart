@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-// import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:path_provider/path_provider.dart';
@@ -197,7 +196,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
           builder: (BuildContext context, NewTestLeProvider newTestLeProvider,
               Widget? child) {
             if (isFirstTimeLoading) {
-              connectedDevice = newTestLeProvider.connectedDevice as BluetoothDevice?;
+              connectedDevice = newTestLeProvider.connectedDevice;
               totalSeconds = selectedDuration!.durationInMinutes! * 60;
               newTestLeProvider.connectedDevice!.state.listen((state) {
                 if (mounted) {

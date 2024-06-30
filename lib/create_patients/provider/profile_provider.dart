@@ -126,6 +126,7 @@ class ProfileProvider extends ChangeNotifier {
       for (var state in editStateMasterResponse!.result!) {
         if (state.id == prefModel.userData!.contact!.address!.stateId) {
           editProfileStateAs = state.name;
+          editProfileSelectedStateId = state.id;
           break;
         }
       }
