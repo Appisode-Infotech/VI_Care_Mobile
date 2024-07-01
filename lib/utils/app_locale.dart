@@ -260,7 +260,6 @@ mixin AppLocale {
   static const String never = 'never';
   static const String test = 'test';
   static const String linkNow = 'linkNow';
-
   static const String reportDate = 'reportDate';
   static const String testGoesHere = 'testGoesHere';
   static const String testGoesHereDesc = 'testGoesHereDesc';
@@ -277,9 +276,52 @@ mixin AppLocale {
   static const String noPatientDate = 'noPatientDate';
   static const String deviceKey = 'deviceKey';
 
+  static const String registration = 'registration';
+  static const String enterRegisterOtp = 'enterRegisterOtp';
+  static const String personalDetails = 'personalDetails';
+  static const String weight = 'weight';
+  static const String height = 'height';
+  static const String denyLocation = 'denyLocation';
+  static const String agree = 'agree';
+  static const String concent = 'concent';
+  static const String confirmRecordShare = 'confirmRecordShare';
+  static const String noInternet = 'noInternet';
+  static const String checkInternet = 'checkInternet';
+  static const String reportProcessing = 'reportProcessing';
+  static const String selectMember = 'selectMember';
+  static const String selectPlayer = 'selectPlayer';
+  static const String selectPatient = 'selectPatient';
+  static const String confirmAssign = 'confirmAssign';
+  static const String sureTest = 'sureTest';
+  static const String yes = 'yes';
+  static const String discard = 'discard';
+  static const String success = 'success';
+
   static const String thisIs = 'thisIs';
 
   static const Map<String, dynamic> EN = {
+
+    registration :'Registration',
+    enterRegisterOtp: 'Enter OTP',
+    personalDetails :'Personal details',
+    weight:"Weight (Kgs)",
+    height: "Height (Meters)",
+    denyLocation:"Location permission is required to proceed. Please enable and try again",
+    agree:"Agree",
+    concent: "Concent",
+    confirmRecordShare:"By confirming, you agree to share the recorded scan data with",
+    noInternet:"No Internet",
+    checkInternet:"Please check your internet\n connection and try again.",
+    reportProcessing: 'Report is still processing. Please wait',
+    selectMember:"Select member",
+    selectPlayer:"Select player",
+    selectPatient:"Select patient",
+    confirmAssign:"Confirm assign",
+    sureTest:"Are you sure you want to assign the test to",
+    yes:"Yes",
+    discard:'Discard',
+    success:"Success",
+
     selectLanguage:"Select Language",
     getStartedBtnTitle: 'Login to get started',
     connectMeasure: 'Connect, Measure \nand Thrive!',
@@ -835,6 +877,26 @@ mixin AppLocale {
     reportsFailed: "ರಿಪೋರ್ಟ್ ರಚಿಸುವುದು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪರೀಕ್ಷೆ ಮಾಡಿ",
     deviceKey: "ಸಾಧನ ಕೀ",
 
+    registration :'ನೋಂದಣಿ',
+    enterRegisterOtp: 'ಒಟಿಪಿ ನಮೂದಿಸಿ',
+    personalDetails :'ವೈಯಕ್ತಿಕ ವಿವರಗಳು',
+    weight:"ತೂಕ (ಕೆಜಿ)",
+    height: "ಎತ್ತರ (ಮೀಟರ್)",
+    denyLocation:"ಮುಂದೆ ಸಾಗಲು ಸ್ಥಳ ಅನುಮತಿ ಅಗತ್ಯವಿದೆ. ದಯವಿಟ್ಟು ಸಕ್ರಿಯಗೊಳಿಸಿ ಮತ್ತು ಮರುಪ್ರಯತ್ನಿಸಿ",
+    agree:"ಒಪ್ಪಿಗೆ",
+    concent: "ಒಪ್ಪಿಗೆ",
+    confirmRecordShare:"ದೃಢೀಕರಿಸುವ ಮೂಲಕ, ನೀವು ದಾಖಲಿತ ಸ್ಕಾನ್ ಡೇಟಾವನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಒಪ್ಪುತ್ತೀರಿ",
+    noInternet:"ಇಂಟರ್ನೆಟ್ ಇಲ್ಲ",
+    checkInternet:"ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಮರುಪ್ರಯತ್ನಿಸಿ.",
+    reportProcessing: 'ವರದಿ ಇನ್ನೂ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ. ದಯವಿಟ್ಟು ಕಾಯಿರಿ',
+    selectMember:"ಸದಸ್ಯರನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    selectPlayer:"ಆಟಗಾರರನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    selectPatient:"ರೋಗಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    confirmAssign:"ನಿಯೋಜನೆ ದೃಢೀಕರಿಸಿ",
+    sureTest:"ನೀವು ಪರೀಕ್ಷೆಯನ್ನು ನಿಯೋಜಿಸಲು ಖಚಿತವಾಗಿದ್ದೀರಾ",
+    yes:"ಹೌದು",
+    discard:'ತ್ಯಜಿಸು',
+    success:"ಯಶಸ್ಸು",
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
   };
 
@@ -1114,6 +1176,28 @@ mixin AppLocale {
     reportNotReady: "रिपोर्ट अभी तैयार नहीं है। कृपया कुछ समय बाद जांच करें",
     reportsFailed: "लगता है रिपोर्ट तैयार करने में विफल रही। कृपया पुनः परीक्षण लें",
     deviceKey: "डिवाइस कुंजी",
+
+    registration :'पंजीकरण',
+    enterRegisterOtp: 'ओटीपी दर्ज करें',
+    personalDetails :'व्यक्तिगत विवरण',
+    weight:"वजन (किग्रा)",
+    height: "ऊंचाई (मीटर)",
+    denyLocation:"आगे बढ़ने के लिए स्थान अनुमति की आवश्यकता है। कृपया सक्षम करें और पुनः प्रयास करें",
+    agree:"सहमत",
+    concent: "सहमति",
+    confirmRecordShare:"पुष्टि करके, आप रिकॉर्ड किए गए स्कैन डेटा को साझा करने के लिए सहमत हैं",
+    noInternet:"कोई इंटरनेट नहीं",
+    checkInternet:"कृपया अपने इंटरनेट कनेक्शन की जाँच करें और पुनः प्रयास करें।",
+    reportProcessing: 'रिपोर्ट अभी भी संसाधित हो रही है। कृपया प्रतीक्षा करें',
+    selectMember:"सदस्य चुनें",
+    selectPlayer:"खिलाड़ी चुनें",
+    selectPatient:"मरीज चुनें",
+    confirmAssign:"नियुक्ति की पुष्टि करें",
+    sureTest:"क्या आप वाकई इस परीक्षण को असाइन करना चाहते हैं",
+    yes:"हाँ",
+    discard:'रद्द करें',
+    success:"सफलता",
+
     thisIs: 'នេះគឺជាកញ្ចប់%a កំណែ%a.',
 
   };
@@ -1395,6 +1479,26 @@ mixin AppLocale {
     reportsFailed: "Es scheint, dass der Bericht nicht erstellt werden konnte. Bitte machen Sie einen erneuten Test",
     deviceKey: "Geräteschlüssel",
 
+    registration :'Registrierung',
+    enterRegisterOtp: 'OTP eingeben',
+    personalDetails :'Persönliche Angaben',
+    weight:"Gewicht (kg)",
+    height: "Höhe (Meter)",
+    denyLocation:"Standortberechtigung ist erforderlich, um fortzufahren. Bitte aktivieren und erneut versuchen",
+    agree:"Zustimmen",
+    concent: "Zustimmung",
+    confirmRecordShare:"Durch Bestätigen stimmen Sie zu, die aufgezeichneten Scandaten zu teilen",
+    noInternet:"Kein Internet",
+    checkInternet:"Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    reportProcessing: 'Bericht wird noch verarbeitet. Bitte warten',
+    selectMember:"Mitglied auswählen",
+    selectPlayer:"Spieler auswählen",
+    selectPatient:"Patienten auswählen",
+    confirmAssign:"Zuordnung bestätigen",
+    sureTest:"Sind Sie sicher, dass Sie den Test zuweisen möchten",
+    yes:"Ja",
+    discard:'Verwerfen',
+    success:"Erfolg",
   };
 
   static const Map<String, dynamic> TE = {
@@ -1675,6 +1779,28 @@ mixin AppLocale {
     reportNotReady: "నిర్వచిత సమయంలో అరచేత సమాచారం లేదు. దయచేసి సమయం తర్వాత తిరిగి తనిఖీ చేయండి",
     reportsFailed: "రిపోర్టు తయారు చేయడం విఫలమైంది. దయచేసి మళ్ళీ పరీక్ష చేయండి",
     deviceKey:"పరికర కీ",
+
+    registration :'నమోదు',
+    enterRegisterOtp: 'OTP నమోదు చేయండి',
+    personalDetails :'వ్యక్తిగత వివరాలు',
+    weight:"బరువు (కిలోలు)",
+    height: "ఎత్తు (మీటర్లు)",
+    denyLocation:"కొనసాగేందుకు స్థానం అనుమతి అవసరం. దయచేసి సక్రియం చేసి మళ్లీ ప్రయత్నించండి",
+    agree:"అంగీకరించు",
+    concent: "అంగీకారం",
+    confirmRecordShare:"నిర్ధారించడం ద్వారా, మీరు రికార్డ్ చేసిన స్కాన్ డేటాను పంచుకోవడానికి అంగీకరిస్తారు",
+    noInternet:"ఇంటర్నెట్ లేదు",
+    checkInternet:"దయచేసి మీ ఇంటర్నెట్\n కనెక్షన్ ను తనిఖీ చేసి మళ్లీ ప్రయత్నించండి.",
+    reportProcessing: 'నివేదిక ఇంకా ప్రాసెస్ అవుతోంది. దయచేసి వేచి ఉండండి',
+    selectMember:"సభ్యుడిని ఎంచుకోండి",
+    selectPlayer:"ప్లేయర్ ను ఎంచుకోండి",
+    selectPatient:"రోగిని ఎంచుకోండి",
+    confirmAssign:"నియమించుటను నిర్ధారించండి",
+    sureTest:"మీరు పరీక్షను అందించడానికి ఖచ్చితంగా ఉందా",
+    yes:"అవును",
+    discard:'విస్మరించు',
+    success:"విజయం",
+
     thisIs: '%a ప్యాకేజీ, వెర్షన్ %a.',
   };
 
@@ -1958,6 +2084,28 @@ mixin AppLocale {
     reportNotReady: "அறிக்கை தயாராக இல்லை. தயவு செய்து சிறிய நேரம் பின்னூட்டவும் சரிபார்க்கவும்",
     reportsFailed: "அறிக்கை உருவாக்குதல் தோல்வியடைந்துள்ளது போல தெரியும். மீண்டும் சேர்க்கையைச் செய்யுங்கள்",
     deviceKey:"சாதன விசை",
+
+    registration :'பதிவு',
+    enterRegisterOtp: 'OTP ஐ உள்ளிடவும்',
+    personalDetails :'தனிப்பட்ட விவரங்கள்',
+    weight:"எடை (கிலோகிராம்)",
+    height: "உயரம் (மீட்டர்கள்)",
+    denyLocation:"தொடர எங்கு அனுமதி தேவை. தயவுசெய்து இயக்கி மீண்டும் முயற்சிக்கவும்",
+    agree:"ஒப்புதல்",
+    concent: "ஒப்புதல்",
+    confirmRecordShare:"உறுதிப்படுத்துவதன் மூலம், நீங்கள் பதிவுசெய்த ஸ்கேன் தரவுகளை பகிர ஒப்புக்கொள்கிறீர்கள்",
+    noInternet:"இணையம் இல்லை",
+    checkInternet:"தயவுசெய்து உங்கள் இணைய இணைப்பை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+    reportProcessing: 'அறிக்கை இன்னும் செயலாக்கப்படுகின்றது. தயவுசெய்து காத்திருக்கவும்',
+    selectMember:"உறுப்பினரைத் தேர்ந்தெடுக்கவும்",
+    selectPlayer:"விளையாட்டாளரைத் தேர்ந்தெடுக்கவும்",
+    selectPatient:"நோயாளியைத் தேர்ந்தெடுக்கவும்",
+    confirmAssign:"நியமிப்பை உறுதிப்படுத்தவும்",
+    sureTest:"நீங்கள் பரிசோதனை நியமிக்க விரும்புகிறீர்களா",
+    yes:"ஆம்",
+    discard:'நிராகரிக்கவும்',
+    success:"வெற்றி",
+
     thisIs: 'இது %a பைத்தன், பதிப்பு %a.',
   };
 
@@ -2235,6 +2383,27 @@ mixin AppLocale {
     reportNotReady: "റിപ്പോർട്ട് ഇപ്പോൾ തയ്യാറായിരിക്കില്ല. ചെക്ക് ചെയ്യുക",
     reportsFailed: "റിപ്പോർട്ട് നിർമ്മിക്കൽ താളിക്കുന്നു. അപ്പോൾ വീണ്ടും പരീക്ഷിക്കുക",
     deviceKey:"ഉപകരണ കീ",
+
+    registration :'രജിസ്ട്രേഷൻ',
+    enterRegisterOtp: 'ഒടിപി നൽകുക',
+    personalDetails :'വ്യക്തിഗത വിശദാംശങ്ങൾ',
+    weight:"ഭാരം (കിലോ)",
+    height: "ഉയരം (മീറ്റർ)",
+    denyLocation:"തുടരാൻ ലൊക്കേഷൻ അനുമതി ആവശ്യമാണ്. ദയവായി അത് പ്രാപ്തമാക്കി വീണ്ടും ശ്രമിക്കുക",
+    agree:"അംഗീകരിക്കുക",
+    concent: "അംഗീകരണം",
+    confirmRecordShare:"സ്ഥിരീകരിക്കുന്നതിലൂടെ, നിങ്ങൾ രേഖപ്പെടുത്തിയ സ്കാൻ ഡാറ്റ പങ്കിടാൻ സമ്മതിക്കുന്നു",
+    noInternet:"ഇന്റർനെറ്റ് ഇല്ല",
+    checkInternet:"ദയവായി നിങ്ങളുടെ ഇന്റർനെറ്റ്\n കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.",
+    reportProcessing: 'റിപ്പോർട്ട് ഇനിയും പ്രോസസ്സ് ചെയ്യുന്നു. ദയവായി കാത്തിരിക്കുക',
+    selectMember:"അംഗത്തെ തിരഞ്ഞെടുക്കുക",
+    selectPlayer:"കളിക്കാരനെ തിരഞ്ഞെടുക്കുക",
+    selectPatient:"രോഗിയെ തിരഞ്ഞെടുക്കുക",
+    confirmAssign:"നിയോഗം സ്ഥിരീകരിക്കുക",
+    sureTest:"പരീക്ഷ ആസൈൻ ചെയ്യാൻ നിങ്ങൾക്കുറപ്പാണോ",
+    yes:"അതെ",
+    discard:'ഉപേക്ഷിക്കുക',
+    success:"വിജയം",
 
     thisIs: 'ഇത് %a പാക്കേജാണ്, പതിപ്പ് %a.',
   };

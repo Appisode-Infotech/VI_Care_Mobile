@@ -727,9 +727,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                           alertContext) {
                                                                     return AlertDialog(
                                                                       title: Text(
-                                                                          "Concent"),
+                                                                         AppLocale.concent.getString(context)),
                                                                       content: Text(
-                                                                          "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
+                                                                          "${AppLocale.confirmRecordShare.getString(context)} ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
                                                                       actions: [
                                                                         TextButton(
                                                                             onPressed:
@@ -737,7 +737,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               Navigator.pop(context);
                                                                             },
                                                                             child:
-                                                                                Text("Cancel")),
+                                                                                Text(AppLocale.cancel.getString(context))),
                                                                         TextButton(
                                                                             onPressed:
                                                                                 () async {
@@ -768,10 +768,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                   showErrorToast(takeTestContext, countRes.message!);
                                                                                 }
                                                                               } else {
-                                                                                showErrorToast(context, "Location permission is required to proceed. Please enable and try again");
+                                                                                showErrorToast(context, AppLocale.denyLocation.getString(context));
                                                                               }
                                                                             },
-                                                                            child: Text("Agree")),
+                                                                            child: Text(AppLocale.agree.getString(context))),
                                                                       ],
                                                                     );
                                                                   });
@@ -2363,8 +2363,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                             color: Colors.grey,
                           ),
                           const SizedBox(height: 20),
-                          const Text(
-                            "No Internet",
+                           Text(
+                            AppLocale.noInternet.getString(context),
                             style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.grey,
@@ -2372,7 +2372,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            "Please check your internet\n connection and try again.",
+                            AppLocale.checkInternet.getString(context),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 16, color: Colors.grey.shade500),

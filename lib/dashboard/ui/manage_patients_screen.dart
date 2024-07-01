@@ -392,13 +392,13 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                       color: Colors.grey,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      "No Internet",
+                     Text(
+                      AppLocale.noInternet.getString(context),
                       style: TextStyle(fontSize: 24, color: Colors.grey, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Please check your internet\n connection and try again.",
+                      AppLocale.checkInternet.getString(context),
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
                     ),

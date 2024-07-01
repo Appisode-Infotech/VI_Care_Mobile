@@ -470,8 +470,8 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                       color: Colors.grey,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      "No Internet",
+                     Text(
+                      AppLocale.noInternet.getString(context),
                       style: TextStyle(
                           fontSize: 24,
                           color: Colors.grey,
@@ -479,7 +479,7 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Please check your internet\n connection and try again.",
+                     AppLocale.checkInternet.getString(context),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16, color: Colors.grey.shade500),
@@ -523,7 +523,7 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text("Select patient",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                 Text(prefModel.userData!.roleId==2?AppLocale.selectMember.getString(context):prefModel.userData!.roleId==3?AppLocale.selectPatient.getString(context):AppLocale.selectPlayer.getString(context),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                 GestureDetector(
                     onTap: (){
                       Navigator.pop(bottomSheetContext);
@@ -593,20 +593,20 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                                       context: bottomSheetContext,
                                       builder: (BuildContext dialogContext) {
                                         return AlertDialog(
-                                          title: const Text("Confirm assign"),
-                                          content: Text("Are you sure you want to assign the test to ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
+                                          title:  Text(AppLocale.confirmAssign.getString(context)),
+                                          content: Text("${AppLocale.sureTest.getString(context)} ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext).pop(false);
                                               },
-                                              child: const Text("Cancel"),
+                                              child:  Text(AppLocale.cancel.getString(context)),
                                             ),
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext).pop(true);
                                               },
-                                              child: const Text("Yes"),
+                                              child:  Text(AppLocale.yes.getString(context)),
                                             ),
                                           ],
                                         );
@@ -752,20 +752,20 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex, Null F
                                       context: bottomSheetContext,
                                       builder: (BuildContext dialogContext) {
                                         return AlertDialog(
-                                          title: const Text("Confirm assign"),
-                                          content: Text("Are you sure you want to assign the test to ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
+                                          title:  Text(AppLocale.confirmAssign.getString(context)),
+                                          content: Text("${AppLocale.sureTest.getString(context)} ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext).pop(false);
                                               },
-                                              child: const Text("Cancel"),
+                                              child:  Text(AppLocale.cancel.getString(context)),
                                             ),
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext).pop(true);
                                               },
-                                              child: const Text("Yes"),
+                                              child:  Text(AppLocale.yes.getString(context)),
                                             ),
                                           ],
                                         );

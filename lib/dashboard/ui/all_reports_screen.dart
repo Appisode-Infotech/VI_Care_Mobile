@@ -249,7 +249,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                                         .processingStatus ==
                                                     2) {
                                                   showErrorToast(context,
-                                                      'Report is still processing. Please wait');
+                                                     AppLocale.reportProcessing.getString(context));
                                                 } else {
                                                   showErrorToast(
                                                       context,
@@ -494,14 +494,14 @@ class _ReportScreenState extends State<ReportScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.wifi_off,
                         size: 80,
                         color: Colors.grey,
                       ),
                       const SizedBox(height: 20),
-                      Text(
-                        "No Internet",
+                       Text(
+                        AppLocale.noInternet.getString(context),
                         style: TextStyle(
                             fontSize: 24,
                             color: Colors.grey,
@@ -509,7 +509,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Please check your internet\n connection and try again.",
+                        AppLocale.checkInternet.getString(context),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 16, color: Colors.grey.shade500),
