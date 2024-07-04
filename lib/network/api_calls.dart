@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -66,12 +67,13 @@ class ApiCalls {
               RefreshTokenResponseModel.fromJson(
             json.decode(refreshTokenResponse.body),
           );
-          if(resModel.result!.token == null){
+          if (resModel.result!.token == null) {
             prefModel.userData = null;
             prefModel.offlineSavedTests!.clear();
             AppPref.setPref(prefModel);
             showErrorToast(context, '${resModel.message}');
-            Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.loginRoute, (route) => false);
             throw '${resModel.message}';
           }
           if (resModel.result != null) {
@@ -89,20 +91,32 @@ class ApiCalls {
 
             return retryResponse;
           } else {
-            print("Failed to refresh token: ${resModel.message}");
             throw Exception("Failed to refresh token: ${resModel.message}");
           }
         } else {
-          print(
-              "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
           throw Exception(
               "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
         }
       } else {
         return response;
       }
+    } on SocketException {
+      Completer<http.Response> completer = Completer();
+
+      Navigator.pushNamed(context, Routes.noInternet).then((_) async {
+        try {
+          http.Response retryResponse = await http.post(
+            Uri.parse(url),
+            headers: getHeaders(requiresAuth),
+            body: body,
+          );
+          completer.complete(retryResponse);
+        } catch (e) {
+          completer.completeError(e);
+        }
+      });
+      return completer.future;
     } catch (e) {
-      print("Error during POST request: $e");
       rethrow;
     }
   }
@@ -131,14 +145,13 @@ class ApiCalls {
               RefreshTokenResponseModel.fromJson(
             json.decode(refreshTokenResponse.body),
           );
-          print(resModel.toJson());
-          print(resModel.result!.token);
-          if(resModel.result!.token == null){
+          if (resModel.result!.token == null) {
             prefModel.userData = null;
             prefModel.offlineSavedTests!.clear();
             AppPref.setPref(prefModel);
             showErrorToast(context, '${resModel.message}');
-            Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.loginRoute, (route) => false);
             throw '${resModel.message}';
           }
           if (resModel.result != null) {
@@ -155,20 +168,40 @@ class ApiCalls {
 
             return retryResponse;
           } else {
-            print("Failed to refresh token: ${resModel.message}");
             throw Exception("Failed to refresh token: ${resModel.message}");
           }
         } else {
-          print(
-              "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
           throw Exception(
               "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
         }
       } else {
         return response;
       }
+    } on SocketException {
+      if (!NoInternetManager().isShowing) {
+        NoInternetManager().setShowing(true);
+        print("case1");
+        Completer<http.Response> completer = Completer();
+        Navigator.pushNamed(context, Routes.noInternet).then((_) async {
+          NoInternetManager().setShowing(false);
+          try {
+            http.Response retryResponse = await http.get(
+              Uri.parse(url),
+              headers: getHeaders(requiresAuth),
+            );
+            completer.complete(retryResponse);
+          } catch (e) {
+            completer.completeError(e);
+          }
+        });
+        return completer.future;
+      } else {
+        print("case3");
+        await Future.delayed(
+            const Duration(seconds: 1)); // wait for a second before retrying
+        return hitApiGet(requiresAuth, url, context);
+      }
     } catch (e) {
-      print("Error during GET request: $e");
       rethrow;
     }
   }
@@ -1320,5 +1353,22 @@ class ApiCalls {
     } else {
       throw "could not get the userdata ${response.statusCode}";
     }
+  }
+}
+
+class NoInternetManager {
+  static final NoInternetManager _instance = NoInternetManager._internal();
+  bool _isShowing = false;
+
+  factory NoInternetManager() {
+    return _instance;
+  }
+
+  NoInternetManager._internal();
+
+  bool get isShowing => _isShowing;
+
+  void setShowing(bool isShowing) {
+    _isShowing = isShowing;
   }
 }

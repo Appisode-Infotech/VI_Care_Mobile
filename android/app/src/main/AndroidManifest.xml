@@ -21,6 +21,7 @@
         android:label="vicare"
         android:name="${applicationName}"
         android:allowBackup="false"
+        android:fullBackupOnly="false"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <activity

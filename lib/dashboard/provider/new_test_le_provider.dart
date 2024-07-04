@@ -41,7 +41,8 @@ class NewTestLeProvider extends ChangeNotifier {
         BluetoothDevice? device;
         FlutterBluePlus.scanResults.listen((scanResult) async {
           for (ScanResult result in scanResult) {
-            if (result.device.remoteId.str == selectedDevice!.deviceKey.toString()) {
+            if (result.device.remoteId.str ==
+                selectedDevice!.deviceKey.toString()) {
               device = result.device;
               deviceFound = true;
               FlutterBluePlus.stopScan();
@@ -71,7 +72,7 @@ class NewTestLeProvider extends ChangeNotifier {
         onConnectionResult(false);
         showErrorToast(
           consumerContext,
-          "${AppLocale.couldNotConnect.getString(consumerContext)}: $e",
+          AppLocale.couldNotConnect.getString(consumerContext),
         );
       }
     } else {
@@ -81,7 +82,6 @@ class NewTestLeProvider extends ChangeNotifier {
       );
     }
   }
-
 
   requestDeviceData(
       BuildContext dataContext,

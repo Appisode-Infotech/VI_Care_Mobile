@@ -77,7 +77,7 @@ class TakeTestProvider extends ChangeNotifier {
     } catch (e) {
       Navigator.pop(context);
       showErrorToast(context,
-          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}: $e');
+          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}');
     }
   }
 
@@ -98,7 +98,7 @@ class TakeTestProvider extends ChangeNotifier {
     } catch (e) {
       Navigator.pop(context);
       showErrorToast(context,
-          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}: $e');
+          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}');
     }
   }
 
@@ -290,7 +290,6 @@ class TakeTestProvider extends ChangeNotifier {
             final device = result.device;
             if (!leDevices.any((r) => r.remoteId == result.device.remoteId)) {
               leDevices.add(device);
-              print("lol" + device.remoteId.str);
               notifyListeners();
             }
           }
@@ -303,7 +302,6 @@ class TakeTestProvider extends ChangeNotifier {
     } catch (e) {
       isScanning = false;
       notifyListeners();
-      print('Error scanning for devices: $e');
     }
   }
 

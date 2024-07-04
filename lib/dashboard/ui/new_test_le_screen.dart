@@ -435,7 +435,6 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
           }
           StreamSubscription subscription =
               characteristic.lastValueStream.listen((value) {
-                print(value);
             if (value.isNotEmpty) {
               int flag = value[0];
               bpmList.add(value[1]);
