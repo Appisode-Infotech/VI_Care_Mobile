@@ -219,9 +219,40 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
+                          if (snapshot.error == 'No internet connection') {
+                            return Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.wifi_off,
+                                    size: 80,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    AppLocale.noInternet.getString(context),
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    AppLocale.checkInternet.getString(context),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey.shade500),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }else {
+                            return Center(
+                              child: Text(snapshot.error.toString()),
+                            );
+                          }
                         } else {
                           return Center(child: Text(AppLocale.loading.getString(context)));
                         }
@@ -372,9 +403,40 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                           );
                         }
                         if (snapshot.hasError) {
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
+                          if (snapshot.error == 'No internet connection') {
+                            return Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.wifi_off,
+                                    size: 80,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    AppLocale.noInternet.getString(context),
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    AppLocale.checkInternet.getString(context),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey.shade500),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }else {
+                            return Center(
+                              child: Text(snapshot.error.toString()),
+                            );
+                          }
                         } else {
                           return Center(child: Text(AppLocale.loading.getString(context)));
                         }
@@ -382,7 +444,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     ),
                   ),
                 )
-                    : Center(
+                    :Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -404,7 +466,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                     ),
                   ],
                 ),
-              ),
+              )
               ));
           },
           child: const Center(child: CircularProgressIndicator()),

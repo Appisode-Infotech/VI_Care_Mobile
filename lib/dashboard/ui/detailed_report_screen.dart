@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ import 'package:vicare/dashboard/provider/take_test_provider.dart';
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_locale.dart';
 
 class DetailedReportScreen extends StatefulWidget {
   const DetailedReportScreen({super.key});
@@ -759,9 +761,40 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                               ));
                         }
                         if (snapshot.hasError) {
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
+                          if (snapshot.error == 'No internet connection') {
+                            return Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.wifi_off,
+                                    size: 80,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    AppLocale.noInternet.getString(context),
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    AppLocale.checkInternet.getString(context),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey.shade500),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }else {
+                            return Center(
+                              child: Text(snapshot.error.toString()),
+                            );
+                          }
                         } else {
                           return const Center(child: Text("loading"));
                         }

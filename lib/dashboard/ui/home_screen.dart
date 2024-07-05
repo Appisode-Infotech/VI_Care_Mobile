@@ -40,10 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
           .getEnterpriseProfiles(context);
     }
     Provider.of<TakeTestProvider>(context, listen: false)
-        .getMyReports('All Time', 'All reports',context);
+        .getMyReports('All Time', 'All reports', context);
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
       connectivityBuilder: (BuildContext context,
           ConnectivityResult connectivity, Widget child) {
         final bool connected = connectivity != ConnectivityResult.none;
-        // if (connected) {
-        //   didChangeDependencies();
-        // }
+        if (connected) {
+          didChangeDependencies();
+        }
         return Scaffold(
             appBar: AppBar(
               toolbarHeight: 70,
@@ -86,44 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           const TextStyle(color: Colors.white, fontSize: 12)),
                 ],
               ),
-              // actions: [
-              //   Container(
-              //     margin: const EdgeInsets.symmetric(horizontal: 10),
-              //     decoration: const BoxDecoration(
-              //       color: Color(0xFFD9D9D9),
-              //       borderRadius: BorderRadius.all(Radius.circular(10)),
-              //     ),
-              //     padding: const EdgeInsets.all(10),
-              //     child: Stack(
-              //       children: [
-              //         const Icon(
-              //           size: 27,
-              //           Icons.notifications,
-              //           color: Colors.white,
-              //         ),
-              //         Positioned(
-              //           right: 0,
-              //           top: 0,
-              //           child: Container(
-              //             width: 15,
-              //             height: 15,
-              //             decoration: const BoxDecoration(
-              //                 borderRadius: BorderRadius.all(Radius.circular(8)),
-              //                 color: Colors.red),
-              //             child: const Center(
-              //                 child: Text(
-              //               "0",
-              //               style: TextStyle(
-              //                   fontSize: 10,
-              //                   color: Colors.white,
-              //                   fontWeight: FontWeight.bold),
-              //             )),
-              //           ),
-              //         )
-              //       ],
-              //     ),
-              //   ),
-              // ],
             ),
             body: RefreshIndicator(
               onRefresh: () async {
@@ -186,16 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 reportsSnapshot.data!.result!
                                                         .isNotEmpty
-                                                    ? SizedBox(
-                                                        height:
-                                                            screenSize!.width *
-                                                                .25,
+                                                    ? SizedBox(height: screenSize!.width * .25,
                                                         child: PageView.builder(
                                                           padEnds: false,
                                                           pageSnapping: true,
                                                           controller:
-                                                              PageController(
-                                                                  viewportFraction:
+                                                              PageController(viewportFraction:
                                                                       .95),
                                                           onPageChanged:
                                                               (index) {
@@ -206,11 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           },
                                                           scrollDirection:
                                                               Axis.horizontal,
-                                                          itemCount: reportsSnapshot
-                                                                      .data!
-                                                                      .result!
-                                                                      .length >
-                                                                  5
+                                                          itemCount: reportsSnapshot.data!.result!.length > 5
                                                               ? 5
                                                               : reportsSnapshot
                                                                   .data!
@@ -257,22 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 decoration: const BoxDecoration(
                                                                     boxShadow: [
                                                                       BoxShadow(
-                                                                        blurRadius:
-                                                                            2,
-                                                                        color: Colors
-                                                                            .grey,
-                                                                        offset: Offset(
-                                                                            1,
-                                                                            1),
+                                                                        blurRadius: 2,
+                                                                        color: Colors.grey,
+                                                                        offset: Offset(1, 1),
                                                                       ),
                                                                     ],
-                                                                    borderRadius:
-                                                                        BorderRadius.all(Radius.circular(
-                                                                            12)),
-                                                                    color: Colors
-                                                                        .white),
-                                                                child:
-                                                                    FittedBox(
+                                                                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                                    color: Colors.white),
+                                                                child: FittedBox(
                                                                   child: Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
@@ -649,9 +594,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         "id": snapshot.data!
                                                             .result![index].id,
                                                       }).then((value) {
-                                                        setState(() {
-                                                          didChangeDependencies();
-                                                        });
+                                                    setState(() {
+                                                      didChangeDependencies();
+                                                    });
                                                   });
                                                 },
                                                 child: Container(
@@ -750,10 +695,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         );
                                       }
                                       if (snapshot.hasError) {
-                                        return Center(
-                                          child:
-                                              Text(snapshot.error.toString()),
-                                        );
+                                          return Center(
+                                            child:
+                                                Text(snapshot.error.toString()),
+                                          );
                                       } else {
                                         return Center(
                                             child: Text(AppLocale.loading
@@ -803,7 +748,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         );
                                       }
-
                                       if (snapshot.hasData) {
                                         return GridView.builder(
                                           padding: const EdgeInsets.symmetric(
@@ -1340,8 +1284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             : reportsSnapshot.data!.result![index].processingStatus == 4
                                                                                 ? AppLocale.failReport.getString(context)
                                                                                 : '',
-                                                                style:
-                                                                    const TextStyle(
+                                                                style: const TextStyle(
                                                                   color: Colors
                                                                       .white,
                                                                   fontSize: 10,
@@ -1366,10 +1309,47 @@ class _HomeScreenState extends State<HomeScreen> {
                                           );
                                   }
                                   if (reportsSnapshot.hasError) {
-                                    return Center(
-                                      child: Text(
-                                          reportsSnapshot.error.toString()),
-                                    );
+                                    if (reportsSnapshot.error ==
+                                        'No internet connection') {
+                                      return Center(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.wifi_off,
+                                              size: 80,
+                                              color: Colors.grey,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Text(
+                                              AppLocale.noInternet
+                                                  .getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 24,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              AppLocale.checkInternet
+                                                  .getString(context),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.grey.shade500),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: Text(
+                                            reportsSnapshot.error.toString()),
+                                      );
+                                    }
                                   } else {
                                     return Center(
                                         child: Text(AppLocale.loading
@@ -1392,9 +1372,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.grey,
                           ),
                           const SizedBox(height: 20),
-                           Text(
+                          Text(
                             AppLocale.noInternet.getString(context),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 24,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold),

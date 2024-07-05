@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_offline/flutter_offline.dart';
@@ -474,13 +476,44 @@ class _ReportScreenState extends State<ReportScreen> {
                                         );
                                 }
                                 if (snapshot.hasError) {
-                                  return Center(
-                                    child: Text(snapshot.error.toString()),
-                                  );
+                                  if (snapshot.error == 'No internet connection') {
+                                    return Center(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(
+                                            Icons.wifi_off,
+                                            size: 80,
+                                            color: Colors.grey,
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Text(
+                                            AppLocale.noInternet.getString(context),
+                                            style: const TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            AppLocale.checkInternet.getString(context),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 16, color: Colors.grey.shade500),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: Text(snapshot.error.toString()),
+                                    );
+                                  }
                                 } else {
                                   return Center(
-                                      child: Text(AppLocale.loading
-                                          .getString(context)));
+                                    child: Text(AppLocale.loading.getString(context)),
+                                  );
                                 }
                               },
                             ),
@@ -502,7 +535,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       const SizedBox(height: 20),
                        Text(
                         AppLocale.noInternet.getString(context),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 24,
                             color: Colors.grey,
                             fontWeight: FontWeight.bold),

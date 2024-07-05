@@ -57,7 +57,7 @@ dependencies:
   fl_chart: ^0.68.0
   flutter_charts: ^0.5.2
   path_provider: ^2.1.2
-  intl: ^0.18.1
+  intl: ^0.19.0
   url_launcher: ^6.2.6
   firebase_core: ^3.0.0
   firebase_messaging: ^15.0.0
@@ -70,6 +70,7 @@ dependencies:
   wakelock: ^0.6.2
   uuid: ^4.4.0
   flutter_blue_plus: ^1.32.8
+  network_info_plus: ^3.0.5
 
 dev_dependencies:
   flutter_test:

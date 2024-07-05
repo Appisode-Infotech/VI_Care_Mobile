@@ -655,10 +655,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     );
                                                   }
                                                   if (snapshot.hasError) {
-                                                    return Center(
-                                                      child: Text(snapshot.error
-                                                          .toString()),
-                                                    );
+                                                      return Center(
+                                                        child: Text(
+                                                            snapshot.error
+                                                                .toString()),
+                                                      );
                                                   } else {
                                                     return Center(
                                                         child: Text(AppLocale
@@ -1193,9 +1194,40 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     );
                                   }
                                   if (snapshot.hasError) {
+                                    if (snapshot.error == 'No internet connection') {
+                                      return Center(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.wifi_off,
+                                              size: 80,
+                                              color: Colors.grey,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Text(
+                                              AppLocale.noInternet.getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 24,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              AppLocale.checkInternet.getString(context),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 16, color: Colors.grey.shade500),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }else{
                                     return Center(
                                       child: Text(snapshot.error.toString()),
                                     );
+                                    }
                                   } else {
                                     return Center(
                                         child: Text(AppLocale.loading
@@ -1711,10 +1743,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     );
                                                   }
                                                   if (snapshot.hasError) {
-                                                    return Center(
-                                                      child: Text(snapshot.error
-                                                          .toString()),
-                                                    );
+                                                      return Center(
+                                                        child: Text(
+                                                            snapshot.error
+                                                                .toString()),
+                                                      );
+
                                                   } else {
                                                     return const Center(
                                                         child: Text("loading"));
@@ -1779,7 +1813,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                       (BuildContext
                                                                   alertContext) {
                                                                     return AlertDialog(
-                                                                      title: Text(
+                                                                      title: const Text(
                                                                           "Concent"),
                                                                       content: Text(
                                                                           "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
@@ -1790,7 +1824,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               Navigator.pop(context);
                                                                             },
                                                                             child:
-                                                                            Text("Cancel")),
+                                                                            const Text("Cancel")),
                                                                         TextButton(
                                                                             onPressed:
                                                                                 () async {
@@ -1826,7 +1860,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               }
                                                                             },
                                                                             child:
-                                                                            Text("Agree")),
+                                                                            const Text("Agree")),
                                                                       ],
                                                                     );
                                                                   });
@@ -2342,9 +2376,40 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                     );
                                   }
                                   if (snapshot.hasError) {
-                                    return Center(
-                                      child: Text(snapshot.error.toString()),
-                                    );
+                                    if (snapshot.error == 'No internet connection') {
+                                      return Center(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.wifi_off,
+                                              size: 80,
+                                              color: Colors.grey,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Text(
+                                              AppLocale.noInternet.getString(context),
+                                              style: const TextStyle(
+                                                  fontSize: 24,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              AppLocale.checkInternet.getString(context),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 16, color: Colors.grey.shade500),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }else {
+                                      return Center(
+                                        child: Text(snapshot.error.toString()),
+                                      );
+                                    }
                                   } else {
                                     return Center(
                                         child: Text(AppLocale.loading
@@ -2365,7 +2430,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                           const SizedBox(height: 20),
                            Text(
                             AppLocale.noInternet.getString(context),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 24,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold),

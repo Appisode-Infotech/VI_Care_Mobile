@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -41,8 +41,8 @@ import '../utils/url_constants.dart';
 String platform = Platform.isIOS ? "IOS" : "Android";
 
 class ApiCalls {
-  Future<http.Response> hitApiPost(
-      bool requiresAuth, String url, String body, BuildContext context) async {
+  Future<http.Response> hitApiPost(bool requiresAuth, String url, String body,
+      BuildContext context) async {
     try {
       http.Response response = await http.post(
         Uri.parse(url),
@@ -63,15 +63,16 @@ class ApiCalls {
 
         if (refreshTokenResponse.statusCode == 200) {
           RefreshTokenResponseModel resModel =
-              RefreshTokenResponseModel.fromJson(
+          RefreshTokenResponseModel.fromJson(
             json.decode(refreshTokenResponse.body),
           );
-          if(resModel.result!.token == null){
+          if (resModel.result!.token == null) {
             prefModel.userData = null;
             prefModel.offlineSavedTests!.clear();
             AppPref.setPref(prefModel);
             showErrorToast(context, '${resModel.message}');
-            Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.loginRoute, (route) => false);
             throw '${resModel.message}';
           }
           if (resModel.result != null) {
@@ -94,9 +95,11 @@ class ApiCalls {
           }
         } else {
           print(
-              "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+              "Failed to refresh token, status code: ${refreshTokenResponse
+                  .statusCode}");
           throw Exception(
-              "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+              "Failed to refresh token, status code: ${refreshTokenResponse
+                  .statusCode}");
         }
       } else {
         return response;
@@ -107,8 +110,8 @@ class ApiCalls {
     }
   }
 
-  Future<http.Response> hitApiGet(
-      bool requiresAuth, String url, BuildContext context) async {
+  Future<http.Response> hitApiGet(bool requiresAuth, String url,
+      BuildContext context) async {
     try {
       http.Response response = await http.get(
         Uri.parse(url),
@@ -128,17 +131,18 @@ class ApiCalls {
 
         if (refreshTokenResponse.statusCode == 200) {
           RefreshTokenResponseModel resModel =
-              RefreshTokenResponseModel.fromJson(
+          RefreshTokenResponseModel.fromJson(
             json.decode(refreshTokenResponse.body),
           );
           print(resModel.toJson());
           print(resModel.result!.token);
-          if(resModel.result!.token == null){
+          if (resModel.result!.token == null) {
             prefModel.userData = null;
             prefModel.offlineSavedTests!.clear();
             AppPref.setPref(prefModel);
             showErrorToast(context, '${resModel.message}');
-            Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.loginRoute, (route) => false);
             throw '${resModel.message}';
           }
           if (resModel.result != null) {
@@ -160,15 +164,20 @@ class ApiCalls {
           }
         } else {
           print(
-              "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+              "Failed to refresh token, status code: ${refreshTokenResponse
+                  .statusCode}");
           throw Exception(
-              "Failed to refresh token, status code: ${refreshTokenResponse.statusCode}");
+              "Failed to refresh token, status code: ${refreshTokenResponse
+                  .statusCode}");
         }
       } else {
         return response;
       }
+    } on SocketException catch (_) {
+      throw 'No internet connection';
     } catch (e) {
       print("Error during GET request: $e");
+      showErrorToast(context, 'An error occurred. Please try again.');
       rethrow;
     }
   }
@@ -206,8 +215,8 @@ class ApiCalls {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtpToRegister(
-      String email, BuildContext? context) async {
+  Future<SendOtpResponseModel> sendOtpToRegister(String email,
+      BuildContext? context) async {
     http.Response response = await hitApiPost(
         false,
         UrlConstants.sendOtpToRegister + email,
@@ -224,7 +233,7 @@ class ApiCalls {
 
   Future<RoleMasterResponseModel> getMasterRoles(BuildContext? context) async {
     http.Response response =
-        await hitApiGet(false, UrlConstants.getRoleMaster, context!);
+    await hitApiGet(false, UrlConstants.getRoleMaster, context!);
     if (response.statusCode == 200) {
       return RoleMasterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -257,7 +266,7 @@ class ApiCalls {
     required String weight,
   }) async {
     var request =
-        http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
+    http.MultipartRequest('POST', Uri.parse(UrlConstants.registerUser));
     request.fields['Contact.Dob'] = dob;
     request.fields['Contact.FirstName'] = fName;
     request.fields['Contact.LastName'] = lName;
@@ -283,7 +292,9 @@ class ApiCalls {
         'profilePic',
         picStream,
         length,
-        filename: profilePic.path.split('/').last,
+        filename: profilePic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -308,10 +319,10 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel> loginUser(
-      String email, String password, BuildContext buildContext) async {
+  Future<RegisterResponseModel> loginUser(String email, String password,
+      BuildContext buildContext) async {
     String? fcmToken =
-        await FirebaseMessaging.instance.getToken(); // fcm token imp
+    await FirebaseMessaging.instance.getToken(); // fcm token imp
     http.Response response = await hitApiPost(
         false,
         UrlConstants.loginUser,
@@ -330,8 +341,8 @@ class ApiCalls {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtpToResetPassword(
-      String email, BuildContext buildContext) async {
+  Future<SendOtpResponseModel> sendOtpToResetPassword(String email,
+      BuildContext buildContext) async {
     http.Response response = await hitApiPost(
         false,
         UrlConstants.sendOtpToResetPassword + email,
@@ -346,8 +357,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> addIndividualProfile(
-      String dob,
+  Future<AddIndividualProfileResponseModel> addIndividualProfile(String dob,
       String mobile,
       String email,
       String fName,
@@ -394,7 +404,9 @@ class ApiCalls {
           'uploadedFile',
           picStream,
           length,
-          filename: selectedImage.path.split('/').last,
+          filename: selectedImage.path
+              .split('/')
+              .last,
           contentType: MediaType('image', 'jpeg'),
         );
         request.files.add(multipartFile);
@@ -438,8 +450,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> addEnterpriseProfile(
-      String dob,
+  Future<AddIndividualProfileResponseModel> addEnterpriseProfile(String dob,
       String mobile,
       String email,
       String fName,
@@ -487,7 +498,9 @@ class ApiCalls {
           'uploadedFile',
           picStream,
           length,
-          filename: selectedImage.path.split('/').last,
+          filename: selectedImage.path
+              .split('/')
+              .last,
           contentType: MediaType('image', 'jpeg'),
         );
         request.files.add(multipartFile);
@@ -531,10 +544,10 @@ class ApiCalls {
     }
   }
 
-  resetPassword(
-      String email, String password, BuildContext buildContext) async {
+  resetPassword(String email, String password,
+      BuildContext buildContext) async {
     var request =
-        http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
+    http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
     request.fields['Email'] = email.toString();
     request.fields['NewPassword'] = password.toString();
     var response = await request.send();
@@ -549,8 +562,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> editPatient(
-      String dob,
+  Future<AddIndividualProfileResponseModel> editPatient(String dob,
       String mobile,
       String email,
       String fName,
@@ -602,7 +614,9 @@ class ApiCalls {
           'uploadedFile',
           picStream,
           length,
-          filename: patientPic.path.split('/').last,
+          filename: patientPic.path
+              .split('/')
+              .last,
           contentType: MediaType('image', 'jpeg'),
         );
         request.files.add(multipartFile);
@@ -646,8 +660,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddIndividualProfileResponseModel> editEnterprise(
-      String email,
+  Future<AddIndividualProfileResponseModel> editEnterprise(String email,
       String fName,
       String lName,
       String dob,
@@ -699,7 +712,9 @@ class ApiCalls {
         'uploadedFile',
         picStream,
         length,
-        filename: patientPic.path.split('/').last,
+        filename: patientPic.path
+            .split('/')
+            .last,
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
@@ -735,7 +750,8 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(
         true,
-        "${UrlConstants.getIndividualProfiles}/GetAllByUserId/${prefModel.userData!.id}",
+        "${UrlConstants.getIndividualProfiles}/GetAllByUserId/${prefModel
+            .userData!.id}",
         context);
     if (response.statusCode == 200) {
       return AllPatientsResponseModel.fromJson(json.decode(response.body));
@@ -749,7 +765,8 @@ class ApiCalls {
       BuildContext context) async {
     http.Response response = await hitApiGet(
         true,
-        "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId/${prefModel.userData!.enterpriseUserId}",
+        "${UrlConstants.getEnterpriseProfiles}/GetAllByUserId/${prefModel
+            .userData!.enterpriseUserId}",
         context);
     if (response.statusCode == 200) {
       return AllEnterpriseUsersResponseModel.fromJson(
@@ -760,8 +777,8 @@ class ApiCalls {
     }
   }
 
-  Future<IndividualResponseModel> getIndividualUserData(
-      String? pId, BuildContext context) async {
+  Future<IndividualResponseModel> getIndividualUserData(String? pId,
+      BuildContext context) async {
     http.Response response = await hitApiGet(
         true, "${UrlConstants.getIndividualProfiles}/${pId}", context);
     if (response.statusCode == 200) {
@@ -771,8 +788,8 @@ class ApiCalls {
     }
   }
 
-  Future<EnterpriseResponseModel> getEnterpriseUserData(
-      String? eId, BuildContext context) async {
+  Future<EnterpriseResponseModel> getEnterpriseUserData(String? eId,
+      BuildContext context) async {
     http.Response response = await hitApiGet(
         true, "${UrlConstants.getEnterpriseProfiles}/${eId}", context);
     if (response.statusCode == 200) {
@@ -784,7 +801,7 @@ class ApiCalls {
 
   Future<DurationResponseModel> getAllDurations(BuildContext context) async {
     http.Response response =
-        await hitApiGet(true, UrlConstants.getAllDurations, context);
+    await hitApiGet(true, UrlConstants.getAllDurations, context);
     if (response.statusCode == 200) {
       return DurationResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -800,7 +817,9 @@ class ApiCalls {
       if (response.statusCode == 200) {
         // Create a temporary file
         File tempFile = File(
-            '${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+            '${Directory.systemTemp.path}/temp_image_${DateTime
+                .now()
+                .millisecondsSinceEpoch}.jpg');
 
         // Write the image data to the temporary file
         await tempFile.writeAsBytes(response.bodyBytes);
@@ -815,8 +834,7 @@ class ApiCalls {
     }
   }
 
-  Future<RegisterResponseModel> editProfile(
-      String fName,
+  Future<RegisterResponseModel> editProfile(String fName,
       String lName,
       String mobile,
       String bloodGroup,
@@ -839,15 +857,15 @@ class ApiCalls {
       String email) async {
     Future<RegisterResponseModel> sendRequest() async {
       var request =
-          http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
+      http.MultipartRequest('PUT', Uri.parse(UrlConstants.updateProfile));
       request.fields['FirstName'] = fName;
       request.fields['LastName'] = lName;
       request.fields['BloodGroup'] = bloodGroup;
       request.fields['Gender'] = gender == 'Female'
           ? '2'
           : gender == 'Male'
-              ? '1'
-              : '3';
+          ? '1'
+          : '3';
       request.fields['Dob'] = dob;
       request.fields['UserId'] = userId.toString();
       request.fields['ContactId'] = contactId.toString();
@@ -869,7 +887,9 @@ class ApiCalls {
           'profilePic',
           picStream,
           length,
-          filename: profilePic.path.split('/').last,
+          filename: profilePic.path
+              .split('/')
+              .last,
           contentType: MediaType('image', 'jpeg'),
         );
         request.files.add(multipartFile);
@@ -913,8 +933,8 @@ class ApiCalls {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtpToChangePassword(
-      String? email, BuildContext context, bool newPassword) async {
+  Future<SendOtpResponseModel> sendOtpToChangePassword(String? email,
+      BuildContext context, bool newPassword) async {
     http.Response response = await hitApiPost(
         false,
         UrlConstants.sendOtpToResetPassword +
@@ -930,10 +950,10 @@ class ApiCalls {
     }
   }
 
-  Future<ResetPasswordResponseModel> resetNewPassword(
-      String password, String? changePswEmail, BuildContext context) async {
+  Future<ResetPasswordResponseModel> resetNewPassword(String password,
+      String? changePswEmail, BuildContext context) async {
     var request =
-        http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
+    http.MultipartRequest('POST', Uri.parse(UrlConstants.resetPassword));
     request.fields['Email'] = changePswEmail.toString();
     request.fields['NewPassword'] = password.toString();
     var response = await request.send();
@@ -948,8 +968,8 @@ class ApiCalls {
     }
   }
 
-  Future<StateMasterResponseModel> getStateMaster(
-      BuildContext context, String? uniqueGuid) async {
+  Future<StateMasterResponseModel> getStateMaster(BuildContext context,
+      String? uniqueGuid) async {
     http.Response response = await hitApiGet(
         false, "${UrlConstants.getStateMaster}/$uniqueGuid", context);
     if (response.statusCode == 200) {
@@ -1004,7 +1024,9 @@ class ApiCalls {
         'uploadfile',
         jsonStream,
         jsonLength,
-        filename: uploadFile.path.split('/').last,
+        filename: uploadFile.path
+            .split('/')
+            .last,
         contentType: MediaType('application', 'json'),
       );
       request.files.add(jsonMultipartFile);
@@ -1020,7 +1042,7 @@ class ApiCalls {
         showErrorToast(context, "Invalid Data");
         final String jsonString = json.encode(jsonData);
         OfflineTestModel testDetails =
-            OfflineTestModel.fromJson(json.decode(jsonString));
+        OfflineTestModel.fromJson(json.decode(jsonString));
         prefModel.offlineSavedTests!.add(testDetails);
         await AppPref.setPref(prefModel);
         showSuccessToast(
@@ -1036,7 +1058,7 @@ class ApiCalls {
       } else {
         final String jsonString = json.encode(jsonData);
         OfflineTestModel testDetails =
-            OfflineTestModel.fromJson(json.decode(jsonString));
+        OfflineTestModel.fromJson(json.decode(jsonString));
         prefModel.offlineSavedTests!.add(testDetails);
         await AppPref.setPref(prefModel);
         Navigator.pop(context);
@@ -1059,8 +1081,7 @@ class ApiCalls {
     }
   }
 
-  Future<AddDeviceResponseModel> addDevice(
-      String name,
+  Future<AddDeviceResponseModel> addDevice(String name,
       String deviceUid,
       String type,
       String serialNo,
@@ -1093,7 +1114,8 @@ class ApiCalls {
   Future<DeviceResponseModel> getMyDevices(BuildContext context) async {
     http.Response response = await hitApiGet(
         true,
-        "${UrlConstants.userAndDevice}/GetDevicesByUserId/${prefModel.userData!.id}",
+        "${UrlConstants.userAndDevice}/GetDevicesByUserId/${prefModel.userData!
+            .id}",
         context);
     if (response.statusCode == 200) {
       return DeviceResponseModel.fromJson(json.decode(response.body));
@@ -1168,12 +1190,13 @@ class ApiCalls {
     }
   }
 
-  Future<DashboardCountResponseModel> getDashboardCounts(
-      int pId, BuildContext context) async {
+  Future<DashboardCountResponseModel> getDashboardCounts(int pId,
+      BuildContext context) async {
     if (prefModel.userData!.roleId == 2) {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.mDashboard}${prefModel.userData!.id}?individualProfileId=$pId",
+          "${UrlConstants.mDashboard}${prefModel.userData!
+              .id}?individualProfileId=$pId",
           context);
       if (response.statusCode == 200) {
         return DashboardCountResponseModel.fromJson(json.decode(response.body));
@@ -1183,7 +1206,8 @@ class ApiCalls {
     } else {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.mDashboard}${prefModel.userData!.id}?enterpriseProfileId=$pId",
+          "${UrlConstants.mDashboard}${prefModel.userData!
+              .id}?enterpriseProfileId=$pId",
           context);
       if (response.statusCode == 200) {
         return DashboardCountResponseModel.fromJson(json.decode(response.body));
@@ -1193,12 +1217,13 @@ class ApiCalls {
     }
   }
 
-  Future<MyReportsResponseModel> getAllReportsByProfileId(
-      int? pId, BuildContext context) async {
+  Future<MyReportsResponseModel> getAllReportsByProfileId(int? pId,
+      BuildContext context) async {
     if (prefModel.userData!.roleId == 2) {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?individualProfileId=$pId",
+          "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!
+              .id}?individualProfileId=$pId",
           context);
       if (response.statusCode == 200) {
         return MyReportsResponseModel.fromJson(json.decode(response.body));
@@ -1208,7 +1233,8 @@ class ApiCalls {
     } else {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}?enterpriseProfileId=$pId",
+          "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!
+              .id}?enterpriseProfileId=$pId",
           context);
       if (response.statusCode == 200) {
         return MyReportsResponseModel.fromJson(json.decode(response.body));
@@ -1218,11 +1244,12 @@ class ApiCalls {
     }
   }
 
-  Future<DetailedReportPdfModel> getReportPdf(
-      int? requestDeviceDataId, BuildContext context) async {
+  Future<DetailedReportPdfModel> getReportPdf(int? requestDeviceDataId,
+      BuildContext context) async {
     http.Response response = await hitApiGet(
         true,
-        "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId",
+        "${UrlConstants.getResponseDocumentsByUserId}${prefModel.userData!
+            .id}?requestId=$requestDeviceDataId",
         context);
     if (response.statusCode == 200) {
       return DetailedReportPdfModel.fromJson(json.decode(response.body));
@@ -1231,11 +1258,12 @@ class ApiCalls {
     }
   }
 
-  Future<ReportsDetailModel> getReport(
-      int? requestDeviceDataId, BuildContext context) async {
+  Future<ReportsDetailModel> getReport(int? requestDeviceDataId,
+      BuildContext context) async {
     http.Response response = await hitApiGet(
         true,
-        "${UrlConstants.getAllReportsByUserId}${prefModel.userData!.id}?requestId=$requestDeviceDataId",
+        "${UrlConstants.getAllReportsByUserId}${prefModel.userData!
+            .id}?requestId=$requestDeviceDataId",
         context);
     if (response.statusCode == 200) {
       return ReportsDetailModel.fromJson(json.decode(response.body));
@@ -1244,12 +1272,13 @@ class ApiCalls {
     }
   }
 
-  Future<SummaryReportResponseModel> getSummaryReports(
-      BuildContext context, String pId, int type) async {
+  Future<SummaryReportResponseModel> getSummaryReports(BuildContext context,
+      String pId, int type) async {
     if (prefModel.userData!.roleId == 2) {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.getSummaryReport}/${prefModel.userData!.id}?individualProfileId=$pId&type=$type",
+          "${UrlConstants.getSummaryReport}/${prefModel.userData!
+              .id}?individualProfileId=$pId&type=$type",
           context);
       if (response.statusCode == 200) {
         return SummaryReportResponseModel.fromJson(json.decode(response.body));
@@ -1259,7 +1288,8 @@ class ApiCalls {
     } else {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.getSummaryReport}/${prefModel.userData!.id}?enterpriseProfileId=${pId}&type=1",
+          "${UrlConstants.getSummaryReport}/${prefModel.userData!
+              .id}?enterpriseProfileId=${pId}&type=1",
           context);
       if (response.statusCode == 200) {
         return SummaryReportResponseModel.fromJson(json.decode(response.body));
@@ -1272,7 +1302,7 @@ class ApiCalls {
   Future<CountryMasterResponseModel> getCountryMaster(
       BuildContext context) async {
     http.Response response =
-        await hitApiGet(false, UrlConstants.getCountryMaster, context);
+    await hitApiGet(false, UrlConstants.getCountryMaster, context);
     if (response.statusCode == 200) {
       return CountryMasterResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -1282,11 +1312,13 @@ class ApiCalls {
     }
   }
 
-  Future<CheckRequestCountModel> checkRequestCount(
-      BuildContext context, int? individualId, int? enterpriseId) async {
+  Future<CheckRequestCountModel> checkRequestCount(BuildContext context,
+      int? individualId, int? enterpriseId) async {
     String url = prefModel.userData!.roleId == 2
-        ? "${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?individualProfileId=$individualId"
-        : "${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
+        ? "${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel
+        .userData!.id}?individualProfileId=$individualId"
+        : "${UrlConstants.requestDeviceData}/GetRequestCountByUserId/${prefModel
+        .userData!.id}?enterpriseProfileId=$enterpriseId";
     http.Response response = await hitApiGet(true, url, context);
     if (response.statusCode == 200) {
       return CheckRequestCountModel.fromJson(json.decode(response.body));
@@ -1296,11 +1328,15 @@ class ApiCalls {
     }
   }
 
-  checkRequestDuration(
-      BuildContext context, int? individualId, int? enterpriseId) async {
+  checkRequestDuration(BuildContext context, int? individualId,
+      int? enterpriseId) async {
     String url = prefModel.userData!.roleId == 2
-        ? "${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?individualProfileId=$individualId"
-        : "${UrlConstants.requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!.id}?enterpriseProfileId=$enterpriseId";
+        ? "${UrlConstants
+        .requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!
+        .id}?individualProfileId=$individualId"
+        : "${UrlConstants
+        .requestDeviceData}/GetRequestDurationByUserId/${prefModel.userData!
+        .id}?enterpriseProfileId=$enterpriseId";
     http.Response response = await hitApiGet(true, url, context);
     if (response.statusCode == 200) {
       return CheckRequestCountModel.fromJson(json.decode(response.body));
