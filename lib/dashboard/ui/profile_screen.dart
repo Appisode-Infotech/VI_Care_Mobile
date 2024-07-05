@@ -628,7 +628,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 20,
                         ),
                         const Text(
-                          "V 1.1.4",
+                          "V 1.1.6",
                           style: TextStyle(color: Colors.grey),
                         ),
                         const SizedBox(

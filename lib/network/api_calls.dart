@@ -1149,7 +1149,7 @@ class ApiCalls {
   }
 
   Future<MyReportsResponseModel> getMyReports(String? reportTime,
-      String? reportStatus, String? pId, BuildContext context) async {
+      String? reportStatus, String? patientId, BuildContext context) async {
     int timeType = 0;
     int reportStatusType = 0;
 
@@ -1168,28 +1168,27 @@ class ApiCalls {
     } else if (reportStatus == 'Fail') {
       reportStatusType = 4;
     }
-    String url =
-        "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
+    String url = "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
 
-    if (timeType != 0 || reportStatusType != 0 || pId != null) {
+    if (timeType != 0 || reportStatusType != 0 || patientId != 'null') {
       url += "?";
       if (timeType != 0) {
         url += "time=$timeType";
-        if (reportStatusType != 0 || pId != null) {
+        if (reportStatusType != 0 || patientId != 'null') {
           url += "&";
         }
       }
       if (reportStatusType != 0) {
         url += "statusType=$reportStatusType";
-        if (pId != null) {
+        if (patientId != 'null') {
           url += "&";
         }
       }
-      if (pId != 'null') {
+      if (patientId != 'null') {
         if (prefModel.userData!.roleId == 2) {
-          url += "individualProfileId=$pId";
+          url += "individualProfileId=$patientId";
         } else {
-          url += "enterpriseProfileId=$pId";
+          url += "enterpriseProfileId=$patientId";
         }
       }
     }

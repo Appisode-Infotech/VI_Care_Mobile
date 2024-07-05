@@ -83,7 +83,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                   onTap: () async {
                     // await patientProvider.getStateMaster(context,);
                     // await patientProvider.getCountryMaster(context);
-                    print(prefModel.userData!.roleId);
                     if (prefModel.userData!.roleId == 2 &&
                         individualPatientData?.result != null) {
                       await patientProvider.prefillEditPatientDetails(context,
@@ -1971,7 +1970,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                             InkWell(
                                               onTap: () {
                                                 Navigator.pushNamed(context,
-                                                    Routes.reportsRoute);
+                                                    Routes.reportsRoute,
+                                                    arguments: {
+                                                      "patientId": snapshot
+                                                          .data!.result!.id,
+                                                    });
                                               },
                                               child: Row(
                                                 children: [
