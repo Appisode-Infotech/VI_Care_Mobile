@@ -348,7 +348,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                           }
                         } else {
                           showErrorToast(context,
-                              "Location permission is required to proceed. Please enable and try again");
+                              AppLocale.denyLocation.getString(context));
                         }
                       }),
                   const SizedBox(

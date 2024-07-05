@@ -691,9 +691,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 alertContext) {
                                                               return AlertDialog(
                                                                 title: Text(
-                                                                    "Concent"),
+                                                                    AppLocale.conCent.getString(context)),
                                                                 content: Text(
-                                                                    "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
+                                                                    "${AppLocale.confirmRecordShare.getString(context)} ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"}${AppLocale.forImprovements.getString(context)}"),
                                                                 actions: [
                                                                   TextButton(
                                                                       onPressed:
@@ -702,7 +702,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                             context);
                                                                       },
                                                                       child: Text(
-                                                                          "Cancel")),
+                                                                          AppLocale.cancel.getString(context))),
                                                                   TextButton(
                                                                       onPressed:
                                                                           () async {
@@ -748,11 +748,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                         } else {
                                                                           showErrorToast(
                                                                               context,
-                                                                              "Location permission is required to proceed. Please enable and try again");
+                                                                              AppLocale.denyLocation.getString(context));
                                                                         }
                                                                       },
                                                                       child: Text(
-                                                                          "Agree")),
+                                                                          AppLocale.agree.getString(context))),
                                                                 ],
                                                               );
                                                             });
@@ -948,11 +948,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 2) {
                                                               showErrorToast(
                                                                   context,
-                                                                  "Report is not ready yet. Please check back in some time");
+                                                                  AppLocale.reportsNotReady.getString(context));
                                                             } else {
                                                               showErrorToast(
                                                                   context,
-                                                                  "Looks like report failed to generate. Please take a test again");
+                                                                  AppLocale.reportsFailedGenerate.getString(context));
                                                             }
                                                           },
                                                           child: Column(

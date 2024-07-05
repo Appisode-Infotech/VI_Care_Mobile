@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         // ),
                         // const SizedBox(height: 10),
                         Text(
-                          _getHeading(currentStep),
+                          _getHeading(currentStep,context),
                           style: const TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w600),
                         ),
@@ -149,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 if (authProvider.otpReceived ==
                                                     authProvider
                                                         .registerOtpController
-                                                        .text) {
+                                                        .text){
                                                   showSuccessToast(
                                                       context,
                                                       AppLocale.otpSuccessful
@@ -955,8 +955,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("Height (Meters)",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.height.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -971,7 +971,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Height",
+            hintText: AppLocale.height.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -991,8 +991,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-        const Text("Weight (Kgs)",
-            style: TextStyle(fontWeight: FontWeight.w600)),
+         Text(AppLocale.weight.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
         ),
@@ -1007,7 +1007,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Weight",
+            hintText: AppLocale.weight.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -1441,14 +1441,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-String _getHeading(int currentStep) {
+String _getHeading(int currentStep,BuildContext context) {
   switch (currentStep) {
     case 1:
-      return 'Registration';
+      return AppLocale.registration.getString(context);
     case 2:
-      return 'Enter OTP';
+      return AppLocale.enterRegisterOtp.getString(context);
     case 3:
-      return 'Personal details';
+      return AppLocale.personalDetails.getString(context);
     default:
       return '';
   }

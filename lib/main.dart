@@ -186,4 +186,5 @@ class _MyAppState extends State<MyApp> {
               Routes.noInternet: (context) => const NoInternetWidget()
             }));
   }
+
 }

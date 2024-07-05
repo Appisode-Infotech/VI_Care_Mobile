@@ -612,7 +612,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
         ),
 
 
-        const Text("Height (Meters)",
+         Text(AppLocale.height.getString(context),
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -628,7 +628,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Height",
+            hintText: AppLocale.height.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -648,7 +648,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           height: 10,
         ),
 
-        const Text("Weight (Kgs)",
+         Text(AppLocale.weight.getString(context),
             style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(
           height: 10,
@@ -664,7 +664,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "Weight",
+            hintText: AppLocale.weight.getString(context),
             counterText: "",
             isCollapsed: true,
             errorStyle: const TextStyle(color: Colors.red),
@@ -721,7 +721,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
           dropdownColor: Colors.white,
           value: patientProvider.countryAs,
-          hint: const Text("Country"),
+          hint:  Text(AppLocale.country.getString(context)),
           onChanged: (String? value) async {
             var selectedCountry = patientProvider.countryMasterResponse!.result!
                 .firstWhere((country) => country.name == value);

@@ -94,7 +94,7 @@ class NewTestLeProvider extends ChangeNotifier {
       String pId,
       Map<String, Object?> jsonData) async {
     List<ConnectivityResult> connectivityResults =
-        await Connectivity().checkConnectivity();
+        (await Connectivity().checkConnectivity()) as List<ConnectivityResult>;
     bool isConnected = connectivityResults.any((result) =>
         result == ConnectivityResult.mobile ||
         result == ConnectivityResult.wifi);

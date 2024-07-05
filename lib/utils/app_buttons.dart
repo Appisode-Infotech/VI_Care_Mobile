@@ -156,7 +156,7 @@ void showSuccessToast(BuildContext context, String content) {
     type: ToastificationType.success,
     style: ToastificationStyle.fillColored,
     autoCloseDuration: const Duration(seconds: 5),
-    title: const Text("Success"),
+    title:  Text(AppLocale.success.getString(context)),
     // you can also use RichText widget for title and description parameters
     description: RichText(text: TextSpan(text: content)),
     alignment: Alignment.topRight,
@@ -341,7 +341,7 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child:  const Text('Discard',
+                  child:Text(AppLocale.discard.getString(context),
                       style: TextStyle(color: Colors.red))),
               TextButton(
                   onPressed: () {
@@ -532,7 +532,7 @@ showInfoDialog(BuildContext context,String message){
       actions: [
         TextButton(onPressed: (){
           Navigator.pop(context);
-        }, child: const Text("Close"))
+        }, child:  Text(AppLocale.close.getString(context)))
       ],
     );
   });
