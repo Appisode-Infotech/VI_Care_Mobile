@@ -1444,9 +1444,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 String _getHeading(int currentStep,BuildContext context) {
   switch (currentStep) {
     case 1:
-      return 'Registration';
+      return AppLocale.registration.getString(context);
     case 2:
-      return 'Enter OTP';
+      return AppLocale.enterRegisterOtp.getString(context);
     case 3:
       return AppLocale.personalDetails.getString(context);
     default:

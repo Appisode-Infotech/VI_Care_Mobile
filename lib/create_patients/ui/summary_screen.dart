@@ -138,25 +138,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "BPM Mean",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.bpmMean.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
                                                 showInfoDialog(context,
-                                                    '''What is the Readyness Score?
-          
-          Throughout the day, your body is exposed to a flood of constantly changinng demands of a physical, psychological and social nature. The survival and functioning of your organism is closely dependent on its ability to adopt to the demands of acute stress phases on the one hand, and on the other hand to find a relaxed state of rest after these phases have subsided so that it can regenerate.
-          
-          With the autonomic nervous system(ANS), your organism has a highly effective regulatory system that is able to fulfill precisely this task autonomously (on its own) to the greatest possible extent.
-          
-          The Readyness Score is a summary parameter that evaluates your body's regulatory abilities. It tells you how well your body, with the help of the autonomic nervous system , is basically able to adjust to stress and to what extent this ability is being called upon at the time of the measurement.
-          The Readyness Score shows you how well you can cope with your day.
-          
-          What Influences your ANS and thus your Readyness Score?''');
+                                                   AppLocale.bpmMeanDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -169,10 +160,10 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         primaryXAxis: NumericAxis(
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'BPM'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(text: AppLocale.bpm.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -224,29 +215,15 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            " ARI",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.ari.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context, '''
-          What resting heart rate is normal?
-          
-          The heart rate describes the number of measured beats per minute (bpm). A difference is made between:
-          - Low heart rate (bradycardia)
-          - Normal heart rate (normofrequency)
-          - Increased heart rate (tachycardia)
-          
-          The heart rate is changed by various influences. These are, in particular, age, physical (fitness) condition, and any illnesses.
-          
-          As a simple comparison, the heart rate at physical rest is used first. This is also called the resting heart rate.
-          Measure heart rate only at rest to get comparable values.
-          
-          The following list shows orientation values for the resting pulse rate depending on age and fitness.
-                                                  ''');
+                                                showInfoDialog(context, AppLocale.ariDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -257,12 +234,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'ARI'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(text: AppLocale.ari.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -309,21 +286,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            "VLF Power ms",
-                                            style: TextStyle(
+                                        children: [ Text(
+                                            AppLocale.vlfPower.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
                                                 showInfoDialog(context,
-                                                    '''Ratio of Stress towards Relaxation:
-          
-          Degree of expression of the sympathetic towards the parasympathetic activation.
-          
-          Normal Range: 0.7-3 (higher values are not good).''');
+                                                    AppLocale.vlfDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -334,13 +306,13 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(
-                                              text: 'VLF POWER ms'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(
+                                              text: AppLocale.vlfPower.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -393,23 +365,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "LF Power ms",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.lfPower.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
                                                 showInfoDialog(context,
-                                                    '''Low Frequency indicates the stress state of the individual.
-          
-          LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value
-          may indicate increased sympathetic activity, which is associated with the body's "fight or flight" response to stress. Conversely, a lower LF power value may indicate
-          increased parasympathetic activity, which is associated with the body's "rest and digest"
-          response and can be a positive indicator of heart health and overall fitness.
-          
-          Normal Range: 100-500 ms² (higher values are not good).''');
+                                                   AppLocale.lfPowerDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -420,13 +385,13 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(
-                                              text: 'LF POWER ms'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(
+                                              text: AppLocale.lfPower.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -479,18 +444,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "HF Power ms",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.hfPower.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
                                                 showInfoDialog(context,
-                                                    '''High Frequency indicates the state of relaxation or the regeneration capacity of the individual.
-          
-          Normal Range: 100-500 ms2 (higher values are better)''');
+                                                    AppLocale.hfPowerDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -501,13 +464,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
-                                          maximum:
-                                              _calculateMaxCount(j).toDouble(),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          maximum: _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(
-                                              text: 'HF POWER ms'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(
+                                              text: AppLocale.hfPower.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -560,19 +522,15 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "Total Power",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.totalPower.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context, '''
-          Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
-          
-          Normal Range: 1000-2000 ms² (higher values are better).
-          ''');
+                                                showInfoDialog(context, AppLocale.totalPowerDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -583,13 +541,13 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(
-                                              text: 'TOTAL POWER'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(
+                                              text: AppLocale.totalPower.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -642,19 +600,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "LF to HF",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.lfHf.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
                                                 showInfoDialog(context,
-                                                    '''Ratio of Stress towards Relaxation:
-          
-          Degree of expression of the sympathetic towards the parasympathetic activation.
-          Normal Range: 0.7-3 (higher values are not good).''');
+                                                    AppLocale.lfHfDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -665,13 +620,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title:
-                                              const AxisTitle(text: 'LF TO HF'),
+                                        primaryYAxis:  NumericAxis(
+                                          title: AxisTitle(text: AppLocale.lfHf.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -723,17 +677,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "SDRR",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.sdrr.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
                                                 showInfoDialog(context,
-                                                    '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.
-          ''');
+  AppLocale.sdrrDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -744,12 +697,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.sdrrDescription.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'SDRR'),
+                                        primaryYAxis:  NumericAxis(
+                                          title:  AxisTitle(text: AppLocale.sdrr.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -801,21 +754,15 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            "RMSSDRR",
-                                            style: TextStyle(
+                                           Text(
+                                            AppLocale.rmssdrr.getString(context),
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context, '''
-          RMSSD is a standard HRV measure analyzing RR-Interval differences.
-          Higher values suggest good heart health and fitness.
-          Lower values may indicate stress, fatigue, or other factors.
-          Impact of training loads and recovery can be derived from RMSSD.
-          Normal Range: 20-150 ms (higher values are better).
-          ''');
+                                                showInfoDialog(context, AppLocale.rmssdrrDescription.getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -826,13 +773,12 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title: const AxisTitle(text: 'Days'),
+                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis: const NumericAxis(
-                                          title:
-                                              const AxisTitle(text: 'RMSSDRR'),
+                                        primaryYAxis:  NumericAxis(
+                                          title: AxisTitle(text: AppLocale.rmssdrr.getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[

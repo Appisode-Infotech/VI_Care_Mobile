@@ -721,7 +721,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           ),
           dropdownColor: Colors.white,
           value: patientProvider.countryAs,
-          hint: const Text("Country"),
+          hint:  Text(AppLocale.country.getString(context)),
           onChanged: (String? value) async {
             var selectedCountry = patientProvider.countryMasterResponse!.result!
                 .firstWhere((country) => country.name == value);

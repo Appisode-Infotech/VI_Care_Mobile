@@ -225,7 +225,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 .processingStatus ==
                                             2) {
                                           showErrorToast(context,
-                                              'Report is still processing. Please wait');
+                                              AppLocale.reportProcessing.getString(context));
                                         } else {
                                           showErrorToast(
                                               context,

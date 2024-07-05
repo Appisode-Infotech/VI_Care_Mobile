@@ -544,9 +544,9 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  "Select patient",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                 Text(
+                  prefModel.userData!.roleId==2?AppLocale.selectMember.getString(context):prefModel.userData!.roleId==3?AppLocale.selectPatient.getString(context):prefModel.userData!.roleId==3?AppLocale.selectPlayer.getString(context):"Select",
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 GestureDetector(
                     onTap: () {
@@ -619,23 +619,23 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex,
                                       context: bottomSheetContext,
                                       builder: (BuildContext dialogContext) {
                                         return AlertDialog(
-                                          title: const Text("Confirm assign"),
+                                          title:  Text(AppLocale.confirmAssign.getString(context)),
                                           content: Text(
-                                              "Are you sure you want to assign the test to ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
+                                              "${AppLocale.sureTest.getString(context)} ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext)
                                                     .pop(false);
                                               },
-                                              child: const Text("Cancel"),
+                                              child:  Text(AppLocale.cancel.getString(context)),
                                             ),
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext)
                                                     .pop(true);
                                               },
-                                              child: const Text("Yes"),
+                                              child:  Text(AppLocale.yes.getString(context)),
                                             ),
                                           ],
                                         );

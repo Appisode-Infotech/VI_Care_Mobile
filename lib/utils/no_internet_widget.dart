@@ -1,7 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-
 import 'app_buttons.dart';
 import 'app_locale.dart';
 
@@ -25,7 +24,7 @@ class _NoInternetWidgetState extends State<NoInternetWidget> {
         if (isConnected) {
           return true;
         } else {
-          showErrorToast(context, "No Internet Connection! Retry failed");
+          showErrorToast(context, AppLocale.noInternetRetryFailed.getString(context));
           return false;
         }
       },
@@ -40,16 +39,16 @@ class _NoInternetWidgetState extends State<NoInternetWidget> {
                 color: Colors.grey,
               ),
               const SizedBox(height: 20),
-              const Text(
-                "No Internet",
-                style: TextStyle(
+               Text(
+                AppLocale.noInternet.getString(context),
+                style: const TextStyle(
                     fontSize: 24,
                     color: Colors.grey,
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(
-                "Please check your internet\n connection and try again.",
+                AppLocale.checkInternet.getString(context),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
               ),
@@ -63,11 +62,10 @@ class _NoInternetWidgetState extends State<NoInternetWidget> {
                   if (isConnected) {
                     Navigator.pop(context);
                   } else {
-                    showErrorToast(
-                        context, "No Internet Connection! Retry failed");
+                    showErrorToast(context, AppLocale.noInternetRetryFailed.getString(context));
                   }
                 },
-                child: const Text("Retry"),
+                child: Text(AppLocale.retry.getString(context)),
               )
             ],
           ),
