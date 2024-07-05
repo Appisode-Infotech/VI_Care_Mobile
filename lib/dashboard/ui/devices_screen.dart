@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_offline/flutter_offline.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -29,17 +28,17 @@ class _DeviceScreenState extends State<DeviceScreen> {
       "name": "Smart Lab Hrm W",
       "image": "assets/images/smartlab.png",
       "instructions":
-          "1. Wear your smart Lab Hrm W device on your chest attached to provided flexible chest strap.\n"
-              "2. Turn on bluetooth on your smart phone\n"
-              "3. Press 'Start pairing' button below to start adding this device.",
+      "1. Wear your smart Lab Hrm W device on your chest attached to provided flexible chest strap.\n"
+          "2. Turn on bluetooth on your smart phone\n"
+          "3. Press 'Start pairing' button below to start adding this device.",
     },
     {
       "name": "Bittium Faros 180",
       "image": "assets/images/bittium_180.png",
       "instructions":
-          "1. Wear Bittium Faros 180 device on your chest attached to provided cables.\n"
-              "2. Turn on bluetooth on your smart phone\n"
-              "3. Press 'Start pairing' button below to start adding this device.",
+      "1. Wear Bittium Faros 180 device on your chest attached to provided cables.\n"
+          "2. Turn on bluetooth on your smart phone\n"
+          "3. Press 'Start pairing' button below to start adding this device.",
     },
   ];
 
@@ -68,159 +67,123 @@ class _DeviceScreenState extends State<DeviceScreen> {
               },
             ),
           ),
-          body: OfflineBuilder(
-            connectivityBuilder: (BuildContext context,
-                ConnectivityResult connectivity, Widget child) {
-              final bool connected = connectivity != ConnectivityResult.none;
-              if (!connected) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.wifi_off,
-                        size: 80,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "No Internet",
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Please check your internet\n connection and try again.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 16, color: Colors.grey.shade500),
-                      ),
-                    ],
+          body: FutureBuilder(
+            future: deviceProvider.getMyDevices(context),
+            builder: (BuildContext context,
+                AsyncSnapshot<DeviceResponseModel> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SizedBox(
+                  width: screenSize!.width,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    enabled: true,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          margin: const EdgeInsets.all(10),
+                          width: screenSize!.width,
+                          height: 80,
+                          color: Colors.grey.shade300,
+                        );
+                      },
+                    ),
                   ),
                 );
               }
-              return FutureBuilder(
-                future: deviceProvider.getMyDevices(context),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DeviceResponseModel> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      width: screenSize!.width,
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        enabled: true,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          itemCount: 5,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              margin: const EdgeInsets.all(10),
-                              width: screenSize!.width,
-                              height: 80,
-                              color: Colors.grey.shade300,
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    return (snapshot.data!.result != null &&
-                            snapshot.data!.result!.isNotEmpty)
-                        ? ListView.separated(
-                            itemBuilder:
-                                (BuildContext listViewContext, int index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 16),
-                                decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Colors.white),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: screenSize!.width * 0.7,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          _buildRow(
-                                              AppLocale.deviceScreenName
-                                                  .getString(context),
-                                              snapshot.data!.result![index]
-                                                  .device!.name!),
-                                          _buildRow(
-                                              AppLocale.deviceScreenSNum
-                                                  .getString(context),
-                                              snapshot.data!.result![index]
-                                                  .device!.serialNumber!),
-                                          _buildRow(
-                                              AppLocale.bluetoothType
-                                                  .getString(context),
-                                              snapshot
-                                                          .data!
-                                                          .result![index]
-                                                          .device!
-                                                          .deviceCategory ==
-                                                      2
-                                                  ? 'LE'
-                                                  : 'Classic'),
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          deviceProvider.deleteDevice(
-                                              snapshot.data!.result![index].id,
-                                              context);
-                                        },
-                                        child: const CircleAvatar(
-                                            child: Icon(
-                                                Icons.delete_outline_rounded)))
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext listViewContext, int index) {
-                              return const SizedBox();
-                            },
-                            itemCount: snapshot.data!.result!.length)
-                        : Center(
-                            child: Text(
-                              AppLocale.noDevicesFound.getString(context),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: AppColors.fontShadeColor),
+              if (snapshot.hasData) {
+                return (snapshot.data!.result != null &&
+                    snapshot.data!.result!.isNotEmpty)
+                    ? ListView.separated(
+                    itemBuilder:
+                        (BuildContext listViewContext, int index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 16),
+                        decoration: const BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: screenSize!.width * 0.7,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  _buildRow(
+                                      AppLocale.deviceScreenName
+                                          .getString(context),
+                                      snapshot.data!.result![index]
+                                          .device!.name!),
+                                  _buildRow(
+                                      AppLocale.deviceScreenSNum
+                                          .getString(context),
+                                      snapshot.data!.result![index]
+                                          .device!.serialNumber!),
+                                  _buildRow(
+                                      AppLocale.bluetoothType
+                                          .getString(context),
+                                      snapshot
+                                          .data!
+                                          .result![index]
+                                          .device!
+                                          .deviceCategory ==
+                                          2
+                                          ? 'LE'
+                                          : 'Classic'),
+                                ],
+                              ),
                             ),
-                          );
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  } else {
-                    return Center(
-                      child: Text(AppLocale.loading.getString(context)),
-                    );
-                  }
-                },
-              );
+                            GestureDetector(
+                                onTap: () {
+                                  deviceProvider.deleteDevice(
+                                      snapshot.data!.result![index].id,
+                                      context);
+                                },
+                                child: const CircleAvatar(
+                                    child: Icon(
+                                        Icons.delete_outline_rounded)))
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder:
+                        (BuildContext listViewContext, int index) {
+                      return const SizedBox();
+                    },
+                    itemCount: snapshot.data!.result!.length)
+                    : Center(
+                  child: Text(
+                    AppLocale.noDevicesFound.getString(context),
+                    style: const TextStyle(
+                        fontSize: 18,
+                        color: AppColors.fontShadeColor),
+                  ),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                );
+              } else {
+                return Center(
+                  child: Text(AppLocale.loading.getString(context)),
+                );
+              }
             },
-            child: CircularProgressIndicator(),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: showDeviceSelectionBottomSheet,
@@ -274,11 +237,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   const Divider(),
                   GridView.builder(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
@@ -348,44 +311,46 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   getPrimaryAppButton(
                       context, AppLocale.startPairing.getString(context),
                       onPressed: () async {
-                    var bluetoothConnectStatus =
+                        var bluetoothConnectStatus =
                         await Permission.bluetoothConnect.request();
-                    var bluetoothScanStatus =
+                        var bluetoothScanStatus =
                         await Permission.bluetoothScan.request();
-                    var locationWhenInUse =
+                        var locationWhenInUse =
                         await Permission.locationWhenInUse.request();
-                    if (locationWhenInUse == PermissionStatus.granted) {
-                      loc.Location location = loc.Location();
-                      bool _serviceEnabled;
-                      _serviceEnabled = await location.serviceEnabled();
-                      if (!_serviceEnabled) {
-                        _serviceEnabled = await location.requestService();
-                        if (!_serviceEnabled) {
-                          return;
-                        }
-                      }
-                      if (bluetoothConnectStatus == PermissionStatus.granted &&
-                          bluetoothScanStatus == PermissionStatus.granted) {
-                        if (await FlutterBluePlus.adapterState.first ==
-                            BluetoothAdapterState.on) {
-                          if (selectedDeviceIndex == 0) {
-                            Navigator.pushNamed(
+                        if (locationWhenInUse == PermissionStatus.granted) {
+                          loc.Location location = loc.Location();
+                          bool _serviceEnabled;
+                          _serviceEnabled = await location.serviceEnabled();
+                          if (!_serviceEnabled) {
+                            _serviceEnabled = await location.requestService();
+                            if (!_serviceEnabled) {
+                              return;
+                            }
+                          }
+                          if (bluetoothConnectStatus ==
+                              PermissionStatus.granted &&
+                              bluetoothScanStatus == PermissionStatus.granted) {
+                            if (await FlutterBluePlus.adapterState.first ==
+                                BluetoothAdapterState.on) {
+                              if (selectedDeviceIndex == 0) {
+                                Navigator.pushNamed(
                                     context, Routes.scanLeDevicesToAddRoute)
-                                .then((value) => setState(() {}));
-                          } else {
-                            showErrorToast(context,
-                                AppLocale.startPairingError.getString(context));
+                                    .then((value) => setState(() {}));
+                              } else {
+                                showErrorToast(context,
+                                    AppLocale.startPairingError.getString(
+                                        context));
+                              }
+                            } else {
+                              showErrorToast(context,
+                                  AppLocale.bluetoothIsOff.getString(context));
+                            }
                           }
                         } else {
                           showErrorToast(context,
-                              AppLocale.bluetoothIsOff.getString(context));
+                              "Location permission is required to proceed. Please enable and try again");
                         }
-                      }
-                    } else {
-                      showErrorToast(context,
-                          AppLocale.denyLocation.getString(context));
-                    }
-                  }),
+                      }),
                   const SizedBox(
                     height: 20,
                   ),

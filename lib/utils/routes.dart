@@ -25,4 +25,5 @@ class Routes {
   static const String scanLeDevicesToAddRoute = "scanLeDevicesToAdd";
   static const String detailedReportRoute = "detailedReportScreen";
   static const String newTestLeRoute = "newTestLe";
+  static const String noInternet = "noInternet";
 }

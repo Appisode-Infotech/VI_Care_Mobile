@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_offline/flutter_offline.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -36,9 +35,11 @@ class _SummaryScreenState extends State<SummaryScreen>
     _tabController = TabController(length: 5, vsync: this);
   }
 
-  Future<SummaryReportResponseModel>? _fetchSummaryReport(int tabIndex, String pId, PatientProvider patientProvider) {
+  Future<SummaryReportResponseModel>? _fetchSummaryReport(
+      int tabIndex, String pId, PatientProvider patientProvider) {
     if (!_summaryReports.containsKey(tabIndex)) {
-      _summaryReports[tabIndex] = patientProvider.getSummaryReport(context, pId, tabIndex + 1);
+      _summaryReports[tabIndex] =
+          patientProvider.getSummaryReport(context, pId, tabIndex + 1);
     }
     return _summaryReports[tabIndex];
   }
@@ -52,11 +53,7 @@ class _SummaryScreenState extends State<SummaryScreen>
     return Consumer(
       builder: (BuildContext context, PatientProvider patientProvider,
           Widget? child) {
-        return OfflineBuilder(
-          connectivityBuilder: (BuildContext context,
-              ConnectivityResult connectivity, Widget child) {
-            final bool connected = connectivity != ConnectivityResult.none;
-          return Scaffold(
+        return Scaffold(
             appBar: AppBar(
               leading: InkWell(
                 onTap: () {
@@ -76,8 +73,9 @@ class _SummaryScreenState extends State<SummaryScreen>
               toolbarHeight: 75,
               automaticallyImplyLeading: false,
             ),
-            body:connected? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
+            body: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Column(
                 children: [
                   Container(
@@ -111,7 +109,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                         for (int j = 1; j < 6; j++)
                           SingleChildScrollView(
                             child: FutureBuilder(
-                              future: _fetchSummaryReport(j - 1,pId,patientProvider),
+                              future: _fetchSummaryReport(
+                                  j - 1, pId, patientProvider),
                               builder: (BuildContext summaryContext,
                                   AsyncSnapshot<SummaryReportResponseModel>
                                       snapshot) {
@@ -129,7 +128,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                 if (snapshot.hasData) {
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const SizedBox(
                                         height: 15,
@@ -158,16 +158,17 @@ class _SummaryScreenState extends State<SummaryScreen>
           
           What Influences your ANS and thus your Readyness Score?''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
-                                            maximum: _calculateMaxCount(j).toDouble(),
+                                        primaryXAxis: NumericAxis(
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                           title: const AxisTitle(text: 'Days'),
                                         ),
                                         primaryYAxis: const NumericAxis(
@@ -186,8 +187,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                   i++)
                                                 ScatterPoint(
                                                     i.toDouble(),
-                                                    snapshot.data!
-                                                        .result!['bpM_Mean']![i]),
+                                                    snapshot.data!.result![
+                                                        'bpM_Mean']![i]),
                                             ],
                                             xValueMapper:
                                                 (ScatterPoint point, _) =>
@@ -203,13 +204,15 @@ class _SummaryScreenState extends State<SummaryScreen>
                                             markerSettings:
                                                 const MarkerSettings(
                                                     isVisible: true),
-                                            dataLabelSettings: const DataLabelSettings(
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -245,8 +248,8 @@ class _SummaryScreenState extends State<SummaryScreen>
           The following list shows orientation values for the resting pulse rate depending on age and fitness.
                                                   ''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
@@ -255,7 +258,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
                                           title: const AxisTitle(text: 'ARI'),
@@ -266,8 +270,10 @@ class _SummaryScreenState extends State<SummaryScreen>
                                             dataSource: [
                                               for (int i = 0;
                                                   i <
-                                                      snapshot.data!
-                                                          .result!['ari']!.length;
+                                                      snapshot
+                                                          .data!
+                                                          .result!['ari']!
+                                                          .length;
                                                   i++)
                                                 ScatterPoint(
                                                   i.toDouble(),
@@ -281,15 +287,18 @@ class _SummaryScreenState extends State<SummaryScreen>
                                             yValueMapper:
                                                 (ScatterPoint point, _) =>
                                                     point.y,
-                                            markerSettings: const MarkerSettings(
-                                                isVisible: true),
-                                            dataLabelSettings: const DataLabelSettings(
+                                            markerSettings:
+                                                const MarkerSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -316,22 +325,22 @@ class _SummaryScreenState extends State<SummaryScreen>
           
           Normal Range: 0.7-3 (higher values are not good).''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'VLF POWER ms'),
-
+                                          title: const AxisTitle(
+                                              text: 'VLF POWER ms'),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -361,15 +370,18 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                     point.y < 15
                                                         ? Colors.yellow
                                                         : Colors.green,
-                                            markerSettings: const MarkerSettings(
-                                                isVisible: true),
-                                            dataLabelSettings: const DataLabelSettings(
+                                            markerSettings:
+                                                const MarkerSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -399,21 +411,22 @@ class _SummaryScreenState extends State<SummaryScreen>
           
           Normal Range: 100-500 ms² (higher values are not good).''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'LF POWER ms'),
+                                          title: const AxisTitle(
+                                              text: 'LF POWER ms'),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -423,7 +436,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                   i <
                                                       snapshot
                                                           .data!
-                                                          .result!['lF_Power_ms']!
+                                                          .result![
+                                                              'lF_Power_ms']!
                                                           .length;
                                                   i++)
                                                 ScatterPoint(
@@ -444,15 +458,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                         : Colors.green,
                                             markerSettings:
                                                 const MarkerSettings(
-                                                  isVisible:true
-                                                ),
-                                            dataLabelSettings: const DataLabelSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -477,22 +492,22 @@ class _SummaryScreenState extends State<SummaryScreen>
           
           Normal Range: 100-500 ms2 (higher values are better)''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'HF POWER ms'),
-
+                                          title: const AxisTitle(
+                                              text: 'HF POWER ms'),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -502,7 +517,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                   i <
                                                       snapshot
                                                           .data!
-                                                          .result!['hF_Power_ms']!
+                                                          .result![
+                                                              'hF_Power_ms']!
                                                           .length;
                                                   i++)
                                                 ScatterPoint(
@@ -523,15 +539,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                         : Colors.green,
                                             markerSettings:
                                                 const MarkerSettings(
-                                                  isVisible:true
-                                                ),
-                                            dataLabelSettings: const DataLabelSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -557,22 +574,22 @@ class _SummaryScreenState extends State<SummaryScreen>
           Normal Range: 1000-2000 ms² (higher values are better).
           ''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'TOTAL POWER'),
-
+                                          title: const AxisTitle(
+                                              text: 'TOTAL POWER'),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -582,7 +599,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                   i <
                                                       snapshot
                                                           .data!
-                                                          .result!['total_Power']!
+                                                          .result![
+                                                              'total_Power']!
                                                           .length;
                                                   i++)
                                                 ScatterPoint(
@@ -603,15 +621,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                         : Colors.green,
                                             markerSettings:
                                                 const MarkerSettings(
-                                                  isVisible:true
-                                                ),
-                                            dataLabelSettings: const DataLabelSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -637,22 +656,22 @@ class _SummaryScreenState extends State<SummaryScreen>
           Degree of expression of the sympathetic towards the parasympathetic activation.
           Normal Range: 0.7-3 (higher values are not good).''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'LF TO HF'),
-
+                                          title:
+                                              const AxisTitle(text: 'LF TO HF'),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -683,15 +702,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                         : Colors.green,
                                             markerSettings:
                                                 const MarkerSettings(
-                                                  isVisible:true
-                                                ),
-                                            dataLabelSettings: const DataLabelSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -715,22 +735,21 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                     '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.
           ''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
                                           title: const AxisTitle(text: 'SDRR'),
-
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -761,15 +780,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                         : Colors.green,
                                             markerSettings:
                                                 const MarkerSettings(
-                                                  isVisible:true
-                                                ),
-                                            dataLabelSettings: const DataLabelSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -797,22 +817,22 @@ class _SummaryScreenState extends State<SummaryScreen>
           Normal Range: 20-150 ms (higher values are better).
           ''');
                                               },
-                                              child:
-                                                  const Icon(Icons.info_outline))
+                                              child: const Icon(
+                                                  Icons.info_outline))
                                         ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       SfCartesianChart(
-                                        primaryXAxis:  NumericAxis(
+                                        primaryXAxis: NumericAxis(
                                           title: const AxisTitle(text: 'Days'),
-
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
                                         primaryYAxis: const NumericAxis(
-                                          title: const AxisTitle(text: 'RMSSDRR'),
-
+                                          title:
+                                              const AxisTitle(text: 'RMSSDRR'),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -827,8 +847,8 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                   i++)
                                                 ScatterPoint(
                                                     i.toDouble(),
-                                                    snapshot.data!
-                                                        .result!['rmssdrr']![i]),
+                                                    snapshot.data!.result![
+                                                        'rmssdrr']![i]),
                                             ],
                                             xValueMapper:
                                                 (ScatterPoint point, _) =>
@@ -843,15 +863,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                                         : Colors.green,
                                             markerSettings:
                                                 const MarkerSettings(
-                                                  isVisible:true
-                                                ),
-                                            dataLabelSettings: const DataLabelSettings(
+                                                    isVisible: true),
+                                            dataLabelSettings:
+                                                const DataLabelSettings(
                                               isVisible: true,
-                                              labelAlignment: ChartDataLabelAlignment.auto,
+                                              labelAlignment:
+                                                  ChartDataLabelAlignment.auto,
                                               textStyle: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w500,color: Colors.blueGrey
-                                              ),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.blueGrey),
                                             ),
                                           ),
                                         ],
@@ -863,44 +884,13 @@ class _SummaryScreenState extends State<SummaryScreen>
                                   );
                                 }
                                 if (snapshot.hasError) {
-                                  if (snapshot.error == 'No internet connection') {
-                                    return Center(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.wifi_off,
-                                            size: 80,
-                                            color: Colors.grey,
-                                          ),
-                                          const SizedBox(height: 20),
-                                          Text(
-                                            AppLocale.noInternet.getString(context),
-                                            style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          Text(
-                                            AppLocale.checkInternet.getString(context),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 16, color: Colors.grey.shade500),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }else {
-                                    return Center(
-                                      child: Text(snapshot.error.toString()),
-                                    );
-                                  }
+                                  return Center(
+                                    child: Text(snapshot.error.toString()),
+                                  );
                                 } else {
                                   return Center(
-                                      child: Text(
-                                          AppLocale.loading.getString(context)));
+                                      child: Text(AppLocale.loading
+                                          .getString(context)));
                                 }
                               },
                             ),
@@ -911,38 +901,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                   ),
                 ],
               ),
-            )
-            : Center(
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.wifi_off,
-                size: 80,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 20),
-               Text(
-                AppLocale.noInternet.getString(context),
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                AppLocale.checkInternet.getString(context),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 16, color: Colors.grey.shade500),
-              ),
-            ],
-          ),
-            ),
-            );
-          },
-          child: const Center(child: CircularProgressIndicator()),
-        );
+            ));
       },
     );
   }

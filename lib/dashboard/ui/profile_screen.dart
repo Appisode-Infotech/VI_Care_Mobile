@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_offline/flutter_offline.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
@@ -21,65 +20,62 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-  class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
+  Future<RegisterResponseModel>? userData;
+  bool eligibleToLoad = true;
 
-    Future<RegisterResponseModel>? userData;
-    bool eligibleToLoad  =  true;
-
-    @override
-    Widget build(BuildContext context) {
-      return Consumer(
-        builder: (BuildContext context, ProfileProvider profileProvider,
-            Widget? child) {
-          if(eligibleToLoad){
-            userData = profileProvider.getUserProfile(context);
-            eligibleToLoad = false;
-          }
-          return OfflineBuilder(
-            connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
-              final bool connected = connectivity != ConnectivityResult.none;
-           return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  AppLocale.profile.getString(context),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                backgroundColor: AppColors.primaryColor,
-                toolbarHeight: 75,
-                automaticallyImplyLeading: false,
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (BuildContext context, ProfileProvider profileProvider,
+          Widget? child) {
+        if (eligibleToLoad) {
+          userData = profileProvider.getUserProfile(context);
+          eligibleToLoad = false;
+        }
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                AppLocale.profile.getString(context),
+                style: const TextStyle(color: Colors.white),
               ),
-              body: connected ? FutureBuilder(
-                future: userData,
-                builder: (BuildContext context,
-                    AsyncSnapshot<RegisterResponseModel>
-                    snapshot) {
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    return SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 20),
-                        child: Column(children: [
-                          Row(
-                            children: [
-                              prefModel.userData!.profilePicture != null
-                                  ? CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.grey,
-                              backgroundImage: NetworkImage(snapshot.data!.result!.profilePicture!.url.toString()),
-                            ) : const CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.grey,
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.white,
-                              ),
-                            ),
+              backgroundColor: AppColors.primaryColor,
+              toolbarHeight: 75,
+              automaticallyImplyLeading: false,
+            ),
+            body: FutureBuilder(
+              future: userData,
+              builder: (BuildContext context,
+                  AsyncSnapshot<RegisterResponseModel> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasData) {
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 20),
+                      child: Column(children: [
+                        Row(
+                          children: [
+                            prefModel.userData!.profilePicture != null
+                                ? CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage: NetworkImage(snapshot
+                                        .data!.result!.profilePicture!.url
+                                        .toString()),
+                                  )
+                                : const CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: Colors.grey,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                             const SizedBox(
                               width: 20,
                             ),
@@ -88,11 +84,10 @@ class ProfileScreen extends StatefulWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${snapshot.data!.result!.contact!
-                                      .firstName} ${snapshot.data!.result!.contact!
-                                      .lastName}",
+                                  "${snapshot.data!.result!.contact!.firstName} ${snapshot.data!.result!.contact!.lastName}",
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.w600, fontSize: 20),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20),
                                 ),
                                 Text('${snapshot.data!.result!.email}',
                                     style: const TextStyle(
@@ -159,8 +154,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.device_hub_outlined,
@@ -188,7 +183,8 @@ class ProfileScreen extends StatefulWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, Routes.offlineTestRoute);
+                            Navigator.pushNamed(
+                                context, Routes.offlineTestRoute);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,8 +195,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.cloud_off,
@@ -230,7 +226,9 @@ class ProfileScreen extends StatefulWidget {
                           onTap: () async {
                             // await profileProvider.getCountryMaster(context);
                             await profileProvider.preFillEditProfile(context);
-                            Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
+                            Navigator.pushNamed(
+                                    context, Routes.editProfileRoute)
+                                .then((value) {
                               setState(() {
                                 eligibleToLoad = true;
                               });
@@ -246,8 +244,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.edit_outlined,
@@ -277,7 +275,7 @@ class ProfileScreen extends StatefulWidget {
                           onTap: () async {
                             showLoaderDialog(context);
                             SendOtpResponseModel response =
-                            await profileProvider.changePassword(context);
+                                await profileProvider.changePassword(context);
                             profileProvider.resetPasswordOtp =
                                 response.result!.otp;
                             if (response.result != null) {
@@ -299,8 +297,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.lock_outline,
@@ -340,8 +338,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.language,
@@ -373,9 +371,10 @@ class ProfileScreen extends StatefulWidget {
                           onTap: () {
                             Navigator.pushNamed(context, Routes.webViewRoute,
                                 arguments: {
-                                  'url': "https://www.vcnrtech.in/ViCareterms.html",
-                                  'title':
-                                  AppLocale.termsAndConditions.getString(context),
+                                  'url':
+                                      "https://www.vcnrtech.in/ViCareterms.html",
+                                  'title': AppLocale.termsAndConditions
+                                      .getString(context),
                                 });
                           },
                           child: Row(
@@ -387,8 +386,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.description_outlined,
@@ -397,7 +396,8 @@ class ProfileScreen extends StatefulWidget {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    AppLocale.termsConditions.getString(context),
+                                    AppLocale.termsConditions
+                                        .getString(context),
                                     style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600),
@@ -411,16 +411,17 @@ class ProfileScreen extends StatefulWidget {
                             ],
                           ),
                         ),
-                          const SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, Routes.webViewRoute,
                                 arguments: {
-                                  'url': "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
-                                  'title':
-                                  AppLocale.privacyPolicy.getString(context),
+                                  'url':
+                                      "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
+                                  'title': AppLocale.privacyPolicy
+                                      .getString(context),
                                 });
                           },
                           child: Row(
@@ -432,8 +433,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.privacy_tip_outlined,
@@ -464,7 +465,8 @@ class ProfileScreen extends StatefulWidget {
                             Navigator.pushNamed(context, Routes.webViewRoute,
                                 arguments: {
                                   'url': "https://www.google.com",
-                                  'title': AppLocale.newsBlog.getString(context),
+                                  'title':
+                                      AppLocale.newsBlog.getString(context),
                                 });
                           },
                           child: Row(
@@ -476,8 +478,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.newspaper,
@@ -516,8 +518,8 @@ class ProfileScreen extends StatefulWidget {
                                     padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color: Colors.teal.shade100,
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(5)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(5)),
                                     ),
                                     child: const Icon(
                                       Icons.headset_mic_outlined,
@@ -550,13 +552,14 @@ class ProfileScreen extends StatefulWidget {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text(
-                                      AppLocale.confirmLogout.getString(context),
+                                      AppLocale.confirmLogout
+                                          .getString(context),
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    content: Text(
-                                        AppLocale.sureLogout.getString(context)),
+                                    content: Text(AppLocale.sureLogout
+                                        .getString(context)),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
@@ -578,8 +581,8 @@ class ProfileScreen extends StatefulWidget {
                                           AppPref.setPref(prefModel);
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil(
-                                              Routes.loginRoute, (
-                                              route) => false);
+                                                  Routes.loginRoute,
+                                                  (route) => false);
                                           showSuccessToast(
                                               context,
                                               AppLocale.logoutSuccess
@@ -598,13 +601,14 @@ class ProfileScreen extends StatefulWidget {
                               );
                             },
                             child: Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 3),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 3),
                                 width: screenSize!.width,
                                 height: 50,
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(12)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
                                   boxShadow: [
                                     BoxShadow(
                                       blurRadius: 2,
@@ -615,92 +619,35 @@ class ProfileScreen extends StatefulWidget {
                                 ),
                                 child: Center(
                                     child: Text(
-                                      AppLocale.logOut.getString(context),
-                                      style: const TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.w600),
-                                    )))),
+                                  AppLocale.logOut.getString(context),
+                                  style: const TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w600),
+                                )))),
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text("V 1.1.3", style: TextStyle(
-                            color: Colors.grey),),
+                        const Text(
+                          "V 1.1.4",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
                       ]),
-                    ),);
+                    ),
+                  );
                 }
                 if (snapshot.hasError) {
-                  if (snapshot.error == 'No internet connection') {
-                    return Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.wifi_off,
-                            size: 80,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            AppLocale.noInternet.getString(context),
-                            style: const TextStyle(
-                                fontSize: 24,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            AppLocale.checkInternet.getString(context),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey.shade500),
-                          ),
-                        ],
-                      ),
-                    );
-                  }else {
-                    return Center(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  }
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
                 } else {
                   return Center(
-                      child:
-                      Text(AppLocale.loading.getString(context)));
+                      child: Text(AppLocale.loading.getString(context)));
                 }
               },
-            )
-                : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.wifi_off,
-                    size: 80,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 20),
-                   Text(
-                    AppLocale.noInternet.getString(context),
-                    style: TextStyle(fontSize: 24, color: Colors.grey, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppLocale.checkInternet.getString(context),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
-                  ),
-                ],
-              ),
-            ),
-         );
-          },
-
-          child: const Center(child: CircularProgressIndicator()),
-        );
+            ));
       },
     );
   }

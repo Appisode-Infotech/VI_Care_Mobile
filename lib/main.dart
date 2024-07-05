@@ -15,6 +15,7 @@ import 'package:vicare/dashboard/ui/profile_screen.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
 import 'package:vicare/utils/app_locale.dart';
+import 'package:vicare/utils/no_internet_widget.dart';
 import 'package:vicare/utils/routes.dart';
 
 import 'web_view_screen.dart';
@@ -181,7 +182,8 @@ class _MyAppState extends State<MyApp> {
               Routes.bluetoothScanRoute: (context) => const BluetoothScanPage(),
               Routes.scanLeDevicesToAddRoute: (context) => const ScanLeDevicesToAddScreen(),
               Routes.detailedReportRoute: (context) => const DetailedReportScreen(),
-              Routes.newTestLeRoute: (context) => const NewTestLeScreen()
+              Routes.newTestLeRoute: (context) => const NewTestLeScreen(),
+              Routes.noInternet: (context) => const NoInternetWidget()
             }));
   }
 

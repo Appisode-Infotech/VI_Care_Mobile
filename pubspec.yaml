@@ -65,7 +65,6 @@ dependencies:
   permission_handler: ^11.3.1
   connectivity_plus: ^6.0.3
   toastification: ^2.0.0
-  flutter_offline: ^2.0.0
   location: ^6.0.2
   wakelock: ^0.6.2
   uuid: ^4.4.0
