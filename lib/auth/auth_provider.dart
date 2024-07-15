@@ -67,7 +67,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController registerLandmarkController = TextEditingController();
   TextEditingController registerCityController = TextEditingController();
   TextEditingController registerPinCodeController = TextEditingController();
-  TextEditingController registerContactNumberController = TextEditingController();
+  TextEditingController registerContactNumberController =
+      TextEditingController();
   TextEditingController registerWeightController = TextEditingController();
   TextEditingController registerHeightController = TextEditingController();
   String? registerBloodGroup;
@@ -112,7 +113,7 @@ class AuthProvider extends ChangeNotifier {
     registerPasswordController.clear();
     registerDobController.clear();
     registerStreetController.clear();
-    registerAreaController .clear();
+    registerAreaController.clear();
     registerLandmarkController.clear();
     registerCityController.clear();
     registerContactNumberController.clear();
@@ -121,13 +122,13 @@ class AuthProvider extends ChangeNotifier {
     registerSelectedImage = null;
     registerAs = null;
     registerStateAs = null;
-    registerCountryAs=null;
+    registerCountryAs = null;
     gender = null;
     registerBloodGroup = null;
     otpReceived = null;
     selectedRoleId = null;
-    selectedStateId=null;
-    selectedCountryId=null;
+    selectedStateId = null;
+    selectedCountryId = null;
     selectedGender = null;
     notifyListeners();
   }
@@ -143,9 +144,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> login(BuildContext context) async {
     showLoaderDialog(context);
     RegisterResponseModel response = await apiCalls.loginUser(
-        loginEmailController.text,
-        loginPasswordController.text,
-        context);
+        loginEmailController.text, loginPasswordController.text, context);
     loginEmailController.clear();
     loginPasswordController.clear();
     if (response.result != null) {
@@ -161,7 +160,7 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-   register(BuildContext context) async {
+  register(BuildContext context) async {
     showLoaderDialog(context);
     RegisterResponseModel response = await apiCalls.registerNewUser(
         profilePic: registerSelectedImage,
@@ -183,8 +182,7 @@ class AuthProvider extends ChangeNotifier {
         pinCode: registerPinCodeController.text,
         country: selectedCountryId,
         height: registerHeightController.text,
-        weight: registerWeightController.text
-    );
+        weight: registerWeightController.text);
     if (response.result != null) {
       prefModel.userData = response.result;
       AppPref.setPref(prefModel);
@@ -199,10 +197,11 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtp(BuildContext context) async {
+  Future<SendOtpResponseModel> sendOtp(
+      BuildContext context, String email) async {
     showLoaderDialog(context);
-    SendOtpResponseModel response = await apiCalls.sendOtpToRegister(
-        registerEmailController.text, context);
+    SendOtpResponseModel response =
+        await apiCalls.sendOtpToRegister(email, context);
     Navigator.pop(context);
     if (response.result == null) {
       showErrorToast(context, response.message!);
@@ -220,15 +219,22 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<SendOtpResponseModel> sendOtpForResetPassword() async {
+  Future<SendOtpResponseModel> sendOtpForResetPassword(
+      BuildContext context) async {
     showLoaderDialog(forgotPageContext!);
     SendOtpResponseModel response = await apiCalls.sendOtpToResetPassword(
         forgotPasswordEmailController.text, forgotPageContext!);
     Navigator.pop(forgotPageContext!);
+    if (response.result == null) {
+      showErrorToast(context, response.message!);
+    } else {
+      showSuccessToast(context, response.message!);
+    }
     return response;
   }
 
-  Future<ResetPasswordResponseModel> resetPassword(BuildContext? coContext) async {
+  Future<ResetPasswordResponseModel> resetPassword(
+      BuildContext? coContext) async {
     showLoaderDialog(coContext!);
     ResetPasswordResponseModel response = await apiCalls.resetPassword(
         forgotPasswordEmailController.text,
@@ -241,13 +247,12 @@ class AuthProvider extends ChangeNotifier {
     } else {
       showErrorToast(forgotPageContext!, response.message!);
       Navigator.pop(coContext);
-
     }
     return response;
   }
 
   Future<void> getStateMaster(BuildContext context, String? uniqueGuid) async {
-    stateMasterResponse = await apiCalls.getStateMaster(context,uniqueGuid);
+    stateMasterResponse = await apiCalls.getStateMaster(context, uniqueGuid);
     if (stateMasterResponse!.result!.isEmpty) {
       showErrorToast(context, stateMasterResponse!.message.toString());
     }
@@ -259,5 +264,4 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(context, countryMasterResponse!.message.toString());
     }
   }
-
 }

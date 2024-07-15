@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -16,7 +17,6 @@ import 'package:vicare/database/app_pref.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
 import 'package:vicare/utils/app_colors.dart';
-import 'package:wakelock/wakelock.dart';
 
 import '../../create_patients/model/enterprise_response_model.dart';
 import '../../create_patients/model/individual_response_model.dart';
@@ -69,7 +69,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   @override
   void initState() {
     super.initState();
-    Wakelock.enable();
+    WakelockPlus.enable();
     // Subscribe to Bluetooth state changes
     _bluetoothStateSubscription =
         FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) {
@@ -96,7 +96,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     connectedDevice?.disconnect();
     clearRecordingsData();
     _stopTimer(); // Stop the timer here
-    Wakelock.disable();
+    WakelockPlus.disable();
     super.dispose();
   }
 
@@ -198,10 +198,10 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             if (isFirstTimeLoading) {
               connectedDevice = newTestLeProvider.connectedDevice;
               totalSeconds = selectedDuration!.durationInMinutes! * 60;
-              newTestLeProvider.connectedDevice!.state.listen((state) {
+              newTestLeProvider.connectedDevice!.connectionState.listen((state) {
                 if (mounted) {
                   // Check if the widget is still mounted
-                  if (state == BluetoothDeviceState.disconnected) {
+                  if (state == BluetoothConnectionState.disconnected) {
                     clearRecordingsData();
                     _stopTimer();
                     // Await reset new test
@@ -562,7 +562,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             payload,
             selectedDevice!.serialNumber,
             selectedDevice!.id,
-            connectedDevice!.id.id,
+            connectedDevice!.remoteId.str,
             selectedDuration!.id,
             selectedDuration!.name,
             pId,

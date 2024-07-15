@@ -156,7 +156,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               individualPatientData = snapshot.data;
                               if (isCountsLoaded != true) {
                                 countsData = patientProvider.getCounts(
-                                    snapshot.data!.result!.id!, context);
+                                    individualPatientData!.result!.id!, context);
                                 isCountsLoaded = true;
                               }
                               return Column(
@@ -1730,8 +1730,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             builder: (BuildContext
                                                                 alertContext) {
                                                               return AlertDialog(
-                                                                title: Text(
-                                                                    "Concent"),
+                                                                title: const Text("Consent"),
                                                                 content: Text(
                                                                     "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
                                                                 actions: [
@@ -1741,7 +1740,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                         Navigator.pop(
                                                                             context);
                                                                       },
-                                                                      child: Text(
+                                                                      child: const Text(
                                                                           "Cancel")),
                                                                   TextButton(
                                                                       onPressed:

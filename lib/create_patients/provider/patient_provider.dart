@@ -244,7 +244,7 @@ class PatientProvider extends ChangeNotifier {
         individualPatientData.result!.contact!.doB!.month,
         individualPatientData.result!.contact!.doB!.day,
       );
-      final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
+      final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
       editPatientDobController.text = formattedDob;
       // "${individualPatientData!.result!.contact!.doB!.year}-${individualPatientData.result!.contact!.doB!.month}-${individualPatientData.result!.contact!.doB!.day}";
       editPatientMobileController.text =
@@ -332,7 +332,7 @@ class PatientProvider extends ChangeNotifier {
         enterpriseUserData.result!.contact!.doB!.month,
         enterpriseUserData.result!.contact!.doB!.day,
       );
-      final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
+      final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
       editPatientDobController.text = formattedDob;
       // "${enterpriseUserData!.result!.contact!.doB!.year}-${enterpriseUserData.result!.contact!.doB!.month}-${enterpriseUserData.result!.contact!.doB!.day}";
       editPatientMobileController.text =

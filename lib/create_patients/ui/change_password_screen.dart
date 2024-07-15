@@ -4,8 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:vicare/main.dart';
 
+import '../../auth/model/send_otp_response_model.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_locale.dart';
@@ -21,6 +24,13 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   int currentStep = 1;
   final changePasswordFormKey = GlobalKey<FormState>();
+
+  String? resetPasswordOtp;
+  CountdownController countdownController =
+  CountdownController(autoStart: true);
+  int seconds = 30;
+  bool firstStateEnabled = false;
+
 
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
@@ -246,6 +256,54 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             errorMaxLines: 2,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if (firstStateEnabled) {
+              showLoaderDialog(context);
+              SendOtpResponseModel response =
+              await profileProvider.changePassword(context);
+              profileProvider.resetPasswordOtp =
+                  response.result!.otp;
+              if (response.result != null) {
+                showSuccessToast(context, response.message!);
+              } else {
+                showErrorToast(context, response.message!);
+              }
+              profileProvider.changePasswordOtpController.clear();
+              Navigator.pop(context);
+              setState(() {
+                firstStateEnabled = false;
+                countdownController.restart();
+              });
+            }
+          },
+          child: Countdown(
+            controller: countdownController,
+            seconds: seconds,
+            build: (context, time) => Text(
+              firstStateEnabled
+                  ? 'Resend'
+                  : 'Resend OTP in ${time.round()}',
+              style: TextStyle(
+                color: firstStateEnabled
+                    ? AppColors.primaryColor
+                    : Colors.grey,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            interval: const Duration(seconds: 1),
+            onFinished: () {
+              setState(() {
+                firstStateEnabled =
+                !firstStateEnabled;
+              });
+            },
           ),
         ),
       ],

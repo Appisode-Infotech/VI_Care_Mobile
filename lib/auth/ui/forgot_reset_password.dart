@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:vicare/auth/auth_provider.dart';
 
 import '../../main.dart';
@@ -23,7 +25,11 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
   int currentStep = 1;
 
   String? resetPasswordOtp;
-
+  CountdownController countdownController =
+  CountdownController(autoStart: true);
+  int seconds = 30;
+  bool firstStateEnabled = false;
+  
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
   }
@@ -153,7 +159,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                             if (authProvider.forgotPasswordFormKey.currentState!
                                 .validate()) {
                               SendOtpResponseModel response =
-                              await authProvider.sendOtpForResetPassword();
+                              await authProvider.sendOtpForResetPassword(context);
                               if (response.result != null) {
                                 showSuccessToast(context, response.message!);
                                 resetPasswordOtp = response.result!.otp;
@@ -251,6 +257,37 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
           height: 10,
         ),
         TextFormField(
+          enabled: false,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          controller: authProvider.forgotPasswordEmailController,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintText: AppLocale.email.getString(context),
+            counterText: "",
+            isCollapsed: true,
+            errorStyle: const TextStyle(color: Colors.red,overflow: TextOverflow.ellipsis),
+            errorMaxLines: 2,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.forgotPasswordOtpController,
           validator: (value) {
@@ -284,6 +321,50 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if (firstStateEnabled) {
+              SendOtpResponseModel response =
+              await authProvider
+                  .sendOtpForResetPassword(context);
+              authProvider.otpReceived =
+                  response.result!.otp;
+              authProvider
+                  .registerOtpController
+                  .clear();
+              setState(() {
+                firstStateEnabled = false;
+                countdownController.restart();
+              });
+            }
+          },
+          child: Countdown(
+            controller: countdownController,
+            seconds: seconds,
+            build: (context, time) => Text(
+              firstStateEnabled
+                  ? 'Resend'
+                  : 'Resend OTP in ${time.round()}',
+              style: TextStyle(
+                color: firstStateEnabled
+                    ? AppColors.primaryColor
+                    : Colors.grey,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            interval: const Duration(seconds: 1),
+            onFinished: () {
+              setState(() {
+                firstStateEnabled =
+                !firstStateEnabled;
+              });
+            },
           ),
         ),
         const SizedBox(

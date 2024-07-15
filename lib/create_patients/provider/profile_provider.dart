@@ -61,7 +61,7 @@ class ProfileProvider extends ChangeNotifier {
       prefModel.userData!.contact!.doB!.month,
       prefModel.userData!.contact!.doB!.day,
     );
-    final String formattedDob = DateFormat('MM-dd-yyyy').format(dob);
+    final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
     editProfileDobController.text = formattedDob;
     // editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
     editProfileContactNumberController.text =

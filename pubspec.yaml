@@ -46,13 +46,13 @@ dependencies:
   syncfusion_flutter_charts: ^26.1.38
   syncfusion_flutter_gauges: ^26.1.38
   percent_indicator: ^4.2.3
-  http: ^1.2.0
+  http: ^1.2.1
   shared_preferences: ^2.2.2
   provider: ^6.1.1
   http_parser: ^4.0.2
   lottie: ^3.0.0
   shimmer: ^3.0.0
-  image_cropper: ^7.0.4
+  image_cropper: ^7.1.0
   real_time_chart: ^0.0.1
   fl_chart: ^0.68.0
   flutter_charts: ^0.5.2
@@ -65,11 +65,12 @@ dependencies:
   permission_handler: ^11.3.1
   connectivity_plus: ^6.0.3
   toastification: ^2.0.0
-  location: ^6.0.2
-  wakelock: ^0.6.2
+  location: ^7.0.0
   uuid: ^4.4.0
   flutter_blue_plus: ^1.32.8
-  network_info_plus: ^3.0.5
+  network_info_plus: ^5.0.3
+  wakelock_plus: ^1.2.5
+  timer_count_down: ^2.2.2
 
 dev_dependencies:
   flutter_test:

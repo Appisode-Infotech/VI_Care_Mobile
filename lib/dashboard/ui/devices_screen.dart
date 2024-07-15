@@ -144,6 +144,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                           2
                                           ? 'LE'
                                           : 'Classic'),
+                                  _buildRow(
+                                      "Device Status",
+                                      snapshot.data!.result![index]
+                                          .device!.deviceStatus==1
+                                  ?'Active':'Inactive'),
                                 ],
                               ),
                             ),

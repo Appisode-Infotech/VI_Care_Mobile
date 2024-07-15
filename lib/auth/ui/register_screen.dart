@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:vicare/auth/auth_provider.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/utils/app_colors.dart';
@@ -28,6 +30,11 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   int currentStep = 1;
+  String? resetPasswordOtp;
+  CountdownController countdownController =
+  CountdownController(autoStart: true);
+  int seconds = 30;
+  bool firstStateEnabled = false;
 
   Color getIndicatorColor(int step) {
     return currentStep >= step ? AppColors.primaryColor : Colors.grey;
@@ -136,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               if (currentStep == 1) {
                                                 SendOtpResponseModel response =
                                                     await authProvider
-                                                        .sendOtp(context);
+                                                        .sendOtp(context,authProvider.registerEmailController.text);
                                                 authProvider.otpReceived =
                                                     response.result!.otp;
                                                 authProvider
@@ -468,6 +475,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if (firstStateEnabled) {
+              SendOtpResponseModel response =
+              await authProvider
+                  .sendOtp(context,authProvider.registerEmailController.text);
+              authProvider.otpReceived =
+                  response.result!.otp;
+              authProvider
+                  .registerOtpController
+                  .clear();
+              setState(() {
+                firstStateEnabled = false;
+                countdownController.restart();
+              });
+            }
+          },
+          child: Countdown(
+            controller: countdownController,
+            seconds: seconds,
+            build: (context, time) => Text(
+              firstStateEnabled
+                  ? 'Resend'
+                  : 'Resend OTP in ${time.round()}',
+              style: TextStyle(
+                color: firstStateEnabled
+                    ? AppColors.primaryColor
+                    : Colors.grey,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            interval: const Duration(seconds: 1),
+            onFinished: () {
+              setState(() {
+                firstStateEnabled =
+                !firstStateEnabled;
+              });
+            },
           ),
         ),
       ],

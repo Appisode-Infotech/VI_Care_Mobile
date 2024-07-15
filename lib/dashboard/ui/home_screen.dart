@@ -785,8 +785,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    if (index ==
-                                        snapshot.data!.result!.length) {
+                                    if (index == 0) {
                                       return InkWell(
                                         onTap: () async {
                                           showLoaderDialog(context);
@@ -858,6 +857,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     } else {
+                                      index = index - 1;
                                       return InkWell(
                                         onTap: () {
                                           Navigator.pushNamed(context,

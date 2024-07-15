@@ -367,7 +367,7 @@ class TakeTestProvider extends ChangeNotifier {
 
   getMyReports(
       String? reportTime, String? reportStatus, BuildContext context) async {
-    myReports = apiCalls.getMyReports(reportTime, reportStatus, null, context);
+    myReports = apiCalls.getMyReports(reportTime, reportStatus, 'null', context);
   }
 
   Future<MyReportsResponseModel> getMyReportsWithFilter(String? reportTime,

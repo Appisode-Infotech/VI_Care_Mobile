@@ -180,7 +180,6 @@ class ApiCalls {
     } on SocketException {
       if (!NoInternetManager().isShowing) {
         NoInternetManager().setShowing(true);
-        print("case1");
         Completer<http.Response> completer = Completer();
         Navigator.pushNamed(context, Routes.noInternet).then((_) async {
           NoInternetManager().setShowing(false);
@@ -196,7 +195,6 @@ class ApiCalls {
         });
         return completer.future;
       } else {
-        print("case3");
         await Future.delayed(
             const Duration(seconds: 1)); // wait for a second before retrying
         return hitApiGet(requiresAuth, url, context);
@@ -358,7 +356,7 @@ class ApiCalls {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       Navigator.pop(buildContext);
-      showErrorToast(buildContext, "Something went wrong");
+      showErrorToast(buildContext, json.decode(response.body)['message']);
       throw "could not login ${response.statusCode}";
     }
   }
