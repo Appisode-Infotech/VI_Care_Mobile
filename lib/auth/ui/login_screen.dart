@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final loginFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           body: SafeArea(
             child: Form(
-              key: authProvider.loginFormKey,
+              key: loginFormKey,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -204,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           getPrimaryAppButton(
                               context, AppLocale.signIn.getString(context),
                               onPressed: () async {
-                            if (authProvider.loginFormKey.currentState!
+                            if (loginFormKey.currentState!
                                 .validate()) {
                               authProvider.login(context);
                             }
@@ -228,7 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               showLoaderDialog(context);
                               authProvider.loginEmailController.clear();
                               authProvider.loginPasswordController.clear();
-                              authProvider.loginFormKey.currentState!.reset();
                               authProvider.clearRegisterForm();
                               await authProvider.getRoleMasters(context);
                              await authProvider.getCountryMaster(context);

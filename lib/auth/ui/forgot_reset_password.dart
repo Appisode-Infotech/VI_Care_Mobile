@@ -22,6 +22,7 @@ class ForgotResetPassword extends StatefulWidget {
 }
 
 class _ForgotResetPasswordState extends State<ForgotResetPassword> {
+  final forgotPasswordFormKey = GlobalKey<FormState>();
   int currentStep = 1;
 
   String? resetPasswordOtp;
@@ -45,7 +46,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             backgroundColor: AppColors.scaffoldColor,
           ),
           body: Form(
-            key: authProvider.forgotPasswordFormKey,
+            key: forgotPasswordFormKey,
             child: SingleChildScrollView(
               child: Padding(
                 padding:
@@ -156,7 +157,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                           context,
                           AppLocale.next.getString(context),
                           onPressed: () async {
-                            if (authProvider.forgotPasswordFormKey.currentState!
+                            if (forgotPasswordFormKey.currentState!
                                 .validate()) {
                               SendOtpResponseModel response =
                               await authProvider.sendOtpForResetPassword(context);
@@ -175,7 +176,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                           context,
                           AppLocale.next.getString(context),
                           onPressed: () async {
-                            if (authProvider.forgotPasswordFormKey.currentState!
+                            if (forgotPasswordFormKey.currentState!
                                 .validate()) {
                               if (resetPasswordOtp ==
                                   authProvider.forgotPasswordOtpController.text) {

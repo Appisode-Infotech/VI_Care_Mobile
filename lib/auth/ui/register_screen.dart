@@ -29,6 +29,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final registerFormKey = GlobalKey<FormState>();
+  
   int currentStep = 1;
   String? resetPasswordOtp;
   CountdownController countdownController =
@@ -50,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: AppColors.scaffoldColor,
           ),
           body: Form(
-            key: authProvider.registerFormKey,
+            key: registerFormKey,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,8 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           context,
                                           AppLocale.next.getString(context),
                                           onPressed: () async {
-                                            if (authProvider
-                                                .registerFormKey.currentState!
+                                            if (registerFormKey.currentState!
                                                 .validate()) {
                                               if (currentStep == 1) {
                                                 SendOtpResponseModel response =
@@ -180,8 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           AppLocale.proceedToSignUp
                                               .getString(context),
                                           onPressed: () async {
-                                            if (authProvider
-                                                .registerFormKey.currentState!
+                                            if (registerFormKey.currentState!
                                                 .validate()) {
                                               // if (authProvider
                                               //     .registerSelectedImage ==

@@ -48,13 +48,11 @@ class AuthProvider extends ChangeNotifier {
   RoleMasterResponseModel? masterRolesResponse;
 
   // Login page declarations
-  final loginFormKey = GlobalKey<FormState>();
   bool loginIsShowPassword = true;
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
 
   // Register page declarations
-  final registerFormKey = GlobalKey<FormState>();
   bool registerIsShowPassword = true;
   TextEditingController registerFirstName = TextEditingController();
   TextEditingController registerLastName = TextEditingController();
@@ -87,7 +85,6 @@ class AuthProvider extends ChangeNotifier {
   String? gender;
 
   // Forgot password page declarations
-  final forgotPasswordFormKey = GlobalKey<FormState>();
   bool forgotPasswordIsShowPassword = true;
   bool forgotPasswordIsConfirmPassword = true;
   BuildContext? forgotPageContext;
@@ -102,7 +99,6 @@ class AuthProvider extends ChangeNotifier {
   clearLoginForm() {
     loginEmailController.clear();
     loginPasswordController.clear();
-    loginFormKey.currentState!.reset();
     notifyListeners();
   }
 

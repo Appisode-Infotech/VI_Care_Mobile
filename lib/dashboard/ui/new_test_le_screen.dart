@@ -21,6 +21,7 @@ import 'package:vicare/utils/app_colors.dart';
 import '../../create_patients/model/enterprise_response_model.dart';
 import '../../create_patients/model/individual_response_model.dart';
 import '../../utils/app_locale.dart';
+import '../model/check_device_exists_response_model.dart';
 import '../model/device_response_model.dart';
 import '../model/duration_response_model.dart';
 
@@ -346,8 +347,13 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                 context, AppLocale.start.getString(context),
                                 onPressed: () async {
                                 showLoaderDialog(context);
-                              await startRecordingReadings();
-                              _startTimer(newTestLeProvider);
+                                CheckDeviceExistsResponseModel response = await newTestLeProvider.checkIsDeviceExists(selectedDevice!.id,context);
+                                if(response.result!=null){
+                                  await startRecordingReadings();
+                                  _startTimer(newTestLeProvider);
+                                }else{
+                                  showErrorToast(context, "Invalid device");
+                                }
                               Navigator.pop(context);
                             }),
                           ),

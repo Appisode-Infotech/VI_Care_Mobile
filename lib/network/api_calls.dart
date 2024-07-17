@@ -29,6 +29,7 @@ import '../auth/model/role_master_response_model.dart';
 import '../create_patients/model/all_enterprise_users_response_model.dart';
 import '../create_patients/model/check_request_count_model.dart';
 import '../create_patients/model/dashboard_count_response_model.dart';
+import '../dashboard/model/check_device_exists_response_model.dart';
 import '../dashboard/model/detailed_report_ddf_model.dart';
 import '../dashboard/model/duration_response_model.dart';
 import '../dashboard/model/my_reports_response_model.dart';
@@ -1166,7 +1167,8 @@ class ApiCalls {
     } else if (reportStatus == 'Fail') {
       reportStatusType = 4;
     }
-    String url = "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
+    String url =
+        "${UrlConstants.getRequestBySearchFilter}/${prefModel.userData!.id}";
 
     if (timeType != 0 || reportStatusType != 0 || patientId != 'null') {
       url += "?";
@@ -1349,6 +1351,21 @@ class ApiCalls {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       throw "could not get the userdata ${response.statusCode}";
+    }
+  }
+
+  checkIsDeviceExists(int? deviceId, BuildContext context) async {
+    http.Response response = await hitApiPost(
+        true,
+        "${UrlConstants.checkIsDeviceExists}${prefModel.userData!.id}/$deviceId",
+        jsonEncode({"userId": prefModel.userData!.id.toString(),"DeviceId":deviceId.toString()}),
+        context);
+    if (response.statusCode == 200) {
+      return CheckDeviceExistsResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
+      throw "could not send otp ${response.statusCode}";
     }
   }
 }

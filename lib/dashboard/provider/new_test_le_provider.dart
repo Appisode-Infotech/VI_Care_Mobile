@@ -13,6 +13,7 @@ import 'package:vicare/utils/app_buttons.dart';
 
 import '../../database/app_pref.dart';
 import '../../utils/app_locale.dart';
+import '../model/check_device_exists_response_model.dart';
 import '../model/device_data_response_model.dart';
 import '../model/offline_test_model.dart';
 
@@ -141,5 +142,9 @@ class NewTestLeProvider extends ChangeNotifier {
       showErrorToast(
           dataContext, AppLocale.testSavedOffline.getString(dataContext));
     }
+  }
+
+  Future<CheckDeviceExistsResponseModel>checkIsDeviceExists(int? deviceId, BuildContext context) async {
+  return await apiCalls.checkIsDeviceExists(deviceId,context);
   }
 }
