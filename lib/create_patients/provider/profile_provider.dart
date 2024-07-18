@@ -201,13 +201,19 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<void> editProfile() async {
     showLoaderDialog(editProfilePageContext!);
+    DateFormat inputFormat = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = inputFormat.parse(editProfileDobController.text);
+
+    // Format the date in the desired output format
+    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+    String formattedDate = outputFormat.format(dateTime);
     RegisterResponseModel response = await apiCalls.editProfile(
         editProfileFirstNameController.text,
         editProfileLastNameController.text,
         editProfileContactNumberController.text,
         editProfileBloodGroup!,
         editProfileGender!,
-        editProfileDobController.text,
+        formattedDate,
         editProfileSelectedImage,
         editProfilePageContext!,
         prefModel.userData!.id,

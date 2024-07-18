@@ -153,6 +153,8 @@ class PatientProvider extends ChangeNotifier {
   }
 
   addNewPatient() async {
+    showLoaderDialog(addNewPatientContext!);
+
     DateFormat inputFormat = DateFormat('dd-MM-yyyy');
     DateTime dateTime = inputFormat.parse(addNewPatientDobController.text);
 
@@ -170,7 +172,6 @@ class PatientProvider extends ChangeNotifier {
         ? genderMap[addNewPatientGender]!
         : genderMap["Do not wish to specify"]!;
 
-    showLoaderDialog(addNewPatientContext!);
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response =
           await apiCalls.addIndividualProfile(
@@ -195,6 +196,10 @@ class PatientProvider extends ChangeNotifier {
               weightController.text);
       if (response.result != null) {
         showSuccessToast(addNewPatientContext!, response.message!);
+        Navigator.pop(addNewPatientContext!);
+        Navigator.pop(addNewPatientContext!);
+      }else{
+        showErrorToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
       }
@@ -226,8 +231,9 @@ class PatientProvider extends ChangeNotifier {
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
       } else {
-        Navigator.pop(addNewPatientContext!);
         showErrorToast(addNewPatientContext!, response.message!);
+        Navigator.pop(addNewPatientContext!);
+        Navigator.pop(addNewPatientContext!);
       }
     }
   }
@@ -412,6 +418,13 @@ class PatientProvider extends ChangeNotifier {
   editPatient(IndividualResponseModel? individualPatientData,
       EnterpriseResponseModel? enterpriseUserData) async {
     showLoaderDialog(editPatientPageContext!);
+    DateFormat inputFormat = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = inputFormat.parse(editPatientDobController.text);
+
+    // Format the date in the desired output format
+    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+    String formattedDate = outputFormat.format(dateTime);
+
     Map<String, String> genderMap = {
       "Male": "1",
       "Female": "2",
@@ -419,7 +432,7 @@ class PatientProvider extends ChangeNotifier {
     };
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response = await apiCalls.editPatient(
-          editPatientDobController.text,
+          formattedDate,
           editPatientMobileController.text,
           editPatientEmailController.text,
           editPatientFirstNameController.text,
@@ -452,7 +465,7 @@ class PatientProvider extends ChangeNotifier {
         editPatientEmailController.text,
         editPatientFirstNameController.text,
         editPatientLastNameController.text,
-        editPatientDobController.text,
+            formattedDate,
         editPatientAddressController.text,
         editPatientMobileController.text,
         genderMap[editPatientGender]!,
@@ -543,7 +556,6 @@ class PatientProvider extends ChangeNotifier {
 
   Future<void> getCountryMaster(BuildContext context) async {
     countryMasterResponse = await apiCalls.getCountryMaster(context);
-    print(countryMasterResponse?.toJson());
     if (countryMasterResponse!.result!.isEmpty) {
       showErrorToast(context, countryMasterResponse!.message.toString());
     }
