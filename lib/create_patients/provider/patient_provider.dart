@@ -543,6 +543,7 @@ class PatientProvider extends ChangeNotifier {
 
   Future<void> getCountryMaster(BuildContext context) async {
     countryMasterResponse = await apiCalls.getCountryMaster(context);
+    print(countryMasterResponse?.toJson());
     if (countryMasterResponse!.result!.isEmpty) {
       showErrorToast(context, countryMasterResponse!.message.toString());
     }

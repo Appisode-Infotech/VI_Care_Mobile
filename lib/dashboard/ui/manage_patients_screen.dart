@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:vicare/create_patients/model/all_patients_response_model.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
+import 'package:vicare/utils/app_buttons.dart';
 
 import '../../create_patients/model/all_enterprise_users_response_model.dart';
 import '../../main.dart';
@@ -124,9 +125,10 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                     if (index == 0) {
                                       return InkWell(
                                         onTap: () async {
+                                          showLoaderDialog(context);
                                           patientProvider.clearAddPatientForm();
-                                          await patientProvider
-                                              .getCountryMaster(context);
+                                          await patientProvider.getCountryMaster(context);
+                                          Navigator.pop(context);
                                           Navigator.pushNamed(context,
                                                   Routes.addNewPatientRoute)
                                               .then((value) {
@@ -329,8 +331,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                       (BuildContext context, int index) {
                                     if (index == 0) {
                                       return InkWell(
-                                        onTap: () {
+                                        onTap: () async {
+                                          showLoaderDialog(context);
                                           patientProvider.clearAddPatientForm();
+                                          await patientProvider.getCountryMaster(context);
+                                          Navigator.pop(context);
                                           Navigator.pushNamed(context,
                                                   Routes.addNewPatientRoute)
                                               .then((value) {
