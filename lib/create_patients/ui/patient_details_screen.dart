@@ -156,7 +156,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                               individualPatientData = snapshot.data;
                               if (isCountsLoaded != true) {
                                 countsData = patientProvider.getCounts(
-                                    individualPatientData!.result!.id!, context);
+                                    individualPatientData!.result!.id!,
+                                    context);
                                 isCountsLoaded = true;
                               }
                               return Column(
@@ -275,7 +276,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                         Routes.summaryRoute,
                                                         arguments: {
                                                           'pId': pId
-                                                        });
+                                                        }).then((value) {
+                                                      setState(() {
+                                                        patientProvider
+                                                            .getUserDetails(
+                                                                context);
+                                                        isLoaded = false;
+                                                        isCountsLoaded = false;
+                                                      });
+                                                    });
                                                   },
                                                   child: Container(
                                                       padding: const EdgeInsets
@@ -690,8 +699,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             builder: (BuildContext
                                                                 alertContext) {
                                                               return AlertDialog(
-                                                                title: Text(
-                                                                    AppLocale.conCent.getString(context)),
+                                                                title: Text(AppLocale
+                                                                    .conCent
+                                                                    .getString(
+                                                                        context)),
                                                                 content: Text(
                                                                     "${AppLocale.confirmRecordShare.getString(context)} ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"}${AppLocale.forImprovements.getString(context)}"),
                                                                 actions: [
@@ -701,8 +712,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                         Navigator.pop(
                                                                             context);
                                                                       },
-                                                                      child: Text(
-                                                                          AppLocale.cancel.getString(context))),
+                                                                      child: Text(AppLocale
+                                                                          .cancel
+                                                                          .getString(
+                                                                              context))),
                                                                   TextButton(
                                                                       onPressed:
                                                                           () async {
@@ -751,8 +764,10 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               AppLocale.denyLocation.getString(context));
                                                                         }
                                                                       },
-                                                                      child: Text(
-                                                                          AppLocale.agree.getString(context))),
+                                                                      child: Text(AppLocale
+                                                                          .agree
+                                                                          .getString(
+                                                                              context))),
                                                                 ],
                                                               );
                                                             });
@@ -830,7 +845,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     arguments: {
                                                       "patientId": snapshot
                                                           .data!.result!.id,
-                                                    });
+                                                    }).then((value) {
+                                                  setState(() {
+                                                    patientProvider
+                                                        .getUserDetails(
+                                                            context);
+                                                    isLoaded = false;
+                                                    isCountsLoaded = false;
+                                                  });
+                                                });
                                               },
                                               child: Row(
                                                 children: [
@@ -939,7 +962,18 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                         .result![
                                                                             index]
                                                                         .id,
-                                                                  });
+                                                                  }).then(
+                                                                  (value) {
+                                                                setState(() {
+                                                                  patientProvider
+                                                                      .getUserDetails(
+                                                                          context);
+                                                                  isLoaded =
+                                                                      false;
+                                                                  isCountsLoaded =
+                                                                      false;
+                                                                });
+                                                              });
                                                             } else if (patientSnapshot
                                                                     .data!
                                                                     .result![
@@ -948,11 +982,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 2) {
                                                               showErrorToast(
                                                                   context,
-                                                                  AppLocale.reportsNotReady.getString(context));
+                                                                  AppLocale
+                                                                      .reportsNotReady
+                                                                      .getString(
+                                                                          context));
                                                             } else {
                                                               showErrorToast(
                                                                   context,
-                                                                  AppLocale.reportsFailedGenerate.getString(context));
+                                                                  AppLocale
+                                                                      .reportsFailedGenerate
+                                                                      .getString(
+                                                                          context));
                                                             }
                                                           },
                                                           child: Column(
@@ -1328,7 +1368,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                         Routes.summaryRoute,
                                                         arguments: {
                                                           'pId': pId
-                                                        });
+                                                        }).then((value) {
+                                                      setState(() {
+                                                        patientProvider
+                                                            .getUserDetails(
+                                                                context);
+                                                        isLoaded = false;
+                                                        isCountsLoaded = false;
+                                                      });
+                                                    });
                                                   },
                                                   child: Container(
                                                       padding: const EdgeInsets
@@ -1513,13 +1561,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 4,
                                                         child: Center(
                                                           child: Text(
-                                                            double.parse(
-                                                                    countSnapshot
-                                                                        .data!
-                                                                        .result!
-                                                                        .readinessScore!)
-                                                                .toStringAsFixed(
-                                                                    0),
+                                                            (countSnapshot.data?.result?.readinessScore != null
+                                                                ? double.parse(countSnapshot.data!.result!.readinessScore!).toStringAsFixed(0)
+                                                                : '0.0'),
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: const TextStyle(
@@ -1730,7 +1774,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                             builder: (BuildContext
                                                                 alertContext) {
                                                               return AlertDialog(
-                                                                title: const Text("Consent"),
+                                                                title: const Text(
+                                                                    "Consent"),
                                                                 content: Text(
                                                                     "By confirming, you agree to share the recorded scan data with ${prefModel.userData!.roleId == 2 ? "Platform" : prefModel.userData!.roleId == 3 ? "Doctor" : "Coach"} for improvements"),
                                                                 actions: [
@@ -1973,7 +2018,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                     arguments: {
                                                       "patientId": snapshot
                                                           .data!.result!.id,
-                                                    });
+                                                    }).then((value) {
+                                                  setState(() {
+                                                    patientProvider
+                                                        .getUserDetails(
+                                                            context);
+                                                    isLoaded = false;
+                                                    isCountsLoaded = false;
+                                                  });
+                                                });
                                               },
                                               child: Row(
                                                 children: [

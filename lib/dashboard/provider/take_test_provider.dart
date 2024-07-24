@@ -77,7 +77,7 @@ class TakeTestProvider extends ChangeNotifier {
     } catch (e) {
       Navigator.pop(context);
       showErrorToast(context,
-          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}');
+          '${AppLocale.errorConnecting.getString(context)} ${device.platformName} ${AppLocale.tryAgain.getString(context)}');
     }
   }
 
@@ -98,7 +98,7 @@ class TakeTestProvider extends ChangeNotifier {
     } catch (e) {
       Navigator.pop(context);
       showErrorToast(context,
-          '${AppLocale.errorConnecting.getString(context)} ${device.platformName}');
+          '${AppLocale.errorConnecting.getString(context)} ${device.platformName} ${AppLocale.tryAgain.getString(context)}');
     }
   }
 

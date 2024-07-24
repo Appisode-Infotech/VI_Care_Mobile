@@ -173,6 +173,7 @@ mixin AppLocale {
   static const String abortConfirm = 'abortConfirm';
   static const String deviceDisconnected = 'deviceDisconnected';
   static const String errorConnecting = 'errorConnecting';
+  static const String tryAgain = 'tryAgain';
   static const String validGender = 'validGender';
   static const String camera = 'camera';
   static const String gallery = 'gallery';
@@ -515,7 +516,8 @@ mixin AppLocale {
     bpm: 'BPM',
     country: "Country",
     startNewScan: 'Start a new scan for',
-    errorConnecting: 'Error connecting to',
+    errorConnecting: 'Unable to connect to',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'Disconnected from device',
     summary: "Summary",
     readiness: "Latest\nreadiness\nscore",
@@ -787,6 +789,7 @@ mixin AppLocale {
         'ನಿಮ್ಮ ಬ್ಲೂಟೂತ್ ಆಫ್ ಇದೆಯೇ ಇಲ್ಲವೇ ಅಂತಲ್ಲಾದರೆ ಅದನ್ನು ಚಾಲನೆ ಮಾಡಿ ಮುಂದುವರಿಸಿ.',
     bluetoothTurnOn: 'ಚಾಲನೆ ಮಾಡಿ',
     errorConnecting: 'ಸಂಪರ್ಕಿಸುವಲ್ಲಿ ತಪ್ಪಾಗಿದೆ',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'ಸಾಧನದಿಂದ ಸಂಪರ್ಕ ಕಳೆದುಕೊಂಡಿದೆ',
     connectedTo: 'ಸಂಪರ್ಕಿಸಿದೆ',
     disconnect: 'ವಿಯೋಗ',
@@ -1188,6 +1191,7 @@ mixin AppLocale {
         'लगता है कि आपका ब्लूटूथ बंद है। जारी रखने के लिए इसे चालू करें।',
     bluetoothTurnOn: ' चालू करें',
     errorConnecting: 'कनेक्ट करते समय त्रुटि',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'उपकरण से डिस्कनेक्ट',
     connectedTo: 'कनेक्ट किया गया है',
     disconnect: 'डिस्कनेक्ट',
@@ -1568,6 +1572,7 @@ mixin AppLocale {
         'Das Trennen während des Tests führt zum Verlust der aufgezeichneten Daten für diesen Test.',
     disconnectConfirm: 'Sind Sie sicher, dass Sie trennen möchten?',
     errorConnecting: 'Fehler beim Verbinden mit',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'Vom Gerät getrennt',
     connectedTo: 'Verbunden mit',
     disconnect: 'Trennen',
@@ -1962,6 +1967,7 @@ mixin AppLocale {
         'మీ బ్లూటూత్ ఆఫ్ ఉందని అనిపించింది. కొనసాగించడానికి అదనంతటి ప్రారంభించండి. ',
     bluetoothTurnOn: 'ఆన్ చేయండి ',
     errorConnecting: 'కనెక్ట్ చేసేందుకు దోషం',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'ఉపకరణం నుండి డిస్కనెక్ట్ చేయబడింది',
     connectedTo: 'కనెక్ట్ చేయబడినది',
     disconnect: 'డిస్‌కనెక్ట్',
@@ -2364,6 +2370,7 @@ mixin AppLocale {
     delete: "நீக்கு",
     editPatients: "நோயாளி திருத்து",
     errorConnecting: 'இணையும் போது பிழை',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'சாதனத்திலிருந்து இணைப்பு இருக்காது',
     noConnectedDevice: "இணைக்கப்பட்ட சாதனம் இல்லை",
     connectNow: "இப்போது இணைக்கவும்",
@@ -2728,6 +2735,7 @@ mixin AppLocale {
         'നിങ്ങളുടെ ബ്ലൂടൂത്ത് ഓഫാണെന്നു തോന്നുന്നു. തുടരുന്നതിന് അതെ ഓൺ ചെയ്യുക.',
     bluetoothTurnOn: 'ഓണാക്കുക',
     errorConnecting: 'കണക്ഷന്‍ ചെയ്യുമ്പോള്‍ പിശക്',
+    tryAgain: 'Please try again later',
     deviceDisconnected: 'ഉപകരണം ഡിസ്‌കണെക്റ്റ് ചെയ്തു',
     connectedTo: 'കണക്ഷൻ ചെയ്തിടുന്നു',
     disconnect: 'ഡിസ്‌കണെക്റ്റ്',

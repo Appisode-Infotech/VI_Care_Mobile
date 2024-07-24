@@ -138,16 +138,19 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
-                                            AppLocale.bpmMean.getString(context),
+                                          Text(
+                                            AppLocale.bpmMean
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context,
-                                                   AppLocale.bpmMeanDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.bpmMeanDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -160,10 +163,14 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         primaryXAxis: NumericAxis(
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.bpm.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.bpm
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -215,7 +222,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
+                                          Text(
                                             AppLocale.ari.getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -223,7 +230,10 @@ class _SummaryScreenState extends State<SummaryScreen>
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context, AppLocale.ariDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.ariDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -234,12 +244,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.ari.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.ari
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -286,16 +300,20 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [ Text(
-                                            AppLocale.vlfPower.getString(context),
+                                        children: [
+                                          Text(
+                                            AppLocale.vlfPower
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context,
-                                                    AppLocale.vlfDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.vlfDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -306,13 +324,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(
-                                              text: AppLocale.vlfPower.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.vlfPower
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -365,16 +386,19 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
-                                            AppLocale.lfPower.getString(context),
+                                          Text(
+                                            AppLocale.lfPower
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context,
-                                                   AppLocale.lfPowerDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.lfPowerDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -385,13 +409,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(
-                                              text: AppLocale.lfPower.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.lfPower
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -444,16 +471,19 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
-                                            AppLocale.hfPower.getString(context),
+                                          Text(
+                                            AppLocale.hfPower
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context,
-                                                    AppLocale.hfPowerDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.hfPowerDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -464,12 +494,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
-                                          maximum: _calculateMaxCount(j).toDouble(),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
+                                          maximum:
+                                              _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(
-                                              text: AppLocale.hfPower.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.hfPower
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -522,15 +556,20 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
-                                            AppLocale.totalPower.getString(context),
+                                          Text(
+                                            AppLocale.totalPower
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context, AppLocale.totalPowerDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale
+                                                        .totalPowerDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -541,13 +580,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(
-                                              text: AppLocale.totalPower.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.totalPower
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -600,7 +642,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
+                                          Text(
                                             AppLocale.lfHf.getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -608,8 +650,10 @@ class _SummaryScreenState extends State<SummaryScreen>
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context,
-                                                    AppLocale.lfHfDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.lfHfDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -620,12 +664,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title: AxisTitle(text: AppLocale.lfHf.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.lfHf
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -677,7 +725,7 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
+                                          Text(
                                             AppLocale.sdrr.getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -685,8 +733,10 @@ class _SummaryScreenState extends State<SummaryScreen>
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context,
-  AppLocale.sdrrDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.sdrrDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -697,12 +747,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.sdrrDescription.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.sdrr.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.sdrr
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[
@@ -754,15 +808,19 @@ class _SummaryScreenState extends State<SummaryScreen>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                           Text(
-                                            AppLocale.rmssdrr.getString(context),
+                                          Text(
+                                            AppLocale.rmssdrr
+                                                .getString(context),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 18),
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                showInfoDialog(context, AppLocale.rmssdrrDescription.getString(context));
+                                                showInfoDialog(
+                                                    context,
+                                                    AppLocale.rmssdrrDescription
+                                                        .getString(context));
                                               },
                                               child: const Icon(
                                                   Icons.info_outline))
@@ -773,12 +831,16 @@ class _SummaryScreenState extends State<SummaryScreen>
                                       ),
                                       SfCartesianChart(
                                         primaryXAxis: NumericAxis(
-                                          title:  AxisTitle(text: AppLocale.days.getString(context)),
+                                          title: AxisTitle(
+                                              text: AppLocale.days
+                                                  .getString(context)),
                                           maximum:
                                               _calculateMaxCount(j).toDouble(),
                                         ),
-                                        primaryYAxis:  NumericAxis(
-                                          title: AxisTitle(text: AppLocale.rmssdrr.getString(context)),
+                                        primaryYAxis: NumericAxis(
+                                          title: AxisTitle(
+                                              text: AppLocale.rmssdrr
+                                                  .getString(context)),
                                         ),
                                         series: <LineSeries<ScatterPoint,
                                             double>>[

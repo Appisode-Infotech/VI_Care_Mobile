@@ -21,20 +21,22 @@ class ManagePatientsScreen extends StatefulWidget {
 }
 
 class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _fetchData();
   }
 
-  void _fetchData() {
-    final patientProvider =
-        Provider.of<PatientProvider>(context, listen: false);
+  Future<void> _fetchData() async {
+    final patientProvider = Provider.of<PatientProvider>(context, listen: false);
     if (prefModel.userData!.roleId == 2) {
-      patientProvider.getMyPatients(context);
+      await patientProvider.getMyPatients(context);
     } else {
-      patientProvider.getEnterpriseProfiles(context);
+      await patientProvider.getEnterpriseProfiles(context);
     }
+    setState(() {});
   }
 
   @override
@@ -44,6 +46,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
           Widget? child) {
         patientProvider.relGetPatientContext = context;
         return Scaffold(
+            key: _scaffoldKey,
             appBar: AppBar(
               title: Text(
                 prefModel.userData!.roleId == 2
@@ -125,11 +128,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                     if (index == 0) {
                                       return InkWell(
                                         onTap: () async {
-                                          showLoaderDialog(context);
+                                          showLoaderDialog(_scaffoldKey.currentContext!);
                                           patientProvider.clearAddPatientForm();
                                           await patientProvider.getCountryMaster(context);
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(context,
+                                          Navigator.pop(_scaffoldKey.currentContext!);
+                                          Navigator.pushNamed(_scaffoldKey.currentContext!,
                                                   Routes.addNewPatientRoute)
                                               .then((value) {
                                             _fetchData();
@@ -332,11 +335,11 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                     if (index == 0) {
                                       return InkWell(
                                         onTap: () async {
-                                          showLoaderDialog(context);
+                                          showLoaderDialog(_scaffoldKey.currentContext!);
                                           patientProvider.clearAddPatientForm();
                                           await patientProvider.getCountryMaster(context);
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(context,
+                                          Navigator.pop(_scaffoldKey.currentContext!);
+                                          Navigator.pushNamed(_scaffoldKey.currentContext!,
                                                   Routes.addNewPatientRoute)
                                               .then((value) {
                                             _fetchData();

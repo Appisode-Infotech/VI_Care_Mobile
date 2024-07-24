@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -9,6 +11,7 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:vicare/dashboard/model/reports_detail_model.dart';
 import 'package:vicare/dashboard/model/reports_processed_data_model.dart';
 import 'package:vicare/dashboard/provider/take_test_provider.dart';
+import 'package:vicare/utils/app_locale.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
@@ -84,25 +87,17 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   ReportsProcessedDataModel processedData =
                       ReportsProcessedDataModel.fromJson(
                           jsonDecode(snapshot.data!.result![0].processedData!));
+                  log(processedData.toJson().toString());
                   List additionalInfo = [
                     {
                       "name": "RMSSDRR",
                       "value": processedData.rmssdrr,
-                      "description":
-                          '''RMSSD is a standard HRV measure analyzing RR-Interval differences.
-          Higher values suggest good heart health and fitness.
-          
-          Lower values may indicate stress, fatigue, or other factors.
-          Impact of training loads and recovery can be derived from RMSSD.
-          
-          Normal Range: 20-150 ms (higher values are better).
-            '''
+                      "description":AppLocale.rmssdrrDescription.getString(context)
                     },
                     {
                       "name": "SDRR",
                       "value": processedData.sdrr,
-                      "description":
-                          '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.'''
+                      "description": '''SSDRR measures total heart rate variability (time-based). Higher values indicate better heart health and fitness. Lower values may suggest stress or fatigue. Normal Range: 30-200 ms.'''
                     },
                     //                   {"name": "TP", "value": processedData.totalPower,"description":'''
                     // Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
@@ -111,48 +106,27 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                     {
                       "name": "VLF",
                       "value": processedData.vlfPowerMs,
-                      "description": '''Ratio of Stress towards Relaxation:
-          
-          Degree of expression of the sympathetic towards the parasympathetic activation.
-          
-          Normal Range: 0.7-3 (higher values are not good).'''
+                      "description": AppLocale.vlfDescription.getString(context)
                     },
                     {
                       "name": "LF",
                       "value": processedData.lfPowerMs,
-                      "description":
-                          '''Low Frequency indicates the stress state of the individual.
-          
-          LF power in HRV analysis is a measure of the balance between sympathetic and parasympathetic activity in the autonomic nervous system. A higher LF power value
-          may indicate increased sympathetic activity, which is associated with the body's "fight or flight" response to stress. Conversely, a lower LF power value may indicate
-          increased parasympathetic activity, which is associated with the body's "rest and digest"
-          response and can be a positive indicator of heart health and overall fitness.
-          
-          Normal Range: 100-500 ms² (higher values are not good).'''
+                      "description":AppLocale.lfPowerDescription.getString(context)
                     },
                     {
                       "name": "HF",
                       "value": processedData.hfPowerMs,
-                      "description":
-                          '''High Frequency indicates the state of relaxation or the regeneration capacity of the individual.
-          
-          Normal Range: 100-500 ms2 (higher values are better)'''
+                      "description":AppLocale.hfPowerDescription.getString(context)
                     },
                     {
                       "name": "LF/HF",
                       "value": processedData.lFtoHf,
-                      "description": '''Ratio of Stress towards Relaxation:
-          
-          Degree of expression of the sympathetic towards the parasympathetic activation.
-          Normal Range: 0.7-3 (higher values are not good).'''
+                      "description":AppLocale.lfHfDescription.getString(context)
                     },
                     {
                       "name": "Total Power",
                       "value": processedData.totalPower,
-                      "description": '''
-          Total Power is the measure of the overall status of the autonomous-nervous regulatory system or general regulation ability. Higher TP values generally indicate greater heart rate variability, which is considered a positive indicator of heart health and overall fitness. Conversely, lower TP values may indicate decreased heart rate variability, which could be a sign of stress, fatigue, or other factors that affect the autonomic nervous system.
-          
-          Normal Range: 1000-2000 ms² (higher values are better'''
+                      "description": AppLocale.totalPowerDescription.getString(context)
                     },
                     // {
                     //   "name": "Breath < 9",

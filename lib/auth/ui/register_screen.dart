@@ -1006,12 +1006,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(
           height: 10,
         ),
-         Text(AppLocale.height.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(
+        authProvider.selectedRoleId==2?Text(AppLocale.height.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?const SizedBox(
           height: 10,
-        ),
-        TextFormField(
+        ):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerHeightController,
           keyboardType: TextInputType.number,
@@ -1038,16 +1038,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
-        ),
-        const SizedBox(
+        ):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?const SizedBox(
           height: 10,
-        ),
-         Text(AppLocale.weight.getString(context),
-            style: const TextStyle(fontWeight: FontWeight.w600)),
-        const SizedBox(
+        ):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?Text(AppLocale.weight.getString(context),
+            style: const TextStyle(fontWeight: FontWeight.w600)):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?const SizedBox(
           height: 10,
-        ),
-        TextFormField(
+        ):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerWeightController,
           keyboardType: TextInputType.number,
@@ -1074,10 +1074,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           ),
-        ),
-        const SizedBox(
+        ):const SizedBox.shrink(),
+        authProvider.selectedRoleId==2?const SizedBox(
           height: 10,
-        ),
+        ):const SizedBox.shrink(),
         Row(
           children: [
             Text(AppLocale.country.getString(context),

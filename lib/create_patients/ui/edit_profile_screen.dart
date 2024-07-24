@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vicare/create_patients/provider/profile_provider.dart';
+import 'package:vicare/main.dart';
 
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
@@ -50,7 +51,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: SingleChildScrollView(
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,34 +60,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onTap: () {
                           showImageSourceDialog(context,
                               onOptionSelected: (value) async {
-                                if (value == AppLocale.camera.getString(context)) {
-                                  final image = await ImagePicker()
-                                      .pickImage(source: ImageSource.camera);
-                                  if (image != null) {
-                                    CroppedFile? croppedImage =
+                            if (value == AppLocale.camera.getString(context)) {
+                              final image = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (image != null) {
+                                CroppedFile? croppedImage =
                                     await cropImage(image.path);
-                                    if (croppedImage != null) {
-                                      setState(() {
-                                        profileProvider.editProfileSelectedImage =
-                                            File(croppedImage.path);
-                                      });
-                                    }
-                                  }
-                                } else if (value == AppLocale.gallery.getString(context)) {
-                                  final image = await ImagePicker()
-                                      .pickImage(source: ImageSource.gallery);
-                                  if (image != null) {
-                                    CroppedFile? croppedImage =
-                                    await cropImage(image.path);
-                                    if (croppedImage != null) {
-                                      setState(() {
-                                        profileProvider.editProfileSelectedImage =
-                                            File(croppedImage.path);
-                                      });
-                                    }
-                                  }
+                                if (croppedImage != null) {
+                                  setState(() {
+                                    profileProvider.editProfileSelectedImage =
+                                        File(croppedImage.path);
+                                  });
                                 }
-                              });
+                              }
+                            } else if (value ==
+                                AppLocale.gallery.getString(context)) {
+                              final image = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (image != null) {
+                                CroppedFile? croppedImage =
+                                    await cropImage(image.path);
+                                if (croppedImage != null) {
+                                  setState(() {
+                                    profileProvider.editProfileSelectedImage =
+                                        File(croppedImage.path);
+                                  });
+                                }
+                              }
+                            }
+                          });
                         },
                         child: Center(
                           child: Stack(
@@ -95,11 +97,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 radius: 50,
                                 backgroundColor: Colors.grey.shade300,
                                 backgroundImage:
-                                profileProvider.editProfileSelectedImage !=
-                                    null
-                                    ? FileImage(profileProvider
-                                    .editProfileSelectedImage!)
-                                    : null,
+                                    profileProvider.editProfileSelectedImage !=
+                                            null
+                                        ? FileImage(profileProvider
+                                            .editProfileSelectedImage!)
+                                        : null,
                               ),
                               const SizedBox(
                                 height: 10,
@@ -115,46 +117,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             showImageSourceDialog(context,
                                                 onOptionSelected:
                                                     (value) async {
-                                                  if (value == AppLocale.camera.getString(context)) {
-                                                    final image =
+                                              if (value ==
+                                                  AppLocale.camera
+                                                      .getString(context)) {
+                                                final image =
                                                     await ImagePicker()
                                                         .pickImage(
-                                                        source: ImageSource
-                                                            .camera);
-                                                    if (image != null) {
-                                                      CroppedFile? croppedImage =
+                                                            source: ImageSource
+                                                                .camera);
+                                                if (image != null) {
+                                                  CroppedFile? croppedImage =
                                                       await cropImage(
                                                           image.path);
-                                                      if (croppedImage != null) {
-                                                        setState(() {
-                                                          profileProvider
+                                                  if (croppedImage != null) {
+                                                    setState(() {
+                                                      profileProvider
                                                               .editProfileSelectedImage =
-                                                              File(croppedImage
-                                                                  .path);
-                                                        });
-                                                      }
-                                                    }
-                                                  } else if (value == AppLocale.gallery.getString(context)) {
-                                                    final image =
-                                                    await ImagePicker()
-                                                        .pickImage(
-                                                        source: ImageSource
-                                                            .gallery);
-                                                    if (image != null) {
-                                                      CroppedFile? croppedImage =
-                                                      await cropImage(
-                                                          image.path);
-                                                      if (croppedImage != null) {
-                                                        setState(() {
-                                                          profileProvider
-                                                              .editProfileSelectedImage =
-                                                              File(croppedImage
-                                                                  .path);
-                                                        });
-                                                      }
-                                                    }
+                                                          File(croppedImage
+                                                              .path);
+                                                    });
                                                   }
-                                                });
+                                                }
+                                              } else if (value ==
+                                                  AppLocale.gallery
+                                                      .getString(context)) {
+                                                final image =
+                                                    await ImagePicker()
+                                                        .pickImage(
+                                                            source: ImageSource
+                                                                .gallery);
+                                                if (image != null) {
+                                                  CroppedFile? croppedImage =
+                                                      await cropImage(
+                                                          image.path);
+                                                  if (croppedImage != null) {
+                                                    setState(() {
+                                                      profileProvider
+                                                              .editProfileSelectedImage =
+                                                          File(croppedImage
+                                                              .path);
+                                                    });
+                                                  }
+                                                }
+                                              }
+                                            });
                                           },
                                           icon: const Icon(
                                             Icons.edit_outlined,
@@ -169,7 +175,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Row(
                         children: [
                           Text(AppLocale.firstName.getString(context),
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
                           const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
@@ -182,11 +189,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
-                        profileProvider.editProfileFirstNameController,
+                            profileProvider.editProfileFirstNameController,
                         textCapitalization: TextCapitalization.sentences,
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'^\s')),
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z\s]')),
                         ],
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -207,12 +215,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                            const BorderSide(color: AppColors.primaryColor),
+                                const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
-                            const BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -225,7 +233,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Row(
                         children: [
                           Text(AppLocale.lastName.getString(context),
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
                           const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
@@ -237,11 +246,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: profileProvider.editProfileLastNameController,
+                        controller:
+                            profileProvider.editProfileLastNameController,
                         textCapitalization: TextCapitalization.sentences,
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'^\s')),
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z\s]')),
                         ],
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -261,12 +272,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                            const BorderSide(color: AppColors.primaryColor),
+                                const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
-                            const BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -279,7 +290,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Row(
                         children: [
                           Text(AppLocale.contactNumber.getString(context),
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
                           const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
@@ -290,8 +302,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
-                        profileProvider.editProfileContactNumberController,
-                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            profileProvider.editProfileContactNumberController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppLocale.validContact.getString(context);
@@ -309,18 +323,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           filled: true,
                           hintText: AppLocale.contactNumber.getString(context),
                           hintStyle:
-                          const TextStyle(fontSize: 15, color: Colors.grey),
+                              const TextStyle(fontSize: 15, color: Colors.grey),
                           counterText: "",
                           isCollapsed: true,
                           errorStyle: const TextStyle(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                            const BorderSide(color: AppColors.primaryColor),
+                                const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
-                            const BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -337,20 +351,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       TextFormField(
                         enabled: false,
-                        autovalidateMode:
-                        AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppLocale.validEmail
-                                .getString(context);
+                            return AppLocale.validEmail.getString(context);
                           }
                           if (profileProvider.isNotValidEmail(value)) {
                             return AppLocale.validEmail.getString(context);
                           }
                           return null;
                         },
-                        controller:
-                        profileProvider.editProfileEmailController,
+                        controller: profileProvider.editProfileEmailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
@@ -359,17 +370,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           hintStyle: const TextStyle(color: Colors.black),
                           counterText: "",
                           isCollapsed: true,
-                          errorStyle:
-                          const TextStyle(color: Colors.red),
+                          errorStyle: const TextStyle(color: Colors.red),
                           errorMaxLines: 2,
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: AppColors.primaryColor),
+                            borderSide:
+                                const BorderSide(color: AppColors.primaryColor),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -382,7 +392,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Row(
                         children: [
                           Text(AppLocale.bloodGroup.getString(context),
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
                           const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
@@ -446,7 +457,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Row(
                         children: [
                           Text(AppLocale.gender.getString(context),
-                              style: const TextStyle(fontWeight: FontWeight.w600)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
                           const Text(
                             ' *',
                             style: TextStyle(color: Colors.red),
@@ -480,10 +492,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             profileProvider.selectedGender = value == "Male"
                                 ? 1
                                 : value == "Female"
-                                ? 2
-                                : value == "Do not wish to specify"
-                                ? 3
-                                : 0;
+                                    ? 2
+                                    : value == "Do not wish to specify"
+                                        ? 3
+                                        : 0;
                             profileProvider.editProfileGender = value!;
                           });
                         },
@@ -512,8 +524,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(AppLocale.dateOfBirth.getString(context),
-                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    Text(
+                                        AppLocale.dateOfBirth
+                                            .getString(context),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600)),
                                     const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
@@ -526,15 +541,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 GestureDetector(
                                   onTap: () async {
                                     final DateTime? picked =
-                                    await showDatePicker(
+                                        await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(1900),
                                       lastDate: DateTime.now(),
                                     );
                                     setState(() {
-                                      profileProvider.editProfileDobController.text =
-                                      DateFormat('dd-MM-yyyy').format(picked!);
+                                      profileProvider
+                                              .editProfileDobController.text =
+                                          DateFormat('dd-MM-yyyy')
+                                              .format(picked!);
                                     });
                                   },
                                   child: TextFormField(
@@ -545,8 +562,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     decoration: InputDecoration(
                                       errorMaxLines: 2,
                                       contentPadding:
-                                      const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 10),
+                                          const EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 10),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
@@ -579,86 +596,123 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-
-                                 Text(AppLocale.height.getString(context),
-                                    style: TextStyle(fontWeight: FontWeight.w600)),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  controller: profileProvider.profileHeightController,
-                                  keyboardType:const TextInputType.numberWithOptions(decimal: true),
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
-                                  ],
-                                  textInputAction: TextInputAction.next,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText: AppLocale.height.getString(context),
-                                    counterText: "",
-                                    isCollapsed: true,
-                                    errorStyle: const TextStyle(color: Colors.red),
-                                    errorMaxLines: 2,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: AppColors.primaryColor),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.black, width: 2),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-
-                                 Text(AppLocale.weight.getString(context),
-                                    style: TextStyle(fontWeight: FontWeight.w600)),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  controller: profileProvider.profileWeightController,
-                                  keyboardType:const TextInputType.numberWithOptions(decimal: true),
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
-                                  ],
-                                  textInputAction: TextInputAction.next,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText: AppLocale.weight.getString(context),
-                                    counterText: "",
-                                    isCollapsed: true,
-                                    errorStyle: const TextStyle(color: Colors.red),
-                                    errorMaxLines: 2,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: AppColors.primaryColor),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: const BorderSide(color: Colors.black, width: 2),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                  height: 10,
-                                ),
-
+                                prefModel.userData!.roleId == 2
+                                    ? Text(AppLocale.height.getString(context),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600))
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? const SizedBox(
+                                        height: 10,
+                                      )
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        controller: profileProvider
+                                            .profileHeightController,
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(decimal: true),
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d*\.?\d*$')),
+                                        ],
+                                        textInputAction: TextInputAction.next,
+                                        decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          hintText: AppLocale.height
+                                              .getString(context),
+                                          counterText: "",
+                                          isCollapsed: true,
+                                          errorStyle: const TextStyle(
+                                              color: Colors.red),
+                                          errorMaxLines: 2,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: AppColors.primaryColor),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.black, width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 15, horizontal: 10),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? const SizedBox(
+                                        height: 10,
+                                      )
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? Text(AppLocale.weight.getString(context),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600))
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? const SizedBox(
+                                        height: 10,
+                                      )
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        controller: profileProvider
+                                            .profileWeightController,
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(decimal: true),
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d*\.?\d*$')),
+                                        ],
+                                        textInputAction: TextInputAction.next,
+                                        decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          hintText: AppLocale.weight
+                                              .getString(context),
+                                          counterText: "",
+                                          isCollapsed: true,
+                                          errorStyle: const TextStyle(
+                                              color: Colors.red),
+                                          errorMaxLines: 2,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: AppColors.primaryColor),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.black, width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 15, horizontal: 10),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                                prefModel.userData!.roleId == 2
+                                    ? const SizedBox(
+                                        height: 10,
+                                      )
+                                    : const SizedBox.shrink(),
                                 Row(
                                   children: [
                                     Text(AppLocale.country.getString(context),
-                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600)),
                                     const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
@@ -667,10 +721,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 DropdownButtonFormField<String>(
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return AppLocale.validCountry.getString(context);
+                                      return AppLocale.validCountry
+                                          .getString(context);
                                     }
                                     return null;
                                   },
@@ -686,23 +742,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 16.0, horizontal: 16),
                                     focusColor: Colors.transparent,
-                                    errorStyle: TextStyle(color: Colors.red.shade400),
+                                    errorStyle:
+                                        TextStyle(color: Colors.red.shade400),
                                   ),
                                   dropdownColor: Colors.white,
                                   value: profileProvider.editProfileCountryAs,
-                                  hint:  Text(AppLocale.country.getString(context)),
+                                  hint: Text(
+                                      AppLocale.country.getString(context)),
                                   onChanged: (String? value) async {
-                                    var selectedCountry = profileProvider.countryMasterResponse!.result!
-                                        .firstWhere((country) => country.name == value);
-                                    profileProvider.editProfileSelectedCountryId = selectedCountry.id;
-                                    await profileProvider.getStateMaster(context, selectedCountry.uniqueGuid);
+                                    var selectedCountry = profileProvider
+                                        .countryMasterResponse!.result!
+                                        .firstWhere(
+                                            (country) => country.name == value);
+                                    profileProvider
+                                            .editProfileSelectedCountryId =
+                                        selectedCountry.id;
+                                    await profileProvider.getStateMaster(
+                                        context, selectedCountry.uniqueGuid);
                                     setState(() {
-                                      profileProvider.editProfileCountryAs = value!;
+                                      profileProvider.editProfileCountryAs =
+                                          value!;
                                       profileProvider.editProfileStateAs = null;
                                     });
                                   },
                                   style: const TextStyle(color: Colors.black),
-                                  items: profileProvider.countryMasterResponse!.result!
+                                  items: profileProvider
+                                      .countryMasterResponse!.result!
                                       .map<DropdownMenuItem<String>>((country) {
                                     return DropdownMenuItem<String>(
                                       value: country.name,
@@ -711,11 +776,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   }).toList(),
                                 ),
                                 const SizedBox(height: 10),
-
                                 Row(
                                   children: [
                                     Text(AppLocale.state.getString(context),
-                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600)),
                                     const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
@@ -726,10 +791,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
                                 DropdownButtonFormField<String>(
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return AppLocale.stateValid.getString(context);
+                                      return AppLocale.stateValid
+                                          .getString(context);
                                     }
                                     return null;
                                   },
@@ -745,46 +812,60 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 16.0, horizontal: 16),
                                     focusColor: Colors.transparent,
-                                    errorStyle: TextStyle(color: Colors.red.shade400),
+                                    errorStyle:
+                                        TextStyle(color: Colors.red.shade400),
                                   ),
                                   dropdownColor: Colors.white,
                                   value: profileProvider.editProfileStateAs,
-                                  hint: Text(AppLocale.state.getString(context)),
+                                  hint:
+                                      Text(AppLocale.state.getString(context)),
                                   onChanged: (String? value) {
-                                    var selectedState = profileProvider.editStateMasterResponse!.result!
-                                        .firstWhere((state) => state.name == value);
+                                    var selectedState = profileProvider
+                                        .editStateMasterResponse!.result!
+                                        .firstWhere(
+                                            (state) => state.name == value);
 
-                                    profileProvider.editProfileSelectedStateId = selectedState.id;
+                                    profileProvider.editProfileSelectedStateId =
+                                        selectedState.id;
                                     setState(() {
-                                      profileProvider.editProfileStateAs = value!;
+                                      profileProvider.editProfileStateAs =
+                                          value!;
                                     });
                                   },
                                   style: const TextStyle(color: Colors.black),
-                                  items: profileProvider.editStateMasterResponse?.result?.map<DropdownMenuItem<String>>((state) {
-                                    return DropdownMenuItem<String>(
-                                      value: state.name,
-                                      child: SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.75,
-                                        child: Text(state.name.toString()),
-                                      ),
-                                    );
-                                  }).toList() ?? [],
+                                  items: profileProvider
+                                          .editStateMasterResponse?.result
+                                          ?.map<DropdownMenuItem<String>>(
+                                              (state) {
+                                        return DropdownMenuItem<String>(
+                                          value: state.name,
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.75,
+                                            child: Text(state.name.toString()),
+                                          ),
+                                        );
+                                      }).toList() ??
+                                      [],
                                 ),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 Text(AppLocale.street.getString(context),
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 TextFormField(
                                   autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                      AutovalidateMode.onUserInteraction,
                                   textCapitalization:
-                                  TextCapitalization.sentences,
-                                  controller: profileProvider.editProfileStreetController,
+                                      TextCapitalization.sentences,
+                                  controller: profileProvider
+                                      .editProfileStreetController,
                                   // validator: (value) {
                                   //   if (value!.isEmpty) {
                                   //     return AppLocale.streetValid
@@ -797,11 +878,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    hintText: AppLocale.street.getString(context),
+                                    hintText:
+                                        AppLocale.street.getString(context),
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle:
-                                    const TextStyle(color: Colors.red),
+                                        const TextStyle(color: Colors.red),
                                     errorMaxLines: 2,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -821,18 +903,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
                                 Text(AppLocale.area.getString(context),
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 TextFormField(
                                   autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                      AutovalidateMode.onUserInteraction,
                                   textCapitalization:
-                                  TextCapitalization.sentences,
-                                  controller: profileProvider
-                                      .editProfileAreaController,
+                                      TextCapitalization.sentences,
+                                  controller:
+                                      profileProvider.editProfileAreaController,
                                   // validator: (value) {
                                   //   if (value!.isEmpty) {
                                   //     return AppLocale.areaValid
@@ -849,7 +931,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle:
-                                    const TextStyle(color: Colors.red),
+                                        const TextStyle(color: Colors.red),
                                     errorMaxLines: 2,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -869,16 +951,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
                                 Text(AppLocale.landMark.getString(context),
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 TextFormField(
                                   autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                      AutovalidateMode.onUserInteraction,
                                   textCapitalization:
-                                  TextCapitalization.sentences,
+                                      TextCapitalization.sentences,
                                   controller: profileProvider
                                       .editProfileLandMarkController,
                                   // validator: (value) {
@@ -893,11 +975,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     fillColor: Colors.white,
                                     filled: true,
                                     hintText:
-                                    AppLocale.landMark.getString(context),
+                                        AppLocale.landMark.getString(context),
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle:
-                                    const TextStyle(color: Colors.red),
+                                        const TextStyle(color: Colors.red),
                                     errorMaxLines: 2,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -919,7 +1001,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 Row(
                                   children: [
                                     Text(AppLocale.city.getString(context),
-                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w600)),
                                     const Text(
                                       ' *',
                                       style: TextStyle(color: Colors.red),
@@ -931,11 +1014,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 TextFormField(
                                   autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                      AutovalidateMode.onUserInteraction,
                                   textCapitalization:
-                                  TextCapitalization.sentences,
-                                  controller: profileProvider
-                                      .editProfileCityController,
+                                      TextCapitalization.sentences,
+                                  controller:
+                                      profileProvider.editProfileCityController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return AppLocale.cityValid
@@ -945,8 +1028,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   },
                                   keyboardType: TextInputType.streetAddress,
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.deny(RegExp(r'^\s')),
-                                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp(r'^\s')),
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[a-zA-Z\s]')),
                                   ],
                                   maxLength: 74,
                                   decoration: InputDecoration(
@@ -956,7 +1041,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle:
-                                    const TextStyle(color: Colors.red),
+                                        const TextStyle(color: Colors.red),
                                     errorMaxLines: 2,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -976,37 +1061,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 10,
                                 ),
                                 Text(AppLocale.pinCode.getString(context),
-                                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 TextFormField(
                                   autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                      AutovalidateMode.onUserInteraction,
                                   textCapitalization:
-                                  TextCapitalization.sentences,
+                                      TextCapitalization.sentences,
                                   controller: profileProvider
                                       .editProfilePinCodeController,
                                   validator: (value) {
                                     if (value!.isNotEmpty) {
-                                      if (value.length<4) {
-                                        return AppLocale.pinCodeValid.getString(context);
+                                      if (value.length < 4) {
+                                        return AppLocale.pinCodeValid
+                                            .getString(context);
                                       }
                                     }
                                     return null;
                                   },
                                   maxLength: 6,
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
                                     hintText:
-                                    AppLocale.pinCode.getString(context),
+                                        AppLocale.pinCode.getString(context),
                                     counterText: "",
                                     isCollapsed: true,
                                     errorStyle:
-                                    const TextStyle(color: Colors.red),
+                                        const TextStyle(color: Colors.red),
                                     errorMaxLines: 2,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -1028,12 +1117,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
-                                      // if (profileProvider.editProfileSelectedImage == null) {
-                                      //   showErrorToast(context, AppLocale.validImage.getString(context));
-                                      //   return;
-                                      // }
-                                      profileProvider.editProfile();
-                                    }),
+                                  // if (profileProvider.editProfileSelectedImage == null) {
+                                  //   showErrorToast(context, AppLocale.validImage.getString(context));
+                                  //   return;
+                                  // }
+                                  profileProvider.editProfile();
+                                }),
                               ],
                             ),
                           ),

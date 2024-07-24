@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:vicare/main.dart';
+import 'package:vicare/utils/app_colors.dart';
 import 'app_buttons.dart';
 import 'app_locale.dart';
 
@@ -24,11 +26,16 @@ class _NoInternetWidgetState extends State<NoInternetWidget> {
         if (isConnected) {
           return true;
         } else {
-          showErrorToast(context, AppLocale.noInternetRetryFailed.getString(context));
+          showErrorToast(
+              context, AppLocale.noInternetRetryFailed.getString(context));
           return false;
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.scaffoldColor,
+          automaticallyImplyLeading: false,
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +46,7 @@ class _NoInternetWidgetState extends State<NoInternetWidget> {
                 color: Colors.grey,
               ),
               const SizedBox(height: 20),
-               Text(
+              Text(
                 AppLocale.noInternet.getString(context),
                 style: const TextStyle(
                     fontSize: 24,
@@ -52,20 +59,26 @@ class _NoInternetWidgetState extends State<NoInternetWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  List<ConnectivityResult> connectivityResults =
-                      await Connectivity().checkConnectivity();
-                  bool isConnected = connectivityResults.any((result) =>
-                      result == ConnectivityResult.mobile ||
-                      result == ConnectivityResult.wifi);
-                  if (isConnected) {
-                    Navigator.pop(context);
-                  } else {
-                    showErrorToast(context, AppLocale.noInternetRetryFailed.getString(context));
-                  }
-                },
-                child: Text(AppLocale.retry.getString(context)),
+              Container(
+                width: screenSize!.width * .6,
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                child: getPrimaryAppButton(
+                  context,
+                  AppLocale.retry.getString(context),
+                  onPressed: () async {
+                    List<ConnectivityResult> connectivityResults =
+                        await Connectivity().checkConnectivity();
+                    bool isConnected = connectivityResults.any((result) =>
+                        result == ConnectivityResult.mobile ||
+                        result == ConnectivityResult.wifi);
+                    if (isConnected) {
+                      Navigator.pop(context);
+                    } else {
+                      showErrorToast(context,
+                          AppLocale.noInternetRetryFailed.getString(context));
+                    }
+                  },
+                ),
               )
             ],
           ),
