@@ -101,22 +101,29 @@ class ApiCalls {
       } else {
         return response;
       }
-    } on SocketException {
-      Completer<http.Response> completer = Completer();
-
-      Navigator.pushNamed(context, Routes.noInternet).then((_) async {
-        try {
-          http.Response retryResponse = await http.post(
-            Uri.parse(url),
-            headers: getHeaders(requiresAuth),
-            body: body,
-          );
-          completer.complete(retryResponse);
-        } catch (e) {
-          completer.completeError(e);
-        }
-      });
-      return completer.future;
+    }on SocketException {
+      if (!NoInternetManager().isShowing) {
+        NoInternetManager().setShowing(true);
+        Completer<http.Response> completer = Completer();
+        Navigator.pushNamed(context, Routes.noInternet).then((_) async {
+          NoInternetManager().setShowing(false);
+          try {
+            http.Response retryResponse = await http.post(
+              Uri.parse(url),
+              headers: getHeaders(requiresAuth),
+              body: body,
+            );
+            completer.complete(retryResponse);
+          } catch (e) {
+            completer.completeError(e);
+          }
+        });
+        return completer.future;
+      } else {
+        await Future.delayed(
+            const Duration(seconds: 1)); // wait for a second before retrying
+        return hitApiGet(requiresAuth, url, context);
+      }
     } catch (e) {
       rethrow;
     }
@@ -196,8 +203,7 @@ class ApiCalls {
         });
         return completer.future;
       } else {
-        await Future.delayed(
-            const Duration(seconds: 1)); // wait for a second before retrying
+        await Future.delayed(const Duration(seconds: 1)); // wait for a second before retrying
         return hitApiGet(requiresAuth, url, context);
       }
     } catch (e) {
