@@ -586,7 +586,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: SizedBox(
+                                        width:screenSize!.width*.7,
+                                        child: Text(value)),
                                   );
                                 }).toList(),
                               ),
@@ -653,7 +655,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: SizedBox(
+                                        width:screenSize!.width*.7,
+                                        child: Text(value)),
                                   );
                                 }).toList(),
                               ),
@@ -787,7 +791,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     .map<DropdownMenuItem<String>>((country) {
                                   return DropdownMenuItem<String>(
                                     value: country.name,
-                                    child: Text(country.name.toString()),
+                                    child: SizedBox(
+                                        width:screenSize!.width*.7,
+                                        child: Text(country.name.toString())),
                                   );
                                 }).toList(),
                               ),
@@ -845,7 +851,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return DropdownMenuItem<String>(
                                     value: state.name,
                                     child: SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.75,
+                                      width:screenSize!.width*.7,
                                       child: Text(state.name.toString()),
                                     ),
                                   );
@@ -1631,7 +1637,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: SizedBox(
+                                        width:screenSize!.width*.7,
+                                        child: Text(value)),
                                   );
                                 }).toList(),
                               ),
@@ -1698,7 +1706,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: SizedBox(
+                                        width:screenSize!.width*.7,
+                                        child: Text(value)),
                                   );
                                 }).toList(),
                               ),
@@ -1832,7 +1842,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     .map<DropdownMenuItem<String>>((country) {
                                   return DropdownMenuItem<String>(
                                     value: country.name,
-                                    child: Text(country.name.toString()),
+                                    child: SizedBox(
+                                        width:screenSize!.width*.7,
+                                        child: Text(country.name.toString())),
                                   );
                                 }).toList(),
                               ),
@@ -1889,7 +1901,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   return DropdownMenuItem<String>(
                                     value: state.name,
                                     child: SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.75,
+                                      width:screenSize!.width*.7,
                                       child: Text(state.name.toString()),
                                     ),
                                   );
