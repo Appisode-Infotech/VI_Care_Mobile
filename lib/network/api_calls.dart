@@ -1358,6 +1358,17 @@ class ApiCalls {
       throw "could not get the userdata ${response.statusCode}";
     }
   }
+  Future<RegisterResponseModel> checkUserEligibleToAddMembers(BuildContext context) async {
+    http.Response response = await hitApiGet(
+        true,
+        "${UrlConstants.checkUserEligibleToAddMembers}${prefModel.userData!.id}",
+        context);
+    if (response.statusCode == 200) {
+      return RegisterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw "could not get the user Eligibility ${response.statusCode}";
+    }
+  }
 
   checkIsDeviceExists(int? deviceId, BuildContext context) async {
     http.Response response = await hitApiPost(

@@ -1,3 +1,4 @@
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/create_patients/model/all_enterprise_users_response_model.dart';
 import 'package:vicare/main.dart';
 import 'package:vicare/utils/app_buttons.dart';
@@ -564,22 +566,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return InkWell(
                                         onTap: () async {
                                           showLoaderDialog(context);
-                                          await patientProvider.getCountryMaster(context);
-                                          patientProvider.clearAddPatientForm();
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(context,
-                                                  Routes.addNewPatientRoute)
-                                              .then((value) {
-                                            setState(() {
-                                              prefModel.userData!.roleId == 2
-                                                  ? patientProvider
-                                                      .getMyPatients(context)
-                                                  : patientProvider
-                                                      .getEnterpriseProfiles(
-                                                          context);
+                                          RegisterResponseModel response =
+                                              await patientProvider
+                                                  .checkEligibilityToAdd(
+                                                      context);
+                                          if (response.result != null) {
+                                            await patientProvider
+                                                .getCountryMaster(context);
+                                            patientProvider
+                                                .clearAddPatientForm();
+                                            Navigator.pop(context);
+                                            Navigator.pushNamed(context,
+                                                    Routes.addNewPatientRoute)
+                                                .then((value) {
+                                              setState(() {
+                                                prefModel.userData!.roleId == 2
+                                                    ? patientProvider
+                                                        .getMyPatients(context)
+                                                    : patientProvider
+                                                        .getEnterpriseProfiles(
+                                                            context);
+                                              });
+                                              return null;
                                             });
-                                            return null;
-                                          });
+                                          } else {
+                                            Navigator.pop(context);
+                                            showErrorToast(context, response.message!);
+                                          }
                                         },
                                         child: DottedBorder(
                                           dashPattern: const [2, 2],
@@ -788,25 +801,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return InkWell(
                                         onTap: () async {
                                           showLoaderDialog(context);
-                                          // await patientProvider
-                                          //     .getStateMaster(context);
-                                          await patientProvider
-                                              .getCountryMaster(context);
-                                          patientProvider.clearAddPatientForm();
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(context,
-                                                  Routes.addNewPatientRoute)
-                                              .then((value) {
-                                            setState(() {
-                                              prefModel.userData!.roleId == 2
-                                                  ? patientProvider
-                                                      .getMyPatients(context)
-                                                  : patientProvider
-                                                      .getEnterpriseProfiles(
-                                                          context);
+                                          RegisterResponseModel response =
+                                              await patientProvider
+                                                  .checkEligibilityToAdd(
+                                                      context);
+                                          if (response.result != null) {
+                                            // await patientProvider
+                                            //     .getStateMaster(context);
+                                            await patientProvider
+                                                .getCountryMaster(context);
+                                            patientProvider
+                                                .clearAddPatientForm();
+                                            Navigator.pop(context);
+                                            Navigator.pushNamed(context,
+                                                    Routes.addNewPatientRoute)
+                                                .then((value) {
+                                              setState(() {
+                                                prefModel.userData!.roleId == 2
+                                                    ? patientProvider
+                                                        .getMyPatients(context)
+                                                    : patientProvider
+                                                        .getEnterpriseProfiles(
+                                                            context);
+                                              });
+                                              return null;
                                             });
-                                            return null;
-                                          });
+                                          }else{
+                                            Navigator.pop(context);
+                                            showErrorToast(context, response.message!);
+                                          }
                                         },
                                         child: DottedBorder(
                                           dashPattern: const [2, 2],

@@ -580,4 +580,8 @@ class PatientProvider extends ChangeNotifier {
     AppPref.setPref(prefModel);
     return a;
   }
+
+  checkEligibilityToAdd(BuildContext context) {
+    return apiCalls.checkUserEligibleToAddMembers(context);
+  }
 }

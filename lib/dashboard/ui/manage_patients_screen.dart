@@ -7,6 +7,7 @@ import 'package:vicare/create_patients/model/all_patients_response_model.dart';
 import 'package:vicare/create_patients/provider/patient_provider.dart';
 import 'package:vicare/utils/app_buttons.dart';
 
+import '../../auth/model/register_response_model.dart';
 import '../../create_patients/model/all_enterprise_users_response_model.dart';
 import '../../main.dart';
 import '../../utils/app_colors.dart';
@@ -129,14 +130,24 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                       return InkWell(
                                         onTap: () async {
                                           showLoaderDialog(_scaffoldKey.currentContext!);
-                                          patientProvider.clearAddPatientForm();
-                                          await patientProvider.getCountryMaster(context);
-                                          Navigator.pop(_scaffoldKey.currentContext!);
-                                          Navigator.pushNamed(_scaffoldKey.currentContext!,
-                                                  Routes.addNewPatientRoute)
-                                              .then((value) {
-                                            _fetchData();
-                                          });
+                                          RegisterResponseModel response =
+                                          await patientProvider
+                                              .checkEligibilityToAdd(
+                                          context);
+                                          if (response.result != null) {
+                                            patientProvider.clearAddPatientForm();
+                                            await patientProvider.getCountryMaster(context);
+                                            Navigator.pop(_scaffoldKey.currentContext!);
+                                            Navigator.pushNamed(_scaffoldKey.currentContext!,
+                                                Routes.addNewPatientRoute)
+                                                .then((value) {
+                                              _fetchData();
+                                            });
+                                          }else{
+                                            Navigator.pop(context);
+                                            showErrorToast(context, response.message!);
+                                          }
+
                                         },
                                         child: DottedBorder(
                                           dashPattern: const [2, 2],
@@ -336,14 +347,24 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                       return InkWell(
                                         onTap: () async {
                                           showLoaderDialog(_scaffoldKey.currentContext!);
-                                          patientProvider.clearAddPatientForm();
-                                          await patientProvider.getCountryMaster(context);
-                                          Navigator.pop(_scaffoldKey.currentContext!);
-                                          Navigator.pushNamed(_scaffoldKey.currentContext!,
-                                                  Routes.addNewPatientRoute)
-                                              .then((value) {
-                                            _fetchData();
-                                          });
+                                          RegisterResponseModel response =
+                                          await patientProvider
+                                              .checkEligibilityToAdd(
+                                          context);
+                                          if (response.result != null) {
+                                            patientProvider.clearAddPatientForm();
+                                            await patientProvider.getCountryMaster(context);
+                                            Navigator.pop(_scaffoldKey.currentContext!);
+                                            Navigator.pushNamed(_scaffoldKey.currentContext!,
+                                                Routes.addNewPatientRoute)
+                                                .then((value) {
+                                              _fetchData();
+                                            });
+                                          }else{
+                                            Navigator.pop(context);
+                                            showErrorToast(context, response.message!);
+                                          }
+
                                         },
                                         child: DottedBorder(
                                           dashPattern: const [2, 2],

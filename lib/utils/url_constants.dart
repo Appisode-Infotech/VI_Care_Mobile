@@ -41,4 +41,5 @@ class UrlConstants {
   static const String getCountryMaster = "${apiBaseUrl}Country";
   static const String getUserByGuid = "${apiBaseUrl}User/GetByGuid/";
   static const String checkIsDeviceExists = "${apiBaseUrl}Device/checkIsDeviceExists/";
+  static const String checkUserEligibleToAddMembers = "${apiBaseUrl}User/CheckUserEligibleToAddMembers/";
 }
