@@ -43,6 +43,7 @@ import '../utils/url_constants.dart';
 String platform = Platform.isIOS ? "IOS" : "Android";
 
 class ApiCalls {
+
   Future<http.Response> hitApiPost(
       bool requiresAuth, String url, String body, BuildContext context) async {
     try {
@@ -65,7 +66,7 @@ class ApiCalls {
 
         if (refreshTokenResponse.statusCode == 200) {
           RefreshTokenResponseModel resModel =
-              RefreshTokenResponseModel.fromJson(
+          RefreshTokenResponseModel.fromJson(
             json.decode(refreshTokenResponse.body),
           );
           if (resModel.result!.token == null) {
@@ -101,29 +102,8 @@ class ApiCalls {
       } else {
         return response;
       }
-    }on SocketException {
-      if (!NoInternetManager().isShowing) {
-        NoInternetManager().setShowing(true);
-        Completer<http.Response> completer = Completer();
-        Navigator.pushNamed(context, Routes.noInternet).then((_) async {
-          NoInternetManager().setShowing(false);
-          try {
-            http.Response retryResponse = await http.post(
-              Uri.parse(url),
-              headers: getHeaders(requiresAuth),
-              body: body,
-            );
-            completer.complete(retryResponse);
-          } catch (e) {
-            completer.completeError(e);
-          }
-        });
-        return completer.future;
-      } else {
-        await Future.delayed(
-            const Duration(seconds: 1)); // wait for a second before retrying
-        return hitApiGet(requiresAuth, url, context);
-      }
+    } on SocketException {
+      return _handleSocketException(requiresAuth, url, context, body, true);
     } catch (e) {
       rethrow;
     }
@@ -150,7 +130,7 @@ class ApiCalls {
 
         if (refreshTokenResponse.statusCode == 200) {
           RefreshTokenResponseModel resModel =
-              RefreshTokenResponseModel.fromJson(
+          RefreshTokenResponseModel.fromJson(
             json.decode(refreshTokenResponse.body),
           );
           if (resModel.result!.token == null) {
@@ -186,30 +166,49 @@ class ApiCalls {
         return response;
       }
     } on SocketException {
-      if (!NoInternetManager().isShowing) {
-        NoInternetManager().setShowing(true);
-        Completer<http.Response> completer = Completer();
-        Navigator.pushNamed(context, Routes.noInternet).then((_) async {
-          NoInternetManager().setShowing(false);
-          try {
-            http.Response retryResponse = await http.get(
-              Uri.parse(url),
-              headers: getHeaders(requiresAuth),
-            );
-            completer.complete(retryResponse);
-          } catch (e) {
-            completer.completeError(e);
-          }
-        });
-        return completer.future;
-      } else {
-        await Future.delayed(const Duration(seconds: 1)); // wait for a second before retrying
-        return hitApiGet(requiresAuth, url, context);
-      }
+      return _handleSocketException(requiresAuth, url, context, null, false);
     } catch (e) {
       rethrow;
     }
   }
+
+  Future<http.Response> _handleSocketException(
+      bool requiresAuth, String url, BuildContext context, String? body, bool isPost) async {
+    if (!NoInternetManager().isShowing) {
+      NoInternetManager().setShowing(true);
+      Completer<http.Response> completer = Completer();
+      Navigator.pushNamed(context, Routes.noInternet).then((_) async {
+        NoInternetManager().setShowing(false);
+        try {
+          http.Response retryResponse;
+          if (isPost) {
+            retryResponse = await http.post(
+              Uri.parse(url),
+              headers: getHeaders(requiresAuth),
+              body: body,
+            );
+          } else {
+            retryResponse = await http.get(
+              Uri.parse(url),
+              headers: getHeaders(requiresAuth),
+            );
+          }
+          completer.complete(retryResponse);
+        } catch (e) {
+          completer.completeError(e);
+        }
+      });
+      return completer.future;
+    } else {
+      await Future.delayed(const Duration(seconds: 1)); // wait for a second before retrying
+      if (isPost) {
+        return hitApiPost(requiresAuth, url, body!, context);
+      } else {
+        return hitApiGet(requiresAuth, url, context);
+      }
+    }
+  }
+
 
   Map<String, String> getHeaders(bool isAuthEnabled) {
     var headers = <String, String>{};

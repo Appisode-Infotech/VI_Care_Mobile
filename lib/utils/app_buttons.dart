@@ -342,7 +342,7 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
                     Navigator.pop(context, false);
                   },
                   child:Text(AppLocale.discard.getString(context),
-                      style: TextStyle(color: Colors.red))),
+                      style: const TextStyle(color: Colors.red))),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
@@ -432,10 +432,12 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                         focusColor: Colors.transparent,
                         errorStyle: TextStyle(color: Colors.red.shade400),
                       ),
-                      items: myDevices.result!.map((device) {
+                      items: myDevices.result!
+                          .map((device) {
                         return DropdownMenuItem<Device>(
                           value: device.device,
-                          child: Text("${device.device!.name} - ${device.device!.serialNumber}"),
+                          enabled: device.device!.deviceStatus != 2,
+                          child:  device.device!.deviceStatus != 2?Text("${device.device!.name} - ${device.device!.serialNumber}"):Text("${device.device!.name} - ${device.device!.serialNumber} - Inactive",style: const TextStyle(color: Colors.grey),),
                         );
                       }).toList(),
                       onChanged: (val) {

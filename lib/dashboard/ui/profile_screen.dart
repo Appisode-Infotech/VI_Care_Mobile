@@ -26,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(prefModel.userData!.token);
     return Consumer(
       builder: (BuildContext context, ProfileProvider profileProvider,
           Widget? child) {
