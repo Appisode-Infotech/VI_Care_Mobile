@@ -1389,12 +1389,13 @@ class ApiCalls {
         "${UrlConstants.verifyOTP}/$email/$otp",
         jsonEncode({"UserEmail": email,"otp":otp}),
         context);
+    print(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {
       Navigator.pop(context);
       showErrorToast(context, "Something went wrong");
-      throw "could not send otp ${response.statusCode}";
+      throw "could not verify otp ${response.statusCode}";
     }
   }
 

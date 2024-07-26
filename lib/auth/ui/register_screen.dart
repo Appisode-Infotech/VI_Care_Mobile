@@ -446,6 +446,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 10,
         ),
         TextFormField(
+          maxLength: 6,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.registerOtpController,
           validator: (value) {

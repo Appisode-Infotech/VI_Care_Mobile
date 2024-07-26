@@ -227,6 +227,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: profileProvider.changePasswordOtpController,
+          maxLength: 6,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);

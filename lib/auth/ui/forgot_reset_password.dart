@@ -292,6 +292,7 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
         TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: authProvider.forgotPasswordOtpController,
+          maxLength: 6,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
