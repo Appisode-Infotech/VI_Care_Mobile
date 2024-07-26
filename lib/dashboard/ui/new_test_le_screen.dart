@@ -142,9 +142,9 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
     double progressPercent = elapsedSeconds / totalSeconds;
     return WillPopScope(
       onWillPop: () async {
-        if(isRunning){
+        if (isRunning) {
           return await showStopTestWarningDialog(context);
-        }else{
+        } else {
           Navigator.pop(context);
           return false;
         }
@@ -199,7 +199,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             if (isFirstTimeLoading) {
               connectedDevice = newTestLeProvider.connectedDevice;
               totalSeconds = selectedDuration!.durationInMinutes! * 60;
-              newTestLeProvider.connectedDevice!.connectionState.listen((state) {
+              newTestLeProvider.connectedDevice!.connectionState
+                  .listen((state) {
                 if (mounted) {
                   // Check if the widget is still mounted
                   if (state == BluetoothConnectionState.disconnected) {
@@ -241,8 +242,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                     )),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenSize!.width * .2),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenSize!.width * .2),
                     child: Text(
                       AppLocale.deviceDisconnectedRange.getString(context),
                       textAlign: TextAlign.center,
@@ -328,7 +329,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                 horizontal: screenSize!.width * .3),
                             child: getPrimaryAppButton(
                                 buttonColor: Colors.red,
-                                context, AppLocale.stop.getString(context),
+                                context,
+                                AppLocale.stop.getString(context),
                                 onPressed: () async {
                               bool userWantsToAbort =
                                   await showStopTestWarningDialog(context);
@@ -343,17 +345,20 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenSize!.width * .3),
                             child: getPrimaryAppButton(
-                              buttonColor: AppColors.primaryColor,
-                                context, AppLocale.start.getString(context),
+                                buttonColor: AppColors.primaryColor,
+                                context,
+                                AppLocale.start.getString(context),
                                 onPressed: () async {
-                                showLoaderDialog(context);
-                                CheckDeviceExistsResponseModel response = await newTestLeProvider.checkIsDeviceExists(selectedDevice!.id,context);
-                                if(response.result!=null){
-                                  await startRecordingReadings();
-                                  _startTimer(newTestLeProvider);
-                                }else{
-                                  showErrorToast(context, "Invalid device");
-                                }
+                              showLoaderDialog(context);
+                              CheckDeviceExistsResponseModel response =
+                                  await newTestLeProvider.checkIsDeviceExists(
+                                      selectedDevice!.id, context);
+                              if (response.result != null) {
+                                await startRecordingReadings();
+                                _startTimer(newTestLeProvider);
+                              } else {
+                                showErrorToast(context, "Invalid device");
+                              }
                               Navigator.pop(context);
                             }),
                           ),
@@ -431,7 +436,8 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
 
     List<BluetoothService> services = await connectedDevice!.discoverServices();
     for (BluetoothService service in services) {
-      if (service.uuid.toString() == Guid("0000180d-0000-1000-8000-00805f9b34fb").toString()) {
+      if (service.uuid.toString() ==
+          Guid("0000180d-0000-1000-8000-00805f9b34fb").toString()) {
         for (BluetoothCharacteristic characteristic
             in service.characteristics) {
           try {
@@ -525,30 +531,19 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
         "serialNumber": selectedDevice!.serialNumber,
         "guid": "46184141-00c6-46ee-b927-4218085e85fd",
         "age": prefModel.userData!.roleId == 2
-            ? calculateAge(individualPatientData!
-            .result!.contact!.doB
-            .toString())
-            : calculateAge(enterprisePatientData!
-            .result!.contact!.doB
-            .toString()),
+            ? calculateAge(
+                individualPatientData!.result!.contact!.doB.toString())
+            : calculateAge(
+                enterprisePatientData!.result!.contact!.doB.toString()),
         "gender": prefModel.userData!.roleId == 2
-            ? (individualPatientData!
-            .result!.contact!.gender ==
-            1
-            ? 0
-            : 1)
-            : (enterprisePatientData!
-            .result!.contact!.gender ==
-            1
-            ? 0
-            : 1),
+            ? individualPatientData!.result!.contact!.gender
+            : enterprisePatientData!.result!.contact!.gender,
         "date": DateTime.now().toIso8601String(),
         "countryCode": "IN",
         "intervals": rrIntervalList
       });
       var directory = await getExternalStorageDirectory();
-      var viCareDirectory =
-      Directory('${directory!.path}/vicare');
+      var viCareDirectory = Directory('${directory!.path}/vicare');
 
       if (!(await viCareDirectory.exists())) {
         await viCareDirectory.create(recursive: true);
@@ -571,24 +566,22 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             connectedDevice!.remoteId.str,
             selectedDuration!.id,
             selectedDuration!.name,
-            pId,
-            {
-              "MyRoleId": prefModel.userData!.roleId,
-              "bpmList": bpmList,
-              "rrIntervalList": rrIntervalList,
-              "scanDuration": selectedDuration!.durationInMinutes,
-              "scanDurationName": selectedDuration!.name,
-              "deviceName": selectedDevice!.name,
-              "deviceId": selectedDevice!.serialNumber,
-              "userAndDeviceId": selectedDevice!.id,
-              "selectedDurationId": selectedDuration!.id,
-              "enterprisePatientData": enterprisePatientData,
-              "individualPatientData": individualPatientData,
-              "created": DateTime.now().toIso8601String()
-              // Convert DateTime to String
-            });
-        Navigator.
-        pop(context);
+            pId, {
+          "MyRoleId": prefModel.userData!.roleId,
+          "bpmList": bpmList,
+          "rrIntervalList": rrIntervalList,
+          "scanDuration": selectedDuration!.durationInMinutes,
+          "scanDurationName": selectedDuration!.name,
+          "deviceName": selectedDevice!.name,
+          "deviceId": selectedDevice!.serialNumber,
+          "userAndDeviceId": selectedDevice!.id,
+          "selectedDurationId": selectedDuration!.id,
+          "enterprisePatientData": enterprisePatientData,
+          "individualPatientData": individualPatientData,
+          "created": DateTime.now().toIso8601String()
+          // Convert DateTime to String
+        });
+        Navigator.pop(context);
       }
     }
   }

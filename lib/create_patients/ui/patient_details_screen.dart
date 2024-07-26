@@ -238,16 +238,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               .result!
                                                               .contact!
                                                               .gender ==
-                                                          1
+                                                          0
                                                       ? "Male"
-                                                      : snapshot
-                                                                  .data!
-                                                                  .result!
-                                                                  .contact!
-                                                                  .gender ==
-                                                              2
-                                                          ? "Female"
-                                                          : "Do not wish to specify",
+                                                      : "Female",
                                                   style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
@@ -1330,16 +1323,9 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                               .result!
                                                               .contact!
                                                               .gender ==
-                                                          1
+                                                          0
                                                       ? "Male"
-                                                      : snapshot
-                                                                  .data!
-                                                                  .result!
-                                                                  .contact!
-                                                                  .gender ==
-                                                              2
-                                                          ? "Female"
-                                                          : "Do not wish to specify",
+                                                      : "Female",
                                                   style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
@@ -1561,8 +1547,17 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                 4,
                                                         child: Center(
                                                           child: Text(
-                                                            (countSnapshot.data?.result?.readinessScore != null
-                                                                ? double.parse(countSnapshot.data!.result!.readinessScore!).toStringAsFixed(0)
+                                                            (countSnapshot
+                                                                        .data
+                                                                        ?.result
+                                                                        ?.readinessScore !=
+                                                                    null
+                                                                ? double.parse(countSnapshot
+                                                                        .data!
+                                                                        .result!
+                                                                        .readinessScore!)
+                                                                    .toStringAsFixed(
+                                                                        0)
                                                                 : '0.0'),
                                                             textAlign: TextAlign
                                                                 .center,

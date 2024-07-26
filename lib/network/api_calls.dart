@@ -881,10 +881,8 @@ class ApiCalls {
       request.fields['LastName'] = lName;
       request.fields['BloodGroup'] = bloodGroup;
       request.fields['Gender'] = gender == 'Female'
-          ? '2'
-          : gender == 'Male'
-              ? '1'
-              : '3';
+          ? '1'
+          : '0';
       request.fields['Dob'] = dob;
       request.fields['UserId'] = userId.toString();
       request.fields['ContactId'] = contactId.toString();

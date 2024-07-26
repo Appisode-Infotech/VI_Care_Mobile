@@ -490,12 +490,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onChanged: (String? value) {
                           setState(() {
                             profileProvider.selectedGender = value == "Male"
-                                ? 1
-                                : value == "Female"
-                                    ? 2
-                                    : value == "Do not wish to specify"
-                                        ? 3
-                                        : 0;
+                                ? 0
+                                : 1;
                             profileProvider.editProfileGender = value!;
                           });
                         },
@@ -503,7 +499,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         items: <String>[
                           "Male",
                           "Female",
-                          "Do not wish to specify"
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,

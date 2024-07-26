@@ -133,11 +133,9 @@ class ProfileProvider extends ChangeNotifier {
     } else {
       "";
     }
-    editProfileGender = prefModel.userData!.contact!.gender == 1
+    editProfileGender = prefModel.userData!.contact!.gender == 0
         ? "Male"
-        : prefModel.userData!.contact!.gender == 2
-            ? "Female"
-            : "Do not wish to specify";
+        : "Female";
 
     Navigator.pop(context);
   }
@@ -317,6 +315,7 @@ class ProfileProvider extends ChangeNotifier {
     prefModel.userData!.contact!.firstName = a.result!.contact!.firstName;
     prefModel.userData!.contact!.lastName = a.result!.contact!.lastName;
     prefModel.userData!.profilePicture = a.result!.profilePicture;
+    prefModel.userData!.contact = a.result!.contact;
     AppPref.setPref(prefModel);
     return a;
   }

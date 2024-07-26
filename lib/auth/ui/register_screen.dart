@@ -897,12 +897,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onChanged: (String? value) {
             setState(() {
               authProvider.selectedGender = value == "Male"
-                  ? 1
-                  : value == "Female"
-                      ? 2
-                      : value == "Do not wish to specify"
-                          ? 3
-                          : 0;
+                  ? 0
+                  : 1;
               authProvider.gender = value!;
             });
           },
@@ -910,7 +906,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           items: <String>[
             "Male",
             "Female",
-            "Do not wish to specify"
             // AppLocale.male.getString(context),
             // AppLocale.female.getString(context)
           ].map<DropdownMenuItem<String>>((String value) {

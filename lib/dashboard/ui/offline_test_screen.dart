@@ -251,9 +251,9 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                                     .myRoleId ==
                                                 2
                                             ? Text(
-                                                "${(prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender == 1 ? "Male" : "Female")}")
+                                                "${(prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender == 0 ? "Male" : "Female")}")
                                             : Text(
-                                                "${(prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender == 1 ? "Male" : "Female")}"),
+                                                "${(prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender == 0 ? "Male" : "Female")}"),
                                         const SizedBox(height: 5),
                                         Text(
                                           "${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
@@ -293,23 +293,9 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                                                         .contact!
                                                         .doB
                                                         .toString()),
-                                                "gender": prefModel
-                                                            .userData!.roleId ==
-                                                        2
-                                                    ? prefModel
-                                                        .offlineSavedTests![
-                                                            index]
-                                                        .individualPatientData!
-                                                        .result!
-                                                        .contact!
-                                                        .gender
-                                                    : prefModel
-                                                        .offlineSavedTests![
-                                                            index]
-                                                        .enterprisePatientData!
-                                                        .result!
-                                                        .contact!
-                                                        .gender,
+                                                "gender": prefModel.userData!.roleId == 2
+                                                    ? prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender
+                                                    : prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender,
                                                 "date": DateTime.now()
                                                     .toIso8601String(),
                                                 "countryCode": "IN",

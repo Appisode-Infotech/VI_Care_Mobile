@@ -569,12 +569,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   setState(() {
                                     patientProvider.selectedGender = value ==
                                             "Male"
-                                        ? 1
-                                        : value == "Female"
-                                            ? 2
-                                            : value == "Do not wish to specify"
-                                                ? 3
-                                                : 0;
+                                        ? 0
+                                        : 1;
                                     patientProvider.editPatientGender = value!;
                                   });
                                 },
@@ -582,7 +578,6 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 items: <String>[
                                   "Male",
                                   "Female",
-                                  "Do not wish to specify"
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -1620,12 +1615,8 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     patientProvider.editPatientGender = value;
                                     patientProvider.selectedGender = value ==
                                             "Male"
-                                        ? 1
-                                        : value == "Female"
-                                            ? 2
-                                            : value == "Do not wish to specify"
-                                                ? 3
-                                                : 0;
+                                        ? 0
+                                        : 1;
                                     patientProvider.editPatientGender = value!;
                                   });
                                 },
@@ -1633,7 +1624,6 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                 items: <String>[
                                   "Male",
                                   "Female",
-                                  "Do not wish to specify"
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,

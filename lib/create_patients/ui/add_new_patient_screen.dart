@@ -29,6 +29,13 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
   }
 
   @override
+  void initState() {
+    if(prefModel.userData!.roleId==2){
+      Provider.of<PatientProvider>(context, listen: false).getPrefillData(context);
+    }
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (BuildContext context, PatientProvider patientProvider, Widget? child) {
@@ -543,7 +550,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             });
           },
           style: const TextStyle(color: Colors.black),
-          items: <String>["Male", "Female", "Do not wish to specify"]
+          items: <String>["Male", "Female"]
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,

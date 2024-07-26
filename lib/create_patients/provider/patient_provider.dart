@@ -38,11 +38,9 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController addNewPatientEmailController = TextEditingController();
   TextEditingController addNewPatientStreetController = TextEditingController();
   TextEditingController addNewPatientAreaController = TextEditingController();
-  TextEditingController addNewPatientLandmarkController =
-      TextEditingController();
+  TextEditingController addNewPatientLandmarkController = TextEditingController();
   TextEditingController addNewPatientCityController = TextEditingController();
-  TextEditingController addNewPatientPinCodeController =
-      TextEditingController();
+  TextEditingController addNewPatientPinCodeController = TextEditingController();
   TextEditingController addNewPatientFirstNameController =
       TextEditingController();
   TextEditingController addNewPatientLastNameController =
@@ -163,14 +161,13 @@ class PatientProvider extends ChangeNotifier {
     String formattedDate = outputFormat.format(dateTime);
 
     Map<String, String> genderMap = {
-      "Male": "1",
-      "Female": "2",
-      "Do not wish to specify": "3"
+      "Male": "0",
+      "Female": "1",
     };
 
     String gender = genderMap.containsKey(addNewPatientGender)
         ? genderMap[addNewPatientGender]!
-        : genderMap["Do not wish to specify"]!;
+        : '0';
 
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response =
@@ -262,11 +259,9 @@ class PatientProvider extends ChangeNotifier {
           individualPatientData.result!.lastName!;
       editPatientAddressController.text =
           individualPatientData.result!.contact!.address.toString();
-      editPatientGender = individualPatientData.result!.contact!.gender == 1
+      editPatientGender = individualPatientData.result!.contact!.gender == 0
           ? "Male"
-          : individualPatientData.result!.contact!.gender == 2
-              ? "Female"
-              : "Do not wish to specify";
+          :"Female";
       editNewPatientStreetController.text =
           individualPatientData.result!.contact!.address!.street != null
               ? individualPatientData.result!.contact!.address!.street
@@ -406,11 +401,9 @@ class PatientProvider extends ChangeNotifier {
           }
         }
       }
-      editPatientGender = enterpriseUserData.result!.contact!.gender == 1
+      editPatientGender = enterpriseUserData.result!.contact!.gender == 0
           ? "Male"
-          : enterpriseUserData.result!.contact!.gender == 2
-              ? "Female"
-              : "Do not wish to specify";
+          :"Female";
       editPatientBloodGroup = enterpriseUserData.result!.contact!.bloodGroup;
     }
   }
@@ -426,9 +419,8 @@ class PatientProvider extends ChangeNotifier {
     String formattedDate = outputFormat.format(dateTime);
 
     Map<String, String> genderMap = {
-      "Male": "1",
-      "Female": "2",
-      "Do not wish to specify": "3"
+      "Male": "0",
+      "Female": "1",
     };
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response = await apiCalls.editPatient(
@@ -583,5 +575,15 @@ class PatientProvider extends ChangeNotifier {
 
   checkEligibilityToAdd(BuildContext context) {
     return apiCalls.checkUserEligibleToAddMembers(context);
+  }
+
+  void getPrefillData(BuildContext context) {
+    addNewPatientMobileController.text = prefModel.userData!.contact!.contactNumber ?? '';
+    addNewPatientEmailController.text = prefModel.userData!.contact!.email ?? '';
+    addNewPatientStreetController.text = prefModel.userData!.contact!.address!.street ?? '';
+    addNewPatientAreaController.text = prefModel.userData!.contact!.address!.area ?? '';
+    addNewPatientLandmarkController.text = prefModel.userData!.contact!.address!.landmark ?? '';
+    addNewPatientCityController.text = prefModel.userData!.contact!.address!.city ?? '';
+    addNewPatientPinCodeController.text = prefModel.userData!.contact!.address!.pinCode ?? '';
   }
 }

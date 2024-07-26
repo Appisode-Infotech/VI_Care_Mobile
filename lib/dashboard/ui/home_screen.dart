@@ -219,6 +219,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             index]
                                                                         .id,
                                                               });
+                                                        } else if (reportsSnapshot.data!.result![index]
+                                                            .processingStatus ==
+                                                            2) {
+                                                          showErrorToast(context,
+                                                              AppLocale.reportProcessing.getString(context));
+                                                        } else {
+                                                          showErrorToast(
+                                                              context,
+                                                              AppLocale.reportsFailed
+                                                                  .getString(context));
                                                         }
                                                       },
                                                       child: Container(
@@ -1080,6 +1090,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       reportsSnapshot.data!
                                                           .result![index].id,
                                                 });
+                                          } else if (reportsSnapshot.data!.result![index]
+                                              .processingStatus ==
+                                              2) {
+                                            showErrorToast(context,
+                                                AppLocale.reportNotReady.getString(context));
+                                          } else {
+                                            showErrorToast(
+                                                context,
+                                                AppLocale.reportsFailed
+                                                    .getString(context));
                                           }
                                         },
                                         child: Container(
