@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -87,7 +86,6 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                   ReportsProcessedDataModel processedData =
                       ReportsProcessedDataModel.fromJson(
                           jsonDecode(snapshot.data!.result![0].processedData!));
-                  log(processedData.toJson().toString());
                   List additionalInfo = [
                     {
                       "name": "RMSSDRR",

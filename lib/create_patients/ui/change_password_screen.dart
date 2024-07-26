@@ -8,6 +8,7 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:vicare/main.dart';
 
+import '../../auth/model/register_response_model.dart';
 import '../../auth/model/send_otp_response_model.dart';
 import '../../utils/app_buttons.dart';
 import '../../utils/app_colors.dart';
@@ -130,22 +131,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     ? getPrimaryAppButton(context,
                                         AppLocale.next.getString(context),
                                         onPressed: () async {
-                                        if (profileProvider.resetPasswordOtp ==
-                                            profileProvider
-                                                .changePasswordOtpController
-                                                .text) {
+                                          RegisterResponseModel res = await profileProvider.verifyOtp(context,prefModel.userData!.email!,profileProvider
+                                              .changePasswordOtpController
+                                              .text);
+
+                                        if (res.result!=null) {
                                           showSuccessToast(
                                               context,
-                                              AppLocale.otpSuccessful
-                                                  .getString(context));
+                                              res.message.toString());
                                           setState(() {
                                             currentStep = currentStep + 1;
                                           });
                                         } else {
                                           showErrorToast(
                                               context,
-                                              AppLocale.invalidOtp
-                                                  .getString(context));
+                                              res.message.toString());
                                         }
                                       })
                                     : getPrimaryAppButton(context,

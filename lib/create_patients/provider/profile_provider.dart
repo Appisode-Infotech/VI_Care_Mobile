@@ -319,4 +319,8 @@ class ProfileProvider extends ChangeNotifier {
     AppPref.setPref(prefModel);
     return a;
   }
+
+  verifyOtp(BuildContext context,String email,String otp) {
+    return apiCalls.verifyOtp(context,email,otp);
+  }
 }

@@ -13,6 +13,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:vicare/auth/auth_provider.dart';
+import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/auth/model/send_otp_response_model.dart';
 import 'package:vicare/utils/app_colors.dart';
 
@@ -154,14 +155,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   currentStep = currentStep + 1;
                                                 });
                                               } else if (currentStep == 2) {
-                                                if (authProvider.otpReceived ==
-                                                    authProvider
-                                                        .registerOtpController
-                                                        .text){
+                                                RegisterResponseModel res = await authProvider.verifyOtp(context,authProvider
+                                                    .registerEmailController
+                                                    .text,authProvider
+                                                    .registerOtpController
+                                                    .text);
+                                                if (res.result!=null){
                                                   showSuccessToast(
                                                       context,
-                                                      AppLocale.otpSuccessful
-                                                          .getString(context));
+                                                      res.message.toString());
                                                   setState(() {
                                                     currentStep =
                                                         currentStep + 1;
@@ -169,8 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 } else {
                                                   showErrorToast(
                                                       context,
-                                                      AppLocale.invalidOtp
-                                                          .getString(context));
+                                                      res.message.toString());
                                                 }
                                               }
                                             }

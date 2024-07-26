@@ -7,6 +7,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:vicare/auth/auth_provider.dart';
+import 'package:vicare/auth/model/register_response_model.dart';
 
 import '../../main.dart';
 import '../../utils/app_buttons.dart';
@@ -178,12 +179,12 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                           onPressed: () async {
                             if (forgotPasswordFormKey.currentState!
                                 .validate()) {
-                              if (resetPasswordOtp ==
-                                  authProvider.forgotPasswordOtpController.text) {
+                              RegisterResponseModel res = await authProvider.verifyOtp(context,authProvider.forgotPasswordEmailController.text,authProvider.forgotPasswordOtpController.text);
+                              if (res.result!=null) {
                                 authProvider.resetPassword(context);
                               } else {
                                 showErrorToast(context,
-                                    AppLocale.validOtp.getString(context));
+                                    res.message.toString());
                               }
                             }
                           },

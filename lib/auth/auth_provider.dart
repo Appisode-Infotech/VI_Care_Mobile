@@ -260,4 +260,9 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(context, countryMasterResponse!.message.toString());
     }
   }
+
+  verifyOtp(BuildContext context,String email,String otp) {
+    return apiCalls.verifyOtp(context,email,otp);
+  }
+
 }

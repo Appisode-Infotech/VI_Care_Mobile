@@ -1382,6 +1382,22 @@ class ApiCalls {
       throw "could not send otp ${response.statusCode}";
     }
   }
+
+  Future<RegisterResponseModel>verifyOtp(BuildContext context, email, String otp) async {
+    http.Response response = await hitApiPost(
+        true,
+        "${UrlConstants.verifyOTP}/$email/$otp",
+        jsonEncode({"UserEmail": email,"otp":otp}),
+        context);
+    if (response.statusCode == 200) {
+      return RegisterResponseModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      showErrorToast(context, "Something went wrong");
+      throw "could not send otp ${response.statusCode}";
+    }
+  }
+
 }
 
 class NoInternetManager {
