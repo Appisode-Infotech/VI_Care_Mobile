@@ -577,7 +577,7 @@ class PatientProvider extends ChangeNotifier {
     return apiCalls.checkUserEligibleToAddMembers(context);
   }
 
-  void getPrefillData(BuildContext context) {
+  Future<void> getPrefillData(BuildContext context) async {
     addNewPatientMobileController.text = prefModel.userData!.contact!.contactNumber ?? '';
     addNewPatientEmailController.text = prefModel.userData!.contact!.email ?? '';
     addNewPatientStreetController.text = prefModel.userData!.contact!.address!.street ?? '';
@@ -585,5 +585,9 @@ class PatientProvider extends ChangeNotifier {
     addNewPatientLandmarkController.text = prefModel.userData!.contact!.address!.landmark ?? '';
     addNewPatientCityController.text = prefModel.userData!.contact!.address!.city ?? '';
     addNewPatientPinCodeController.text = prefModel.userData!.contact!.address!.pinCode ?? '';
+    countryAs = prefModel.userData!.contact!.address!.country!.name;
+    await getStateMaster(context, prefModel.userData!.contact!.address!.country!.uniqueGuid);
+    stateAs = prefModel.userData!.contact!.address!.state!['name'];
+    notifyListeners();
   }
 }

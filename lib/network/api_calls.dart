@@ -1385,7 +1385,7 @@ class ApiCalls {
 
   Future<RegisterResponseModel>verifyOtp(BuildContext context, email, String otp) async {
     http.Response response = await hitApiPost(
-        true,
+        false,
         "${UrlConstants.verifyOTP}/$email/$otp",
         jsonEncode({"UserEmail": email,"otp":otp}),
         context);

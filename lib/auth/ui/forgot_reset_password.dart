@@ -179,7 +179,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
                           onPressed: () async {
                             if (forgotPasswordFormKey.currentState!
                                 .validate()) {
+                              showLoaderDialog(context);
                               RegisterResponseModel res = await authProvider.verifyOtp(context,authProvider.forgotPasswordEmailController.text,authProvider.forgotPasswordOtpController.text);
+                              Navigator.pop(context);
                               if (res.result!=null) {
                                 authProvider.resetPassword(context);
                               } else {
@@ -297,9 +299,9 @@ class _ForgotResetPasswordState extends State<ForgotResetPassword> {
             if (value!.isEmpty) {
               return AppLocale.validOtp.getString(context);
             }
-            if (value != resetPasswordOtp) {
-              return AppLocale.validOtp.getString(context);
-            }
+            // if (value != resetPasswordOtp) {
+            //   return AppLocale.validOtp.getString(context);
+            // }
             return null;
           },
           keyboardType: TextInputType.number,

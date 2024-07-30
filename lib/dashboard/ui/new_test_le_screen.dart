@@ -350,14 +350,12 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                 AppLocale.start.getString(context),
                                 onPressed: () async {
                               showLoaderDialog(context);
-                              CheckDeviceExistsResponseModel response =
-                                  await newTestLeProvider.checkIsDeviceExists(
-                                      selectedDevice!.id, context);
+                              CheckDeviceExistsResponseModel response = await newTestLeProvider.checkIsDeviceExists(selectedDevice!.id, context);
                               if (response.result != null) {
                                 await startRecordingReadings();
                                 _startTimer(newTestLeProvider);
                               } else {
-                                showErrorToast(context, "Invalid device");
+                                showErrorToast(context, response.message.toString());
                               }
                               Navigator.pop(context);
                             }),

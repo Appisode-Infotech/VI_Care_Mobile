@@ -131,10 +131,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     ? getPrimaryAppButton(context,
                                         AppLocale.next.getString(context),
                                         onPressed: () async {
+                                      showLoaderDialog(context);
                                           RegisterResponseModel res = await profileProvider.verifyOtp(context,prefModel.userData!.email!,profileProvider
                                               .changePasswordOtpController
                                               .text);
-
+                                          Navigator.pop(context);
                                         if (res.result!=null) {
                                           showSuccessToast(
                                               context,

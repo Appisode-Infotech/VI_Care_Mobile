@@ -155,11 +155,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   currentStep = currentStep + 1;
                                                 });
                                               } else if (currentStep == 2) {
+                                                showLoaderDialog(context);
                                                 RegisterResponseModel res = await authProvider.verifyOtp(context,authProvider
                                                     .registerEmailController
                                                     .text,authProvider
                                                     .registerOtpController
                                                     .text);
+                                                Navigator.pop(context);
                                                 if (res.result!=null){
                                                   showSuccessToast(
                                                       context,

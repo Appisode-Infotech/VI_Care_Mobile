@@ -735,7 +735,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           hint:  Text(AppLocale.country.getString(context)),
           onChanged: (String? value) async {
             var selectedCountry = patientProvider.countryMasterResponse!.result!
-                .firstWhere((country) => country.name == value);
+                .firstWhere((country) {
+                  return country.name == value;
+                });
             patientProvider.selectedCountryId = selectedCountry.id;
             await patientProvider.getStateMaster(context, selectedCountry.uniqueGuid);
             setState(() {
