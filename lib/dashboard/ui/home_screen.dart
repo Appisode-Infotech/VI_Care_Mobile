@@ -1,5 +1,4 @@
 
-import 'dart:io';
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
