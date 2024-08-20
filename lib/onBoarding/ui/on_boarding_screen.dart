@@ -65,20 +65,28 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 });
                               },
                             ),
-                            itemCount: 4,
+                            itemCount: 3,
                             itemBuilder: (BuildContext context, int itemIndex,
                                 int pageViewIndex) {
+                              List<String> imagePaths =[
+                                "assets/images/home_bg.png",
+                                "assets/images/takeTest_bg.png",
+                                "assets/images/report_bg.png"
+                              ];
+                              double scale = currentIndexPage == itemIndex ? 1.03 : 1.0;
                               return Container(
                                   width: MediaQuery.of(context).size.width,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                  child: const Image(
-                                    image: AssetImage(
-                                        "assets/images/phone_case.png"),
-                                  ));
+                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Transform.scale(
+                              scale: scale,
+                              child: Image.asset(
+                              imagePaths[itemIndex],
+                              fit: BoxFit.cover,
+                              ),)
+                                  );
                             },
                           ),
-                        ),
+                        )
                       ),
                       Align(
                         alignment: AlignmentDirectional.bottomCenter,
