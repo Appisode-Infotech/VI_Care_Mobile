@@ -58,433 +58,456 @@ class _OfflineTestScreenState extends State<OfflineTestScreen> {
                   ? ListView.builder(
                       itemCount: prefModel.offlineSavedTests!.length,
                       itemBuilder: (context, index) {
-                        if (prefModel.offlineSavedTests![index]
-                                    .individualPatientData ==
-                                null &&
-                            prefModel.offlineSavedTests![index]
-                                    .enterprisePatientData ==
-                                null) {
-                          return Container(
-                            width: screenSize!.width,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            margin: const EdgeInsets.all(5),
-                            decoration: const BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 5,
-                                    color: Colors.grey,
-                                    offset: Offset(2, 2),
-                                  ),
-                                ],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                color: Colors.white),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${AppLocale.test.getString(context)} ${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
-                                  style: const TextStyle(
-                                      color: AppColors.fontShadeColor,
-                                      fontSize: 14),
-                                ),
-                                Text(
-                                  AppLocale.noPatientDate.getString(context),
-                                  style: const TextStyle(
-                                      color: AppColors.fontShadeColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 10),
-                                Row(children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _showPatientBottomSheet(context, index,
-                                          (bool a) {
-                                        setState(() {});
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.link,
-                                          color: AppColors.primaryColor,
-                                          size: 18,
-                                        ),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text(
-                                          AppLocale.linkNow.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: AppColors.primaryColor),
-                                        ),
-                                      ],
+                        if (prefModel.userData!.id ==
+                            prefModel.offlineSavedTests![index].myUserId) {
+                          if (prefModel.offlineSavedTests![index]
+                                      .individualPatientData ==
+                                  null &&
+                              prefModel.offlineSavedTests![index]
+                                      .enterprisePatientData ==
+                                  null) {
+                            return Container(
+                              width: screenSize!.width,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              margin: const EdgeInsets.all(5),
+                              decoration: const BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      color: Colors.grey,
+                                      offset: Offset(2, 2),
                                     ),
+                                  ],
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                  color: Colors.white),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${AppLocale.test.getString(context)} ${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
+                                    style: const TextStyle(
+                                        color: AppColors.fontShadeColor,
+                                        fontSize: 14),
                                   ),
-                                  const SizedBox(
-                                    width: 20,
+                                  Text(
+                                    AppLocale.noPatientDate.getString(context),
+                                    style: const TextStyle(
+                                        color: AppColors.fontShadeColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        prefModel.offlineSavedTests!
-                                            .removeAt(index);
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.delete_outline,
-                                          color: Colors.red,
-                                          size: 18,
-                                        ),
-                                        Text(
-                                          AppLocale.delete.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 12, color: Colors.red),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ])
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Column(
-                            children: [
-                              Container(
-                                width: screenSize!.width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 15),
-                                margin: const EdgeInsets.all(5),
-                                decoration: const BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 5,
-                                        color: Colors.grey,
-                                        offset: Offset(2, 2),
+                                  const SizedBox(height: 10),
+                                  Row(children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showPatientBottomSheet(context, index,
+                                            (bool a) {
+                                          setState(() {});
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.link,
+                                            color: AppColors.primaryColor,
+                                            size: 18,
+                                          ),
+                                          const SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text(
+                                            AppLocale.linkNow
+                                                .getString(context),
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: AppColors.primaryColor),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                    color: Colors.white),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(prefModel
-                                                  .offlineSavedTests![index]
-                                                  .myRoleId ==
-                                              2
-                                          ? '${prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture?.url}'
-                                          : '${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture?.url}'),
-                                      radius: 30,
-                                      backgroundColor: Colors.grey.shade400,
-                                      child: (prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .myRoleId ==
-                                                      2 &&
-                                                  prefModel
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          prefModel.offlineSavedTests!
+                                              .removeAt(index);
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                            size: 18,
+                                          ),
+                                          Text(
+                                            AppLocale.delete.getString(context),
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.red),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ])
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                Container(
+                                  width: screenSize!.width,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 15),
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: const BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 5,
+                                          color: Colors.grey,
+                                          offset: Offset(2, 2),
+                                        ),
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                      color: Colors.white),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(prefModel
+                                                    .offlineSavedTests![index]
+                                                    .myRoleId ==
+                                                2
+                                            ? '${prefModel.offlineSavedTests![index].individualPatientData!.result!.profilePicture?.url}'
+                                            : '${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.profilePicture?.url}'),
+                                        radius: 30,
+                                        backgroundColor: Colors.grey.shade400,
+                                        child: (prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .myRoleId ==
+                                                        2 &&
+                                                    prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .individualPatientData!
+                                                            .result!
+                                                            .profilePicture
+                                                            ?.url ==
+                                                        null) ||
+                                                (prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .myRoleId !=
+                                                        2 &&
+                                                    prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .enterprisePatientData!
+                                                            .result!
+                                                            .profilePicture
+                                                            ?.url ==
+                                                        null)
+                                            ? const Icon(Icons.person,
+                                                size: 30, color: Colors.white)
+                                            : null,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          prefModel.offlineSavedTests![index]
+                                                      .myRoleId ==
+                                                  2
+                                              ? SizedBox(
+                                                  width: screenSize!.width / 2,
+                                                  child: Text(
+                                                      "${prefModel.offlineSavedTests![index].individualPatientData!.result!.firstName!} ${prefModel.offlineSavedTests![index].individualPatientData!.result!.lastName!}"),
+                                                )
+                                              : SizedBox(
+                                                  width: screenSize!.width / 2,
+                                                  child: Text(
+                                                      "${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.firstName!} ${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.lastName!}"),
+                                                ),
+                                          const SizedBox(height: 5),
+                                          prefModel.offlineSavedTests![index]
+                                                      .myRoleId ==
+                                                  2
+                                              ? Text(
+                                                  "${calculateAge("${prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}")
+                                              : Text(
+                                                  "${calculateAge("${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}"),
+                                          const SizedBox(height: 5),
+                                          prefModel.offlineSavedTests![index]
+                                                      .myRoleId ==
+                                                  2
+                                              ? Text(
+                                                  "${(prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender == 0 ? "Male" : "Female")}")
+                                              : Text(
+                                                  "${(prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender == 0 ? "Male" : "Female")}"),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
+                                            style: const TextStyle(
+                                                color: AppColors.fontShadeColor,
+                                                fontSize: 14),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Row(children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                showLoaderDialog(context);
+                                                var jsonString = jsonEncode({
+                                                  "fileVersion": "IBIPOLAR",
+                                                  "appVersion": "ViCare_1.0.0",
+                                                  "serialNumber": prefModel
+                                                      .offlineSavedTests![index]
+                                                      .deviceId,
+                                                  "guid":
+                                                      "46184141-00c6-46ee-b927-4218085e85fd",
+                                                  "age": prefModel.userData!
+                                                              .roleId ==
+                                                          2
+                                                      ? calculateAge(prefModel
                                                           .offlineSavedTests![
                                                               index]
                                                           .individualPatientData!
                                                           .result!
-                                                          .profilePicture
-                                                          ?.url ==
-                                                      null) ||
-                                              (prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .myRoleId !=
-                                                      2 &&
-                                                  prefModel
+                                                          .contact!
+                                                          .doB
+                                                          .toString())
+                                                      : calculateAge(prefModel
                                                           .offlineSavedTests![
                                                               index]
                                                           .enterprisePatientData!
                                                           .result!
-                                                          .profilePicture
-                                                          ?.url ==
-                                                      null)
-                                          ? const Icon(Icons.person,
-                                              size: 30, color: Colors.white)
-                                          : null,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        prefModel.offlineSavedTests![index]
-                                                    .myRoleId ==
-                                                2
-                                            ? SizedBox(
-                                                width: screenSize!.width / 2,
-                                                child: Text(
-                                                    "${prefModel.offlineSavedTests![index].individualPatientData!.result!.firstName!} ${prefModel.offlineSavedTests![index].individualPatientData!.result!.lastName!}"),
-                                              )
-                                            : SizedBox(
-                                                width: screenSize!.width / 2,
-                                                child: Text(
-                                                    "${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.firstName!} ${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.lastName!}"),
-                                              ),
-                                        const SizedBox(height: 5),
-                                        prefModel.offlineSavedTests![index]
-                                                    .myRoleId ==
-                                                2
-                                            ? Text(
-                                                "${calculateAge("${prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}")
-                                            : Text(
-                                                "${calculateAge("${prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.doB!}")} ${AppLocale.years.getString(context)}"),
-                                        const SizedBox(height: 5),
-                                        prefModel.offlineSavedTests![index]
-                                                    .myRoleId ==
-                                                2
-                                            ? Text(
-                                                "${(prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender == 0 ? "Male" : "Female")}")
-                                            : Text(
-                                                "${(prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender == 0 ? "Male" : "Female")}"),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "${AppLocale.created.getString(context)}: ${parseDate(prefModel.offlineSavedTests![index].created.toString())}",
-                                          style: const TextStyle(
-                                              color: AppColors.fontShadeColor,
-                                              fontSize: 14),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Row(children: [
-                                          GestureDetector(
-                                            onTap: () async {
-                                              showLoaderDialog(context);
-                                              var jsonString = jsonEncode({
-                                                "fileVersion": "IBIPOLAR",
-                                                "appVersion": "ViCare_1.0.0",
-                                                "serialNumber": prefModel
-                                                    .offlineSavedTests![index]
-                                                    .deviceId,
-                                                "guid":
-                                                    "46184141-00c6-46ee-b927-4218085e85fd",
-                                                "age": prefModel
-                                                            .userData!.roleId ==
-                                                        2
-                                                    ? calculateAge(prefModel
-                                                        .offlineSavedTests![
-                                                            index]
-                                                        .individualPatientData!
-                                                        .result!
-                                                        .contact!
-                                                        .doB
-                                                        .toString())
-                                                    : calculateAge(prefModel
-                                                        .offlineSavedTests![
-                                                            index]
-                                                        .enterprisePatientData!
-                                                        .result!
-                                                        .contact!
-                                                        .doB
-                                                        .toString()),
-                                                "gender": prefModel.userData!.roleId == 2
-                                                    ? prefModel.offlineSavedTests![index].individualPatientData!.result!.contact!.gender
-                                                    : prefModel.offlineSavedTests![index].enterprisePatientData!.result!.contact!.gender,
-                                                "date": DateTime.now()
-                                                    .toIso8601String(),
-                                                "countryCode": "IN",
-                                                "intervals": prefModel
-                                                    .offlineSavedTests![index]
-                                                    .rrIntervalList
-                                              });
-                                              var directory =
-                                                  await getExternalStorageDirectory();
-                                              var viCareDirectory = Directory(
-                                                  '${directory!.path}/vicare');
+                                                          .contact!
+                                                          .doB
+                                                          .toString()),
+                                                  "gender": prefModel.userData!
+                                                              .roleId ==
+                                                          2
+                                                      ? prefModel
+                                                          .offlineSavedTests![
+                                                              index]
+                                                          .individualPatientData!
+                                                          .result!
+                                                          .contact!
+                                                          .gender
+                                                      : prefModel
+                                                          .offlineSavedTests![
+                                                              index]
+                                                          .enterprisePatientData!
+                                                          .result!
+                                                          .contact!
+                                                          .gender,
+                                                  "date": DateTime.now()
+                                                      .toIso8601String(),
+                                                  "countryCode": "IN",
+                                                  "intervals": prefModel
+                                                      .offlineSavedTests![index]
+                                                      .rrIntervalList
+                                                });
+                                                var directory =
+                                                    await getExternalStorageDirectory();
+                                                var viCareDirectory = Directory(
+                                                    '${directory!.path}/vicare');
 
-                                              if (!(await viCareDirectory
-                                                  .exists())) {
-                                                await viCareDirectory.create(
-                                                    recursive: true);
-                                              }
-                                              var now = DateTime.now();
-                                              var timestamp =
-                                                  now.millisecondsSinceEpoch;
-                                              var filename =
-                                                  'data_$timestamp.json';
-                                              var filePath =
-                                                  '${viCareDirectory.path}/$filename';
-                                              File payload = File(filePath);
-                                              await payload
-                                                  .writeAsString(jsonString);
-                                              if (await payload.exists()) {
-                                                String pId = prefModel
-                                                            .userData!.roleId ==
-                                                        2
-                                                    ? prefModel
-                                                        .offlineSavedTests![
-                                                            index]
-                                                        .individualPatientData!
-                                                        .result!
-                                                        .id
-                                                        .toString()
-                                                    : prefModel
-                                                        .offlineSavedTests![
-                                                            index]
-                                                        .enterprisePatientData!
-                                                        .result!
-                                                        .id
-                                                        .toString();
-                                                await newTestLeProvider
-                                                    .requestDeviceData(
-                                                        context,
-                                                        payload,
-                                                        prefModel
-                                                            .offlineSavedTests![
-                                                                index]
-                                                            .deviceId,
-                                                        prefModel
-                                                            .offlineSavedTests![
-                                                                index]
-                                                            .userAndDeviceId,
-                                                        '',
-                                                        prefModel
-                                                            .offlineSavedTests![
-                                                                index]
-                                                            .selectedDurationId,
-                                                        prefModel
-                                                            .offlineSavedTests![
-                                                                index]
-                                                            .scanDurationName,
-                                                        pId,
-                                                        {
-                                                      "MyRoleId": prefModel
-                                                          .userData!.roleId,
-                                                      "bpmList": prefModel
+                                                if (!(await viCareDirectory
+                                                    .exists())) {
+                                                  await viCareDirectory.create(
+                                                      recursive: true);
+                                                }
+                                                var now = DateTime.now();
+                                                var timestamp =
+                                                    now.millisecondsSinceEpoch;
+                                                var filename =
+                                                    'data_$timestamp.json';
+                                                var filePath =
+                                                    '${viCareDirectory.path}/$filename';
+                                                File payload = File(filePath);
+                                                await payload
+                                                    .writeAsString(jsonString);
+                                                if (await payload.exists()) {
+                                                  String pId = prefModel
+                                                              .userData!
+                                                              .roleId ==
+                                                          2
+                                                      ? prefModel
                                                           .offlineSavedTests![
                                                               index]
-                                                          .bpmList,
-                                                      "rrIntervalList": prefModel
+                                                          .individualPatientData!
+                                                          .result!
+                                                          .id
+                                                          .toString()
+                                                      : prefModel
                                                           .offlineSavedTests![
                                                               index]
-                                                          .rrIntervalList,
-                                                      "scanDuration": prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .scanDuration,
-                                                      "scanDurationName":
+                                                          .enterprisePatientData!
+                                                          .result!
+                                                          .id
+                                                          .toString();
+                                                  await newTestLeProvider
+                                                      .requestDeviceData(
+                                                          context,
+                                                          payload,
                                                           prefModel
                                                               .offlineSavedTests![
                                                                   index]
-                                                              .scanDurationName,
-                                                      "deviceName": prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .deviceName,
-                                                      "deviceId": prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .deviceId,
-                                                      "userAndDeviceId": prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .userAndDeviceId,
-                                                      "selectedDurationId":
+                                                              .deviceId,
+                                                          prefModel
+                                                              .offlineSavedTests![
+                                                                  index]
+                                                              .userAndDeviceId,
+                                                          '',
                                                           prefModel
                                                               .offlineSavedTests![
                                                                   index]
                                                               .selectedDurationId,
-                                                      "enterprisePatientData":
                                                           prefModel
                                                               .offlineSavedTests![
                                                                   index]
-                                                              .enterprisePatientData,
-                                                      "individualPatientData":
-                                                          prefModel
-                                                              .offlineSavedTests![
-                                                                  index]
-                                                              .individualPatientData,
-                                                      "created": prefModel
-                                                          .offlineSavedTests![
-                                                              index]
-                                                          .created
-                                                      // Convert DateTime to String
-                                                    });
-                                                prefModel.offlineSavedTests!
-                                                    .removeAt(index);
-                                              } else {
-                                                showErrorToast(
-                                                    context,
-                                                    AppLocale.somethingWentWrong
-                                                        .getString(context));
-                                              }
-                                              Navigator.pop(context);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.refresh_outlined,
-                                                  color: AppColors.primaryColor,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(
-                                                  width: 3,
-                                                ),
-                                                Text(
-                                                  AppLocale.upload
-                                                      .getString(context),
-                                                  style: const TextStyle(
-                                                      fontSize: 12,
-                                                      color: AppColors
-                                                          .primaryColor),
-                                                ),
-                                              ],
+                                                              .scanDurationName,
+                                                          pId,
+                                                          {
+                                                        "MyRoleId": prefModel
+                                                            .userData!.roleId,
+                                                        "bpmList": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .bpmList,
+                                                        "rrIntervalList": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .rrIntervalList,
+                                                        "scanDuration": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .scanDuration,
+                                                        "scanDurationName": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .scanDurationName,
+                                                        "deviceName": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .deviceName,
+                                                        "deviceId": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .deviceId,
+                                                        "userAndDeviceId": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .userAndDeviceId,
+                                                        "selectedDurationId": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .selectedDurationId,
+                                                        "enterprisePatientData":
+                                                            prefModel
+                                                                .offlineSavedTests![
+                                                                    index]
+                                                                .enterprisePatientData,
+                                                        "individualPatientData":
+                                                            prefModel
+                                                                .offlineSavedTests![
+                                                                    index]
+                                                                .individualPatientData,
+                                                        "created": prefModel
+                                                            .offlineSavedTests![
+                                                                index]
+                                                            .created
+                                                        // Convert DateTime to String
+                                                      });
+                                                  prefModel.offlineSavedTests!
+                                                      .removeAt(index);
+                                                } else {
+                                                  showErrorToast(
+                                                      context,
+                                                      AppLocale
+                                                          .somethingWentWrong
+                                                          .getString(context));
+                                                }
+                                                Navigator.pop(context);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.refresh_outlined,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    size: 18,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Text(
+                                                    AppLocale.upload
+                                                        .getString(context),
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        color: AppColors
+                                                            .primaryColor),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                prefModel.offlineSavedTests!
-                                                    .removeAt(index);
-                                              });
-                                            },
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.delete_outline,
-                                                  color: Colors.red,
-                                                  size: 18,
-                                                ),
-                                                Text(
-                                                  AppLocale.delete
-                                                      .getString(context),
-                                                  style: const TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.red),
-                                                )
-                                              ],
+                                            const SizedBox(
+                                              width: 20,
                                             ),
-                                          ),
-                                        ])
-                                      ],
-                                    ),
-                                  ],
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  prefModel.offlineSavedTests!
+                                                      .removeAt(index);
+                                                });
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.red,
+                                                    size: 18,
+                                                  ),
+                                                  Text(
+                                                    AppLocale.delete
+                                                        .getString(context),
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors.red),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ])
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          );
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            );
+                          }
+                        } else {
+                          return const SizedBox.shrink();
                         }
                       },
                     )
@@ -530,9 +553,16 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                 Text(
-                  prefModel.userData!.roleId==2?AppLocale.selectMember.getString(context):prefModel.userData!.roleId==3?AppLocale.selectPatient.getString(context):prefModel.userData!.roleId==3?AppLocale.selectPlayer.getString(context):"Select",
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                Text(
+                  prefModel.userData!.roleId == 2
+                      ? AppLocale.selectMember.getString(context)
+                      : prefModel.userData!.roleId == 3
+                          ? AppLocale.selectPatient.getString(context)
+                          : prefModel.userData!.roleId == 3
+                              ? AppLocale.selectPlayer.getString(context)
+                              : "Select",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 GestureDetector(
                     onTap: () {
@@ -605,7 +635,8 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex,
                                       context: bottomSheetContext,
                                       builder: (BuildContext dialogContext) {
                                         return AlertDialog(
-                                          title:  Text(AppLocale.confirmAssign.getString(context)),
+                                          title: Text(AppLocale.confirmAssign
+                                              .getString(context)),
                                           content: Text(
                                               "${AppLocale.sureTest.getString(context)} ${snapshot.data!.result![index].firstName!} ${snapshot.data!.result![index].lastName!} ?"),
                                           actions: [
@@ -614,14 +645,16 @@ void _showPatientBottomSheet(BuildContext context, offlineSavedTestIndex,
                                                 Navigator.of(dialogContext)
                                                     .pop(false);
                                               },
-                                              child:  Text(AppLocale.cancel.getString(context)),
+                                              child: Text(AppLocale.cancel
+                                                  .getString(context)),
                                             ),
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(dialogContext)
                                                     .pop(true);
                                               },
-                                              child:  Text(AppLocale.yes.getString(context)),
+                                              child: Text(AppLocale.yes
+                                                  .getString(context)),
                                             ),
                                           ],
                                         );

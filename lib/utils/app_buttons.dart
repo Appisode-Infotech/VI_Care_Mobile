@@ -30,7 +30,7 @@ getPrimaryAppButton(BuildContext context, String label,
       ),
     ),
     child: Container(
-     alignment: Alignment.center,
+      alignment: Alignment.center,
       // margin: const EdgeInsets.symmetric(horizontal: 2),
       width: screenSize!.width,
       height: 50,
@@ -63,9 +63,10 @@ showLanguageBottomSheet(
                 const SizedBox(
                   height: 20,
                 ),
-                 Text(
+                Text(
                   AppLocale.selectLanguage.getString(context),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
@@ -117,14 +118,14 @@ void showImageSourceDialog(BuildContext context,
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
-        title:  Text(AppLocale.chooseImageSource.getString(context)),
+        title: Text(AppLocale.chooseImageSource.getString(context)),
         children: <Widget>[
           SimpleDialogOption(
             onPressed: () async {
               onOptionSelected(AppLocale.camera.getString(context));
               Navigator.pop(context);
             },
-            child:  ListTile(
+            child: ListTile(
               leading: const Icon(Icons.camera),
               title: Text(AppLocale.camera.getString(context)),
             ),
@@ -134,7 +135,7 @@ void showImageSourceDialog(BuildContext context,
               onOptionSelected(AppLocale.gallery.getString(context));
               Navigator.pop(context);
             },
-            child:  ListTile(
+            child: ListTile(
               leading: const Icon(Icons.image),
               title: Text(AppLocale.gallery.getString(context)),
             ),
@@ -151,27 +152,28 @@ late Timer toastTimer;
 void showSuccessToast(BuildContext context, String content) {
   if (!isToastShowing) {
     isToastShowing = true;
-  toastification.show(
-    context: context, // optional if you use ToastificationWrapper
-    type: ToastificationType.success,
-    style: ToastificationStyle.fillColored,
-    autoCloseDuration: const Duration(seconds: 5),
-    title:  Text(AppLocale.success.getString(context)),
-    // you can also use RichText widget for title and description parameters
-    description: RichText(text: TextSpan(text: content)),
-    alignment: Alignment.topRight,
-    direction: TextDirection.ltr,
-    animationDuration: const Duration(milliseconds: 300),
-    icon: const Icon(Icons.check),
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    borderRadius: BorderRadius.circular(12),
-    showProgressBar: false,
-    closeButtonShowType: CloseButtonShowType.onHover,
-    closeOnClick: false,
-    pauseOnHover: true,
-    dragToClose: true,
-  );
+    toastification.show(
+      context: context,
+      // optional if you use ToastificationWrapper
+      type: ToastificationType.success,
+      style: ToastificationStyle.fillColored,
+      autoCloseDuration: const Duration(seconds: 5),
+      title: Text(AppLocale.success.getString(context)),
+      // you can also use RichText widget for title and description parameters
+      description: RichText(text: TextSpan(text: content)),
+      alignment: Alignment.topRight,
+      direction: TextDirection.ltr,
+      animationDuration: const Duration(milliseconds: 300),
+      icon: const Icon(Icons.check),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      showProgressBar: false,
+      closeButtonShowType: CloseButtonShowType.onHover,
+      closeOnClick: false,
+      pauseOnHover: true,
+      dragToClose: true,
+    );
     toastTimer = Timer(const Duration(seconds: 5), () {
       isToastShowing = false;
     });
@@ -226,8 +228,8 @@ void showLoaderDialog(BuildContext context) {
               child: Lottie.asset('assets/lottie/loading.json'),
             ),
             const SizedBox(height: 8),
-             Text(
-             AppLocale.loading.getString(context),
+            Text(
+              AppLocale.loading.getString(context),
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
@@ -323,8 +325,6 @@ Future<bool> showStopTestWarningDialog(BuildContext context) async {
   return result; // Default to false if result is null
 }
 
-
-
 Future<bool> showSaveTestDialog(BuildContext context) async {
   bool result = await showDialog(
       barrierDismissible: false,
@@ -333,21 +333,21 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
         return PopScope(
           canPop: false,
           child: AlertDialog(
-            title:  Text(AppLocale.testCompleted.getString(context)),
+            title: Text(AppLocale.testCompleted.getString(context)),
             backgroundColor: Colors.white,
-            content:  Text(AppLocale.testNext.getString(context)),
+            content: Text(AppLocale.testNext.getString(context)),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child:Text(AppLocale.discard.getString(context),
+                  child: Text(AppLocale.discard.getString(context),
                       style: const TextStyle(color: Colors.red))),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  child:  Text(AppLocale.saveOffline.getString(context),
+                  child: Text(AppLocale.saveOffline.getString(context),
                       style: const TextStyle(color: Colors.green)))
             ],
           ),
@@ -356,8 +356,13 @@ Future<bool> showSaveTestDialog(BuildContext context) async {
   return result; // Default to false if result is null
 }
 
-
-showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, DurationResponseModel myDurations, IndividualResponseModel? individualPatientData, EnterpriseResponseModel? enterprisePatientData,) {
+showTestFormBottomSheet(
+  BuildContext context,
+  DeviceResponseModel myDevices,
+  DurationResponseModel myDurations,
+  IndividualResponseModel? individualPatientData,
+  EnterpriseResponseModel? enterprisePatientData,
+) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext bottomSheetContext) {
@@ -365,11 +370,10 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
       Device? selectedDevice;
       DurationClass? selectedDuration;
       return Consumer(
-        builder: (BuildContext consumerContext, NewTestLeProvider newTestLeProvider, Widget? child) {
-          return  ListView(
-            shrinkWrap: true,
-            children: [
-              Container(
+        builder: (BuildContext consumerContext,
+            NewTestLeProvider newTestLeProvider, Widget? child) {
+          return ListView(shrinkWrap: true, children: [
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               width: screenSize!.width,
               child: Form(
@@ -385,14 +389,15 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         FittedBox(
-                           child: Text(
+                        FittedBox(
+                          child: Text(
                             AppLocale.selectOption.getString(context),
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                                   ),
-                         ),
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                         IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.pop(bottomSheetContext);
                           },
                           icon: const Icon(Icons.close),
@@ -404,22 +409,22 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
-                      child:  Text(AppLocale.selectDevice.getString(context)),
+                      child: Text(AppLocale.selectDevice.getString(context)),
                     ),
                     DropdownButtonFormField<Device>(
                       isExpanded: true,
                       hint: Align(
-                        alignment: Alignment.centerLeft,
-                          child:Text(AppLocale.device.getString(context))),
+                          alignment: Alignment.centerLeft,
+                          child: Text(AppLocale.device.getString(context))),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value == null) {
-                          return AppLocale.pleaseSelectDevice.getString(context);
+                          return AppLocale.pleaseSelectDevice
+                              .getString(context);
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -428,16 +433,22 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                             color: Colors.grey.shade50,
                           ),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 16),
                         focusColor: Colors.transparent,
                         errorStyle: TextStyle(color: Colors.red.shade400),
                       ),
-                      items: myDevices.result!
-                          .map((device) {
+                      items: myDevices.result!.map((device) {
                         return DropdownMenuItem<Device>(
                           value: device.device,
                           enabled: device.device!.deviceStatus != 2,
-                          child:  device.device!.deviceStatus != 2?Text("${device.device!.name} - ${device.device!.serialNumber}"):Text("${device.device!.name} - ${device.device!.serialNumber} - Inactive",style: const TextStyle(color: Colors.grey),),
+                          child: device.device!.deviceStatus != 2
+                              ? Text(
+                                  "${device.device!.name} - ${device.device!.serialNumber}")
+                              : Text(
+                                  "${device.device!.name} - ${device.device!.serialNumber} - Inactive",
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
                         );
                       }).toList(),
                       onChanged: (val) {
@@ -446,17 +457,18 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
-                      child:  Text(AppLocale.selectDuration.getString(context)),
+                      child: Text(AppLocale.selectDuration.getString(context)),
                     ),
                     DropdownButtonFormField<DurationClass>(
                       isExpanded: true,
                       hint: Align(
                           alignment: Alignment.centerLeft,
-                          child:Text(AppLocale.duration.getString(context))),
+                          child: Text(AppLocale.duration.getString(context))),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value == null) {
-                          return AppLocale.pleaseSelectDuration.getString(context);
+                          return AppLocale.pleaseSelectDuration
+                              .getString(context);
                         }
                         return null;
                       },
@@ -469,7 +481,8 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                             color: Colors.grey.shade50,
                           ),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 16),
                         focusColor: Colors.transparent,
                         errorStyle: TextStyle(color: Colors.red.shade400),
                       ),
@@ -486,15 +499,16 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                     Container(
                       width: screenSize!.width,
                       margin: const EdgeInsets.symmetric(vertical: 20),
-                      child:  Text(AppLocale.devicePoweredOn.getString(context)),
+                      child: Text(AppLocale.devicePoweredOn.getString(context)),
                     ),
                     getPrimaryAppButton(
                       context,
                       AppLocale.connect.getString(context),
                       onPressed: () async {
                         if (testFormKey.currentState!.validate()) {
-                          if(selectedDevice!.deviceCategory==2){
-                            newTestLeProvider.connectToDevice((bool isConnected) {
+                          if (selectedDevice!.deviceCategory == 2) {
+                            newTestLeProvider.connectToDevice(
+                                (bool isConnected) {
                               Navigator.pop(consumerContext);
                               Navigator.pop(bottomSheetContext);
                               if (isConnected) {
@@ -502,16 +516,21 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                                   context,
                                   Routes.newTestLeRoute,
                                   arguments: {
-                                    'individualPatientData': individualPatientData,
-                                    'enterprisePatientData': enterprisePatientData,
+                                    'individualPatientData':
+                                        individualPatientData,
+                                    'enterprisePatientData':
+                                        enterprisePatientData,
                                     'selectedDuration': selectedDuration,
                                     'selectedDevice': selectedDevice
                                   },
                                 );
                               }
-                            },selectedDevice,consumerContext);
-                          }else{
-                            showErrorToast(context, AppLocale.deviceTypeNotSupported.getString(context));
+                            }, selectedDevice, consumerContext);
+                          } else {
+                            showErrorToast(
+                                context,
+                                AppLocale.deviceTypeNotSupported
+                                    .getString(context));
                           }
                         }
                       },
@@ -519,35 +538,43 @@ showTestFormBottomSheet(BuildContext context, DeviceResponseModel myDevices, Dur
                   ],
                 ),
               ),
-            ),]
-          );
+            ),
+          ]);
         },
       );
     },
   );
 }
 
-showInfoDialog(BuildContext context,String message){
-  showDialog(context: context, builder: (BuildContext context){
-    return AlertDialog(
-      content: Text(message),
-      actions: [
-        TextButton(onPressed: (){
-          Navigator.pop(context);
-        }, child:  Text(AppLocale.close.getString(context)))
-      ],
-    );
-  });
+showInfoDialog(BuildContext context, String message) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(message),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(AppLocale.close.getString(context)))
+          ],
+        );
+      });
 }
-
 
 getRequiredPermissions() async {
   var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
   var bluetoothScanStatus = await Permission.bluetoothScan.request();
   var locationWhenInUse = await Permission.locationWhenInUse.request();
+  var storageStatus = await Permission.storage.request();
+  var notificationStatus = await Permission.notification.request();
 
   if (bluetoothConnectStatus == PermissionStatus.granted &&
-      bluetoothScanStatus == PermissionStatus.granted && locationWhenInUse == PermissionStatus.granted) {
+      bluetoothScanStatus == PermissionStatus.granted &&
+      locationWhenInUse == PermissionStatus.granted &&
+      storageStatus == PermissionStatus.granted &&
+      notificationStatus == PermissionStatus.granted) {
     return true;
   } else {
     return false;

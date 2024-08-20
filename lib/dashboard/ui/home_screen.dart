@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -30,18 +32,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndexPage = 0;
-
+  bool isLoaded = false;
   @override
   void didChangeDependencies() {
-    if (prefModel.userData!.roleId == 2) {
-      Provider.of<PatientProvider>(context, listen: false)
-          .getMyPatients(context);
-    } else {
-      Provider.of<PatientProvider>(context, listen: false)
-          .getEnterpriseProfiles(context);
+    print("refreshed");
+    if(!isLoaded){
+      if (prefModel.userData!.roleId == 2) {
+        Provider.of<PatientProvider>(context, listen: false)
+            .getMyPatients(context);
+      } else {
+        Provider.of<PatientProvider>(context, listen: false)
+            .getEnterpriseProfiles(context);
+      }
+      Provider.of<TakeTestProvider>(context, listen: false)
+          .getMyReports('All Time', 'All reports', context);
+      isLoaded = true;
     }
-    Provider.of<TakeTestProvider>(context, listen: false)
-        .getMyReports('All Time', 'All reports', context);
     super.didChangeDependencies();
   }
 
@@ -120,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: RefreshIndicator(
             onRefresh: () async {
               setState(() {
+                isLoaded = false;
                 didChangeDependencies();
               });
             },
@@ -600,6 +607,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               return null;
                                             });
                                           } else {
+                                            sleep(Duration(seconds: 2));
                                             Navigator.pop(context);
                                             showErrorToast(context, response.message!);
                                           }
@@ -662,6 +670,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .data!.result![index].id,
                                               }).then((value) {
                                             setState(() {
+                                              isLoaded = false;
                                               didChangeDependencies();
                                             });
                                           });
@@ -811,21 +820,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return InkWell(
                                         onTap: () async {
                                           showLoaderDialog(context);
-                                          RegisterResponseModel response =
-                                              await patientProvider
-                                                  .checkEligibilityToAdd(
-                                                      context);
+                                          RegisterResponseModel response = await patientProvider.checkEligibilityToAdd(context);
                                           if (response.result != null) {
                                             // await patientProvider
                                             //     .getStateMaster(context);
-                                            await patientProvider
-                                                .getCountryMaster(context);
-                                            patientProvider
-                                                .clearAddPatientForm();
+                                            await patientProvider.getCountryMaster(context);
+                                            patientProvider.clearAddPatientForm();
                                             Navigator.pop(context);
-                                            Navigator.pushNamed(context,
-                                                    Routes.addNewPatientRoute)
-                                                .then((value) {
+                                            Navigator.pushNamed(context,Routes.addNewPatientRoute).then((value) {
                                               setState(() {
                                                 prefModel.userData!.roleId == 2
                                                     ? patientProvider
@@ -837,6 +839,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               return null;
                                             });
                                           }else{
+                                            sleep(Duration(seconds: 2));
                                             Navigator.pop(context);
                                             showErrorToast(context, response.message!);
                                           }
@@ -899,6 +902,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .data!.result![index].id,
                                               }).then((value) {
                                             setState(() {
+                                              isLoaded = false;
                                               didChangeDependencies();
                                             });
                                           });

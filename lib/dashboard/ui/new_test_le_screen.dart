@@ -496,6 +496,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
       bool isSave = await showSaveTestDialog(context);
       if (isSave) {
         final Map<String, dynamic> jsonData = {
+          "myUserId":prefModel.userData!.id,
           "MyRoleId": prefModel.userData!.roleId,
           "bpmList": bpmList,
           "rrIntervalList": rrIntervalList,
@@ -565,6 +566,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
             selectedDuration!.id,
             selectedDuration!.name,
             pId, {
+              "myUserId":prefModel.userData!.id,
           "MyRoleId": prefModel.userData!.roleId,
           "bpmList": bpmList,
           "rrIntervalList": rrIntervalList,

@@ -577,7 +577,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         onPressed: () {
                                           // Perform logout operation here
                                           prefModel.userData = null;
-                                          prefModel.offlineSavedTests!.clear();
+                                          // prefModel.offlineSavedTests!.clear();
                                           AppPref.setPref(prefModel);
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil(

@@ -14,6 +14,7 @@ String offlineTestModelToJson(OfflineTestModel data) =>
     json.encode(data.toJson());
 
 class OfflineTestModel {
+  int? myUserId;
   int? myRoleId;
   List<int>? bpmList;
   List<int>? rrIntervalList;
@@ -28,6 +29,7 @@ class OfflineTestModel {
   DateTime? created;
 
   OfflineTestModel({
+    this.myUserId,
     this.myRoleId,
     this.bpmList,
     this.rrIntervalList,
@@ -44,6 +46,7 @@ class OfflineTestModel {
 
   factory OfflineTestModel.fromJson(Map<String, dynamic> json) =>
       OfflineTestModel(
+        myUserId: json["myUserId"],
         myRoleId: json["MyRoleId"],
         bpmList: json["bpmList"] == null
             ? []

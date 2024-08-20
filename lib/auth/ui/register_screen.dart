@@ -1349,7 +1349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
           validator: (value) {
             if (value!.trim().isEmpty) {
-              return AppLocale.validFirstName.getString(context);
+              return AppLocale.cityValid.getString(context);
             }
             return null;
           },
