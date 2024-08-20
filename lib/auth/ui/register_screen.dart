@@ -707,7 +707,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
           validator: (value) {
             if (value!.trim().isEmpty) {
-              return AppLocale.validFirstName.getString(context);
+              return AppLocale.validLastName.getString(context);
             }
             // if (authController.isNotValidName(value)) {
             //   return AppLocale.validFirstName.getString(context);

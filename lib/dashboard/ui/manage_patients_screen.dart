@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -144,6 +146,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                               _fetchData();
                                             });
                                           }else{
+                                            await Future.delayed(Duration(seconds: 2));
                                             Navigator.pop(context);
                                             showErrorToast(context, response.message!);
                                           }
@@ -361,6 +364,7 @@ class _ManagePatientsScreenState extends State<ManagePatientsScreen> {
                                               _fetchData();
                                             });
                                           }else{
+                                            await Future.delayed(Duration(seconds: 2));
                                             Navigator.pop(context);
                                             showErrorToast(context, response.message!);
                                           }

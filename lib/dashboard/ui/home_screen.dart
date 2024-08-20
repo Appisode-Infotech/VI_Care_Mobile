@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoaded = false;
   @override
   void didChangeDependencies() {
-    print("refreshed");
     if(!isLoaded){
       if (prefModel.userData!.roleId == 2) {
         Provider.of<PatientProvider>(context, listen: false)
@@ -607,7 +606,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               return null;
                                             });
                                           } else {
-                                            sleep(Duration(seconds: 2));
+                                            await Future.delayed(const Duration(seconds: 2));
                                             Navigator.pop(context);
                                             showErrorToast(context, response.message!);
                                           }
@@ -839,7 +838,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               return null;
                                             });
                                           }else{
-                                            sleep(Duration(seconds: 2));
+                                            await Future.delayed(const Duration(seconds: 2));
                                             Navigator.pop(context);
                                             showErrorToast(context, response.message!);
                                           }
