@@ -1389,7 +1389,6 @@ class ApiCalls {
         "${UrlConstants.verifyOTP}/$email/$otp",
         jsonEncode({"UserEmail": email,"otp":otp}),
         context);
-    print(response.body);
     if (response.statusCode == 200) {
       return RegisterResponseModel.fromJson(json.decode(response.body));
     } else {

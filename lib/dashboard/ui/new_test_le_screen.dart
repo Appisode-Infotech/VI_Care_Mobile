@@ -355,6 +355,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                                 await startRecordingReadings();
                                 _startTimer(newTestLeProvider);
                               } else {
+                                await Future.delayed(const Duration(seconds: 2));
                                 showErrorToast(context, response.message.toString());
                               }
                               Navigator.pop(context);

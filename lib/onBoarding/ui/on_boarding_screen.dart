@@ -73,7 +73,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 "assets/images/takeTest_bg.png",
                                 "assets/images/report_bg.png"
                               ];
-                              double scale = currentIndexPage == itemIndex ? 1.03 : 1.0;
+                              double scale = currentIndexPage == itemIndex ? .95 : 0.95; // Adjusted scale for smaller images
                               return Container(
                                   width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.symmetric(horizontal: 5.0),

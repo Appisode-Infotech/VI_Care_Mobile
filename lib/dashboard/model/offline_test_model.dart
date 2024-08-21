@@ -71,6 +71,7 @@ class OfflineTestModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "myUserId": myUserId,
         "MyRoleId": myRoleId,
         "bpmList":
             bpmList == null ? [] : List<dynamic>.from(bpmList!.map((x) => x)),
