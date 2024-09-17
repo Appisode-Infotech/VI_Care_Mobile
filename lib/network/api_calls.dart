@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -313,6 +314,7 @@ class ApiCalls {
     request.fields['Contact.Address.CountryId'] = country.toString();
     request.fields['Height'] = height;
     request.fields['Weight'] = weight;
+    print(request.fields);
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -329,6 +331,7 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
+      log(responseData.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
@@ -885,6 +888,7 @@ class ApiCalls {
           : '0';
       request.fields['Dob'] = dob;
       request.fields['UserId'] = userId.toString();
+      request.fields['ContactNumber'] = mobile;
       request.fields['ContactId'] = contactId.toString();
       request.fields['AddressId'] = addressId.toString();
       request.fields['Address.Street'] = street;
@@ -897,6 +901,7 @@ class ApiCalls {
       request.fields['Height'] = height;
       request.fields['Weight'] = weight;
       request.fields['Email'] = email;
+      print(request.fields);
       if (profilePic != null) {
         var picStream = http.ByteStream(profilePic.openRead());
         var length = await profilePic.length();
@@ -916,6 +921,7 @@ class ApiCalls {
       if (response.statusCode == 200) {
         var responseData = await response.stream.toBytes();
         var responseJson = json.decode(utf8.decode(responseData));
+        log(responseJson.toString());
         return RegisterResponseModel.fromJson(responseJson);
       } else if (response.statusCode == 401) {
         Navigator.pop(context!);

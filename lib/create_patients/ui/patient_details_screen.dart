@@ -233,12 +233,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       fontSize: 18),
                                                 ),
                                                 Text(
-                                                  snapshot
-                                                              .data!
-                                                              .result!
-                                                              .contact!
-                                                              .gender ==
-                                                          0
+                                                  snapshot.data!.result!.contact!.gender == 0
                                                       ? "Male"
                                                       : "Female",
                                                   style: const TextStyle(
@@ -874,8 +869,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                   snapshot.data!.result!.id,
                                                   context),
                                           builder: (BuildContext context,
-                                              AsyncSnapshot<
-                                                      MyReportsResponseModel>
+                                              AsyncSnapshot<MyReportsResponseModel>
                                                   patientSnapshot) {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.waiting) {
@@ -888,16 +882,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                       Colors.grey.shade100,
                                                   enabled: true,
                                                   child: ListView.builder(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 10),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 10),
                                                     itemCount: 3,
                                                     shrinkWrap: true,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
+                                                    physics: const NeverScrollableScrollPhysics(),
+                                                    itemBuilder: (BuildContext context, int index) {
                                                       return Container(
                                                         margin: const EdgeInsets
                                                             .symmetric(

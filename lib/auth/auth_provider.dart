@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:vicare/auth/model/register_response_model.dart';
 import 'package:vicare/auth/model/reset_password_response_model.dart';
 import 'package:vicare/auth/model/role_master_response_model.dart';
@@ -156,11 +157,17 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  DateTime? selectedDob;
+
   register(BuildContext context) async {
     showLoaderDialog(context);
+    DateTime enteredDob = DateFormat('dd-MM-yyyy').parse(registerDobController.text);
+    String apiFormattedDob = DateFormat('yyyy-MM-dd').format(enteredDob);
+
     RegisterResponseModel response = await apiCalls.registerNewUser(
         profilePic: registerSelectedImage,
-        dob: registerDobController.text,
+        dob: apiFormattedDob,
+        // dob: registerDobController.text,
         fName: registerFirstName.text,
         lName: registerLastName.text,
         email: registerEmailController.text,

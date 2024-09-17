@@ -507,7 +507,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            launchUrlString("tel://214324234");
+                            launchUrlString("tel://9606945342");
+
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

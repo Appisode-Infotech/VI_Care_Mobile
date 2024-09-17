@@ -64,8 +64,7 @@ class ProfileProvider extends ChangeNotifier {
     final String formattedDob = DateFormat('dd-MM-yyyy').format(dob);
     editProfileDobController.text = formattedDob;
     // editProfileDobController.text = "${prefModel.userData!.contact!.doB!.year}-${prefModel.userData!.contact!.doB!.month}-${prefModel.userData!.contact!.doB!.day}";
-    editProfileContactNumberController.text =
-        prefModel.userData!.contactNumber.toString();
+    editProfileContactNumberController.text = prefModel.userData!.contactNumber.toString();
     editProfileFirstNameController.text =
         prefModel.userData!.contact!.firstName!;
     editProfileLastNameController.text = prefModel.userData!.contact!.lastName!;
@@ -142,8 +141,7 @@ class ProfileProvider extends ChangeNotifier {
 
   final editProfileFormKey = GlobalKey<FormState>();
   TextEditingController editProfileDobController = TextEditingController();
-  TextEditingController editProfileContactNumberController =
-      TextEditingController();
+  TextEditingController editProfileContactNumberController = TextEditingController();
   TextEditingController editProfileEmailController = TextEditingController();
   TextEditingController editProfileFirstNameController =
       TextEditingController();
@@ -202,7 +200,6 @@ class ProfileProvider extends ChangeNotifier {
     DateFormat inputFormat = DateFormat('dd-MM-yyyy');
     DateTime dateTime = inputFormat.parse(editProfileDobController.text);
 
-    // Format the date in the desired output format
     DateFormat outputFormat = DateFormat('yyyy-MM-dd');
     String formattedDate = outputFormat.format(dateTime);
     RegisterResponseModel response = await apiCalls.editProfile(
@@ -222,10 +219,8 @@ class ProfileProvider extends ChangeNotifier {
         editProfileLandMarkController.text,
         editProfilePinCodeController.text,
         prefModel.userData!.contact!.addressId,
-        editProfileSelectedStateId ??
-            prefModel.userData!.contact!.address!.stateId,
-        editProfileSelectedCountryId ??
-            prefModel.userData!.contact!.address!.countryId,
+        editProfileSelectedStateId ?? prefModel.userData!.contact!.address!.stateId,
+        editProfileSelectedCountryId ?? prefModel.userData!.contact!.address!.countryId,
         profileHeightController.text,
         profileWeightController.text,
         editProfileEmailController.text);
@@ -235,8 +230,7 @@ class ProfileProvider extends ChangeNotifier {
       prefModel.userData!.contact!.lastName =
           response.result!.contact!.lastName;
       prefModel.userData!.contactNumber = response.result!.contactNumber;
-      prefModel.userData!.contact!.bloodGroup =
-          response.result!.contact!.bloodGroup;
+      prefModel.userData!.contact!.bloodGroup = response.result!.contact!.bloodGroup;
       prefModel.userData!.contact!.gender = response.result!.contact!.gender;
       prefModel.userData!.contact!.doB = response.result!.contact!.doB;
       prefModel.userData!.profilePicture?.url =

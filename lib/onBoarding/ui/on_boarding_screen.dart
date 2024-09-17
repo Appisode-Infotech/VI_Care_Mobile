@@ -52,9 +52,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               enableInfiniteScroll: true,
                               reverse: false,
                               autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
+                              autoPlayInterval: const Duration(seconds: 2),
                               autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
+                                  const Duration(milliseconds: 700),
                               autoPlayCurve: Curves.fastOutSlowIn,
                               enlargeCenterPage: false,
                               enlargeFactor: 0.3,

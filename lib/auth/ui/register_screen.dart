@@ -46,8 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder:
-          (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldColor,
@@ -58,7 +57,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Non-scrollable part
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 20, left: 20, right: 20, bottom: 20),
@@ -140,40 +138,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           context,
                                           AppLocale.next.getString(context),
                                           onPressed: () async {
-                                            if (registerFormKey.currentState!
-                                                .validate()) {
+                                            if (registerFormKey.currentState!.validate()) {
                                               if (currentStep == 1) {
                                                 SendOtpResponseModel response =
-                                                    await authProvider
-                                                        .sendOtp(context,authProvider.registerEmailController.text);
-                                                authProvider.otpReceived =
-                                                    response.result!.otp;
-                                                authProvider
-                                                    .registerOtpController
-                                                    .clear();
+                                                await authProvider.sendOtp(context,authProvider.registerEmailController.text);
+                                                authProvider.otpReceived = response.result!.otp;
+                                                authProvider.registerOtpController.clear();
                                                 setState(() {
                                                   currentStep = currentStep + 1;
                                                 });
                                               } else if (currentStep == 2) {
                                                 showLoaderDialog(context);
-                                                RegisterResponseModel res = await authProvider.verifyOtp(context,authProvider
-                                                    .registerEmailController
-                                                    .text,authProvider
-                                                    .registerOtpController
-                                                    .text);
+                                                RegisterResponseModel res = await authProvider.verifyOtp(context,authProvider.registerEmailController.text,authProvider.registerOtpController.text);
                                                 Navigator.pop(context);
                                                 if (res.result!=null){
-                                                  showSuccessToast(
-                                                      context,
-                                                      res.message.toString());
+                                                  showSuccessToast(context, res.message.toString());
                                                   setState(() {
-                                                    currentStep =
-                                                        currentStep + 1;
+                                                    currentStep = currentStep + 1;
                                                   });
                                                 } else {
-                                                  showErrorToast(
-                                                      context,
-                                                      res.message.toString());
+                                                  showErrorToast(context, res.message.toString());
                                                 }
                                               }
                                             }
@@ -181,11 +165,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         )
                                       : getPrimaryAppButton(
                                           context,
-                                          AppLocale.proceedToSignUp
-                                              .getString(context),
+                                          AppLocale.proceedToSignUp.getString(context),
                                           onPressed: () async {
-                                            if (registerFormKey.currentState!
-                                                .validate()) {
+                                            if (registerFormKey.currentState!.validate()) {
                                               // if (authProvider
                                               //     .registerSelectedImage ==
                                               //     null) {
@@ -957,7 +939,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {
                           authProvider.registerDobController.text =
                               // "${picked.year}-${picked.month}-${picked.day}";
-                              DateFormat('yyyy-MM-dd').format(picked);
+                              DateFormat('dd-MM-yyyy').format(picked);
                         });
                       }
                     },
@@ -1389,11 +1371,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           textCapitalization: TextCapitalization.sentences,
           controller: authProvider.registerPinCodeController,
           validator: (value) {
-            if (value!.isEmpty) {
-              return AppLocale.pinCodeValid.getString(context);
-            }
-            if (value.length < 6) {
-              return AppLocale.pinCodeValid.getString(context);
+            if (value!.isNotEmpty) {
+              if (value.length<4) {
+                return AppLocale.pinCodeValid.getString(context);
+              }
             }
             return null;
           },
@@ -1449,8 +1430,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ..onTap = () {
                           Navigator.pushNamed(context, Routes.webViewRoute,
                               arguments: {
-                                'url':
-                                    "https://www.vcnrtech.in/ViCareterms.html",
+                                'url': "https://www.vcnrtech.in/ViCareterms.html",
                                 'title': AppLocale.termsAndConditions
                                     .getString(context),
                               });
