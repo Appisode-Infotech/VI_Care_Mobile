@@ -264,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushNamed(
                                       context, Routes.webViewRoute,
                                       arguments: {
-                                        'url': "https://www.vcnrtech.in/ViCareterms.html",
+                                        'url': "https://termsandconditions.vicarehrv.com",
                                         'title': AppLocale.termsAndConditions
                                             .getString(context),
                                       });
@@ -291,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushNamed(
                                       context, Routes.webViewRoute,
                                       arguments: {
-                                        'url': "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
+                                        'url': "https://privacy.vicarehrv.com",
                                         'title': AppLocale.privacyPolicy
                                             .getString(context),
                                       });

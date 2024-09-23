@@ -372,7 +372,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.pushNamed(context, Routes.webViewRoute,
                                 arguments: {
                                   'url':
-                                      "https://www.vcnrtech.in/ViCareterms.html",
+                                      "https://termsandconditions.vicarehrv.com",
                                   'title': AppLocale.termsAndConditions
                                       .getString(context),
                                 });
@@ -419,7 +419,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.pushNamed(context, Routes.webViewRoute,
                                 arguments: {
                                   'url':
-                                      "https://www.vcnrtech.in/ViCarePrivacyPolicy.html",
+                                      "https://privacy.vicarehrv.com",
                                   'title': AppLocale.privacyPolicy
                                       .getString(context),
                                 });
