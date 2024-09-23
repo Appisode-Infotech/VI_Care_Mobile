@@ -196,7 +196,8 @@ class ApiCalls {
           }
           completer.complete(retryResponse);
         } catch (e) {
-          completer.completeError(e);
+          return _handleSocketException(requiresAuth, url, context, body, isPost);
+          // completer.completeError(e);
         }
       });
       return completer.future;
