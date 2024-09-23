@@ -1000,7 +1000,7 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
           controller: patientProvider.addNewPatientPinCodeController,
           validator: (value) {
             if (value!.isNotEmpty) {
-              if (value.length<4) {
+              if (value.length<6) {
                 return AppLocale.pinCodeValid.getString(context);
               }
             }

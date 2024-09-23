@@ -403,7 +403,7 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
                           ),
                           takeTestProvider.documentResp!.result!.length > 3
                               ? Image.network(takeTestProvider
-                                  .documentResp!.result![3].url
+                                  .documentResp!.result![1].url
                                   .toString())
                               : const SizedBox(
                                   child: Center(

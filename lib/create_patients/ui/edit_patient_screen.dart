@@ -1072,7 +1072,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     .editNewPatientPinCodeController,
                                 validator: (value) {
                                   if (value!.isNotEmpty) {
-                                    if (value.length<4) {
+                                    if (value.length<6) {
                                       return AppLocale.pinCodeValid.getString(context);
                                     }
                                   }
@@ -2120,7 +2120,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     .editNewPatientPinCodeController,
                                 validator: (value) {
                                   if (value!.isNotEmpty) {
-                                    if (value.length<4) {
+                                    if (value.length<6) {
                                       return AppLocale.pinCodeValid.getString(context);
                                     }
                                   }

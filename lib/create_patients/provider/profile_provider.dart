@@ -259,10 +259,11 @@ class ProfileProvider extends ChangeNotifier {
       AppPref.setPref(prefModel);
       Navigator.pop(editProfilePageContext!);
       showSuccessToast(editProfilePageContext!, response.message!);
+      Navigator.pop(editProfilePageContext!);
     } else {
+      Navigator.pop(editProfilePageContext!);
       showErrorToast(editProfilePageContext!, response.message!);
     }
-    Navigator.pop(editProfilePageContext!);
   }
 
   Future<SendOtpResponseModel> changePassword(BuildContext context) async {

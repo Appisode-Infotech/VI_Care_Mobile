@@ -489,9 +489,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         value: profileProvider.editProfileGender,
                         onChanged: (String? value) {
                           setState(() {
-                            profileProvider.selectedGender = value == "Male"
-                                ? 0
-                                : 1;
+                            profileProvider.selectedGender =
+                                value == "Male" ? 0 : 1;
                             profileProvider.editProfileGender = value!;
                           });
                         },
@@ -503,7 +502,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: SizedBox(
-                                width:screenSize!.width*.7,
+                                width: screenSize!.width * .7,
                                 child: Text(value)),
                           );
                         }).toList(),
@@ -769,7 +768,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     return DropdownMenuItem<String>(
                                       value: country.name,
                                       child: SizedBox(
-                                          width:screenSize!.width*.7,
+                                          width: screenSize!.width * .7,
                                           child: Text(country.name.toString())),
                                     );
                                   }).toList(),
@@ -839,8 +838,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         return DropdownMenuItem<String>(
                                           value: state.name,
                                           child: SizedBox(
-                                            width:screenSize!.width*.7,
-
+                                            width: screenSize!.width * .7,
                                             child: Text(state.name.toString()),
                                           ),
                                         );
@@ -1072,7 +1070,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       .editProfilePinCodeController,
                                   validator: (value) {
                                     if (value!.isNotEmpty) {
-                                      if (value.length < 4) {
+                                      if (value.length < 6) {
                                         return AppLocale.pinCodeValid
                                             .getString(context);
                                       }
@@ -1114,11 +1112,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 getPrimaryAppButton(context,
                                     AppLocale.submit.getString(context),
                                     onPressed: () async {
+                                  if (profileProvider
+                                      .editProfileFormKey.currentState!
+                                      .validate()) {
+                                    profileProvider.editProfile();
+                                  }
+
                                   // if (profileProvider.editProfileSelectedImage == null) {
                                   //   showErrorToast(context, AppLocale.validImage.getString(context));
                                   //   return;
                                   // }
-                                  profileProvider.editProfile();
                                 }),
                               ],
                             ),
