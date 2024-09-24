@@ -714,6 +714,8 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                             .request();
                                                                         if (locationWhenInUse ==
                                                                             PermissionStatus.granted) {
+                                                                          showLoaderDialog(context);
+
                                                                           CheckRequestCountModel countRes = await patientProvider.checkRequestCount(
                                                                               context,
                                                                               individualPatientData?.result!.id,
@@ -722,14 +724,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               context,
                                                                               individualPatientData?.result!.id,
                                                                               enterprisePatientData?.result!.id);
-                                                                          if (countRes.result ==
-                                                                              true) {
-                                                                            if (requestDurationRes.result ==
-                                                                                true) {
+                                                                          if (countRes.result == true) {
+                                                                            if (requestDurationRes.result == true) {
                                                                               var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
                                                                               var bluetoothScanStatus = await Permission.bluetoothScan.request();
                                                                               if (bluetoothConnectStatus == PermissionStatus.granted && bluetoothScanStatus == PermissionStatus.granted) {
-                                                                                showLoaderDialog(context);
                                                                                 DeviceResponseModel myDevices = await patientProvider.getMyDevices(context);
                                                                                 DurationResponseModel myDurations = await patientProvider.getAllDuration(context);
                                                                                 Navigator.pop(context);
@@ -740,13 +739,18 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                 }
                                                                               }
                                                                             } else {
+                                                                              Navigator.pop(context);
+
                                                                               showErrorToast(takeTestContext, requestDurationRes.message!);
                                                                             }
                                                                           } else {
+                                                                            Navigator.pop(context);
+
                                                                             showErrorToast(takeTestContext,
                                                                                 countRes.message!);
                                                                           }
                                                                         } else {
+
                                                                           showErrorToast(
                                                                               context,
                                                                               AppLocale.denyLocation.getString(context));
@@ -1774,14 +1778,14 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                   TextButton(
                                                                       onPressed:
                                                                           () async {
-                                                                        Navigator.pop(
-                                                                            alertContext);
+                                                                        Navigator.pop(alertContext);
 
                                                                         var locationWhenInUse = await Permission
                                                                             .locationWhenInUse
                                                                             .request();
                                                                         if (locationWhenInUse ==
                                                                             PermissionStatus.granted) {
+                                                                          showLoaderDialog(context);
                                                                           CheckRequestCountModel countRes = await patientProvider.checkRequestCount(
                                                                               context,
                                                                               individualPatientData?.result!.id,
@@ -1797,7 +1801,6 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                               var bluetoothConnectStatus = await Permission.bluetoothConnect.request();
                                                                               var bluetoothScanStatus = await Permission.bluetoothScan.request();
                                                                               if (bluetoothConnectStatus == PermissionStatus.granted && bluetoothScanStatus == PermissionStatus.granted) {
-                                                                                showLoaderDialog(context);
                                                                                 DeviceResponseModel myDevices = await patientProvider.getMyDevices(context);
                                                                                 DurationResponseModel myDurations = await patientProvider.getAllDuration(context);
                                                                                 Navigator.pop(context);
@@ -1808,9 +1811,11 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                                                                                 }
                                                                               }
                                                                             } else {
+                                                                              Navigator.pop(context);
                                                                               showErrorToast(takeTestContext, requestDurationRes.message!);
                                                                             }
                                                                           } else {
+                                                                            Navigator.pop(context);
                                                                             showErrorToast(takeTestContext,
                                                                                 countRes.message!);
                                                                           }

@@ -154,8 +154,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                         onPressed: () async {
                                         if (changePasswordFormKey.currentState!
                                             .validate()) {
-                                          profileProvider
-                                              .resetNewPassword(context);
+                                          if(profileProvider.changePasswordOneController.text==profileProvider.changePasswordTwoController.text){
+                                            profileProvider
+                                                .resetNewPassword(context);
+                                          }else{
+                                            showErrorToast(context, "Passwords do not match");
+                                          }
                                         }
                                       }),
                               )

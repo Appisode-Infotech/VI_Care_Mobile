@@ -135,6 +135,14 @@ class PatientProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isNotValidContactNumber(String contactNumber) {
+    if (contactNumber.length == 10) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   bool isNotValidEmail(String email) {
     const emailRegex =
         r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$';

@@ -337,6 +337,9 @@ class _AddNewPatientScreenState extends State<AddNewPatientScreen> {
             if (value!.isEmpty) {
               return AppLocale.validPhone.getString(context);
             }
+            if (patientProvider.isNotValidContactNumber(value)) {
+              return AppLocale.validContact.getString(context);
+            }
             return null;
           },
           keyboardType: TextInputType.number,

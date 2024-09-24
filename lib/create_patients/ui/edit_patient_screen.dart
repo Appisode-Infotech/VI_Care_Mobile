@@ -346,6 +346,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                     return AppLocale.validPhone
                                         .getString(context);
                                   }
+                                  if (patientProvider.isNotValidContactNumber(value)) {
+                                    return AppLocale.validContact.getString(context);
+                                  }
                                   return null;
                                 },
                                 controller:
@@ -1388,6 +1391,9 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
                                   if (value!.isEmpty) {
                                     return AppLocale.validPhone
                                         .getString(context);
+                                  }
+                                  if (patientProvider.isNotValidContactNumber(value)) {
+                                    return AppLocale.validContact.getString(context);
                                   }
                                   return null;
                                 },
