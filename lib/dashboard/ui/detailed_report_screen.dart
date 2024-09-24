@@ -715,6 +715,6 @@ class _DetailedReportScreenState extends State<DetailedReportScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('MMM/dd/yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('dd/mm/yyyy hh:mm aa').format(parsedDateTime);
   }
 }

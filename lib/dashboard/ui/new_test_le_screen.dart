@@ -44,7 +44,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   BluetoothAdapterState? bluetoothState = BluetoothAdapterState.on;
 
   //timer declarations
-  late Timer _timer;
+  Timer? _timer;
   int elapsedSeconds = 0;
   int totalSeconds = 0;
   bool isRunning = false;
@@ -122,7 +122,7 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
   }
 
   void _stopTimer() async {
-    _timer.cancel();
+    _timer?.cancel();
     if (mounted) {
       setState(() {
         isRunning = false;

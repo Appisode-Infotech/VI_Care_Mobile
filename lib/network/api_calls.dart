@@ -315,7 +315,6 @@ class ApiCalls {
     request.fields['Contact.Address.CountryId'] = country.toString();
     request.fields['Height'] = height;
     request.fields['Weight'] = weight;
-    print(request.fields);
     if (profilePic != null) {
       var picStream = http.ByteStream(profilePic.openRead());
       var length = await profilePic.length();
@@ -902,7 +901,6 @@ class ApiCalls {
       request.fields['Height'] = height;
       request.fields['Weight'] = weight;
       request.fields['Email'] = email;
-      print(request.fields);
       if (profilePic != null) {
         var picStream = http.ByteStream(profilePic.openRead());
         var length = await profilePic.length();

@@ -2378,7 +2378,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
 
   parseDate(String timestampString) {
     DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('MMM/dd/yyyy hh:mm aa').format(parsedDateTime);
+    return DateFormat('dd/mm/yyyy hh:mm aa').format(parsedDateTime);
   }
 
   parseDateMonth(String timestampString) {
