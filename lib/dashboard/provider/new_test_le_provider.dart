@@ -69,6 +69,12 @@ class NewTestLeProvider extends ChangeNotifier {
             AppLocale.deviceNotInTheRange.getString(consumerContext),
           );
         }
+      }on FlutterBluePlusException catch (e) {
+        onConnectionResult(false);
+        showErrorToast(
+          consumerContext,
+          "${AppLocale.couldNotConnect.getString(consumerContext)}: ${e.toString()}",
+        );
       } catch (e) {
         onConnectionResult(false);
         showErrorToast(
@@ -83,6 +89,7 @@ class NewTestLeProvider extends ChangeNotifier {
       );
     }
   }
+
 
   requestDeviceData(
       BuildContext dataContext,
