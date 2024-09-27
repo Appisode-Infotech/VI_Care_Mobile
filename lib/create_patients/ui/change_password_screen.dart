@@ -158,7 +158,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                             profileProvider
                                                 .resetNewPassword(context);
                                           }else{
-                                            showErrorToast(context, "Passwords do not match");
+                                            showErrorToast(context, "Password doesn't match, kindly enter the same password");
                                           }
                                         }
                                       }),

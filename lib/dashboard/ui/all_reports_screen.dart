@@ -496,8 +496,8 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   String parseDate(String timestampString) {
-    DateTime parsedDateTime = DateTime.parse(timestampString).toLocal();
-    return DateFormat('dd/mm/yyyy hh:mm aa').format(parsedDateTime);
+    DateTime dateTime = DateTime.parse(timestampString);
+    return DateFormat('dd-MM-yyyy hh:mm a').format(dateTime.toLocal());
   }
 
   Color getChipColor(int? processingStatus) {

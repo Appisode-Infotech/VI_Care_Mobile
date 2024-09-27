@@ -106,7 +106,8 @@ class ApiCalls {
     } on SocketException {
       return _handleSocketException(requiresAuth, url, context, body, true);
     } catch (e) {
-      rethrow;
+      return _handleSocketException(requiresAuth, url, context, body, true);
+      // rethrow;
     }
   }
 
@@ -169,7 +170,8 @@ class ApiCalls {
     } on SocketException {
       return _handleSocketException(requiresAuth, url, context, null, false);
     } catch (e) {
-      rethrow;
+      return _handleSocketException(requiresAuth, url, context, null, false);
+      // rethrow;
     }
   }
 
@@ -331,7 +333,6 @@ class ApiCalls {
     if (response.statusCode == 200) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
-      log(responseData.toString());
       return RegisterResponseModel.fromJson(responseJson);
     } else if (response.statusCode == 204) {
       Navigator.pop(context!);
@@ -920,7 +921,6 @@ class ApiCalls {
       if (response.statusCode == 200) {
         var responseData = await response.stream.toBytes();
         var responseJson = json.decode(utf8.decode(responseData));
-        log(responseJson.toString());
         return RegisterResponseModel.fromJson(responseJson);
       } else if (response.statusCode == 401) {
         Navigator.pop(context!);
