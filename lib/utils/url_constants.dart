@@ -2,14 +2,18 @@ class UrlConstants {
   // static const String imageBaseUrl = "http://52.172.157.45:98/";
   // static const String apiBaseUrl = "http://52.172.157.45:98/api/";
 
-  // static const String imageBaseUrl = "http://52.172.157.45:92/";
-  // static const String apiBaseUrl = "http://52.172.157.45:92/api/";
+  // static const String imageBaseUrl = "http://3.17.115.207:91/";
+  // static const String apiBaseUrl = "http://3.17.115.207:91/api/";
 
   // static const String imageBaseUrl = "http://52.172.157.45:91/";
   // static const String apiBaseUrl = "https://52.172.157.45:91/api/";
 
   static const String imageBaseUrl = "https://webappapi.vicarehrv.com/";
   static const String apiBaseUrl = "https://webappapi.vicarehrv.com/api/";
+
+
+  // static const String imageBaseUrl = "https://qawebappapi.vicarehrv.com/";
+  // static const String apiBaseUrl = "https://qawebappapi.vicarehrv.com/api/";
 
 
   static const String sendOtpToRegister = "${apiBaseUrl}Account/SendOtp/";

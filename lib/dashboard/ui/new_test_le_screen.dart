@@ -352,8 +352,12 @@ class _NewTestLeScreenState extends State<NewTestLeScreen> {
                               showLoaderDialog(context);
                               CheckDeviceExistsResponseModel response = await newTestLeProvider.checkIsDeviceExists(selectedDevice!.id, context);
                               if (response.result != null) {
-                                await startRecordingReadings();
-                                _startTimer(newTestLeProvider);
+                                try{
+                                  await startRecordingReadings();
+                                  _startTimer(newTestLeProvider);
+                                }catch(e){
+                                  showErrorToast(context, "Could not not connect to device. Try again !");
+                                }
                               } else {
                                 await Future.delayed(const Duration(seconds: 2));
                                 showErrorToast(context, response.message.toString());

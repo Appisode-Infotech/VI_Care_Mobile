@@ -33,6 +33,7 @@ class NewTestLeProvider extends ChangeNotifier {
         await device.disconnect();
       }
       connectedDevice = null;
+      await Future.delayed(const Duration(seconds: 1));
 
       bool deviceFound = false;
 
@@ -46,14 +47,22 @@ class NewTestLeProvider extends ChangeNotifier {
                 selectedDevice!.deviceKey.toString()) {
               device = result.device;
               deviceFound = true;
-              FlutterBluePlus.stopScan();
-              await device!.connect(autoConnect: false);
-              connectedDevice = device;
-              onConnectionResult(true);
-              showSuccessToast(
-                consumerContext,
-                "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}",
-              );
+              await FlutterBluePlus.stopScan();
+              try{
+                await device!.connect(autoConnect: false);
+                connectedDevice = device;
+                onConnectionResult(true);
+                showSuccessToast(
+                  consumerContext,
+                  "${AppLocale.connectedTo.getString(consumerContext)}: ${device!.platformName}",
+                );
+              }catch(e){
+                onConnectionResult(false);
+                showErrorToast(
+                  consumerContext,
+                  AppLocale.couldNotConnect.getString(consumerContext),
+                );
+              }
               return;
             }
           }

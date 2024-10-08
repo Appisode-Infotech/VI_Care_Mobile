@@ -67,7 +67,7 @@ dependencies:
   toastification: ^2.0.0
   location: ^7.0.0
   uuid: ^4.4.0
-  flutter_blue_plus: ^1.32.8
+  flutter_blue_plus: ^1.33.4
   network_info_plus: ^5.0.3
   wakelock_plus: ^1.2.5
   timer_count_down: ^2.2.2
