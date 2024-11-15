@@ -1298,7 +1298,7 @@ class ApiCalls {
     } else {
       http.Response response = await hitApiGet(
           true,
-          "${UrlConstants.getSummaryReport}/${prefModel.userData!.id}?enterpriseProfileId=${pId}&type=1",
+          "${UrlConstants.getSummaryReport}/${prefModel.userData!.id}?enterpriseProfileId=${pId}&type=$type",
           context);
       if (response.statusCode == 200) {
         return SummaryReportResponseModel.fromJson(json.decode(response.body));
