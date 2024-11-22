@@ -73,6 +73,8 @@ dependencies:
   timer_count_down: ^2.2.2
 
 dev_dependencies:
+  change_app_package_name: ^1.4.0
+
   flutter_test:
     sdk: flutter
 
