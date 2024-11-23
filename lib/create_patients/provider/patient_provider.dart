@@ -38,9 +38,11 @@ class PatientProvider extends ChangeNotifier {
   TextEditingController addNewPatientEmailController = TextEditingController();
   TextEditingController addNewPatientStreetController = TextEditingController();
   TextEditingController addNewPatientAreaController = TextEditingController();
-  TextEditingController addNewPatientLandmarkController = TextEditingController();
+  TextEditingController addNewPatientLandmarkController =
+      TextEditingController();
   TextEditingController addNewPatientCityController = TextEditingController();
-  TextEditingController addNewPatientPinCodeController = TextEditingController();
+  TextEditingController addNewPatientPinCodeController =
+      TextEditingController();
   TextEditingController addNewPatientFirstNameController =
       TextEditingController();
   TextEditingController addNewPatientLastNameController =
@@ -176,7 +178,6 @@ class PatientProvider extends ChangeNotifier {
     String gender = genderMap.containsKey(addNewPatientGender)
         ? genderMap[addNewPatientGender]!
         : '0';
-
     if (prefModel.userData!.roleId == 2) {
       AddIndividualProfileResponseModel response =
           await apiCalls.addIndividualProfile(
@@ -203,7 +204,7 @@ class PatientProvider extends ChangeNotifier {
         showSuccessToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
-      }else{
+      } else {
         showErrorToast(addNewPatientContext!, response.message!);
         Navigator.pop(addNewPatientContext!);
         Navigator.pop(addNewPatientContext!);
@@ -269,7 +270,7 @@ class PatientProvider extends ChangeNotifier {
           individualPatientData.result!.contact!.address.toString();
       editPatientGender = individualPatientData.result!.contact!.gender == 0
           ? "Male"
-          :"Female";
+          : "Female";
       editNewPatientStreetController.text =
           individualPatientData.result!.contact!.address!.street != null
               ? individualPatientData.result!.contact!.address!.street
@@ -409,9 +410,8 @@ class PatientProvider extends ChangeNotifier {
           }
         }
       }
-      editPatientGender = enterpriseUserData.result!.contact!.gender == 0
-          ? "Male"
-          :"Female";
+      editPatientGender =
+          enterpriseUserData.result!.contact!.gender == 0 ? "Male" : "Female";
       editPatientBloodGroup = enterpriseUserData.result!.contact!.bloodGroup;
     }
   }
@@ -465,7 +465,7 @@ class PatientProvider extends ChangeNotifier {
         editPatientEmailController.text,
         editPatientFirstNameController.text,
         editPatientLastNameController.text,
-            formattedDate,
+        formattedDate,
         editPatientAddressController.text,
         editPatientMobileController.text,
         genderMap[editPatientGender]!,
@@ -586,16 +586,27 @@ class PatientProvider extends ChangeNotifier {
   }
 
   Future<void> getPrefillData(BuildContext context) async {
-    addNewPatientMobileController.text = prefModel.userData!.contact!.contactNumber ?? '';
-    addNewPatientEmailController.text = prefModel.userData!.contact!.email ?? '';
-    addNewPatientStreetController.text = prefModel.userData!.contact!.address!.street ?? '';
-    addNewPatientAreaController.text = prefModel.userData!.contact!.address!.area ?? '';
-    addNewPatientLandmarkController.text = prefModel.userData!.contact!.address!.landmark ?? '';
-    addNewPatientCityController.text = prefModel.userData!.contact!.address!.city ?? '';
-    addNewPatientPinCodeController.text = prefModel.userData!.contact!.address!.pinCode ?? '';
+    addNewPatientMobileController.text =
+        prefModel.userData!.contact!.contactNumber ?? '';
+    addNewPatientEmailController.text =
+        prefModel.userData!.contact!.email ?? '';
+    addNewPatientStreetController.text =
+        prefModel.userData!.contact!.address!.street ?? '';
+    addNewPatientAreaController.text =
+        prefModel.userData!.contact!.address!.area ?? '';
+    addNewPatientLandmarkController.text =
+        prefModel.userData!.contact!.address!.landmark ?? '';
+    addNewPatientCityController.text =
+        prefModel.userData!.contact!.address!.city ?? '';
+    addNewPatientPinCodeController.text =
+        prefModel.userData!.contact!.address!.pinCode ?? '';
     countryAs = prefModel.userData!.contact!.address!.country!.name;
-    await getStateMaster(context, prefModel.userData!.contact!.address!.country!.uniqueGuid);
+
+    selectedCountryId = prefModel.userData!.contact!.address!.countryId;
+    await getStateMaster(
+        context, prefModel.userData!.contact!.address!.country!.uniqueGuid);
     stateAs = prefModel.userData!.contact!.address!.state!['name'];
+    selectedStateId = prefModel.userData!.contact!.address!.stateId;
     notifyListeners();
   }
 }

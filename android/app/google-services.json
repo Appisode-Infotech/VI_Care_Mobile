@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "18575881590",
-    "project_id": "fcmdemo-391e8",
-    "storage_bucket": "fcmdemo-391e8.appspot.com"
+    "project_number": "1059251680595",
+    "project_id": "vicare-e8bfd",
+    "storage_bucket": "vicare-e8bfd.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:18575881590:android:65d6e096303a73d74eb657",
+        "mobilesdk_app_id": "1:1059251680595:android:c420475846d4eb69255da6",
         "android_client_info": {
           "package_name": "vicare.app.in"
         }
@@ -15,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBWu8b4Kv6ITycQeSEXGsXVpnlmlKWQ3h0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:18575881590:android:d376e3b80fd696264eb657",
-        "android_client_info": {
-          "package_name": "com.example.fcm_demo"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBWu8b4Kv6ITycQeSEXGsXVpnlmlKWQ3h0"
+          "current_key": "AIzaSyCb0Wck35BHklVc9y-qPaXYEyLD04L88u0"
         }
       ],
       "services": {

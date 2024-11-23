@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBWu8b4Kv6ITycQeSEXGsXVpnlmlKWQ3h0',
-    appId: '1:18575881590:android:65d6e096303a73d74eb657',
-    messagingSenderId: '18575881590',
-    projectId: 'fcmdemo-391e8',
-    storageBucket: 'fcmdemo-391e8.appspot.com',
+    apiKey: 'AIzaSyCb0Wck35BHklVc9y-qPaXYEyLD04L88u0',
+    appId: '1:1059251680595:android:c420475846d4eb69255da6',
+    messagingSenderId: '1059251680595',
+    projectId: 'vicare-e8bfd',
+    storageBucket: 'vicare-e8bfd.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAt1BhBZrJSVbBc4GOMxlJ1PCQY6BAT7ds',
-    appId: '1:18575881590:ios:4ac622a3b2d9e8364eb657',
-    messagingSenderId: '18575881590',
-    projectId: 'fcmdemo-391e8',
-    storageBucket: 'fcmdemo-391e8.appspot.com',
-    iosBundleId: 'com.appisode.in.vicare',
+    apiKey: 'AIzaSyAQ1AEfKmscaNDawMv9N5aaR5uEIGyq0nQ',
+    appId: '1:1059251680595:ios:e370a377600b5c64255da6',
+    messagingSenderId: '1059251680595',
+    projectId: 'vicare-e8bfd',
+    storageBucket: 'vicare-e8bfd.firebasestorage.app',
+    iosBundleId: 'vicare.app.in',
   );
 }
